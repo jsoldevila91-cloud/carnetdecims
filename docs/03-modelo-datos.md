@@ -70,7 +70,7 @@ continguts (                              -- textos traducibles con revisión
 contingut_fonts (contingut_id fk, url text, titol text, consultat_at date, llicencia text)
 ```
 
-Reglas de contenido: un campo sin datos fiables queda en `null` (nunca se inventa). Una página ca/es solo es indexable si sus `continguts` principales están en `revisat` (coordinado con seo-expert). La **fuente de verdad del catálogo son ficheros versionados en el repo** (`data/catalog/*.json`), que un script de *seed* vuelca a Postgres; el prerender lee los mismos ficheros.
+Reglas de contenido: un campo sin datos fiables queda en `null` (nunca se inventa). Una página ca/es solo es indexable si sus `continguts` principales están en `revisat` (coordinado con seo-expert). La **fuente de verdad del catálogo son ficheros versionados en el repo** (`data/catalog/*.json`), que un script de _seed_ vuelca a Postgres; el prerender lee los mismos ficheros.
 
 ### 1.2 Datos de usuario (RLS: `user_id = auth.uid()`)
 
@@ -107,22 +107,24 @@ assoliments_usuari (user_id, codi text, assolit_en date, notificat_at timestampt
 
 ```ts
 db.version(1).stores({
-  cims:       '&id, zonaId, essencial, altitud',          // desde /data/cims.<versio>.json (precacheado)
-  zones:      '&id, slugCa, slugEs',
-  ascensions: '&id, cimId, data, dirty, deletedAt',       // mismos campos que la nube + dirty: 0|1
-  meta:       '&key',   // catalegVersio, deviceId, ownerUserId (null = anónimo), lastPullCursor
-  meteo:      '&cimId, fetchedAt'                           // caché de 3 h
+	cims: '&id, zonaId, essencial, altitud', // desde /data/cims.<versio>.json (precacheado)
+	zones: '&id, slugCa, slugEs',
+	ascensions: '&id, cimId, data, dirty, deletedAt', // mismos campos que la nube + dirty: 0|1
+	meta: '&key', // catalegVersio, deviceId, ownerUserId (null = anónimo), lastPullCursor
+	meteo: '&cimId, fetchedAt' // caché de 3 h
 });
 ```
 
-**Principio local-first:** toda escritura va primero a Dexie (`dirty = 1`, `clientUpdatedAt = now`). La UI solo lee de Dexie. La sync es un proceso en segundo plano que se lanza al abrir la app, al volver la conexión (`online`), tras cada escritura (con *debounce*) y en `visibilitychange`.
+**Principio local-first:** toda escritura va primero a Dexie (`dirty = 1`, `clientUpdatedAt = now`). La UI solo lee de Dexie. La sync es un proceso en segundo plano que se lanza al abrir la app, al volver la conexión (`online`), tras cada escritura (con _debounce_) y en `visibilitychange`.
 
 **Ciclo de sync (con sesión):**
+
 1. **Push:** `rpc('sync_push', rows[])` con las filas `dirty`. El servidor aplica LWW por fila: actualiza solo si `incoming.client_updated_at > stored.client_updated_at` (empate → gana el `device_id` mayor). Valida con las mismas reglas (fecha, método, cima activa). Devuelve los ids aceptados → `dirty = 0`.
 2. **Pull:** `rpc('sync_pull', cursor)` → filas con `server_updated_at > cursor − 5 s` (el solape cubre transacciones que confirman fuera de orden; el upsert es idempotente). Se aplican en local con la misma regla LWW, salvo si la fila local tiene `dirty = 1` y es más reciente.
 3. Los borrados son tombstones (`deletedAt`) y se sincronizan como cualquier otro cambio.
 
 **Fusión al crear cuenta o iniciar sesión por primera vez en el dispositivo:**
+
 1. Los datos anónimos tienen `ownerUserId = null`. Tras el login se asigna `ownerUserId = user.id` y todas las filas quedan `dirty = 1`.
 2. Pull completo (cursor 0) → unión por `id` (los UUID no colisionan).
 3. **Deduplicación** de posibles duplicados reales (misma ascensión apuntada en dos dispositivos): igual `cimId` + `data` + `metode` → se conserva la versión con `clientUpdatedAt` más reciente. Si las notas son distintas, se unen con un separador para no perder texto. La otra queda como tombstone. Se informa: "S'han fusionat N ascensions duplicades".
@@ -133,31 +135,34 @@ db.version(1).stores({
 ## 3. Reglas del reto (funciones puras en `src/lib/domain/repte.ts`, 100 % cubiertas por tests)
 
 ### 3.1 Qué dice la normativa FEEC (verificado el 2026-09-27)
-- Inicio: *"L'inici de l'activitat és el dia 1 de juliol de 2006"*. Sin medios motorizados; se aceptan BTT, esquí y raquetas.
-- Límite anual: *"Es poden presentar un màxim de 100 cims per ser validats anualment"*. Las listas deben llegar a la FEEC antes del 31 de diciembre para contar en el año en curso. Los cims registrados en la web de la FEEC y no validados en 12 meses se borran.
-- **Esenciales** (normativa vigente desde el 01/07/2019): *"s'han d'assolir un centenar de cims del llistat de 150 que es qualifiquen com 'essencials'"*. *"La resta de cims del llistat són vàlids, però no es tindran en compte … a efectes d'assolir els reptes de '2×100' … '5×100' fins que no s'hagin assolit 100 cims dels llistat d'essencials"*. La circular 63/2019 añade que los cims conseguidos **antes del 01/07/2019** siguen siendo válidos aunque no sean esenciales.
-- **Lista de esenciales:** el PDF contiene exactamente **150** cims (contados uno a uno). La ampliación a 522 (junio de 2022) *"no modifica els cims considerats essencials"*.
-- **Niveles:** *"es fa un reconeixement als federats que han assolit 200, 300, 400 o 500 dels cims del llistat"*.
+
+- Inicio: _"L'inici de l'activitat és el dia 1 de juliol de 2006"_. Sin medios motorizados; se aceptan BTT, esquí y raquetas.
+- Límite anual: _"Es poden presentar un màxim de 100 cims per ser validats anualment"_. Las listas deben llegar a la FEEC antes del 31 de diciembre para contar en el año en curso. Los cims registrados en la web de la FEEC y no validados en 12 meses se borran.
+- **Esenciales** (normativa vigente desde el 01/07/2019): _"s'han d'assolir un centenar de cims del llistat de 150 que es qualifiquen com 'essencials'"_. _"La resta de cims del llistat són vàlids, però no es tindran en compte … a efectes d'assolir els reptes de '2×100' … '5×100' fins que no s'hagin assolit 100 cims dels llistat d'essencials"_. La circular 63/2019 añade que los cims conseguidos **antes del 01/07/2019** siguen siendo válidos aunque no sean esenciales.
+- **Lista de esenciales:** el PDF contiene exactamente **150** cims (contados uno a uno). La ampliación a 522 (junio de 2022) _"no modifica els cims considerats essencials"_.
+- **Niveles:** _"es fa un reconeixement als federats que han assolit 200, 300, 400 o 500 dels cims del llistat"_.
 - **Reto infantil** (vigente desde el 01/07/2026): de 7 a 14 años, 50 cims cualesquiera de los 522, sin distinción de esenciales ni límite anual, y cuentan también para el reto adulto.
 - Validación: la avala el presidente o presidenta de la entidad del federado. **La app no valida nada**: solo hace seguimiento.
 
 ### 3.2 Funciones
-| Función | Regla implementada |
-|---|---|
-| `validarData(data, avui)` | `'2006-07-01' ≤ data ≤ avui`; `avui` = fecha local Europe/Madrid, que se inyecta para poder testearla |
-| `validarMetode(m)` | ∈ {a_peu, btt, esqui, raquetes} |
-| `ascensionsValides(asc, cataleg)` | Sin tombstones, fecha y método válidos, cima existente |
-| `primeresAscensions(asc)` | Por cima, la ascensión válida más antigua (`Map<cimId, data>`) |
-| `progres100(primeres, cataleg)` | `comptador = |cims con 1ª ascensión < 2019-07-01| + |esenciales con 1ª ascensión ≥ 2019-07-01|`; `completat = comptador ≥ 100`; `dataAssoliment` = fecha en que llega a 100; `essencialsPendents` |
-| `nivell(primeres, cataleg)` | 0 si no se ha completado 100; si no, `min(5, floor(cimsDistints / 100))` contando **todas** las cimas distintas (esenciales y no esenciales, también las anteriores a llegar a 100) |
-| `excesAnual(primeres)` | Años con más de 100 cimas nuevas → **aviso informativo**, no bloquea el registro |
-| `restriccioActiva(r, data)` | Periodo `mm-dd` que puede cruzar el cambio de año (01-12 → 01-06) o rango de fechas → aviso |
-| `cimsPropers(pos, cims, filtre)` | Haversine sobre 522 puntos, ordenado por distancia, funciona offline |
-| `progresPerZona(primeres, cataleg)` | % hecho por comarca/zona |
+
+| Función                             | Regla implementada                                                                                                                                                                  |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `validarData(data, avui)`           | `'2006-07-01' ≤ data ≤ avui`; `avui` = fecha local Europe/Madrid, que se inyecta para poder testearla                                                                               |
+| `validarMetode(m)`                  | ∈ {a_peu, btt, esqui, raquetes}                                                                                                                                                     |
+| `ascensionsValides(asc, cataleg)`   | Sin tombstones, fecha y método válidos, cima existente                                                                                                                              |
+| `primeresAscensions(asc)`           | Por cima, la ascensión válida más antigua (`Map<cimId, data>`)                                                                                                                      |
+| `progres100(primeres, cataleg)`     | `comptador =                                                                                                                                                                        | cims con 1ª ascensión < 2019-07-01 | +   | esenciales con 1ª ascensión ≥ 2019-07-01 | `; `completat = comptador ≥ 100`; `dataAssoliment`= fecha en que llega a 100;`essencialsPendents` |
+| `nivell(primeres, cataleg)`         | 0 si no se ha completado 100; si no, `min(5, floor(cimsDistints / 100))` contando **todas** las cimas distintas (esenciales y no esenciales, también las anteriores a llegar a 100) |
+| `excesAnual(primeres)`              | Años con más de 100 cimas nuevas → **aviso informativo**, no bloquea el registro                                                                                                    |
+| `restriccioActiva(r, data)`         | Periodo `mm-dd` que puede cruzar el cambio de año (01-12 → 01-06) o rango de fechas → aviso                                                                                         |
+| `cimsPropers(pos, cims, filtre)`    | Haversine sobre 522 puntos, ordenado por distancia, funciona offline                                                                                                                |
+| `progresPerZona(primeres, cataleg)` | % hecho por comarca/zona                                                                                                                                                            |
 
 ### 3.3 Ambigüedades (se implementan con la interpretación indicada, configurable, y conviene confirmarlas con 100cims@feec.cat)
+
 1. **¿Cuentan las repeticiones para 2×100?** La normativa no lo dice explícitamente. "200… 500 **dels cims del llistat**" y que 5×100 = 500 ≤ 522 apuntan a **cimas distintas**. Implementamos: solo cuentan cimas distintas; las repeticiones se guardan como historial.
-2. **Límite de 100 por año:** habla de cims *presentados para validar* por año, no de ascensiones por año natural. Como la app no presenta nada a la FEEC, se muestra un aviso por año de ascensión (> 100 cimas nuevas) y no se bloquea. Queda por aclarar si un excedente se puede presentar al año siguiente.
+2. **Límite de 100 por año:** habla de cims _presentados para validar_ por año, no de ascensiones por año natural. Como la app no presenta nada a la FEEC, se muestra un aviso por año de ascensión (> 100 cimas nuevas) y no se bloquea. Queda por aclarar si un excedente se puede presentar al año siguiente.
 3. **Día de corte 01/07/2019:** "des del dia 1 de juliol" frente a "assolits fins al dia 1 de juliol". Tomamos `< 2019-07-01` como normativa antigua.
 4. **Esenciales como requisito:** se interpreta que los primeros 100 (salvo los anteriores a 2019) deben ser esenciales, y que las no esenciales posteriores a 2019 cuentan con carácter retroactivo para 2×100 una vez completado el 100 (así lo resume el CE Taradell). La literalidad ("no es tindran en compte… fins que") permite otra lectura: que solo cuenten las posteriores a completar el 100.
 5. **Restricciones de acceso:** no se sabe si la FEEC invalida una ascensión hecha dentro del periodo restringido. Solo mostramos un aviso.
@@ -167,24 +172,27 @@ db.version(1).stores({
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 
 ### 4.1 Qué publica la FEEC
+
 - **Lista de 522**: `feec.cat/activitats/100-cims/` muestra una tabla (Nom, Comarca, Altitud, Ascensions) cargada **dinámicamente por JavaScript**. No hay CSV, GPX, KML ni API pública documentada, y la FEEC **no publica coordenadas**.
 - **Esenciales**: PDF de 6 páginas con 150 nombres agrupados por comarca, sin altitud ni coordenadas. Ojo: los nombres del PDF no coinciden siempre con los de la web ("Pollegó Superior (Pedraforca)", "Pic d'Enclar (Bony de la Pica)") → emparejamiento manual.
 - **Restricciones**: la página `cims-amb-restriccions-dacces` lista hoy 4 cimas (La Picossa y Les Càrcoles del 15/01 al 15/06 por fauna; Roc Roi del 01/12 al 01/06; Sant Salvador de les Espases por obras). Hay que revisarla en cada build.
-- **Aspecto legal:** los datos sueltos (nombre, altitud) no tienen derechos de autor, pero la **lista completa puede estar protegida por el derecho *sui generis* de bases de datos** (Directiva 96/9/CE), que prohíbe extraer una parte sustancial. **Recomendación: escribir a 100cims@feec.cat** explicando el proyecto (no oficial, sin ánimo de suplantar), pedir permiso y, si es posible, la lista en formato estructurado.
+- **Aspecto legal:** los datos sueltos (nombre, altitud) no tienen derechos de autor, pero la **lista completa puede estar protegida por el derecho _sui generis_ de bases de datos** (Directiva 96/9/CE), que prohíbe extraer una parte sustancial. **Recomendación: escribir a 100cims@feec.cat** explicando el proyecto (no oficial, sin ánimo de suplantar), pedir permiso y, si es posible, la lista en formato estructurado.
 
 ### 4.2 Coordenadas: fuentes por orden de preferencia
-| Fuente | Cobertura | Licencia | Uso |
-|---|---|---|---|
-| **ICGC – Noms geogràfics (NGCat)** / Nomenclàtor | Catalunya | CC BY 4.0 (solo atribución, sin *share-alike*) | **Fuente principal** para Catalunya. Coordenadas UTM 31N ETRS89 → WGS84 con `proj4` |
-| **OpenStreetMap** (`natural=peak` vía Overpass) | Todo, incluidas Andorra y Catalunya Nord | ODbL (atribución + *share-alike* si se redistribuye la BD derivada) | Principal para Andorra y Catalunya Nord; validación cruzada en Catalunya. **Una sola consulta** por *bounding box*, guardada en `data/raw/` (política de Overpass: el uso comercial debería usar una instancia propia o de pago; una consulta puntual no es un problema) |
-| IGN France (BD TOPO) | Catalunya Nord | Licence Ouverte 2.0 | Alternativa a OSM para evitar el *share-alike* |
-| Wikidata | Parcial | CC0 | Validación cruzada |
-| Listas de terceros (RocJumper GPX, mirador.cat, Viquipèdia) | 522 | Sin licencia de reutilización clara | **No importar**; solo para revisar a mano |
-| ICGC MDT 5 m | Catalunya | CC BY 4.0 | Comprobar la altitud (diferencia con la FEEC > 20 m → revisar) |
+
+| Fuente                                                      | Cobertura                                | Licencia                                                            | Uso                                                                                                                                                                                                                                                                      |
+| ----------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **ICGC – Noms geogràfics (NGCat)** / Nomenclàtor            | Catalunya                                | CC BY 4.0 (solo atribución, sin _share-alike_)                      | **Fuente principal** para Catalunya. Coordenadas UTM 31N ETRS89 → WGS84 con `proj4`                                                                                                                                                                                      |
+| **OpenStreetMap** (`natural=peak` vía Overpass)             | Todo, incluidas Andorra y Catalunya Nord | ODbL (atribución + _share-alike_ si se redistribuye la BD derivada) | Principal para Andorra y Catalunya Nord; validación cruzada en Catalunya. **Una sola consulta** por _bounding box_, guardada en `data/raw/` (política de Overpass: el uso comercial debería usar una instancia propia o de pago; una consulta puntual no es un problema) |
+| IGN France (BD TOPO)                                        | Catalunya Nord                           | Licence Ouverte 2.0                                                 | Alternativa a OSM para evitar el _share-alike_                                                                                                                                                                                                                           |
+| Wikidata                                                    | Parcial                                  | CC0                                                                 | Validación cruzada                                                                                                                                                                                                                                                       |
+| Listas de terceros (RocJumper GPX, mirador.cat, Viquipèdia) | 522                                      | Sin licencia de reutilización clara                                 | **No importar**; solo para revisar a mano                                                                                                                                                                                                                                |
+| ICGC MDT 5 m                                                | Catalunya                                | CC BY 4.0                                                           | Comprobar la altitud (diferencia con la FEEC > 20 m → revisar)                                                                                                                                                                                                           |
 
 Nota ODbL: si una coordenada sale de OSM y publicamos el catálogo como base de datos (JSON descargable), esa parte debe ser ODbL. Mostrar las cimas en páginas y mapas es una "obra producida": basta con atribuir. Por eso priorizamos ICGC para Catalunya.
 
 ### 4.3 Pipeline reproducible (`scripts/catalog/`, Node + TS, idempotente)
+
 1. `01-fuentes`: descarga puntual de cada fuente a `data/raw/<fuente>/<fecha>.*` con hash SHA-256 y un `SOURCES.md` (URL, fecha, licencia). La lista FEEC, solo tras el permiso o la decisión del usuario.
 2. `02-normalizar`: nombres (minúsculas, sin artículos ni acentos, alias), comarcas → `zona_id`.
 3. `03-emparejar`: candidatos por nombre normalizado + altitud (±25 m) + punto dentro del polígono de la comarca (límites ICGC, CC BY). Puntuación de confianza.
@@ -194,9 +202,11 @@ Nota ODbL: si una coordenada sale de OSM y publicamos el catálogo como base de 
 7. **Controles de calidad (tests):** exactamente 522 cimas activas; 150 esenciales; cada cima dentro de su zona (o marcada como fronteriza); diferencia de altitud con el MDT < 20 m; distancia al pico OSM o NGCat < 150 m; slugs únicos por idioma.
 
 ### 4.4 Atribuciones obligatorias (pie del mapa + página `/metodologia`)
+
 "© Institut Cartogràfic i Geològic de Catalunya (ICGC), CC BY 4.0" · "© OpenStreetMap contributors, ODbL" · "© OpenMapTiles" · relieve "© Mapterhorn" · meteo "Open-Meteo, CC BY 4.0" (o "MET Norway, CC BY 4.0") · "Llista de cims: FEEC, repte 100 Cims. Web no oficial; la validació d'ascensions la fa la FEEC a través de les entitats."
 
 ## Fuentes
+
 - Normativa: https://www.feec.cat/activitats/100-cims/normativa-i-funcionament/
 - Circular 63/2019: https://www.feec.cat/wp-content/uploads/2020/02/63-2019-Circular-FEEC-Normativa-100-cims.pdf
 - Esenciales (150): https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf
