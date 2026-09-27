@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propostes visuals — Carnet de Cims</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Figtree:wght@400;500;600;700&family=Barlow+Condensed:wght@700;800&family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEAE5;--ink:#1D2320;--muted:#555B57;--line:#D6D2C8;--card:#FAF9F6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:48px 32px 64px}
+header p.k{margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+header h1{margin:8px 0 10px;font-size:44px;line-height:1.05;letter-spacing:-.02em;font-weight:700}
+header p.lede{margin:0;max-width:720px;font-size:17px;line-height:1.55;color:#3C423E}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.meta span{font-size:13px;font-weight:600;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s ease,box-shadow .2s ease}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 20px 40px -20px rgba(30,30,20,.35)}
+.card:focus-visible{outline:3px solid #1F4A36;outline-offset:3px}
+.thumb{height:330px;display:grid;place-items:center;position:relative;overflow:hidden}
+.mini{width:176px;height:300px;border-radius:26px;padding:6px;background:#141614;box-shadow:0 18px 30px -16px rgba(0,0,0,.5);position:relative;top:24px}
+.mini .s{width:100%;height:100%;border-radius:21px;overflow:hidden;position:relative;padding:22px 11px 0}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body .n{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.body h2{margin:0;font-size:30px;line-height:1}
+.body p{margin:0;font-size:15px;line-height:1.55;color:#3C423E}
+.dots{display:flex;gap:6px;margin-top:2px}
+.dots i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
+.fonts{font-size:13px;color:var(--muted)}
+.go{margin-top:auto;padding-top:8px;font-weight:700;font-size:15px}
+.rec{margin-top:36px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:16px 24px;align-items:start}
+.rec b.t{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#A64B25}
+.rec p{margin:0;font-size:16px;line-height:1.6}
+footer{margin-top:28px;font-size:13px;color:var(--muted);line-height:1.6}
+/* P1 thumb */
+.t1{background:linear-gradient(160deg,#EFEADB,#E3DBC6)}
+.t1 .s{background:#F4F1E8}
+.t1 .b{font:600 9px "Fraunces",serif;color:#1F4A36;display:flex;align-items:center;gap:4px}
+.t1 .h{font:600 15px "Fraunces",serif;margin:3px 0 8px}
+.t1 .hero{background:#1F4A36;border-radius:12px;padding:10px;color:#fff;display:flex;gap:8px;align-items:center}
+.t1 .hero svg{width:54px;height:54px;transform:rotate(-90deg)}
+.t1 .hero b{font:600 17px "Fraunces",serif;display:block;white-space:nowrap}
+.t1 .hero small{font-size:8px;color:#EFD29A;font-weight:700;letter-spacing:.08em}
+.t1 .row{margin-top:8px;background:#FFFDF8;border:1px solid #E3DBCB;border-radius:10px;padding:7px 8px;font:600 11px "Fraunces",serif}
+.t1 .row small{display:block;font:500 8px "Figtree";color:#5B6158}
+.t1 .row i{display:inline-block;width:6px;height:6px;background:#A64B25;transform:rotate(45deg);margin-right:4px}
+/* P2 thumb */
+.t2{background:linear-gradient(160deg,#2A3038,#14181D)}
+.t2 .s{background:#0C0F13;color:#F1F4F6}
+.t2 .b{font:800 9px "Barlow Condensed";letter-spacing:.1em;display:flex;gap:4px;align-items:center}
+.t2 .b i{width:9px;height:9px;background:#D4FF3F;border-radius:2px}
+.t2 .h{font:800 15px "Barlow Condensed";text-transform:uppercase;margin:2px 0 8px}
+.t2 .box{background:#151A21;border:1px solid #28313C;border-radius:10px;padding:8px;display:flex;justify-content:space-between;align-items:flex-end}
+.t2 .num{font:800 46px/0.85 "Barlow Condensed";color:#D4FF3F}
+.t2 .num small{font-size:15px;color:#9AA5B3}
+.t2 .g{display:grid;grid-template-columns:repeat(10,4px);gap:1.5px}
+.t2 .g i{width:4px;height:4px;border-radius:1px;background:#27303B}
+.t2 .g i.d{background:#D4FF3F}.t2 .g i.e{background:#FF6B3D}
+.t2 .bars{margin-top:8px}
+.t2 .bars div{height:5px;border-radius:3px;background:#1D242D;margin:6px 0}
+.t2 .bars div span{display:block;height:100%;border-radius:3px;background:#D4FF3F}
+.t2 .cta{position:absolute;left:11px;right:11px;bottom:14px;height:26px;border-radius:7px;background:#D4FF3F;color:#0C0F13;font:800 11px "Barlow Condensed";letter-spacing:.06em;display:grid;place-items:center}
+/* P3 thumb */
+.t3{background:linear-gradient(160deg,#E9E1D0,#D8CDB6)}
+.t3 .s{background:#F6F2E9 radial-gradient(#E2D9C7 .8px,transparent 1px) 0 0/9px 9px;color:#1B2A47}
+.t3 .b{font:800 8px "Archivo";font-stretch:125%;text-transform:uppercase;color:#C0392B;letter-spacing:.05em}
+.t3 .h{font:900 14px "Archivo";font-stretch:125%;text-transform:uppercase;margin:3px 0 8px}
+.t3 .pp{background:#FBF8F1;border:1.2px solid #1B2A47;border-radius:5px;box-shadow:2px 2px 0 #1B2A47;padding:7px 8px}
+.t3 .pp b{font:900 30px/0.9 "Archivo";font-stretch:125%}
+.t3 .pp small{font:600 7px "IBM Plex Mono";color:#4A5570;display:block;letter-spacing:.08em}
+.t3 .ru{height:5px;border:1px solid #1B2A47;margin-top:6px;background:linear-gradient(90deg,#1B2A47 37%,transparent 37%)}
+.t3 .st{display:flex;justify-content:space-around;margin-top:10px}
+.t3 .st svg{width:46px;height:46px}
+@media (max-width:980px){.grid{grid-template-columns:1fr}.thumb{height:300px}}
+@media (max-width:520px){.wrap{padding:28px 16px 48px}header h1{font-size:34px}.rec{grid-template-columns:1fr;padding:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="k">Carnet de Cims · carnetdecims.cat · Fase 0</p>
+    <h1>Tres direccions visuals</h1>
+    <p class="lede">Maquetes estàtiques de quatre pantalles clau (Inici, Mapa, Fitxa de cim i Registrar ascensió) en marc de mòbil. La navegació, els continguts i els estats són els mateixos a les tres; canvien la personalitat, la paleta i la tipografia. Tria'n una (o combina'n elements) i la desenvoluparem com a sistema de disseny.</p>
+    <div class="meta"><span>Mobile-first · 390 × 844</span><span>Barra inferior tipus app</span><span>Contrast WCAG 2.2 AA</span><span>Dades d'exemple</span></div>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="propuesta-1.html">
+      <div class="thumb t1" aria-hidden="true">
+        <div class="mini"><div class="s">
+          <div class="b">◎ Carnet de Cims</div>
+          <div class="h">Hola, Jonatan</div>
+          <div class="hero"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="12"/><circle cx="60" cy="60" r="50" fill="none" stroke="#EFD29A" stroke-width="12" stroke-linecap="round" stroke-dasharray="116 314"/></svg><div><small>NIVELL 1×100</small><b>37 / 100</b></div></div>
+          <div class="row"><i></i>Pedraforca<small>2.506 m · Berguedà</small></div>
+          <div class="row"><i></i>Puigmal<small>2.910 m · Ripollès</small></div>
+        </div></div>
+      </div>
+      <div class="body">
+        <span class="n">Proposta 1</span>
+        <h2 style="font-family:'Fraunces',serif;font-weight:600">Topogràfic</h2>
+        <p>Natural i editorial: paper, corbes de nivell, verd de bosc i terracota per als essencials. Transmet rigor i connecta amb la cartografia excursionista.</p>
+        <div class="dots"><i style="background:#F4F1E8"></i><i style="background:#1F4A36"></i><i style="background:#A64B25"></i><i style="background:#EFD29A"></i><i style="background:#1C2320"></i></div>
+        <span class="fonts">Fraunces + Figtree</span>
+        <span class="go">Veure la proposta →</span>
+      </div>
+    </a>
+
+    <a class="card" href="propuesta-2.html">
+      <div class="thumb t2" aria-hidden="true">
+        <div class="mini" style="background:#000"><div class="s">
+          <div class="b"><i></i>CARNET DE CIMS</div>
+          <div class="h">Hola, Jonatan</div>
+          <div class="box"><div class="num">37<small>/100</small></div>
+            <div class="g"><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="d"></i><i class="e"></i><i class="d"></i><i class="e"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="bars"><div><span style="width:55%"></span></div><div><span style="width:31%"></span></div><div><span style="width:16%"></span></div></div>
+          <div class="cta">REGISTRAR ASCENSIÓ</div>
+        </div></div>
+      </div>
+      <div class="body">
+        <span class="n">Proposta 2</span>
+        <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase">Esportiu</h2>
+        <p>Enèrgic i orientat a dades: mode fosc, xifres grans, graella de 100 caselles i verd llima per a l'acció. L'estètica de les apps d'entrenament.</p>
+        <div class="dots"><i style="background:#0C0F13"></i><i style="background:#151A21"></i><i style="background:#D4FF3F"></i><i style="background:#FF6B3D"></i><i style="background:#4CC2FF"></i></div>
+        <span class="fonts">Barlow Condensed + Barlow</span>
+        <span class="go">Veure la proposta →</span>
+      </div>
+    </a>
+
+    <a class="card" href="propuesta-3.html">
+      <div class="thumb t3" aria-hidden="true">
+        <div class="mini" style="background:#1D2230"><div class="s">
+          <div class="b">◉ Carnet de Cims</div>
+          <div class="h">El meu carnet</div>
+          <div class="pp"><small>Nº 0372 · PÀGINA I</small><b>37</b><small>DE 100 SEGELLS</small><div class="ru"></div></div>
+          <div class="st">
+            <svg viewBox="0 0 60 60" style="transform:rotate(-9deg)"><circle cx="30" cy="30" r="27" fill="none" stroke="#C0392B" stroke-width="2"/><circle cx="30" cy="30" r="22" fill="none" stroke="#C0392B" stroke-width=".8"/><text x="30" y="33" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="10" fill="#C0392B" style="font-stretch:125%">1.697</text></svg>
+            <svg viewBox="0 0 60 60" style="transform:rotate(7deg)"><circle cx="30" cy="30" r="27" fill="none" stroke="#1B2A47" stroke-width="2"/><circle cx="30" cy="30" r="22" fill="none" stroke="#1B2A47" stroke-width=".8"/><text x="30" y="33" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="10" fill="#1B2A47" style="font-stretch:125%">1.236</text></svg>
+            <svg viewBox="0 0 60 60" style="transform:rotate(-3deg)"><circle cx="30" cy="30" r="27" fill="none" stroke="#2F6B4F" stroke-width="2"/><circle cx="30" cy="30" r="22" fill="none" stroke="#2F6B4F" stroke-width=".8"/><text x="30" y="33" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="10" fill="#2F6B4F" style="font-stretch:125%">1.056</text></svg>
+          </div>
+        </div></div>
+      </div>
+      <div class="body">
+        <span class="n">Proposta 3</span>
+        <h2 style="font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;text-transform:uppercase;font-size:26px">Segells</h2>
+        <p>El nom de l'app al peu de la lletra: carnet d'excursionista amb un segell de tinta per a cada cim i una pàgina per a cada centena (I–V).</p>
+        <div class="dots"><i style="background:#F6F2E9"></i><i style="background:#1B2A47"></i><i style="background:#C0392B"></i><i style="background:#2F6B4F"></i><i style="background:#D6CAB3"></i></div>
+        <span class="fonts">Archivo (variable, expandida) + IBM Plex Mono</span>
+        <span class="go">Veure la proposta →</span>
+      </div>
+    </a>
+  </div>
+
+  <section class="rec" aria-labelledby="rec-t">
+    <b class="t" id="rec-t">Recomanació</b>
+    <p><strong>Proposta 3 · Segells</strong> com a identitat, amb la contenció de la <strong>Proposta 1</strong> a les pantalles de dades (mapa, llistes, fitxa). El segell és el moment emocional i la peça més reconeixible i compartible, i fa honor al nom <em>Carnet de Cims</em>; la base topogràfica aporta la llegibilitat i la sobrietat que necessiten les fitxes públiques. De l'Esportiu en recuperaríem la previsualització "+1 → 38/100" i un mode fosc per a ús a muntanya.</p>
+  </section>
+
+  <footer>Carnet de Cims és un projecte independent i no oficial, sense vinculació amb la FEEC. "100 Cims" s'usa només de manera descriptiva. Totes les xifres de progrés, rutes i meteo d'aquestes maquetes són d'exemple.</footer>
+</div>
+</body>
+</html>

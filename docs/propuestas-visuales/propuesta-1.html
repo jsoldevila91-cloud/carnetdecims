@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposta 1 · Topogràfic — Carnet de Cims</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F1E8; --card:#FFFDF8; --ink:#1C2320; --muted:#5B6158;
+  --forest:#1F4A36; --forest-2:#2E6149; --moss:#8FAE7E; --moss-soft:#E3EAD6;
+  --terra:#A64B25; --terra-soft:#F4E3D7; --sand:#EFD29A;
+  --line:#E3DBCB; --contour:#CDBF9F; --sky:#3D7FD9;
+  --serif:"Fraunces", Georgia, serif; --sans:"Figtree", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E6E3DC;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic-s{width:16px;height:16px}
+
+/* ---------- Document chrome ---------- */
+.doc-head{max-width:1760px;margin:0 auto;padding:36px 32px 8px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.doc-head .back{font-size:14px;color:var(--muted);text-decoration:none}
+.doc-head .kicker{margin:14px 0 4px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--terra);font-weight:600}
+.doc-head h1{margin:0;font-family:var(--serif);font-weight:600;font-size:44px;letter-spacing:-.01em}
+.doc-head p.lede{margin:6px 0 0;max-width:640px;color:var(--muted);font-size:16px;line-height:1.5}
+.switch{display:flex;gap:8px;flex-wrap:wrap}
+.switch a{white-space:nowrap;padding:8px 14px;border-radius:999px;border:1px solid #CFC9BC;text-decoration:none;font-size:14px;font-weight:600;background:#F4F1E8}
+.switch a[aria-current]{background:var(--forest);color:#fff;border-color:var(--forest)}
+.note-data{max-width:1760px;margin:0 auto;padding:0 32px;font-size:13px;color:var(--muted)}
+
+.shots{display:flex;flex-wrap:wrap;justify-content:center;gap:40px 36px;padding:28px 32px 56px;max-width:1800px;margin:0 auto}
+.shot{margin:0;flex:none}
+.shot figcaption{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 12px 8px;letter-spacing:.04em}
+.shot figcaption b{color:var(--ink)}
+.phone{width:410px;height:864px;padding:10px;border-radius:56px;background:#1A1C1B;box-shadow:0 1px 0 #3a3d3b inset,0 30px 60px -20px rgba(40,35,20,.35),0 12px 24px -12px rgba(40,35,20,.25)}
+.screen{position:relative;width:390px;height:844px;border-radius:46px;overflow:hidden;background:var(--paper)}
+.screen::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:122px;height:35px;border-radius:20px;background:#000;z-index:20}
+.screen::after{content:"";position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:var(--ink);z-index:20;opacity:.9}
+.sb{position:absolute;top:0;left:0;right:0;height:50px;padding:17px 30px 0 44px;display:flex;justify-content:space-between;font-weight:600;font-size:16px;z-index:15;color:var(--ink)}
+.sb svg{fill:currentColor}
+.sb-r{display:flex;gap:6px;align-items:center;padding-top:1px}
+.view{position:absolute;inset:0;overflow:hidden;padding:56px 0 0}
+@media (max-width:460px){.phone{zoom:.84}.shots{padding:20px 8px 40px}.doc-head{padding:24px 16px 8px}.note-data{padding:0 16px}}
+
+/* ---------- Tab bar ---------- */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:88px;padding:8px 8px 0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(250,248,241,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:10}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;padding-top:4px}
+.tab.is-active{color:var(--forest)}
+.tab.is-active .ic{stroke-width:2.2}
+.tab-add .add{width:46px;height:46px;margin-top:-10px;border-radius:16px;background:var(--forest);color:#fff;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(31,74,54,.7)}
+.tab-add{color:var(--forest)}
+
+/* ---------- Common UI ---------- */
+.pad{padding:0 20px}
+.eyebrow{margin:0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.serif{font-family:var(--serif)}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin:22px 20px 10px}
+.sec-h h2{margin:0;font-family:var(--serif);font-size:20px;font-weight:600}
+.sec-h a{font-size:13px;font-weight:600;color:var(--forest);text-decoration:none}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px}
+.b-ess{background:var(--terra-soft);color:var(--terra)}
+.b-pend{background:#ECE8DD;color:var(--muted)}
+.b-done{background:var(--moss-soft);color:var(--forest)}
+.dia{width:9px;height:9px;transform:rotate(45deg);border-radius:2px;background:currentColor;display:inline-block;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:14px;font-weight:700;font-size:16px;text-decoration:none;border:0;font-family:var(--sans);cursor:pointer}
+.btn-primary{background:var(--forest);color:#fff}
+.btn-ghost{background:transparent;color:var(--forest);border:1.5px solid #BFCBB9}
+
+/* ---------- 1. Home ---------- */
+.home-top{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 14px}
+.home-top h1{margin:2px 0 0;font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--moss-soft);color:var(--forest);font-weight:700;display:grid;place-items:center;border:0;font-family:var(--sans);font-size:15px}
+.hero{position:relative;margin:0 16px;border-radius:24px;background:var(--forest);color:#F6F3EA;padding:20px;overflow:hidden}
+.hero .deco{position:absolute;right:-60px;top:-50px;width:300px;height:300px;stroke:#fff;opacity:.09;fill:none}
+.hero-row{position:relative;display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:118px;height:118px;flex:none}
+.ring svg{width:118px;height:118px;transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .n b{font-family:var(--serif);font-size:40px;line-height:1;font-weight:600}
+.ring .n span{font-size:12px;opacity:.85;margin-top:2px}
+.hero .lvl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sand);font-weight:700;margin:0}
+.hero h2{margin:4px 0 6px;font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1}
+.hero p.sub{margin:0;font-size:14px;line-height:1.4;color:#DCE5DC}
+.hero-stats{position:relative;display:grid;grid-template-columns:repeat(3,1fr);margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18)}
+.hero-stats div{font-size:12px;color:#DCE5DC}
+.hero-stats b{display:block;font-family:var(--serif);font-size:22px;color:#fff;font-weight:600}
+.hscroll{display:flex;gap:12px;overflow:hidden;padding:0 20px}
+.ess-card{flex:none;width:216px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.ess-card .t{display:flex;justify-content:space-between;align-items:center;color:var(--terra);font-size:12px;font-weight:700}
+.ess-card h3{margin:8px 0 2px;font-family:var(--serif);font-size:19px;font-weight:600}
+.ess-card p{margin:0;font-size:13px;color:var(--muted)}
+.ess-card .dist{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px}
+.com{margin:0 20px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 16px}
+.com-row{display:grid;grid-template-columns:96px 1fr 44px;align-items:center;gap:12px;padding:10px 0;font-size:14px}
+.com-row + .com-row{border-top:1px solid #EEE8DB}
+.com-row .bar{height:8px;border-radius:4px;background:#ECE6D8;overflow:hidden}
+.com-row .bar i{display:block;height:100%;background:var(--forest-2);border-radius:4px}
+.com-row b{font-weight:600}
+.com-row span{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
+.log{margin:0 20px;list-style:none;padding:0}
+.log li{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+/* compact home rhythm */
+.home-top{padding:4px 20px 12px}
+.home-top h1{font-size:28px}
+.hero{padding:16px 18px}
+.ring,.ring svg{width:106px;height:106px}
+.ring .n b{font-size:36px}
+.hero-stats{margin-top:12px;padding-top:10px}
+.hero-stats b{font-size:20px}
+.sec-h{margin:18px 20px 8px}
+.ess-card{padding:11px 14px}
+.ess-card h3{margin:6px 0 1px;font-size:18px}
+.com{padding:2px 16px}
+.com-row{padding:8px 0}
+.log .ico{width:36px;height:36px}
+.log .ico{width:40px;height:40px;border-radius:12px;background:var(--moss-soft);color:var(--forest);display:grid;place-items:center;flex:none}
+.log b{font-weight:600;font-size:15px}
+.log small{display:block;color:var(--muted);font-size:13px}
+.log time{margin-left:auto;font-size:13px;color:var(--muted)}
+
+/* ---------- 2. Map ---------- */
+.map{position:absolute;inset:0}
+.map svg.topo{position:absolute;inset:0;width:100%;height:100%}
+.m-bg{fill:#EFEADB}.m-wood{fill:#DFE6CF}.m-lake{fill:#BFD6E4}
+.m-cont{fill:none;stroke:#CDBD98;stroke-width:.8}
+.m-idx{fill:none;stroke:#B9A57A;stroke-width:1.5}
+.m-river{fill:none;stroke:#7EACC9;stroke-width:2.2;stroke-linecap:round}
+.m-road-c{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round}
+.m-road{fill:none;stroke:#D9A36E;stroke-width:2;stroke-linecap:round}
+.m-border{fill:none;stroke:#8C7B98;stroke-width:1.4;stroke-dasharray:7 3 1.5 3}
+.m-lbl{font:600 10px var(--sans);letter-spacing:.24em;fill:#7A6E57;text-transform:uppercase}
+.m-spot{font:italic 10px var(--serif);fill:#6B604B}
+.mk-done circle{fill:var(--forest);stroke:#fff;stroke-width:2.5}
+.mk-done path,.mk-edone path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.mk-pend circle{fill:#fff;stroke:var(--forest);stroke-width:2.5}
+.mk-ess rect{fill:var(--terra);stroke:#fff;stroke-width:2.5}
+.mk-edone rect{fill:var(--forest);stroke:#fff;stroke-width:2.5}
+.mk-clu circle{fill:var(--forest-2);stroke:#fff;stroke-width:3;opacity:.95}
+.mk-clu text{fill:#fff;font:700 12px var(--sans);text-anchor:middle}
+.mk-sel .halo{fill:var(--terra);opacity:.18}
+.mk-sel rect.d{fill:var(--terra);stroke:#fff;stroke-width:3}
+.mk-sel .tip{fill:var(--ink)}
+.mk-sel text{fill:#fff;font:600 12px var(--sans);text-anchor:middle}
+.me .h{fill:var(--sky);opacity:.18}.me .d{fill:var(--sky);stroke:#fff;stroke-width:2.5}
+.map-top{position:absolute;top:54px;left:0;right:0;padding:0 14px;z-index:4}
+.search{display:flex;align-items:center;gap:10px;height:50px;padding:0 8px 0 14px;background:var(--card);border-radius:16px;box-shadow:0 4px 16px -6px rgba(50,40,20,.28);font-size:15px;color:var(--muted)}
+.search .lay{margin-left:auto;width:36px;height:36px;border-radius:10px;background:var(--paper);display:grid;place-items:center;color:var(--ink)}
+.chips{display:flex;gap:8px;margin-top:10px;overflow:hidden}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 13px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:600;box-shadow:0 2px 8px -4px rgba(50,40,20,.25);color:var(--ink)}
+.chip.on{background:var(--terra);border-color:var(--terra);color:#fff}
+.chip.on2{background:var(--forest);border-color:var(--forest);color:#fff}
+.fab{position:absolute;right:14px;width:46px;height:46px;border-radius:14px;background:var(--card);display:grid;place-items:center;box-shadow:0 4px 14px -6px rgba(50,40,20,.35);color:var(--sky);z-index:4}
+.legend{position:absolute;left:14px;top:462px;z-index:4;display:flex;gap:10px;align-items:center;padding:7px 12px;border-radius:999px;background:rgba(255,253,248,.94);font-size:12px;font-weight:600;box-shadow:0 2px 10px -4px rgba(50,40,20,.3)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.sheet{position:absolute;left:0;right:0;bottom:88px;background:var(--card);border-radius:24px 24px 0 0;padding:10px 20px 18px;box-shadow:0 -10px 30px -12px rgba(50,40,20,.35);z-index:6}
+.grab{width:40px;height:5px;border-radius:3px;background:#D5CCBA;margin:0 auto 12px}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start}
+.sheet h3{margin:6px 0 2px;font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:-.01em}
+.sheet .meta{margin:0;color:var(--muted);font-size:14px}
+.x{width:34px;height:34px;border-radius:50%;background:#EFEADF;display:grid;place-items:center;color:var(--ink);border:0}
+.sheet-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.sheet-stats div{background:var(--paper);border-radius:12px;padding:9px 10px;font-size:12px;color:var(--muted)}
+.sheet-stats b{display:block;font-size:16px;color:var(--ink);font-weight:700;margin-top:1px}
+.sheet-actions{display:grid;grid-template-columns:1fr 1.3fr;gap:10px}
+
+/* ---------- 3. Fitxa ---------- */
+.fx{position:absolute;inset:0;overflow:hidden;padding-bottom:100px}
+.fx-hero{position:relative;height:220px;background:linear-gradient(#E9E3D2,#F4F1E8)}
+.fx-hero svg{position:absolute;inset:0;width:100%;height:100%}
+.fx-bar{position:absolute;top:54px;left:14px;right:14px;display:flex;justify-content:space-between;z-index:3}
+.round{width:42px;height:42px;border-radius:50%;background:rgba(255,253,248,.92);display:grid;place-items:center;color:var(--ink);box-shadow:0 2px 10px -4px rgba(0,0,0,.25)}
+.fx-body{padding:14px 20px 0;position:relative}
+.crumb{font-size:13px;color:var(--muted);margin:0}
+.crumb a{text-decoration:none;color:var(--forest);font-weight:600}
+.fx h1{margin:4px 0 0;font-family:var(--serif);font-size:40px;line-height:1;font-weight:700;letter-spacing:-.02em}
+.fx .alt-name{margin:4px 0 12px;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)}
+.fx .tags{display:flex;gap:6px;flex-wrap:wrap}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:10px 0;font-size:12px;color:var(--muted)}
+.facts div + div{padding-left:12px;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--serif);font-size:20px;color:var(--ink);font-weight:600}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.box h2{margin:0 0 10px;font-family:var(--serif);font-size:17px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.box h2 small{font-family:var(--sans);font-size:12px;color:var(--muted);font-weight:500}
+.mide{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.mide div{font-size:12px;color:var(--muted)}
+.mide b{font-size:13px;color:var(--ink);display:flex;justify-content:space-between}
+.pips{display:flex;gap:3px;margin:5px 0 3px}
+.pips i{flex:1;height:6px;border-radius:3px;background:#E8E1D1}
+.pips i.f{background:var(--terra)}
+.wx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wx div{text-align:center;font-size:12px;color:var(--muted);background:var(--paper);border-radius:12px;padding:8px 4px}
+.wx b{display:block;font-size:18px;color:var(--ink);font-family:var(--serif)}
+.wx .ic{color:var(--forest);margin:4px auto 0;display:block}
+.fx h1 + .alt-name{margin-bottom:10px}
+.facts{margin:12px 0}
+.box{margin-bottom:10px;padding:12px 14px}
+.desc{font-size:15px;line-height:1.55;margin:4px 0 0}
+.cta-bar{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 30px;background:linear-gradient(rgba(244,241,232,0),var(--paper) 30%);display:flex;gap:10px;z-index:8}
+.cta-bar .btn-primary{flex:1}
+.cta-bar .sq{width:50px;height:50px;border-radius:14px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--forest)}
+
+/* ---------- 4. Registrar ---------- */
+.dim{position:absolute;inset:0;background:#2A2F2B}
+.dim .peek{position:absolute;top:50px;left:14px;right:14px;height:40px;border-radius:14px 14px 0 0;background:#595D57}
+.modal{position:absolute;top:62px;left:0;right:0;bottom:0;background:var(--paper);border-radius:22px 22px 0 0;padding:0 20px}
+.modal-h{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:56px;border-bottom:1px solid var(--line);margin:0 -20px 16px;padding:0 20px}
+.modal-h h2{margin:0;font-family:var(--serif);font-size:18px;font-weight:600}
+.modal-h .l{font-size:16px;color:var(--forest);font-weight:600}
+.fld{margin-bottom:16px}
+.fld > label,.fld > .lab{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:var(--ink)}
+.picked{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--forest);border-radius:14px;padding:11px 12px}
+.picked .dd{width:36px;height:36px;border-radius:10px;background:var(--terra-soft);color:var(--terra);display:grid;place-items:center}
+.picked b{font-family:var(--serif);font-size:17px;font-weight:600;display:block}
+.picked small{color:var(--muted);font-size:13px}
+.picked .chg{margin-left:auto;font-size:14px;color:var(--forest);font-weight:700}
+.inp{display:flex;align-items:center;gap:10px;height:50px;padding:0 14px;background:var(--card);border:1px solid #D9D0BE;border-radius:14px;font-size:16px}
+.inp .ic{color:var(--muted)}
+.help{font-size:12px;color:var(--muted);margin:6px 2px 0}
+.methods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.meth{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border-radius:14px;background:var(--card);border:1px solid #D9D0BE;font-size:13px;font-weight:600;color:var(--ink)}
+.meth .ic{width:26px;height:26px;color:var(--forest)}
+.meth.sel{background:var(--forest);border-color:var(--forest);color:#fff}
+.meth.sel .ic{color:#fff}
+textarea{width:100%;height:86px;resize:none;padding:12px 14px;border-radius:14px;border:1px solid #D9D0BE;background:var(--card);font:15px/1.45 var(--sans);color:var(--ink)}
+.count{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:5px}
+.info{display:flex;gap:10px;background:var(--moss-soft);border-radius:14px;padding:11px 12px;font-size:13px;line-height:1.4;color:#23402F;margin-bottom:14px}
+.info .ic{color:var(--forest);margin-top:1px}
+
+.brand{display:flex;align-items:center;gap:7px;margin:0;font-family:var(--serif);font-weight:600;font-size:15px;color:var(--forest)}
+.brand svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.brand-pill{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 10px;border-radius:999px;background:rgba(255,253,248,.92);box-shadow:0 2px 10px -4px rgba(0,0,0,.25);font-family:var(--serif);font-weight:600;font-size:15px;color:var(--forest);text-decoration:none}
+.brand-pill svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.foot{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:12px;line-height:1.5;color:var(--muted)}
+
+/* ---------- Spec sheet ---------- */
+.spec{max-width:1200px;margin:0 auto 72px;padding:0 32px}
+.spec-card{background:#FBF9F3;border:1px solid #DDD6C6;border-radius:24px;padding:32px 36px;display:grid;grid-template-columns:1.1fr 1fr;gap:32px 48px}
+.spec h2{font-family:var(--serif);font-size:30px;margin:0 0 6px;font-weight:600}
+.spec h3{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);margin:0 0 10px}
+.spec p,.spec li{font-size:15px;line-height:1.6;color:#343B36}
+.spec ul{padding-left:18px;margin:0}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sw div{border-radius:12px;overflow:hidden;border:1px solid #DDD6C6;background:#fff;font-size:12px}
+.sw i{display:block;height:54px}
+.sw span{display:block;padding:6px 8px;line-height:1.35}
+.sw code{font-size:11.5px;color:var(--muted)}
+.type-sample{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.type-sample .a{font-family:var(--serif);font-size:34px;font-weight:600}
+.type-sample .b{font-family:var(--sans);font-size:18px}
+@media (max-width:860px){.spec-card{grid-template-columns:1fr;padding:24px 20px}.sw{grid-template-columns:repeat(2,1fr)}.spec{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<!-- ============ Icon sprite + shared shapes ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4zM9 4v14M15 6v14"/></symbol>
+    <symbol id="i-peak" viewBox="0 0 24 24"><path d="M2.5 20 9 8.5l3.5 6 2.5-4 6.5 9.5z"/><path d="M7.5 11.2 9 12.5l1.5-1.3"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.4-3.6 4.3-5.5 7.5-5.5s6.1 1.9 7.5 5.5"/></symbol>
+    <symbol id="logo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5"/><path d="M4.2 15.8C6.4 11 8.8 8.2 12 8.2s5.6 2.8 7.8 7.6"/><path d="M7.6 16.2c1.4-2.9 2.8-4.3 4.4-4.3s3 1.4 4.4 4.3"/><circle cx="12" cy="15.4" r="1.1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3.5v12M7.5 8 12 3.5 16.5 8M5 13.5V20h14v-6.5"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6.5 3.5h11v17L12 16l-5.5 4.5z"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><path d="M20.5 3.5 3.5 10.8l7.2 2.5 2.5 7.2z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.5 2.5 8.5l9.5 5 9.5-5z"/><path d="m2.5 13 9.5 5 9.5-5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11.5a6.5 6.5 0 0 1 13 0C18.5 15 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 10 4.3 4.3 0 0 0 7 18.5z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5"/></symbol>
+    <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 13h15.5a3 3 0 1 1-3 3M3 17h7"/></symbol>
+    <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13.5" cy="4.2" r="1.8"/><path d="m9.5 21 2.3-6.3L9.7 12l1.2-4.5 3.4 2.6 2.7.9M11.8 14.7l3 1.8L16 21M10.9 7.5 7.5 9.5 6.5 13M17 7.5 19 21"/></symbol>
+    <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9.5h7l2.5 7M9 9.5l3.5 7h-7M14.5 6.5H17"/></symbol>
+    <symbol id="i-ski" viewBox="0 0 24 24"><circle cx="15" cy="4" r="1.8"/><path d="M3 18.5 21 13M9.5 16.5l2.5-5 3.5 1.5 1 3M12 11.5 9 9.5l3-3 3 2 3 .5M5 11l2.5 7"/></symbol>
+    <symbol id="i-shoe" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="5.5" ry="8.5"/><path d="M8.5 8h7M7 12h10M8.5 16h7M12 3.5v17"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18.5" r="2"/><circle cx="18" cy="5.5" r="2"/><path d="M8 18.5h7.5a3 3 0 0 0 0-6h-7a3 3 0 0 1 0-6H16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="m3 18 6-7 4 4 8-9M15 6h6v6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.2"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4.5h5.5V10M19.5 4.5 11 13M17 14v5.5H4.5V7H10"/></symbol>
+    <symbol id="i-offline" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 10 4.3 4.3 0 0 0 7 18.5z"/><path d="m9.5 13.5 2 2 3.5-3.5"/></symbol>
+    <path id="bA" vector-effect="non-scaling-stroke" d="M-10,-95 C40,-110 80,-70 105,-30 C125,5 95,40 70,70 C40,105 -20,110 -60,85 C-100,60 -110,10 -95,-35 C-80,-75 -50,-85 -10,-95Z"/>
+    <path id="bB" vector-effect="non-scaling-stroke" d="M0,-100 C55,-98 95,-60 100,-5 C104,45 70,92 15,98 C-40,104 -92,70 -100,15 C-106,-40 -60,-102 0,-100Z"/>
+    <path id="bC" vector-effect="non-scaling-stroke" d="M-20,-80 C30,-100 95,-85 110,-40 C122,0 100,30 60,50 C25,68 10,95 -30,90 C-80,84 -115,40 -105,-5 C-97,-45 -60,-65 -20,-80Z"/>
+  </defs>
+</svg>
+
+<header class="doc-head">
+  <div>
+    <a class="back" href="index.html">← Totes les propostes</a>
+    <p class="kicker">Carnet de Cims · Proposta 1 de 3</p>
+    <h1>Topogràfic</h1>
+    <p class="lede">Com un mapa excursionista ben editat: paper, corbes de nivell, verd de bosc i terracota per als essencials. Tipografia editorial per als noms dels cims.</p>
+  </div>
+  <nav class="switch" aria-label="Propostes">
+    <a href="propuesta-1.html" aria-current="page">1 · Topogràfic</a>
+    <a href="propuesta-2.html">2 · Esportiu</a>
+    <a href="propuesta-3.html">3 · Segells</a>
+  </nav>
+</header>
+<p class="note-data">Maqueta estàtica · dades d'exemple il·lustratives (progrés, rutes i meteo no són reals).</p>
+
+<main class="shots">
+
+<!-- =================== 1. INICI =================== -->
+<figure class="shot">
+  <figcaption><b>01</b> · Inici / Progrés</figcaption>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span>9:41</span><span class="sb-r"><svg viewBox="0 0 18 12" width="18" height="12"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12" width="27" height="12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2"/><rect x="25" y="4" width="1.6" height="4" rx=".8" opacity=".4"/></svg></span></div>
+    <div class="view">
+      <div class="home-top">
+        <div><p class="brand"><svg aria-hidden="true"><use href="#logo"/></svg>Carnet de Cims</p><h1>Hola, Jonatan</h1></div>
+        <button class="avatar" aria-label="El meu perfil">JS</button>
+      </div>
+
+      <section class="hero" aria-label="Progrés del repte">
+        <svg class="deco" viewBox="-160 -160 320 320" aria-hidden="true"><use href="#bA" transform="scale(1.5)"/><use href="#bA" transform="translate(4 -3) scale(1.25)"/><use href="#bA" transform="translate(8 -6) scale(1)"/><use href="#bA" transform="translate(11 -8) scale(.76)"/><use href="#bA" transform="translate(14 -10) scale(.53)"/><use href="#bA" transform="translate(16 -11) scale(.3)"/></svg>
+        <div class="hero-row">
+          <div class="ring" role="img" aria-label="37 de 100 cims">
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="#EFD29A" stroke-width="10" stroke-linecap="round" stroke-dasharray="120.9 326.7"/></svg>
+            <div class="n"><b>37</b><span>de 100</span></div>
+          </div>
+          <div>
+            <p class="lvl">Nivell 1×100</p>
+            <h2>Et falten 63 cims</h2>
+            <p class="sub">Al ritme d'enguany, arribaràs als 100 cap a l'estiu del 2029.</p>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div><b>14</b>essencials</div>
+          <div><b>11</b>comarques</div>
+          <div><b>9</b>el 2026</div>
+        </div>
+      </section>
+
+      <div class="sec-h"><h2>Essencials pendents</h2><a href="#">Veure'ls</a></div>
+      <div class="hscroll">
+        <article class="ess-card">
+          <div class="t"><span style="display:flex;align-items:center;gap:6px"><i class="dia"></i>Essencial</span><span class="dist"><svg class="ic ic-s"><use href="#i-pin"/></svg>38 km</span></div>
+          <h3>Pedraforca</h3><p>2.506 m · Berguedà</p>
+        </article>
+        <article class="ess-card">
+          <div class="t"><span style="display:flex;align-items:center;gap:6px"><i class="dia"></i>Essencial</span><span class="dist"><svg class="ic ic-s"><use href="#i-pin"/></svg>52 km</span></div>
+          <h3>Puigmal</h3><p>2.910 m · Ripollès</p>
+        </article>
+      </div>
+
+      <div class="sec-h"><h2>Per comarca</h2><a href="#">Totes</a></div>
+      <div class="com">
+        <div class="com-row"><b>Bages</b><div class="bar"><i style="width:55%"></i></div><span>6/11</span></div>
+        <div class="com-row"><b>Osona</b><div class="bar"><i style="width:31%"></i></div><span>5/16</span></div>
+        <div class="com-row"><b>Berguedà</b><div class="bar"><i style="width:16%"></i></div><span>3/19</span></div>
+      </div>
+
+      <div class="sec-h"><h2>Últimes ascensions</h2><a href="#">Historial</a></div>
+      <ul class="log">
+        <li><span class="ico"><svg class="ic"><use href="#i-walk"/></svg></span><div><b>Matagalls</b><small>1.697 m · Osona · a peu</small></div><time datetime="2026-09-14">14 set.</time></li>
+        <li><span class="ico"><svg class="ic"><use href="#i-walk"/></svg></span><div><b>Sant Jeroni</b><small>1.236 m · Anoia · a peu</small></div><time datetime="2026-08-30">30 ag.</time></li>
+      </ul>
+    </div>
+    <nav class="tabbar" aria-label="Navegació principal">
+      <a class="tab is-active" aria-current="page" href="#"><svg class="ic"><use href="#i-home"/></svg>Inici</a>
+      <a class="tab" href="#"><svg class="ic"><use href="#i-map"/></svg>Mapa</a>
+      <a class="tab tab-add" href="#"><span class="add"><svg class="ic"><use href="#i-plus"/></svg></span>Registrar</a>
+      <a class="tab" href="#"><svg class="ic"><use href="#i-peak"/></svg>Cims</a>
+      <a class="tab" href="#"><svg class="ic"><use href="#i-user"/></svg>Perfil</a>
+    </nav>
+  </div></div>
+</figure>
+
+<!-- =================== 2. MAPA =================== -->
+<figure class="shot">
+  <figcaption><b>02</b> · Mapa</figcaption>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span>9:41</span><span class="sb-r"><svg viewBox="0 0 18 12" width="18" height="12"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12" width="27" height="12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2"/><rect x="25" y="4" width="1.6" height="4" rx=".8" opacity=".4"/></svg></span></div>
+    <div class="map" role="img" aria-label="Mapa simulat amb cims fets, pendents i essencials">
+      <svg class="topo" viewBox="0 0 390 760" preserveAspectRatio="xMidYMid slice">
+        <rect width="390" height="760" class="m-bg"/>
+        <path class="m-wood" d="M0 540 C60 505 120 575 170 548 C220 520 262 590 232 650 C202 712 92 690 40 732 L0 752Z"/>
+        <path class="m-wood" d="M292 372 C335 350 390 368 390 368 L390 470 C350 482 306 452 292 420Z"/>
+        <path class="m-wood" d="M0 250 C30 240 50 280 40 310 C30 340 0 340 0 340Z"/>
+        <g class="m-cont">
+          <use href="#bA" transform="translate(252 246) scale(1.62)"/><use href="#bA" transform="translate(254 244) scale(1.4)"/><use href="#bA" transform="translate(256 243) scale(1.19)"/><use href="#bA" transform="translate(257 242) scale(.84)"/><use href="#bA" transform="translate(258 241) scale(.68)"/><use href="#bA" transform="translate(258 241) scale(.53)"/><use href="#bA" transform="translate(257 242) scale(.39)"/><use href="#bA" transform="translate(255 244) scale(.26)"/><use href="#bA" transform="translate(252 246) scale(.14)"/>
+          <use href="#bB" transform="translate(92 470) scale(1.28)"/><use href="#bB" transform="translate(95 468) scale(1.1)"/><use href="#bB" transform="translate(98 466) scale(.76)"/><use href="#bB" transform="translate(100 465) scale(.6)"/><use href="#bB" transform="translate(101 464) scale(.44)"/><use href="#bB" transform="translate(101 464) scale(.3)"/><use href="#bB" transform="translate(100 465) scale(.16)"/>
+          <use href="#bC" transform="translate(330 640) scale(.95)"/><use href="#bC" transform="translate(332 638) scale(.62)"/><use href="#bC" transform="translate(334 637) scale(.46)"/><use href="#bC" transform="translate(334 637) scale(.3)"/><use href="#bC" transform="translate(333 638) scale(.15)"/>
+          <use href="#bB" transform="translate(40 120) scale(1)"/><use href="#bB" transform="translate(36 116) scale(.66)"/><use href="#bB" transform="translate(33 114) scale(.48)"/><use href="#bB" transform="translate(31 112) scale(.3)"/>
+          <path d="M-10 700 C70 670 150 730 240 700 S360 650 400 680"/><path d="M-10 728 C70 700 160 760 250 728 S360 690 400 712"/>
+        </g>
+        <g class="m-idx">
+          <use href="#bA" transform="translate(256 243) scale(1)"/><use href="#bB" transform="translate(98 466) scale(.92)"/><use href="#bC" transform="translate(332 638) scale(.78)"/><use href="#bB" transform="translate(38 118) scale(.84)"/>
+        </g>
+        <path class="m-river" d="M390 470 C350 470 322 432 282 442 C232 454 216 520 190 560 C165 600 120 612 60 640 C30 655 10 680 0 700"/>
+        <path class="m-road-c" d="M0 332 C60 322 110 362 160 352 C210 342 230 300 280 330 C330 360 360 330 390 340"/>
+        <path class="m-road" d="M0 332 C60 322 110 362 160 352 C210 342 230 300 280 330 C330 360 360 330 390 340"/>
+        <path class="m-border" d="M0 400 C90 384 150 424 200 452 C250 480 300 462 390 500"/>
+        <text class="m-lbl" x="24" y="394">Berguedà</text>
+        <text class="m-lbl" x="286" y="486" transform="rotate(8 286 486)">Ripollès</text>
+        <text class="m-spot" x="268" y="236">2.910</text>
+        <text class="m-spot" x="112" y="462">1.697</text>
+        <!-- markers -->
+        <g class="mk-clu" transform="translate(58 196)"><circle r="18"/><text y="4">12</text></g>
+        <g class="mk-done" transform="translate(132 232)"><circle r="11"/><path d="M-4.5 .5l3 3 6-6"/></g>
+        <g class="mk-done" transform="translate(342 204)"><circle r="11"/><path d="M-4.5 .5l3 3 6-6"/></g>
+        <g class="mk-edone" transform="translate(338 300)"><rect x="-10" y="-10" width="20" height="20" rx="3" transform="rotate(45)"/><path d="M-4.5 .5l3 3 6-6"/></g>
+        <g class="mk-pend" transform="translate(190 318)"><circle r="8"/></g>
+        <g class="mk-pend" transform="translate(66 372)"><circle r="8"/></g>
+        <g class="mk-pend" transform="translate(348 420)"><circle r="8"/></g>
+        <g class="mk-ess" transform="translate(150 420)"><rect x="-9" y="-9" width="18" height="18" rx="3" transform="rotate(45)"/></g>
+        <g class="mk-ess" transform="translate(292 392)"><rect x="-9" y="-9" width="18" height="18" rx="3" transform="rotate(45)"/></g>
+        <g class="mk-clu" transform="translate(236 452)"><circle r="16"/><text y="4">5</text></g>
+        <g class="me" transform="translate(196 392)"><circle class="h" r="18"/><circle class="d" r="7"/></g>
+        <g class="mk-sel" transform="translate(252 250)">
+          <circle class="halo" r="30"/>
+          <rect class="d" x="-13" y="-13" width="26" height="26" rx="4" transform="rotate(45)"/>
+          <path class="tip" d="M-62 -58 h124 a10 10 0 0 1 10 10 v14 a10 10 0 0 1 -10 10 h-54 l-8 8 -8 -8 h-54 a10 10 0 0 1 -10 -10 v-14 a10 10 0 0 1 10 -10z"/>
+          <text y="-37">Puigmal · 2.910 m</text>
+        </g>
+      </svg>
+    </div>
+    <div class="map-top">
+      <div class="search"><svg class="ic"><use href="#i-search"/></svg>Cerca un cim o una comarca<span class="lay"><svg class="ic"><use href="#i-layers"/></svg></span></div>
+      <div class="chips" role="group" aria-label="Filtres">
+        <span class="chip on"><i class="dia" style="background:#fff"></i>Essencials</span>
+        <span class="chip on2">Pendents</span>
+        <span class="chip">Comarca<svg class="ic ic-s"><use href="#i-down"/></svg></span>
+        <span class="chip">Altitud<svg class="ic ic-s"><use href="#i-down"/></svg></span>
+        <span class="chip">MIDE</span>
+      </div>
+    </div>
+    <span class="fab" style="top:400px" aria-label="La meva ubicació"><svg class="ic"><use href="#i-locate"/></svg></span>
+    <div class="legend"><span><i style="background:var(--forest)"></i>Fet</span><span><i style="background:#fff;border:2px solid var(--forest)"></i>Pendent</span><span style="display:flex;align-items:center;gap:5px;color:var(--terra)"><i class="dia" style="width:8px;height:8px"></i>Essencial</span></div>
+    <section class="sheet" aria-label="Cim seleccionat">
+      <div class="grab"></div>
+      <div class="sheet-head">
+        <div>
+          <span class="badge b-ess"><i class="dia"></i>Essencial · pendent</span>
+          <h3>Puigmal</h3>
+          <p class="meta">2.910 m · Ripollès · a 52 km de tu</p>
+        </div>
+        <button class="x" aria-label="Tancar"><svg class="ic ic-s"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="sheet-stats">
+        <div>Desnivell<b>+950 m</b></div>
+        <div>Temps<b>3 h 10</b></div>
+        <div>MIDE<b>2·2·2·3</b></div>
+      </div>
+      <div class="sheet-actions">
+        <a class="btn btn-ghost" href="#">Veure fitxa</a>
+        <a class="btn btn-primary" href="#"><svg class="ic"><use href="#i-plus"/></svg>Registrar</a>
+      </div>
+    </section>
+    <nav class="tabbar" aria-label="Navegació principal">
+      <a class="tab" href="#"><svg class="ic"><use href="#i-home"/></svg>Inici</a>
+      <a class="tab is-active" aria-current="page" href="#"><svg class="ic"><use href="#i-map"/></svg>Mapa</a>
+      <a class="tab tab-add" href="#"><span class="add"><svg class="ic"><use href="#i-plus"/></svg></span>Registrar</a>
+      <a class="tab" href="#"><svg class="ic"><use href="#i-peak"/></svg>Cims</a>
+      <a class="tab" href="#"><svg class="ic"><use href="#i-user"/></svg>Perfil</a>
+    </nav>
+  </div></div>
+</figure>
+
+<!-- =================== 3. FITXA =================== -->
+<figure class="shot">
+  <figcaption><b>03</b> · Fitxa de cim (pública)</figcaption>
+  <div class="phone"><div class="screen">
+    <div class="sb"><span>9:41</span><span class="sb-r"><svg viewBox="0 0 18 12" width="18" height="12"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12" width="27" height="12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2"/><rect x="25" y="4" width="1.6" height="4" rx=".8" opacity=".4"/></svg></span></div>
+    <article class="fx">
+      <div class="fx-hero" aria-hidden="true">
+        <svg viewBox="0 0 390 220" preserveAspectRatio="xMidYMax slice">
+          <defs><linearGradient id="p1g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E6149"/><stop offset="1" stop-color="#1F4A36"/></linearGradient></defs>
+          <g fill="none" stroke="#D6CCB5" stroke-width="1"><path d="M-10 108 C80 88 160 128 250 103 S360 78 400 98"/><path d="M-10 130 C80 110 170 152 260 126 S360 104 400 120"/></g>
+          <g transform="translate(0 80) scale(1 .56)">
+            <path d="M0 250 V190 C40 176 70 170 100 158 L140 120 L170 136 L200 150 L230 128 L262 100 L300 140 C330 160 360 168 390 172 V250Z" fill="#8FAE7E" opacity=".55"/>
+            <path d="M0 250 V214 C40 206 80 196 112 176 L150 96 L172 118 L188 104 L206 140 L222 132 L250 62 L270 96 L286 120 L312 160 C340 180 366 186 390 190 V250Z" fill="url(#p1g)"/>
+            <g fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1.4"><path d="M126 150 C160 160 200 170 238 150 L270 150"/><path d="M118 170 C160 184 220 190 262 170 L300 172"/><path d="M104 190 C160 206 240 210 300 190 L340 196"/></g>
+          </g>
+          <g font-family="Figtree" font-size="11" font-weight="600" fill="#4A5048" text-anchor="middle"><text x="236" y="108">Pollegó Superior</text><text x="150" y="127">Pollegó Inferior</text></g>
+          <path d="M250 114 v-4 M150 133 v-4" stroke="#4A5048" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="fx-bar"><span class="round" aria-label="Enrere"><svg class="ic"><use href="#i-back"/></svg></span><a class="brand-pill" href="#" aria-label="Carnet de Cims, inici"><svg aria-hidden="true"><use href="#logo"/></svg>Carnet de Cims</a><span style="display:flex;gap:8px"><span class="round" aria-label="Desar"><svg class="ic"><use href="#i-bookmark"/></svg></span><span class="round" aria-label="Compartir"><svg class="ic"><use href="#i-share"/></svg></span></span></div>
+      <div class="fx-body">
+        <p class="crumb"><a href="#">Cims</a> › <a href="#">Berguedà</a></p>
+        <h1>Pedraforca</h1>
+        <p class="alt-name">Pollegó Superior</p>
+        <div class="tags"><span class="badge b-ess"><i class="dia"></i>Essencial</span><span class="badge b-pend">Pendent</span><span class="badge b-done"><svg class="ic ic-s"><use href="#i-check"/></svg>Fitxa revisada</span></div>
+        <div class="facts">
+          <div><b>2.506 m</b>Altitud</div>
+          <div><b>Berguedà</b>Comarca</div>
+          <div><b style="font-size:15px;font-family:var(--sans);padding-top:4px">42,240 N<br>1,703 E</b>Coordenades</div>
+        </div>
+        <section class="box" aria-labelledby="m1">
+          <h2 id="m1">Dificultat MIDE <small>Via normal · per la tartera</small></h2>
+          <div class="mide">
+            <div><b>Medi <span>3</span></b><div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div>Més d'un factor de risc</div>
+            <div><b>Itinerari <span>2</span></b><div class="pips"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div>Senders ben marcats</div>
+            <div><b>Desplaçament <span>3</span></b><div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div>Passos amb les mans</div>
+            <div><b>Esforç <span>3</span></b><div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div>De 3 a 6 h de marxa</div>
+          </div>
+        </section>
+        <section class="box" aria-labelledby="r1">
+          <h2 id="r1">Ruta d'accés <small><a href="#" style="color:var(--forest);font-weight:600">Enllaços ↗</a></small></h2>
+          <p style="margin:0;font-size:14px;line-height:1.5"><b>Refugi Lluís Estasen</b> (1.668 m) · <b>+840 m</b> · 2 h 45 min d'anada, per l'Enforcadura i la tartera.</p>
+        </section>
+        <section class="box" aria-labelledby="w1">
+          <h2 id="w1">Previsió al cim <small>2.506 m · 8:00</small></h2>
+          <div class="wx">
+            <div>Avui<svg class="ic"><use href="#i-sun"/></svg><b>6°</b>NO 25 km/h</div>
+            <div>Dilluns<svg class="ic"><use href="#i-cloud"/></svg><b>3°</b>N 40 km/h</div>
+            <div>Dimarts<svg class="ic"><use href="#i-snow"/></svg><b>-1°</b>N 35 km/h</div>
+          </div>
+        </section>
+        <h2 class="serif" style="font-size:19px;margin:16px 0 0;font-weight:600">Sobre el cim</h2>
+        <p class="desc">El Pedraforca és una de les muntanyes més reconeixibles de Catalunya: dos pollegons de roca calcària separats per l'Enforcadura. El Superior és el punt més alt del massís i ofereix una de les vistes més completes del Prepirineu.</p>
+        <p class="foot">Carnet de Cims és un projecte independent i no oficial, sense vinculació amb la FEEC. La validació del repte 100 Cims la fa la FEEC a través de les entitats.</p>
+      </div>
+      <div class="cta-bar"><a class="sq" href="#" aria-label="Com arribar"><svg class="ic"><use href="#i-route"/></svg></a><a class="btn btn-primary" href="#"><svg class="ic"><use href="#i-plus"/></svg>Registrar ascensió</a></div>
+    </article>
+  </div></div>
+</figure>
+
+<!-- =================== 4. REGISTRAR =================== -->
+<figure class="shot">
+  <figcaption><b>04</b> · Registrar ascensió</figcaption>
+  <div class="phone"><div class="screen">
+    <div class="sb" style="color:#fff"><span>9:41</span><span class="sb-r"><svg viewBox="0 0 18 12" width="18" height="12"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12" width="27" height="12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2"/><rect x="25" y="4" width="1.6" height="4" rx=".8" opacity=".4"/></svg></span></div>
+    <div class="dim"><div class="peek"></div></div>
+    <form class="modal" aria-labelledby="f1" onsubmit="return false">
+      <div class="modal-h"><span class="l">Cancel·la</span><h2 id="f1">Nova ascensió</h2><span></span></div>
+      <div class="fld">
+        <span class="lab">Cim</span>
+        <div class="picked"><span class="dd"><i class="dia" style="width:12px;height:12px"></i></span><div><b>Pedraforca</b><small>Pollegó Superior · 2.506 m · Berguedà</small></div><span class="chg">Canvia</span></div>
+      </div>
+      <div class="fld">
+        <label for="d1">Data</label>
+        <div class="inp" id="d1"><svg class="ic"><use href="#i-cal"/></svg>Diumenge, 27 de setembre de 2026</div>
+        <p class="help">Compten les ascensions des de l'1/7/2006 · Enguany: 9 de 100 possibles.</p>
+      </div>
+      <fieldset class="fld" style="border:0;padding:0;margin:0 0 16px">
+        <legend class="lab" style="font-size:13px;font-weight:700;margin-bottom:7px;padding:0">Mètode</legend>
+        <div class="methods">
+          <span class="meth sel" role="radio" aria-checked="true"><svg class="ic"><use href="#i-walk"/></svg>A peu</span>
+          <span class="meth" role="radio" aria-checked="false"><svg class="ic"><use href="#i-bike"/></svg>BTT</span>
+          <span class="meth" role="radio" aria-checked="false"><svg class="ic"><use href="#i-ski"/></svg>Esquí</span>
+          <span class="meth" role="radio" aria-checked="false"><svg class="ic"><use href="#i-shoe"/></svg>Raquetes</span>
+        </div>
+      </fieldset>
+      <div class="fld">
+        <label for="n1">Nota <span style="font-weight:500;color:var(--muted)">(opcional)</span></label>
+        <textarea id="n1">Pujada per la tartera amb la Marta. Boira a l'Enforcadura, però cim ben clar.</textarea>
+        <div class="count"><span>Només la veus tu</span><span>78/500</span></div>
+      </div>
+      <div class="info"><svg class="ic"><use href="#i-offline"/></svg><span>Es desa al teu dispositiu, fins i tot sense cobertura. La validació oficial la fa la FEEC a través de la teva entitat.</span></div>
+      <button class="btn btn-primary" style="width:100%">Desa l'ascensió</button>
+    </form>
+  </div></div>
+</figure>
+
+</main>
+
+<section class="spec" aria-labelledby="spec-t">
+  <div class="spec-card">
+    <div>
+      <h3>Fitxa de la proposta</h3>
+      <h2 id="spec-t">Topogràfic</h2>
+      <p><strong>Concepte.</strong> La interfície com un mapa excursionista de qualitat: fons de paper, corbes de nivell com a textura, verd de bosc per a l'acció i terracota reservat als essencials. Els noms dels cims es tracten amb una serif editorial, com a la cartografia clàssica i les guies de muntanya.</p>
+      <h3 style="margin-top:22px">Per què encaixa</h3>
+      <ul>
+        <li>Connecta amb l'imaginari excursionista català (mapes Alpina, ICGC) i transmet rigor: bo per a la confiança i per a les fitxes públiques.</li>
+        <li>Llegible a ple sol: fons clar càlid, text quasi negre (contrast &gt; 12:1), accions en verd fosc (9,6:1 sobre paper).</li>
+        <li>El codi de color és semàntic i limitat: verd = fet/acció, terracota = essencial, blau = la teva ubicació. La forma (cercle/rombe) també codifica, no només el color.</li>
+        <li>Envelleix bé i és prou sobri perquè no sembli una web oficial de la FEEC. El nom <em>Carnet de Cims</em> hi funciona com a "quadern de camp" cartogràfic; el logotip són corbes de nivell dins un cercle.</li>
+      </ul>
+      <h3 style="margin-top:22px">A tenir en compte</h3>
+      <ul><li>La serif (Fraunces) només a títols i xifres: el cos de text sempre en sans per a llegibilitat en mòbil.</li><li>Mode fosc: invertir a verd molt fosc (#0F1F18) amb corbes en #2B3A31.</li></ul>
+    </div>
+    <div>
+      <h3>Paleta</h3>
+      <div class="sw">
+        <div><i style="background:#F4F1E8"></i><span>Paper<br><code>#F4F1E8</code></span></div>
+        <div><i style="background:#FFFDF8"></i><span>Targeta<br><code>#FFFDF8</code></span></div>
+        <div><i style="background:#1C2320"></i><span>Tinta<br><code>#1C2320</code></span></div>
+        <div><i style="background:#5B6158"></i><span>Pedra (text 2n)<br><code>#5B6158</code></span></div>
+        <div><i style="background:#1F4A36"></i><span>Bosc · primari<br><code>#1F4A36</code></span></div>
+        <div><i style="background:#2E6149"></i><span>Bosc clar<br><code>#2E6149</code></span></div>
+        <div><i style="background:#A64B25"></i><span>Terracota · essencial<br><code>#A64B25</code></span></div>
+        <div><i style="background:#EFD29A"></i><span>Sorra · progrés<br><code>#EFD29A</code></span></div>
+        <div><i style="background:#E3EAD6"></i><span>Molsa suau<br><code>#E3EAD6</code></span></div>
+        <div><i style="background:#F4E3D7"></i><span>Terracota suau<br><code>#F4E3D7</code></span></div>
+        <div><i style="background:#CDBF9F"></i><span>Corba de nivell<br><code>#CDBF9F</code></span></div>
+        <div><i style="background:#3D7FD9"></i><span>Ubicació<br><code>#3D7FD9</code></span></div>
+      </div>
+      <h3 style="margin-top:22px">Tipografia</h3>
+      <div class="type-sample"><span class="a">Pedraforca</span><span class="b">Figtree · 2.506 m</span></div>
+      <p style="margin:0"><strong>Fraunces</strong> (serif òptica, 600–700) per a títols, noms de cim i xifres grans. <strong>Figtree</strong> (400–700) per a interfície i text. Ambdues a Google Fonts, amb subconjunt llatí i <code>font-display: swap</code>.</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>
