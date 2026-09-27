@@ -32,6 +32,8 @@ export default defineConfig({
 			urlPatterns: buildUrlPatterns()
 		})
 	],
+	// Port propi per no compartir origen (ni service workers) amb altres projectes a :5173
+	server: { port: 5190, strictPort: true },
 	test: {
 		expect: { requireAssertions: true },
 		projects: [
