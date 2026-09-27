@@ -29,10 +29,12 @@
 	"toast_region_label": "Notificaciones",
 	"toast_dismiss": "Descartar la notificación",
 
-	"home_meta_title": "Reto 100 Cims: mapa, lista de cimas y tu progreso",
+	"seo_org_description": "Web independiente y no oficial para hacer el seguimiento del reto 100 Cims. No está vinculada a la FEEC.",
+
+	"home_meta_title": "Carnet de Cims: mapa, lista y seguimiento del reto 100 Cims",
 	"home_meta_description": "Web independiente para seguir el reto 100 Cims: lista y mapa de cimas, cimas esenciales y tu carnet de progreso, incluso sin cobertura.",
 	"home_kicker": "Tu carnet de montaña",
-	"home_title": "Reto 100 Cims: mapa, lista y seguimiento de tu progreso",
+	"home_title": "Sigue el reto 100 Cims: mapa, lista y tu progreso",
 	"home_lede": "Registra cada cima que subas y completa tu carnet con un sello por ascensión. Funciona en el móvil, sin cobertura y sin cuenta.",
 	"home_cta_primary": "Abrir mi carnet",
 	"home_cta_secondary": "Explorar las cimas",

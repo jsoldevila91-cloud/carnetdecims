@@ -12,6 +12,9 @@
 export const LOCALES = ['ca', 'es'] as const;
 export type AppLocale = (typeof LOCALES)[number];
 
+/** Origen canònic del web (sense barra final). Canonical, hreflang, sitemap i JSON-LD. */
+export const SITE_ORIGIN = 'https://carnetdecims.cat';
+
 type Localized = Record<AppLocale, string>;
 
 /**
@@ -89,7 +92,11 @@ export function localizePath(path: string, locale: AppLocale): string {
 	return `/${locale}${route ? route.localized[locale] : path}`;
 }
 
-/** Pàgines públiques sense paràmetres que es prerenderitzen en tots dos idiomes. */
+/**
+ * Pàgines públiques sense paràmetres que es prerenderitzen en tots dos idiomes.
+ * Totes són indexables i entren al sitemap (`$lib/seo/sitemap.ts`): si mai n'hi ha
+ * una de `noindex`, cal excloure-la allà.
+ */
 export const PRERENDER_PATHS = ['/', '/cims', '/mapa'] as const;
 
 export function prerenderEntries(): `/${string}`[] {

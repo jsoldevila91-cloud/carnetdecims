@@ -29,10 +29,12 @@
 	"toast_region_label": "Notificacions",
 	"toast_dismiss": "Descarta la notificació",
 
-	"home_meta_title": "Repte 100 Cims: mapa, llista de cims i el teu progrés",
+	"seo_org_description": "Web independent i no oficial per fer el seguiment del repte 100 Cims. No està vinculada a la FEEC.",
+
+	"home_meta_title": "Carnet de Cims: mapa, llista i seguiment del repte 100 Cims",
 	"home_meta_description": "Web independent per seguir el repte 100 Cims: llista i mapa de cims, cims essencials i el teu carnet de progrés, fins i tot sense cobertura.",
 	"home_kicker": "El teu carnet de muntanya",
-	"home_title": "Repte 100 Cims: mapa, llista i seguiment del teu progrés",
+	"home_title": "Segueix el repte 100 Cims: mapa, llista i el teu progrés",
 	"home_lede": "Registra cada cim que puges i omple el teu carnet amb un segell per ascensió. Funciona al mòbil, sense cobertura i sense compte.",
 	"home_cta_primary": "Obre el meu carnet",
 	"home_cta_secondary": "Explora els cims",

@@ -1,3 +1,6 @@
-# allow crawling everything by default
+# Carnet de Cims · https://carnetdecims.cat
+# /app no es bloqueja: porta noindex (meta + X-Robots-Tag) i Google l'ha de poder llegir.
 User-agent: *
-Disallow:
+Disallow: /api/
+
+Sitemap: https://carnetdecims.cat/sitemap-index.xml

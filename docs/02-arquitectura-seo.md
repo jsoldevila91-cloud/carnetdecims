@@ -168,7 +168,7 @@ Equivalencias ES: `/es/reto-100-cims` (`/normativa`, `/como-validar`, `/reto-inf
 
 ### 4.3 Otras páginas (resumen)
 
-- **Home:** H1 "Repte 100 Cims: mapa, llista i seguiment del teu progrés". Title: "Repte 100 Cims: mapa, llista de cims i el teu progrés".
+- **Home:** H1 "Segueix el repte 100 Cims: mapa, llista i el teu progrés". Title: "Carnet de Cims: mapa, llista i seguiment del repte 100 Cims" (59). _Revisado en fase 1: la marca propia va delante y "100 Cims" queda como complemento descriptivo, para no presentar la home como si fuera el reto oficial._
 - **Hub del reto:** H1 "El repte dels 100 Cims: com funciona". Enlaza a la FEEC como fuente oficial.
 - **`/cims-essencials`:** H1 "Els 150 cims essencials del repte 100 Cims", agrupados por comarca (H2 por comarca).
 - **OG/Twitter:** `og:title`, `og:description`, `og:image` (generada), `og:locale` `ca_ES`/`es_ES` + `og:locale:alternate`, `twitter:card=summary_large_image`.

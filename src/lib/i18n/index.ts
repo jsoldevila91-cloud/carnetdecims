@@ -10,16 +10,20 @@ import {
 import { m } from '$lib/paraglide/messages';
 
 export { getLocale, locales, type Locale };
+export { SITE_ORIGIN } from './routes';
 
-/** Origen canònic del web (sense barra final). */
-export const SITE_ORIGIN = 'https://carnetdecims.cat';
+/**
+ * Camins de pàgina. S'exclouen els sitemaps: SvelteKit genera el `Pathname` de
+ * `/sitemap-[name].xml` com a literal igual al `RouteId` (amb paràmetres) i trenca `resolve()`.
+ */
+type PagePathname = Exclude<Pathname, `/sitemap-${string}`>;
 
 /**
  * Enllaç intern localitzat a partir del camí intern (el de `src/routes`).
  * `href('/cims')` → `/ca/cims` o `/es/cimas`, amb `base` aplicat via `resolve()`.
  */
 export function href(path: string, locale?: Locale): string {
-	return resolve(localizeHref(path, locale ? { locale } : undefined) as Pathname);
+	return resolve(localizeHref(path, locale ? { locale } : undefined) as PagePathname);
 }
 
 /** Camí intern (deslocalitzat) a partir de l'URL actual: `/es/cimas` → `/cims`. */

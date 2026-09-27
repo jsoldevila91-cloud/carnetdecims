@@ -1,7 +1,15 @@
 <script lang="ts">
-	import { Button, Card, PageMeta, Segell } from '$lib/ui';
-	import { href } from '$lib/i18n';
+	import { Button, Card, JsonLd, PageMeta, Segell } from '$lib/ui';
+	import { getLocale, href } from '$lib/i18n';
+	import { homeGraph } from '$lib/seo/jsonld';
 	import { m } from '$lib/paraglide/messages';
+
+	const jsonLd = homeGraph({
+		locale: getLocale(),
+		title: m.home_meta_title(),
+		description: m.home_meta_description(),
+		orgDescription: m.seo_org_description()
+	});
 
 	const steps = [
 		{ n: '01', title: m.home_step1_title, text: m.home_step1_text },
@@ -11,6 +19,7 @@
 </script>
 
 <PageMeta title={m.home_meta_title()} description={m.home_meta_description()} />
+<JsonLd data={jsonLd} />
 
 <section class="hero" aria-labelledby="home-title">
 	<div class="copy">

@@ -90,6 +90,7 @@
 
 	.row {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: flex-end;
 		justify-content: space-between;
 		gap: var(--sp-3);
@@ -114,6 +115,8 @@
 
 	.pages {
 		display: flex;
+		flex-wrap: wrap;
+		min-width: 0;
 		gap: 5px;
 		margin: 0;
 		padding: 0;

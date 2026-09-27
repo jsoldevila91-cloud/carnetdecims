@@ -7,6 +7,7 @@ export { default as Card } from './Card.svelte';
 export { default as Chip } from './Chip.svelte';
 export { default as EmptyState } from './EmptyState.svelte';
 export { default as Icon, type IconName } from './Icon.svelte';
+export { default as JsonLd } from './JsonLd.svelte';
 export { default as LanguageSwitcher } from './LanguageSwitcher.svelte';
 export { default as Logo } from './Logo.svelte';
 export { default as OfflineBanner } from './OfflineBanner.svelte';

@@ -1,22 +1,35 @@
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { baseLocale, getTextDirection, localizeHref } from '$lib/paraglide/runtime';
+import { baseLocale, getTextDirection, localizeHref, locales } from '$lib/paraglide/runtime';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 
+const LOCALE_PREFIX = new RegExp(`^/(${locales.join('|')})(/|$)`);
+/** Fitxers (`/sitemap-index.xml`, `/favicon.ico`…) i rutes internes de SvelteKit: sense idioma. */
+const isUnlocalized = (pathname: string) =>
+	/\.[a-z0-9]+$/i.test(pathname) ||
+	pathname.startsWith('/_app/') ||
+	pathname.startsWith('/.well-known/');
+
 /**
- * `/` → 301 a la portada en català, sempre (sense mirar `Accept-Language`),
- * perquè Googlebot i qualsevol visitant vegin el mateix. Es fa abans de
- * Paraglide, que per defecte redirigiria amb un 307.
+ * Tota URL de pàgina sense prefix d'idioma → 301 a la versió en català, sempre
+ * (sense mirar `Accept-Language`), perquè Googlebot i qualsevol visitant vegin el
+ * mateix i no hi hagi contingut duplicat sense prefix: `/` → `/ca`, `/cims` → `/ca/cims`.
+ * Es fa abans de Paraglide, que només redirigiria documents i amb un 307.
  */
-const handleRootRedirect: Handle = ({ event, resolve }) => {
-	if (event.url.pathname === '/') {
-		redirect(301, localizeHref('/', { locale: baseLocale }) + event.url.search);
+const handleLocaleRedirect: Handle = ({ event, resolve }) => {
+	// `url.search` només es llegeix si cal redirigir: en prerender no és accessible.
+	const { pathname } = event.url;
+	if (!LOCALE_PREFIX.test(pathname) && !isUnlocalized(pathname)) {
+		redirect(301, localizeHref(pathname, { locale: baseLocale }) + event.url.search);
 	}
 	return resolve(event);
 };
 
-const handleParaglide: Handle = ({ event, resolve }) =>
-	paraglideMiddleware(event.request, ({ request, locale }) => {
+const handleParaglide: Handle = ({ event, resolve }) => {
+	// Els sitemaps viuen a l'arrel i no porten idioma: sense redirecció de Paraglide.
+	if (/^\/sitemap-[\w-]+\.xml$/.test(event.url.pathname)) return resolve(event);
+
+	return paraglideMiddleware(event.request, ({ request, locale }) => {
 		event.request = request;
 
 		return resolve(event, {
@@ -26,6 +39,7 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 					.replace('%paraglide.dir%', getTextDirection(locale))
 		});
 	});
+};
 
 /** La zona `/app` (dades personals) no s'indexa: capçalera a més del meta robots. */
 const handleNoindex: Handle = async ({ event, resolve }) => {
@@ -36,4 +50,4 @@ const handleNoindex: Handle = async ({ event, resolve }) => {
 	return response;
 };
 
-export const handle: Handle = sequence(handleRootRedirect, handleParaglide, handleNoindex);
+export const handle: Handle = sequence(handleLocaleRedirect, handleParaglide, handleNoindex);

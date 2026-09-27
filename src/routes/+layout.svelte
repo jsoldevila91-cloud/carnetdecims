@@ -4,8 +4,8 @@
 	import '$lib/ui/styles/base.css';
 	import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 	import { onNavigate } from '$app/navigation';
+	import { asset } from '$app/paths';
 	import { page } from '$app/state';
-	import favicon from '$lib/assets/favicon.svg';
 	import {
 		AppHeader,
 		BottomNav,
@@ -39,7 +39,8 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} type="image/svg+xml" />
+	<!-- URL estable a /static (no data: URI) perquè els cercadors el puguin rastrejar. -->
+	<link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
 	<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 
