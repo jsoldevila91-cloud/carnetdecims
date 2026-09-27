@@ -7,3 +7,6 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Generat per wrangler types (es regenera a check/build)
+worker-configuration.d.ts

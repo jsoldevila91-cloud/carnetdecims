@@ -72,7 +72,7 @@ Al final de cada fase, el usuario revisa y aprueba.
 
 ## Acciones del usuario (en paralelo)
 
-- [ ] Comprobar que **carnetdecims.cat** está libre y comprarlo.
-- [ ] Buscar "Carnet de Cims" en TMview.
-- [ ] Crear una cuenta en **GitHub** (hace falta para desplegar en Cloudflare).
-- [ ] Escribir a **100cims@feec.cat**: permiso para usar la lista de 522 cimas y confirmación de las reglas ambiguas. Claude puede redactar el email.
+- [x] Comprobar **carnetdecims.cat**.
+- [x] Buscar "Carnet de Cims" en TMview: sin conflictos.
+- [x] Crear la cuenta de **GitHub**. Falta crear el repositorio y conectarlo.
+- [x] ~~Escribir a la FEEC~~. Decisión del usuario: no se contacta. El catálogo se construye con datos propios (ICGC/OSM) y no se copia la tabla de la FEEC.

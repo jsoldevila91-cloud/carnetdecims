@@ -12,7 +12,10 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			/** Full inferior obert amb shallow routing (el botó enrere el tanca). */
+			sheet?: 'registrar';
+		}
 	}
 }
 

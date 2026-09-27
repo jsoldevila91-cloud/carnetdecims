@@ -10,6 +10,8 @@ const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 
 export default defineConfig(
 	includeIgnoreFile(gitignorePath),
+	// Generat per `wrangler types`
+	{ ignores: ['worker-configuration.d.ts'] },
 	js.configs.recommended,
 	ts.configs.recommended,
 	svelte.configs.recommended,
@@ -36,6 +38,13 @@ export default defineConfig(
 	{
 		// Override or add rule settings here, such as:
 		// 'svelte/button-has-type': 'error'
-		rules: {}
+		rules: {
+			// Els enllaços i el pushState interns passen per `href()` de `$lib/i18n`, que
+			// localitza el camí (Paraglide) i crida `resolve()` de `$app/paths` per dins.
+			'svelte/no-navigation-without-resolve': [
+				'error',
+				{ ignoreLinks: true, ignorePushState: true }
+			]
+		}
 	}
 );

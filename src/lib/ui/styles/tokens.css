@@ -1,0 +1,147 @@
+/*
+ * Carnet de Cims · Design tokens "Segells"
+ *
+ * Paper, tinta blava i segell vermell. Tema clar per defecte i tema fosc
+ * seguint `prefers-color-scheme`. Contrast WCAG 2.2 AA verificat (ràtios a
+ * docs: text ≥ 4,5:1, components/gràfics ≥ 3:1):
+ *
+ *   clar  · tinta/paper 12,8 · tinta-2/paper-2 6,0 · segell-text/paper-2 4,9
+ *           blanc/segell 5,4 · pi/paper-2 5,1 · blau/paper-2 5,2
+ *   fosc  · tinta/paper 15,0 · tinta-2/full 8,1 · segell-text/full 6,9
+ *           blanc/segell 5,4 · línia/full 5,4 · pi/full 8,0 · blau/full 7,6
+ *
+ * El vermell de farciment (`--c-stamp`) només porta text blanc a sobre; per a
+ * text o traços vermells sobre paper cal fer servir `--c-stamp-ink`.
+ */
+
+:root {
+	color-scheme: light dark;
+
+	/* ---------- Color · tema clar ---------- */
+	--c-paper: #f6f2e9; /* fons de pàgina */
+	--c-paper-2: #ede6d6; /* fons secundari / zones */
+	--c-card: #fbf8f1; /* full, targetes */
+	--c-ink: #1b2a47; /* tinta primària */
+	--c-ink-2: #4a5570; /* tinta suau (text secundari) */
+	--c-on-ink: #f6f2e9; /* text sobre fons de tinta */
+	--c-line: #1b2a47; /* vores fortes de components */
+	--c-rule: #d6cab3; /* pautes, separadors discontinus */
+	--c-dot: #e2d9c7; /* trama de punts del paper */
+	--c-shadow: #1b2a47; /* ombra dura desplaçada */
+	--c-stamp: #c0392b; /* segell · acció principal · essencials (farciment) */
+	--c-on-stamp: #ffffff;
+	--c-stamp-ink: #b3352a; /* segell com a text / traç sobre paper */
+	--c-stamp-soft: #f5ddd7;
+	--c-pine: #2f6b4f; /* fet / revisat */
+	--c-blue: #2f5da8; /* ubicació, enllaços informatius */
+	--c-kraft: #cdb58a;
+	--c-focus: #2f5da8;
+	--c-scrim: rgb(27 42 71 / 0.45);
+
+	/* ---------- Tipografia ---------- */
+	--font-wide:
+		'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--font-mono:
+		'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+
+	--fs-2xs: 0.6875rem; /* 11 */
+	--fs-xs: 0.75rem; /* 12 */
+	--fs-sm: 0.875rem; /* 14 */
+	--fs-base: 1rem; /* 16 */
+	--fs-md: 1.125rem; /* 18 */
+	--fs-lg: 1.375rem; /* 22 */
+	--fs-xl: 1.75rem; /* 28 */
+	--fs-2xl: 2.25rem; /* 36 */
+	--fs-3xl: 3rem; /* 48 */
+	--fs-display: 4.125rem; /* 66 · xifra del carnet */
+
+	--fw-regular: 400;
+	--fw-medium: 500;
+	--fw-semibold: 600;
+	--fw-bold: 700;
+	--fw-heavy: 800;
+	--fw-black: 900;
+
+	--stretch-normal: 100%;
+	--stretch-semi: 112%;
+	--stretch-wide: 125%; /* titulars curts i segells */
+
+	--lh-tight: 1;
+	--lh-snug: 1.2;
+	--lh-body: 1.55;
+	--ls-label: 0.1em;
+	--ls-caps: 0.04em;
+
+	/* ---------- Espai (escala 4 px) ---------- */
+	--sp-1: 0.25rem;
+	--sp-2: 0.5rem;
+	--sp-3: 0.75rem;
+	--sp-4: 1rem;
+	--sp-5: 1.25rem;
+	--sp-6: 1.5rem;
+	--sp-8: 2rem;
+	--sp-10: 2.5rem;
+	--sp-12: 3rem;
+	--sp-16: 4rem;
+	--gutter: 1rem;
+
+	/* ---------- Radis ---------- */
+	--r-xs: 3px;
+	--r-sm: 4px;
+	--r-md: 6px;
+	--r-lg: 8px;
+	--r-xl: 12px;
+	--r-full: 999px;
+
+	/* ---------- Vores i ombres (ombra dura "de segell") ---------- */
+	--bw: 1.5px;
+	--sh-1: 2px 2px 0 var(--c-shadow);
+	--sh-2: 3px 3px 0 var(--c-shadow);
+	--sh-3: 4px 4px 0 var(--c-shadow);
+	--sh-sheet: 0 -8px 24px -12px rgb(27 42 71 / 0.35);
+
+	/* ---------- Moviment ---------- */
+	--dur-fast: 120ms;
+	--dur: 220ms;
+	--dur-slow: 320ms;
+	--ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+	/* ---------- Layout ---------- */
+	--tap: 2.75rem; /* 44 px, objectiu tàctil mínim */
+	--content-max: 64rem;
+	--nav-h: 4.5rem; /* barra inferior (sense safe-area) */
+	--rail-w: 6rem; /* barra lateral a escriptori */
+	--safe-bottom: env(safe-area-inset-bottom, 0px);
+	--safe-top: env(safe-area-inset-top, 0px);
+
+	--z-header: 20;
+	--z-nav: 30;
+	--z-banner: 40;
+	--z-toast: 60;
+}
+
+/* ---------- Color · tema fosc ("tinta de nit") ---------- */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--c-paper: #10172a;
+		--c-paper-2: #162036;
+		--c-card: #1a253d;
+		--c-ink: #f1ebdd;
+		--c-ink-2: #b7bdcc;
+		--c-on-ink: #10172a;
+		--c-line: #8e9ab5;
+		--c-rule: #34405a;
+		--c-dot: #1c2740;
+		--c-shadow: #05080f;
+		--c-stamp: #c0392b;
+		--c-on-stamp: #ffffff;
+		--c-stamp-ink: #ff8f7e;
+		--c-stamp-soft: #3a1f26;
+		--c-pine: #7fcba4;
+		--c-blue: #93b8f5;
+		--c-kraft: #8a7651;
+		--c-focus: #93b8f5;
+		--c-scrim: rgb(3 6 14 / 0.65);
+		--sh-sheet: 0 -8px 24px -12px rgb(0 0 0 / 0.8);
+	}
+}

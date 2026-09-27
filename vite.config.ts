@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { buildUrlPatterns, prerenderEntries } from './src/lib/i18n/routes.ts';
 
 export default defineConfig({
 	plugins: [
@@ -12,13 +13,21 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			prerender: {
+				// Les rutes internes no porten idioma: es prerenderitzen les URL localitzades
+				// (/ca, /es, /ca/cims, /es/cimas…) i el crawler segueix els enllaços.
+				entries: prerenderEntries()
+			}
 		}),
 
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
-			emitTsDeclarations: true
+			emitTsDeclarations: true,
+			// La URL és la font de veritat: /ca/... i /es/... (sense detecció del navegador).
+			strategy: ['url', 'baseLocale'],
+			urlPatterns: buildUrlPatterns()
 		})
 	],
 	test: {
