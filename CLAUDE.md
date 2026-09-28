@@ -19,7 +19,7 @@ SvelteKit 2 + Svelte 5 (runes) + TypeScript, Paraglide 2 (`/ca/…`, `/es/…`; 
 
 - Capas: `src/lib/domain` (reglas puras y testeadas), `src/lib/data` (catálogo `data/catalog/*.json`), `src/lib/platform`, `src/lib/ui` (sistema de diseño **Segells**, claro/oscuro).
 - Textos de la interfaz siempre en `messages/ca.json` y `messages/es.json`, nunca hardcodeados.
-- Catálogo: generado por `npm run catalog:build` (`scripts/catalog/`). Nunca se edita el JSON a mano. **Cuando las fuentes no coinciden, prevalece el ICGC.** No se copia la tabla de la FEEC.
+- Catálogo: generado por `npm run catalog:build` (`scripts/catalog/`). Nunca se edita el JSON a mano. **Cuando las fuentes no coinciden, prevalece el ICGC** (comarca, coordenadas, grafía). **Altitud: siempre la cota más popular o conocida** (la de los mapas, validada contra el MDT del ICGC), nunca el máximo bruto del MDT. No se copia la tabla de la FEEC.
 
 ## Comandos
 

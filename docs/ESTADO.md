@@ -18,7 +18,8 @@
   - Montclar toma la cima en lugar de la ermita.
 - [x] Restricciones de acceso cargadas: La Picossa (fauna, 15/01–15/06) y Sant Salvador de les Espases (obras).
 - [x] 155/155 tests; check, lint y catalog:typecheck OK; build reproducible (0 peticiones de red).
-- [ ] El usuario aprueba la fase 2 y decide el criterio de altitud (ver la sección de decisiones abiertas).
+- [x] **Fase 2 aprobada por el usuario (2026-09-28).**
+- [x] Criterio de altitud (decisión del usuario): **siempre la cota más popular o conocida**, la de los mapas, validada contra el MDT del ICGC. No se usa el máximo bruto del MDT.
 
 ## Siguiente
 
@@ -28,5 +29,4 @@ Bloque **3a**: ficha de cim (ver la tabla de bloques en `04-plan-fases.md`).
 
 - Reglas ambiguas del reto: interpretación por defecto en `03-modelo-datos.md` §3.3.
 - Restricciones de acceso: cargadas las 2 esenciales afectadas; hay que revisarlas antes del lanzamiento.
-- **Altitud:** la cota publicada es la de la cartografía oficial (Wikidata/OSM, que reproducen el mapa ICGC) validada a ±15 m contra el MDT del ICGC. El QA la encontró a ±2 m del mapa ICGC 1:10.000. El ICGC no ofrece una API abierta con la cota oficial de cada cima. La alternativa, el máximo bruto del MDT, sale 1–3 m por debajo de la cota conocida.
 - Pendientes de confirmar: "Pic d'Enclar (Bony de la Pica)" y "La Tossa (Tivissa)" (nombre visible con paréntesis).
