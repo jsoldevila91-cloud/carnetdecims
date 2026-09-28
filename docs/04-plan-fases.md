@@ -30,14 +30,17 @@ Al final de cada fase, el usuario revisa y aprueba.
 
 Cada fase se divide en **bloques de una sesión**. Cada bloque tiene un entregable cerrado y termina con commit + push y la actualización de `docs/ESTADO.md`.
 
-**Reglas para ahorrar uso:**
+**Reglas de trabajo (decisión del usuario: siempre con agentes):**
 
-1. Al empezar, se leen solo `CLAUDE.md` y `docs/ESTADO.md`; el resto de documentos, solo la sección que haga falta.
-2. Se construye **en la sesión principal**, con los roles de los agentes aplicados como criterio, sin lanzar un agente para cada tarea.
-3. Como máximo **un agente por bloque**, y solo para tareas grandes y aisladas (p. ej. investigación masiva de datos).
-4. QA y SEO por bloque: tests automáticos (`npm run check`, `lint`, `vitest`) y una revisión rápida del checklist. La **pasada completa de los agentes QA y SEO** se hace **una vez al final de cada fase**, en un bloque propio.
-5. La suite E2E completa (3 dispositivos) se ejecuta solo al cerrar cada fase; durante los bloques, solo los E2E del área tocada.
-6. Si la sesión se corta, `docs/ESTADO.md` indica exactamente por dónde seguir.
+1. Al empezar, se leen `CLAUDE.md` y `docs/ESTADO.md`.
+2. En **cada bloque** trabajan los agentes:
+   1. **backend** y **frontend** construyen, en paralelo con un contrato de API acordado;
+   2. **seo** optimiza;
+   3. **qa** prueba;
+   4. se corrige y **qa** verifica.
+3. Claude coordina, verifica (`check`, `lint`, `vitest`, E2E del área) y hace commit + push.
+4. La suite E2E completa (3 dispositivos) se ejecuta al cerrar cada fase.
+5. Si la sesión se corta, `docs/ESTADO.md` indica exactamente por dónde seguir.
 
 | Bloque | Contenido                                                                                                          | Entregable                             |
 | ------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |

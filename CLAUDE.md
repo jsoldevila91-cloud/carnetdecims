@@ -35,4 +35,4 @@ Remoto: https://github.com/jsoldevila91-cloud/carnetdecims (rama `main`).
 
 ## Agentes
 
-`.claude/agents/`: frontend-expert, backend-expert, seo-expert, qa-expert. Plan Pro: como máximo un agente por bloque. QA y SEO completos solo al cerrar una fase.
+`.claude/agents/`: frontend-expert, backend-expert, seo-expert, qa-expert. **Se trabaja siempre con los agentes** (decisión del usuario): en cada bloque, backend y frontend construyen, luego seo optimiza y qa prueba; se corrige y qa verifica. Claude coordina, verifica (check/tests) y hace commit + push.
