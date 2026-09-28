@@ -26,6 +26,16 @@
 				</li>
 			</ul>
 		</nav>
+		<details class="sources">
+			<summary>{m.attribution_title()}</summary>
+			<ul>
+				<li>{m.attribution_list()}</li>
+				<li>{m.attribution_icgc()}</li>
+				<li>{m.attribution_ign()}</li>
+				<li>{m.attribution_osm()}</li>
+				<li>{m.attribution_wikidata()}</li>
+			</ul>
+		</details>
 		<p class="copy">{m.footer_copyright({ year: String(year) })}</p>
 	</div>
 </footer>
@@ -80,6 +90,26 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+	}
+
+	/* Atribucions (llicències CC BY / ODbL): discretes, plegades per defecte */
+	.sources {
+		font-size: var(--fs-2xs);
+	}
+
+	.sources summary {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		cursor: pointer;
+		text-decoration: underline dotted;
+		text-underline-offset: 3px;
+	}
+
+	.sources ul {
+		display: grid;
+		gap: var(--sp-1);
+		max-width: 70ch;
 	}
 
 	a {
