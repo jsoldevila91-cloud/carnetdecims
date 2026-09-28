@@ -9,7 +9,9 @@
  *
  * Clau: `slug` del cim.
  */
-import type { Confianca, FontCamp } from '../../src/lib/domain/types.ts';
+import type { Confianca, FontCamp, RestriccioAcces } from '../../src/lib/domain/types.ts';
+
+const RESTRICCIONS_FEEC = 'https://www.feec.cat/activitats/100-cims/cims-amb-restriccions-dacces/';
 
 export interface ResolucioManual {
 	/** Tria el topònim ICGC amb aquest nom exacte (i, opcionalment, aquest municipi). */
@@ -23,9 +25,17 @@ export interface ResolucioManual {
 	/** Tria aquest POI de l'IGN (cleabs). */
 	ign?: string;
 	/** Coordenades posades a mà (últim recurs). */
-	coord?: { lat: number; lon: number; font: FontCamp };
+	coord?: {
+		lat: number;
+		lon: number;
+		font: FontCamp & { font: 'icgc' | 'ign' | 'osm' | 'wikidata' | 'manual' };
+	};
 	/** Altitud posada a mà (últim recurs). */
 	altitud?: { valor: number; font: FontCamp };
+	/** Reassigna la comarca del PDF quan l'ICGC en diu una altra (prevaleix l'ICGC). */
+	comarca?: string;
+	/** Restriccions d'accés vigents (font: pàgina pública de restriccions de la FEEC). */
+	restriccions?: RestriccioAcces[];
 	/** Força la confiança (p. ej. baixa si no s'ha pogut verificar). */
 	confianca?: Confianca;
 	nota: string;
@@ -70,9 +80,66 @@ export const MANUAL: Record<string, ResolucioManual> = {
 	},
 	'la-picossa': {
 		icgc: { nom: 'la Picossa', municipi: 'Móra d Ebre' },
+		restriccions: [
+			{
+				tipus: 'fauna',
+				periodeIniciMmdd: '01-15',
+				periodeFiMmdd: '06-15',
+				dataInici: null,
+				dataFi: null,
+				fontUrl: RESTRICCIONS_FEEC
+			}
+		],
 		nota:
 			"Homònim a Capçanes (Priorat). La Picossa del repte és la de Móra d'Ebre, 499 m (Viquipèdia, " +
-			'"La Picossa (Móra d\'Ebre)", consultat 2026-09-28).'
+			'"La Picossa (Móra d\'Ebre)", consultat 2026-09-28). Restricció per fauna 15/01–15/06.'
+	},
+	'sant-salvador-de-les-espases': {
+		restriccions: [
+			{
+				tipus: 'obres',
+				periodeIniciMmdd: null,
+				periodeFiMmdd: null,
+				dataInici: null,
+				dataFi: null,
+				fontUrl: RESTRICCIONS_FEEC
+			}
+		],
+		nota: 'Restricció per obres (pàgina de restriccions de la FEEC, consultada 2026-09-28).'
+	},
+	'lo-tormo': {
+		coord: {
+			lat: 41.17903,
+			lon: 0.64346,
+			font: {
+				font: 'icgc',
+				ref: 'vèrtex geodèsic 252136001',
+				url: 'https://www.icgc.cat/',
+				nota: 'Vèrtex geodèsic ICGC 252136001 (cota 523 m, mapa ICGC 1:10.000).'
+			}
+		},
+		altitud: {
+			valor: 523,
+			font: { font: 'icgc', ref: 'vèrtex geodèsic 252136001', url: 'https://www.icgc.cat/' }
+		},
+		nota:
+			'El geocodificador ICGC donava l’etiqueta del topònim (198 m del cim, 509 m). Es pren el vèrtex ' +
+			'geodèsic ICGC del cim (verificat per QA 2026-09-28).'
+	},
+	'sant-miquel-de-montclar': {
+		coord: {
+			lat: 41.46573,
+			lon: 1.34565,
+			font: {
+				font: 'icgc',
+				ref: 'cim de Montclar (Pontils)',
+				url: 'https://www.icgc.cat/',
+				nota: 'Cim de Montclar, 948 m (mapa ICGC 1:10.000), no l’ermita de Sant Miquel (245 m).'
+			}
+		},
+		nota:
+			'El geocodificador ICGC apuntava a l’ermita (edificació històrica). Es pren el cim de Montclar ' +
+			'(verificat per QA 2026-09-28).'
 	},
 	'la-tossa-tivissa': {
 		icgc: { nom: 'la Tossa', municipi: 'Tivissa' },
@@ -84,10 +151,12 @@ export const MANUAL: Record<string, ResolucioManual> = {
 	},
 	'tossal-de-la-creu': {
 		icgc: { nom: 'Tossal de la Creu', municipi: 'Torà' },
+		comarca: 'solsones',
 		nota:
 			'El Tossal de la Creu o de Puig-redon (658 m, entre Biosca i Torà; Viquipèdia "Tossal de la Creu ' +
-			"(Segarra)\", consultat 2026-09-28). L'ICGC ja situa Torà i Biosca al Solsonès; la FEEC l'assigna " +
-			"a la Segarra i es manté. L'automàtic triava un homònim de Guissona (526 m)."
+			"(Segarra)\", consultat 2026-09-28). La FEEC l'assigna a la Segarra, però l'ICGC situa Torà i " +
+			"Biosca al Solsonès: prevaleix l'ICGC (decisió 2026-09-28). L'automàtic triava un homònim de " +
+			'Guissona (526 m).'
 	},
 	'la-carabassa': {
 		primari: 'wikidata',

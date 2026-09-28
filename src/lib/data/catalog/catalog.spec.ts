@@ -66,6 +66,16 @@ const RECOMPTE_PDF: Record<string, number> = {
 	'catalunya-nord': 8
 };
 
+/**
+ * Recompte del catàleg: el del PDF amb les reassignacions de comarca en què prevaleix l'ICGC
+ * (Tossal de la Creu: Segarra → Solsonès, vegeu `scripts/catalog/manual.ts`).
+ */
+const RECOMPTE_CATALEG: Record<string, number> = {
+	...RECOMPTE_PDF,
+	segarra: RECOMPTE_PDF.segarra - 1,
+	solsones: RECOMPTE_PDF.solsones + 1
+};
+
 /** Catalunya + Andorra + Catalunya Nord. */
 const BBOX = { s: 40.4, n: 43.0, w: 0.1, e: 3.4 };
 
@@ -162,10 +172,11 @@ describe('catàleg: cims', () => {
 		}
 	});
 
-	it('recompte per comarca = PDF de la FEEC', () => {
+	it('recompte per comarca = PDF de la FEEC amb les reassignacions ICGC', () => {
 		const recompte: Record<string, number> = {};
 		for (const c of CIMS) recompte[c.comarca] = (recompte[c.comarca] ?? 0) + 1;
-		expect(recompte).toEqual(RECOMPTE_PDF);
+		const esperat = Object.fromEntries(Object.entries(RECOMPTE_CATALEG).filter(([, n]) => n > 0));
+		expect(recompte).toEqual(esperat);
 	});
 
 	it('formes amb article coherents ("pujar a/al/a la/a l\'", "cims de/del")', () => {
@@ -241,7 +252,7 @@ describe('catàleg: comarques', () => {
 
 	it('nombre d’essencials coherent amb cims.json i el PDF', () => {
 		for (const c of COMARQUES) {
-			expect(c.n_essencials, c.slug).toBe(RECOMPTE_PDF[c.slug]);
+			expect(c.n_essencials, c.slug).toBe(RECOMPTE_CATALEG[c.slug]);
 			expect(c.n_essencials).toBe(CIMS.filter((x) => x.comarca === c.slug).length);
 		}
 	});
@@ -329,7 +340,7 @@ describe('catàleg: controls de qualitat addicionals (QA)', () => {
 		const HOSTS: Partial<Record<string, RegExp>> = {
 			feec_pdf_essencials:
 				/^https:\/\/www\.feec\.cat\/wp-content\/uploads\/2020\/02\/Essencials-100-cims\.pdf$/,
-			icgc: /^https:\/\/(eines|geoserveis)\.icgc\.cat\//,
+			icgc: /^https:\/\/(www|eines|geoserveis)\.icgc\.cat\//,
 			icgc_mdt: /^https:\/\/geoserveis\.icgc\.cat\//,
 			ign: /^https:\/\/data\.geopf\.fr\//,
 			ign_alti: /^https:\/\/data\.geopf\.fr\//,

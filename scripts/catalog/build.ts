@@ -134,9 +134,11 @@ async function main() {
 	const diagnosis: Diagnosi[] = [];
 	const slugs = new Set<string>();
 	for (const [i, def] of ESSENCIALS.entries()) {
-		const comarca = comarques.get(def.comarca);
-		if (!comarca) throw new Error(`Comarca desconeguda: ${def.comarca} (${def.nom})`);
 		const slug = def.slug ?? slugify(nomVisible(def).replace(/\s*\([^)]*\)/, ''));
+		// Prevaleix l'ICGC: `manual.ts` pot reassignar la comarca del PDF.
+		const slugComarca = MANUAL[slug]?.comarca ?? def.comarca;
+		const comarca = comarques.get(slugComarca);
+		if (!comarca) throw new Error(`Comarca desconeguda: ${slugComarca} (${def.nom})`);
 		if (slugs.has(slug)) throw new Error(`Slug duplicat: ${slug}`);
 		slugs.add(slug);
 		articleDelNom(def); // valida l'article abans de consultar les fonts
@@ -223,7 +225,7 @@ async function resoldre(
 	// 1. Tria manual d'un registre concret o coordenades manuals
 	if (man?.coord) {
 		primari = {
-			font: 'manual',
+			font: man.coord.font.font,
 			nom: null,
 			puntNom: 1,
 			lat: man.coord.lat,
@@ -719,7 +721,8 @@ function triarAltitud(
 
 function aCim(d: Diagnosi): CimCataleg {
 	const { article, base } = articleDelNom(d.def);
-	const comarca = COMARQUES.find((c) => c.slug === d.def.comarca)!;
+	const slugComarca = d.manual?.comarca ?? d.def.comarca;
+	const comarca = COMARQUES.find((c) => c.slug === slugComarca)!;
 	const p = d.primari;
 	const coordenades: FontCamp | null = p
 		? { font: p.font, ref: p.ref, url: p.url, ...(p.nota ? { nota: p.nota } : {}) }
@@ -739,7 +742,7 @@ function aCim(d: Diagnosi): CimCataleg {
 		comarca: comarca.slug,
 		zona: comarca.zona,
 		essencial: true,
-		restriccions: [],
+		restriccions: d.manual?.restriccions ?? [],
 		fonts: {
 			nom: { font: 'feec_pdf_essencials', ref: null, url: PDF_FEEC },
 			coordenades,

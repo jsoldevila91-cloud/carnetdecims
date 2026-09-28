@@ -294,7 +294,7 @@
 		"nom_amb_de": "de la Segarra",
 		"zona": "catalunya",
 		"codi_icgc": 32,
-		"n_essencials": 1
+		"n_essencials": 0
 	},
 	{
 		"slug": "segria",
@@ -321,7 +321,7 @@
 		"nom_amb_de": "del Solsonès",
 		"zona": "catalunya",
 		"codi_icgc": 35,
-		"n_essencials": 2
+		"n_essencials": 3
 	},
 	{
 		"slug": "tarragones",

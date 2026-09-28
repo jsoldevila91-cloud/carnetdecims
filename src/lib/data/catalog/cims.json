@@ -1598,7 +1598,16 @@
 		"comarca": "baix-llobregat",
 		"zona": "catalunya",
 		"essencial": true,
-		"restriccions": [],
+		"restriccions": [
+			{
+				"tipus": "obres",
+				"periodeIniciMmdd": null,
+				"periodeFiMmdd": null,
+				"dataInici": null,
+				"dataFi": null,
+				"fontUrl": "https://www.feec.cat/activitats/100-cims/cims-amb-restriccions-dacces/"
+			}
+		],
 		"fonts": {
 			"nom": {
 				"font": "feec_pdf_essencials",
@@ -2166,11 +2175,11 @@
 		"nom_amb_article": "Sant Miquel de Montclar",
 		"nom_amb_de": "de Sant Miquel de Montclar",
 		"nom_oficial": "Sant Miquel de Montclar",
-		"toponim": "Sant Miquel de Montclar",
+		"toponim": null,
 		"alies": [],
 		"altitud": 948,
-		"lat": 41.46777,
-		"lon": 1.34677,
+		"lat": 41.46573,
+		"lon": 1.34565,
 		"comarca": "conca-de-barbera",
 		"zona": "catalunya",
 		"essencial": true,
@@ -2183,8 +2192,9 @@
 			},
 			"coordenades": {
 				"font": "icgc",
-				"ref": "Sant Miquel de Montclar (Edificació Històrica, Pontils)",
-				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Miquel%20de%20Montclar&layers=topo1,topo2&size=25"
+				"ref": "cim de Montclar (Pontils)",
+				"url": "https://www.icgc.cat/",
+				"nota": "Cim de Montclar, 948 m (mapa ICGC 1:10.000), no l’ermita de Sant Miquel (245 m)."
 			},
 			"altitud": {
 				"font": "wikidata",
@@ -3794,7 +3804,16 @@
 		"comarca": "ribera-d-ebre",
 		"zona": "catalunya",
 		"essencial": true,
-		"restriccions": [],
+		"restriccions": [
+			{
+				"tipus": "fauna",
+				"periodeIniciMmdd": "01-15",
+				"periodeFiMmdd": "06-15",
+				"dataInici": null,
+				"dataFi": null,
+				"fontUrl": "https://www.feec.cat/activitats/100-cims/cims-amb-restriccions-dacces/"
+			}
+		],
 		"fonts": {
 			"nom": {
 				"font": "feec_pdf_essencials",
@@ -3858,11 +3877,11 @@
 		"nom_amb_article": "lo Tormo",
 		"nom_amb_de": "del Tormo",
 		"nom_oficial": "Lo Tormo",
-		"toponim": "lo Tormo",
+		"toponim": null,
 		"alies": [],
-		"altitud": 509,
-		"lat": 41.17949,
-		"lon": 0.64117,
+		"altitud": 523,
+		"lat": 41.17903,
+		"lon": 0.64346,
 		"comarca": "ribera-d-ebre",
 		"zona": "catalunya",
 		"essencial": true,
@@ -3875,13 +3894,14 @@
 			},
 			"coordenades": {
 				"font": "icgc",
-				"ref": "lo Tormo (Cim, la Torre de l Espanyol)",
-				"url": "https://eines.icgc.cat/geocodificador/cerca?text=lo%20Tormo&layers=topo1,topo2&size=25"
+				"ref": "vèrtex geodèsic 252136001",
+				"url": "https://www.icgc.cat/",
+				"nota": "Vèrtex geodèsic ICGC 252136001 (cota 523 m, mapa ICGC 1:10.000)."
 			},
 			"altitud": {
-				"font": "osm",
-				"ref": "node/12582397455",
-				"url": "https://www.openstreetmap.org/node/12582397455"
+				"font": "icgc",
+				"ref": "vèrtex geodèsic 252136001",
+				"url": "https://www.icgc.cat/"
 			}
 		},
 		"confianca": "alta",
@@ -4115,7 +4135,7 @@
 		"altitud": 658,
 		"lat": 41.84659,
 		"lon": 1.40207,
-		"comarca": "segarra",
+		"comarca": "solsones",
 		"zona": "catalunya",
 		"essencial": true,
 		"restriccions": [],
