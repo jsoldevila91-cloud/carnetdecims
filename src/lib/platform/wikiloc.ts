@@ -11,8 +11,12 @@
 
 export type WikilocLocale = 'ca' | 'es';
 
-/** Mitja amplada de la caixa, en km (≈ 3 km al voltant del cim). */
-const RADI_KM = 3;
+/**
+ * Mitja amplada de la caixa, en km (caixa d'uns 3 km de costat). Amb 3 km de radi, a zones
+ * denses (Montcau) només 4 de 24 rutes pujaven al cim. No s'afegeix filtre d'activitat: el
+ * paràmetre del mapa no s'ha pogut verificar.
+ */
+export const RADI_KM = 1.5;
 const KM_PER_GRAU_LAT = 111.32;
 
 const arrodonir = (n: number) => Math.round(n * 1e5) / 1e5;

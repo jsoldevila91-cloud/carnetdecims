@@ -10,8 +10,9 @@ describe('wikilocUrl', () => {
 		const [neLat, neLon] = url.searchParams.get('ne')!.split(',').map(Number);
 		expect((swLat + neLat) / 2).toBeCloseTo(42.2396, 4);
 		expect((swLon + neLon) / 2).toBeCloseTo(1.7028, 4);
-		// Caixa d'uns 6 km de costat
-		expect((neLat - swLat) * 111.32).toBeCloseTo(6, 1);
+		// Caixa d'uns 3 km de costat (radi 1,5 km): poques rutes alienes al cim
+		expect((neLat - swLat) * 111.32).toBeCloseTo(3, 1);
+		expect((neLon - swLon) * 111.32 * Math.cos((42.2396 * Math.PI) / 180)).toBeCloseTo(3, 1);
 		expect(neLon - swLon).toBeGreaterThan(neLat - swLat);
 	});
 

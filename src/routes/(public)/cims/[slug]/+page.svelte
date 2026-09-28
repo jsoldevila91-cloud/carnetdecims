@@ -11,6 +11,7 @@
 		formatCoordinate,
 		formatKm
 	} from '$lib/ui';
+	import { ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import {
@@ -58,6 +59,10 @@
 	};
 	// Andorra i la Catalunya Nord són alhora "comarca" i zona: no es repeteix.
 	const zona = $derived(comarca.slug === cim.zona ? null : ZONES[cim.zona]());
+
+	// Amplada (em) de la paraula més llarga del nom: el H1 (lletra ampla) s'hi ajusta perquè
+	// "Castellsapera" o "Montcorbison" hi càpiguen senceres, sense desbordar a 320 px.
+	const paraulaEm = $derived(ampleParaulaMesLlargaEm(cim.nom));
 
 	const altresNoms = $derived.by(() => {
 		// Noms diferents del visible, sense repetits (sense distingir majúscules).
@@ -195,7 +200,7 @@
 				</ol>
 			</nav>
 
-			<h1 class="x-wide">{cim.nom}</h1>
+			<h1 class="x-wide" style:--paraula-em={paraulaEm}>{cim.nom}</h1>
 			<p class="sub mono">
 				{[`${alt} m`, comarca.nom, zona].filter(Boolean).join(' · ')}
 			</p>
@@ -350,17 +355,27 @@
 </article>
 
 <style>
+	/* Pistes `minmax(0, 1fr)`: cap contingut (un nom llarg) pot eixamplar la columna. */
 	.fitxa {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: var(--sp-8);
 	}
 
 	.col-main,
 	.col-side {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: var(--sp-8);
 		align-content: start;
 		min-width: 0;
+	}
+
+	/* La capçalera és el contenidor de referència de la mida del H1 (unitats cqi) */
+	.fitxa :global(.head) {
+		min-width: 0;
+		container-type: inline-size;
+		padding: var(--sp-5) var(--sp-4);
 	}
 
 	/* ---------- Capçalera (full del carnet) ---------- */
@@ -422,11 +437,16 @@
 
 	h1 {
 		margin-top: var(--sp-1);
-		font-size: clamp(1.625rem, 8vw, var(--fs-3xl));
+		/*
+		 * Mida fluida: la paraula més llarga (amplada estimada en em, `ampleParaulaMesLlargaEm`)
+		 * cap sencera a l'amplada del full, amb un 4 % de marge. Mínim llegible i màxim de
+		 * titular; `overflow-wrap: anywhere` només és la xarxa de seguretat.
+		 */
+		font-size: clamp(1.25rem, calc(100cqi / (var(--paraula-em, 10) * 1.04)), var(--fs-3xl));
 		font-weight: var(--fw-black);
 		line-height: 0.95;
 		letter-spacing: -0.01em;
-		overflow-wrap: break-word;
+		overflow-wrap: anywhere;
 	}
 
 	.sub {
@@ -631,13 +651,17 @@
 	}
 
 	.map figcaption {
-		margin-top: var(--sp-2);
 		font-size: var(--fs-xs);
 		color: var(--c-ink-2);
 	}
 
+	/* Text discret però amb àrea tàctil de 44 px d'alt */
 	.map figcaption a {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
 		color: inherit;
+		text-underline-offset: 0.2em;
 	}
 
 	/* Llistes de cims */
@@ -702,6 +726,10 @@
 
 		.crumb.beside-stamp {
 			padding-right: 6.5rem;
+		}
+
+		.fitxa :global(.head) {
+			padding: var(--sp-6);
 		}
 	}
 
