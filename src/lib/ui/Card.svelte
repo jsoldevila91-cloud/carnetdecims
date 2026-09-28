@@ -4,7 +4,7 @@
 
 	type Props = HTMLAttributes<HTMLElement> & {
 		/** Element semàntic que envolta la targeta. */
-		as?: 'div' | 'section' | 'article' | 'aside' | 'li';
+		as?: 'div' | 'section' | 'article' | 'aside' | 'header' | 'li';
 		/** `raised` = full de carnet amb ombra dura; `flat` = només vora; `dashed` = forat per omplir. */
 		variant?: 'raised' | 'flat' | 'dashed';
 		padding?: 'sm' | 'md' | 'lg';

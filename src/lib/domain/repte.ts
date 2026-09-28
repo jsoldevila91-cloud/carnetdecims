@@ -564,6 +564,66 @@ export function restriccionsActives(
 	return cim.restriccions.filter((r) => restriccioActiva(r, data));
 }
 
+/** Periode anual recurrent (`MM-DD`..`MM-DD`), p. ej. fauna del 15/01 al 15/06. */
+export function esRestriccioPeriodica(r: RestriccioAcces): boolean {
+	return (
+		r.periodeIniciMmdd !== null &&
+		r.periodeFiMmdd !== null &&
+		RE_MMDD.test(r.periodeIniciMmdd) &&
+		RE_MMDD.test(r.periodeFiMmdd)
+	);
+}
+
+/** Vigent sense periode ni rang de dates: s'aplica sempre (obres sense data, zona militar…). */
+export function esRestriccioPermanent(r: RestriccioAcces): boolean {
+	return (
+		r.vigent !== false && !esRestriccioPeriodica(r) && r.dataInici === null && r.dataFi === null
+	);
+}
+
+/** Ja no es tornarà a aplicar a partir de `data`: `vigent === false` o `dataFi` anterior. */
+export function restriccioCaducada(r: RestriccioAcces, data: DataISO): boolean {
+	return r.vigent === false || (r.dataFi !== null && data > r.dataFi);
+}
+
+export interface EstatRestriccions {
+	/** Actives en la data: la fitxa mostra "restricció vigent avui". */
+	actives: RestriccioAcces[];
+	/**
+	 * Encara aplicables però no actives en la data: periode anual fora de temporada o rang que
+	 * encara no ha començat. La fitxa les mostra com a informació ("del 15/01 al 15/06").
+	 */
+	inactives: RestriccioAcces[];
+	/** Hi ha alguna restricció no caducada (activa o no): la fitxa mostra la secció. */
+	teRestriccions: boolean;
+}
+
+/**
+ * Classifica les restriccions d'un cim en una data (per a l'avís de la fitxa). Les
+ * caducades (`restriccioCaducada`) no hi surten. Com `restriccioActiva`, és només un avís.
+ * La data ha de ser la d'avui en local (`avuiLocal()`): en una pàgina prerenderitzada s'ha de
+ * calcular al client, no al build.
+ * @throws RangeError si `data` no és una data vàlida (error de programació).
+ */
+export function estatRestriccions(
+	cim: Pick<Cim, 'restriccions'>,
+	data: DataISO
+): EstatRestriccions {
+	if (!esDataIsoValida(data)) throw new RangeError(`data invàlida: ${String(data)}`);
+	const actives: RestriccioAcces[] = [];
+	const inactives: RestriccioAcces[] = [];
+	for (const r of cim.restriccions) {
+		if (restriccioCaducada(r, data)) continue;
+		(restriccioActiva(r, data) ? actives : inactives).push(r);
+	}
+	return { actives, inactives, teRestriccions: actives.length + inactives.length > 0 };
+}
+
+/** Té alguna restricció activa en la data? */
+export function teRestriccioActiva(cim: Pick<Cim, 'restriccions'>, data: DataISO): boolean {
+	return cim.restriccions.some((r) => restriccioActiva(r, data));
+}
+
 // ---------------------------------------------------------------------------
 // Resumen completo
 // ---------------------------------------------------------------------------

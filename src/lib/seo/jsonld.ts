@@ -2,7 +2,14 @@
  * Nodes JSON-LD compartits (docs/02-arquitectura-seo.md §5). Les pàgines hi enllacen
  * amb `isPartOf: { '@id': WEBSITE_ID }`. Res no ha de suggerir vincle amb la FEEC.
  */
-import { LOCALES, SITE_ORIGIN, localizePath, type AppLocale } from '../i18n/routes.ts';
+import type { CimCataleg, ComarcaCataleg } from '../domain/types.ts';
+import {
+	LOCALES,
+	SITE_ORIGIN,
+	localizeCimPath,
+	localizePath,
+	type AppLocale
+} from '../i18n/routes.ts';
 
 export const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
 export const ORG_ID = `${SITE_ORIGIN}/#org`;
@@ -46,6 +53,84 @@ export function homeGraph(opts: {
 				inLanguage: opts.locale,
 				isPartOf: { '@id': WEBSITE_ID },
 				about: { '@id': ORG_ID }
+			}
+		]
+	};
+}
+
+/**
+ * Fitxa de cim (docs/02-arquitectura-seo.md §5): `Mountain` + `WebPage` + `BreadcrumbList`
+ * (Inici › Cims › {nom}). La comarca va com a `AdministrativeArea` sense `url` fins que hi hagi
+ * la pàgina de comarca (bloc 3b). No s'hi afirma cap vincle amb la FEEC: el nom oficial de la
+ * llista només surt com a `alternateName`.
+ */
+export function cimGraph(opts: {
+	cim: CimCataleg;
+	comarca: ComarcaCataleg;
+	locale: AppLocale;
+	title: string;
+	description: string;
+	breadcrumbNames: { inici: string; cims: string };
+}) {
+	const { cim, comarca, locale } = opts;
+	const pageUrl = SITE_ORIGIN + localizeCimPath(cim.slug, locale);
+	const mountainId = `${pageUrl}#cim`;
+	const breadcrumbId = `${pageUrl}#breadcrumb`;
+
+	const alternateName = [...new Set([...cim.alies, cim.nom_oficial])].filter(
+		(n) => n.trim() !== '' && n !== cim.nom
+	);
+
+	const mountain: Record<string, unknown> = {
+		'@type': 'Mountain',
+		'@id': mountainId,
+		name: cim.nom,
+		...(alternateName.length > 0 && { alternateName }),
+		...(cim.lat !== null &&
+			cim.lon !== null && {
+				geo: {
+					'@type': 'GeoCoordinates',
+					latitude: cim.lat,
+					longitude: cim.lon,
+					elevation: cim.altitud
+				}
+			}),
+		containedInPlace: { '@type': 'AdministrativeArea', name: comarca.nom }
+	};
+
+	return {
+		'@context': 'https://schema.org',
+		'@graph': [
+			mountain,
+			{
+				'@type': 'WebPage',
+				'@id': pageUrl,
+				url: pageUrl,
+				name: opts.title,
+				description: opts.description,
+				inLanguage: locale,
+				isPartOf: { '@id': WEBSITE_ID },
+				about: { '@id': mountainId },
+				breadcrumb: { '@id': breadcrumbId }
+			},
+			{
+				'@type': 'BreadcrumbList',
+				'@id': breadcrumbId,
+				itemListElement: [
+					{
+						'@type': 'ListItem',
+						position: 1,
+						name: opts.breadcrumbNames.inici,
+						item: SITE_ORIGIN + localizePath('/', locale)
+					},
+					{
+						'@type': 'ListItem',
+						position: 2,
+						name: opts.breadcrumbNames.cims,
+						item: SITE_ORIGIN + localizePath('/cims', locale)
+					},
+					{ '@type': 'ListItem', position: 3, name: cim.nom }
+				]
 			}
 		]
 	};

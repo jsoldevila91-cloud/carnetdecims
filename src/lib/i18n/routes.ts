@@ -8,6 +8,8 @@
  *
  * Aquest fitxer l'importa `vite.config.ts`, per això no pot dependre de `$lib` ni del runtime.
  */
+// Import relatiu (sense `$lib`): només per als slugs de `cimEntries()`.
+import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
 
 export const LOCALES = ['ca', 'es'] as const;
 export type AppLocale = (typeof LOCALES)[number];
@@ -101,4 +103,24 @@ export const PRERENDER_PATHS = ['/', '/cims', '/mapa'] as const;
 
 export function prerenderEntries(): `/${string}`[] {
 	return PRERENDER_PATHS.flatMap((p) => LOCALES.map((l) => localizePath(p, l) as `/${string}`));
+}
+
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/**
+ * Camí localitzat d'una fitxa de cim: `/ca/cims/{slug}` o `/es/cimas/{slug}`
+ * (a partir del patró `/cims/:slug` de `LOCALIZED_ROUTES`).
+ * @throws RangeError si el slug no té un format vàlid.
+ */
+export function localizeCimPath(slug: string, locale: AppLocale): `/${string}` {
+	if (!SLUG_RE.test(slug)) throw new RangeError(`Slug invàlid: ${slug}`);
+	const route = LOCALIZED_ROUTES.find((r) => r.path === '/cims/:slug')!;
+	return `/${locale}${route.localized[locale].replace(':slug', slug)}`;
+}
+
+/** Les URL localitzades de totes les fitxes de cim (ca i es), per a `prerender.entries`. */
+export function cimEntries(): `/${string}`[] {
+	return (cimsJson as ReadonlyArray<{ slug: string }>).flatMap(({ slug }) =>
+		LOCALES.map((l) => localizeCimPath(slug, l))
+	);
 }

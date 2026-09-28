@@ -1,7 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { formatAltitude, formatStampDate, romanPage } from './format';
+import { formatAltitude, formatCoordinate, formatKm, formatStampDate, romanPage } from './format';
 
 describe('format', () => {
+	it('coordenades amb coma decimal i sense signe', () => {
+		expect(formatCoordinate(42.66695, 'ca')).toBe('42,66695');
+		expect(formatCoordinate(1.3979, 'es')).toBe('1,39790');
+		expect(formatCoordinate(-0.5, 'ca', 2)).toBe('0,50');
+	});
+
+	it('distàncies en km amb un decimal com a màxim', () => {
+		expect(formatKm(3.24, 'ca')).toBe('3,2');
+		expect(formatKm(12.04, 'es')).toBe('12');
+	});
+
 	it('agrupa els milers amb punt, també amb 4 xifres', () => {
 		expect(formatAltitude(2506)).toBe('2.506');
 		expect(formatAltitude(987)).toBe('987');

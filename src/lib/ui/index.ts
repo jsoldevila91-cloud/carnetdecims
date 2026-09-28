@@ -17,4 +17,4 @@ export { default as Segell } from './Segell.svelte';
 export { default as SiteFooter } from './SiteFooter.svelte';
 export { default as Toaster } from './Toaster.svelte';
 export { toasts } from './toast.svelte';
-export { formatAltitude, formatStampDate, romanPage } from './format';
+export { formatAltitude, formatCoordinate, formatKm, formatStampDate, romanPage } from './format';

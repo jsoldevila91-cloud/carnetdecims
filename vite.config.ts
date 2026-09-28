@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { buildUrlPatterns, prerenderEntries } from './src/lib/i18n/routes.ts';
+import { buildUrlPatterns, cimEntries, prerenderEntries } from './src/lib/i18n/routes.ts';
 import { sitemapEntries } from './src/lib/seo/sitemap.ts';
 
 export default defineConfig({
@@ -19,7 +19,8 @@ export default defineConfig({
 				// Les rutes internes no porten idioma: es prerenderitzen les URL localitzades
 				// (/ca, /es, /ca/cims, /es/cimas…) i el crawler segueix els enllaços.
 				// Els sitemaps (/sitemap-index.xml i un per secció i idioma) no s'enllacen: s'hi afegeixen.
-				entries: [...prerenderEntries(), ...sitemapEntries()]
+				// Les fitxes de cim (/ca/cims/{slug}, /es/cimas/{slug}) s'hi afegeixen totes explícitament.
+				entries: [...prerenderEntries(), ...cimEntries(), ...sitemapEntries()]
 			}
 		}),
 

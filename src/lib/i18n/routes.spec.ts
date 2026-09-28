@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { buildUrlPatterns, localizePath, prerenderEntries } from './routes';
+import {
+	buildUrlPatterns,
+	cimEntries,
+	localizeCimPath,
+	localizePath,
+	prerenderEntries
+} from './routes';
 
 describe('rutes localitzades', () => {
 	it("l'arrel va primer i el comodí al final", () => {
@@ -39,5 +45,28 @@ describe('rutes localitzades', () => {
 			'/ca/mapa',
 			'/es/mapa'
 		]);
+	});
+
+	it('fitxa de cim: segment traduït i mateix slug', () => {
+		expect(localizeCimPath('pedraforca-pollego-superior', 'ca')).toBe(
+			'/ca/cims/pedraforca-pollego-superior'
+		);
+		expect(localizeCimPath('canigo', 'es')).toBe('/es/cimas/canigo');
+		expect(() => localizeCimPath('Canigó', 'ca')).toThrow(RangeError);
+		expect(() => localizeCimPath('', 'es')).toThrow(RangeError);
+		expect(() => localizeCimPath('a/../b', 'es')).toThrow(RangeError);
+	});
+
+	it('cimEntries: 300 URL de fitxes (150 × ca/es), úniques', () => {
+		const entries = cimEntries();
+		expect(entries).toHaveLength(300);
+		expect(new Set(entries).size).toBe(300);
+		expect(entries.filter((e) => e.startsWith('/ca/cims/'))).toHaveLength(150);
+		expect(entries.filter((e) => e.startsWith('/es/cimas/'))).toHaveLength(150);
+		expect(entries.slice(0, 2)).toEqual([
+			'/ca/cims/el-cogullo-de-cabra',
+			'/es/cimas/el-cogullo-de-cabra'
+		]);
+		expect(entries).toContain('/es/cimas/comapedrosa');
 	});
 });

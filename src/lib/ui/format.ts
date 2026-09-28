@@ -9,6 +9,20 @@ export function formatAltitude(metres: number): string {
 		.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
+/** Coordenada en graus decimals amb la coma de l'idioma: 42.66695 → "42,66695". */
+export function formatCoordinate(graus: number, locale: string, decimals = 5): string {
+	return new Intl.NumberFormat(locale, {
+		minimumFractionDigits: decimals,
+		maximumFractionDigits: decimals,
+		useGrouping: false
+	}).format(Math.abs(graus));
+}
+
+/** Distància en km amb un decimal com a màxim: 3.24 → "3,2", 12.04 → "12". */
+export function formatKm(km: number, locale: string): string {
+	return new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(km);
+}
+
 /** Data de segell: 2026-09-14 → "14 · IX · 2026". */
 export function formatStampDate(date: Date): string {
 	return `${date.getDate()} · ${ROMAN_MONTHS[date.getMonth()]} · ${date.getFullYear()}`;
