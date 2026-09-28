@@ -76,14 +76,32 @@ for (const width of [320, 375]) {
 		);
 		await page.setViewportSize({ width, height: 700 });
 		const desborden: string[] = [];
+		const paraulesPartides: string[] = [];
 		for (const { slug } of CIMS) {
 			await page.goto(`/ca/cims/${slug}`, { waitUntil: 'load' });
 			await page.evaluate(() => document.fonts.ready);
-			const px = await page.evaluate(
-				() => document.documentElement.scrollWidth - document.documentElement.clientWidth
-			);
+			const { px, partides } = await page.evaluate(() => {
+				// `overflow-wrap: anywhere` evita el desbordament partint paraules: cap paraula de
+				// l'H1 ha d'ocupar més d'una línia (la mida s'ajusta a la paraula més llarga).
+				const h1 = document.querySelector('main h1')!;
+				const text = h1.firstChild!;
+				const partides: string[] = [];
+				for (const m of h1.textContent!.matchAll(/\S+/g)) {
+					const r = document.createRange();
+					r.setStart(text, m.index!);
+					r.setEnd(text, m.index! + m[0].length);
+					const linies = new Set([...r.getClientRects()].map((x) => Math.round(x.top)));
+					if (linies.size > 1) partides.push(m[0]);
+				}
+				return {
+					px: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+					partides
+				};
+			});
 			if (px > 0) desborden.push(`${slug} (+${px} px)`);
+			if (partides.length) paraulesPartides.push(`${slug}: ${partides.join(', ')}`);
 		}
 		expect(desborden).toEqual([]);
+		expect(paraulesPartides, 'paraules de l’H1 partides entre línies').toEqual([]);
 	});
 }

@@ -457,13 +457,18 @@ for (const colorScheme of ['light', 'dark'] as const) {
 test.describe('Fitxa: reflow i objectius tàctils', () => {
 	test.beforeEach(async ({ page }) => stubMaps(page));
 
+	// Mostra + els noms llargs que desbordaven abans de d19e1da (H1 d'una sola paraula ampla).
+	const REFLOW = [...MOSTRA, 'castellsapera', 'montcorbison', 'pic-de-comaloforno'] as const;
+
 	test('sense scroll horitzontal a 320 px', async ({ page }) => {
+		// 20 navegacions: amb 30 s i `networkidle` donava timeouts sota càrrega (tots els projectes en paral·lel)
+		test.setTimeout(120_000);
 		await page.setViewportSize({ width: 320, height: 640 });
-		for (const slug of MOSTRA) {
+		for (const slug of REFLOW) {
 			for (const locale of LOCALES) {
 				const url = fitxaUrl(slug, locale);
-				await page.goto(url);
-				await page.waitForLoadState('networkidle');
+				await page.goto(url, { waitUntil: 'load' });
+				await page.evaluate(() => document.fonts.ready);
 				const { overflow, culprit } = await page.evaluate(() => {
 					const vw = document.documentElement.clientWidth;
 					const wide = [...document.querySelectorAll<HTMLElement>('main *')].find(
@@ -494,4 +499,14 @@ test.describe('Fitxa: reflow i objectius tàctils', () => {
 			);
 		expect(petits, 'enllaços per sota del mínim de 24 px (WCAG 2.5.8)').toEqual([]);
 	});
+
+	// Regressió (d19e1da): l'atribució del mapa feia 15 px d'alt; criteri del projecte ≥ 44 px.
+	for (const slug of ['pedraforca-pollego-superior', 'canigo'] as const) {
+		test(`l’enllaç d’atribució del mapa (${slug}) fa ≥ 44 px d’alt`, async ({ page }) => {
+			await page.goto(fitxaUrl(slug, 'ca'));
+			const box = await page.locator('main figure figcaption a').boundingBox();
+			expect(box, 'enllaç d’atribució visible').not.toBeNull();
+			expect(box!.height).toBeGreaterThanOrEqual(44);
+		});
+	}
 });
