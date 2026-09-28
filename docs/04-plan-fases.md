@@ -26,6 +26,40 @@
 
 Al final de cada fase, el usuario revisa y aprueba.
 
+## Bloques de sesión (plan Claude Pro, ~5 h por sesión)
+
+Cada fase se divide en **bloques de una sesión**. Cada bloque tiene un entregable cerrado y termina con commit + push y la actualización de `docs/ESTADO.md`.
+
+**Reglas para ahorrar uso:**
+
+1. Al empezar, se leen solo `CLAUDE.md` y `docs/ESTADO.md`; el resto de documentos, solo la sección que haga falta.
+2. Se construye **en la sesión principal**, con los roles de los agentes aplicados como criterio, sin lanzar un agente para cada tarea.
+3. Como máximo **un agente por bloque**, y solo para tareas grandes y aisladas (p. ej. investigación masiva de datos).
+4. QA y SEO por bloque: tests automáticos (`npm run check`, `lint`, `vitest`) y una revisión rápida del checklist. La **pasada completa de los agentes QA y SEO** se hace **una vez al final de cada fase**, en un bloque propio.
+5. La suite E2E completa (3 dispositivos) se ejecuta solo al cerrar cada fase; durante los bloques, solo los E2E del área tocada.
+6. Si la sesión se corta, `docs/ESTADO.md` indica exactamente por dónde seguir.
+
+| Bloque | Contenido                                                                                                          | Entregable                             |
+| ------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
+| **2b** | Prioridad ICGC (comarca + cota oficial), Tossal de la Creu → Solsonès, integrar la revisión SEO/QA del catálogo    | Catálogo cerrado, fase 2 aprobada      |
+| **3a** | Ficha de cim: plantilla, prerender de 150 × 2 idiomas, JSON-LD Mountain + Breadcrumb, mapa estático, cims cercanas | `/ca/cims/{slug}` y `/es/cimas/{slug}` |
+| **3b** | Páginas de comarca, listados (cims, esenciales, tresmils…), sitemap con fichas                                     | `/ca/comarques/{slug}` y listados      |
+| **3c** | Hub del reto (normativa explicada), portada definitiva, páginas legales y metodología                              | Web pública completa                   |
+| **3d** | Pasada completa de QA + SEO de la fase 3 y arreglos                                                                | Fase 3 aprobada                        |
+| **4a** | Capa de datos local (Dexie), registrar ascensión, historial                                                        | Registro offline funcionando           |
+| **4b** | Carnet: progreso con sellos I–V, esenciales pendientes, progreso por comarca                                       | Pantalla "El meu carnet" real          |
+| **4c** | Mapa MapLibre + ICGC, filtros, "Cims a prop"                                                                       | Mapa interactivo                       |
+| **4d** | PWA (manifest, service worker, offline, instalación) + pasada completa QA/SEO                                      | Fase 4 aprobada                        |
+| **5a** | Proyecto Supabase (UE), auth con email y Google (el usuario crea las cuentas)                                      | Login funcionando                      |
+| **5b** | Sincronización y migración local → nube, RGPD (exportar/borrar), QA                                                | Fase 5 aprobada                        |
+| **6a** | Plantilla de contenido, meteo (Open-Meteo), textos de 50 esenciales                                                | 50 fichas completas                    |
+| **6b** | Textos de 50 esenciales más + rutas de acceso + MIDE                                                               | 100 fichas                             |
+| **6c** | Últimas 50 + revisión de calidad + pasada SEO                                                                      | Fase 6 aprobada                        |
+| **7a** | Despliegue en Cloudflare, dominio, Search Console, analítica                                                       | Web en producción                      |
+| **7b** | QA/SEO final en producción, arreglos, lanzamiento                                                                  | 🚀                                     |
+
+Son unas **16 sesiones** en total. Es una estimación: algunos bloques pueden sobrar y otros alargarse.
+
 ## Fases
 
 ### Fase 1 · Fundamentos
