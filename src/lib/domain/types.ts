@@ -59,9 +59,13 @@ export interface Cim {
 	/** Id estable propio (1..n); nunca se reutiliza. */
 	id: number;
 	slug: string;
-	/** Nombre visible (catalán). */
+	/**
+	 * Nombre visible (catalán) para H1, title y listados: el nombre popular con el que se
+	 * busca la cima ("Pedraforca", "L'Elefant"), con la grafía del ICGC. Puede diferir de
+	 * `nom_oficial` (lista FEEC, p. ej. "Pollegó Superior (Pedraforca)") y de `toponim`.
+	 */
 	nom: string;
-	/** Con artículo: "el Pedraforca", "la Picossa". */
+	/** Con artículo, a partir de `nom`: "el Pedraforca", "la Picossa", "lo Tormo". */
 	nom_amb_article: string;
 	/** Con preposición: "del Pedraforca", "de la Picossa". */
 	nom_amb_de: string;
@@ -114,7 +118,10 @@ export interface CimCataleg extends Cim {
 	nom_oficial: string;
 	/** Topónimo en la fuente geográfica usada (ICGC/IGN/OSM); `null` si no hay. */
 	toponim: string | null;
-	/** Otros nombres para la búsqueda ("Pedraforca", "Mont Caro"...). */
+	/**
+	 * Otros nombres para la búsqueda ("Pollegó Superior", "Mont Caro"...). El buscador
+	 * también debe mirar `nom`, `nom_oficial` y `toponim`.
+	 */
 	alies: string[];
 	fonts: { nom: FontCamp; coordenades: FontCamp | null; altitud: FontCamp | null };
 	confianca: Confianca;

@@ -23,7 +23,7 @@ import type {
 	Zona
 } from '../../src/lib/domain/types.ts';
 import { COMARQUES, type ComarcaDef } from './comarques.ts';
-import { ESSENCIALS, articleDelNom, type EssencialDef } from './essencials.ts';
+import { ESSENCIALS, articleDelNom, nomVisible, type EssencialDef } from './essencials.ts';
 import {
 	comarquesIcgc,
 	cercaIcgc,
@@ -136,9 +136,10 @@ async function main() {
 	for (const [i, def] of ESSENCIALS.entries()) {
 		const comarca = comarques.get(def.comarca);
 		if (!comarca) throw new Error(`Comarca desconeguda: ${def.comarca} (${def.nom})`);
-		const slug = def.slug ?? slugify(def.nom.replace(/\s*\([^)]*\)/, ''));
+		const slug = def.slug ?? slugify(nomVisible(def).replace(/\s*\([^)]*\)/, ''));
 		if (slugs.has(slug)) throw new Error(`Slug duplicat: ${slug}`);
 		slugs.add(slug);
+		articleDelNom(def); // valida l'article abans de consultar les fonts
 		const d = await resoldre(i + 1, def, slug, comarca, {
 			osm,
 			wd,
@@ -149,6 +150,9 @@ async function main() {
 		process.stdout.write(`\r${i + 1}/${ESSENCIALS.length} ${def.nom.padEnd(50)}`);
 	}
 	process.stdout.write('\n');
+	// Les resolucions manuals van per slug: si un slug canvia, la clau de `manual.ts` també.
+	for (const k of Object.keys(MANUAL))
+		if (!slugs.has(k)) throw new Error(`manual.ts: slug desconegut "${k}"`);
 
 	const cims = diagnosis.map(aCim);
 	const comarquesOut: ComarcaCataleg[] = COMARQUES.map((c) => ({
@@ -723,7 +727,7 @@ function aCim(d: Diagnosi): CimCataleg {
 	return {
 		id: d.id,
 		slug: d.slug,
-		nom: d.def.nom,
+		nom: nomVisible(d.def),
 		nom_amb_article: ambArticle(base, article),
 		nom_amb_de: ambDe(base, article),
 		nom_oficial: d.def.nom,

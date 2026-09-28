@@ -35,7 +35,10 @@ describe('formes amb article', () => {
 		['Alt Urgell', "l'", "l'Alt Urgell", "de l'Alt Urgell", "a l'Alt Urgell"],
 		['Bessons', 'els', 'els Bessons', 'dels Bessons', 'als Bessons'],
 		['Agudes', 'les', 'les Agudes', 'de les Agudes', 'a les Agudes'],
-		['Tèsol', 'lo', 'lo Tèsol', 'de lo Tèsol', 'a lo Tèsol'],
+		['Tésol', 'lo', 'lo Tésol', 'del Tésol', 'al Tésol'],
+		['Tormo', 'lo', 'lo Tormo', 'del Tormo', 'al Tormo'],
+		['Elefant', "l'", "l'Elefant", "de l'Elefant", "a l'Elefant"],
+		["Val d'Aran", 'la', "la Val d'Aran", "de la Val d'Aran", "a la Val d'Aran"],
 		['Sant Jeroni', '', 'Sant Jeroni', 'de Sant Jeroni', 'a Sant Jeroni'],
 		['Osona', '', 'Osona', "d'Osona", 'a Osona'],
 		['Horta', '', 'Horta', "d'Horta", 'a Horta']

@@ -59,10 +59,10 @@ create table public.comarques (
 create table public.cims (
 	id smallint primary key,                      -- id estable propi (1..n); mai no es reutilitza
 	nom_oficial text not null,                    -- tal com surt a la llista de la FEEC
-	nom_ca text not null,                         -- nom visible
+	nom_ca text not null,                         -- nom visible/popular (H1): "Pedraforca"
 	nom_es text,                                  -- null = igual que ca
-	nom_amb_article_ca text not null,             -- "el Pollegó Superior (Pedraforca)"
-	nom_amb_de_ca text not null,                  -- "del Pollegó Superior (Pedraforca)"
+	nom_amb_article_ca text not null,             -- "el Pedraforca"
+	nom_amb_de_ca text not null,                  -- "del Pedraforca"
 	toponim text,                                 -- topònim a la font geogràfica (ICGC/IGN...)
 	slug_ca text not null unique check (slug_ca ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
 	slug_es text not null unique check (slug_es ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),

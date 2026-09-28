@@ -44,10 +44,17 @@ export function ambArticle(nom: string, article: Article): string {
 	return `${article} ${nom}`;
 }
 
-/** Contracció amb "de": del, de la, de l', dels, de les, de lo, d'/de. */
+/**
+ * Contracció amb "de": del, de la, de l', dels, de les, d'/de.
+ *
+ * L'article dialectal `lo` (topònims del Nomenclàtor com "lo Tormo", "lo Tésol") es
+ * contrau igual que `el`: "del Tormo", "al Tormo" (GIEC; Optimot, "lo"). Les formes
+ * "de lo" / "a lo" no són normatives.
+ */
 export function ambDe(nom: string, article: Article): string {
 	switch (article) {
 		case 'el':
+		case 'lo':
 			return `del ${nom}`;
 		case 'els':
 			return `dels ${nom}`;
@@ -58,10 +65,11 @@ export function ambDe(nom: string, article: Article): string {
 	}
 }
 
-/** Contracció amb "a": al, a la, a l', als, a les, a lo, a. */
+/** Contracció amb "a": al, a la, a l', als, a les, a (`lo` → al, com `el`). */
 export function ambA(nom: string, article: Article): string {
 	switch (article) {
 		case 'el':
+		case 'lo':
 			return `al ${nom}`;
 		case 'els':
 			return `als ${nom}`;
