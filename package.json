@@ -15,7 +15,9 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
 		"test:e2e": "playwright install chromium webkit && playwright test",
-		"gen": "wrangler types"
+		"gen": "wrangler types",
+		"catalog:build": "node --experimental-strip-types scripts/catalog/build.ts",
+		"catalog:typecheck": "tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module nodenext --moduleResolution nodenext --target es2023 --strict --skipLibCheck --types node --resolveJsonModule scripts/catalog/build.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.13.0",

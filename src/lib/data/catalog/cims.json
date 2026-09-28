@@ -1,0 +1,5402 @@
+[
+	{
+		"id": 1,
+		"slug": "el-cogullo-de-cabra",
+		"nom": "El Cogulló de Cabra",
+		"nom_amb_article": "el Cogulló de Cabra",
+		"nom_amb_de": "del Cogulló de Cabra",
+		"nom_oficial": "El Cogulló de Cabra",
+		"toponim": "el Cogulló",
+		"alies": [],
+		"altitud": 881,
+		"lat": 41.42907,
+		"lon": 1.30566,
+		"comarca": "alt-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Cogulló (Cim, el Pont d Armentera)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Cogull%C3%B3&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481698",
+				"url": "https://www.wikidata.org/wiki/Q17481698"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 2,
+		"slug": "el-tossal-gros",
+		"nom": "El Tossal Gros",
+		"nom_amb_article": "el Tossal Gros",
+		"nom_amb_de": "del Tossal Gros",
+		"nom_oficial": "El Tossal Gros",
+		"toponim": "el Tossal Gros",
+		"alies": [],
+		"altitud": 844,
+		"lat": 41.2901,
+		"lon": 1.12517,
+		"comarca": "alt-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Tossal Gros (Cim, Mont-ral)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Tossal%20Gros&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483728",
+				"url": "https://www.wikidata.org/wiki/Q17483728"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 3,
+		"slug": "tossa-grossa-de-montferri",
+		"nom": "Tossa Grossa de Montferri",
+		"nom_amb_article": "la Tossa Grossa de Montferri",
+		"nom_amb_de": "de la Tossa Grossa de Montferri",
+		"nom_oficial": "Tossa Grossa de Montferri",
+		"toponim": "Tossa Grossa de Montferri",
+		"alies": [],
+		"altitud": 387,
+		"lat": 41.25354,
+		"lon": 1.37048,
+		"comarca": "alt-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossa Grossa de Montferri (Cim, Montferri)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossa%20Grossa%20de%20Montferri&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11952596",
+				"url": "https://www.wikidata.org/wiki/Q11952596"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 4,
+		"slug": "bassegoda",
+		"nom": "Bassegoda",
+		"nom_amb_article": "el Bassegoda",
+		"nom_amb_de": "del Bassegoda",
+		"nom_oficial": "Bassegoda",
+		"toponim": "Puig de Bassegoda",
+		"alies": [],
+		"altitud": 1373,
+		"lat": 42.31279,
+		"lon": 2.63078,
+		"comarca": "alt-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de Bassegoda (Cim, Albanyà)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20Bassegoda&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4894784",
+				"url": "https://www.wikidata.org/wiki/Q4894784"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 5,
+		"slug": "castell-saverdera",
+		"nom": "Castell Saverdera",
+		"nom_amb_article": "el Castell Saverdera",
+		"nom_amb_de": "del Castell Saverdera",
+		"nom_oficial": "Castell Saverdera",
+		"toponim": "Sant Salvador Saverdera",
+		"alies": ["Sant Salvador Saverdera", "Castell de Verdera"],
+		"altitud": 682,
+		"lat": 42.31996,
+		"lon": 3.16783,
+		"comarca": "alt-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Salvador Saverdera (Cim, el Port de la Selva)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Salvador%20Saverdera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483518",
+				"url": "https://www.wikidata.org/wiki/Q17483518"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 6,
+		"slug": "el-mont",
+		"nom": "El Mont",
+		"nom_amb_article": "el Mont",
+		"nom_amb_de": "del Mont",
+		"nom_oficial": "El Mont",
+		"toponim": "el Mont",
+		"alies": [],
+		"altitud": 1125,
+		"lat": 42.25888,
+		"lon": 2.70631,
+		"comarca": "alt-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Mont (Cim, Albanyà)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Mont&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6758738",
+				"url": "https://www.wikidata.org/wiki/Q6758738"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 7,
+		"slug": "puig-neulos",
+		"nom": "Puig Neulós",
+		"nom_amb_article": "el Puig Neulós",
+		"nom_amb_de": "del Puig Neulós",
+		"nom_oficial": "Puig Neulós",
+		"toponim": "Puig Neulós",
+		"alies": [],
+		"altitud": 1257,
+		"lat": 42.48211,
+		"lon": 2.94718,
+		"comarca": "alt-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig Neulós (Cim, la Jonquera)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20Neul%C3%B3s&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7093",
+				"url": "https://www.wikidata.org/wiki/Q7093"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 8,
+		"slug": "roc-del-comptador",
+		"nom": "Roc del Comptador",
+		"nom_amb_article": "el Roc del Comptador",
+		"nom_amb_de": "del Roc del Comptador",
+		"nom_oficial": "Roc del Comptador",
+		"toponim": "Roc del Comptador",
+		"alies": [],
+		"altitud": 1451,
+		"lat": 42.42278,
+		"lon": 2.7273,
+		"comarca": "alt-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Roc del Comptador (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Roc%20del%20Comptador&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7353670",
+				"url": "https://www.wikidata.org/wiki/Q7353670"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 9,
+		"slug": "el-castellot",
+		"nom": "El Castellot",
+		"nom_amb_article": "el Castellot",
+		"nom_amb_de": "del Castellot",
+		"nom_oficial": "El Castellot",
+		"toponim": "el Castellot",
+		"alies": [],
+		"altitud": 465,
+		"lat": 41.3377,
+		"lon": 1.57849,
+		"comarca": "alt-penedes",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Castellot (Cim, Castellví de la Marca)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Castellot&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481628",
+				"url": "https://www.wikidata.org/wiki/Q17481628"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 10,
+		"slug": "penya-del-papiol",
+		"nom": "Penya del Papiol",
+		"nom_amb_article": "la Penya del Papiol",
+		"nom_amb_de": "de la Penya del Papiol",
+		"nom_oficial": "Penya del Papiol",
+		"toponim": "Penya del Papiol",
+		"alies": [],
+		"altitud": 381,
+		"lat": 41.32302,
+		"lon": 1.74385,
+		"comarca": "alt-penedes",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Penya del Papiol (Cim, Olèrdola)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Penya%20del%20Papiol&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11940837",
+				"url": "https://www.wikidata.org/wiki/Q11940837"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 11,
+		"slug": "cap-del-verd",
+		"nom": "Cap del Verd",
+		"nom_amb_article": "el Cap del Verd",
+		"nom_amb_de": "del Cap del Verd",
+		"nom_oficial": "Cap del Verd",
+		"toponim": "Cap del Verd",
+		"alies": [],
+		"altitud": 2284,
+		"lat": 42.20084,
+		"lon": 1.61369,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cap del Verd (Cim, la Coma i la Pedra)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cap%20del%20Verd&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5034455",
+				"url": "https://www.wikidata.org/wiki/Q5034455"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 12,
+		"slug": "cogullo-de-turp",
+		"nom": "Cogulló de Turp",
+		"nom_amb_article": "el Cogulló de Turp",
+		"nom_amb_de": "del Cogulló de Turp",
+		"nom_oficial": "Cogulló de Turp",
+		"toponim": "Pic de Turp",
+		"alies": [],
+		"altitud": 1621,
+		"lat": 42.15117,
+		"lon": 1.34728,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Turp (Cim, Coll de Nargó)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Turp&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483805",
+				"url": "https://www.wikidata.org/wiki/Q17483805"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 13,
+		"slug": "el-coscollet",
+		"nom": "El Coscollet",
+		"nom_amb_article": "el Coscollet",
+		"nom_amb_de": "del Coscollet",
+		"nom_oficial": "El Coscollet",
+		"toponim": "lo Coscollet",
+		"alies": [],
+		"altitud": 1610,
+		"lat": 42.11415,
+		"lon": 1.26752,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "lo Coscollet (Cim, Peramola)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=lo%20Coscollet&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5351076",
+				"url": "https://www.wikidata.org/wiki/Q5351076"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 14,
+		"slug": "monturull",
+		"nom": "Monturull",
+		"nom_amb_article": "el Monturull",
+		"nom_amb_de": "del Monturull",
+		"nom_oficial": "Monturull",
+		"toponim": "Monturull",
+		"alies": [],
+		"altitud": 2760,
+		"lat": 42.45017,
+		"lon": 1.58123,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Monturull (Cim, Lles de Cerdanya)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Monturull&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6906641",
+				"url": "https://www.wikidata.org/wiki/Q6906641"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 15,
+		"slug": "pic-d-enclar",
+		"nom": "Pic d'Enclar (Bony de la Pica)",
+		"nom_amb_article": "el Pic d'Enclar (Bony de la Pica)",
+		"nom_amb_de": "del Pic d'Enclar (Bony de la Pica)",
+		"nom_oficial": "Pic d'Enclar (Bony de la Pica)",
+		"toponim": "Bony de la Pica",
+		"alies": ["Bony de la Pica"],
+		"altitud": 2405,
+		"lat": 42.50449,
+		"lon": 1.46031,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Bony de la Pica (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Bony%20de%20la%20Pica&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481918",
+				"url": "https://www.wikidata.org/wiki/Q17481918"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 16,
+		"slug": "pic-de-saloria",
+		"nom": "Pic de Salòria",
+		"nom_amb_article": "el Pic de Salòria",
+		"nom_amb_de": "del Pic de Salòria",
+		"nom_oficial": "Pic de Salòria",
+		"toponim": "Pic de Salòria",
+		"alies": [],
+		"altitud": 2789,
+		"lat": 42.51446,
+		"lon": 1.38515,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Salòria (Cim, Alins)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Sal%C3%B2ria&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7190467",
+				"url": "https://www.wikidata.org/wiki/Q7190467"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 17,
+		"slug": "sant-honorat",
+		"nom": "Sant Honorat",
+		"nom_amb_article": "Sant Honorat",
+		"nom_amb_de": "de Sant Honorat",
+		"nom_oficial": "Sant Honorat",
+		"toponim": "Roques de Sant Honorat",
+		"alies": [],
+		"altitud": 1068,
+		"lat": 42.08406,
+		"lon": 1.2695,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Roques de Sant Honorat (Cim, Peramola)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Roques%20de%20Sant%20Honorat&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q18006837",
+				"url": "https://www.wikidata.org/wiki/Q18006837"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 18,
+		"slug": "santa-fe",
+		"nom": "Santa Fe",
+		"nom_amb_article": "Santa Fe",
+		"nom_amb_de": "de Santa Fe",
+		"nom_oficial": "Santa Fe",
+		"toponim": "Santa Fe",
+		"alies": [],
+		"altitud": 1211,
+		"lat": 42.20879,
+		"lon": 1.30163,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Santa Fe (Cim, Organyà)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Santa%20Fe&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482838",
+				"url": "https://www.wikidata.org/wiki/Q17482838"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 19,
+		"slug": "vulturo",
+		"nom": "Vulturó",
+		"nom_amb_article": "el Vulturó",
+		"nom_amb_de": "del Vulturó",
+		"nom_oficial": "Vulturó",
+		"toponim": "el Vulturó",
+		"alies": [],
+		"altitud": 2649,
+		"lat": 42.28581,
+		"lon": 1.63642,
+		"comarca": "alt-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Vulturó (Cim, Josa i Tuixén)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Vultur%C3%B3&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q2693141",
+				"url": "https://www.wikidata.org/wiki/Q2693141"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 20,
+		"slug": "gran-tuc-de-colomers",
+		"nom": "Gran Tuc de Colomers",
+		"nom_amb_article": "el Gran Tuc de Colomers",
+		"nom_amb_de": "del Gran Tuc de Colomers",
+		"nom_oficial": "Gran Tuc de Colomers",
+		"toponim": "Gran Tuc de Colomèrs",
+		"alies": [],
+		"altitud": 2933,
+		"lat": 42.58939,
+		"lon": 0.93781,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Gran Tuc de Colomèrs (Cim, Naut Aran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Gran%20Tuc%20de%20Colom%C3%A8rs&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3826627",
+				"url": "https://www.wikidata.org/wiki/Q3826627"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 21,
+		"slug": "lo-corronco",
+		"nom": "Lo Corronco",
+		"nom_amb_article": "lo Corronco",
+		"nom_amb_de": "de lo Corronco",
+		"nom_oficial": "Lo Corronco",
+		"toponim": "el Corronco",
+		"alies": [],
+		"altitud": 2543,
+		"lat": 42.46214,
+		"lon": 0.82849,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Corronco (Cim, la Vall de Boí)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Corronco&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4887373",
+				"url": "https://www.wikidata.org/wiki/Q4887373"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 22,
+		"slug": "pala-del-teller",
+		"nom": "Pala del Teller",
+		"nom_amb_article": "la Pala del Teller",
+		"nom_amb_de": "de la Pala del Teller",
+		"nom_oficial": "Pala del Teller",
+		"toponim": "Pala del Teller",
+		"alies": [],
+		"altitud": 1889,
+		"lat": 42.31687,
+		"lon": 0.80947,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pala del Teller (Cim, el Pont de Suert)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pala%20del%20Teller&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482903",
+				"url": "https://www.wikidata.org/wiki/Q17482903"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 23,
+		"slug": "pic-de-comaloforno",
+		"nom": "Pic de Comaloforno",
+		"nom_amb_article": "el Pic de Comaloforno",
+		"nom_amb_de": "del Pic de Comaloforno",
+		"nom_oficial": "Pic de Comaloforno",
+		"toponim": "Pic de Comaloforno",
+		"alies": [],
+		"altitud": 3029,
+		"lat": 42.59138,
+		"lon": 0.82783,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Comaloforno (Cim, la Vall de Boí)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Comaloforno&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q2984642",
+				"url": "https://www.wikidata.org/wiki/Q2984642"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 24,
+		"slug": "punta-alta",
+		"nom": "Punta Alta",
+		"nom_amb_article": "la Punta Alta",
+		"nom_amb_de": "de la Punta Alta",
+		"nom_oficial": "Punta Alta",
+		"toponim": "Punta Alta de Comalesbienes",
+		"alies": [],
+		"altitud": 3014,
+		"lat": 42.58569,
+		"lon": 0.8803,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Punta Alta de Comalesbienes (Cim, la Vall de Boí)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Punta%20Alta%20de%20Comalesbienes&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7260504",
+				"url": "https://www.wikidata.org/wiki/Q7260504"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 25,
+		"slug": "tossal-de-les-roies-de-cardet",
+		"nom": "Tossal de les Roies de Cardet",
+		"nom_amb_article": "el Tossal de les Roies de Cardet",
+		"nom_amb_de": "del Tossal de les Roies de Cardet",
+		"nom_oficial": "Tossal de les Roies de Cardet",
+		"toponim": "Tossal de les Roies de Cardet",
+		"alies": [],
+		"altitud": 2445,
+		"lat": 42.5186,
+		"lon": 0.76537,
+		"comarca": "alta-ribagorca",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal de les Roies de Cardet (Cim, Vilaller)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20de%20les%20Roies%20de%20Cardet&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11952808",
+				"url": "https://www.wikidata.org/wiki/Q11952808"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 26,
+		"slug": "montgros",
+		"nom": "Montgròs",
+		"nom_amb_article": "el Montgròs",
+		"nom_amb_de": "del Montgròs",
+		"nom_oficial": "Montgròs",
+		"toponim": "Montgròs",
+		"alies": [],
+		"altitud": 1133,
+		"lat": 41.60001,
+		"lon": 1.8051,
+		"comarca": "anoia",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montgròs (Cim, el Bruc)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montgr%C3%B2s&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482743",
+				"url": "https://www.wikidata.org/wiki/Q17482743"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 27,
+		"slug": "puig-de-sant-miquel",
+		"nom": "Puig de Sant Miquel",
+		"nom_amb_article": "el Puig de Sant Miquel",
+		"nom_amb_de": "del Puig de Sant Miquel",
+		"nom_oficial": "Puig de Sant Miquel",
+		"toponim": "Puig de Sant Miquel",
+		"alies": [],
+		"altitud": 733,
+		"lat": 41.63739,
+		"lon": 1.58098,
+		"comarca": "anoia",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de Sant Miquel (Cim, Rubió)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20Sant%20Miquel&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943634",
+				"url": "https://www.wikidata.org/wiki/Q11943634"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 28,
+		"slug": "sant-jeroni",
+		"nom": "Sant Jeroni",
+		"nom_amb_article": "Sant Jeroni",
+		"nom_amb_de": "de Sant Jeroni",
+		"nom_oficial": "Sant Jeroni",
+		"toponim": "Sant Jeroni",
+		"alies": [],
+		"altitud": 1237,
+		"lat": 41.60537,
+		"lon": 1.81146,
+		"comarca": "anoia",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Jeroni (Cim, Marganell)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Jeroni&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7419090",
+				"url": "https://www.wikidata.org/wiki/Q7419090"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 29,
+		"slug": "collbaix",
+		"nom": "Collbaix",
+		"nom_amb_article": "el Collbaix",
+		"nom_amb_de": "del Collbaix",
+		"nom_oficial": "Collbaix",
+		"toponim": "Collbaix",
+		"alies": [],
+		"altitud": 544,
+		"lat": 41.741,
+		"lon": 1.78097,
+		"comarca": "bages",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Collbaix (Cim, Sant Joan de Vilatorrada)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Collbaix&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481728",
+				"url": "https://www.wikidata.org/wiki/Q17481728"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 30,
+		"slug": "montcau",
+		"nom": "Montcau",
+		"nom_amb_article": "el Montcau",
+		"nom_amb_de": "del Montcau",
+		"nom_oficial": "Montcau",
+		"toponim": "Montcau",
+		"alies": [],
+		"altitud": 1057,
+		"lat": 41.67508,
+		"lon": 2.00464,
+		"comarca": "bages",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montcau (Cim, Sant Llorenç Savall)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montcau&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4895920",
+				"url": "https://www.wikidata.org/wiki/Q4895920"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 31,
+		"slug": "roca-de-sant-salvador",
+		"nom": "Roca de Sant Salvador (l'Elefant)",
+		"nom_amb_article": "la Roca de Sant Salvador (l'Elefant)",
+		"nom_amb_de": "de la Roca de Sant Salvador (l'Elefant)",
+		"nom_oficial": "Roca de Sant Salvador (l'Elefant)",
+		"toponim": "Roca de Sant Salvador",
+		"alies": ["l'Elefant"],
+		"altitud": 1156,
+		"lat": 41.5958,
+		"lon": 1.82974,
+		"comarca": "bages",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Roca de Sant Salvador (Cim, Monistrol de Montserrat)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Roca%20de%20Sant%20Salvador&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q21569034",
+				"url": "https://www.wikidata.org/wiki/Q21569034"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 32,
+		"slug": "cavall-bernat-de-llaberia",
+		"nom": "Cavall Bernat de Llaberia",
+		"nom_amb_article": "el Cavall Bernat de Llaberia",
+		"nom_amb_de": "del Cavall Bernat de Llaberia",
+		"nom_oficial": "Cavall Bernat de Llaberia",
+		"toponim": "Cavall Bernat",
+		"alies": [],
+		"altitud": 840,
+		"lat": 41.08408,
+		"lon": 0.87517,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cavall Bernat (Cim, Colldejou)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cavall%20Bernat&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11913314",
+				"url": "https://www.wikidata.org/wiki/Q11913314"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 33,
+		"slug": "mola-de-colldejou",
+		"nom": "Mola de Colldejou",
+		"nom_amb_article": "la Mola de Colldejou",
+		"nom_amb_de": "de la Mola de Colldejou",
+		"nom_oficial": "Mola de Colldejou",
+		"toponim": "Mola de Colldejou",
+		"alies": [],
+		"altitud": 922,
+		"lat": 41.10742,
+		"lon": 0.8738,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Mola de Colldejou (Cim, Colldejou)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Mola%20de%20Colldejou&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6895629",
+				"url": "https://www.wikidata.org/wiki/Q6895629"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 34,
+		"slug": "mola-de-genesies",
+		"nom": "Mola de Genesies",
+		"nom_amb_article": "la Mola de Genesies",
+		"nom_amb_de": "de la Mola de Genesies",
+		"nom_oficial": "Mola de Genesies",
+		"toponim": "Mola de Genessies",
+		"alies": [],
+		"altitud": 711,
+		"lat": 41.01627,
+		"lon": 0.78543,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Mola de Genessies (Cim, Tivissa)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Mola%20de%20Genessies&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482098",
+				"url": "https://www.wikidata.org/wiki/Q17482098"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 35,
+		"slug": "mollo-puntaire",
+		"nom": "Molló Puntaire",
+		"nom_amb_article": "el Molló Puntaire",
+		"nom_amb_de": "del Molló Puntaire",
+		"nom_oficial": "Molló Puntaire",
+		"toponim": "Molló Puntaire",
+		"alies": [],
+		"altitud": 727,
+		"lat": 40.99064,
+		"lon": 0.84783,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Molló Puntaire (Cim, Vandellòs i l Hospitalet de l Infant)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Moll%C3%B3%20Puntaire&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17307008",
+				"url": "https://www.wikidata.org/wiki/Q17307008"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 36,
+		"slug": "puig-de-la-cabrafiga",
+		"nom": "Puig de la Cabrafiga",
+		"nom_amb_article": "el Puig de la Cabrafiga",
+		"nom_amb_de": "del Puig de la Cabrafiga",
+		"nom_oficial": "Puig de la Cabrafiga",
+		"toponim": "Puig de la Cabrafiga",
+		"alies": [],
+		"altitud": 614,
+		"lat": 41.05354,
+		"lon": 0.89506,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de la Cabrafiga (Cim, Pratdip)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20la%20Cabrafiga&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481441",
+				"url": "https://www.wikidata.org/wiki/Q17481441"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 37,
+		"slug": "tossal-de-la-baltasana",
+		"nom": "Tossal de la Baltasana",
+		"nom_amb_article": "el Tossal de la Baltasana",
+		"nom_amb_de": "del Tossal de la Baltasana",
+		"nom_oficial": "Tossal de la Baltasana",
+		"toponim": "Tossal de la Baltasana",
+		"alies": [],
+		"altitud": 1201,
+		"lat": 41.32601,
+		"lon": 1.00416,
+		"comarca": "baix-camp",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal de la Baltasana (Cim, Vimbodí i Poblet)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20de%20la%20Baltasana&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7827873",
+				"url": "https://www.wikidata.org/wiki/Q7827873"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 38,
+		"slug": "caro",
+		"nom": "Caro",
+		"nom_amb_article": "el Caro",
+		"nom_amb_de": "del Caro",
+		"nom_oficial": "Caro",
+		"toponim": "Caro",
+		"alies": ["Mont Caro"],
+		"altitud": 1442,
+		"lat": 40.80313,
+		"lon": 0.34311,
+		"comarca": "baix-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Caro (Cim, Roquetes)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Caro&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q599722",
+				"url": "https://www.wikidata.org/wiki/Q599722"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 39,
+		"slug": "tossal-d-engrillo",
+		"nom": "Tossal d'Engrilló",
+		"nom_amb_article": "el Tossal d'Engrilló",
+		"nom_amb_de": "del Tossal d'Engrilló",
+		"nom_oficial": "Tossal d'Engrilló",
+		"toponim": "Tossal d'Engrilló",
+		"alies": [],
+		"altitud": 1072,
+		"lat": 40.94317,
+		"lon": 0.37076,
+		"comarca": "baix-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal d'Engrilló (Cim, Horta de Sant Joan)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20d'Engrill%C3%B3&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7827870",
+				"url": "https://www.wikidata.org/wiki/Q7827870"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 40,
+		"slug": "xaquera-o-creu-de-santos",
+		"nom": "Xàquera o Creu de Santos",
+		"nom_amb_article": "la Xàquera o Creu de Santos",
+		"nom_amb_de": "de la Xàquera o Creu de Santos",
+		"nom_oficial": "Xàquera o Creu de Santos",
+		"toponim": "la Creu de Santos",
+		"alies": ["Creu de Santos"],
+		"altitud": 942,
+		"lat": 40.94078,
+		"lon": 0.58722,
+		"comarca": "baix-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Creu de Santos (Cim, Benifallet)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Creu%20de%20Santos&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5184752",
+				"url": "https://www.wikidata.org/wiki/Q5184752"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 41,
+		"slug": "castell-de-montgri",
+		"nom": "Castell de Montgrí",
+		"nom_amb_article": "el Castell de Montgrí",
+		"nom_amb_de": "del Castell de Montgrí",
+		"nom_oficial": "Castell de Montgrí",
+		"toponim": "Castell del Montgrí",
+		"alies": [],
+		"altitud": 303,
+		"lat": 42.05212,
+		"lon": 3.13165,
+		"comarca": "baix-emporda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Castell del Montgrí (Edificació Històrica, Torroella de Montgrí)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Castell%20del%20Montgr%C3%AD&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11937456",
+				"url": "https://www.wikidata.org/wiki/Q11937456"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 42,
+		"slug": "la-morella",
+		"nom": "La Morella",
+		"nom_amb_article": "la Morella",
+		"nom_amb_de": "de la Morella",
+		"nom_oficial": "La Morella",
+		"toponim": "la Morella",
+		"alies": [],
+		"altitud": 594,
+		"lat": 41.29662,
+		"lon": 1.91548,
+		"comarca": "baix-llobregat",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Morella (Cim, Begues)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Morella&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q8531595",
+				"url": "https://www.wikidata.org/wiki/Q8531595"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 43,
+		"slug": "sant-pere-martir",
+		"nom": "Sant Pere Màrtir",
+		"nom_amb_article": "Sant Pere Màrtir",
+		"nom_amb_de": "de Sant Pere Màrtir",
+		"nom_oficial": "Sant Pere Màrtir",
+		"toponim": "Sant Pere Màrtir",
+		"alies": [],
+		"altitud": 389,
+		"lat": 41.39396,
+		"lon": 2.09791,
+		"comarca": "baix-llobregat",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Pere Màrtir (Cim, Barcelona)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Pere%20M%C3%A0rtir&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482898",
+				"url": "https://www.wikidata.org/wiki/Q17482898"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 44,
+		"slug": "sant-ramon",
+		"nom": "Sant Ramon",
+		"nom_amb_article": "Sant Ramon",
+		"nom_amb_de": "de Sant Ramon",
+		"nom_oficial": "Sant Ramon",
+		"toponim": "Sant Ramon",
+		"alies": [],
+		"altitud": 295,
+		"lat": 41.33778,
+		"lon": 2.01118,
+		"comarca": "baix-llobregat",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q9034703",
+				"url": "https://www.wikidata.org/wiki/Q9034703"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q9034703",
+				"url": "https://www.wikidata.org/wiki/Q9034703"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 45,
+		"slug": "sant-salvador-de-les-espases",
+		"nom": "Sant Salvador de les Espases",
+		"nom_amb_article": "Sant Salvador de les Espases",
+		"nom_amb_de": "de Sant Salvador de les Espases",
+		"nom_oficial": "Sant Salvador de les Espases",
+		"toponim": "Sant Salvador de les Espases",
+		"alies": [],
+		"altitud": 413,
+		"lat": 41.57898,
+		"lon": 1.88427,
+		"comarca": "baix-llobregat",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Salvador de les Espases (Edificació Històrica, Olesa de Montserrat)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Salvador%20de%20les%20Espases&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q113110913",
+				"url": "https://www.wikidata.org/wiki/Q113110913"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 46,
+		"slug": "talaia-del-montmell",
+		"nom": "Talaia del Montmell",
+		"nom_amb_article": "la Talaia del Montmell",
+		"nom_amb_de": "de la Talaia del Montmell",
+		"nom_oficial": "Talaia del Montmell",
+		"toponim": "Puig de la Talaia",
+		"alies": [],
+		"altitud": 861,
+		"lat": 41.33578,
+		"lon": 1.46672,
+		"comarca": "baix-penedes",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de la Talaia (Cim, el Montmell)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20la%20Talaia&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7259035",
+				"url": "https://www.wikidata.org/wiki/Q7259035"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 47,
+		"slug": "puig-castellar",
+		"nom": "Puig Castellar",
+		"nom_amb_article": "el Puig Castellar",
+		"nom_amb_de": "del Puig Castellar",
+		"nom_oficial": "Puig Castellar",
+		"toponim": "Puig Castellar",
+		"alies": [],
+		"altitud": 303,
+		"lat": 41.47043,
+		"lon": 2.2066,
+		"comarca": "barcelones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig Castellar (Cim, Montcada i Reixac)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20Castellar&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481609",
+				"url": "https://www.wikidata.org/wiki/Q17481609"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 48,
+		"slug": "turo-de-magarola",
+		"nom": "Turó de Magarola",
+		"nom_amb_article": "el Turó de Magarola",
+		"nom_amb_de": "del Turó de Magarola",
+		"nom_oficial": "Turó de Magarola",
+		"toponim": "Turó de la Magarola",
+		"alies": [],
+		"altitud": 430,
+		"lat": 41.4422,
+		"lon": 2.12972,
+		"comarca": "barcelones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Turó de la Magarola (Cim, Sant Cugat del Vallès)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tur%C3%B3%20de%20la%20Magarola&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482418",
+				"url": "https://www.wikidata.org/wiki/Q17482418"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 49,
+		"slug": "cap-de-la-gallina-pelada",
+		"nom": "Cap de la Gallina Pelada",
+		"nom_amb_article": "el Cap de la Gallina Pelada",
+		"nom_amb_de": "del Cap de la Gallina Pelada",
+		"nom_oficial": "Cap de la Gallina Pelada",
+		"toponim": "Cap de la Gallina Pelada",
+		"alies": [],
+		"altitud": 2321,
+		"lat": 42.18941,
+		"lon": 1.73805,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cap de la Gallina Pelada (Cim, Saldes)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cap%20de%20la%20Gallina%20Pelada&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482071",
+				"url": "https://www.wikidata.org/wiki/Q17482071"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 50,
+		"slug": "cogullo-d-estela",
+		"nom": "Cogulló d'Estela",
+		"nom_amb_article": "el Cogulló d'Estela",
+		"nom_amb_de": "del Cogulló d'Estela",
+		"nom_oficial": "Cogulló d'Estela",
+		"toponim": "Cogulló d'Estela",
+		"alies": [],
+		"altitud": 1870,
+		"lat": 42.1216,
+		"lon": 1.78709,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cogulló d'Estela (Cim, Castellar del Riu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cogull%C3%B3%20d'Estela&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11914430",
+				"url": "https://www.wikidata.org/wiki/Q11914430"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 51,
+		"slug": "comabona",
+		"nom": "Comabona",
+		"nom_amb_article": "el Comabona",
+		"nom_amb_de": "del Comabona",
+		"nom_oficial": "Comabona",
+		"toponim": "Comabona",
+		"alies": [],
+		"altitud": 2548,
+		"lat": 42.28369,
+		"lon": 1.72629,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Comabona (Cim, Montellà i Martinet)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Comabona&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5150472",
+				"url": "https://www.wikidata.org/wiki/Q5150472"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 52,
+		"slug": "la-tosa",
+		"nom": "La Tosa",
+		"nom_amb_article": "la Tosa",
+		"nom_amb_de": "de la Tosa",
+		"nom_oficial": "La Tosa",
+		"toponim": "la Tosa",
+		"alies": [],
+		"altitud": 2536,
+		"lat": 42.32059,
+		"lon": 1.89267,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Tosa (Cim, Urús)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Tosa&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3776656",
+				"url": "https://www.wikidata.org/wiki/Q3776656"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 53,
+		"slug": "penyes-altes",
+		"nom": "Penyes Altes",
+		"nom_amb_article": "les Penyes Altes",
+		"nom_amb_de": "de les Penyes Altes",
+		"nom_oficial": "Penyes Altes",
+		"toponim": "Penyes Altes de Moixeró",
+		"alies": [],
+		"altitud": 2276,
+		"lat": 42.30629,
+		"lon": 1.84247,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Penyes Altes de Moixeró (Cim, Urús)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Penyes%20Altes%20de%20Moixer%C3%B3&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7165403",
+				"url": "https://www.wikidata.org/wiki/Q7165403"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 54,
+		"slug": "pedraforca-pollego-superior",
+		"nom": "Pollegó Superior (Pedraforca)",
+		"nom_amb_article": "el Pollegó Superior (Pedraforca)",
+		"nom_amb_de": "del Pollegó Superior (Pedraforca)",
+		"nom_oficial": "Pollegó Superior (Pedraforca)",
+		"toponim": "Pollegó Superior",
+		"alies": ["Pedraforca"],
+		"altitud": 2506,
+		"lat": 42.23994,
+		"lon": 1.70293,
+		"comarca": "bergueda",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pollegó Superior (Cim, Saldes)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Polleg%C3%B3%20Superior&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q60847493",
+				"url": "https://www.wikidata.org/wiki/Q60847493"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 55,
+		"slug": "la-carabassa",
+		"nom": "La Carabassa",
+		"nom_amb_article": "la Carabassa",
+		"nom_amb_de": "de la Carabassa",
+		"nom_oficial": "La Carabassa",
+		"toponim": "la Carabassa",
+		"alies": [],
+		"altitud": 2740,
+		"lat": 42.45798,
+		"lon": 1.72717,
+		"comarca": "cerdanya",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q6461537",
+				"url": "https://www.wikidata.org/wiki/Q6461537"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6461537",
+				"url": "https://www.wikidata.org/wiki/Q6461537"
+			}
+		},
+		"confianca": "mitjana",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 56,
+		"slug": "la-muga",
+		"nom": "La Muga",
+		"nom_amb_article": "la Muga",
+		"nom_amb_de": "de la Muga",
+		"nom_oficial": "La Muga",
+		"toponim": "la Muga",
+		"alies": [],
+		"altitud": 2861,
+		"lat": 42.47478,
+		"lon": 1.67763,
+		"comarca": "cerdanya",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Muga (Cim, Lles de Cerdanya)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Muga&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482826",
+				"url": "https://www.wikidata.org/wiki/Q17482826"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 57,
+		"slug": "puigpedros",
+		"nom": "Puigpedrós",
+		"nom_amb_article": "el Puigpedrós",
+		"nom_amb_de": "del Puigpedrós",
+		"nom_oficial": "Puigpedrós",
+		"toponim": "Puigpedrós",
+		"alies": [],
+		"altitud": 2915,
+		"lat": 42.48759,
+		"lon": 1.7619,
+		"comarca": "cerdanya",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puigpedrós (Cim, Meranges)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puigpedr%C3%B3s&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q968445",
+				"url": "https://www.wikidata.org/wiki/Q968445"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 58,
+		"slug": "tossa-plana-de-lles",
+		"nom": "Tossa Plana de Lles (pic de la Portelleta)",
+		"nom_amb_article": "la Tossa Plana de Lles (pic de la Portelleta)",
+		"nom_amb_de": "de la Tossa Plana de Lles (pic de la Portelleta)",
+		"nom_oficial": "Tossa Plana de Lles (pic de la Portelleta)",
+		"toponim": "Tossa Plana de Lles",
+		"alies": ["Pic de la Portelleta"],
+		"altitud": 2905,
+		"lat": 42.46823,
+		"lon": 1.65655,
+		"comarca": "cerdanya",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossa Plana de Lles (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossa%20Plana%20de%20Lles&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11941543",
+				"url": "https://www.wikidata.org/wiki/Q11941543"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 59,
+		"slug": "mola-d-estat",
+		"nom": "Mola d'Estat",
+		"nom_amb_article": "la Mola d'Estat",
+		"nom_amb_de": "de la Mola d'Estat",
+		"nom_oficial": "Mola d'Estat",
+		"toponim": "Mola d'Estat",
+		"alies": [],
+		"altitud": 1127,
+		"lat": 41.32552,
+		"lon": 1.05916,
+		"comarca": "conca-de-barbera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Mola d'Estat (Cim, Prades)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Mola%20d'Estat&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "osm",
+				"ref": "node/1975330996",
+				"url": "https://www.openstreetmap.org/node/1975330996"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 60,
+		"slug": "punta-del-curull",
+		"nom": "Punta del Curull",
+		"nom_amb_article": "la Punta del Curull",
+		"nom_amb_de": "de la Punta del Curull",
+		"nom_oficial": "Punta del Curull",
+		"toponim": "Punta del Curull",
+		"alies": [],
+		"altitud": 1022,
+		"lat": 41.35536,
+		"lon": 0.96445,
+		"comarca": "conca-de-barbera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Punta del Curull (Cim, Vilanova de Prades)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Punta%20del%20Curull&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7260573",
+				"url": "https://www.wikidata.org/wiki/Q7260573"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 61,
+		"slug": "sant-miquel-de-montclar",
+		"nom": "Sant Miquel de Montclar",
+		"nom_amb_article": "Sant Miquel de Montclar",
+		"nom_amb_de": "de Sant Miquel de Montclar",
+		"nom_oficial": "Sant Miquel de Montclar",
+		"toponim": "Sant Miquel de Montclar",
+		"alies": [],
+		"altitud": 948,
+		"lat": 41.46777,
+		"lon": 1.34677,
+		"comarca": "conca-de-barbera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Miquel de Montclar (Edificació Històrica, Pontils)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Miquel%20de%20Montclar&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11937423",
+				"url": "https://www.wikidata.org/wiki/Q11937423"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 62,
+		"slug": "tossal-gros-de-vallbona",
+		"nom": "Tossal Gros de Vallbona",
+		"nom_amb_article": "el Tossal Gros de Vallbona",
+		"nom_amb_de": "del Tossal Gros de Vallbona",
+		"nom_oficial": "Tossal Gros de Vallbona",
+		"toponim": "Tossal Gros de Vallbona",
+		"alies": [],
+		"altitud": 803,
+		"lat": 41.46878,
+		"lon": 1.11301,
+		"comarca": "conca-de-barbera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal Gros de Vallbona (Cim, Vallbona de les Monges)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20Gros%20de%20Vallbona&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7827869",
+				"url": "https://www.wikidata.org/wiki/Q7827869"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 63,
+		"slug": "puig-de-l-aliga",
+		"nom": "Puig de l'Àliga",
+		"nom_amb_article": "el Puig de l'Àliga",
+		"nom_amb_de": "del Puig de l'Àliga",
+		"nom_oficial": "Puig de l'Àliga",
+		"toponim": "Puig de l'Àliga",
+		"alies": [],
+		"altitud": 464,
+		"lat": 41.28397,
+		"lon": 1.6974,
+		"comarca": "garraf",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de l'Àliga (Cim, Olèrdola)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20l'%C3%80liga&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943664",
+				"url": "https://www.wikidata.org/wiki/Q11943664"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 64,
+		"slug": "els-bessons",
+		"nom": "Els Bessons",
+		"nom_amb_article": "els Bessons",
+		"nom_amb_de": "dels Bessons",
+		"nom_oficial": "Els Bessons",
+		"toponim": "els Bessons",
+		"alies": [],
+		"altitud": 593,
+		"lat": 41.46656,
+		"lon": 0.84716,
+		"comarca": "garrigues",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "els Bessons (Cim, les Borges Blanques)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=els%20Bessons&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11918926",
+				"url": "https://www.wikidata.org/wiki/Q11918926"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 65,
+		"slug": "cabrera",
+		"nom": "Cabrera",
+		"nom_amb_article": "Cabrera",
+		"nom_amb_de": "de Cabrera",
+		"nom_oficial": "Cabrera",
+		"toponim": "Cabrera",
+		"alies": [],
+		"altitud": 1308,
+		"lat": 42.07604,
+		"lon": 2.40723,
+		"comarca": "garrotxa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cabrera (Cim, la Vall d en Bas)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cabrera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5015822",
+				"url": "https://www.wikidata.org/wiki/Q5015822"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 66,
+		"slug": "comanegra",
+		"nom": "Comanegra",
+		"nom_amb_article": "el Comanegra",
+		"nom_amb_de": "del Comanegra",
+		"nom_oficial": "Comanegra",
+		"toponim": "Comanegra",
+		"alies": [],
+		"altitud": 1557,
+		"lat": 42.3333,
+		"lon": 2.52776,
+		"comarca": "garrotxa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Comanegra (Cim, Montagut i Oix)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Comanegra&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4889555",
+				"url": "https://www.wikidata.org/wiki/Q4889555"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 67,
+		"slug": "puig-ou",
+		"nom": "Puig Ou",
+		"nom_amb_article": "el Puig Ou",
+		"nom_amb_de": "del Puig Ou",
+		"nom_oficial": "Puig Ou",
+		"toponim": "Puig Ou",
+		"alies": [],
+		"altitud": 1300,
+		"lat": 42.28413,
+		"lon": 2.42772,
+		"comarca": "garrotxa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig Ou (Cim, la Vall de Bianya)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20Ou&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943413",
+				"url": "https://www.wikidata.org/wiki/Q11943413"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 68,
+		"slug": "puigsacalm",
+		"nom": "Puigsacalm",
+		"nom_amb_article": "el Puigsacalm",
+		"nom_amb_de": "del Puigsacalm",
+		"nom_oficial": "Puigsacalm",
+		"toponim": "Puigsacalm",
+		"alies": [],
+		"altitud": 1514,
+		"lat": 42.12517,
+		"lon": 2.38791,
+		"comarca": "garrotxa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puigsacalm (Cim, la Vall d en Bas)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puigsacalm&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7259038",
+				"url": "https://www.wikidata.org/wiki/Q7259038"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 69,
+		"slug": "castell-de-sant-miquel",
+		"nom": "Castell de Sant Miquel",
+		"nom_amb_article": "el Castell de Sant Miquel",
+		"nom_amb_de": "del Castell de Sant Miquel",
+		"nom_oficial": "Castell de Sant Miquel",
+		"toponim": "Castell de Sant Miquel",
+		"alies": [],
+		"altitud": 386,
+		"lat": 42.00689,
+		"lon": 2.86202,
+		"comarca": "girones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Castell de Sant Miquel (Edificació Històrica, Girona)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Castell%20de%20Sant%20Miquel&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482837",
+				"url": "https://www.wikidata.org/wiki/Q17482837"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 70,
+		"slug": "els-angels",
+		"nom": "Els Àngels",
+		"nom_amb_article": "els Àngels",
+		"nom_amb_de": "dels Àngels",
+		"nom_oficial": "Els Àngels",
+		"toponim": "Puig Alt",
+		"alies": [],
+		"altitud": 485,
+		"lat": 41.9845,
+		"lon": 2.90871,
+		"comarca": "girones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig Alt (Cim, Sant Martí Vell)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20Alt&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "osm",
+				"ref": "node/1932955163",
+				"url": "https://www.openstreetmap.org/node/1932955163"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 71,
+		"slug": "castell-de-burriac",
+		"nom": "Castell de Burriac",
+		"nom_amb_article": "el Castell de Burriac",
+		"nom_amb_de": "del Castell de Burriac",
+		"nom_oficial": "Castell de Burriac",
+		"toponim": "Castell de Burriac",
+		"alies": [],
+		"altitud": 392,
+		"lat": 41.53759,
+		"lon": 2.38724,
+		"comarca": "maresme",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Castell de Burriac (Edificació Històrica, Cabrera de Mar)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Castell%20de%20Burriac&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11910197",
+				"url": "https://www.wikidata.org/wiki/Q11910197"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 72,
+		"slug": "montalt",
+		"nom": "Montalt",
+		"nom_amb_article": "el Montalt",
+		"nom_amb_de": "del Montalt",
+		"nom_oficial": "Montalt",
+		"toponim": "Montalt",
+		"alies": [],
+		"altitud": 597,
+		"lat": 41.60409,
+		"lon": 2.49548,
+		"comarca": "maresme",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montalt (Cim, Dosrius)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montalt&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11937395",
+				"url": "https://www.wikidata.org/wiki/Q11937395"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 73,
+		"slug": "puig-de-la-caritat",
+		"nom": "Puig de la Caritat",
+		"nom_amb_article": "el Puig de la Caritat",
+		"nom_amb_de": "del Puig de la Caritat",
+		"nom_oficial": "Puig de la Caritat",
+		"toponim": "Puig de la Caritat",
+		"alies": [],
+		"altitud": 1010,
+		"lat": 41.87589,
+		"lon": 2.10882,
+		"comarca": "moianes",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de la Caritat (Cim, l Estany)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20la%20Caritat&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481566",
+				"url": "https://www.wikidata.org/wiki/Q17481566"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 74,
+		"slug": "torreta-del-montsia",
+		"nom": "Torreta del Montsià",
+		"nom_amb_article": "la Torreta del Montsià",
+		"nom_amb_de": "de la Torreta del Montsià",
+		"nom_oficial": "Torreta del Montsià",
+		"toponim": "Torreta de Montsià",
+		"alies": [],
+		"altitud": 763,
+		"lat": 40.61361,
+		"lon": 0.53031,
+		"comarca": "montsia",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Torreta de Montsià (Cim, Ulldecona)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Torreta%20de%20Montsi%C3%A0&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11952584",
+				"url": "https://www.wikidata.org/wiki/Q11952584"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 75,
+		"slug": "tossal-dels-tres-reis",
+		"nom": "Tossal dels Tres Reis",
+		"nom_amb_article": "el Tossal dels Tres Reis",
+		"nom_amb_de": "del Tossal dels Tres Reis",
+		"nom_oficial": "Tossal dels Tres Reis",
+		"toponim": "Tossal del Rei",
+		"alies": [],
+		"altitud": 1350,
+		"lat": 40.73274,
+		"lon": 0.17025,
+		"comarca": "montsia",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal del Rei (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20del%20Rei&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6748219",
+				"url": "https://www.wikidata.org/wiki/Q6748219"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 76,
+		"slug": "pala-alta",
+		"nom": "Pala Alta",
+		"nom_amb_article": "la Pala Alta",
+		"nom_amb_de": "de la Pala Alta",
+		"nom_oficial": "Pala Alta",
+		"toponim": "Pala Alta",
+		"alies": [],
+		"altitud": 947,
+		"lat": 41.89634,
+		"lon": 0.83633,
+		"comarca": "noguera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pala Alta (Cim, les Avellanes i Santa Linya)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pala%20Alta&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11939807",
+				"url": "https://www.wikidata.org/wiki/Q11939807"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 77,
+		"slug": "penya-sant-alis",
+		"nom": "Penya Sant Alís",
+		"nom_amb_article": "la Penya Sant Alís",
+		"nom_amb_de": "de la Penya Sant Alís",
+		"nom_oficial": "Penya Sant Alís",
+		"toponim": "Sant Alís",
+		"alies": [],
+		"altitud": 1675,
+		"lat": 42.03985,
+		"lon": 0.76655,
+		"comarca": "noguera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Alís (Cim, Sant Esteve de la Sarga)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Al%C3%ADs&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7419072",
+				"url": "https://www.wikidata.org/wiki/Q7419072"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 78,
+		"slug": "sant-mamet",
+		"nom": "Sant Mamet",
+		"nom_amb_article": "Sant Mamet",
+		"nom_amb_de": "de Sant Mamet",
+		"nom_oficial": "Sant Mamet",
+		"toponim": "Sant Mamet",
+		"alies": [],
+		"altitud": 1391,
+		"lat": 41.9779,
+		"lon": 0.94129,
+		"comarca": "noguera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Mamet (Cim, Vilanova de Meià)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Mamet&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7419099",
+				"url": "https://www.wikidata.org/wiki/Q7419099"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 79,
+		"slug": "tossal-de-mira-pallars-i-urgell",
+		"nom": "Tossal de Mira Pallars i Urgell",
+		"nom_amb_article": "el Tossal de Mira Pallars i Urgell",
+		"nom_amb_de": "del Tossal de Mira Pallars i Urgell",
+		"nom_oficial": "Tossal de Mira Pallars i Urgell",
+		"toponim": "Tossal de Mirapallars",
+		"alies": [],
+		"altitud": 1672,
+		"lat": 42.02109,
+		"lon": 0.95901,
+		"comarca": "noguera",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal de Mirapallars (Cim, Llimiana)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20de%20Mirapallars&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7827874",
+				"url": "https://www.wikidata.org/wiki/Q7827874"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 80,
+		"slug": "bellmunt",
+		"nom": "Bellmunt",
+		"nom_amb_article": "Bellmunt",
+		"nom_amb_de": "de Bellmunt",
+		"nom_oficial": "Bellmunt",
+		"toponim": "Bellmunt",
+		"alies": [],
+		"altitud": 1248,
+		"lat": 42.1015,
+		"lon": 2.29372,
+		"comarca": "osona",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Bellmunt (Cim, Sant Pere de Torelló)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Bellmunt&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4884080",
+				"url": "https://www.wikidata.org/wiki/Q4884080"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 81,
+		"slug": "castell-de-milany",
+		"nom": "Castell de Milany",
+		"nom_amb_article": "el Castell de Milany",
+		"nom_amb_de": "del Castell de Milany",
+		"nom_oficial": "Castell de Milany",
+		"toponim": "Milany",
+		"alies": [],
+		"altitud": 1529,
+		"lat": 42.16556,
+		"lon": 2.28968,
+		"comarca": "osona",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Milany (Cim, Vallfogona de Ripollès)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Milany&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6850793",
+				"url": "https://www.wikidata.org/wiki/Q6850793"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 82,
+		"slug": "creu-de-gurb",
+		"nom": "Creu de Gurb",
+		"nom_amb_article": "la Creu de Gurb",
+		"nom_amb_de": "de la Creu de Gurb",
+		"nom_oficial": "Creu de Gurb",
+		"toponim": "Turó de la Creu de Gurb",
+		"alies": [],
+		"altitud": 842,
+		"lat": 41.95219,
+		"lon": 2.21049,
+		"comarca": "osona",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Turó de la Creu de Gurb (Cim, Gurb)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tur%C3%B3%20de%20la%20Creu%20de%20Gurb&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7856609",
+				"url": "https://www.wikidata.org/wiki/Q7856609"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 83,
+		"slug": "matagalls",
+		"nom": "Matagalls",
+		"nom_amb_article": "el Matagalls",
+		"nom_amb_de": "del Matagalls",
+		"nom_oficial": "Matagalls",
+		"toponim": "Matagalls",
+		"alies": [],
+		"altitud": 1697,
+		"lat": 41.80879,
+		"lon": 2.38271,
+		"comarca": "osona",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Matagalls (Cim, Viladrau)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Matagalls&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6785970",
+				"url": "https://www.wikidata.org/wiki/Q6785970"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 84,
+		"slug": "rocallarga",
+		"nom": "Rocallarga",
+		"nom_amb_article": "la Rocallarga",
+		"nom_amb_de": "de la Rocallarga",
+		"nom_oficial": "Rocallarga",
+		"toponim": "Rocallarga",
+		"alies": [],
+		"altitud": 1187,
+		"lat": 42.00988,
+		"lon": 2.44566,
+		"comarca": "osona",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Rocallarga (Cim, Tavertet)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Rocallarga&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7353679",
+				"url": "https://www.wikidata.org/wiki/Q7353679"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 85,
+		"slug": "cap-del-boumort",
+		"nom": "Cap del Boumort",
+		"nom_amb_article": "el Cap del Boumort",
+		"nom_amb_de": "del Cap del Boumort",
+		"nom_oficial": "Cap del Boumort",
+		"toponim": "Cap de Boumort",
+		"alies": [],
+		"altitud": 2077,
+		"lat": 42.23502,
+		"lon": 1.13466,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Cap de Boumort (Cim, Conca de Dalt)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Cap%20de%20Boumort&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5034453",
+				"url": "https://www.wikidata.org/wiki/Q5034453"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 86,
+		"slug": "montsent-de-pallars",
+		"nom": "Montsent de Pallars",
+		"nom_amb_article": "el Montsent de Pallars",
+		"nom_amb_de": "del Montsent de Pallars",
+		"nom_oficial": "Montsent de Pallars",
+		"toponim": "Montsent",
+		"alies": [],
+		"altitud": 2883,
+		"lat": 42.49012,
+		"lon": 1.02442,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montsent (Cim, la Torre de Cabdella)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montsent&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6906569",
+				"url": "https://www.wikidata.org/wiki/Q6906569"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 87,
+		"slug": "pic-de-peguera",
+		"nom": "Pic de Peguera",
+		"nom_amb_article": "el Pic de Peguera",
+		"nom_amb_de": "del Pic de Peguera",
+		"nom_oficial": "Pic de Peguera",
+		"toponim": "Pic de Peguera",
+		"alies": [],
+		"altitud": 2983,
+		"lat": 42.54053,
+		"lon": 1.01195,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Peguera (Cim, Espot)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Peguera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7190465",
+				"url": "https://www.wikidata.org/wiki/Q7190465"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 88,
+		"slug": "pica-de-cervi",
+		"nom": "Pica de Cerví",
+		"nom_amb_article": "la Pica de Cerví",
+		"nom_amb_de": "de la Pica de Cerví",
+		"nom_oficial": "Pica de Cerví",
+		"toponim": "Pica de Cerví",
+		"alies": [],
+		"altitud": 2753,
+		"lat": 42.45296,
+		"lon": 0.87924,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pica de Cerví (Cim, Sarroca de Bellera)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pica%20de%20Cerv%C3%AD&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11941568",
+				"url": "https://www.wikidata.org/wiki/Q11941568"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 89,
+		"slug": "pui-de-lleras",
+		"nom": "Pui de Lleràs",
+		"nom_amb_article": "el Pui de Lleràs",
+		"nom_amb_de": "del Pui de Lleràs",
+		"nom_oficial": "Pui de Lleràs",
+		"toponim": "Pui de Lleràs",
+		"alies": [],
+		"altitud": 1692,
+		"lat": 42.26918,
+		"lon": 0.8526,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pui de Lleràs (Cim, Tremp)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pui%20de%20Ller%C3%A0s&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7259011",
+				"url": "https://www.wikidata.org/wiki/Q7259011"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 90,
+		"slug": "sant-corneli",
+		"nom": "Sant Corneli",
+		"nom_amb_article": "Sant Corneli",
+		"nom_amb_de": "de Sant Corneli",
+		"nom_oficial": "Sant Corneli",
+		"toponim": "Sant Corneli",
+		"alies": [],
+		"altitud": 1351,
+		"lat": 42.1829,
+		"lon": 1.00281,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Corneli (Cim, Conca de Dalt)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Corneli&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7419084",
+				"url": "https://www.wikidata.org/wiki/Q7419084"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 91,
+		"slug": "tuc-de-la-cometa",
+		"nom": "Tuc de la Cometa",
+		"nom_amb_article": "el Tuc de la Cometa",
+		"nom_amb_de": "del Tuc de la Cometa",
+		"nom_oficial": "Tuc de la Cometa",
+		"toponim": "Tuc de la Cometa",
+		"alies": [],
+		"altitud": 2445,
+		"lat": 42.42374,
+		"lon": 1.03307,
+		"comarca": "pallars-jussa",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc de la Cometa (Cim, Sort)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20de%20la%20Cometa&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11953316",
+				"url": "https://www.wikidata.org/wiki/Q11953316"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 92,
+		"slug": "campirme",
+		"nom": "Campirme",
+		"nom_amb_article": "el Campirme",
+		"nom_amb_de": "del Campirme",
+		"nom_oficial": "Campirme",
+		"toponim": "Campirme",
+		"alies": [],
+		"altitud": 2633,
+		"lat": 42.65955,
+		"lon": 1.19361,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Campirme (Cim, la Guingueta d Àneu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Campirme&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11911298",
+				"url": "https://www.wikidata.org/wiki/Q11911298"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 93,
+		"slug": "lo-tesol",
+		"nom": "Lo Tèsol",
+		"nom_amb_article": "lo Tèsol",
+		"nom_amb_de": "de lo Tèsol",
+		"nom_oficial": "Lo Tèsol",
+		"toponim": "lo Tésol",
+		"alies": [],
+		"altitud": 2700,
+		"lat": 42.6084,
+		"lon": 1.03926,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "lo Tésol (Cim, Alt Àneu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=lo%20T%C3%A9sol&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11933845",
+				"url": "https://www.wikidata.org/wiki/Q11933845"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 94,
+		"slug": "monteixo",
+		"nom": "Monteixo",
+		"nom_amb_article": "el Monteixo",
+		"nom_amb_de": "del Monteixo",
+		"nom_oficial": "Monteixo",
+		"toponim": "Monteixo",
+		"alies": [],
+		"altitud": 2905,
+		"lat": 42.60174,
+		"lon": 1.36164,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Monteixo (Cim, Alins)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Monteixo&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q8531408",
+				"url": "https://www.wikidata.org/wiki/Q8531408"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 95,
+		"slug": "mont-roig",
+		"nom": "Mont-roig",
+		"nom_amb_article": "el Mont-roig",
+		"nom_amb_de": "del Mont-roig",
+		"nom_oficial": "Mont-roig",
+		"toponim": "Mont-roig",
+		"alies": [],
+		"altitud": 2864,
+		"lat": 42.71076,
+		"lon": 1.17681,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Mont-roig (Cim, Lladorre)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Mont-roig&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5120047",
+				"url": "https://www.wikidata.org/wiki/Q5120047"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 96,
+		"slug": "pic-de-certascan",
+		"nom": "Pic de Certascan",
+		"nom_amb_article": "el Pic de Certascan",
+		"nom_amb_de": "del Pic de Certascan",
+		"nom_oficial": "Pic de Certascan",
+		"toponim": "Pic de Certascan",
+		"alies": [],
+		"altitud": 2853,
+		"lat": 42.71201,
+		"lon": 1.27765,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Certascan (Cim, Lladorre)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Certascan&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11941458",
+				"url": "https://www.wikidata.org/wiki/Q11941458"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 97,
+		"slug": "pic-de-moredo",
+		"nom": "Pic de Moredo",
+		"nom_amb_article": "el Pic de Moredo",
+		"nom_amb_de": "del Pic de Moredo",
+		"nom_oficial": "Pic de Moredo",
+		"toponim": "Pic de Moredo",
+		"alies": [],
+		"altitud": 2766,
+		"lat": 42.71895,
+		"lon": 1.04992,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Moredo (Cim, Alt Àneu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Moredo&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482782",
+				"url": "https://www.wikidata.org/wiki/Q17482782"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 98,
+		"slug": "pic-de-sotllo",
+		"nom": "Pic de Sotllo",
+		"nom_amb_article": "el Pic de Sotllo",
+		"nom_amb_de": "del Pic de Sotllo",
+		"nom_oficial": "Pic de Sotllo",
+		"toponim": "Pic de Sotllo",
+		"alies": [],
+		"altitud": 3073,
+		"lat": 42.66871,
+		"lon": 1.38746,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic de Sotllo (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20de%20Sotllo&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3087278",
+				"url": "https://www.wikidata.org/wiki/Q3087278"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 99,
+		"slug": "pica-d-estats",
+		"nom": "Pica d'Estats",
+		"nom_amb_article": "la Pica d'Estats",
+		"nom_amb_de": "de la Pica d'Estats",
+		"nom_oficial": "Pica d'Estats",
+		"toponim": "Pica d'Estats",
+		"alies": [],
+		"altitud": 3143,
+		"lat": 42.66695,
+		"lon": 1.39789,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pica d'Estats (Cim, Alins)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pica%20d'Estats&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q1537733",
+				"url": "https://www.wikidata.org/wiki/Q1537733"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 100,
+		"slug": "torreta-de-l-orri",
+		"nom": "Torreta de l'Orri",
+		"nom_amb_article": "la Torreta de l'Orri",
+		"nom_amb_de": "de la Torreta de l'Orri",
+		"nom_oficial": "Torreta de l'Orri",
+		"toponim": "Torreta de l'Orri",
+		"alies": [],
+		"altitud": 2438,
+		"lat": 42.40819,
+		"lon": 1.21514,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Torreta de l'Orri (Cim, Soriguera)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Torreta%20de%20l'Orri&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11952583",
+				"url": "https://www.wikidata.org/wiki/Q11952583"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 101,
+		"slug": "tuc-de-la-llanca",
+		"nom": "Tuc de la Llança",
+		"nom_amb_article": "el Tuc de la Llança",
+		"nom_amb_de": "del Tuc de la Llança",
+		"nom_oficial": "Tuc de la Llança",
+		"toponim": "Tuc de la Llança",
+		"alies": [],
+		"altitud": 2659,
+		"lat": 42.68409,
+		"lon": 0.99052,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc de la Llança (Cim, Alt Àneu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20de%20la%20Llan%C3%A7a&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482336",
+				"url": "https://www.wikidata.org/wiki/Q17482336"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 102,
+		"slug": "tuc-de-ratera",
+		"nom": "Tuc de Ratera",
+		"nom_amb_article": "el Tuc de Ratera",
+		"nom_amb_de": "del Tuc de Ratera",
+		"nom_oficial": "Tuc de Ratera",
+		"toponim": "Tuc de Ratera",
+		"alies": [],
+		"altitud": 2861,
+		"lat": 42.60137,
+		"lon": 0.95338,
+		"comarca": "pallars-sobira",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc de Ratera (Cim, Naut Aran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20de%20Ratera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11953299",
+				"url": "https://www.wikidata.org/wiki/Q11953299"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 103,
+		"slug": "la-fita-alta",
+		"nom": "La Fita Alta",
+		"nom_amb_article": "la Fita Alta",
+		"nom_amb_de": "de la Fita Alta",
+		"nom_oficial": "La Fita Alta",
+		"toponim": "la Fita Alta",
+		"alies": [],
+		"altitud": 289,
+		"lat": 41.61315,
+		"lon": 0.84306,
+		"comarca": "pla-d-urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Fita Alta (Cim, Sidamon)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Fita%20Alta&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11930487",
+				"url": "https://www.wikidata.org/wiki/Q11930487"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 104,
+		"slug": "sant-patllari",
+		"nom": "Sant Patllarí",
+		"nom_amb_article": "Sant Patllarí",
+		"nom_amb_de": "de Sant Patllarí",
+		"nom_oficial": "Sant Patllarí",
+		"toponim": "Sant Patllari",
+		"alies": [],
+		"altitud": 646,
+		"lat": 42.11215,
+		"lon": 2.71172,
+		"comarca": "pla-de-l-estany",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Patllari (Cim, Porqueres)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Patllari&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11947288",
+				"url": "https://www.wikidata.org/wiki/Q11947288"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 105,
+		"slug": "roca-corbatera",
+		"nom": "Roca Corbatera",
+		"nom_amb_article": "la Roca Corbatera",
+		"nom_amb_de": "de la Roca Corbatera",
+		"nom_oficial": "Roca Corbatera",
+		"toponim": "Roca Corbatera",
+		"alies": [],
+		"altitud": 1163,
+		"lat": 41.28858,
+		"lon": 0.89123,
+		"comarca": "priorat",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Roca Corbatera (Cim, la Morera de Montsant)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Roca%20Corbatera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483301",
+				"url": "https://www.wikidata.org/wiki/Q17483301"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 106,
+		"slug": "la-picossa",
+		"nom": "La Picossa",
+		"nom_amb_article": "la Picossa",
+		"nom_amb_de": "de la Picossa",
+		"nom_oficial": "La Picossa",
+		"toponim": "la Picossa",
+		"alies": [],
+		"altitud": 499,
+		"lat": 41.10951,
+		"lon": 0.57642,
+		"comarca": "ribera-d-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Picossa (Cim, Móra d Ebre)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Picossa&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482302",
+				"url": "https://www.wikidata.org/wiki/Q17482302"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 107,
+		"slug": "la-tossa-tivissa",
+		"nom": "La Tossa (Tivissa)",
+		"nom_amb_article": "la Tossa (Tivissa)",
+		"nom_amb_de": "de la Tossa (Tivissa)",
+		"nom_oficial": "La Tossa (Tivissa)",
+		"toponim": "la Tossa",
+		"alies": [],
+		"altitud": 718,
+		"lat": 41.02896,
+		"lon": 0.73628,
+		"comarca": "ribera-d-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Tossa (Cim, Tivissa)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Tossa&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482310",
+				"url": "https://www.wikidata.org/wiki/Q17482310"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 108,
+		"slug": "lo-tormo",
+		"nom": "Lo Tormo",
+		"nom_amb_article": "lo Tormo",
+		"nom_amb_de": "de lo Tormo",
+		"nom_oficial": "Lo Tormo",
+		"toponim": "lo Tormo",
+		"alies": [],
+		"altitud": 509,
+		"lat": 41.17949,
+		"lon": 0.64117,
+		"comarca": "ribera-d-ebre",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "lo Tormo (Cim, la Torre de l Espanyol)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=lo%20Tormo&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "osm",
+				"ref": "node/12582397455",
+				"url": "https://www.openstreetmap.org/node/12582397455"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 109,
+		"slug": "balandrau",
+		"nom": "Balandrau",
+		"nom_amb_article": "el Balandrau",
+		"nom_amb_de": "del Balandrau",
+		"nom_oficial": "Balandrau",
+		"toponim": "el Balandrau",
+		"alies": [],
+		"altitud": 2585,
+		"lat": 42.37014,
+		"lon": 2.21957,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Balandrau (Cim, Queralbs)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Balandrau&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q4850026",
+				"url": "https://www.wikidata.org/wiki/Q4850026"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 110,
+		"slug": "bastiments",
+		"nom": "Bastiments",
+		"nom_amb_article": "el Bastiments",
+		"nom_amb_de": "del Bastiments",
+		"nom_oficial": "Bastiments",
+		"toponim": "Bastiments",
+		"alies": [],
+		"altitud": 2881,
+		"lat": 42.4262,
+		"lon": 2.23291,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Bastiments (Cim, sense municipi)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Bastiments&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3138291",
+				"url": "https://www.wikidata.org/wiki/Q3138291"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 111,
+		"slug": "costa-pubilla-o-pla-de-pujalts",
+		"nom": "Costa Pubilla o Pla de Pujalts",
+		"nom_amb_article": "la Costa Pubilla o Pla de Pujalts",
+		"nom_amb_de": "de la Costa Pubilla o Pla de Pujalts",
+		"nom_oficial": "Costa Pubilla o Pla de Pujalts",
+		"toponim": "Costa Pubilla",
+		"alies": ["Pla de Pujalts"],
+		"altitud": 2056,
+		"lat": 42.28573,
+		"lon": 2.08069,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Costa Pubilla (Cim, Planoles)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Costa%20Pubilla&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5120045",
+				"url": "https://www.wikidata.org/wiki/Q5120045"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 112,
+		"slug": "costabona",
+		"nom": "Costabona",
+		"nom_amb_article": "el Costabona",
+		"nom_amb_de": "del Costabona",
+		"nom_oficial": "Costabona",
+		"toponim": "Costabona",
+		"alies": [],
+		"altitud": 2465,
+		"lat": 42.41692,
+		"lon": 2.34387,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Costabona (Cim, Setcases)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Costabona&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3382362",
+				"url": "https://www.wikidata.org/wiki/Q3382362"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 113,
+		"slug": "puigmal",
+		"nom": "Puigmal",
+		"nom_amb_article": "el Puigmal",
+		"nom_amb_de": "del Puigmal",
+		"nom_oficial": "Puigmal",
+		"toponim": "Puigmal",
+		"alies": [],
+		"altitud": 2910,
+		"lat": 42.3833,
+		"lon": 2.11684,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puigmal (Cim, Queralbs)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puigmal&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17477",
+				"url": "https://www.wikidata.org/wiki/Q17477"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 114,
+		"slug": "taga",
+		"nom": "Taga",
+		"nom_amb_article": "el Taga",
+		"nom_amb_de": "del Taga",
+		"nom_oficial": "Taga",
+		"toponim": "el Taga",
+		"alies": [],
+		"altitud": 2040,
+		"lat": 42.28076,
+		"lon": 2.2099,
+		"comarca": "ripolles",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Taga (Cim, Ribes de Freser)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Taga&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q8538568",
+				"url": "https://www.wikidata.org/wiki/Q8538568"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 115,
+		"slug": "tossal-de-la-creu",
+		"nom": "Tossal de la Creu",
+		"nom_amb_article": "el Tossal de la Creu",
+		"nom_amb_de": "del Tossal de la Creu",
+		"nom_oficial": "Tossal de la Creu",
+		"toponim": "Tossal de la Creu",
+		"alies": [],
+		"altitud": 658,
+		"lat": 41.84659,
+		"lon": 1.40207,
+		"comarca": "segarra",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tossal de la Creu (Cim, Torà)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20de%20la%20Creu&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11952765",
+				"url": "https://www.wikidata.org/wiki/Q11952765"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 116,
+		"slug": "punta-de-montmeneu",
+		"nom": "Punta de Montmeneu",
+		"nom_amb_article": "la Punta de Montmeneu",
+		"nom_amb_de": "de la Punta de Montmeneu",
+		"nom_oficial": "Punta de Montmeneu",
+		"toponim": "Punta de Montmaneu",
+		"alies": [],
+		"altitud": 495,
+		"lat": 41.38871,
+		"lon": 0.40138,
+		"comarca": "segria",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Punta de Montmaneu (Cim, Seròs)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Punta%20de%20Montmaneu&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943937",
+				"url": "https://www.wikidata.org/wiki/Q11943937"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 117,
+		"slug": "les-agudes",
+		"nom": "Les Agudes",
+		"nom_amb_article": "les Agudes",
+		"nom_amb_de": "de les Agudes",
+		"nom_oficial": "Les Agudes",
+		"toponim": "les Agudes",
+		"alies": [],
+		"altitud": 1705,
+		"lat": 41.78932,
+		"lon": 2.44395,
+		"comarca": "selva",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "les Agudes (Cim, Arbúcies)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=les%20Agudes&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6529125",
+				"url": "https://www.wikidata.org/wiki/Q6529125"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 118,
+		"slug": "sant-miquel-de-solterra",
+		"nom": "Sant Miquel de Solterra",
+		"nom_amb_article": "Sant Miquel de Solterra",
+		"nom_amb_de": "de Sant Miquel de Solterra",
+		"nom_oficial": "Sant Miquel de Solterra",
+		"toponim": "Sant Miquel de Solterra",
+		"alies": [],
+		"altitud": 1203,
+		"lat": 41.92311,
+		"lon": 2.53291,
+		"comarca": "selva",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Sant Miquel de Solterra (Cim, Sant Hilari Sacalm)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Sant%20Miquel%20de%20Solterra&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7419105",
+				"url": "https://www.wikidata.org/wiki/Q7419105"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 119,
+		"slug": "turo-de-montsoriu",
+		"nom": "Turó de Montsoriu",
+		"nom_amb_article": "el Turó de Montsoriu",
+		"nom_amb_de": "del Turó de Montsoriu",
+		"nom_oficial": "Turó de Montsoriu",
+		"toponim": "Turó de Montsoriu",
+		"alies": [],
+		"altitud": 633,
+		"lat": 41.78272,
+		"lon": 2.54013,
+		"comarca": "selva",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Turó de Montsoriu (Cim, Sant Feliu de Buixalleu)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tur%C3%B3%20de%20Montsoriu&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482780",
+				"url": "https://www.wikidata.org/wiki/Q17482780"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 120,
+		"slug": "el-cogul",
+		"nom": "El Cogul",
+		"nom_amb_article": "el Cogul",
+		"nom_amb_de": "del Cogul",
+		"nom_oficial": "El Cogul",
+		"toponim": "el Cogul",
+		"alies": [],
+		"altitud": 1526,
+		"lat": 42.11006,
+		"lon": 1.63946,
+		"comarca": "solsones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "el Cogul (Cim, Navès)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Cogul&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q5351039",
+				"url": "https://www.wikidata.org/wiki/Q5351039"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 121,
+		"slug": "puig-de-les-morreres",
+		"nom": "Puig de les Morreres",
+		"nom_amb_article": "el Puig de les Morreres",
+		"nom_amb_de": "del Puig de les Morreres",
+		"nom_oficial": "Puig de les Morreres",
+		"toponim": "Puig de les Morreres",
+		"alies": [],
+		"altitud": 2211,
+		"lat": 42.15096,
+		"lon": 1.53959,
+		"comarca": "solsones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de les Morreres (Cim, la Coma i la Pedra)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20les%20Morreres&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482815",
+				"url": "https://www.wikidata.org/wiki/Q17482815"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 122,
+		"slug": "la-mola",
+		"nom": "La Mola",
+		"nom_amb_article": "la Mola",
+		"nom_amb_de": "de la Mola",
+		"nom_oficial": "La Mola",
+		"toponim": "la Mola",
+		"alies": [],
+		"altitud": 317,
+		"lat": 41.21168,
+		"lon": 1.4173,
+		"comarca": "tarragones",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Mola (Cim, Bonastre)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Mola&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482640",
+				"url": "https://www.wikidata.org/wiki/Q17482640"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 123,
+		"slug": "roques-de-benet",
+		"nom": "Roques de Benet",
+		"nom_amb_article": "les Roques de Benet",
+		"nom_amb_de": "de les Roques de Benet",
+		"nom_oficial": "Roques de Benet",
+		"toponim": "Roques de Benet",
+		"alies": [],
+		"altitud": 1017,
+		"lat": 40.90065,
+		"lon": 0.32655,
+		"comarca": "terra-alta",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q3572470",
+				"url": "https://www.wikidata.org/wiki/Q3572470"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3572470",
+				"url": "https://www.wikidata.org/wiki/Q3572470"
+			}
+		},
+		"confianca": "mitjana",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 124,
+		"slug": "santa-barbara",
+		"nom": "Santa Bàrbara",
+		"nom_amb_article": "Santa Bàrbara",
+		"nom_amb_de": "de Santa Bàrbara",
+		"nom_oficial": "Santa Bàrbara",
+		"toponim": "Santa Bàrbara",
+		"alies": [],
+		"altitud": 752,
+		"lat": 40.9569,
+		"lon": 0.33839,
+		"comarca": "terra-alta",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Santa Bàrbara (Edificació Històrica, Horta de Sant Joan)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Santa%20B%C3%A0rbara&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6936983",
+				"url": "https://www.wikidata.org/wiki/Q6936983"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 125,
+		"slug": "pilar-d-almenara",
+		"nom": "Pilar d'Almenara",
+		"nom_amb_article": "el Pilar d'Almenara",
+		"nom_amb_de": "del Pilar d'Almenara",
+		"nom_oficial": "Pilar d'Almenara",
+		"toponim": "lo Pilar d'Almenara",
+		"alies": [],
+		"altitud": 459,
+		"lat": 41.75342,
+		"lon": 1.06726,
+		"comarca": "urgell",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "lo Pilar d'Almenara (Cim, Agramunt)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=lo%20Pilar%20d'Almenara&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17481224",
+				"url": "https://www.wikidata.org/wiki/Q17481224"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 126,
+		"slug": "mauberme",
+		"nom": "Maubèrme",
+		"nom_amb_article": "el Maubèrme",
+		"nom_amb_de": "del Maubèrme",
+		"nom_oficial": "Maubèrme",
+		"toponim": "Tuc de Maubèrme",
+		"alies": [],
+		"altitud": 2882,
+		"lat": 42.79375,
+		"lon": 0.91714,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc de Maubèrme (Cim, Naut Aran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20de%20Maub%C3%A8rme&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11953291",
+				"url": "https://www.wikidata.org/wiki/Q11953291"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 127,
+		"slug": "montardo",
+		"nom": "Montardo",
+		"nom_amb_article": "el Montardo",
+		"nom_amb_de": "del Montardo",
+		"nom_oficial": "Montardo",
+		"toponim": "Montardo",
+		"alies": [],
+		"altitud": 2833,
+		"lat": 42.63334,
+		"lon": 0.87534,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montardo (Cim, Naut Aran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montardo&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3176503",
+				"url": "https://www.wikidata.org/wiki/Q3176503"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 128,
+		"slug": "montcorbison",
+		"nom": "Montcorbison",
+		"nom_amb_article": "el Montcorbison",
+		"nom_amb_de": "del Montcorbison",
+		"nom_oficial": "Montcorbison",
+		"toponim": "Montcorbison",
+		"alies": [],
+		"altitud": 2173,
+		"lat": 42.70782,
+		"lon": 0.75869,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montcorbison (Cim, Vielha e Mijaran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montcorbison&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17482733",
+				"url": "https://www.wikidata.org/wiki/Q17482733"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 129,
+		"slug": "montlude",
+		"nom": "Montlude",
+		"nom_amb_article": "el Montlude",
+		"nom_amb_de": "del Montlude",
+		"nom_oficial": "Montlude",
+		"toponim": "Montlude",
+		"alies": [],
+		"altitud": 2518,
+		"lat": 42.78526,
+		"lon": 0.75871,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Montlude (Cim, Les)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Montlude&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11937477",
+				"url": "https://www.wikidata.org/wiki/Q11937477"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 130,
+		"slug": "tuc-de-molieres",
+		"nom": "Tuc de Molieres",
+		"nom_amb_article": "el Tuc de Molieres",
+		"nom_amb_de": "del Tuc de Molieres",
+		"nom_oficial": "Tuc de Molieres",
+		"toponim": "Tuc de Molières",
+		"alies": [],
+		"altitud": 3010,
+		"lat": 42.62947,
+		"lon": 0.69857,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc de Molières (Cim, Vielha e Mijaran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20de%20Moli%C3%A8res&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6743484",
+				"url": "https://www.wikidata.org/wiki/Q6743484"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 131,
+		"slug": "tuc-deth-port-de-vielha",
+		"nom": "Tuc deth Port de Vielha",
+		"nom_amb_article": "el Tuc deth Port de Vielha",
+		"nom_amb_de": "del Tuc deth Port de Vielha",
+		"nom_oficial": "Tuc deth Port de Vielha",
+		"toponim": "Tuc deth Pòrt de Vielha",
+		"alies": [],
+		"altitud": 2606,
+		"lat": 42.64189,
+		"lon": 0.76553,
+		"comarca": "val-d-aran",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Tuc deth Pòrt de Vielha (Cim, Vielha e Mijaran)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tuc%20deth%20P%C3%B2rt%20de%20Vielha&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483068",
+				"url": "https://www.wikidata.org/wiki/Q17483068"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 132,
+		"slug": "castellsapera",
+		"nom": "Castellsapera",
+		"nom_amb_article": "el Castellsapera",
+		"nom_amb_de": "del Castellsapera",
+		"nom_oficial": "Castellsapera",
+		"toponim": "Castellsapera",
+		"alies": [],
+		"altitud": 939,
+		"lat": 41.64454,
+		"lon": 1.97087,
+		"comarca": "valles-occidental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Castellsapera (Cim, Vacarisses)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Castellsapera&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11913195",
+				"url": "https://www.wikidata.org/wiki/Q11913195"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 133,
+		"slug": "la-mola-de-sant-llorenc-del-munt",
+		"nom": "La Mola de Sant Llorenç del Munt",
+		"nom_amb_article": "la Mola de Sant Llorenç del Munt",
+		"nom_amb_de": "de la Mola de Sant Llorenç del Munt",
+		"nom_oficial": "La Mola de Sant Llorenç del Munt",
+		"toponim": "la Mola",
+		"alies": [],
+		"altitud": 1103,
+		"lat": 41.64127,
+		"lon": 2.0179,
+		"comarca": "valles-occidental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Mola (Cim, Matadepera)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Mola&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q1844624",
+				"url": "https://www.wikidata.org/wiki/Q1844624"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 134,
+		"slug": "puig-de-la-creu",
+		"nom": "Puig de la Creu",
+		"nom_amb_article": "el Puig de la Creu",
+		"nom_amb_de": "del Puig de la Creu",
+		"nom_oficial": "Puig de la Creu",
+		"toponim": "Puig de la Creu",
+		"alies": [],
+		"altitud": 668,
+		"lat": 41.6291,
+		"lon": 2.10125,
+		"comarca": "valles-occidental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Puig de la Creu (Cim, Castellar del Vallès)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Puig%20de%20la%20Creu&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943683",
+				"url": "https://www.wikidata.org/wiki/Q11943683"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 135,
+		"slug": "sant-sadurni-de-gallifa",
+		"nom": "Sant Sadurní de Gallifa",
+		"nom_amb_article": "Sant Sadurní de Gallifa",
+		"nom_amb_de": "de Sant Sadurní de Gallifa",
+		"nom_oficial": "Sant Sadurní de Gallifa",
+		"toponim": "la Mola",
+		"alies": [],
+		"altitud": 942,
+		"lat": 41.7026,
+		"lon": 2.12295,
+		"comarca": "valles-occidental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "la Mola (Cim, Gallifa)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Mola&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17147114",
+				"url": "https://www.wikidata.org/wiki/Q17147114"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 136,
+		"slug": "pic-del-vent",
+		"nom": "Pic del Vent",
+		"nom_amb_article": "el Pic del Vent",
+		"nom_amb_de": "del Pic del Vent",
+		"nom_oficial": "Pic del Vent",
+		"toponim": "Pic del Vent",
+		"alies": [],
+		"altitud": 815,
+		"lat": 41.6553,
+		"lon": 2.12828,
+		"comarca": "valles-oriental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Pic del Vent (Cim, Caldes de Montbui)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Pic%20del%20Vent&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q17483827",
+				"url": "https://www.wikidata.org/wiki/Q17483827"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 137,
+		"slug": "tagamanent",
+		"nom": "Tagamanent",
+		"nom_amb_article": "el Tagamanent",
+		"nom_amb_de": "del Tagamanent",
+		"nom_oficial": "Tagamanent",
+		"toponim": "Turó de Tagamanent",
+		"alies": [],
+		"altitud": 1058,
+		"lat": 41.74752,
+		"lon": 2.29642,
+		"comarca": "valles-oriental",
+		"zona": "catalunya",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "icgc",
+				"ref": "Turó de Tagamanent (Cim, Tagamanent)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tur%C3%B3%20de%20Tagamanent&layers=topo1,topo2&size=25"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7856606",
+				"url": "https://www.wikidata.org/wiki/Q7856606"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 138,
+		"slug": "casamanya-nord",
+		"nom": "Casamanya Nord",
+		"nom_amb_article": "el Casamanya Nord",
+		"nom_amb_de": "del Casamanya Nord",
+		"nom_oficial": "Casamanya Nord",
+		"toponim": "Pic de Casamanya",
+		"alies": [],
+		"altitud": 2750,
+		"lat": 42.58734,
+		"lon": 1.5703,
+		"comarca": "andorra",
+		"zona": "andorra",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q3030915",
+				"url": "https://www.wikidata.org/wiki/Q3030915"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3030915",
+				"url": "https://www.wikidata.org/wiki/Q3030915"
+			}
+		},
+		"confianca": "mitjana",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 139,
+		"slug": "comapedrosa",
+		"nom": "Comapedrosa",
+		"nom_amb_article": "el Comapedrosa",
+		"nom_amb_de": "del Comapedrosa",
+		"nom_oficial": "Comapedrosa",
+		"toponim": "Comapedrosa, Coma Pedrosa",
+		"alies": [],
+		"altitud": 2942,
+		"lat": 42.59181,
+		"lon": 1.44365,
+		"comarca": "andorra",
+		"zona": "andorra",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q62467",
+				"url": "https://www.wikidata.org/wiki/Q62467"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q62467",
+				"url": "https://www.wikidata.org/wiki/Q62467"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 140,
+		"slug": "pic-de-la-serrera",
+		"nom": "Pic de la Serrera",
+		"nom_amb_article": "el Pic de la Serrera",
+		"nom_amb_de": "del Pic de la Serrera",
+		"nom_oficial": "Pic de la Serrera",
+		"toponim": "Pic de la Serrera",
+		"alies": [],
+		"altitud": 2912,
+		"lat": 42.62554,
+		"lon": 1.60251,
+		"comarca": "andorra",
+		"zona": "andorra",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q11941547",
+				"url": "https://www.wikidata.org/wiki/Q11941547"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11941547",
+				"url": "https://www.wikidata.org/wiki/Q11941547"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 141,
+		"slug": "pic-negre-d-envalira",
+		"nom": "Pic Negre d'Envalira",
+		"nom_amb_article": "el Pic Negre d'Envalira",
+		"nom_amb_de": "del Pic Negre d'Envalira",
+		"nom_oficial": "Pic Negre d'Envalira",
+		"toponim": "Pic Negre d'Envalira",
+		"alies": [],
+		"altitud": 2822,
+		"lat": 42.51725,
+		"lon": 1.72144,
+		"comarca": "andorra",
+		"zona": "andorra",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q15918235",
+				"url": "https://www.wikidata.org/wiki/Q15918235"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q15918235",
+				"url": "https://www.wikidata.org/wiki/Q15918235"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 142,
+		"slug": "tristaina",
+		"nom": "Tristaina",
+		"nom_amb_article": "el Tristaina",
+		"nom_amb_de": "del Tristaina",
+		"nom_oficial": "Tristaina",
+		"toponim": "Tristaina",
+		"alies": [],
+		"altitud": 2878,
+		"lat": 42.65342,
+		"lon": 1.49344,
+		"comarca": "andorra",
+		"zona": "andorra",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q3382394",
+				"url": "https://www.wikidata.org/wiki/Q3382394"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q3382394",
+				"url": "https://www.wikidata.org/wiki/Q3382394"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 143,
+		"slug": "cambra-d-ase",
+		"nom": "Cambra d'Ase",
+		"nom_amb_article": "la Cambra d'Ase",
+		"nom_amb_de": "de la Cambra d'Ase",
+		"nom_oficial": "Cambra d'Ase",
+		"toponim": "Cambra d'Ase",
+		"alies": [],
+		"altitud": 2750,
+		"lat": 42.45101,
+		"lon": 2.13149,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038467142",
+				"url": "https://data.geopf.fr/geocodage/search?q=Cambra%20d'Ase&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q2934685",
+				"url": "https://www.wikidata.org/wiki/Q2934685"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 144,
+		"slug": "canigo",
+		"nom": "Canigó",
+		"nom_amb_article": "el Canigó",
+		"nom_amb_de": "del Canigó",
+		"nom_oficial": "Canigó",
+		"toponim": "Pic du Canigou (Pic del Canigó)",
+		"alies": [],
+		"altitud": 2784,
+		"lat": 42.51876,
+		"lon": 2.45677,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038466061",
+				"url": "https://data.geopf.fr/geocodage/search?q=Pic%20du%20Canigou%20(Pic%20del%20Canig%C3%B3)&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q6650",
+				"url": "https://www.wikidata.org/wiki/Q6650"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 145,
+		"slug": "carlit",
+		"nom": "Carlit",
+		"nom_amb_article": "el Carlit",
+		"nom_amb_de": "del Carlit",
+		"nom_oficial": "Carlit",
+		"toponim": "Puig Carlit",
+		"alies": [],
+		"altitud": 2921,
+		"lat": 42.56986,
+		"lon": 1.93215,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038465621",
+				"url": "https://data.geopf.fr/geocodage/search?q=Puig%20Carlit&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q2476121",
+				"url": "https://www.wikidata.org/wiki/Q2476121"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 146,
+		"slug": "puig-de-tretzevents",
+		"nom": "Puig de Tretzevents",
+		"nom_amb_article": "el Puig de Tretzevents",
+		"nom_amb_de": "del Puig de Tretzevents",
+		"nom_oficial": "Puig de Tretzevents",
+		"toponim": "Cim del Tretzevents",
+		"alies": [],
+		"altitud": 2731,
+		"lat": 42.4921,
+		"lon": 2.46836,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q7838888",
+				"url": "https://www.wikidata.org/wiki/Q7838888"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q7838888",
+				"url": "https://www.wikidata.org/wiki/Q7838888"
+			}
+		},
+		"confianca": "mitjana",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 147,
+		"slug": "puig-peric",
+		"nom": "Puig Peric",
+		"nom_amb_article": "el Puig Peric",
+		"nom_amb_de": "del Puig Peric",
+		"nom_oficial": "Puig Peric",
+		"toponim": "Puig Peric",
+		"alies": [],
+		"altitud": 2810,
+		"lat": 42.6135,
+		"lon": 1.98442,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038465149",
+				"url": "https://data.geopf.fr/geocodage/search?q=Puig%20Peric&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q11943424",
+				"url": "https://www.wikidata.org/wiki/Q11943424"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 148,
+		"slug": "roc-de-madres",
+		"nom": "Roc de Madres",
+		"nom_amb_article": "el Roc de Madres",
+		"nom_amb_de": "del Roc de Madres",
+		"nom_oficial": "Roc de Madres",
+		"toponim": "el Madres",
+		"alies": [],
+		"altitud": 2469,
+		"lat": 42.65196,
+		"lon": 2.19264,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038464733",
+				"url": "https://data.geopf.fr/geocodage/search?q=el%20Madres&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q954784",
+				"url": "https://www.wikidata.org/wiki/Q954784"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 149,
+		"slug": "torre-d-eina",
+		"nom": "Torre d'Eina",
+		"nom_amb_article": "la Torre d'Eina",
+		"nom_amb_de": "de la Torre d'Eina",
+		"nom_oficial": "Torre d'Eina",
+		"toponim": "la Torre d'Eina (la Tour d'Eyne)",
+		"alies": [],
+		"altitud": 2830,
+		"lat": 42.43457,
+		"lon": 2.14691,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "ign",
+				"ref": "PAIOROGR0000000038467282",
+				"url": "https://data.geopf.fr/geocodage/search?q=la%20Torre%20d'Eina%20(la%20Tour%20d'Eyne)&index=poi&limit=10&lat=42.5&lon=2.3"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q56401322",
+				"url": "https://www.wikidata.org/wiki/Q56401322"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	},
+	{
+		"id": 150,
+		"slug": "torre-de-madeloc",
+		"nom": "Torre de Madeloc",
+		"nom_amb_article": "la Torre de Madeloc",
+		"nom_amb_de": "de la Torre de Madeloc",
+		"nom_oficial": "Torre de Madeloc",
+		"toponim": "Torre de Madeloc",
+		"alies": [],
+		"altitud": 656,
+		"lat": 42.49043,
+		"lon": 3.07512,
+		"comarca": "catalunya-nord",
+		"zona": "catalunya-nord",
+		"essencial": true,
+		"restriccions": [],
+		"fonts": {
+			"nom": {
+				"font": "feec_pdf_essencials",
+				"ref": null,
+				"url": "https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf"
+			},
+			"coordenades": {
+				"font": "wikidata",
+				"ref": "Q113114809",
+				"url": "https://www.wikidata.org/wiki/Q113114809"
+			},
+			"altitud": {
+				"font": "wikidata",
+				"ref": "Q113114809",
+				"url": "https://www.wikidata.org/wiki/Q113114809"
+			}
+		},
+		"confianca": "alta",
+		"estat_revisio": "esborrany"
+	}
+]

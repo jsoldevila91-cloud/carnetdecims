@@ -65,7 +65,7 @@ export interface Cim {
 	nom_amb_article: string;
 	/** Con preposición: "del Pedraforca", "de la Picossa". */
 	nom_amb_de: string;
-	/** Altitud en metros (valor FEEC). */
+	/** Altitud en metros (entero). Catálogo propio: ICGC/IGN/OSM/Wikidata, no la tabla FEEC. */
 	altitud: number;
 	/** Identificador (slug/código) de la comarca asignada por la FEEC. */
 	comarca: string;
@@ -77,6 +77,62 @@ export interface Cim {
 	lon: number | null;
 	mide?: Mide;
 	restriccions: RestriccioAcces[];
+}
+
+/** Procedencia de un dato del catálogo (`fonts_dades.font` en SQL). */
+export const FONTS_DADES = [
+	'feec_pdf_essencials',
+	'icgc',
+	'icgc_mdt',
+	'ign',
+	'ign_alti',
+	'osm',
+	'wikidata',
+	'manual'
+] as const;
+export type FontDada = (typeof FONTS_DADES)[number];
+
+/** Procedencia de un campo concreto: fuente + identificador/URL del registro original. */
+export interface FontCamp {
+	font: FontDada;
+	/** Id del registro en la fuente (nodo OSM, Qid, cleabs IGN, topónimo ICGC...). */
+	ref: string | null;
+	url: string | null;
+	/** Obligatoria si `font = 'manual'`: de dónde sale el dato y cómo se ha comprobado. */
+	nota?: string;
+}
+
+export type Confianca = 'alta' | 'mitjana' | 'baixa';
+export type EstatRevisio = 'esborrany' | 'revisat';
+
+/**
+ * Cima tal como está en el catálogo estático (`src/lib/data/catalog/cims.json`):
+ * `Cim` + metadatos de procedencia y revisión.
+ */
+export interface CimCataleg extends Cim {
+	/** Nombre tal cual en la lista de esenciales de la FEEC (PDF). */
+	nom_oficial: string;
+	/** Topónimo en la fuente geográfica usada (ICGC/IGN/OSM); `null` si no hay. */
+	toponim: string | null;
+	/** Otros nombres para la búsqueda ("Pedraforca", "Mont Caro"...). */
+	alies: string[];
+	fonts: { nom: FontCamp; coordenades: FontCamp | null; altitud: FontCamp | null };
+	confianca: Confianca;
+	estat_revisio: EstatRevisio;
+}
+
+/** Comarca o zona (`comarques.json`). */
+export interface ComarcaCataleg {
+	slug: string;
+	nom: string;
+	/** "l'Alt Camp", "el Bages", "Osona", "la Catalunya Nord". */
+	nom_amb_article: string;
+	/** "de l'Alt Camp", "del Bages", "d'Osona". */
+	nom_amb_de: string;
+	zona: Zona;
+	/** `id_comarca` del ICGC (1..43); `null` fuera de Catalunya. */
+	codi_icgc: number | null;
+	n_essencials: number;
 }
 
 /** Ascensión registrada por el usuario (local-first; mismos campos que la nube). */

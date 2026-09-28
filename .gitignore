@@ -29,3 +29,6 @@ project.inlang/cache/
 coverage
 playwright-report
 *.log
+
+# Catàleg: caché de respostes de les fonts (scripts/catalog)
+scripts/catalog/.cache/

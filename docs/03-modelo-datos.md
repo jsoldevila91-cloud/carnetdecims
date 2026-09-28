@@ -70,6 +70,8 @@ continguts (                              -- textos traducibles con revisión
 contingut_fonts (contingut_id fk, url text, titol text, consultat_at date, llicencia text)
 ```
 
+> **Fase 2 (2026-09-28):** el esquema está en `supabase/migrations/0001_cataleg.sql` con estos cambios respecto al borrador: `zones` → **`comarques`** (mismo contenido, nombre alineado con `comarques.json`); `cims.zona_id` → `comarca_id`; `altitud_m` pasa a `smallint` (valor propio, no FEEC; ver §4.4); nuevas columnas `nom_amb_article_ca`, `nom_amb_de_ca`, `toponim`, `confianca` (`alta|mitjana|baixa`) y `estat_revisio`; `fonts_dades.font` es un enum (`feec_pdf_essencials`, `icgc`, `icgc_mdt`, `ign`, `ign_alti`, `osm`, `wikidata`, `manual`) con `nota` obligatoria si es `manual`. RLS: lectura pública (rutas y textos solo si están `revisat`); escritura solo `service_role`. El catálogo estático está en `src/lib/data/catalog/` (no en `data/catalog/`).
+
 Reglas de contenido: un campo sin datos fiables queda en `null` (nunca se inventa). Una página ca/es solo es indexable si sus `continguts` principales están en `revisat` (coordinado con seo-expert). La **fuente de verdad del catálogo son ficheros versionados en el repo** (`data/catalog/*.json`), que un script de _seed_ vuelca a Postgres; el prerender lee los mismos ficheros.
 
 ### 1.2 Datos de usuario (RLS: `user_id = auth.uid()`)
@@ -204,6 +206,32 @@ Nota ODbL: si una coordenada sale de OSM y publicamos el catálogo como base de 
 ### 4.4 Atribuciones obligatorias (pie del mapa + página `/metodologia`)
 
 "© Institut Cartogràfic i Geològic de Catalunya (ICGC), CC BY 4.0" · "© OpenStreetMap contributors, ODbL" · "© OpenMapTiles" · relieve "© Mapterhorn" · meteo "Open-Meteo, CC BY 4.0" (o "MET Norway, CC BY 4.0") · "Llista de cims: FEEC, repte 100 Cims. Web no oficial; la validació d'ascensions la fa la FEEC a través de les entitats."
+
+**Lo que se ha usado finalmente en la fase 2 (150 esenciales, `npm run catalog:build`, 2026-09-28).** Decisión del usuario: no se contacta con la FEEC y **no se copia la tabla de 522** (ni altitudes ni nº de ascensiones de su web). De la FEEC solo se usa el hecho público de qué cimas son esenciales y a qué comarca las asigna (PDF).
+
+| Dato                                  | Fuente (servicio)                                                                           | Licencia / atribución                                               | Uso en `cims.json`                                                                                |
+| ------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Lista de esenciales y comarca         | PDF `Essencials-100-cims.pdf` de la FEEC                                                    | Hechos (sin derechos); se cita la fuente                            | `nom`, `nom_oficial`, `comarca`, `essencial` (`fonts.nom = feec_pdf_essencials`)                  |
+| Coordenadas y topónimo (Catalunya)    | Geocodificador ICGC `eines.icgc.cat/geocodificador` (capas topo1/topo2)                     | CC BY 4.0 — "© Institut Cartogràfic i Geològic de Catalunya (ICGC)" | 134 cimas (`fonts.coordenades = icgc`)                                                            |
+| Elevación de control                  | WCS MET-5 del ICGC `geoserveis.icgc.cat/icc_mdt/wcs/service` (Catalunya y parte de Andorra) | CC BY 4.0 (ICGC)                                                    | Validación de la altitud (máximo en 60 m); valor de reserva `icgc_mdt`                            |
+| Límites comarcales                    | WFS Divisions administratives del ICGC (1:250.000)                                          | CC BY 4.0 (ICGC)                                                    | Solo para emparejar (no se publica)                                                               |
+| Coordenadas (Catalunya Nord)          | Géoplateforme IGN `data.geopf.fr/geocodage` (POI BD TOPO)                                   | Licence Ouverte 2.0 — "© IGN France"                                | 6 cimas (`ign`)                                                                                   |
+| Elevación de control (Catalunya Nord) | IGN RGE ALTI `data.geopf.fr/altimetrie`                                                     | Licence Ouverte 2.0 — "© IGN France"                                | Validación de la altitud                                                                          |
+| Altitud declarada y coordenadas       | Wikidata (SPARQL, una consulta por bbox)                                                    | CC0 (sin obligación; se cita por transparencia)                     | Altitud de 147 cimas; coordenadas de 10 (Andorra, casos revisados)                                |
+| Altitud declarada (y validación)      | OpenStreetMap vía Overpass (una consulta por bbox, `natural=peak`)                          | ODbL 1.0 — "© OpenStreetMap contributors"                           | Altitud de 3 cimas; validación cruzada de las demás. **Ninguna coordenada publicada sale de OSM** |
+
+Notas de licencia:
+
+- Como 3 altitudes proceden de OSM, `cims.json` contiene una parte pequeña derivada de una base ODbL. Mostrarlas en páginas/mapas es "obra producida" (basta atribuir). Si algún día se publica el JSON como descarga, esas filas (`fonts.altitud.font = 'osm'`) deben ofrecerse bajo ODbL o sustituirse por otra fuente. El build ya prefiere Wikidata (CC0) sobre OSM cuando ambas cuadran con el MDT.
+- Regla de altitud: valor declarado (Wikidata/OSM, que suele reproducir la cota del mapa oficial) que queda a ±15 m del máximo del MDT; si ninguno encaja, el MDT redondeado. Diferencias > 15 m entre fuentes → `scripts/catalog/informe.md`.
+- Cortesía de uso: User-Agent identificable (`carnetdecims.cat catalog script`), ritmo lento (1,1 s entre peticiones; 10 s Overpass; 5 s Wikidata) y caché en `scripts/catalog/.cache/` (ignorada en git): una reconstrucción no vuelve a consultar los servicios (`CATALOG_OFFLINE=1` lo garantiza).
+- Claves de mensajes para el texto de atribución (sin UI todavía): `attribution_title`, `attribution_list`, `attribution_icgc`, `attribution_ign`, `attribution_osm`, `attribution_wikidata`, `catalog_draft_notice` (`messages/ca.json`, `messages/es.json`).
+
+### 4.5 Estado del catálogo (fase 2)
+
+- Pipeline: `scripts/catalog/` (`essencials.ts` lista del PDF, `comarques.ts`, `fonts/*` por servicio, `manual.ts` resoluciones manuales documentadas, `build.ts`). Salidas deterministas: `src/lib/data/catalog/cims.json`, `comarques.json` y `scripts/catalog/informe.md` (revisión humana). Validador: `src/lib/data/catalog/catalog.spec.ts`.
+- Resultado: 150/150 con coordenadas y altitud. Confianza calculada: alta 146, mitjana 4, baixa 0. Todas las cimas quedan `estat_revisio = 'esborrany'` hasta la revisión humana.
+- Casos resueltos a mano (homónimos, límites comarcales cambiados como Torà/Biosca → Solsonès, puntos OSM desplazados) en `manual.ts`, cada uno con nota y fuente.
 
 ## Fuentes
 

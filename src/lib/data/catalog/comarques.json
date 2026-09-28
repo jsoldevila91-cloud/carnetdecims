@@ -1,0 +1,398 @@
+[
+	{
+		"slug": "alt-camp",
+		"nom": "Alt Camp",
+		"nom_amb_article": "l'Alt Camp",
+		"nom_amb_de": "de l'Alt Camp",
+		"zona": "catalunya",
+		"codi_icgc": 1,
+		"n_essencials": 3
+	},
+	{
+		"slug": "alt-emporda",
+		"nom": "Alt Empordà",
+		"nom_amb_article": "l'Alt Empordà",
+		"nom_amb_de": "de l'Alt Empordà",
+		"zona": "catalunya",
+		"codi_icgc": 2,
+		"n_essencials": 5
+	},
+	{
+		"slug": "alt-penedes",
+		"nom": "Alt Penedès",
+		"nom_amb_article": "l'Alt Penedès",
+		"nom_amb_de": "de l'Alt Penedès",
+		"zona": "catalunya",
+		"codi_icgc": 3,
+		"n_essencials": 2
+	},
+	{
+		"slug": "alt-urgell",
+		"nom": "Alt Urgell",
+		"nom_amb_article": "l'Alt Urgell",
+		"nom_amb_de": "de l'Alt Urgell",
+		"zona": "catalunya",
+		"codi_icgc": 4,
+		"n_essencials": 9
+	},
+	{
+		"slug": "alta-ribagorca",
+		"nom": "Alta Ribagorça",
+		"nom_amb_article": "l'Alta Ribagorça",
+		"nom_amb_de": "de l'Alta Ribagorça",
+		"zona": "catalunya",
+		"codi_icgc": 5,
+		"n_essencials": 6
+	},
+	{
+		"slug": "anoia",
+		"nom": "Anoia",
+		"nom_amb_article": "l'Anoia",
+		"nom_amb_de": "de l'Anoia",
+		"zona": "catalunya",
+		"codi_icgc": 6,
+		"n_essencials": 3
+	},
+	{
+		"slug": "bages",
+		"nom": "Bages",
+		"nom_amb_article": "el Bages",
+		"nom_amb_de": "del Bages",
+		"zona": "catalunya",
+		"codi_icgc": 7,
+		"n_essencials": 3
+	},
+	{
+		"slug": "baix-camp",
+		"nom": "Baix Camp",
+		"nom_amb_article": "el Baix Camp",
+		"nom_amb_de": "del Baix Camp",
+		"zona": "catalunya",
+		"codi_icgc": 8,
+		"n_essencials": 6
+	},
+	{
+		"slug": "baix-ebre",
+		"nom": "Baix Ebre",
+		"nom_amb_article": "el Baix Ebre",
+		"nom_amb_de": "del Baix Ebre",
+		"zona": "catalunya",
+		"codi_icgc": 9,
+		"n_essencials": 3
+	},
+	{
+		"slug": "baix-emporda",
+		"nom": "Baix Empordà",
+		"nom_amb_article": "el Baix Empordà",
+		"nom_amb_de": "del Baix Empordà",
+		"zona": "catalunya",
+		"codi_icgc": 10,
+		"n_essencials": 1
+	},
+	{
+		"slug": "baix-llobregat",
+		"nom": "Baix Llobregat",
+		"nom_amb_article": "el Baix Llobregat",
+		"nom_amb_de": "del Baix Llobregat",
+		"zona": "catalunya",
+		"codi_icgc": 11,
+		"n_essencials": 4
+	},
+	{
+		"slug": "baix-penedes",
+		"nom": "Baix Penedès",
+		"nom_amb_article": "el Baix Penedès",
+		"nom_amb_de": "del Baix Penedès",
+		"zona": "catalunya",
+		"codi_icgc": 12,
+		"n_essencials": 1
+	},
+	{
+		"slug": "barcelones",
+		"nom": "Barcelonès",
+		"nom_amb_article": "el Barcelonès",
+		"nom_amb_de": "del Barcelonès",
+		"zona": "catalunya",
+		"codi_icgc": 13,
+		"n_essencials": 2
+	},
+	{
+		"slug": "bergueda",
+		"nom": "Berguedà",
+		"nom_amb_article": "el Berguedà",
+		"nom_amb_de": "del Berguedà",
+		"zona": "catalunya",
+		"codi_icgc": 14,
+		"n_essencials": 6
+	},
+	{
+		"slug": "cerdanya",
+		"nom": "Cerdanya",
+		"nom_amb_article": "la Cerdanya",
+		"nom_amb_de": "de la Cerdanya",
+		"zona": "catalunya",
+		"codi_icgc": 15,
+		"n_essencials": 4
+	},
+	{
+		"slug": "conca-de-barbera",
+		"nom": "Conca de Barberà",
+		"nom_amb_article": "la Conca de Barberà",
+		"nom_amb_de": "de la Conca de Barberà",
+		"zona": "catalunya",
+		"codi_icgc": 16,
+		"n_essencials": 4
+	},
+	{
+		"slug": "garraf",
+		"nom": "Garraf",
+		"nom_amb_article": "el Garraf",
+		"nom_amb_de": "del Garraf",
+		"zona": "catalunya",
+		"codi_icgc": 17,
+		"n_essencials": 1
+	},
+	{
+		"slug": "garrigues",
+		"nom": "Garrigues",
+		"nom_amb_article": "les Garrigues",
+		"nom_amb_de": "de les Garrigues",
+		"zona": "catalunya",
+		"codi_icgc": 18,
+		"n_essencials": 1
+	},
+	{
+		"slug": "garrotxa",
+		"nom": "Garrotxa",
+		"nom_amb_article": "la Garrotxa",
+		"nom_amb_de": "de la Garrotxa",
+		"zona": "catalunya",
+		"codi_icgc": 19,
+		"n_essencials": 4
+	},
+	{
+		"slug": "girones",
+		"nom": "Gironès",
+		"nom_amb_article": "el Gironès",
+		"nom_amb_de": "del Gironès",
+		"zona": "catalunya",
+		"codi_icgc": 20,
+		"n_essencials": 2
+	},
+	{
+		"slug": "maresme",
+		"nom": "Maresme",
+		"nom_amb_article": "el Maresme",
+		"nom_amb_de": "del Maresme",
+		"zona": "catalunya",
+		"codi_icgc": 21,
+		"n_essencials": 2
+	},
+	{
+		"slug": "moianes",
+		"nom": "Moianès",
+		"nom_amb_article": "el Moianès",
+		"nom_amb_de": "del Moianès",
+		"zona": "catalunya",
+		"codi_icgc": 42,
+		"n_essencials": 1
+	},
+	{
+		"slug": "montsia",
+		"nom": "Montsià",
+		"nom_amb_article": "el Montsià",
+		"nom_amb_de": "del Montsià",
+		"zona": "catalunya",
+		"codi_icgc": 22,
+		"n_essencials": 2
+	},
+	{
+		"slug": "noguera",
+		"nom": "Noguera",
+		"nom_amb_article": "la Noguera",
+		"nom_amb_de": "de la Noguera",
+		"zona": "catalunya",
+		"codi_icgc": 23,
+		"n_essencials": 4
+	},
+	{
+		"slug": "osona",
+		"nom": "Osona",
+		"nom_amb_article": "Osona",
+		"nom_amb_de": "d'Osona",
+		"zona": "catalunya",
+		"codi_icgc": 24,
+		"n_essencials": 5
+	},
+	{
+		"slug": "pallars-jussa",
+		"nom": "Pallars Jussà",
+		"nom_amb_article": "el Pallars Jussà",
+		"nom_amb_de": "del Pallars Jussà",
+		"zona": "catalunya",
+		"codi_icgc": 25,
+		"n_essencials": 7
+	},
+	{
+		"slug": "pallars-sobira",
+		"nom": "Pallars Sobirà",
+		"nom_amb_article": "el Pallars Sobirà",
+		"nom_amb_de": "del Pallars Sobirà",
+		"zona": "catalunya",
+		"codi_icgc": 26,
+		"n_essencials": 11
+	},
+	{
+		"slug": "pla-d-urgell",
+		"nom": "Pla d'Urgell",
+		"nom_amb_article": "el Pla d'Urgell",
+		"nom_amb_de": "del Pla d'Urgell",
+		"zona": "catalunya",
+		"codi_icgc": 27,
+		"n_essencials": 1
+	},
+	{
+		"slug": "pla-de-l-estany",
+		"nom": "Pla de l'Estany",
+		"nom_amb_article": "el Pla de l'Estany",
+		"nom_amb_de": "del Pla de l'Estany",
+		"zona": "catalunya",
+		"codi_icgc": 28,
+		"n_essencials": 1
+	},
+	{
+		"slug": "priorat",
+		"nom": "Priorat",
+		"nom_amb_article": "el Priorat",
+		"nom_amb_de": "del Priorat",
+		"zona": "catalunya",
+		"codi_icgc": 29,
+		"n_essencials": 1
+	},
+	{
+		"slug": "ribera-d-ebre",
+		"nom": "Ribera d'Ebre",
+		"nom_amb_article": "la Ribera d'Ebre",
+		"nom_amb_de": "de la Ribera d'Ebre",
+		"zona": "catalunya",
+		"codi_icgc": 30,
+		"n_essencials": 3
+	},
+	{
+		"slug": "ripolles",
+		"nom": "Ripollès",
+		"nom_amb_article": "el Ripollès",
+		"nom_amb_de": "del Ripollès",
+		"zona": "catalunya",
+		"codi_icgc": 31,
+		"n_essencials": 6
+	},
+	{
+		"slug": "segarra",
+		"nom": "Segarra",
+		"nom_amb_article": "la Segarra",
+		"nom_amb_de": "de la Segarra",
+		"zona": "catalunya",
+		"codi_icgc": 32,
+		"n_essencials": 1
+	},
+	{
+		"slug": "segria",
+		"nom": "Segrià",
+		"nom_amb_article": "el Segrià",
+		"nom_amb_de": "del Segrià",
+		"zona": "catalunya",
+		"codi_icgc": 33,
+		"n_essencials": 1
+	},
+	{
+		"slug": "selva",
+		"nom": "Selva",
+		"nom_amb_article": "la Selva",
+		"nom_amb_de": "de la Selva",
+		"zona": "catalunya",
+		"codi_icgc": 34,
+		"n_essencials": 3
+	},
+	{
+		"slug": "solsones",
+		"nom": "Solsonès",
+		"nom_amb_article": "el Solsonès",
+		"nom_amb_de": "del Solsonès",
+		"zona": "catalunya",
+		"codi_icgc": 35,
+		"n_essencials": 2
+	},
+	{
+		"slug": "tarragones",
+		"nom": "Tarragonès",
+		"nom_amb_article": "el Tarragonès",
+		"nom_amb_de": "del Tarragonès",
+		"zona": "catalunya",
+		"codi_icgc": 36,
+		"n_essencials": 1
+	},
+	{
+		"slug": "terra-alta",
+		"nom": "Terra Alta",
+		"nom_amb_article": "la Terra Alta",
+		"nom_amb_de": "de la Terra Alta",
+		"zona": "catalunya",
+		"codi_icgc": 37,
+		"n_essencials": 2
+	},
+	{
+		"slug": "urgell",
+		"nom": "Urgell",
+		"nom_amb_article": "l'Urgell",
+		"nom_amb_de": "de l'Urgell",
+		"zona": "catalunya",
+		"codi_icgc": 38,
+		"n_essencials": 1
+	},
+	{
+		"slug": "val-d-aran",
+		"nom": "Val d'Aran",
+		"nom_amb_article": "la Val d'Aran",
+		"nom_amb_de": "de la Val d'Aran",
+		"zona": "catalunya",
+		"codi_icgc": 39,
+		"n_essencials": 6
+	},
+	{
+		"slug": "valles-occidental",
+		"nom": "Vallès Occidental",
+		"nom_amb_article": "el Vallès Occidental",
+		"nom_amb_de": "del Vallès Occidental",
+		"zona": "catalunya",
+		"codi_icgc": 40,
+		"n_essencials": 4
+	},
+	{
+		"slug": "valles-oriental",
+		"nom": "Vallès Oriental",
+		"nom_amb_article": "el Vallès Oriental",
+		"nom_amb_de": "del Vallès Oriental",
+		"zona": "catalunya",
+		"codi_icgc": 41,
+		"n_essencials": 2
+	},
+	{
+		"slug": "andorra",
+		"nom": "Andorra",
+		"nom_amb_article": "Andorra",
+		"nom_amb_de": "d'Andorra",
+		"zona": "andorra",
+		"codi_icgc": null,
+		"n_essencials": 5
+	},
+	{
+		"slug": "catalunya-nord",
+		"nom": "Catalunya Nord",
+		"nom_amb_article": "la Catalunya Nord",
+		"nom_amb_de": "de la Catalunya Nord",
+		"zona": "catalunya-nord",
+		"codi_icgc": null,
+		"n_essencials": 8
+	}
+]

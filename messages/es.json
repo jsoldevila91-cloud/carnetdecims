@@ -96,5 +96,13 @@
 	"error_title_404": "No hemos encontrado esta página",
 	"error_title_generic": "Algo ha fallado",
 	"error_text": "Vuelve al inicio o busca la cima en la lista.",
-	"error_home": "Volver al inicio"
+	"error_home": "Volver al inicio",
+
+	"attribution_title": "Fuentes de los datos",
+	"attribution_list": "Lista de cimas esenciales: reto 100 Cims de la FEEC (lista pública). Web no oficial; la validación de ascensiones la hace la FEEC a través de las entidades.",
+	"attribution_icgc": "Coordenadas, topónimos y elevaciones de Cataluña: © Institut Cartogràfic i Geològic de Catalunya (ICGC), CC BY 4.0.",
+	"attribution_ign": "Cataluña Norte: © IGN France (BD TOPO, RGE ALTI), Licencia Abierta 2.0.",
+	"attribution_osm": "© Colaboradores de OpenStreetMap, ODbL 1.0.",
+	"attribution_wikidata": "Altitudes y coordenadas complementarias: Wikidata (CC0).",
+	"catalog_draft_notice": "Datos en revisión: la altitud y la ubicación de las cimas aún no se han revisado a mano."
 }

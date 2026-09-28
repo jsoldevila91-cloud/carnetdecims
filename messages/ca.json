@@ -96,5 +96,13 @@
 	"error_title_404": "No hem trobat aquesta pàgina",
 	"error_title_generic": "Alguna cosa ha fallat",
 	"error_text": "Torna a l'inici o busca el cim a la llista.",
-	"error_home": "Torna a l'inici"
+	"error_home": "Torna a l'inici",
+
+	"attribution_title": "Fonts de les dades",
+	"attribution_list": "Llista de cims essencials: repte 100 Cims de la FEEC (llista pública). Web no oficial; la validació d'ascensions la fa la FEEC a través de les entitats.",
+	"attribution_icgc": "Coordenades, topònims i elevacions de Catalunya: © Institut Cartogràfic i Geològic de Catalunya (ICGC), CC BY 4.0.",
+	"attribution_ign": "Catalunya Nord: © IGN France (BD TOPO, RGE ALTI), Llicència Oberta 2.0.",
+	"attribution_osm": "© Col·laboradors d'OpenStreetMap, ODbL 1.0.",
+	"attribution_wikidata": "Altituds i coordenades complementàries: Wikidata (CC0).",
+	"catalog_draft_notice": "Dades en revisió: l'altitud i la situació dels cims encara no s'han revisat a mà."
 }
