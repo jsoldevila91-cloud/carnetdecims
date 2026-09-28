@@ -1,24 +1,93 @@
 /**
  * Textos derivats per al SEO de la fitxa de cim (docs/02-arquitectura-seo.md §4.1).
- * Funcions pures: la pàgina hi passa els missatges ja traduïts.
+ * Funcions pures (els missatges de Paraglide també ho són).
+ *
+ * Castellà: el topònim conserva l'article català ("a la Pica d'Estats", "de l'Anoia");
+ * només `el`/`lo` es contrauen o es tradueixen ("al Pedraforca", "del Berguedà",
+ * "en el Berguedà").
  */
-import { ambA, separarArticle } from '$lib/domain';
+import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
+import { m } from '$lib/paraglide/messages';
+import { formatAltitude } from '$lib/ui/format';
 
-/**
- * Nom amb la preposició "a" a partir de `nom_amb_article`, per a "Com pujar al Pedraforca".
- * - ca: contraccions normatives ("al Pedraforca", "a la Pica d'Estats", "als Bessons").
- * - es: el topònim conserva l'article català; només es contrau `el`/`lo` → "al".
- */
-export function nomAmbA(nomAmbArticle: string, locale: 'ca' | 'es'): string {
+type Locale = 'ca' | 'es';
+
+const esMasculi = (article: string) => article === 'el' || article === 'lo';
+
+/** "Com pujar al Pedraforca" · "Cómo subir a la Pica d'Estats". */
+export function nomAmbA(nomAmbArticle: string, locale: Locale): string {
 	const { article, nom } = separarArticle(nomAmbArticle);
 	if (locale === 'ca') return ambA(nom, article);
-	return article === 'el' || article === 'lo' ? `al ${nom}` : `a ${nomAmbArticle}`;
+	return esMasculi(article) ? `al ${nom}` : `a ${nomAmbArticle}`;
+}
+
+/** "del Berguedà", "d'Osona" (ca) · "del Berguedà", "de Osona", "de la Cerdanya" (es). */
+export function nomAmbDe(nomAmbArticle: string, locale: Locale): string {
+	const { article, nom } = separarArticle(nomAmbArticle);
+	if (locale === 'ca') return ambDe(nom, article);
+	return esMasculi(article) ? `del ${nom}` : `de ${nomAmbArticle}`;
+}
+
+/** Lloc: "al Berguedà", "a Andorra" (ca) · "en el Berguedà", "en Andorra" (es). */
+export function nomAmbEn(nomAmbArticle: string, locale: Locale): string {
+	if (locale === 'ca') return nomAmbA(nomAmbArticle, 'ca');
+	const { article, nom } = separarArticle(nomAmbArticle);
+	return esMasculi(article) ? `en el ${nom}` : `en ${nomAmbArticle}`;
+}
+
+/**
+ * Afegeix l'altitud entre parèntesis. Si el nom ja acaba amb un parèntesi, s'hi fusiona
+ * per no encadenar-ne dos: "la Tossa (Tivissa)" → "la Tossa (Tivissa, 718 m)".
+ */
+export function ambAltitud(text: string, alt: string): string {
+	return text.endsWith(')') ? `${text.slice(0, -1)}, ${alt} m)` : `${text} (${alt} m)`;
 }
 
 /** Límit del `<title>` (docs/02 §4.1). */
 export const MAX_TITLE = 60;
+/** Límit de la meta description (docs/02 §4.1). */
+export const MAX_DESCRIPTION = 155;
 
-/** Primer títol que hi cap; si cap no hi cap, l'últim (el més curt). */
+/** Primer text que hi cap; si cap no hi cap, l'últim (el més curt). */
 export function primerQueHiCapi(opcions: readonly string[], max = MAX_TITLE): string {
 	return opcions.find((t) => t.length <= max) ?? opcions[opcions.length - 1];
+}
+
+/**
+ * Title, meta description i textos de lloc de la fitxa, en l'idioma indicat.
+ * - Title: "Com pujar al Pedraforca (2.506 m) · Berguedà" (≤ 60; sense comarca si no hi cap).
+ * - Description: nom, altitud, comarca i si és essencial (única per cim), amb la cua més
+ *   llarga que hi càpiga (≤ 155).
+ */
+export function seoFitxaCim(cim: CimCataleg, comarca: ComarcaCataleg, locale: Locale) {
+	const opts = { locale };
+	const alt = formatAltitude(cim.altitud);
+	const comarcaA = nomAmbEn(comarca.nom_amb_article, locale);
+	const comarcaDe = nomAmbDe(comarca.nom_amb_article, locale);
+
+	const nomAAlt = ambAltitud(nomAmbA(cim.nom_amb_article, locale), alt);
+	const title = primerQueHiCapi([
+		m.cim_meta_title({ nom_a_alt: nomAAlt, comarca: comarca.nom }, opts),
+		m.cim_meta_title_short({ nom_a_alt: nomAAlt }, opts)
+	]);
+
+	const intro = (cim.essencial ? m.cim_meta_description : m.cim_meta_description_other)(
+		{ nom_alt: ambAltitud(cim.nom, alt), comarca_a: comarcaA },
+		opts
+	);
+	const description = primerQueHiCapi(
+		[
+			m.cim_meta_description_tail_long({}, opts),
+			m.cim_meta_description_tail({}, opts),
+			m.cim_meta_description_tail_short({}, opts)
+		].map((cua) => `${intro} ${cua}`),
+		MAX_DESCRIPTION
+	);
+
+	const mapAlt = m.cim_map_alt(
+		{ nom_de_alt: ambAltitud(nomAmbDe(cim.nom_amb_article, locale), alt), comarca_a: comarcaA },
+		opts
+	);
+
+	return { title, description, mapAlt, comarcaDe };
 }

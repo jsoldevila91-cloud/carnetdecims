@@ -4,7 +4,7 @@ test.describe('Navegació principal (5 pestanyes)', () => {
 	const tabs = [
 		{ name: 'Inici', url: ROUTES.ca.app, h1: 'El meu carnet' },
 		{ name: 'Mapa', url: ROUTES.ca.map, h1: 'Mapa dels cims' },
-		{ name: 'Cims', url: ROUTES.ca.peaks, h1: 'Cims del repte' },
+		{ name: 'Cims', url: ROUTES.ca.peaks, h1: 'Llista de cims del repte 100 Cims' },
 		{ name: 'Perfil', url: ROUTES.ca.account, h1: 'Perfil' }
 	];
 
@@ -31,7 +31,7 @@ test.describe('Navegació principal (5 pestanyes)', () => {
 		await expect(page.getByRole('dialog', { name: 'Registrar una ascensió' })).toBeVisible();
 		await expect(page).toHaveURL(ROUTES.ca.register);
 		// La pàgina de sota continua sent la llista de cims
-		await expect(page.locator('main h1')).toHaveText(/cims del repte/i);
+		await expect(page.locator('main h1')).toHaveText(/llista de cims del repte/i);
 	});
 
 	test('en castellà, les pestanyes apunten a les rutes traduïdes', async ({ page }) => {

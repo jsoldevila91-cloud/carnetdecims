@@ -14,10 +14,8 @@
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import {
-		ambA,
 		avuiLocal,
 		restriccioActiva,
-		separarArticle,
 		type CimCataleg,
 		type DataISO,
 		type RestriccioAcces,
@@ -25,7 +23,7 @@
 		type Zona
 	} from '$lib/domain';
 	import { cimGraph } from '$lib/seo/jsonld';
-	import { nomAmbA, primerQueHiCapi } from '$lib/seo/fitxa-cim';
+	import { seoFitxaCim } from '$lib/seo/fitxa-cim';
 	import { mapaEstaticPerCim } from '$lib/platform/mapa-estatic';
 	import { wikilocUrl } from '$lib/platform/wikiloc';
 
@@ -37,24 +35,18 @@
 	const alt = $derived(formatAltitude(cim.altitud));
 
 	// ---------- SEO ----------
-	const title = $derived.by(() => {
-		const inputs = { nom_a: nomAmbA(cim.nom_amb_article, locale), alt, comarca: comarca.nom };
-		return primerQueHiCapi([m.cim_meta_title(inputs), m.cim_meta_title_short(inputs)]);
-	});
-	const description = $derived.by(() => {
-		const inputs = { nom: cim.nom, comarca: comarca.nom, comarca_de: comarca.nom_amb_de, alt };
-		return cim.essencial ? m.cim_meta_description(inputs) : m.cim_meta_description_other(inputs);
-	});
-	// Política de docs/02: només s'indexen les fitxes revisades.
+	const seo = $derived(seoFitxaCim(cim, comarca, locale));
+	// Política de docs/02: només s'indexen les fitxes revisades (el sitemap aplica el mateix filtre).
 	const noindex = $derived(cim.estat_revisio !== 'revisat');
 	const jsonLd = $derived(
 		cimGraph({
 			cim,
 			comarca,
 			locale,
-			title,
-			description,
-			breadcrumbNames: { inici: m.nav_home(), cims: m.nav_peaks() }
+			title: seo.title,
+			description: seo.description,
+			breadcrumbNames: { inici: m.nav_home(), cims: m.nav_peaks() },
+			essencialLabel: m.cim_ld_essential()
 		})
 	);
 
@@ -143,24 +135,12 @@
 	const MAPA_AMPLE = 640;
 	const MAPA_ALT = 400;
 	const mapa = $derived(mapaEstaticPerCim(cim, { ample: MAPA_AMPLE, alt: MAPA_ALT }));
-	const mapaAlt = $derived(
-		m.cim_map_alt({
-			nom: cim.nom,
-			nom_de: cim.nom_amb_de,
-			alt,
-			comarca: comarca.nom,
-			comarca_a: (() => {
-				const { article, nom } = separarArticle(comarca.nom_amb_article);
-				return ambA(nom, article);
-			})()
-		})
-	);
 	const wikiloc = $derived(
 		cim.lat !== null && cim.lon !== null ? wikilocUrl(cim.lat, cim.lon, locale) : null
 	);
 </script>
 
-<PageMeta {title} {description} {noindex} />
+<PageMeta title={seo.title} description={seo.description} {noindex} />
 <JsonLd data={jsonLd} />
 
 {#snippet llistaCims(items: readonly { cim: CimCataleg; distanciaKm?: number }[])}
@@ -310,7 +290,7 @@
 							src={mapa.url}
 							width={MAPA_AMPLE}
 							height={MAPA_ALT}
-							alt={mapaAlt}
+							alt={seo.mapAlt}
 							loading="lazy"
 							decoding="async"
 						/>
@@ -356,10 +336,15 @@
 		{#if data.mateixaComarca.length > 0}
 			<section class="blk" aria-labelledby="comarca">
 				<h2 id="comarca" class="x-wide">
-					{m.cim_same_comarca_title({ comarca: comarca.nom, comarca_de: comarca.nom_amb_de })}
+					{m.cim_same_comarca_title({ comarca_de: seo.comarcaDe })}
 				</h2>
 				{@render llistaCims(data.mateixaComarca.map((c) => ({ cim: c })))}
 			</section>
+			<!-- Fora de la secció: aquesta només conté fitxes. Quan hi hagi la pàgina de comarca
+			     (bloc 3b), l'enllaç hi ha d'apuntar. -->
+			<a class="more" href="{href('/cims')}#comarca-{comarca.slug}">
+				{m.cim_same_comarca_all({ comarca_de: seo.comarcaDe })}
+			</a>
 		{/if}
 	</aside>
 </article>
@@ -686,6 +671,17 @@
 		align-items: center;
 		gap: var(--sp-2);
 		font-weight: var(--fw-bold);
+	}
+
+	.more {
+		display: inline-flex;
+		align-items: center;
+		justify-self: start;
+		min-height: var(--tap);
+		margin-top: calc(-1 * var(--sp-5));
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-semibold);
+		color: var(--c-stamp-ink);
 	}
 
 	.pk-meta {

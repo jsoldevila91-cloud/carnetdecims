@@ -48,8 +48,8 @@
 	"home_unofficial_title": "Una herramienta independiente",
 
 	"peaks_meta_title": "Lista de cimas del reto 100 Cims",
-	"peaks_meta_description": "Lista de cimas del reto 100 Cims con altitud, comarca y cimas esenciales. Web independiente y no oficial.",
-	"peaks_title": "Cimas del reto",
+	"peaks_meta_description": "Lista de las cimas del reto 100 Cims por comarca, con la altitud y las cimas esenciales. Ficha de cada cima con mapa. Web independiente y no oficial.",
+	"peaks_title": "Lista de cimas del reto 100 Cims",
 	"peaks_lede": "Por ahora están las {count} cimas esenciales, agrupadas por comarca. Pronto encontrarás la lista completa con filtros.",
 	"peaks_by_comarca": "Cimas por comarca",
 	"peaks_essential_short": "esencial",
@@ -115,10 +115,14 @@
 	"coord_e": "E",
 	"coord_w": "O",
 
-	"cim_meta_title": "Cómo subir {nom_a} ({alt} m) · {comarca}",
-	"cim_meta_title_short": "Cómo subir {nom_a} ({alt} m)",
-	"cim_meta_description": "{nom} ({comarca}), cima esencial del reto 100 Cims de {alt} m. Ubicación en el mapa, coordenadas, cimas cercanas y registro de la ascensión en tu carnet.",
-	"cim_meta_description_other": "{nom} ({comarca}), cima del reto 100 Cims de {alt} m. Ubicación en el mapa, coordenadas, cimas cercanas y registro de la ascensión en tu carnet.",
+	"cim_meta_title": "Cómo subir {nom_a_alt} · {comarca}",
+	"cim_meta_title_short": "Cómo subir {nom_a_alt}",
+	"cim_meta_description": "{nom_alt}, cima esencial del reto 100 Cims {comarca_a}.",
+	"cim_meta_description_other": "{nom_alt}, cima del reto 100 Cims {comarca_a}.",
+	"cim_meta_description_tail_long": "Ubicación en el mapa, coordenadas, cimas cercanas y registro de la ascensión en tu carnet.",
+	"cim_meta_description_tail": "Mapa, coordenadas, cimas cercanas y registro de la ascensión en tu carnet.",
+	"cim_meta_description_tail_short": "Mapa, coordenadas y cimas cercanas.",
+	"cim_ld_essential": "Cima esencial del reto 100 Cims",
 	"cim_essential": "Esencial",
 	"cim_not_essential": "No esencial",
 	"cim_essential_stamp": "Cima esencial",
@@ -148,7 +152,7 @@
 	"restriction_active_today": "Vigente hoy",
 	"restriction_source": "Más información",
 	"cim_map_title": "Mapa y ubicación",
-	"cim_map_alt": "Mapa topográfico de ubicación de {nom} ({alt} m), {comarca}",
+	"cim_map_alt": "Mapa topográfico de situación {nom_de_alt}, {comarca_a}",
 	"cim_map_attribution_icgc": "Mapa topográfico © ICGC",
 	"cim_map_attribution_ign": "Mapa topográfico © IGN France (Plan IGN)",
 	"cim_wikiloc_title": "Rutas en Wikiloc",
@@ -156,5 +160,6 @@
 	"cim_wikiloc_cta": "Ver rutas en Wikiloc",
 	"cim_nearby_title": "Cimas cercanas",
 	"cim_distance": "a {km} km",
-	"cim_same_comarca_title": "Más cimas en {comarca}"
+	"cim_same_comarca_title": "Otras cimas {comarca_de}",
+	"cim_same_comarca_all": "Todas las cimas {comarca_de}"
 }

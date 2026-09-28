@@ -3,6 +3,7 @@ import { CIMS, cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
 import { WEBSITE_ID, cimGraph } from './jsonld';
 
 const BREADCRUMB = { inici: 'Inici', cims: 'Cims' };
+const ESSENCIAL = 'Cim essencial del repte 100 Cims';
 
 function graf(slug: string, locale: 'ca' | 'es' = 'ca') {
 	const cim = cimPerSlug(slug)!;
@@ -12,7 +13,8 @@ function graf(slug: string, locale: 'ca' | 'es' = 'ca') {
 		locale,
 		title: `${cim.nom} (${cim.altitud} m)`,
 		description: 'Descripció de prova',
-		breadcrumbNames: BREADCRUMB
+		breadcrumbNames: BREADCRUMB,
+		essencialLabel: ESSENCIAL
 	});
 }
 
@@ -41,7 +43,8 @@ describe('cimGraph (JSON-LD de la fitxa de cim)', () => {
 				longitude: expect.any(Number),
 				elevation: expect.any(Number)
 			},
-			containedInPlace: { '@type': 'AdministrativeArea', name: 'Berguedà' }
+			containedInPlace: { '@type': 'AdministrativeArea', name: 'Berguedà' },
+			additionalProperty: [{ '@type': 'PropertyValue', name: ESSENCIAL, value: true }]
 		});
 		const geo = node(g, 'Mountain').geo as Record<string, number>;
 		expect(geo.elevation).toBe(cimPerSlug('pedraforca-pollego-superior')!.altitud);
@@ -82,6 +85,20 @@ describe('cimGraph (JSON-LD de la fitxa de cim)', () => {
 		expect(node(g, 'Mountain')).not.toHaveProperty('alternateName');
 	});
 
+	it('la propietat "essencial" només surt als cims essencials', () => {
+		const cim = { ...cimPerSlug('canigo')!, essencial: false };
+		const g = cimGraph({
+			cim,
+			comarca: comarcaPerSlug(cim.comarca)!,
+			locale: 'ca',
+			title: cim.nom,
+			description: cim.nom,
+			breadcrumbNames: BREADCRUMB,
+			essencialLabel: ESSENCIAL
+		});
+		expect(node(g, 'Mountain')).not.toHaveProperty('additionalProperty');
+	});
+
 	it('cap cim no suggereix vincle amb la FEEC ni repeteix el nom visible', () => {
 		for (const cim of CIMS) {
 			const g = cimGraph({
@@ -90,7 +107,8 @@ describe('cimGraph (JSON-LD de la fitxa de cim)', () => {
 				locale: 'ca',
 				title: cim.nom,
 				description: cim.nom,
-				breadcrumbNames: BREADCRUMB
+				breadcrumbNames: BREADCRUMB,
+				essencialLabel: ESSENCIAL
 			});
 			const json = JSON.stringify(g);
 			expect(json, cim.slug).not.toMatch(/feec/i);

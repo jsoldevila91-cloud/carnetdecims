@@ -62,7 +62,8 @@ export function homeGraph(opts: {
  * Fitxa de cim (docs/02-arquitectura-seo.md §5): `Mountain` + `WebPage` + `BreadcrumbList`
  * (Inici › Cims › {nom}). La comarca va com a `AdministrativeArea` sense `url` fins que hi hagi
  * la pàgina de comarca (bloc 3b). No s'hi afirma cap vincle amb la FEEC: el nom oficial de la
- * llista només surt com a `alternateName`.
+ * llista només surt com a `alternateName`, i "essencial" és una `PropertyValue` descriptiva
+ * (`essencialLabel`, p. ex. "Cim essencial del repte 100 Cims"), mai un segell oficial.
  */
 export function cimGraph(opts: {
 	cim: CimCataleg;
@@ -71,6 +72,7 @@ export function cimGraph(opts: {
 	title: string;
 	description: string;
 	breadcrumbNames: { inici: string; cims: string };
+	essencialLabel: string;
 }) {
 	const { cim, comarca, locale } = opts;
 	const pageUrl = SITE_ORIGIN + localizeCimPath(cim.slug, locale);
@@ -95,7 +97,10 @@ export function cimGraph(opts: {
 					elevation: cim.altitud
 				}
 			}),
-		containedInPlace: { '@type': 'AdministrativeArea', name: comarca.nom }
+		containedInPlace: { '@type': 'AdministrativeArea', name: comarca.nom },
+		...(cim.essencial && {
+			additionalProperty: [{ '@type': 'PropertyValue', name: opts.essencialLabel, value: true }]
+		})
 	};
 
 	return {

@@ -48,8 +48,8 @@
 	"home_unofficial_title": "Una eina independent",
 
 	"peaks_meta_title": "Llista de cims del repte 100 Cims",
-	"peaks_meta_description": "Llista de cims del repte 100 Cims amb altitud, comarca i cims essencials. Web independent i no oficial.",
-	"peaks_title": "Cims del repte",
+	"peaks_meta_description": "Llista dels cims del repte 100 Cims per comarca, amb l'altitud i els cims essencials. Fitxa de cada cim amb mapa. Web independent i no oficial.",
+	"peaks_title": "Llista de cims del repte 100 Cims",
 	"peaks_lede": "De moment hi ha els {count} cims essencials, agrupats per comarca. Aviat hi trobaràs la llista completa amb filtres.",
 	"peaks_by_comarca": "Cims per comarca",
 	"peaks_essential_short": "essencial",
@@ -115,10 +115,14 @@
 	"coord_e": "E",
 	"coord_w": "O",
 
-	"cim_meta_title": "Com pujar {nom_a} ({alt} m) · {comarca}",
-	"cim_meta_title_short": "Com pujar {nom_a} ({alt} m)",
-	"cim_meta_description": "{nom}, cim essencial del repte 100 Cims {comarca_de} ({alt} m). Situació al mapa, coordenades, cims propers i registre de l'ascensió al teu carnet.",
-	"cim_meta_description_other": "{nom}, cim del repte 100 Cims {comarca_de} ({alt} m). Situació al mapa, coordenades, cims propers i registre de l'ascensió al teu carnet.",
+	"cim_meta_title": "Com pujar {nom_a_alt} · {comarca}",
+	"cim_meta_title_short": "Com pujar {nom_a_alt}",
+	"cim_meta_description": "{nom_alt}, cim essencial del repte 100 Cims {comarca_a}.",
+	"cim_meta_description_other": "{nom_alt}, cim del repte 100 Cims {comarca_a}.",
+	"cim_meta_description_tail_long": "Situació al mapa, coordenades, cims propers i registre de l'ascensió al teu carnet.",
+	"cim_meta_description_tail": "Mapa, coordenades, cims propers i registre de l'ascensió al teu carnet.",
+	"cim_meta_description_tail_short": "Mapa, coordenades i cims propers.",
+	"cim_ld_essential": "Cim essencial del repte 100 Cims",
 	"cim_essential": "Essencial",
 	"cim_not_essential": "No essencial",
 	"cim_essential_stamp": "Cim essencial",
@@ -148,7 +152,7 @@
 	"restriction_active_today": "Vigent avui",
 	"restriction_source": "Més informació",
 	"cim_map_title": "Mapa i situació",
-	"cim_map_alt": "Mapa topogràfic de situació {nom_de} ({alt} m), {comarca_a}",
+	"cim_map_alt": "Mapa topogràfic de situació {nom_de_alt}, {comarca_a}",
 	"cim_map_attribution_icgc": "Mapa topogràfic © ICGC",
 	"cim_map_attribution_ign": "Mapa topogràfic © IGN France (Plan IGN)",
 	"cim_wikiloc_title": "Rutes a Wikiloc",
@@ -156,5 +160,6 @@
 	"cim_wikiloc_cta": "Veure rutes a Wikiloc",
 	"cim_nearby_title": "Cims a prop",
 	"cim_distance": "a {km} km",
-	"cim_same_comarca_title": "Altres cims {comarca_de}"
+	"cim_same_comarca_title": "Altres cims {comarca_de}",
+	"cim_same_comarca_all": "Tots els cims {comarca_de}"
 }
