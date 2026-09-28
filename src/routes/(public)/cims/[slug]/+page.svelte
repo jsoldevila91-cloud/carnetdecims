@@ -11,7 +11,7 @@
 		formatCoordinate,
 		formatKm
 	} from '$lib/ui';
-	import { ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
+	import { ampleParaulaMesLlargaEm, ampleTextEm } from '$lib/ui/titol-ample';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import {
@@ -60,9 +60,11 @@
 	// Andorra i la Catalunya Nord són alhora "comarca" i zona: no es repeteix.
 	const zona = $derived(comarca.slug === cim.zona ? null : ZONES[cim.zona]());
 
-	// Amplada (em) de la paraula més llarga del nom: el H1 (lletra ampla) s'hi ajusta perquè
-	// "Castellsapera" o "Montcorbison" hi càpiguen senceres, sense desbordar a 320 px.
+	// Amplades estimades (em) del nom per ajustar la mida del H1 (lletra ampla): la paraula més
+	// llarga hi ha de cabre sencera ("Castellsapera") i el nom sencer en ~3 línies ("Tuc deth
+	// Pòrt de Vielha"). Vegeu el CSS del h1.
 	const paraulaEm = $derived(ampleParaulaMesLlargaEm(cim.nom));
+	const nomEm = $derived(ampleTextEm(cim.nom));
 
 	const altresNoms = $derived.by(() => {
 		// Noms diferents del visible, sense repetits (sense distingir majúscules).
@@ -200,7 +202,7 @@
 				</ol>
 			</nav>
 
-			<h1 class="x-wide" style:--paraula-em={paraulaEm}>{cim.nom}</h1>
+			<h1 class="x-wide" style:--paraula-em={paraulaEm} style:--nom-em={nomEm}>{cim.nom}</h1>
 			<p class="sub mono">
 				{[`${alt} m`, comarca.nom, zona].filter(Boolean).join(' · ')}
 			</p>
@@ -431,18 +433,38 @@
 		height: auto;
 	}
 
+	/*
+	 * El segell entra dins del full (mida − 2rem sota la vora superior). La molla de pa li
+	 * reserva l'amplada i, amb l'alçada mínima, també l'alçada: el H1 comença per sota del
+	 * segell i no s'hi solapa encara que ocupi tota l'amplada.
+	 * Mòbil: 5,5rem − 2rem − 1,25rem de farciment = 2,25rem, + marge per la rotació del segell
+	 * i la caixa de línia del H1.
+	 */
 	.crumb.beside-stamp {
+		min-height: 3rem;
 		padding-right: 5.5rem;
 	}
 
 	h1 {
 		margin-top: var(--sp-1);
 		/*
-		 * Mida fluida: la paraula més llarga (amplada estimada en em, `ampleParaulaMesLlargaEm`)
-		 * cap sencera a l'amplada del full, amb un 4 % de marge. Mínim llegible i màxim de
-		 * titular; `overflow-wrap: anywhere` només és la xarxa de seguretat.
+		 * Mida fluida (100cqi = amplada del full), la més petita de:
+		 * - la paraula més llarga cap sencera, amb un 4 % de marge (mai es parteix);
+		 * - el nom sencer cap en 3 línies, amb un 25 % de marge pel salt de línia per paraules;
+		 * - un sostre de 11cqi (≈ 28 px a 320–375 px, 48 px a escriptori), perquè la mida sigui
+		 *   compacta i semblant entre fitxes al mòbil.
+		 * Mínim llegible 1,25rem; `overflow-wrap: anywhere` només és la xarxa de seguretat.
 		 */
-		font-size: clamp(1.25rem, calc(100cqi / (var(--paraula-em, 10) * 1.04)), var(--fs-3xl));
+		font-size: clamp(
+			1.25rem,
+			min(
+				100cqi / (var(--paraula-em, 10) * 1.04),
+				300cqi / (var(--nom-em, 10) * 1.25),
+				11cqi,
+				var(--fs-3xl)
+			),
+			var(--fs-3xl)
+		);
 		font-weight: var(--fw-black);
 		line-height: 0.95;
 		letter-spacing: -0.01em;
@@ -724,7 +746,9 @@
 			width: 6.5rem;
 		}
 
+		/* 6,5rem − 2rem − 1,5rem de farciment = 3rem (+ marge per la caixa de línia del H1) */
 		.crumb.beside-stamp {
+			min-height: 3.75rem;
 			padding-right: 6.5rem;
 		}
 

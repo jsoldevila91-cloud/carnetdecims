@@ -61,9 +61,15 @@ test('les 300 fitxes (150 × ca/es) responen 200 amb H1 i <title> ≤ 60', async
 	expect(errors).toEqual([]);
 });
 
-/** Noms llargs (una sola paraula a l'H1 en lletra ampla) poden forçar l'amplada de la targeta. */
-for (const width of [320, 375]) {
-	test(`cap fitxa (ca) desborda horitzontalment a ${width} px`, async ({ page }, testInfo) => {
+/**
+ * Noms llargs (una sola paraula a l'H1 en lletra ampla) poden forçar l'amplada de la targeta.
+ * També: l'H1 no parteix paraules, fa com a màxim 3 línies a 320 px i no toca el segell.
+ */
+const MAX_LINIES_320 = 3;
+for (const width of [320, 375, 768, 1280]) {
+	test(`cap fitxa (ca) desborda ni xoca amb el segell a ${width} px`, async ({
+		page
+	}, testInfo) => {
 		test.skip(testInfo.project.name !== 'desktop-chrome', 'Una sola passada n’hi ha prou');
 		test.setTimeout(300_000);
 		// Els mapes WMS externs no hi influeixen (la mida de la imatge és fixa per CSS)
@@ -77,10 +83,12 @@ for (const width of [320, 375]) {
 		await page.setViewportSize({ width, height: 700 });
 		const desborden: string[] = [];
 		const paraulesPartides: string[] = [];
+		const massaLinies: string[] = [];
+		const xocSegell: string[] = [];
 		for (const { slug } of CIMS) {
 			await page.goto(`/ca/cims/${slug}`, { waitUntil: 'load' });
 			await page.evaluate(() => document.fonts.ready);
-			const { px, partides } = await page.evaluate(() => {
+			const { px, partides, linies, xoc } = await page.evaluate(() => {
 				// `overflow-wrap: anywhere` evita el desbordament partint paraules: cap paraula de
 				// l'H1 ha d'ocupar més d'una línia (la mida s'ajusta a la paraula més llarga).
 				const h1 = document.querySelector('main h1')!;
@@ -93,15 +101,36 @@ for (const width of [320, 375]) {
 					const linies = new Set([...r.getClientRects()].map((x) => Math.round(x.top)));
 					if (linies.size > 1) partides.push(m[0]);
 				}
+				// Línies de l'H1 i solapament de cada línia amb el segell (cercle inscrit a l'SVG)
+				const tot = document.createRange();
+				tot.selectNodeContents(h1);
+				const rects = [...tot.getClientRects()];
+				const linies = new Set(rects.map((x) => Math.round(x.top))).size;
+				const segell = document.querySelector('main .stamp svg')?.getBoundingClientRect();
+				const xoc =
+					!!segell &&
+					rects.some(
+						(x) =>
+							x.right > segell.left &&
+							x.left < segell.right &&
+							x.bottom > segell.top &&
+							x.top < segell.bottom
+					);
 				return {
 					px: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-					partides
+					partides,
+					linies,
+					xoc
 				};
 			});
 			if (px > 0) desborden.push(`${slug} (+${px} px)`);
 			if (partides.length) paraulesPartides.push(`${slug}: ${partides.join(', ')}`);
+			if (width === 320 && linies > MAX_LINIES_320) massaLinies.push(`${slug}: ${linies} línies`);
+			if (xoc) xocSegell.push(slug);
 		}
 		expect(desborden).toEqual([]);
 		expect(paraulesPartides, 'paraules de l’H1 partides entre línies').toEqual([]);
+		expect(massaLinies, `H1 de més de ${MAX_LINIES_320} línies a 320 px`).toEqual([]);
+		expect(xocSegell, 'H1 solapat amb el segell d’essencial').toEqual([]);
 	});
 }

@@ -54,10 +54,21 @@ const AMPLADES: Readonly<Record<string, number>> = {
 /** Lletres desconegudes (xifres, altres alfabets): amplada prudent. */
 const PER_DEFECTE = 1;
 
+/** Espai entre paraules (em). */
+const ESPAI = 0.3;
+
+const ampleParaula = (p: string) =>
+	[...p].reduce((suma, lletra) => suma + (AMPLADES[lletra] ?? PER_DEFECTE), 0);
+
+const paraules = (text: string) => text.trim().toLocaleUpperCase('ca').split(/\s+/).filter(Boolean);
+
+/** Amplada (em) de la paraula més llarga: la mida del titular ha de fer-la cabre sencera. */
 export function ampleParaulaMesLlargaEm(text: string): number {
-	const paraules = text.trim().toLocaleUpperCase('ca').split(/\s+/).filter(Boolean);
-	const amples = paraules.map((p) =>
-		[...p].reduce((suma, lletra) => suma + (AMPLADES[lletra] ?? PER_DEFECTE), 0)
-	);
-	return Math.max(1, ...amples);
+	return Math.max(1, ...paraules(text).map(ampleParaula));
+}
+
+/** Amplada (em) del text sencer en una sola línia, espais inclosos. */
+export function ampleTextEm(text: string): number {
+	const ps = paraules(text);
+	return Math.max(1, ps.reduce((suma, p) => suma + ampleParaula(p), 0) + ESPAI * (ps.length - 1));
 }

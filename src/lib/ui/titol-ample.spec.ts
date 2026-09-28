@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ampleParaulaMesLlargaEm } from './titol-ample';
+import { ampleParaulaMesLlargaEm, ampleTextEm } from './titol-ample';
 
 describe('ampleParaulaMesLlargaEm', () => {
 	it('suma les amplades de la paraula més llarga (en em)', () => {
@@ -26,5 +26,14 @@ describe('ampleParaulaMesLlargaEm', () => {
 		);
 		expect(ampleParaulaMesLlargaEm('123')).toBe(3);
 		expect(ampleParaulaMesLlargaEm('')).toBe(1);
+	});
+
+	it('amplada del nom sencer amb els espais', () => {
+		expect(ampleTextEm('Taga')).toBeCloseTo(ampleParaulaMesLlargaEm('Taga'), 5);
+		expect(ampleTextEm('de de')).toBeCloseTo(2 * ampleParaulaMesLlargaEm('de') + 0.3, 5);
+		expect(ampleTextEm('Tuc deth Pòrt de Vielha')).toBeGreaterThan(
+			3 * ampleParaulaMesLlargaEm('Tuc deth Pòrt de Vielha')
+		);
+		expect(ampleTextEm('  ')).toBe(1);
 	});
 });
