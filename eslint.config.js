@@ -39,11 +39,11 @@ export default defineConfig(
 		// Override or add rule settings here, such as:
 		// 'svelte/button-has-type': 'error'
 		rules: {
-			// Els enllaços i el pushState interns passen per `href()` de `$lib/i18n`, que
+			// Els enllaços i el pushState/replaceState interns passen per `href()` de `$lib/i18n`, que
 			// localitza el camí (Paraglide) i crida `resolve()` de `$app/paths` per dins.
 			'svelte/no-navigation-without-resolve': [
 				'error',
-				{ ignoreLinks: true, ignorePushState: true }
+				{ ignoreLinks: true, ignorePushState: true, ignoreReplaceState: true }
 			]
 		}
 	}

@@ -1,5 +1,6 @@
 // Sistema de disseny "Segells" · components base
 export { default as AppHeader } from './AppHeader.svelte';
+export { default as Breadcrumb } from './Breadcrumb.svelte';
 export { default as BottomNav } from './BottomNav.svelte';
 export { default as BottomSheet } from './BottomSheet.svelte';
 export { default as Button } from './Button.svelte';
@@ -9,7 +10,9 @@ export { default as EmptyState } from './EmptyState.svelte';
 export { default as Icon, type IconName } from './Icon.svelte';
 export { default as JsonLd } from './JsonLd.svelte';
 export { default as LanguageSwitcher } from './LanguageSwitcher.svelte';
+export { default as LlistaCims } from './LlistaCims.svelte';
 export { default as Logo } from './Logo.svelte';
+export { default as MapaMarcadors } from './MapaMarcadors.svelte';
 export { default as OfflineBanner } from './OfflineBanner.svelte';
 export { default as PageMeta } from './PageMeta.svelte';
 export { default as RegisterPanel } from './RegisterPanel.svelte';
@@ -18,3 +21,4 @@ export { default as SiteFooter } from './SiteFooter.svelte';
 export { default as Toaster } from './Toaster.svelte';
 export { toasts } from './toast.svelte';
 export { formatAltitude, formatCoordinate, formatKm, formatStampDate, romanPage } from './format';
+export { NOM_ZONA } from './zona';

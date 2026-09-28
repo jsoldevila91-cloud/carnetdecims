@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import {
+		Breadcrumb,
 		Button,
 		Card,
 		Icon,
@@ -46,7 +47,7 @@
 			locale,
 			title: seo.title,
 			description: seo.description,
-			breadcrumbNames: { inici: m.nav_home(), cims: m.nav_peaks() },
+			breadcrumbNames: { inici: m.nav_home(), comarques: m.nav_comarques() },
 			essencialLabel: m.cim_ld_essential()
 		})
 	);
@@ -83,6 +84,15 @@
 				}
 			: null
 	);
+
+	// Mateix ordre i noms que el `BreadcrumbList` de `cimGraph`: Inici › Comarques › {comarca} › {cim}.
+	const comarcaHref = $derived(href(`/comarques/${comarca.slug}`));
+	const crumbs = $derived([
+		{ name: m.nav_home(), href: href('/') },
+		{ name: m.nav_comarques(), href: href('/comarques') },
+		{ name: comarca.nom, href: comarcaHref },
+		{ name: cim.nom }
+	]);
 
 	const mapaHref = $derived(`${href('/mapa')}?cim=${cim.slug}`);
 	const registrarHref = $derived(`${href('/app/registrar')}?cim=${cim.slug}`);
@@ -194,13 +204,7 @@
 				</div>
 			{/if}
 
-			<nav class={['crumb', { 'beside-stamp': cim.essencial }]} aria-label={m.breadcrumb_label()}>
-				<ol>
-					<li><a href={href('/')}>{m.nav_home()}</a></li>
-					<li><a href={href('/cims')}>{m.nav_peaks()}</a></li>
-					<li aria-current="page">{cim.nom}</li>
-				</ol>
-			</nav>
+			<Breadcrumb items={crumbs} class={{ 'beside-stamp': cim.essencial }} />
 
 			<h1 class="x-wide" style:--paraula-em={paraulaEm} style:--nom-em={nomEm}>{cim.nom}</h1>
 			<p class="sub mono">
@@ -219,7 +223,7 @@
 				</div>
 				<div>
 					<dt>{m.cim_comarca()}</dt>
-					<dd>{comarca.nom}</dd>
+					<dd><a class="dd-link" href={comarcaHref}>{comarca.nom}</a></dd>
 				</div>
 				<div>
 					<dt>{m.cim_category()}</dt>
@@ -347,9 +351,8 @@
 				</h2>
 				{@render llistaCims(data.mateixaComarca.map((c) => ({ cim: c })))}
 			</section>
-			<!-- Fora de la secció: aquesta només conté fitxes. Quan hi hagi la pàgina de comarca
-			     (bloc 3b), l'enllaç hi ha d'apuntar. -->
-			<a class="more" href="{href('/cims')}#comarca-{comarca.slug}">
+			<!-- Fora de la secció: aquesta només conté fitxes. -->
+			<a class="more" href={comarcaHref}>
 				{m.cim_same_comarca_all({ comarca_de: seo.comarcaDe })}
 			</a>
 		{/if}
@@ -381,41 +384,6 @@
 	}
 
 	/* ---------- Capçalera (full del carnet) ---------- */
-	.crumb ol {
-		display: flex;
-		flex-wrap: wrap;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		font-family: var(--font-mono);
-		font-size: var(--fs-xs);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--c-ink-2);
-	}
-
-	.crumb li + li::before {
-		content: '›';
-		margin: 0 var(--sp-2);
-		color: var(--c-ink-2);
-	}
-
-	.crumb a {
-		display: inline-block;
-		padding: var(--sp-2) 0;
-		color: var(--c-stamp-ink);
-		font-weight: var(--fw-semibold);
-		text-decoration: none;
-	}
-
-	.crumb a:hover {
-		text-decoration: underline;
-	}
-
-	.crumb [aria-current] {
-		padding: var(--sp-2) 0;
-	}
-
 	/* El segell "essencial" queda estampat damunt la vora del full, com a la proposta */
 	.fitxa :global(.has-stamp) {
 		margin-top: var(--sp-8);
@@ -440,7 +408,7 @@
 	 * Mòbil: 5,5rem − 2rem − 1,25rem de farciment = 2,25rem, + marge per la rotació del segell
 	 * i la caixa de línia del H1.
 	 */
-	.crumb.beside-stamp {
+	.fitxa :global(.crumb.beside-stamp) {
 		min-height: 3rem;
 		padding-right: 5.5rem;
 	}
@@ -523,6 +491,14 @@
 
 	.nowrap {
 		white-space: nowrap;
+	}
+
+	.dd-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 24px;
+		color: var(--c-stamp-ink);
+		text-underline-offset: 0.2em;
 	}
 
 	.essential,
@@ -747,7 +723,7 @@
 		}
 
 		/* 6,5rem − 2rem − 1,5rem de farciment = 3rem (+ marge per la caixa de línia del H1) */
-		.crumb.beside-stamp {
+		.fitxa :global(.crumb.beside-stamp) {
 			min-height: 3.75rem;
 			padding-right: 6.5rem;
 		}

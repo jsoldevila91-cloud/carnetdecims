@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { CIMS, cimPerSlug } from '$lib/data/catalog';
+import { CIMS, cimPerSlug, cimsPerComarca, comarquesAmbCims } from '$lib/data/catalog';
 import {
 	MAPA_ESTATIC_ATRIBUCIO,
 	MAPA_IGN_ATRIBUCIO,
 	aWebMercator,
 	mapaEstaticCobert,
+	mapaEstaticComarca,
 	mapaEstaticIgnUrl,
 	mapaEstaticPerCim,
 	mapaEstaticUrl
@@ -96,5 +97,96 @@ describe('cobertura i alternativa (Catalunya Nord → Plan IGN)', () => {
 
 		expect(mapaEstaticPerCim({ lat: null, lon: null, zona: 'andorra' })).toBeNull();
 		for (const c of CIMS) expect(mapaEstaticPerCim(c), c.slug).not.toBeNull();
+	});
+});
+
+/** Inversa de Web Mercator (EPSG:3857 → WGS84), independent del codi provat. */
+function deWebMercator(x: number, y: number) {
+	const R = 6378137;
+	return {
+		lat: ((2 * Math.atan(Math.exp(y / R)) - Math.PI / 2) * 180) / Math.PI,
+		lon: ((x / R) * 180) / Math.PI
+	};
+}
+
+describe('mapaEstaticComarca (mapa amb tots els cims d’una comarca)', () => {
+	it('projecció: dos cims a la mateixa latitud cauen als % esperats', () => {
+		// Amplada 1° de longitud; l'alçada és la mínima (8 km) i l'eix curt s'amplia a 16:10.
+		// x: marge del 10 % per banda → 0,1 / 1,2 = 8,33 % i 1,1 / 1,2 = 91,67 %; y: al centre.
+		const m = mapaEstaticComarca([
+			{ slug: 'oest', lat: 42, lon: 1, zona: 'catalunya' },
+			{ slug: 'est', lat: 42, lon: 2, zona: 'catalunya' }
+		])!;
+		expect(m.punts).toEqual([
+			{ slug: 'oest', xPct: 8.33, yPct: 50 },
+			{ slug: 'est', xPct: 91.67, yPct: 50 }
+		]);
+		const [x0, y0, x1, y1] = m.bbox;
+		expect((x1 - x0) / (y1 - y0)).toBeCloseTo(640 / 400, 4);
+		expect(bbox(m.url)).toEqual(m.bbox);
+	});
+
+	it('un sol cim: centrat, amb l’extensió mínima i la proporció de la imatge', () => {
+		const pedraforca = cimPerSlug('pedraforca-pollego-superior')!;
+		const m = mapaEstaticComarca([pedraforca], { ample: 600, alt: 600 })!;
+		expect(m.punts).toEqual([{ slug: pedraforca.slug, xPct: 50, yPct: 50 }]);
+		const [x0, y0, x1, y1] = m.bbox;
+		expect(x1 - x0).toBeCloseTo(y1 - y0, 1);
+		// 8 km reals + 10 % per banda = 9,6 km
+		const kmReals = ((x1 - x0) * Math.cos((pedraforca.lat! * Math.PI) / 180)) / 1000;
+		expect(kmReals).toBeCloseTo(9.6, 2);
+		const p = new URL(m.url).searchParams;
+		expect(p.get('WIDTH')).toBe('600');
+		expect(p.get('HEIGHT')).toBe('600');
+	});
+
+	it('Berguedà: el % de cada cim desfà la projecció fins a les seves coordenades', () => {
+		const cims = cimsPerComarca('bergueda');
+		const m = mapaEstaticComarca(cims, { ample: 800, alt: 500 })!;
+		expect(m.font).toBe('icgc');
+		expect(m.atribucio).toBe(MAPA_ESTATIC_ATRIBUCIO);
+		expect(m.punts.map((p) => p.slug)).toEqual(cims.map((c) => c.slug));
+		const [x0, y0, x1, y1] = m.bbox;
+		expect((x1 - x0) / (y1 - y0)).toBeCloseTo(800 / 500, 4);
+		for (const p of m.punts) {
+			const cim = cimPerSlug(p.slug)!;
+			const { lat, lon } = deWebMercator(
+				x0 + (p.xPct / 100) * (x1 - x0),
+				y1 - (p.yPct / 100) * (y1 - y0)
+			);
+			// 0,01 % d'una imatge de ~50 km ≈ 5 m
+			expect(lat, p.slug).toBeCloseTo(cim.lat!, 3);
+			expect(lon, p.slug).toBeCloseTo(cim.lon!, 3);
+		}
+	});
+
+	it('totes les comarques: cims dins la imatge i amb el marge (≥ 8,33 % de les vores)', () => {
+		for (const comarca of comarquesAmbCims()) {
+			const m = mapaEstaticComarca(cimsPerComarca(comarca.slug))!;
+			expect(m, comarca.slug).not.toBeNull();
+			for (const p of m.punts) {
+				expect(p.xPct, `${comarca.slug}/${p.slug}`).toBeGreaterThanOrEqual(8.33);
+				expect(p.xPct, `${comarca.slug}/${p.slug}`).toBeLessThanOrEqual(91.67);
+				expect(p.yPct, `${comarca.slug}/${p.slug}`).toBeGreaterThanOrEqual(8.33);
+				expect(p.yPct, `${comarca.slug}/${p.slug}`).toBeLessThanOrEqual(91.67);
+			}
+			expect(m.font, comarca.slug).toBe(comarca.zona === 'catalunya-nord' ? 'ign' : 'icgc');
+		}
+	});
+
+	it('Catalunya Nord → Plan IGN; Andorra → ICGC', () => {
+		const cn = mapaEstaticComarca(cimsPerComarca('catalunya-nord'))!;
+		expect(cn.font).toBe('ign');
+		expect(cn.atribucio).toBe(MAPA_IGN_ATRIBUCIO);
+		expect(new URL(cn.url).searchParams.get('CRS')).toBe('EPSG:3857');
+		expect(mapaEstaticComarca(cimsPerComarca('andorra'))!.font).toBe('icgc');
+	});
+
+	it('sense cims amb coordenades → null; mides invàlides → RangeError', () => {
+		expect(mapaEstaticComarca([])).toBeNull();
+		expect(mapaEstaticComarca([{ slug: 'x', lat: null, lon: null, zona: 'catalunya' }])).toBeNull();
+		const c = cimPerSlug('canigo')!;
+		expect(() => mapaEstaticComarca([c], { ample: 0 })).toThrow(RangeError);
+		expect(() => mapaEstaticComarca([c], { alt: 5000 })).toThrow(RangeError);
 	});
 });

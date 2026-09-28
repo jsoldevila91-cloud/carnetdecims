@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Icon from './Icon.svelte';
 	import Logo from './Logo.svelte';
+	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
 	/** Peu amb l'avís de web no oficial. "100 Cims" només com a descriptor, sense logos FEEC. */
@@ -15,6 +16,15 @@
 			<span>{m.brand_name()}</span>
 		</p>
 		<p class="tagline">{m.brand_tagline()}</p>
+		<nav class="explora" aria-label={m.explore_label()}>
+			<ul>
+				<li><a href={href('/cims')}>{m.explore_all()}</a></li>
+				<li><a href={href('/comarques')}>{m.explore_comarques()}</a></li>
+				<li><a href={href('/cims-essencials')}>{m.explore_essentials()}</a></li>
+				<li><a href={href('/tresmils')}>{m.explore_tresmils()}</a></li>
+				<li><a href={href('/cims-mes-alts')}>{m.explore_highest()}</a></li>
+			</ul>
+		</nav>
 		<p class="disclaimer">{m.footer_disclaimer()}</p>
 		<nav aria-label={m.footer_nav_label()}>
 			<ul>
@@ -86,7 +96,7 @@
 	ul {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--sp-4);
+		gap: 0 var(--sp-4);
 		margin: 0;
 		padding: 0;
 		list-style: none;

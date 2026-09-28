@@ -8,17 +8,24 @@
  * - Fitxes de cim: només les `revisat` (la fitxa aplica el mateix criteri per al `noindex`).
  *   Els sitemaps buits no es publiquen: mentre no n'hi hagi cap de revisada no hi ha
  *   `sitemap-ca-cims.xml`.
- * - Pendent (bloc 3b): secció `comarques`/`comarcas`.
+ * - Comarques (`sitemap-ca-comarques.xml`, `sitemap-es-comarcas.xml`): l'índex `/comarques` i les
+ *   pàgines de les comarques amb almenys un cim (`slugsComarquesAmbCims`).
+ * - Llistats curats (`sitemap-ca-llistats.xml`, `sitemap-es-listados.xml`): `LLISTAT_PATHS`.
+ * - Pàgines: la resta de `PRERENDER_PATHS` (sense l'índex de comarques ni els llistats).
  *
  * El fa servir `vite.config.ts` (entrades de prerender), per això no depèn de `$lib` ni del runtime.
  */
 import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
 import {
+	COMARQUES_PATH,
+	LLISTAT_PATHS,
 	LOCALES,
 	PRERENDER_PATHS,
 	SITE_ORIGIN,
 	localizeCimPath,
+	localizeComarcaPath,
 	localizePath,
+	slugsComarquesAmbCims,
 	type AppLocale
 } from '../i18n/routes.ts';
 
@@ -74,11 +81,34 @@ export function cimSitemapUrls(cims: readonly CimSitemap[], locale: AppLocale): 
 		);
 }
 
+/** Camins de `PRERENDER_PATHS` que tenen secció pròpia i no van a `pagines`. */
+const AMB_SECCIO_PROPIA: ReadonlySet<string> = new Set([COMARQUES_PATH, ...LLISTAT_PATHS]);
+
+/** Índex de comarques + pàgines de comarca (només les que tenen cims), en un idioma. */
+export function comarcaSitemapUrls(locale: AppLocale): SitemapUrl[] {
+	return [
+		urlAmbAlternates((l) => localizePath(COMARQUES_PATH, l), locale),
+		...slugsComarquesAmbCims().map((slug) =>
+			urlAmbAlternates((l) => localizeComarcaPath(slug, l), locale)
+		)
+	];
+}
+
 export const SITEMAP_SECTIONS: readonly SitemapSection[] = [
 	{
 		name: { ca: 'pagines', es: 'paginas' },
 		urls: (locale) =>
-			PRERENDER_PATHS.map((p) => urlAmbAlternates((l) => localizePath(p, l), locale))
+			PRERENDER_PATHS.filter((p) => !AMB_SECCIO_PROPIA.has(p)).map((p) =>
+				urlAmbAlternates((l) => localizePath(p, l), locale)
+			)
+	},
+	{
+		name: { ca: 'comarques', es: 'comarcas' },
+		urls: comarcaSitemapUrls
+	},
+	{
+		name: { ca: 'llistats', es: 'listados' },
+		urls: (locale) => LLISTAT_PATHS.map((p) => urlAmbAlternates((l) => localizePath(p, l), locale))
 	},
 	{
 		name: { ca: 'cims', es: 'cimas' },

@@ -5,7 +5,9 @@ import {
 	MAX_DESCRIPTION,
 	MAX_TITLE,
 	ambAltitud,
+	ambMajuscula,
 	nomAmbA,
+	nomAmbArticle,
 	nomAmbDe,
 	nomAmbEn,
 	primerQueHiCapi,
@@ -52,6 +54,21 @@ describe('fitxa de cim · SEO', () => {
 		expect(nomAmbEn('el Berguedà', 'es')).toBe('en el Berguedà');
 		expect(nomAmbEn('la Catalunya Nord', 'es')).toBe('en la Catalunya Nord');
 		expect(nomAmbEn('Andorra', 'es')).toBe('en Andorra');
+	});
+
+	it("en castellà, l' davant de masculí es contrau; davant de femení es conserva", () => {
+		expect(nomAmbDe("l'Alt Empordà", 'ca')).toBe("de l'Alt Empordà");
+		expect(nomAmbDe("l'Alt Empordà", 'es')).toBe('del Alt Empordà');
+		expect(nomAmbDe("l'Urgell", 'es')).toBe('del Urgell');
+		expect(nomAmbDe("l'Alta Ribagorça", 'es')).toBe("de l'Alta Ribagorça");
+		expect(nomAmbDe("l'Anoia", 'es')).toBe("de l'Anoia");
+		expect(nomAmbEn("l'Alt Camp", 'es')).toBe('en el Alt Camp');
+		expect(nomAmbA("l'Elefant", 'es')).toBe('al Elefant');
+		expect(nomAmbArticle("l'Alt Urgell", 'es')).toBe('el Alt Urgell');
+		expect(nomAmbArticle('lo Tormo', 'es')).toBe('el Tormo');
+		expect(nomAmbArticle('lo Tormo', 'ca')).toBe('lo Tormo');
+		expect(nomAmbArticle("la Pica d'Estats", 'es')).toBe("la Pica d'Estats");
+		expect(ambMajuscula('en el Berguedà')).toBe('En el Berguedà');
 	});
 
 	it("l'altitud es fusiona amb un parèntesi final", () => {

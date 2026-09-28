@@ -45,3 +45,123 @@ export function cimsMateixaComarca(cim: CimCataleg, n = 3): CimCataleg[] {
 		.sort((a, b) => b.altitud - a.altitud || a.id - b.id)
 		.slice(0, n);
 }
+
+// ── Pàgines de comarca (bloc 3b) ─────────────────────────────────────────────
+
+/** Ordre de visualització per zona: primer les comarques catalanes, després Andorra i la Catalunya Nord. */
+const ORDRE_ZONA: Readonly<Record<ComarcaCataleg['zona'], number>> = {
+	catalunya: 0,
+	andorra: 1,
+	'catalunya-nord': 2
+};
+
+/** Collation catalana (accents i apòstrofs: "Alt Empordà" < "Alt Penedès" < "Alta Ribagorça"). */
+const COLLATOR_CA = new Intl.Collator('ca', { sensitivity: 'base' });
+
+/** Més alt primer; empat: ordre del catàleg. */
+const perAltitudDesc = (a: CimCataleg, b: CimCataleg) => b.altitud - a.altitud || a.id - b.id;
+
+/**
+ * Tots els cims d'una comarca, de més alt a més baix (empat: ordre del catàleg).
+ * Slug desconegut o comarca sense cims → `[]`.
+ */
+export function cimsPerComarca(slugComarca: string): CimCataleg[] {
+	return CIMS.filter((c) => c.comarca === slugComarca).sort(perAltitudDesc);
+}
+
+const SLUGS_COMARQUES_AMB_CIMS: ReadonlySet<string> = new Set(CIMS.map((c) => c.comarca));
+
+/**
+ * Comarques (i zones) amb almenys un cim al catàleg, per a `/comarques` i el prerender.
+ * Ordre: primer les 42 comarques de Catalunya per ordre alfabètic català (`Intl.Collator('ca')`),
+ * i al final Andorra i la Catalunya Nord (ordre de `ZONES`), que són zones i no comarques.
+ * Les comarques sense cims (p. ex. la Segarra, amb el catàleg d'essencials) no hi surten.
+ */
+export function comarquesAmbCims(): ComarcaCataleg[] {
+	return COMARQUES.filter((c) => SLUGS_COMARQUES_AMB_CIMS.has(c.slug)).sort(
+		(a, b) => ORDRE_ZONA[a.zona] - ORDRE_ZONA[b.zona] || COLLATOR_CA.compare(a.nom, b.nom)
+	);
+}
+
+/**
+ * Agrupa cims per comarca, en l'ordre de `comarquesAmbCims()` i conservant l'ordre dels cims
+ * dins de cada grup (útil per a `/cims-essencials`, amb un H2 per comarca).
+ */
+export function agruparPerComarca(
+	cims: readonly CimCataleg[]
+): { comarca: ComarcaCataleg; cims: CimCataleg[] }[] {
+	const grups = new Map<string, CimCataleg[]>();
+	for (const c of cims) {
+		const g = grups.get(c.comarca);
+		if (g) g.push(c);
+		else grups.set(c.comarca, [c]);
+	}
+	return comarquesAmbCims()
+		.filter((c) => grups.has(c.slug))
+		.map((comarca) => ({ comarca, cims: grups.get(comarca.slug)! }));
+}
+
+// ── Llistats curats (bloc 3b) ────────────────────────────────────────────────
+
+/**
+ * Llistats que ja es poden construir amb el catàleg actual. `cims-facils` i `cims-amb-nens`
+ * necessiten el MIDE (fase 6) i no s'hi defineixen.
+ */
+export type LlistatId = 'essencials' | 'tresmils' | 'mes-alts';
+
+export interface LlistatDef {
+	id: LlistatId;
+	/** Camí intern (deslocalitzat) de `LOCALIZED_ROUTES` i `LLISTAT_PATHS`. */
+	path: '/cims-essencials' | '/tresmils' | '/cims-mes-alts';
+	/** Ordre dels cims retornats per `cimsDelLlistat`. */
+	ordre: 'comarca' | 'altitud';
+	/** Criteri d'inclusió. */
+	filtre: (cim: CimCataleg) => boolean;
+	/** Nombre màxim de cims (rànquing), si n'hi ha. */
+	limit?: number;
+}
+
+/** Altitud mínima (m) per ser un "tresmil". */
+export const ALTITUD_TRESMIL = 3000;
+/** Mida del rànquing de `/cims-mes-alts`. */
+export const MIDA_RANQUING_MES_ALTS = 25;
+
+export const LLISTATS: Readonly<Record<LlistatId, LlistatDef>> = Object.freeze({
+	essencials: {
+		id: 'essencials',
+		path: '/cims-essencials',
+		// Agrupats per comarca (docs/02 §4.3: un H2 per comarca), i dins de cada una per altitud.
+		ordre: 'comarca',
+		filtre: (c) => c.essencial
+	},
+	tresmils: {
+		id: 'tresmils',
+		path: '/tresmils',
+		ordre: 'altitud',
+		filtre: (c) => c.altitud >= ALTITUD_TRESMIL
+	},
+	'mes-alts': {
+		id: 'mes-alts',
+		path: '/cims-mes-alts',
+		ordre: 'altitud',
+		filtre: () => true,
+		limit: MIDA_RANQUING_MES_ALTS
+	}
+});
+
+export const LLISTAT_IDS: readonly LlistatId[] = Object.freeze(
+	Object.keys(LLISTATS) as LlistatId[]
+);
+
+/**
+ * Cims d'un llistat curat. Ordre `altitud`: de més alt a més baix (empat: ordre del catàleg).
+ * Ordre `comarca`: per comarca (ordre de `comarquesAmbCims()`) i, dins de cada una, per altitud.
+ * @throws RangeError si l'id no existeix.
+ */
+export function cimsDelLlistat(id: LlistatId): CimCataleg[] {
+	const def = Object.hasOwn(LLISTATS, id) ? LLISTATS[id] : undefined;
+	if (!def) throw new RangeError(`Llistat desconegut: ${id}`);
+	const cims = CIMS.filter(def.filtre).sort(perAltitudDesc);
+	const ordenats = def.ordre === 'comarca' ? agruparPerComarca(cims).flatMap((g) => g.cims) : cims;
+	return def.limit === undefined ? ordenats : ordenats.slice(0, def.limit);
+}

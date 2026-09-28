@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS } from '$lib/data/catalog';
-import { cimSitemapUrls, sitemapEntries, sitemapIndexXml, sitemapXml, urlsetXml } from './sitemap';
+import {
+	comarcaSitemapUrls,
+	cimSitemapUrls,
+	sitemapEntries,
+	sitemapIndexXml,
+	sitemapXml,
+	urlsetXml
+} from './sitemap';
 
 describe('sitemaps', () => {
 	it('índex + un sitemap per secció i idioma (sense seccions buides)', () => {
@@ -9,11 +16,17 @@ describe('sitemaps', () => {
 		expect(sitemapEntries()).toEqual([
 			'/sitemap-index.xml',
 			'/sitemap-ca-pagines.xml',
-			'/sitemap-es-paginas.xml'
+			'/sitemap-es-paginas.xml',
+			'/sitemap-ca-comarques.xml',
+			'/sitemap-es-comarcas.xml',
+			'/sitemap-ca-llistats.xml',
+			'/sitemap-es-listados.xml'
 		]);
 		const index = sitemapIndexXml();
 		expect(index).toContain('<loc>https://carnetdecims.cat/sitemap-ca-pagines.xml</loc>');
 		expect(index).toContain('<loc>https://carnetdecims.cat/sitemap-es-paginas.xml</loc>');
+		expect(index).toContain('<loc>https://carnetdecims.cat/sitemap-es-comarcas.xml</loc>');
+		expect(index).toContain('<loc>https://carnetdecims.cat/sitemap-ca-llistats.xml</loc>');
 		expect(index).not.toContain('cims.xml');
 	});
 
@@ -98,5 +111,48 @@ describe('sitemap de fitxes de cim', () => {
 			'ca'
 		);
 		expect(url).not.toHaveProperty('lastmod');
+	});
+});
+
+describe('sitemaps de comarques i llistats', () => {
+	it('comarques: índex + les 43 comarques amb cims, amb alternates', () => {
+		const ca = comarcaSitemapUrls('ca');
+		expect(ca).toHaveLength(44);
+		expect(ca[0].loc).toBe('https://carnetdecims.cat/ca/comarques');
+		expect(ca.map((u) => u.loc)).not.toContain('https://carnetdecims.cat/ca/comarques/segarra');
+		const es = comarcaSitemapUrls('es');
+		expect(es.find((u) => u.loc.endsWith('/bergueda'))).toEqual({
+			loc: 'https://carnetdecims.cat/es/comarcas/bergueda',
+			alternates: [
+				{ hreflang: 'ca', href: 'https://carnetdecims.cat/ca/comarques/bergueda' },
+				{ hreflang: 'es', href: 'https://carnetdecims.cat/es/comarcas/bergueda' },
+				{ hreflang: 'x-default', href: 'https://carnetdecims.cat/ca/comarques/bergueda' }
+			]
+		});
+		const xml = sitemapXml('es-comarcas') ?? '';
+		expect(xml).toContain('<loc>https://carnetdecims.cat/es/comarcas/catalunya-nord</loc>');
+		expect(xml).not.toMatch(/lastmod|<loc>[^<]*\/<\/loc>/);
+	});
+
+	it('llistats: essencials, tresmils i més alts; sense fàcils ni amb nens', () => {
+		const ca = sitemapXml('ca-llistats') ?? '';
+		const locs = [...ca.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+		expect(locs).toEqual([
+			'https://carnetdecims.cat/ca/cims-essencials',
+			'https://carnetdecims.cat/ca/tresmils',
+			'https://carnetdecims.cat/ca/cims-mes-alts'
+		]);
+		expect(sitemapXml('es-listados')).toContain(
+			'hreflang="es" href="https://carnetdecims.cat/es/cimas-mas-altas"'
+		);
+	});
+
+	it('cap URL repetida entre seccions; pàgines sense comarques ni llistats', () => {
+		const pagines = sitemapXml('ca-pagines') ?? '';
+		expect(pagines).not.toMatch(/comarques|essencials|tresmils|mes-alts/);
+		const totes = ['ca-pagines', 'ca-comarques', 'ca-llistats'].flatMap((n) =>
+			[...(sitemapXml(n) ?? '').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+		);
+		expect(new Set(totes).size).toBe(totes.length);
 	});
 });

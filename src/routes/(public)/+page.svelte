@@ -11,6 +11,13 @@
 		orgDescription: m.seo_org_description()
 	});
 
+	const explora = [
+		{ path: '/comarques', text: m.explore_comarques },
+		{ path: '/cims-essencials', text: m.explore_essentials },
+		{ path: '/tresmils', text: m.explore_tresmils },
+		{ path: '/cims-mes-alts', text: m.explore_highest }
+	];
+
 	const steps = [
 		{ n: '01', title: m.home_step1_title, text: m.home_step1_text },
 		{ n: '02', title: m.home_step2_title, text: m.home_step2_text },
@@ -51,6 +58,15 @@
 			</Card>
 		{/each}
 	</ol>
+</section>
+
+<section class="explore" aria-labelledby="explore-title">
+	<h2 id="explore-title" class="section-title x-wide">{m.explore_label()}</h2>
+	<ul>
+		{#each explora as e (e.path)}
+			<li><a href={href(e.path)}>{e.text()}<span aria-hidden="true">›</span></a></li>
+		{/each}
+	</ul>
 </section>
 
 <section class="unofficial" aria-labelledby="unofficial-title">
@@ -135,6 +151,44 @@
 
 	.steps p {
 		color: var(--c-ink-2);
+	}
+
+	.explore {
+		margin-top: var(--sp-10);
+	}
+
+	.explore ul {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+		gap: var(--sp-3);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.explore a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--sp-3);
+		min-height: var(--tap);
+		padding: var(--sp-3) var(--sp-4);
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-md);
+		background: var(--c-card);
+		box-shadow: var(--sh-1);
+		font-weight: var(--fw-bold);
+		text-decoration: none;
+	}
+
+	.explore a:hover {
+		text-decoration: underline;
+	}
+
+	.explore a span {
+		color: var(--c-stamp-ink);
+		font-size: var(--fs-lg);
+		line-height: 1;
 	}
 
 	.unofficial {

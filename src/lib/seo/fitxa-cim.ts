@@ -3,8 +3,8 @@
  * Funcions pures (els missatges de Paraglide també ho són).
  *
  * Castellà: el topònim conserva l'article català ("a la Pica d'Estats", "de l'Anoia");
- * només `el`/`lo` es contrauen o es tradueixen ("al Pedraforca", "del Berguedà",
- * "en el Berguedà").
+ * només els articles masculins singulars (`el`, `lo` i `l'` davant de masculí) es contrauen
+ * o es tradueixen ("al Pedraforca", "del Berguedà", "del Alt Empordà", "en el Berguedà").
  */
 import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
 import { m } from '$lib/paraglide/messages';
@@ -12,27 +12,53 @@ import { formatAltitude } from '$lib/ui/format';
 
 type Locale = 'ca' | 'es';
 
-const esMasculi = (article: string) => article === 'el' || article === 'lo';
+/**
+ * Article masculí singular, que en castellà passa a `el`: `el`, `lo` i `l'` davant d'un
+ * masculí ("l'Alt Empordà", "l'Urgell", "l'Elefant"). Amb `l'`, el gènere es dedueix de la
+ * primera paraula: acabada en -a és femenina ("l'Alta Ribagorça", "l'Anoia") i es conserva.
+ */
+function esMasculi(article: string, nom: string): boolean {
+	if (article === 'el' || article === 'lo') return true;
+	return article === "l'" && !/a$/i.test(nom.split(/\s/)[0]);
+}
 
 /** "Com pujar al Pedraforca" · "Cómo subir a la Pica d'Estats". */
 export function nomAmbA(nomAmbArticle: string, locale: Locale): string {
 	const { article, nom } = separarArticle(nomAmbArticle);
 	if (locale === 'ca') return ambA(nom, article);
-	return esMasculi(article) ? `al ${nom}` : `a ${nomAmbArticle}`;
+	return esMasculi(article, nom) ? `al ${nom}` : `a ${nomAmbArticle}`;
 }
 
-/** "del Berguedà", "d'Osona" (ca) · "del Berguedà", "de Osona", "de la Cerdanya" (es). */
+/**
+ * "del Berguedà", "d'Osona", "de l'Alt Empordà" (ca) · "del Berguedà", "de Osona",
+ * "de la Cerdanya", "del Alt Empordà" (es).
+ */
 export function nomAmbDe(nomAmbArticle: string, locale: Locale): string {
 	const { article, nom } = separarArticle(nomAmbArticle);
 	if (locale === 'ca') return ambDe(nom, article);
-	return esMasculi(article) ? `del ${nom}` : `de ${nomAmbArticle}`;
+	return esMasculi(article, nom) ? `del ${nom}` : `de ${nomAmbArticle}`;
 }
 
 /** Lloc: "al Berguedà", "a Andorra" (ca) · "en el Berguedà", "en Andorra" (es). */
 export function nomAmbEn(nomAmbArticle: string, locale: Locale): string {
 	if (locale === 'ca') return nomAmbA(nomAmbArticle, 'ca');
 	const { article, nom } = separarArticle(nomAmbArticle);
-	return esMasculi(article) ? `en el ${nom}` : `en ${nomAmbArticle}`;
+	return esMasculi(article, nom) ? `en el ${nom}` : `en ${nomAmbArticle}`;
+}
+
+/**
+ * Nom amb article per a una frase: igual en català; en castellà, el masculí singular passa
+ * a `el` ("lo Tormo" → "el Tormo", "l'Alt Empordà" → "el Alt Empordà").
+ */
+export function nomAmbArticle(nomAmbArticle: string, locale: Locale): string {
+	if (locale === 'ca') return nomAmbArticle;
+	const { article, nom } = separarArticle(nomAmbArticle);
+	return esMasculi(article, nom) ? `el ${nom}` : nomAmbArticle;
+}
+
+/** Primera lletra en majúscula ("al Berguedà" → "Al Berguedà"). */
+export function ambMajuscula(text: string): string {
+	return text.charAt(0).toLocaleUpperCase() + text.slice(1);
 }
 
 /**

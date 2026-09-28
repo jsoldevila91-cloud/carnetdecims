@@ -1,0 +1,211 @@
+<script lang="ts">
+	import type { CimCataleg } from '$lib/domain';
+	import { href } from '$lib/i18n';
+	import { m } from '$lib/paraglide/messages';
+	import { formatAltitude } from './format';
+
+	/**
+	 * Mapa estàtic (imatge WMS, SSR) amb un marcador enllaçat per cim a sobre.
+	 * - Cada marcador és un enllaç a la fitxa, amb nom accessible "{nom}, {alt} m" i el número
+	 *   del cim a la llista de la pàgina (mateix ordre de tabulació que la llista).
+	 * - Àrea tàctil de 24 × 24 px (WCAG 2.2, 2.5.8) i etiqueta visible en passar-hi o en fer-hi focus.
+	 * - Atribució visible sota la imatge (ICGC CC BY 4.0 / IGN Llicència Oberta).
+	 */
+	let {
+		mapa,
+		cims,
+		numeros,
+		alt,
+		ample = 640,
+		altura = 480,
+		etiqueta
+	}: {
+		mapa: {
+			url: string;
+			llicenciaUrl: string;
+			font: 'icgc' | 'ign';
+			punts: readonly { slug: string; xPct: number; yPct: number }[];
+		};
+		cims: readonly CimCataleg[];
+		numeros: ReadonlyMap<string, number>;
+		/** Text alternatiu de la imatge. */
+		alt: string;
+		ample?: number;
+		altura?: number;
+		/** Nom accessible de la llista de marcadors. */
+		etiqueta: string;
+	} = $props();
+
+	const perSlug = $derived(new Map(cims.map((c) => [c.slug, c])));
+	// Marcadors en l'ordre de la llista de la pàgina (ordre de tabulació coherent).
+	const marcadors = $derived(
+		mapa.punts
+			.map((p) => ({ ...p, cim: perSlug.get(p.slug), num: numeros.get(p.slug) }))
+			.filter((p): p is typeof p & { cim: CimCataleg; num: number } => !!p.cim && !!p.num)
+			.sort((a, b) => a.num - b.num)
+	);
+</script>
+
+<figure class="map">
+	<div class="map-img" style:aspect-ratio="{ample} / {altura}">
+		<img src={mapa.url} width={ample} height={altura} {alt} loading="lazy" decoding="async" />
+		<ul class="marcadors" aria-label={etiqueta}>
+			{#each marcadors as p (p.slug)}
+				<li
+					style:left="{p.xPct}%"
+					style:top="{p.yPct}%"
+					class={{ dreta: p.xPct > 60, sota: p.yPct < 18 }}
+				>
+					<a
+						href={href(`/cims/${p.slug}`)}
+						class={{ essencial: p.cim.essencial }}
+						aria-label="{p.cim.nom}, {formatAltitude(p.cim.altitud)} m"
+					>
+						<span class="punt mono" aria-hidden="true">{p.num}</span>
+						<span class="etiqueta" aria-hidden="true">{p.cim.nom}</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</div>
+	<figcaption class="mono">
+		<a href={mapa.llicenciaUrl} rel="external noopener license" target="_blank">
+			{mapa.font === 'icgc' ? m.cim_map_attribution_icgc() : m.cim_map_attribution_ign()}
+			<span class="sr-only">{m.external_new_tab()}</span>
+		</a>
+	</figcaption>
+</figure>
+
+<style>
+	.map {
+		margin: 0;
+	}
+
+	.map-img {
+		position: relative;
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-lg);
+		background: var(--c-paper-2);
+		box-shadow: var(--sh-2);
+	}
+
+	.map-img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: calc(var(--r-lg) - var(--bw));
+	}
+
+	.marcadors {
+		position: absolute;
+		inset: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.marcadors li {
+		position: absolute;
+		width: 0;
+		height: 0;
+	}
+
+	/* Àrea tàctil de 24 px centrada al punt del cim */
+	.marcadors a {
+		position: absolute;
+		top: -12px;
+		left: -12px;
+		display: grid;
+		place-items: center;
+		width: 24px;
+		height: 24px;
+		border-radius: var(--r-full);
+		text-decoration: none;
+	}
+
+	.punt {
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		border: 2px solid #fff;
+		border-radius: var(--r-full);
+		background: var(--c-ink);
+		color: var(--c-on-ink);
+		box-shadow: 0 0 0 1px rgb(0 0 0 / 0.45);
+		font-size: 0.625rem;
+		font-weight: var(--fw-bold);
+		line-height: 1;
+	}
+
+	/* Sobre el mapa (sempre clar) els colors són fixos, igual en tema clar i fosc */
+	.marcadors a .punt {
+		background: #1b2a47;
+		color: #fff;
+	}
+
+	.marcadors a.essencial .punt {
+		background: #c0392b;
+	}
+
+	.etiqueta {
+		position: absolute;
+		bottom: calc(100% + 4px);
+		left: 50%;
+		z-index: 2;
+		padding: 2px var(--sp-2);
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-sm);
+		background: var(--c-card);
+		color: var(--c-ink);
+		box-shadow: var(--sh-1);
+		font-size: var(--fs-xs);
+		font-weight: var(--fw-bold);
+		white-space: nowrap;
+		transform: translateX(-50%);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--dur-fast) ease;
+	}
+
+	/* Marcadors a prop de les vores: l'etiqueta no surt del mapa */
+	.dreta .etiqueta {
+		left: auto;
+		right: 0;
+		transform: none;
+	}
+
+	.sota .etiqueta {
+		top: calc(100% + 4px);
+		bottom: auto;
+	}
+
+	.marcadors a:hover,
+	.marcadors a:focus-visible {
+		z-index: 3;
+	}
+
+	.marcadors a:hover .etiqueta,
+	.marcadors a:focus-visible .etiqueta {
+		opacity: 1;
+	}
+
+	.marcadors a:focus-visible {
+		outline: 3px solid var(--c-focus);
+		outline-offset: 1px;
+	}
+
+	.map figcaption {
+		font-size: var(--fs-xs);
+		color: var(--c-ink-2);
+	}
+
+	/* Text discret però amb àrea tàctil de 44 px d'alt */
+	.map figcaption a {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		color: inherit;
+		text-underline-offset: 0.2em;
+	}
+</style>

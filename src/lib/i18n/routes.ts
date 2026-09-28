@@ -8,8 +8,9 @@
  *
  * Aquest fitxer l'importa `vite.config.ts`, per això no pot dependre de `$lib` ni del runtime.
  */
-// Import relatiu (sense `$lib`): només per als slugs de `cimEntries()`.
+// Imports relatius (sense `$lib`): només per als slugs de `cimEntries()` i `comarcaEntries()`.
 import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
+import comarquesJson from '../data/catalog/comarques.json' with { type: 'json' };
 
 export const LOCALES = ['ca', 'es'] as const;
 export type AppLocale = (typeof LOCALES)[number];
@@ -94,12 +95,18 @@ export function localizePath(path: string, locale: AppLocale): string {
 	return `/${locale}${route ? route.localized[locale] : path}`;
 }
 
+/** Llistats curats (vegeu `LLISTATS` a `$lib/data/catalog/queries.ts`). Sitemap: secció `llistats`. */
+export const LLISTAT_PATHS = ['/cims-essencials', '/tresmils', '/cims-mes-alts'] as const;
+
+/** Índex de comarques. Sitemap: secció `comarques`, amb les pàgines de comarca. */
+export const COMARQUES_PATH = '/comarques';
+
 /**
  * Pàgines públiques sense paràmetres que es prerenderitzen en tots dos idiomes.
  * Totes són indexables i entren al sitemap (`$lib/seo/sitemap.ts`): si mai n'hi ha
  * una de `noindex`, cal excloure-la allà.
  */
-export const PRERENDER_PATHS = ['/', '/cims', '/mapa'] as const;
+export const PRERENDER_PATHS = ['/', '/cims', '/mapa', COMARQUES_PATH, ...LLISTAT_PATHS] as const;
 
 export function prerenderEntries(): `/${string}`[] {
 	return PRERENDER_PATHS.flatMap((p) => LOCALES.map((l) => localizePath(p, l) as `/${string}`));
@@ -116,6 +123,35 @@ export function localizeCimPath(slug: string, locale: AppLocale): `/${string}` {
 	if (!SLUG_RE.test(slug)) throw new RangeError(`Slug invàlid: ${slug}`);
 	const route = LOCALIZED_ROUTES.find((r) => r.path === '/cims/:slug')!;
 	return `/${locale}${route.localized[locale].replace(':slug', slug)}`;
+}
+
+/**
+ * Camí localitzat d'una pàgina de comarca: `/ca/comarques/{slug}` o `/es/comarcas/{slug}`
+ * (a partir del patró `/comarques/:slug` de `LOCALIZED_ROUTES`).
+ * @throws RangeError si el slug no té un format vàlid.
+ */
+export function localizeComarcaPath(slug: string, locale: AppLocale): `/${string}` {
+	if (!SLUG_RE.test(slug)) throw new RangeError(`Slug invàlid: ${slug}`);
+	const route = LOCALIZED_ROUTES.find((r) => r.path === '/comarques/:slug')!;
+	return `/${locale}${route.localized[locale].replace(':slug', slug)}`;
+}
+
+/**
+ * Slugs de les comarques amb almenys un cim, en l'ordre de `comarques.json`
+ * (el mateix criteri que `comarquesAmbCims()`; aquí sense `$lib`).
+ */
+export function slugsComarquesAmbCims(): string[] {
+	const ambCims = new Set((cimsJson as ReadonlyArray<{ comarca: string }>).map((c) => c.comarca));
+	return (comarquesJson as ReadonlyArray<{ slug: string }>)
+		.map((c) => c.slug)
+		.filter((slug) => ambCims.has(slug));
+}
+
+/** Les URL localitzades de les pàgines de comarca amb cims (ca i es), per a `prerender.entries`. */
+export function comarcaEntries(): `/${string}`[] {
+	return slugsComarquesAmbCims().flatMap((slug) =>
+		LOCALES.map((l) => localizeComarcaPath(slug, l))
+	);
 }
 
 /** Les URL localitzades de totes les fitxes de cim (ca i es), per a `prerender.entries`. */

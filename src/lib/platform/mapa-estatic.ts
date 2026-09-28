@@ -15,6 +15,7 @@
  *   Etalab 2.0), verificat amb el Canigó centrat.
  *
  * La imatge sempre queda centrada en el cim: la UI hi pot dibuixar el marcador al centre.
+ * Per a les pàgines de comarca, `mapaEstaticComarca` engloba tots els cims i en retorna la posició.
  */
 import type { Cim } from '$lib/domain';
 
@@ -95,6 +96,10 @@ function query(params: Record<string, string>): string {
  */
 export function mapaEstaticUrl(lat: number, lon: number, opts: OpcionsMapaEstatic = {}): string {
 	const { bbox, ample, alt } = getMap(lat, lon, opts);
+	return urlIcgc(bbox, ample, alt);
+}
+
+function urlIcgc(bbox: string, ample: number, alt: number): string {
 	return `${MAPA_ESTATIC_WMS}?${query({
 		SERVICE: 'WMS',
 		VERSION: '1.1.1',
@@ -112,6 +117,10 @@ export function mapaEstaticUrl(lat: number, lon: number, opts: OpcionsMapaEstati
 /** URL GetMap (PNG) del Plan IGN v2 (WMS 1.3.0; en EPSG:3857 l'ordre d'eixos és x,y). */
 export function mapaEstaticIgnUrl(lat: number, lon: number, opts: OpcionsMapaEstatic = {}): string {
 	const { bbox, ample, alt } = getMap(lat, lon, opts);
+	return urlIgn(bbox, ample, alt);
+}
+
+function urlIgn(bbox: string, ample: number, alt: number): string {
 	return `${MAPA_IGN_WMS}?${query({
 		SERVICE: 'WMS',
 		VERSION: '1.3.0',
@@ -164,5 +173,99 @@ export function mapaEstaticPerCim(cim: CimMapa, opts: OpcionsMapaEstatic = {}): 
 		atribucio: MAPA_IGN_ATRIBUCIO,
 		llicenciaUrl: MAPA_IGN_LLICENCIA_URL,
 		font: 'ign'
+	};
+}
+
+// ── Mapa de comarca (bloc 3b) ────────────────────────────────────────────────
+
+/** Marge al voltant dels cims, en fracció de l'extensió de cada eix (per banda). */
+export const MAPA_COMARCA_MARGE = 0.1;
+/** Extensió mínima (km reals) de cada eix, per a comarques amb un sol cim o cims alineats. */
+export const MAPA_COMARCA_MIN_KM = 8;
+
+type CimMapaComarca = Pick<Cim, 'slug' | 'lat' | 'lon' | 'zona'>;
+
+export interface MapaEstaticComarca extends MapaEstatic {
+	/**
+	 * Posició de cada cim (amb coordenades) sobre la imatge, en % des de la vora esquerra (`xPct`)
+	 * i des de la vora superior (`yPct`), per pintar-hi marcadors a sobre. Arrodonit a 0,01 %.
+	 */
+	punts: { slug: string; xPct: number; yPct: number }[];
+	/** BBOX EPSG:3857 de la petició (minX, minY, maxX, maxY), en metres. */
+	bbox: [number, number, number, number];
+}
+
+/**
+ * Mapa estàtic d'una comarca: GetMap amb una BBOX (EPSG:3857) que engloba tots els cims amb un
+ * marge del 10 % per banda i una extensió mínima de 8 km, ampliada a l'eix curt perquè tingui la
+ * mateixa proporció que la imatge (píxels quadrats: el mapa no es deforma). Com que Web Mercator
+ * és lineal en x/y, la posició en % de cada cim és exacta.
+ *
+ * Font: Plan IGN si tots els cims són de la Catalunya Nord; si no, ICGC (com `mapaEstaticPerCim`).
+ * Els cims sense coordenades no hi surten; si no n'hi ha cap amb coordenades → `null`.
+ * @throws RangeError si les mides no són vàlides.
+ */
+export function mapaEstaticComarca(
+	cims: readonly CimMapaComarca[],
+	opts: { ample?: number; alt?: number } = {}
+): MapaEstaticComarca | null {
+	const ample = midaPx(opts.ample, 640, 'ample');
+	const alt = midaPx(opts.alt, 400, 'alt');
+	const ambCoords = cims.filter(
+		(c): c is CimMapaComarca & { lat: number; lon: number } =>
+			c.lat !== null &&
+			c.lon !== null &&
+			Number.isFinite(c.lat) &&
+			Number.isFinite(c.lon) &&
+			Math.abs(c.lat) <= LAT_MAX_MERCATOR &&
+			Math.abs(c.lon) <= 180
+	);
+	if (ambCoords.length === 0) return null;
+
+	const xy = ambCoords.map((c) => ({ slug: c.slug, ...aWebMercator(c.lat, c.lon) }));
+	let minX = Math.min(...xy.map((p) => p.x));
+	let maxX = Math.max(...xy.map((p) => p.x));
+	let minY = Math.min(...xy.map((p) => p.y));
+	let maxY = Math.max(...xy.map((p) => p.y));
+
+	// Extensió mínima en metres de Mercator (km reals × 1/cos(lat) a la latitud mitjana).
+	const latMitjana = ambCoords.reduce((s, c) => s + c.lat, 0) / ambCoords.length;
+	const minM = (MAPA_COMARCA_MIN_KM * 1000) / Math.cos((latMitjana * Math.PI) / 180);
+	const cx = (minX + maxX) / 2;
+	const cy = (minY + maxY) / 2;
+	let w = Math.max(maxX - minX, minM) * (1 + 2 * MAPA_COMARCA_MARGE);
+	let h = Math.max(maxY - minY, minM) * (1 + 2 * MAPA_COMARCA_MARGE);
+	// Mateixa proporció que la imatge: s'amplia l'eix curt, centrat.
+	const proporcio = ample / alt;
+	if (w / h > proporcio) h = w / proporcio;
+	else w = h * proporcio;
+	minX = cx - w / 2;
+	maxX = cx + w / 2;
+	minY = cy - h / 2;
+	maxY = cy + h / 2;
+
+	const bboxNums = [minX, minY, maxX, maxY].map((v) => Number(v.toFixed(2))) as [
+		number,
+		number,
+		number,
+		number
+	];
+	const bbox = bboxNums.map((v) => v.toFixed(2)).join(',');
+	const [bx0, by0, bx1, by1] = bboxNums;
+	const pct = (v: number) => Math.round(v * 10000) / 100;
+	const punts = xy.map((p) => ({
+		slug: p.slug,
+		xPct: pct((p.x - bx0) / (bx1 - bx0)),
+		yPct: pct((by1 - p.y) / (by1 - by0))
+	}));
+
+	const ign = ambCoords.every((c) => c.zona === 'catalunya-nord');
+	return {
+		url: ign ? urlIgn(bbox, ample, alt) : urlIcgc(bbox, ample, alt),
+		atribucio: ign ? MAPA_IGN_ATRIBUCIO : MAPA_ESTATIC_ATRIBUCIO,
+		llicenciaUrl: ign ? MAPA_IGN_LLICENCIA_URL : MAPA_ESTATIC_LLICENCIA_URL,
+		font: ign ? 'ign' : 'icgc',
+		punts,
+		bbox: bboxNums
 	};
 }

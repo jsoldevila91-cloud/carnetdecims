@@ -2,9 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
 	buildUrlPatterns,
 	cimEntries,
+	comarcaEntries,
 	localizeCimPath,
+	localizeComarcaPath,
 	localizePath,
-	prerenderEntries
+	prerenderEntries,
+	slugsComarquesAmbCims
 } from './routes';
 
 describe('rutes localitzades', () => {
@@ -43,7 +46,15 @@ describe('rutes localitzades', () => {
 			'/ca/cims',
 			'/es/cimas',
 			'/ca/mapa',
-			'/es/mapa'
+			'/es/mapa',
+			'/ca/comarques',
+			'/es/comarcas',
+			'/ca/cims-essencials',
+			'/es/cimas-esenciales',
+			'/ca/tresmils',
+			'/es/tresmiles',
+			'/ca/cims-mes-alts',
+			'/es/cimas-mas-altas'
 		]);
 	});
 
@@ -68,5 +79,28 @@ describe('rutes localitzades', () => {
 			'/es/cimas/el-cogullo-de-cabra'
 		]);
 		expect(entries).toContain('/es/cimas/comapedrosa');
+	});
+
+	it('pàgina de comarca: segment traduït i mateix slug', () => {
+		expect(localizeComarcaPath('bergueda', 'ca')).toBe('/ca/comarques/bergueda');
+		expect(localizeComarcaPath('val-d-aran', 'es')).toBe('/es/comarcas/val-d-aran');
+		expect(localizeComarcaPath('catalunya-nord', 'es')).toBe('/es/comarcas/catalunya-nord');
+		expect(() => localizeComarcaPath('Berguedà', 'ca')).toThrow(RangeError);
+		expect(() => localizeComarcaPath('', 'ca')).toThrow(RangeError);
+		expect(() => localizeComarcaPath('../x', 'es')).toThrow(RangeError);
+	});
+
+	it('comarcaEntries: només les comarques amb cims, en tots dos idiomes', () => {
+		const slugs = slugsComarquesAmbCims();
+		expect(slugs).toHaveLength(43);
+		expect(slugs).not.toContain('segarra');
+		expect(slugs).toContain('andorra');
+		expect(slugs).toContain('catalunya-nord');
+		const entries = comarcaEntries();
+		expect(entries).toHaveLength(86);
+		expect(new Set(entries).size).toBe(86);
+		expect(entries.slice(0, 2)).toEqual(['/ca/comarques/alt-camp', '/es/comarcas/alt-camp']);
+		expect(entries).not.toContain('/ca/comarques/segarra');
+		expect(entries).toContain('/es/comarcas/andorra');
 	});
 });
