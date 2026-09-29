@@ -41,7 +41,7 @@
 	});
 </script>
 
-<article class="fila">
+<article class="fila" data-ascensio={ascensio.id}>
 	{#if cim}
 		<Segell
 			top={cim.nom}

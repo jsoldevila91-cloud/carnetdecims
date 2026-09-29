@@ -6,49 +6,69 @@
 	import { prefersReducedMotion } from '$lib/platform/motion';
 
 	const reduced = prefersReducedMotion();
+
+	// On era el focus abans d'entrar a cada toast (per tornar-l'hi després de "Desfés").
+	// No reactiu a propòsit: només es consulta en executar l'acció.
+	const anteriors: Record<number, HTMLElement> = {};
+
+	function entra(id: number, event: FocusEvent) {
+		toasts.pause(id);
+		const previ = event.relatedTarget;
+		if (previ instanceof HTMLElement && !previ.closest('.toaster')) anteriors[id] = previ;
+	}
+
+	async function executa(id: number) {
+		// Clic amb ratolí: el focus d'abans és el que tenia el document.
+		const anterior = anteriors[id] ?? null;
+		delete anteriors[id];
+		await toasts.run(id, anterior);
+	}
 </script>
 
 <!-- La regió viva existeix sempre perquè els lectors de pantalla anunciïn els canvis. -->
 <section class="toaster" aria-label={m.toast_region_label()}>
-	<ol role="status" aria-live="polite" aria-atomic="false">
-		{#each toasts.items as toast (toast.id)}
-			<li
-				class={['toast', toast.tone, { segell: !!toast.segell }]}
-				transition:fly={{ y: reduced ? 0 : 16, duration: 200 }}
-				onpointerenter={() => toasts.pause(toast.id)}
-				onpointerleave={() => toasts.resume(toast.id)}
-				onfocusin={() => toasts.pause(toast.id)}
-				onfocusout={() => toasts.resume(toast.id)}
-			>
-				{#if toast.segell}
-					<!-- Microanimació de segell: "+1 → 38/100". Decorativa: el comptador és al text sr. -->
-					<span class="stamp-ic" aria-hidden="true"
-						><Icon name="stamp" size={20} strokeWidth={2} /></span
-					>
-				{:else if toast.tone === 'success'}<Icon name="check" size={20} />{/if}
-				<span class="msg">
+	<!-- La regió viva envolta la llista (un <ol role=status> trencaria la semàntica de llista). -->
+	<div role="status" aria-live="polite" aria-atomic="false">
+		<ol>
+			{#each toasts.items as toast (toast.id)}
+				<li
+					class={['toast', toast.tone, { segell: !!toast.segell }]}
+					transition:fly={{ y: reduced ? 0 : 16, duration: 200 }}
+					onpointerenter={() => toasts.pause(toast.id)}
+					onpointerleave={() => toasts.resume(toast.id)}
+					onfocusin={(e) => entra(toast.id, e)}
+					onfocusout={() => toasts.resume(toast.id)}
+				>
 					{#if toast.segell}
-						<span class="stamp-txt" aria-hidden="true">
-							{#if toast.segell.delta > 0}<b class="delta">+{toast.segell.delta}</b><span
-									class="arrow">→</span
-								>
-							{/if}<b>{toast.segell.count}</b>/{toast.segell.target}
-						</span>
+						<!-- Microanimació de segell: "+1 → 38/100". Decorativa: el comptador és al text sr. -->
+						<span class="stamp-ic" aria-hidden="true"
+							><Icon name="stamp" size={20} strokeWidth={2} /></span
+						>
+					{:else if toast.tone === 'success'}<Icon name="check" size={20} />{/if}
+					<span class="msg">
+						{#if toast.segell}
+							<span class="stamp-txt" aria-hidden="true">
+								{#if toast.segell.delta > 0}<b class="delta">+{toast.segell.delta}</b><span
+										class="arrow">→</span
+									>
+								{/if}<b>{toast.segell.count}</b>/{toast.segell.target}
+							</span>
+						{/if}
+						<span>{toast.message}</span>{#if toast.sr}<span class="sr-only"> {toast.sr}</span>{/if}
+					</span>
+					{#if toast.action}
+						<button type="button" class="action" onclick={() => executa(toast.id)}>
+							{toast.action.label}
+						</button>
 					{/if}
-					<span>{toast.message}</span>{#if toast.sr}<span class="sr-only"> {toast.sr}</span>{/if}
-				</span>
-				{#if toast.action}
-					<button type="button" class="action" onclick={() => toasts.run(toast.id)}>
-						{toast.action.label}
+					<button type="button" class="dismiss" onclick={() => toasts.dismiss(toast.id)}>
+						<Icon name="close" size={18} />
+						<span class="sr-only">{m.toast_dismiss()}</span>
 					</button>
-				{/if}
-				<button type="button" class="dismiss" onclick={() => toasts.dismiss(toast.id)}>
-					<Icon name="close" size={18} />
-					<span class="sr-only">{m.toast_dismiss()}</span>
-				</button>
-			</li>
-		{/each}
-	</ol>
+				</li>
+			{/each}
+		</ol>
+	</div>
 </section>
 
 <style>

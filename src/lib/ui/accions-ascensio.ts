@@ -23,12 +23,33 @@ const DURADA_DESFES = 8000;
 
 const nomCim = (cimId: number) => CIMS.find((c) => c.id === cimId)?.nom ?? '';
 
-async function desfer(accio: () => Promise<unknown>) {
+/**
+ * Primer botó de la fila de l'ascensió `id` (historial o progrés), si és a la pàgina. La llista
+ * viva s'actualitza de manera asíncrona (liveQuery): s'espera uns quants fotogrames.
+ */
+async function filaAscensio(id: string): Promise<HTMLElement | null> {
+	if (typeof document === 'undefined') return null;
+	const selector = `[data-ascensio="${CSS.escape(id)}"]`;
+	for (let i = 0; i < 30; i++) {
+		const fila = document.querySelector<HTMLElement>(selector);
+		if (fila) return fila.querySelector<HTMLElement>('button, a') ?? null;
+		await new Promise((r) => requestAnimationFrame(r));
+	}
+	return null;
+}
+
+/** Desfà i retorna on ha d'anar el focus (la fila afectada, si n'hi ha; si no, `null`). */
+async function desfer(
+	accio: () => Promise<unknown>,
+	focusId?: string
+): Promise<HTMLElement | null> {
 	try {
 		await accio();
 		toasts.show(m.toast_undone());
+		return focusId ? await filaAscensio(focusId) : null;
 	} catch {
 		toasts.show(m.register_error_generic(), { tone: 'error' });
+		return null;
 	}
 }
 
@@ -74,13 +95,15 @@ export async function editarAscensio(previ: Ascensio, canvis: NovaAscensio): Pro
 		action: {
 			label: m.toast_undo(),
 			run: () =>
-				desfer(() =>
-					actualitzarAscensio(previ.id, {
-						cimId: previ.cimId,
-						data: previ.data,
-						metode: previ.metode,
-						nota: previ.nota ?? ''
-					})
+				desfer(
+					() =>
+						actualitzarAscensio(previ.id, {
+							cimId: previ.cimId,
+							data: previ.data,
+							metode: previ.metode,
+							nota: previ.nota ?? ''
+						}),
+					previ.id
 				)
 		}
 	});
@@ -97,6 +120,6 @@ export async function esborrarAmbDesfer(a: Ascensio): Promise<void> {
 	}
 	toasts.show(m.history_deleted({ cim: nomCim(a.cimId) }), {
 		duration: DURADA_DESFES,
-		action: { label: m.toast_undo(), run: () => desfer(() => restaurarAscensio(a.id)) }
+		action: { label: m.toast_undo(), run: () => desfer(() => restaurarAscensio(a.id), a.id) }
 	});
 }

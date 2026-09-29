@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import {
 		ErrorImportacio,
 		ascensionsVivesAmbEstat,
@@ -18,6 +19,10 @@
 	let fitxer: HTMLInputElement | undefined = $state();
 	let ocupat = $state(false);
 	let confirmar = $state(false);
+	/** Importació en curs: només es desactiva el botó d'importar; la resta de la UI segueix activa. */
+	let important = $state(false);
+	let progres = $state<{ fetes: number; total: number } | null>(null);
+	let titolDades: HTMLHeadingElement | undefined = $state();
 
 	async function exportar() {
 		ocupat = true;
@@ -36,9 +41,12 @@
 		const f = input.files?.[0];
 		input.value = '';
 		if (!f) return;
-		ocupat = true;
+		important = true;
+		progres = null;
 		try {
-			const r = await importarDades(await f.text(), 'fusionar');
+			const r = await importarDades(await f.text(), 'fusionar', {
+				onProgres: (p) => (progres = { ...p })
+			});
 			toasts.show(
 				m.account_import_done({
 					added: String(r.afegides),
@@ -58,7 +66,8 @@
 				{ tone: 'error', duration: 8000 }
 			);
 		} finally {
-			ocupat = false;
+			important = false;
+			progres = null;
 		}
 	}
 
@@ -68,6 +77,10 @@
 			await esborrarTot();
 			confirmar = false;
 			toasts.show(m.account_deleted(), { tone: 'success' });
+			// El botó que ha obert el diàleg queda desactivat (0 dades) i el diàleg no hi pot
+			// tornar el focus: va al títol de la secció, on també es llegeix el nou recompte.
+			await tick();
+			requestAnimationFrame(() => titolDades?.focus());
 		} catch {
 			toasts.show(m.register_error_generic(), { tone: 'error' });
 		} finally {
@@ -82,7 +95,9 @@
 
 <div class="stack">
 	<Card as="section" padding="md" aria-labelledby="account-data">
-		<h2 id="account-data" class="x-wide">{m.account_data_title()}</h2>
+		<h2 id="account-data" class="x-wide" tabindex="-1" bind:this={titolDades}>
+			{m.account_data_title()}
+		</h2>
 		<p>{m.account_data_text()}</p>
 		<p class="count mono" aria-live="polite">
 			{$vives.carregat ? m.account_data_count({ count: String(total) }) : m.app_loading()}
@@ -97,7 +112,7 @@
 		</div>
 
 		<div class="import">
-			<Button variant="outline" onclick={() => fitxer?.click()} disabled={ocupat}>
+			<Button variant="outline" onclick={() => fitxer?.click()} disabled={ocupat || important}>
 				{m.account_import()}
 			</Button>
 			<input
@@ -110,6 +125,28 @@
 				onchange={importar}
 			/>
 			<p class="hint">{m.account_import_hint()}</p>
+			<!-- Regió viva discreta: s'anuncia l'inici; el recompte es veu però no es llegeix a
+			     cada bloc (el resultat final el diu el toast). -->
+			<p class="progres-viu sr-only" aria-live="polite">
+				{important ? m.account_importing() : ''}
+			</p>
+			{#if important}
+				<div class="progres">
+					<progress
+						max={progres?.total || 1}
+						value={progres ? progres.fetes : undefined}
+						aria-label={m.account_importing()}
+					></progress>
+					<span class="mono">
+						{progres
+							? m.account_import_progress({
+									done: String(progres.fetes),
+									total: String(progres.total)
+								})
+							: m.account_importing()}
+					</span>
+				</div>
+			{/if}
 		</div>
 
 		<div class="danger">
@@ -204,6 +241,20 @@
 	.danger {
 		padding-top: var(--sp-4);
 		border-top: 1px dashed var(--c-rule);
+	}
+
+	.progres {
+		display: grid;
+		gap: var(--sp-1);
+		flex: 1 1 100%;
+		font-size: var(--fs-sm);
+		color: var(--c-ink-2);
+	}
+
+	.progres progress {
+		width: 100%;
+		height: 0.625rem;
+		accent-color: var(--c-ink);
 	}
 
 	.hint {

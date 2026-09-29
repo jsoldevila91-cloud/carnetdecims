@@ -2,8 +2,14 @@
 
 export type ToastTone = 'info' | 'success' | 'error';
 
-/** Acció del toast (p. ex. "Desfés"). En executar-la, el toast es tanca. */
-export type ToastAction = { label: string; run: () => void | Promise<void> };
+/**
+ * Acció del toast (p. ex. "Desfés"). En executar-la, el toast es tanca. Si `run` retorna un
+ * element, hi va el focus (p. ex. la fila restaurada); si no, al control d'abans del toast.
+ */
+export type ToastAction = {
+	label: string;
+	run: () => void | HTMLElement | null | Promise<void | HTMLElement | null>;
+};
 
 /** Segell animat del registre: "+1 → 38/100" (o només "38/100" si no suma). */
 export type ToastSegell = { delta: number; count: number; target: number };
@@ -73,10 +79,25 @@ class Toasts {
 		t.handle = setTimeout(() => this.dismiss(id), Math.max(1000, t.remaining));
 	}
 
-	async run(id: number) {
+	/**
+	 * Executa l'acció i tanca el toast. El botó desapareix: el focus no pot quedar a `<body>`
+	 * (WCAG 2.4.3). Va a l'element que retorna l'acció, a `anterior` (on era el focus abans
+	 * d'entrar al toast) o, si no n'hi ha cap d'utilitzable, al contingut principal.
+	 */
+	async run(id: number, anterior?: HTMLElement | null) {
 		const toast = this.items.find((t) => t.id === id);
 		this.dismiss(id);
-		await toast?.action?.run();
+		const desti = await toast?.action?.run();
+		if (typeof document === 'undefined') return;
+		// Si l'usuari ja ha mogut el focus fora del toast, no se li pren.
+		const actiu = document.activeElement;
+		if (actiu && actiu !== document.body && actiu.isConnected && !actiu.closest('.toaster')) {
+			return;
+		}
+		const usable = (el: HTMLElement | null | undefined): el is HTMLElement =>
+			!!el && el.isConnected && !(el as HTMLButtonElement).disabled;
+		const candidat = [desti || null, anterior, document.getElementById('contingut')].find(usable);
+		candidat?.focus();
 	}
 }
 
