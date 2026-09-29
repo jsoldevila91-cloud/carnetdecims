@@ -15,6 +15,25 @@ describe('pàgina de comarca · SEO', () => {
 		expect(seo('alt-emporda', 'es').h1).toBe('Cimas del Alt Empordà');
 		expect(seo('osona', 'ca').h1).toBe("Cims d'Osona");
 		expect(seo('val-d-aran', 'es').h1).toBe("Cimas de la Val d'Aran");
+		// Castellà sense apòstrof: l' femení → la.
+		expect(seo('alta-ribagorca', 'es').h1).toBe('Cimas de la Alta Ribagorça');
+		expect(seo('anoia', 'es').intro[0]).toMatch(/^En la Anoia hay /);
+	});
+
+	it('amb només essencials, el recompte es diu "essencials" (no "cims del repte")', () => {
+		expect(seo('bergueda', 'ca').title).toBe(
+			'Cims del Berguedà: 6 cims essencials del repte 100 Cims'
+		);
+		expect(seo('bergueda', 'es').title).toBe(
+			'Cimas del Berguedà: 6 cimas esenciales del reto 100 Cims'
+		);
+		expect(seo('garraf', 'ca').title).toBe('Cims del Garraf: 1 cim essencial del repte 100 Cims');
+		expect(seo('garraf', 'ca').description).toContain("l'únic cim essencial del Garraf");
+		expect(seo('garraf', 'es').intro[0]).toBe(
+			"En el Garraf hay una sola cima esencial del reto 100 Cims: el Puig de l'Àliga (464 m)."
+		);
+		// Descripció amb el cim més alt encara que el nom sigui llarg (variant curta).
+		expect(seo('valles-occidental', 'ca').description).toMatch(/El més alt: /);
 	});
 
 	it('title ≤ 60 i description ≤ 155 a totes les comarques, únics', () => {

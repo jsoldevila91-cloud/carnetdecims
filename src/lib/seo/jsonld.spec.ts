@@ -13,6 +13,7 @@ import {
 	LLISTAT_PATH,
 	WEBSITE_ID,
 	cimGraph,
+	cimsGraph,
 	comarcaGraph,
 	comarcaPlace,
 	comarquesGraph,
@@ -350,5 +351,32 @@ describe('llistatGraph (JSON-LD dels llistats curats)', () => {
 				breadcrumbNames: { inici: 'Inici' }
 			})
 		).toThrow(RangeError);
+	});
+});
+
+describe('cimsGraph (llista completa /cims)', () => {
+	it('CollectionPage + ItemList sencer en l’ordre donat + breadcrumb Inici › {llista}', () => {
+		const g = cimsGraph({
+			cims: CIMS,
+			locale: 'es',
+			title: 'Lista de cimas',
+			description: 'D',
+			breadcrumbNames: { inici: 'Inicio', cims: 'Lista de cimas' }
+		});
+		const col = node(g, 'CollectionPage');
+		expect(col['@id']).toBe('https://carnetdecims.cat/es/cimas');
+		expect(col.isPartOf).toEqual({ '@id': WEBSITE_ID });
+		const llista = col.mainEntity as { numberOfItems: number; itemListElement: { url: string }[] };
+		expect(llista.numberOfItems).toBe(CIMS.length);
+		expect(llista.itemListElement[0].url).toBe(`https://carnetdecims.cat/es/cimas/${CIMS[0].slug}`);
+		expect(
+			(node(g, 'BreadcrumbList').itemListElement as { name: string; item?: string }[]).map((i) => [
+				i.name,
+				i.item
+			])
+		).toEqual([
+			['Inicio', 'https://carnetdecims.cat/es'],
+			['Lista de cimas', undefined]
+		]);
 	});
 });

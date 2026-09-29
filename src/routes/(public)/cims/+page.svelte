@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import { page } from '$app/state';
-	import { LlistaCims, NOM_ZONA, PageMeta } from '$lib/ui';
+	import { Breadcrumb, JsonLd, LlistaCims, NOM_ZONA, PageMeta } from '$lib/ui';
 	import {
 		FILTRES_BUITS,
 		FRANGES,
@@ -14,7 +14,8 @@
 		type FiltresCims,
 		type FranjaAltitud
 	} from '$lib/ui/filtre-cims';
-	import { href } from '$lib/i18n';
+	import { getLocale, href } from '$lib/i18n';
+	import { cimsGraph } from '$lib/seo/jsonld';
 	import { m } from '$lib/paraglide/messages';
 	import { ZONES } from '$lib/domain';
 	import { CIMS, agruparPerComarca, comarcaPerSlug } from '$lib/data/catalog';
@@ -23,6 +24,14 @@
 	// Els filtres només amaguen elements al client: sense JS la pàgina és la llista completa.
 	const collator = new Intl.Collator('ca');
 	const grups = agruparPerComarca([...CIMS].sort((a, b) => collator.compare(a.nom, b.nom)));
+	// JSON-LD i breadcrumb (visible = BreadcrumbList): la llista sencera, en l'ordre de la pàgina.
+	const jsonLd = cimsGraph({
+		cims: grups.flatMap((g) => g.cims),
+		locale: getLocale(),
+		title: m.peaks_meta_title(),
+		description: m.peaks_meta_description(),
+		breadcrumbNames: { inici: m.nav_home(), cims: m.explore_all() }
+	});
 	const cerca = new Map(CIMS.map((c) => [c.slug, textCerca(c, comarcaPerSlug(c.comarca)?.nom)]));
 
 	const ETIQUETA_FRANJA: Record<FranjaAltitud, () => string> = {
@@ -67,6 +76,7 @@
 </script>
 
 <PageMeta title={m.peaks_meta_title()} description={m.peaks_meta_description()} />
+<JsonLd data={jsonLd} />
 
 <svelte:head>
 	<!-- Sense JS els filtres no funcionen: s'amaguen i es mostra la llista completa. -->
@@ -80,6 +90,7 @@
 </svelte:head>
 
 <header class="page-head">
+	<Breadcrumb items={[{ name: m.nav_home(), href: href('/') }, { name: m.explore_all() }]} />
 	<h1 class="x-wide">{m.peaks_title()}</h1>
 	<p class="lede">{m.peaks_lede({ count: CIMS.length })}</p>
 	<nav class="explora" aria-label={m.explore_label()}>
@@ -178,6 +189,7 @@
 	}
 
 	h1 {
+		margin-top: var(--sp-1);
 		font-size: clamp(var(--fs-xl), 6vw, var(--fs-2xl));
 		font-weight: var(--fw-black);
 		line-height: 1;

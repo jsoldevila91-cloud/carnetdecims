@@ -335,3 +335,29 @@ export function llistatGraph(opts: {
 		]
 	});
 }
+
+/**
+ * Llista completa de cims (`/cims`): `CollectionPage` + `ItemList` de les fitxes en l'ordre de la
+ * pàgina (agrupades per comarca) + `BreadcrumbList` Inici › {llista}. Els filtres del client no
+ * hi compten: l'HTML i el JSON-LD sempre porten la llista sencera.
+ */
+export function cimsGraph(opts: {
+	cims: readonly Pick<CimCataleg, 'slug' | 'nom'>[];
+	locale: AppLocale;
+	title: string;
+	description: string;
+	breadcrumbNames: { inici: string; cims: string };
+}) {
+	const { locale } = opts;
+	return collectionGraph({
+		pageUrl: SITE_ORIGIN + localizePath('/cims', locale),
+		locale,
+		title: opts.title,
+		description: opts.description,
+		mainEntity: itemListCims(opts.cims, locale),
+		crumbs: [
+			{ name: opts.breadcrumbNames.inici, item: SITE_ORIGIN + localizePath('/', locale) },
+			{ name: opts.breadcrumbNames.cims }
+		]
+	});
+}

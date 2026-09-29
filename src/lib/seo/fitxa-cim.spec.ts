@@ -56,12 +56,16 @@ describe('fitxa de cim · SEO', () => {
 		expect(nomAmbEn('Andorra', 'es')).toBe('en Andorra');
 	});
 
-	it("en castellà, l' davant de masculí es contrau; davant de femení es conserva", () => {
+	it("en castellà, l' davant de masculí es contrau; davant de femení passa a la", () => {
 		expect(nomAmbDe("l'Alt Empordà", 'ca')).toBe("de l'Alt Empordà");
 		expect(nomAmbDe("l'Alt Empordà", 'es')).toBe('del Alt Empordà');
 		expect(nomAmbDe("l'Urgell", 'es')).toBe('del Urgell');
-		expect(nomAmbDe("l'Alta Ribagorça", 'es')).toBe("de l'Alta Ribagorça");
-		expect(nomAmbDe("l'Anoia", 'es')).toBe("de l'Anoia");
+		expect(nomAmbDe("l'Alta Ribagorça", 'es')).toBe('de la Alta Ribagorça');
+		expect(nomAmbDe("l'Anoia", 'es')).toBe('de la Anoia');
+		expect(nomAmbEn("l'Anoia", 'es')).toBe('en la Anoia');
+		expect(nomAmbA("l'Alta Ribagorça", 'es')).toBe('a la Alta Ribagorça');
+		expect(nomAmbArticle("l'Alta Ribagorça", 'es')).toBe('la Alta Ribagorça');
+		expect(nomAmbDe("l'Anoia", 'ca')).toBe("de l'Anoia");
 		expect(nomAmbEn("l'Alt Camp", 'es')).toBe('en el Alt Camp');
 		expect(nomAmbA("l'Elefant", 'es')).toBe('al Elefant');
 		expect(nomAmbArticle("l'Alt Urgell", 'es')).toBe('el Alt Urgell');
@@ -102,7 +106,7 @@ describe('fitxa de cim · SEO', () => {
 		expect(seo('elefant-roca-de-sant-salvador', 'ca').mapAlt).toBe(
 			"Mapa topogràfic de situació de l'Elefant (1.156 m), al Bages"
 		);
-		expect(seo('sant-jeroni', 'es').comarcaDe).toBe("de l'Anoia");
+		expect(seo('sant-jeroni', 'es').comarcaDe).toBe('de la Anoia');
 	});
 
 	it('tots els cims: title ≤ 60 i description ≤ 155, única, amb altitud i comarca', () => {

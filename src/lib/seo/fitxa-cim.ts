@@ -2,9 +2,11 @@
  * Textos derivats per al SEO de la fitxa de cim (docs/02-arquitectura-seo.md §4.1).
  * Funcions pures (els missatges de Paraglide també ho són).
  *
- * Castellà: el topònim conserva l'article català ("a la Pica d'Estats", "de l'Anoia");
- * només els articles masculins singulars (`el`, `lo` i `l'` davant de masculí) es contrauen
- * o es tradueixen ("al Pedraforca", "del Berguedà", "del Alt Empordà", "en el Berguedà").
+ * Castellà: el topònim conserva l'article català ("a la Pica d'Estats", "de les Garrigues"),
+ * excepte l'apòstrof, que no existeix en castellà: els masculins singulars (`el`, `lo` i `l'`
+ * davant de masculí) es contrauen o es tradueixen ("al Pedraforca", "del Berguedà",
+ * "del Alt Empordà", "en el Berguedà") i `l'` davant de femení passa a `la`
+ * ("de la Alta Ribagorça", "en la Anoia").
  */
 import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
 import { m } from '$lib/paraglide/messages';
@@ -15,45 +17,59 @@ type Locale = 'ca' | 'es';
 /**
  * Article masculí singular, que en castellà passa a `el`: `el`, `lo` i `l'` davant d'un
  * masculí ("l'Alt Empordà", "l'Urgell", "l'Elefant"). Amb `l'`, el gènere es dedueix de la
- * primera paraula: acabada en -a és femenina ("l'Alta Ribagorça", "l'Anoia") i es conserva.
+ * primera paraula: acabada en -a és femenina ("l'Alta Ribagorça", "l'Anoia").
  */
 function esMasculi(article: string, nom: string): boolean {
 	if (article === 'el' || article === 'lo') return true;
 	return article === "l'" && !/a$/i.test(nom.split(/\s/)[0]);
 }
 
+/**
+ * Nom amb article en castellà per als casos no masculins: `l'` femení → `la` ("la Alta
+ * Ribagorça", "la Anoia"); la resta es conserva ("la Cerdanya", "les Garrigues", "Osona").
+ */
+function nomAmbArticleFemEs(nomAmbArticle: string, article: string, nom: string): string {
+	return article === "l'" ? `la ${nom}` : nomAmbArticle;
+}
+
 /** "Com pujar al Pedraforca" · "Cómo subir a la Pica d'Estats". */
 export function nomAmbA(nomAmbArticle: string, locale: Locale): string {
 	const { article, nom } = separarArticle(nomAmbArticle);
 	if (locale === 'ca') return ambA(nom, article);
-	return esMasculi(article, nom) ? `al ${nom}` : `a ${nomAmbArticle}`;
+	return esMasculi(article, nom)
+		? `al ${nom}`
+		: `a ${nomAmbArticleFemEs(nomAmbArticle, article, nom)}`;
 }
 
 /**
  * "del Berguedà", "d'Osona", "de l'Alt Empordà" (ca) · "del Berguedà", "de Osona",
- * "de la Cerdanya", "del Alt Empordà" (es).
+ * "de la Cerdanya", "del Alt Empordà", "de la Alta Ribagorça" (es).
  */
 export function nomAmbDe(nomAmbArticle: string, locale: Locale): string {
 	const { article, nom } = separarArticle(nomAmbArticle);
 	if (locale === 'ca') return ambDe(nom, article);
-	return esMasculi(article, nom) ? `del ${nom}` : `de ${nomAmbArticle}`;
+	return esMasculi(article, nom)
+		? `del ${nom}`
+		: `de ${nomAmbArticleFemEs(nomAmbArticle, article, nom)}`;
 }
 
 /** Lloc: "al Berguedà", "a Andorra" (ca) · "en el Berguedà", "en Andorra" (es). */
 export function nomAmbEn(nomAmbArticle: string, locale: Locale): string {
 	if (locale === 'ca') return nomAmbA(nomAmbArticle, 'ca');
 	const { article, nom } = separarArticle(nomAmbArticle);
-	return esMasculi(article, nom) ? `en el ${nom}` : `en ${nomAmbArticle}`;
+	return esMasculi(article, nom)
+		? `en el ${nom}`
+		: `en ${nomAmbArticleFemEs(nomAmbArticle, article, nom)}`;
 }
 
 /**
  * Nom amb article per a una frase: igual en català; en castellà, el masculí singular passa
- * a `el` ("lo Tormo" → "el Tormo", "l'Alt Empordà" → "el Alt Empordà").
+ * a `el` ("lo Tormo" → "el Tormo", "l'Alt Empordà" → "el Alt Empordà") i `l'` femení, a `la`.
  */
 export function nomAmbArticle(nomAmbArticle: string, locale: Locale): string {
 	if (locale === 'ca') return nomAmbArticle;
 	const { article, nom } = separarArticle(nomAmbArticle);
-	return esMasculi(article, nom) ? `el ${nom}` : nomAmbArticle;
+	return esMasculi(article, nom) ? `el ${nom}` : nomAmbArticleFemEs(nomAmbArticle, article, nom);
 }
 
 /** Primera lletra en majúscula ("al Berguedà" → "Al Berguedà"). */

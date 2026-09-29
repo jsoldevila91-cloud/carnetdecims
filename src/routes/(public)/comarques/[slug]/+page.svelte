@@ -6,6 +6,7 @@
 	import { CIMS } from '$lib/data/catalog';
 	import { comarcaGraph } from '$lib/seo/jsonld';
 	import { seoComarca } from '$lib/seo/comarca';
+	import { comarcaIndexable } from '$lib/seo/indexabilitat';
 	import { mapaEstaticComarca } from '$lib/platform/mapa-estatic';
 
 	let { data } = $props();
@@ -15,6 +16,8 @@
 	const cims = $derived(data.cims);
 
 	const seo = $derived(seoComarca(comarca, cims, locale));
+	// Contingut prim (1–2 cims): `noindex` i fora del sitemap, amb el mateix criteri (docs/02 §4.2).
+	const indexable = $derived(comarcaIndexable(cims.length));
 	const jsonLd = $derived(
 		comarcaGraph({
 			comarca,
@@ -62,7 +65,7 @@
 	const mapa = $derived(mapaEstaticComarca(cims, { ample: MAPA_AMPLE, alt: MAPA_ALT }));
 </script>
 
-<PageMeta title={seo.title} description={seo.description} />
+<PageMeta title={seo.title} description={seo.description} noindex={!indexable} />
 <JsonLd data={jsonLd} />
 
 <article class="comarca">

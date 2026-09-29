@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
-	import { cimsDelLlistat } from '$lib/data/catalog';
+	import { CIMS, cimsDelLlistat } from '$lib/data/catalog';
 	import { formatAltitude } from '$lib/ui';
 	import PaginaLlistat from '../PaginaLlistat.svelte';
 
@@ -8,14 +8,22 @@
 	const count = cims.length;
 	const max = formatAltitude(cims[0].altitud);
 	const min = formatAltitude(cims[cims.length - 1].altitud);
+	// Catàleg només d'essencials (fase 2): el rànquing és d'essencials i així es diu.
+	const nomesEssencials = CIMS.every((c) => c.essencial);
 </script>
 
 <PaginaLlistat
 	id="mes-alts"
 	{cims}
-	titol={m.highest_title({ count })}
-	metaTitol={m.highest_meta_title({ count })}
-	descripcio={m.highest_meta_description({ count, max, min })}
-	entradeta={m.highest_lede({ count, max, min })}
+	titol={nomesEssencials ? m.highest_title_essentials({ count }) : m.highest_title({ count })}
+	metaTitol={nomesEssencials
+		? m.highest_meta_title_essentials({ count })
+		: m.highest_meta_title({ count })}
+	descripcio={nomesEssencials
+		? m.highest_meta_description_essentials({ count, max, min })
+		: m.highest_meta_description({ count, max, min })}
+	entradeta={nomesEssencials
+		? m.highest_lede_essentials({ count, max, min })
+		: m.highest_lede({ count, max, min })}
 	nomCurt={m.explore_highest()}
 />

@@ -9,7 +9,7 @@
  *   Els sitemaps buits no es publiquen: mentre no n'hi hagi cap de revisada no hi ha
  *   `sitemap-ca-cims.xml`.
  * - Comarques (`sitemap-ca-comarques.xml`, `sitemap-es-comarcas.xml`): l'índex `/comarques` i les
- *   pàgines de les comarques amb almenys un cim (`slugsComarquesAmbCims`).
+ *   pàgines de comarca indexables (`comarcaIndexable`: almenys 3 cims; docs/02 §4.2).
  * - Llistats curats (`sitemap-ca-llistats.xml`, `sitemap-es-listados.xml`): `LLISTAT_PATHS`.
  * - Pàgines: la resta de `PRERENDER_PATHS` (sense l'índex de comarques ni els llistats).
  *
@@ -28,6 +28,7 @@ import {
 	slugsComarquesAmbCims,
 	type AppLocale
 } from '../i18n/routes.ts';
+import { comarcaIndexable } from './indexabilitat.ts';
 
 export type SitemapAlternate = { hreflang: AppLocale | 'x-default'; href: string };
 export type SitemapUrl = { loc: string; lastmod?: string; alternates?: SitemapAlternate[] };
@@ -84,13 +85,27 @@ export function cimSitemapUrls(cims: readonly CimSitemap[], locale: AppLocale): 
 /** Camins de `PRERENDER_PATHS` que tenen secció pròpia i no van a `pagines`. */
 const AMB_SECCIO_PROPIA: ReadonlySet<string> = new Set([COMARQUES_PATH, ...LLISTAT_PATHS]);
 
-/** Índex de comarques + pàgines de comarca (només les que tenen cims), en un idioma. */
+/** Nombre de cims del catàleg per comarca (slug). */
+function cimsPerComarca(): Map<string, number> {
+	const n = new Map<string, number>();
+	for (const c of cimsJson as ReadonlyArray<{ comarca: string }>) {
+		n.set(c.comarca, (n.get(c.comarca) ?? 0) + 1);
+	}
+	return n;
+}
+
+/**
+ * Índex de comarques + pàgines de comarca indexables, en un idioma: les que tenen almenys
+ * `MIN_CIMS_COMARCA_INDEXABLE` cims (`comarcaIndexable`, el mateix criteri que el `noindex`
+ * de la pàgina). Les altres es prerenderitzen igualment, però amb `noindex`.
+ */
 export function comarcaSitemapUrls(locale: AppLocale): SitemapUrl[] {
+	const n = cimsPerComarca();
 	return [
 		urlAmbAlternates((l) => localizePath(COMARQUES_PATH, l), locale),
-		...slugsComarquesAmbCims().map((slug) =>
-			urlAmbAlternates((l) => localizeComarcaPath(slug, l), locale)
-		)
+		...slugsComarquesAmbCims()
+			.filter((slug) => comarcaIndexable(n.get(slug) ?? 0))
+			.map((slug) => urlAmbAlternates((l) => localizeComarcaPath(slug, l), locale))
 	];
 }
 

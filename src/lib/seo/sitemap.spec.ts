@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { CIMS } from '$lib/data/catalog';
+import { CIMS, cimsPerComarca, comarquesAmbCims } from '$lib/data/catalog';
+import { comarcaIndexable } from './indexabilitat';
 import {
 	comarcaSitemapUrls,
 	cimSitemapUrls,
@@ -115,11 +116,21 @@ describe('sitemap de fitxes de cim', () => {
 });
 
 describe('sitemaps de comarques i llistats', () => {
-	it('comarques: índex + les 43 comarques amb cims, amb alternates', () => {
+	it('comarques: índex + només les comarques indexables (≥ 3 cims), amb alternates', () => {
 		const ca = comarcaSitemapUrls('ca');
-		expect(ca).toHaveLength(44);
+		const indexables = comarquesAmbCims().filter((c) =>
+			comarcaIndexable(cimsPerComarca(c.slug).length)
+		);
+		expect(indexables.length).toBeGreaterThan(0);
+		expect(indexables.length).toBeLessThan(comarquesAmbCims().length);
+		expect(ca).toHaveLength(1 + indexables.length);
 		expect(ca[0].loc).toBe('https://carnetdecims.cat/ca/comarques');
-		expect(ca.map((u) => u.loc)).not.toContain('https://carnetdecims.cat/ca/comarques/segarra');
+		const locs = ca.map((u) => u.loc);
+		expect(locs).not.toContain('https://carnetdecims.cat/ca/comarques/segarra');
+		// Comarques d'1 o 2 cims: `noindex` a la pàgina i fora del sitemap.
+		expect(locs).not.toContain('https://carnetdecims.cat/ca/comarques/garraf');
+		expect(locs).not.toContain('https://carnetdecims.cat/ca/comarques/maresme');
+		expect(locs).toContain('https://carnetdecims.cat/ca/comarques/anoia');
 		const es = comarcaSitemapUrls('es');
 		expect(es.find((u) => u.loc.endsWith('/bergueda'))).toEqual({
 			loc: 'https://carnetdecims.cat/es/comarcas/bergueda',

@@ -85,7 +85,7 @@ Sin herramientas de volumen. La prioridad es cualitativa y combina la demanda es
 /ca/tresmils                          Cims ≥ 3.000 m                        index
 /ca/cims-mes-alts                     Rànquing per altitud                  index
 /ca/comarques                         Índex de comarques                    index
-/ca/comarques/{slug}                  Pàgina de comarca                     index
+/ca/comarques/{slug}                  Pàgina de comarca                     index si ≥ 3 cims (§4.2)
 /ca/guies/{slug}                      Guies long tail (≈15)                 index
 /ca/mapa                              Mapa (SSR amb text + illa de mapa)   index
 /ca/app/a-prop                        Cims propers (geolocalització)        noindex
@@ -165,6 +165,9 @@ Equivalencias ES: `/es/reto-100-cims` (`/normativa`, `/como-validar`, `/reto-inf
 - **H2 Preguntes freqüents** (2–4: techo comarcal, cuántos esenciales, cima más fácil).
 - **H2 Comarques veïnes** (enlaces).
 - **Mínimo:** 300 palabras únicas además del listado.
+- **Mientras el catálogo sea solo de esenciales** (fase 2): el title, la description y la intro dicen "{n} cims essencials" (`Cims del Berguedà: 6 cims essencials del repte 100 Cims`), nunca "{n} cims del repte", que sería falso. Lo mismo en `/tresmils` y `/cims-mes-alts` ("tresmils essencials", "cims essencials més alts").
+- **Umbral de indexación (contenido escaso), decidido en el bloque 3b:** una página de comarca es indexable solo si tiene **≥ 3 cims** en el catálogo (`MIN_CIMS_COMARCA_INDEXABLE`, `src/lib/seo/indexabilitat.ts`). Con 1–2 cims la página es poco más que un enlace a una o dos fichas (todavía `noindex`) con texto de plantilla: se publica con `noindex` (los enlaces se siguen), sin canonical ni hreflang, y fuera del sitemap. Página y sitemap usan la misma función (`comarcaIndexable`). Con el catálogo de 150 esenciales quedan 25 comarcas indexables y 18 en `noindex`.
+  - **Revisión en la fase 6** (catálogo de 522 e intro editorial de cada comarca): se mantiene el mínimo de 3 cims y se añade la condición de tener la intro editorial (≥ 150 palabras únicas); una comarca con menos cims pero con intro editorial revisada puede indexarse como excepción.
 
 ### 4.3 Otras páginas (resumen)
 

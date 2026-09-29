@@ -34,20 +34,33 @@ export function seoComarca(comarca: ComarcaCataleg, cims: readonly CimCataleg[],
 	const [mesAlt] = cims;
 	const mesBaix = cims[cims.length - 1];
 
-	const title = primerQueHiCapi([
+	// Amb només essencials (el catàleg actual), el recompte és el d'essencials i així es diu:
+	// "6 cims del repte" seria fals (la llista completa del repte en té més).
+	const titols =
 		count === 1
-			? m.comarca_meta_title_one({ comarca_de: comarcaDe }, opts)
-			: m.comarca_meta_title({ comarca_de: comarcaDe, count }, opts),
+			? [
+					(totsEssencials ? m.comarca_meta_title_one_essential : m.comarca_meta_title_one)(
+						{ comarca_de: comarcaDe },
+						opts
+					)
+				]
+			: totsEssencials
+				? [
+						m.comarca_meta_title_essentials({ comarca_de: comarcaDe, count }, opts),
+						m.comarca_meta_title_essentials_short({ comarca_de: comarcaDe, count }, opts)
+					]
+				: [m.comarca_meta_title({ comarca_de: comarcaDe, count }, opts)];
+	const title = primerQueHiCapi([
+		...titols,
 		m.comarca_meta_title_short({ comarca_de: comarcaDe }, opts),
 		m.comarca_meta_title_min({ comarca_de: comarcaDe }, opts)
 	]);
 
 	let description: string;
 	if (count === 1) {
-		description = m.comarca_meta_description_one(
-			{ cim: ambAltitud(mesAlt.nom, formatAltitude(mesAlt.altitud)), comarca_de: comarcaDe },
-			opts
-		);
+		description = (
+			totsEssencials ? m.comarca_meta_description_one_essential : m.comarca_meta_description_one
+		)({ cim: ambAltitud(mesAlt.nom, formatAltitude(mesAlt.altitud)), comarca_de: comarcaDe }, opts);
 	} else {
 		const base = (
 			totsEssencials ? m.comarca_meta_description_essentials : m.comarca_meta_description_mixed
@@ -56,14 +69,27 @@ export function seoComarca(comarca: ComarcaCataleg, cims: readonly CimCataleg[],
 			{ cim: ambAltitud(mesAlt.nom, formatAltitude(mesAlt.altitud)) },
 			opts
 		);
-		description = primerQueHiCapi([`${base} ${top}`, base], MAX_DESCRIPTION);
+		const opcions = [`${base} ${top}`];
+		if (totsEssencials) {
+			const curta = m.comarca_meta_description_essentials_short(
+				{ count, comarca_de: comarcaDe },
+				opts
+			);
+			opcions.push(`${curta} ${top}`);
+		}
+		description = primerQueHiCapi([...opcions, base], MAX_DESCRIPTION);
 	}
 
 	const h1 = m.comarca_title({ comarca_de: comarcaDe }, opts);
 
 	const intro: string[] = [];
 	if (count === 1) {
-		intro.push(m.comarca_intro_one({ lloc, cim: cimAmbAltitud(mesAlt, locale) }, opts));
+		intro.push(
+			(totsEssencials ? m.comarca_intro_one_essential : m.comarca_intro_one)(
+				{ lloc, cim: cimAmbAltitud(mesAlt, locale) },
+				opts
+			)
+		);
 	} else {
 		intro.push(
 			(totsEssencials ? m.comarca_intro_essentials : m.comarca_intro_mixed)({ lloc, count }, opts),
