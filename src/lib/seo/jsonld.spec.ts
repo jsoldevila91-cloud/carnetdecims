@@ -417,6 +417,7 @@ describe('paginaGraph (pàgines de contingut)', () => {
 			name: pagina.title,
 			inLanguage: 'es',
 			isPartOf: { '@id': WEBSITE_ID },
+			publisher: { '@id': 'https://carnetdecims.cat/#org' },
 			dateModified: '2026-09-29',
 			breadcrumb: { '@id': `${url}#breadcrumb` },
 			hasPart: { '@id': `${url}#faq` }

@@ -423,6 +423,8 @@ export function paginaGraph(opts: {
 		inLanguage: locale,
 		isPartOf: { '@id': WEBSITE_ID },
 		...(esAbout && { about: { '@id': ORG_ID } }),
+		// Textos editorials: qui els publica (el projecte, no la FEEC) i quan es van revisar.
+		publisher: { '@id': ORG_ID },
 		dateModified: pagina.actualitzat,
 		breadcrumb: { '@id': breadcrumbId },
 		...(faq.length > 0 && { hasPart: { '@id': faqId } })

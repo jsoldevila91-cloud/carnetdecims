@@ -171,6 +171,7 @@
 	"explore_essentials": "Cimas esenciales",
 	"explore_tresmils": "Tresmiles",
 	"explore_highest": "Cimas más altas",
+	"explore_essentials_rule": "Qué dice la normativa de las esenciales",
 	"count_cims": "{count} cimas",
 	"count_cims_one": "1 cima",
 	"count_essentials": "{count} esenciales",
@@ -273,10 +274,13 @@
 	"home_value3_text": "Altitudes, comarcas y coordenadas revisadas con las fuentes del ICGC, con el origen de cada dato.",
 	"home_repte_title": "El reto 100 Cims",
 	"home_repte_text": "Qué es el reto, qué dice la normativa y cómo se validan las ascensiones ante la FEEC, explicado paso a paso.",
-	"home_repte_link_hub": "Qué es el reto",
+	"home_repte_link_hub": "Qué es el reto 100 Cims",
 	"home_repte_link_normativa": "La normativa explicada",
 	"home_repte_link_validar": "Cómo validar las ascensiones",
+	"home_repte_link_infantil": "El reto infantil",
 	"home_featured_title": "Cimas esenciales emblemáticas",
 	"home_featured_all": "Todas las cimas esenciales",
+	"home_comarques_title": "Comarcas con más cimas esenciales",
+	"home_comarca_link": "Cimas {comarca_de}",
 	"home_passport_example": "Ejemplo"
 }

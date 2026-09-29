@@ -63,8 +63,20 @@ describe.each(PROPIES)('pàgina %s', (clau) => {
 	it.each(LOCALES)('%s: enllaços interns existents i externs https', (locale) => {
 		for (const text of textsEnLinia(CONTINGUTS[clau][locale])) {
 			for (const desti of destinsEnllacos(text)) {
-				if (desti.startsWith('/')) expect(CAMINS_EXISTENTS, desti).toContain(desti);
-				else expect(desti).toMatch(/^https:\/\/[^\s]+$/);
+				if (desti.startsWith('/')) {
+					// `/cami#ancora`: el camí ha d'existir i, si és una pàgina de contingut, l'àncora
+					// ha de ser una de les seves seccions.
+					const [cami, ancora] = desti.split('#');
+					expect(CAMINS_EXISTENTS, desti).toContain(cami);
+					if (ancora !== undefined) {
+						const pagDesti = contingutPerCami(cami);
+						expect(pagDesti, desti).toBeDefined();
+						expect(
+							pagDesti![locale].seccions.map((s) => s.id),
+							desti
+						).toContain(ancora);
+					}
+				} else expect(desti).toMatch(/^https:\/\/[^\s]+$/);
 			}
 			// Cap enllaç mal format (p. ex. `[text] (destí)` o destí http://).
 			expect(text).not.toMatch(/\]\s+\(|\]\(http:/);

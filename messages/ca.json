@@ -171,6 +171,7 @@
 	"explore_essentials": "Cims essencials",
 	"explore_tresmils": "Tresmils",
 	"explore_highest": "Cims més alts",
+	"explore_essentials_rule": "Què diu la normativa dels essencials",
 	"count_cims": "{count} cims",
 	"count_cims_one": "1 cim",
 	"count_essentials": "{count} essencials",
@@ -273,10 +274,13 @@
 	"home_value3_text": "Altituds, comarques i coordenades revisades amb les fonts de l'ICGC, amb l'origen de cada dada.",
 	"home_repte_title": "El repte 100 Cims",
 	"home_repte_text": "Què és el repte, què diu la normativa i com es validen les ascensions davant la FEEC, explicat pas a pas.",
-	"home_repte_link_hub": "Què és el repte",
+	"home_repte_link_hub": "Què és el repte 100 Cims",
 	"home_repte_link_normativa": "La normativa explicada",
 	"home_repte_link_validar": "Com validar les ascensions",
+	"home_repte_link_infantil": "El repte infantil",
 	"home_featured_title": "Cims essencials emblemàtics",
 	"home_featured_all": "Tots els cims essencials",
+	"home_comarques_title": "Comarques amb més cims essencials",
+	"home_comarca_link": "Cims {comarca_de}",
 	"home_passport_example": "Exemple"
 }

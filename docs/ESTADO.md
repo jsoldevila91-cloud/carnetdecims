@@ -41,9 +41,23 @@
   - **SEO:** textos "essencials" (sin cifras falsas del reto completo); una comarca es **indexable solo con ≥ 3 cims** (`seo/indexabilitat.ts`: 25 indexables y 18 `noindex`); castellano "de la Anoia".
   - **QA:** `e2e/comarques`, `llistats`, `filtres-cims` y el helper `e2e/cataleg.ts`. **998 E2E pasados y 0 fallidos** en los 3 proyectos; 266 unitarios; build OK.
 
+## En curso: bloque 3c (cortado por el límite de uso el 2026-09-29)
+
+- [x] Construido y en commit `d46f3c6`:
+  - 8 páginas de contenido (`src/lib/content/*.ts` + `PaginaContingut.svelte`);
+  - portada nueva;
+  - pie "Informació del web";
+  - `paginaGraph`;
+  - sitemap de contenido;
+  - reglas aclaradas (`ascensionsEnRestriccio`, infantil desde 2026-07-01).
+- [x] Auditoría SEO del HTML (416 páginas, 0 enlaces rotos) con correcciones de titles, descriptions y enlazado interno: en commit.
+- [ ] **Pendiente 1 (backend):** en `src/lib/content/sobre-el-projecte.ts`, sustituir el marcador `[PENDENT: presentació de la persona responsable…]` por una presentación **genérica firmada "JSR"**. Decisión del usuario: **su nombre real no aparece nunca**. No inventar experiencia ni datos. Después, el test de inventario de `pendents.ts` debe exigir **0 pendientes**.
+- [ ] **Pendiente 2 (QA):** terminar `e2e/contingut.e2e.ts` (hay un borrador sin commit), con casos de seguridad del parser en `text-en-linia.spec.ts`, inventario de pendientes = 0 y los cambios de textos del SEO (`home_repte_link_hub`, 6 enlaces a comarcas en la portada, etc.). Ejecutar los E2E de contenido + `a11y` + `navigation` en los 3 proyectos y hacer un `npm run build` final.
+- [ ] Corregir los bugs que salgan, verificación del QA, cerrar el bloque.
+
 ## Siguiente
 
-Bloque **3c**: hub del reto (normativa explicada), portada definitiva, páginas legales y metodología.
+Bloque **3d**: pasada completa de QA + SEO de la fase 3 y arreglos pendientes (ver abajo).
 
 ## Pendiente o decisiones abiertas
 

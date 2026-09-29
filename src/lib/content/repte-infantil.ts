@@ -71,7 +71,7 @@ export const repteInfantil: Contingut = {
 							'**No hi ha distinció entre essencials i no essencials**: tots valen igual.',
 							'**No hi ha límit anual** de cims validats, a diferència del repte adult.',
 							'Valen els mateixos mètodes que al repte adult: a peu, en BTT, amb esquís o amb raquetes, sense mitjans motoritzats.',
-							'També s’apliquen les [restriccions d’accés](/repte-100-cims/normativa) de determinats cims.'
+							'També s’apliquen les [restriccions d’accés](/repte-100-cims/normativa#restriccions-acces) de determinats cims.'
 						]
 					}
 				]
@@ -170,7 +170,7 @@ export const repteInfantil: Contingut = {
 	es: {
 		title: 'Reto infantil 100 Cims: 50 cimas para niños',
 		description:
-			'El reto infantil de los 100 Cims, claro: 50 cimas para federados de 7 a 14 años, sin esenciales ni límite anual, desde el 1 de julio de 2026.',
+			'El reto infantil de los 100 Cims, explicado: 50 cimas para federados de 7 a 14 años, sin esenciales ni límite anual, desde el 1 de julio de 2026.',
 		h1: 'Reto infantil de los 100 Cims: 50 cimas para niños y niñas',
 		intro:
 			'Desde el 1 de julio de 2026, los niños y niñas federados de 7 a 14 años tienen un reto a su medida: 50 cimas de la lista, elegidas libremente. Te explicamos cómo funciona y cómo empezar.',
@@ -215,7 +215,7 @@ export const repteInfantil: Contingut = {
 							'**No se distingue entre esenciales y no esenciales**: todas valen igual.',
 							'**No hay límite anual** de cimas validadas, a diferencia del reto adulto.',
 							'Valen los mismos métodos que en el reto adulto: a pie, en BTT, con esquís o con raquetas, sin medios motorizados.',
-							'También se aplican las [restricciones de acceso](/repte-100-cims/normativa) de algunas cimas.'
+							'También se aplican las [restricciones de acceso](/repte-100-cims/normativa#restriccions-acces) de algunas cimas.'
 						]
 					}
 				]

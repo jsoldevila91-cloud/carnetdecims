@@ -5,6 +5,7 @@
 	import type { CimCataleg } from '$lib/domain';
 	import { CIMS, agruparPerComarca, comarcaPerSlug, type LlistatId } from '$lib/data/catalog';
 	import { llistatGraph } from '$lib/seo/jsonld';
+	import { PAGINES_CONTINGUT } from '$lib/content/types';
 
 	/**
 	 * Plantilla comuna dels llistats curats (`/cims-essencials`, `/tresmils`, `/cims-mes-alts`):
@@ -85,6 +86,9 @@
 	{#if id !== 'tresmils'}<a href={href('/tresmils')}>{m.explore_tresmils()}</a>{/if}
 	{#if id !== 'mes-alts'}<a href={href('/cims-mes-alts')}>{m.explore_highest()}</a>{/if}
 	<a href={href('/cims')}>{m.explore_all()}</a>
+	{#if id === 'essencials'}
+		<a href="{href(PAGINES_CONTINGUT.normativa)}#cims-essencials">{m.explore_essentials_rule()}</a>
+	{/if}
 </nav>
 
 <style>

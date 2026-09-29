@@ -5,6 +5,7 @@ import { comValidar } from './com-validar';
 import { normativa } from './normativa';
 import { repte } from './repte';
 import { repteInfantil } from './repte-infantil';
+import { contingutPerCami } from './index';
 import { destinsEnllacos, textPla } from './text';
 import { PAGINES_CONTINGUT, type Bloc, type Contingut, type PaginaContingut } from './types';
 
@@ -75,7 +76,16 @@ describe.each(Object.entries(PAGINES))('contingut del hub: %s', (_nom, contingut
 					expect(() => new URL(desti)).not.toThrow();
 					continue;
 				}
-				expect(CAMINS_EXISTENTS.has(desti), `camí intern inexistent: ${desti}`).toBe(true);
+				// `/cami#ancora`: l'àncora ha de ser una secció de la pàgina de contingut de destí.
+				const [cami, ancora] = desti.split('#');
+				expect(CAMINS_EXISTENTS.has(cami), `camí intern inexistent: ${desti}`).toBe(true);
+				if (ancora !== undefined) {
+					const pagDesti = contingutPerCami(cami);
+					expect(
+						pagDesti?.[locale].seccions.some((s) => s.id === ancora),
+						`àncora inexistent: ${desti}`
+					).toBe(true);
+				}
 			}
 			// Cap resta de sintaxi mal formada un cop tret el marcatge permès.
 			const pla = textPla(text);

@@ -11,7 +11,7 @@ const FEEC_100_CIMS = 'https://www.feec.cat/activitats/100-cims/';
 
 export const sobreElProjecte: Contingut = {
 	ca: {
-		title: 'Sobre el projecte: què és Carnet de Cims',
+		title: 'Sobre el projecte: què és i què preparem',
 		description:
 			'Carnet de Cims és una eina independent i gratuïta per seguir el repte 100 Cims: llista i mapa de cims i el teu progrés. Què és i què preparem.',
 		h1: 'Sobre Carnet de Cims',
@@ -109,7 +109,7 @@ export const sobreElProjecte: Contingut = {
 		actualitzat: '2026-09-29'
 	},
 	es: {
-		title: 'Sobre el proyecto: qué es Carnet de Cims',
+		title: 'Sobre el proyecto: qué es y qué preparamos',
 		description:
 			'Carnet de Cims es una herramienta independiente y gratuita para seguir el reto 100 Cims: lista y mapa de cimas y tu progreso. Qué es y qué preparamos.',
 		h1: 'Sobre Carnet de Cims',

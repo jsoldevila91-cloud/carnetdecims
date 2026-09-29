@@ -25,7 +25,7 @@ export const normativa: Contingut = {
 	ca: {
 		title: 'Normativa del repte 100 Cims, explicada',
 		description:
-			'Les regles del repte 100 Cims en clar: llicència federativa, cims essencials, límit de 100 cims per any, mètodes vàlids, restriccions i nivells. Amb FAQ.',
+			'Les regles del repte 100 Cims en clar: llicència federativa, cims essencials, límit de 100 cims per any, mètodes vàlids, restriccions i nivells.',
 		h1: 'Normativa del repte 100 Cims, explicada',
 		intro:
 			"Totes les regles del repte en un sol lloc i amb paraules planeres: qui hi pot participar, quins cims compten, com es validen i què passa amb els essencials. Quan la normativa no és clara, t'ho diem.",
@@ -265,7 +265,7 @@ export const normativa: Contingut = {
 	es: {
 		title: 'Normativa del reto 100 Cims, explicada',
 		description:
-			'Las reglas del reto 100 Cims claras: licencia federativa, cimas esenciales, límite de 100 cimas al año, métodos válidos, restricciones y niveles. Con FAQ.',
+			'Las reglas del reto 100 Cims, explicadas: licencia federativa, cimas esenciales, límite de 100 cimas al año, métodos válidos, restricciones y niveles.',
 		h1: 'Normativa del reto 100 Cims, explicada',
 		intro:
 			'Todas las reglas del reto en un solo sitio y en lenguaje claro: quién puede participar, qué cimas cuentan, cómo se validan y qué pasa con las esenciales. Cuando la normativa no es clara, te lo decimos.',

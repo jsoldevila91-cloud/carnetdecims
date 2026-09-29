@@ -22,7 +22,7 @@ const CONSULTAT = '2026-09-28';
 
 export const metodologia: Contingut = {
 	ca: {
-		title: "Metodologia: d'on surten les dades dels cims",
+		title: 'Metodologia i fonts de les dades dels cims',
 		description:
 			"Com fem el catàleg de cims del repte 100 Cims: fonts (ICGC, IGN, Wikidata, OSM), criteris d'altitud i coordenades, revisió i llicències.",
 		h1: 'Metodologia i fonts de les dades',
@@ -198,7 +198,7 @@ export const metodologia: Contingut = {
 		actualitzat: ACTUALITZAT
 	},
 	es: {
-		title: 'Metodología: de dónde salen los datos de las cimas',
+		title: 'Metodología y fuentes de datos de las cimas',
 		description:
 			'Cómo hacemos el catálogo de cimas del reto 100 Cims: fuentes (ICGC, IGN, Wikidata, OSM), criterios de altitud y coordenadas, revisión y licencias.',
 		h1: 'Metodología y fuentes de los datos',

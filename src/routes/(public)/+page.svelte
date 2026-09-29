@@ -3,7 +3,9 @@
 	import { getLocale, href } from '$lib/i18n';
 	import { homeGraph } from '$lib/seo/jsonld';
 	import { m } from '$lib/paraglide/messages';
-	import { cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
+	import { cimPerSlug, cimsPerComarca, comarcaPerSlug, comarquesAmbCims } from '$lib/data/catalog';
+	import { comarcaIndexable } from '$lib/seo/indexabilitat';
+	import { nomAmbDe } from '$lib/seo/fitxa-cim';
 	import { PAGINES_CONTINGUT } from '$lib/content/types';
 	import type { CimCataleg } from '$lib/domain';
 
@@ -36,8 +38,21 @@
 	const repte = [
 		{ path: PAGINES_CONTINGUT.repte, text: m.home_repte_link_hub },
 		{ path: PAGINES_CONTINGUT.normativa, text: m.home_repte_link_normativa },
-		{ path: PAGINES_CONTINGUT.comValidar, text: m.home_repte_link_validar }
+		{ path: PAGINES_CONTINGUT.comValidar, text: m.home_repte_link_validar },
+		{ path: PAGINES_CONTINGUT.repteInfantil, text: m.home_repte_link_infantil }
 	];
+
+	// Comarques amb més cims (només les indexables): enllaços amb la intenció «cims del Berguedà».
+	const N_COMARQUES = 6;
+	const comarquesTop = comarquesAmbCims()
+		.map((c) => ({ comarca: c, n: cimsPerComarca(c.slug).length }))
+		.filter(({ n }) => comarcaIndexable(n))
+		.sort((a, b) => b.n - a.n)
+		.slice(0, N_COMARQUES)
+		.map(({ comarca }) => ({
+			slug: comarca.slug,
+			text: m.home_comarca_link({ comarca_de: nomAmbDe(comarca.nom_amb_article, getLocale()) })
+		}));
 
 	// Essencials emblemàtics (del catàleg; si algun slug desaparegués, simplement no surt).
 	const DESTACATS = ['pica-d-estats', 'pedraforca-pollego-superior', 'canigo', 'matagalls'];
@@ -184,6 +199,16 @@
 			<li><a href={href(e.path)}>{e.text()}<span aria-hidden="true">›</span></a></li>
 		{/each}
 	</ul>
+	{#if comarquesTop.length}
+		<h3 id="comarques-title" class="subtitol">{m.home_comarques_title()}</h3>
+		<ul aria-labelledby="comarques-title">
+			{#each comarquesTop as c (c.slug)}
+				<li>
+					<a href={href(`/comarques/${c.slug}`)}>{c.text}<span aria-hidden="true">›</span></a>
+				</li>
+			{/each}
+		</ul>
+	{/if}
 </section>
 
 <section class="unofficial" aria-labelledby="unofficial-title">
@@ -495,6 +520,12 @@
 
 	.tots {
 		margin-top: var(--sp-2);
+	}
+
+	.explore .subtitol {
+		margin: var(--sp-6) 0 var(--sp-3);
+		font-size: var(--fs-base);
+		font-weight: var(--fw-bold);
 	}
 
 	.explore ul {

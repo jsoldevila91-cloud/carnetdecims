@@ -61,6 +61,33 @@ describe('analitzarTextEnLinia', () => {
 		}
 	});
 
+	it('variants de javascript:/data: (majúscules, entitats, dins de negreta) no creen enllaços', () => {
+		for (const text of [
+			'[x](JavaScript:alert(1))',
+			'[x](JAVASCRIPT:alert(1))',
+			'[x](javascript&colon;alert(1))',
+			'[x](&#106;avascript:alert(1))',
+			'[x](DATA:text/html;base64,PHNjcmlwdD4=)',
+			'[x](vbscript:msgbox)',
+			'[x](https:javascript:alert(1))',
+			'[x](https:/evil.example)',
+			'[x](/\\evil.example)',
+			'[x]( javascript:alert(1))'
+		]) {
+			const segments = analitzarTextEnLinia(text);
+			expect(
+				segments.every((s) => s.tipus === 'text'),
+				text
+			).toBe(true);
+			expect(visible(segments), text).toBe(text);
+		}
+		const [negreta] = analitzarTextEnLinia('**[x](javascript:alert(1))**');
+		expect(negreta).toEqual({
+			tipus: 'negreta',
+			fills: [{ tipus: 'text', text: '[x](javascript:alert(1))' }]
+		});
+	});
+
 	it('HTML i caràcters especials es conserven com a text (els escapa el component)', () => {
 		const text = '<script>alert("x")</script> & <b>no</b>';
 		expect(analitzarTextEnLinia(text)).toEqual([{ tipus: 'text', text }]);
