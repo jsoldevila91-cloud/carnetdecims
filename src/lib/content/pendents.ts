@@ -11,22 +11,11 @@
  * `[text](destí)`: com que no els segueix `(`, el component els pinta com a text.
  */
 
-/** Marcadors en català. */
-export const PENDENTS_CA = {
-	/** "Sobre el projecte" › Qui hi ha darrere (E-E-A-T, docs/02 §6). */
-	presentacio: '[PENDENT: presentació de la persona responsable i experiència a la muntanya]'
-} as const;
-
-/** Marcadors en castellà (mateixes claus). */
-export const PENDENTS_ES: Record<keyof typeof PENDENTS_CA, string> = {
-	presentacio: '[PENDIENTE: presentación de la persona responsable y experiencia en la montaña]'
-};
-
-/** Tots els marcadors coneguts (ca + es). */
-export const MARCADORS_PENDENTS: readonly string[] = [
-	...Object.values(PENDENTS_CA),
-	...Object.values(PENDENTS_ES)
-];
+/**
+ * Marcadors coneguts que encara surten als continguts. Ara no n'hi ha cap: si se n'afegeix un,
+ * s'ha de posar aquí (ca i es) i el test d'inventari fallarà fins que s'ompli.
+ */
+export const MARCADORS_PENDENTS: readonly string[] = [];
 
 /** Qualsevol marcador pendent, també els que no són a la llista (p. ex. escrits a mà). */
 export const PATRO_PENDENT = /\[(?:PENDENT|PENDIENTE):[^\]]*\]/g;

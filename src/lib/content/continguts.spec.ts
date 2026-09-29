@@ -119,11 +119,16 @@ describe('dades del titular i marcadors pendents', () => {
 		for (const m of MARCADORS_PENDENTS) expect(m).toMatch(new RegExp(PATRO_PENDENT.source));
 	});
 
-	/**
-	 * Inventari: quins marcadors queden als continguts. Quan se n'ompli un, cal treure'l d'aquí;
-	 * abans del llançament (fase 7) la llista ha de quedar buida.
-	 */
-	it('inventari de marcadors pendents (ha de quedar buit abans del llançament)', () => {
-		expect(pendentsDe(CONTINGUTS).sort()).toEqual([...MARCADORS_PENDENTS].sort());
+	/** Inventari: cap contingut no pot portar marcadors pendents. */
+	it('inventari de marcadors pendents: buit', () => {
+		expect(MARCADORS_PENDENTS).toEqual([]);
+		expect(pendentsDe(CONTINGUTS)).toEqual([]);
+	});
+
+	it('la persona responsable només surt amb les inicials', () => {
+		expect(TITULAR.responsable).toBe('JSR');
+		for (const l of LOCALES) {
+			expect(JSON.stringify(CONTINGUTS.sobreElProjecte[l])).toContain('JSR');
+		}
 	});
 });

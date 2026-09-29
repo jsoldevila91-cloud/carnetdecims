@@ -8,5 +8,7 @@
 export const TITULAR = {
 	nom: 'Carnet de Cims',
 	correu: 'hola@carnetdecims.cat',
-	web: 'carnetdecims.cat'
+	web: 'carnetdecims.cat',
+	/** Persona responsable, només amb inicials: el nom real no surt mai al web (ni JSON-LD ni meta). */
+	responsable: 'JSR'
 } as const;

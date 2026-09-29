@@ -1,9 +1,9 @@
 /**
  * `/sobre-el-projecte`: què és Carnet de Cims, independència, què ofereix, full de ruta i
- * contacte. La persona responsable i el contacte són marcadors pendents (`pendents.ts`).
+ * contacte. La persona responsable només surt amb les inicials (`TITULAR.responsable`, decisió
+ * de l'usuari): el nom real no ha d'aparèixer mai al web.
  * Full de ruta resumit de docs/04-plan-fases.md (fases 3–7).
  */
-import { PENDENTS_CA, PENDENTS_ES } from './pendents.ts';
 import { TITULAR } from './titular.ts';
 import type { Contingut } from './types.ts';
 
@@ -91,7 +91,7 @@ export const sobreElProjecte: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Carnet de Cims és un projecte independent, sense activitat econòmica. ${PENDENTS_CA.presentacio}`
+						text: `Carnet de Cims és un projecte independent, sense activitat econòmica. El crea i el manté ${TITULAR.responsable}, una persona aficionada a la muntanya que també segueix el repte 100 Cims.`
 					}
 				]
 			},
@@ -189,7 +189,7 @@ export const sobreElProjecte: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Carnet de Cims es un proyecto independiente, sin actividad económica. ${PENDENTS_ES.presentacio}`
+						text: `Carnet de Cims es un proyecto independiente, sin actividad económica. Lo crea y lo mantiene ${TITULAR.responsable}, una persona aficionada a la montaña que también sigue el reto 100 Cims.`
 					}
 				]
 			},
