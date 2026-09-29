@@ -518,6 +518,103 @@ describe('exportar i importar', () => {
 	});
 });
 
+describe('importació gran (rendiment, progrés, atomicitat)', () => {
+	/** Fitxer amb `n` entrades vàlides (ids nous) a partir d'una data base. */
+	function fitxerGran(n: number, ids: string[] = []) {
+		const ascensions = Array.from({ length: n }, (_, i) => ({
+			id: ids[i] ?? uuidv7(1_700_000_000_000 + i),
+			cimId: CIMS[i % CIMS.length].id,
+			data: `20${10 + (i % 15)}-0${1 + (i % 9)}-1${i % 10}`,
+			metode: 'a-peu',
+			nota: i % 3 === 0 ? `nota ${i}` : null,
+			createdAt: '2026-01-01T00:00:00.000Z',
+			updatedAt: '2026-01-02T00:00:00.000Z'
+		}));
+		return { format: FORMAT_EXPORTACIO, versio: 1, ascensions };
+	}
+
+	it('2000 entrades: una lectura i escriptures en bloc (sense get/put per fila), en poc temps', async () => {
+		// La meitat ja existeixen en local amb una versió més antiga (LWW les actualitza).
+		const f = fitxerGran(2000);
+		const existents = f.ascensions.slice(0, 1000).map((a) => ({
+			...a,
+			nota: 'local',
+			updatedAt: '2026-01-01T00:00:00.000Z',
+			deletedAt: null
+		}));
+		const bd = obtenirBd();
+		await bd.ascensions.bulkPut(existents as never);
+		const get = vi.spyOn(bd.ascensions, 'get');
+		const put = vi.spyOn(bd.ascensions, 'put');
+		const add = vi.spyOn(bd.ascensions, 'add');
+		const bulkGet = vi.spyOn(bd.ascensions, 'bulkGet');
+		const toArray = vi.spyOn(bd.ascensions, 'toArray');
+
+		const t0 = performance.now();
+		const r = await importarDades(JSON.stringify(f), 'fusionar');
+		const ms = performance.now() - t0;
+
+		expect(r).toEqual({ afegides: 1000, actualitzades: 1000, ignorades: 0 });
+		expect(get).not.toHaveBeenCalled();
+		expect(put).not.toHaveBeenCalled();
+		expect(add).not.toHaveBeenCalled();
+		expect(bulkGet).not.toHaveBeenCalled();
+		expect(toArray).toHaveBeenCalledTimes(1); // una sola lectura (getAll)
+		expect(await llistarAscensions()).toHaveLength(2000);
+		expect(await bd.outbox.count()).toBe(2000);
+		// Llindar molt generós (fake-indexeddb amb la màquina carregada): la garantia real són les
+		// assercions estructurals de sobre; això només atura regressions d'ordre de magnitud.
+		expect(ms).toBeLessThan(10_000);
+		// Idempotent també en gran.
+		expect(await importarDades(JSON.stringify(f), 'fusionar')).toEqual({
+			afegides: 0,
+			actualitzades: 0,
+			ignorades: 2000
+		});
+	});
+
+	it('onProgres: 0 → total, creixent; si el callback llança, la importació continua', async () => {
+		const progres: { fetes: number; total: number }[] = [];
+		const r = await importarDades(JSON.stringify(fitxerGran(1200)), 'fusionar', {
+			onProgres: (p) => {
+				progres.push(p);
+				throw new Error('UI trencada');
+			}
+		});
+		expect(r.afegides).toBe(1200);
+		expect(progres[0]).toEqual({ fetes: 0, total: 1200 });
+		expect(progres.at(-1)).toEqual({ fetes: 1200, total: 1200 });
+		expect(progres.map((p) => p.fetes)).toEqual([0, 200, 400, 600, 800, 1000, 1200]);
+	});
+
+	it('substituir en bloc: làpides per a les locals que no hi són', async () => {
+		const a = await afegirAscensio(nova());
+		const r = await importarDades(JSON.stringify(fitxerGran(600)), 'substituir');
+		expect(r).toEqual({ afegides: 600, actualitzades: 0, ignorades: 0 });
+		expect(await llistarAscensions()).toHaveLength(600);
+		expect((await obtenirBd().ascensions.get(a.id))?.deletedAt).toBeTruthy();
+		expect(await obtenirBd().outbox.count()).toBe(601);
+	});
+
+	it('atòmica: si una escriptura falla a mig camí, no queda res escrit', async () => {
+		const a = await afegirAscensio(nova());
+		const bd = obtenirBd();
+		const original = bd.outbox.bulkPut.bind(bd.outbox);
+		let crides = 0;
+		vi.spyOn(bd.outbox, 'bulkPut').mockImplementation(((...args: Parameters<typeof original>) => {
+			crides++;
+			if (crides === 2) return Promise.reject(new Error('disc ple'));
+			return original(...args);
+		}) as typeof original);
+		await expect(importarDades(JSON.stringify(fitxerGran(1200)), 'substituir')).rejects.toThrow(
+			'disc ple'
+		);
+		vi.restoreAllMocks();
+		expect(await llistarAscensions()).toEqual([a]);
+		expect(await bd.outbox.count()).toBe(1);
+	});
+});
+
 describe('esborrarTot (RGPD local)', () => {
 	it('buida ascensions, làpides i outbox', async () => {
 		const a = await afegirAscensio(nova());

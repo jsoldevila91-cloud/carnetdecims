@@ -126,7 +126,24 @@ test.describe('noindex de la zona /app', () => {
 			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
 			await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 		});
+
+		test(`${url}: el HTML inicial (sense JS) ja porta el meta robots noindex`, async ({
+			request
+		}) => {
+			const html = await (await request.get(url)).text();
+			const head = html.slice(0, html.indexOf('</head>'));
+			expect(head).toMatch(/<meta name="robots" content="noindex"/);
+			expect(html.match(/name="robots"/g)).toHaveLength(1);
+		});
 	}
+
+	test('en navegar de /app a una pàgina pública no queda cap noindex orfe', async ({ page }) => {
+		await page.goto(ROUTES.ca.app);
+		await expect(page.locator('meta[name="robots"]')).toHaveCount(1);
+		await page.locator('a[href="/ca/cims"]').first().click();
+		await expect(page).toHaveURL(/\/ca\/cims$/);
+		await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
+	});
 
 	// /mapa és un espai reservat fins a la fase 4 (PAGINES_NOINDEX): noindex i fora del sitemap
 	for (const url of [ROUTES.ca.map, ROUTES.es.map]) {

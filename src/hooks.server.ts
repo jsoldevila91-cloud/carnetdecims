@@ -2,6 +2,7 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { baseLocale, getTextDirection, localizeHref, locales } from '$lib/paraglide/runtime';
 import { paraglideMiddleware } from '$lib/paraglide/server';
+import { esRutaNoindexShell, injectarNoindexShell } from '$lib/seo/robots-shell';
 
 const LOCALE_PREFIX = new RegExp(`^/(${locales.join('|')})(/|$)`);
 /** Fitxers (`/sitemap-index.xml`, `/favicon.ico`…) i rutes internes de SvelteKit: sense idioma. */
@@ -41,12 +42,17 @@ const handleParaglide: Handle = ({ event, resolve }) => {
 	});
 };
 
-/** La zona `/app` (dades personals) no s'indexa: capçalera a més del meta robots. */
+/**
+ * La zona `/app` (dades personals) no s'indexa: capçalera `X-Robots-Tag` i, com que és SPA
+ * (`ssr = false`), meta robots injectat al shell HTML (`seo/robots-shell.ts`).
+ */
 const handleNoindex: Handle = async ({ event, resolve }) => {
-	const response = await resolve(event);
-	if (event.route.id?.startsWith('/app')) {
-		response.headers.set('X-Robots-Tag', 'noindex');
-	}
+	const noindex = esRutaNoindexShell(event.route.id);
+	const response = await resolve(
+		event,
+		noindex ? { transformPageChunk: ({ html }) => injectarNoindexShell(html) } : undefined
+	);
+	if (noindex) response.headers.set('X-Robots-Tag', 'noindex');
 	return response;
 };
 

@@ -21,7 +21,13 @@ import {
 	type Metode
 } from '$lib/domain';
 import { CATALEG_VERSIO, CIMS } from './catalog/cataleg';
-import { indexedDbDisponible, obtenirBd, type CarnetDb, type FilaAscensio } from './local/db';
+import {
+	indexedDbDisponible,
+	obtenirBd,
+	type CarnetDb,
+	type EntradaOutbox,
+	type FilaAscensio
+} from './local/db';
 import { ara, instantEscriptura } from './local/rellotge';
 import { esUuid, uuidv7 } from './local/uuid';
 
@@ -450,6 +456,23 @@ export interface ResultatImportacio {
 	ignorades: number;
 }
 
+/** Progrés de l'escriptura d'una importació (files escrites / files a escriure). */
+export interface ProgresImportacio {
+	fetes: number;
+	total: number;
+}
+
+export interface OpcionsImportacio {
+	/**
+	 * Es crida en acabar de validar (`fetes: 0`) i després de cada bloc escrit, fins a
+	 * `fetes === total`. Síncron; si llança, s'ignora (no avorta la importació).
+	 */
+	onProgres?: (p: ProgresImportacio) => void;
+}
+
+/** Files per bloc de `bulkPut` (una sola transacció; els blocs només serveixen per al progrés). */
+const BLOC_IMPORTACIO = 200;
+
 /**
  * Importa un fitxer d'`exportarDades`. Cada entrada es valida amb les mateixes regles que el
  * registre (les no vàlides, les làpides i els ids repetits compten com a `ignorades`).
@@ -458,12 +481,14 @@ export interface ResultatImportacio {
  * - `substituir`: el dispositiu queda amb exactament les ascensions del fitxer. Les locals que
  *   no hi són queden com a làpides (per a la sync futura); les que hi són amb un altre
  *   contingut es sobreescriuen. Reimportar-lo no canvia res.
- * Tot passa en una transacció: o s'aplica sencer o no s'aplica.
+ * Tot passa en una transacció amb una lectura (`getAll`) i escriptures en bloc (`bulkPut`): o
+ * s'aplica sencer o no s'aplica. Només s'escriuen les files que canvien (ascensió + outbox).
  * @throws ErrorImportacio si el fitxer no és vàlid (no s'escriu res).
  */
 export async function importarDades(
 	json: string,
-	mode: 'fusionar' | 'substituir'
+	mode: 'fusionar' | 'substituir',
+	opcions: OpcionsImportacio = {}
 ): Promise<ResultatImportacio> {
 	if (mode !== 'fusionar' && mode !== 'substituir') throw new TypeError(`mode invàlid: ${mode}`);
 	if (typeof json !== 'string') throw new ErrorImportacio('importacio:json-invalid');
@@ -506,20 +531,39 @@ export async function importarDades(
 	if (entrades.length > 0 && perId.size === 0)
 		throw new ErrorImportacio('importacio:sense-valides');
 
+	const avisar = (p: ProgresImportacio) => {
+		try {
+			opcions.onProgres?.(p);
+		} catch {
+			// El progrés és només informatiu.
+		}
+	};
+
 	const bd = obtenirBd();
+	const encuaAt = instant.toISOString();
 	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
 		let afegides = 0;
 		let actualitzades = 0;
-		for (const fila of perId.values()) {
-			const local = await bd.ascensions.get(fila.id);
+		const files = [...perId.values()];
+		// Una sola lectura (`getAll`) en lloc d'un `get` per id: a WebKit cada petició IndexedDB
+		// té un cost fix alt, fins i tot dins d'una transacció (mesurat al bloc 4a).
+		const totes = await bd.ascensions.toArray();
+		const perIdLocal = new Map(totes.map((f) => [f.id, f]));
+		const locals = files.map((f) => perIdLocal.get(f.id));
+		const escriure: FilaAscensio[] = [];
+		const cua: EntradaOutbox[] = [];
+		const posar = (fila: FilaAscensio, ts: string) => {
+			escriure.push(fila);
+			cua.push({ ascensioId: fila.id, encuaAt: ts, intents: 0 });
+		};
+		files.forEach((fila, i) => {
+			const local = locals[i];
 			if (!local) {
-				await bd.ascensions.add(fila);
-				await encuar(bd, fila.id, instant.toISOString());
+				posar(fila, encuaAt);
 				afegides++;
 			} else if (mode === 'fusionar') {
 				if (fila.updatedAt > local.updatedAt) {
-					await bd.ascensions.put(fila);
-					await encuar(bd, fila.id, instant.toISOString());
+					posar(fila, encuaAt);
 					actualitzades++;
 				} else ignorades++;
 			} else if (mateixContingut(local, fila)) {
@@ -527,20 +571,23 @@ export async function importarDades(
 			} else {
 				// Substituir: guanya el fitxer; `updatedAt` nou perquè guanyi també a la sync.
 				const nova = { ...fila, updatedAt: instantEscriptura(local.updatedAt) };
-				await bd.ascensions.put(nova);
-				await encuar(bd, fila.id, nova.updatedAt);
+				posar(nova, nova.updatedAt);
 				actualitzades++;
 			}
-		}
+		});
 		if (mode === 'substituir') {
-			const sobrants = await bd.ascensions
-				.filter((f) => !f.deletedAt && !perId.has(f.id))
-				.toArray();
-			for (const f of sobrants) {
+			for (const f of totes) {
+				if (f.deletedAt || perId.has(f.id)) continue;
 				const ts = instantEscriptura(f.updatedAt);
-				await bd.ascensions.put({ ...f, deletedAt: ts, updatedAt: ts });
-				await encuar(bd, f.id, ts);
+				posar({ ...f, deletedAt: ts, updatedAt: ts }, ts);
 			}
+		}
+		const total = escriure.length;
+		avisar({ fetes: 0, total });
+		for (let i = 0; i < total; i += BLOC_IMPORTACIO) {
+			await bd.ascensions.bulkPut(escriure.slice(i, i + BLOC_IMPORTACIO));
+			await bd.outbox.bulkPut(cua.slice(i, i + BLOC_IMPORTACIO));
+			avisar({ fetes: Math.min(total, i + BLOC_IMPORTACIO), total });
 		}
 		return { afegides, actualitzades, ignorades };
 	});
