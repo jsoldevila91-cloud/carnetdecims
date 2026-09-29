@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-09-28.
+> Se actualiza al final de cada bloque. Última actualización: 2026-09-29.
 
 ## Hecho
 
@@ -41,23 +41,31 @@
   - **SEO:** textos "essencials" (sin cifras falsas del reto completo); una comarca es **indexable solo con ≥ 3 cims** (`seo/indexabilitat.ts`: 25 indexables y 18 `noindex`); castellano "de la Anoia".
   - **QA:** `e2e/comarques`, `llistats`, `filtres-cims` y el helper `e2e/cataleg.ts`. **998 E2E pasados y 0 fallidos** en los 3 proyectos; 266 unitarios; build OK.
 
-## En curso: bloque 3c (cortado por el límite de uso el 2026-09-29)
+- **Bloque 3c (terminado, 2026-09-29): el reto, portada y legales.**
+  - **Contenido** (`src/lib/content/*.ts`, contrato `types.ts`; pintado por `PaginaContingut.svelte` con parser seguro `ui/text-en-linia.ts`): hub `/repte-100-cims`, normativa explicada (normativa FEEC vigente desde el 01/01/2024), com-validar, repte-infantil, metodologia, sobre-el-projecte, avís legal, privacitat.
+  - **Titular y contacto:** "Carnet de Cims" y hola@carnetdecims.cat (`content/titular.ts`). Responsable visible solo como **"JSR"**, con la presentación de JSR y su pareja; **el nombre real no se publica nunca**. 0 marcadores pendientes (`pendents.ts`).
+  - **Dominio:** `ascensionsEnRestriccio` (aviso), reto infantil desde 2026-07-01 con `edatInfantilValida`; docs/03 §3.3 actualizado.
+  - **Portada** con textos veraces ("cims essencials i guia del repte 100 Cims", funciones futuras con "Aviat…"); pie "Informació del web".
+  - **SEO:** `paginaGraph` (WebPage/AboutPage + BreadcrumbList + FAQPage), sitemap de contenido con `lastmod`; legales fuera del sitemap; **`/mapa` en `noindex`** hasta que exista (`PAGINES_NOINDEX`).
+  - **QA:** `e2e/contingut.e2e.ts`. **1471 E2E pasados** en los 3 proyectos (4 fallos de tests frágiles, ya corregidos); build OK.
 
-- [x] Construido y en commit `d46f3c6`:
-  - 8 páginas de contenido (`src/lib/content/*.ts` + `PaginaContingut.svelte`);
-  - portada nueva;
-  - pie "Informació del web";
-  - `paginaGraph`;
-  - sitemap de contenido;
-  - reglas aclaradas (`ascensionsEnRestriccio`, infantil desde 2026-07-01).
-- [x] Auditoría SEO del HTML (416 páginas, 0 enlaces rotos) con correcciones de titles, descriptions y enlazado interno: en commit.
-- [ ] **Pendiente 1 (backend):** en `src/lib/content/sobre-el-projecte.ts`, sustituir el marcador `[PENDENT: presentació de la persona responsable…]` por una presentación **genérica firmada "JSR"**. Decisión del usuario: **su nombre real no aparece nunca**. No inventar experiencia ni datos. Después, el test de inventario de `pendents.ts` debe exigir **0 pendientes**.
-- [ ] **Pendiente 2 (QA):** terminar `e2e/contingut.e2e.ts` (hay un borrador sin commit), con casos de seguridad del parser en `text-en-linia.spec.ts`, inventario de pendientes = 0 y los cambios de textos del SEO (`home_repte_link_hub`, 6 enlaces a comarcas en la portada, etc.). Ejecutar los E2E de contenido + `a11y` + `navigation` en los 3 proyectos y hacer un `npm run build` final.
-- [ ] Corregir los bugs que salgan, verificación del QA, cerrar el bloque.
+## En curso: bloque 3d exprés (decisión del usuario: solo pendientes + E2E completo)
+
+Pendientes que hay que arreglar:
+
+1. Marcadores: a 320 px las líneas guía y el punto real quedan tapados (`MapaMarcadors.svelte`: `.real` y `.guies` debajo de `.marcadors`); en Catalunya Nord a 1280 px los puntos 1 y 3 apenas asoman.
+2. `/cims`: con un filtro activo, pulsar "Cims" (BottomNav o pie) deja la URL sin query pero la lista filtrada.
+3. Ficha: en móvil, el CTA "Registrar aquest cim" queda bajo la barra inferior con H1 de 3 líneas; a 320 px ocupa 2 líneas.
+4. SEO ficha: H1 sin "(alt m)" (§4.1).
+5. H2 de los sheets del layout presentes en todas las páginas.
+6. Textos de portada en presente: `home_step1_text` ("…o al mapa"), `home_value3_text` ("l'origen de cada dada"), `home_value2_text` ("el carnet és teu…").
+7. QA: E2E que leen `getAttribute('href')` crudo (`comarques.e2e.ts:71`, `filtres-cims.e2e.ts:21`, `fitxa-cim.e2e.ts:273`): resolverlos contra la URL de la página.
+
+Después: batería E2E completa de la fase 3 en los 3 proyectos → fase 3 terminada (**pendiente de aprobación del usuario**).
 
 ## Siguiente
 
-Bloque **3d**: pasada completa de QA + SEO de la fase 3 y arreglos pendientes (ver abajo).
+Bloque **4a**: capa de datos local (Dexie), registrar ascensión e historial.
 
 ## Pendiente o decisiones abiertas
 
@@ -69,10 +77,5 @@ Bloque **3d**: pasada completa de QA + SEO de la fase 3 y arreglos pendientes (v
 - **Fichas:**
   - Tienen unas 360 palabras y el mínimo para indexar es 400: ninguna se marca `revisat` hasta tener el contenido de la fase 6.
   - Falta el campo `data_revisio` (para `lastmod`).
-- **Cosmético (para el bloque 3d):** en móvil, el CTA "Registrar aquest cim" queda debajo de la barra inferior en fichas con H1 de 3 líneas (hace falta un poco de scroll) y a 320 px ocupa 2 líneas. La barra inferior ya tiene "Registrar".
 - **Wikiloc:** sin filtro de actividad (no se ha podido verificar el parámetro); en el Montcau son relevantes unas 11 de 24 rutas.
-- **SEO (para el bloque 3d):** H1 sin "(alt m)" (§4.1); H2 de los sheets del layout en todas las páginas.
-- **Bugs bajos del 3b (para el bloque 3d):**
-  1. A 320 px las líneas guía y el punto real de los marcadores desplazados quedan tapados por el marcador (desplazamientos de 4,6 a 11 px). Además, en Catalunya Nord a 1280 px los puntos 1 y 3 apenas asoman (`MapaMarcadors.svelte`: `.real` y `.guies` se pintan debajo de `.marcadors`).
-  2. Con un filtro activo en `/cims`, pulsar "Cims" (BottomNav o pie) deja la URL sin query pero la lista sigue filtrada (`afterNavigate` no relee la URL con la página ya montada).
 - Las páginas de comarca con < 3 cims son `noindex`: hay que revisar el umbral en la fase 6 o con el catálogo de 522.
