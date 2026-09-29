@@ -47,6 +47,8 @@ Bloque **3c**: hub del reto (normativa explicada), portada definitiva, páginas 
 
 ## Pendiente o decisiones abiertas
 
+- **Titular y contacto** (decisión del usuario, 2026-09-29): el titular es "Carnet de Cims" (nombre del proyecto) y el email **hola@carnetdecims.cat**. Hay que crear el buzón al activar el dominio (fase 7).
+
 - Reglas ambiguas del reto: interpretación por defecto en `03-modelo-datos.md` §3.3.
 - Restricciones de acceso: cargadas las 2 esenciales afectadas; hay que revisarlas antes del lanzamiento.
 - Pendientes de confirmar: "Pic d'Enclar (Bony de la Pica)" y "La Tossa (Tivissa)" (nombre visible con paréntesis).

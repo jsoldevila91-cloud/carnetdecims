@@ -1,13 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import {
+	DATA_INICI_INFANTIL,
 	DATA_INICI_REPTE,
 	DATA_NORMATIVA_ESSENCIALS,
 	OPCIONS_PER_DEFECTE,
 	anyDe,
+	ascensionsEnRestriccio,
 	ascensionsValides,
 	avuiLocal,
 	calcularEstatRepte,
 	cimsNovesPerAny,
+	edatEnData,
+	edatInfantilValida,
 	esDataIsoValida,
 	essencialsPendents,
 	excesAnual,
@@ -318,6 +322,21 @@ describe('progres100', () => {
 		expect(DATA_NORMATIVA_ESSENCIALS).toBe('2019-07-01');
 		expect(progres100([{ cimId: 151, data: '2019-06-30' }], CATALEG).comptador).toBe(1);
 		expect(progres100([{ cimId: 151, data: '2019-07-01' }], CATALEG).comptador).toBe(0);
+	});
+
+	it('§3.3.3 resuelto ("abans del dia 1 de juliol de 2019"): corte < 2019-07-01 por defecto', () => {
+		expect(OPCIONS_PER_DEFECTE.diaTallEsNormativaAntiga).toBe(false);
+		const cat = [cim(1), cim(2)];
+		const p = progres100(
+			[
+				{ cimId: 1, data: '2019-06-30' },
+				{ cimId: 2, data: '2019-07-01' }
+			],
+			cat
+		);
+		// La no esencial del 30/06 cuenta (normativa antigua); la del 01/07 ya no.
+		expect(p.cimsNormativaAntiga).toBe(1);
+		expect(p.comptador).toBe(1);
 	});
 
 	it('opción diaTallEsNormativaAntiga: el 2019-07-01 pasa a ser normativa antigua', () => {
@@ -645,16 +664,70 @@ describe('progresInfantil', () => {
 	});
 
 	it('solo cimas distintas', () => {
-		expect(progresInfantil(ascs(Array(60).fill(200), '2020-01-01', 1), CATALEG).comptador).toBe(1);
+		expect(progresInfantil(ascs(Array(60).fill(200), '2026-07-02', 1), CATALEG).comptador).toBe(1);
 	});
 
-	it('opción dataIniciInfantil: excluye ascensiones anteriores', () => {
+	it('§3.3.6 resuelto: por defecto no cuentan las ascensiones anteriores al 2026-07-01', () => {
+		expect(DATA_INICI_INFANTIL).toBe('2026-07-01');
+		expect(OPCIONS_PER_DEFECTE.dataIniciInfantil).toBe('2026-07-01');
 		const lista = [...ascs(NO_ESS(30), '2025-01-01'), ...ascs(NO_ESS(30, 300), '2026-07-01')];
-		expect(progresInfantil(lista, CATALEG).comptador).toBe(60);
-		expect(progresInfantil(lista, CATALEG, { dataIniciInfantil: '2026-07-01' }).comptador).toBe(30);
+		expect(progresInfantil(lista, CATALEG).comptador).toBe(30);
+		// El 30/06/2026 no cuenta; el 01/07/2026 sí.
+		expect(progresInfantil([{ cimId: 151, data: '2026-06-30' }], CATALEG).comptador).toBe(0);
+		expect(progresInfantil([{ cimId: 151, data: '2026-07-01' }], CATALEG).comptador).toBe(1);
 		// Una cima repetida después de la fecha de inicio sí cuenta.
 		const rep = [...lista, { cimId: 151, data: '2026-08-01' }];
-		expect(progresInfantil(rep, CATALEG, { dataIniciInfantil: '2026-07-01' }).comptador).toBe(31);
+		expect(progresInfantil(rep, CATALEG).comptador).toBe(31);
+		// `null` = cuentan todas las válidas.
+		expect(progresInfantil(lista, CATALEG, { dataIniciInfantil: null }).comptador).toBe(60);
+	});
+
+	it('§3.3.6 resuelto: con fecha de nacimiento, solo cuentan las hechas con 7–14 años', () => {
+		// Nacido el 2015-09-10: 11 años en 2026 → todas cuentan.
+		const lista = ascs(NO_ESS(50), '2026-07-01', 1);
+		expect(progresInfantil(lista, CATALEG, {}, { dataNaixement: '2015-09-10' }).completat).toBe(
+			true
+		);
+		// Nacido el 2011-08-01: cumple 15 el 2026-08-01 → solo cuentan las del 07-01 al 07-31.
+		const p = progresInfantil(lista, CATALEG, {}, { dataNaixement: '2011-08-01' });
+		expect(p.comptador).toBe(31);
+		expect(p.completat).toBe(false);
+		// Nacido el 2019-08-15: cumple 7 el 2026-08-15 → cuentan desde ese día.
+		expect(progresInfantil(lista, CATALEG, {}, { dataNaixement: '2019-08-15' }).comptador).toBe(
+			50 - 45
+		);
+		// Sin fecha de nacimiento no se filtra por edad.
+		expect(progresInfantil(lista, CATALEG, {}, { dataNaixement: null }).comptador).toBe(50);
+		expect(() => progresInfantil(lista, CATALEG, {}, { dataNaixement: '2015-02-30' })).toThrow(
+			RangeError
+		);
+	});
+});
+
+describe('edatEnData / edatInfantilValida', () => {
+	it('años cumplidos el día de la ascensión', () => {
+		expect(edatEnData('2015-09-10', '2026-09-09')).toBe(10);
+		expect(edatEnData('2015-09-10', '2026-09-10')).toBe(11);
+		expect(edatEnData('2015-09-10', '2015-09-10')).toBe(0);
+	});
+
+	it('29 de febrero: cumple el 1 de marzo en años no bisiestos', () => {
+		expect(edatEnData('2016-02-29', '2023-02-28')).toBe(6);
+		expect(edatEnData('2016-02-29', '2023-03-01')).toBe(7);
+		expect(edatEnData('2016-02-29', '2024-02-29')).toBe(8);
+	});
+
+	it('errores: fechas inválidas o anteriores al nacimiento', () => {
+		expect(() => edatEnData('2015-13-01', '2026-01-01')).toThrow(RangeError);
+		expect(() => edatEnData('2015-01-01', '2014-12-31')).toThrow(RangeError);
+	});
+
+	it('7 a 14 años cumplidos, ambos inclusive', () => {
+		expect(edatInfantilValida('2019-08-15', '2026-08-14')).toBe(false); // 6
+		expect(edatInfantilValida('2019-08-15', '2026-08-15')).toBe(true); // 7
+		expect(edatInfantilValida('2011-08-01', '2026-07-31')).toBe(true); // 14
+		expect(edatInfantilValida('2011-08-01', '2026-08-01')).toBe(false); // 15
+		expect(edatInfantilValida('2027-01-01', '2026-08-01')).toBe(false); // antes de nacer
 	});
 });
 
@@ -778,6 +851,52 @@ describe('restriccioActiva', () => {
 		expect(restriccioActiva(restriccio(), '2023-02-30')).toBe(false);
 	});
 
+	it('ascensionsEnRestriccio (§3.3.5): avisa, en orden, sin bloquear', () => {
+		const picossa = restriccio({
+			tipus: 'fauna',
+			periodeIniciMmdd: '01-15',
+			periodeFiMmdd: '06-15'
+		});
+		const obres = restriccio({ tipus: 'obres' });
+		const cat = [
+			cim(1, { restriccions: [picossa] }),
+			cim(2, { restriccions: [obres] }),
+			cim(3, { restriccions: [restriccio({ periodeIniciMmdd: '12-01', periodeFiMmdd: '06-01' })] }),
+			cim(4),
+			cim(5, { restriccions: [restriccio({ vigent: false })] })
+		];
+		const lista = [
+			{ cimId: 1, data: '2025-03-10' }, // dins el periode
+			{ cimId: 1, data: '2025-07-10' }, // fora
+			{ cimId: 4, data: '2025-03-10' }, // sense restriccions
+			{ cimId: 2, data: '2012-05-05' }, // obres sense dates → incerta
+			{ cimId: 3, data: '2025-12-25' }, // periode que creua l'any
+			{ cimId: 5, data: '2025-03-10' }, // no vigent
+			{ cimId: 999, data: '2025-03-10' } // fora del catàleg
+		];
+		const avisos = ascensionsEnRestriccio(lista, cat);
+		expect(avisos.map((a) => [a.ascensio.cimId, a.ascensio.data, a.incerta])).toEqual([
+			[1, '2025-03-10', false],
+			[2, '2012-05-05', true],
+			[3, '2025-12-25', false]
+		]);
+		expect(avisos[0].restriccions).toEqual([picossa]);
+		expect(avisos[0].cim.id).toBe(1);
+		expect(ascensionsEnRestriccio([], cat)).toEqual([]);
+	});
+
+	it('restricció permanent + periòdica activa: no és incerta', () => {
+		const c = cim(1, {
+			restriccions: [
+				restriccio({ tipus: 'obres' }),
+				restriccio({ periodeIniciMmdd: '01-15', periodeFiMmdd: '06-15' })
+			]
+		});
+		const [avis] = ascensionsEnRestriccio([{ cimId: 1, data: '2025-02-01' }], [c]);
+		expect(avis.restriccions).toHaveLength(2);
+		expect(avis.incerta).toBe(false);
+	});
+
 	it('restriccionsActives filtra las de una cima', () => {
 		const c = cim(1, {
 			restriccions: [
@@ -804,6 +923,26 @@ describe('calcularEstatRepte', () => {
 		expect(e.excesAnual).toEqual([]);
 		expect(e.infantil.comptador).toBe(0);
 		expect(e.perZona).toHaveLength(5);
+		expect(e.enRestriccio).toEqual([]);
+	});
+
+	it('avisos de restricción solo sobre las ascensiones válidas', () => {
+		const cat = CATALEG.map((c) =>
+			c.id === 1
+				? {
+						...c,
+						restriccions: [restriccio({ periodeIniciMmdd: '01-15', periodeFiMmdd: '06-15' })]
+					}
+				: c
+		);
+		const lista = [
+			asc(1, '2025-03-01'),
+			asc(1, '2024-03-01', { id: 'esborrada', deletedAt: '2026-01-01T00:00:00.000Z' })
+		];
+		const e = calcularEstatRepte(lista, cat, AVUI);
+		expect(e.enRestriccio.map((a) => a.ascensio.id)).toEqual([lista[0].id]);
+		// No afecta al progreso: la ascensión sigue contando.
+		expect(e.progres100.comptador).toBe(1);
 	});
 
 	it('filtra futuras, borradas e inválidas antes de calcular', () => {
@@ -818,8 +957,13 @@ describe('calcularEstatRepte', () => {
 		expect(e.valides).toHaveLength(100);
 		expect(e.progres100).toMatchObject({ comptador: 100, completat: true });
 		expect(e.nivell.nivell).toBe(1);
-		expect(e.infantil.completat).toBe(true);
+		// Ascensiones de 2020: anteriores al reto infantil (2026-07-01), no cuentan.
+		expect(e.infantil.comptador).toBe(0);
+		expect(
+			calcularEstatRepte(bones, CATALEG, AVUI, { dataIniciInfantil: null }).infantil.completat
+		).toBe(true);
 		expect(e.primeres.size).toBe(100);
+		expect(e.enRestriccio).toEqual([]);
 	});
 
 	it('propaga las opciones', () => {

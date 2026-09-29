@@ -36,6 +36,13 @@ export const OBJECTIU_REPTE = 100;
 /** Reto infantil (7–14 años, vigente desde el 01/07/2026): 50 cimas cualesquiera. */
 export const OBJECTIU_INFANTIL = 50;
 
+/** Entrada en vigor del reto infantil: las ascensiones anteriores no cuentan (§3.3.6). */
+export const DATA_INICI_INFANTIL: DataISO = '2026-07-01';
+
+/** Edad mínima y máxima (años cumplidos, inclusive) el día de la ascensión (§3.3.6). */
+export const EDAT_MIN_INFANTIL = 7;
+export const EDAT_MAX_INFANTIL = 14;
+
 /** Nivel máximo reconocido: 5×100 (500 cimas). */
 export const NIVELL_MAXIM = 5;
 
@@ -60,8 +67,10 @@ export interface OpcionsRepte {
 	comptarRepeticions: boolean;
 	/**
 	 * §3.3.3 — ¿El propio 01/07/2019 es normativa antigua?
-	 * Por defecto `false`: normativa antigua = primera ascensión `< 2019-07-01`
-	 * ("des del dia 1 de juliol" rige la nueva). Con `true`: `<= 2019-07-01`.
+	 * Por defecto `false`: normativa antigua = primera ascensión `< 2019-07-01`.
+	 * **Resuelto** (normativa FEEC vigente desde el 01/01/2024, consultada el 2026-09-29):
+	 * "abans del dia 1 de juliol de 2019" → el corte es `< 2019-07-01`, el valor por defecto.
+	 * Con `true`: `<= 2019-07-01` (solo para comparar con la lectura antigua).
 	 */
 	diaTallEsNormativaAntiga: boolean;
 	/**
@@ -81,8 +90,9 @@ export interface OpcionsRepte {
 	limitAnual: number;
 	/**
 	 * §3.3.6 — Fecha mínima de las ascensiones que cuentan para el reto infantil.
-	 * Por defecto `null`: cuentan todas las válidas (desde 2006-07-01). Para contar
-	 * solo desde la entrada en vigor del reto infantil, usar `'2026-07-01'`.
+	 * **Resuelto** (normativa FEEC, consultada el 2026-09-29): las ascensiones anteriores a
+	 * la entrada en vigor del reto infantil no cuentan → por defecto `'2026-07-01'`
+	 * (`DATA_INICI_INFANTIL`). `null` = cuentan todas las válidas (desde 2006-07-01).
 	 */
 	dataIniciInfantil: DataISO | null;
 }
@@ -93,7 +103,7 @@ export const OPCIONS_PER_DEFECTE: Readonly<OpcionsRepte> = Object.freeze({
 	diaTallEsNormativaAntiga: false,
 	noEssencialsRetroactives: true,
 	limitAnual: LIMIT_ANUAL_PER_DEFECTE,
-	dataIniciInfantil: null
+	dataIniciInfantil: DATA_INICI_INFANTIL
 });
 
 function resoldreOpcions(opcions: Partial<OpcionsRepte> = {}): OpcionsRepte {
@@ -448,19 +458,55 @@ export interface ProgresInfantil {
 }
 
 /**
+ * Edad en años cumplidos en una fecha (`data`), para quien nació en `naixement`.
+ * Quien nació un 29 de febrero cumple años el 1 de marzo en los años no bisiestos.
+ * @throws RangeError si alguna fecha no es válida o `data` es anterior al nacimiento.
+ */
+export function edatEnData(naixement: DataISO, data: DataISO): number {
+	if (!esDataIsoValida(naixement) || !esDataIsoValida(data)) {
+		throw new RangeError(`Data invàlida: ${String(naixement)} / ${String(data)}`);
+	}
+	if (data < naixement) throw new RangeError('La data és anterior al naixement');
+	const anys = anyDe(data) - anyDe(naixement);
+	return data.slice(5) >= naixement.slice(5) ? anys : anys - 1;
+}
+
+/**
+ * ¿Tiene la edad del reto infantil el día de la ascensión? (§3.3.6: la edad se mide en la
+ * fecha de cada ascensión; de 7 a 14 años cumplidos, ambos inclusive).
+ */
+export function edatInfantilValida(naixement: DataISO, data: DataISO): boolean {
+	if (data < naixement) return false;
+	const edat = edatEnData(naixement, data);
+	return edat >= EDAT_MIN_INFANTIL && edat <= EDAT_MAX_INFANTIL;
+}
+
+/**
  * Reto infantil (vigente desde el 01/07/2026): 50 cimas distintas cualesquiera de
- * la lista, sin distinción de esenciales ni límite anual. La edad (7–14 años) no
- * se modela en el MVP (§1.2 y §3.3.6).
+ * la lista, sin distinción de esenciales ni límite anual (§3.1 y §3.3.6):
+ * - Por defecto solo cuentan las ascensiones desde el 2026-07-01 (`dataIniciInfantil`).
+ * - Si se conoce la fecha de nacimiento (`perfil.dataNaixement`), solo cuentan las
+ *   ascensiones hechas con 7–14 años cumplidos ese día. Sin ella (el MVP no la pide), no se
+ *   filtra por edad.
+ * @throws RangeError si `perfil.dataNaixement` no es una fecha válida.
  */
 export function progresInfantil(
 	ascensions: readonly AscensioMinima[],
 	cataleg: Cataleg,
-	opcions: Partial<OpcionsRepte> = {}
+	opcions: Partial<OpcionsRepte> = {},
+	perfil: { dataNaixement?: DataISO | null } = {}
 ): ProgresInfantil {
 	const { dataIniciInfantil } = resoldreOpcions(opcions);
+	const naixement = perfil.dataNaixement ?? null;
+	if (naixement !== null && !esDataIsoValida(naixement)) {
+		throw new RangeError(`dataNaixement invàlida: ${String(naixement)}`);
+	}
 	const cims = aMapa(cataleg);
 	const filtrades = ascensions.filter(
-		(a) => cims.has(a.cimId) && (dataIniciInfantil === null || a.data >= dataIniciInfantil)
+		(a) =>
+			cims.has(a.cimId) &&
+			(dataIniciInfantil === null || a.data >= dataIniciInfantil) &&
+			(naixement === null || edatInfantilValida(naixement, a.data))
 	);
 	const dates = [...primeresAscensions(filtrades).values()];
 	const dataAssoliment = dataEnArribarA(dates, OBJECTIU_INFANTIL);
@@ -536,7 +582,8 @@ const RE_MMDD = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
 /**
  * ¿Está activa la restricción en la fecha dada? (§3.2). Solo sirve para mostrar
- * un **aviso**: no se sabe si la FEEC invalida esas ascensiones (§3.3.5).
+ * un **aviso**: la FEEC no valida las ascensiones hechas dentro del periodo restringido
+ * (§3.3.5), pero la app no bloquea el registro (ver `ascensionsEnRestriccio`).
  * - Periodo anual `MM-DD`..`MM-DD`, ambos inclusive; si inicio > fin, cruza el
  *   cambio de año (p. ej. Roc Roi, `12-01`..`06-01`).
  * - Rango de fechas `dataInici`..`dataFi`, inclusive (`null` = abierto).
@@ -624,11 +671,53 @@ export function teRestriccioActiva(cim: Pick<Cim, 'restriccions'>, data: DataISO
 	return cim.restriccions.some((r) => restriccioActiva(r, data));
 }
 
+/** Aviso: ascensión hecha con una restricción de acceso activa en la cima. */
+export interface AvisRestriccio<T extends AscensioMinima = AscensioMinima> {
+	ascensio: T;
+	cim: Cim;
+	/** Restricciones activas el día de la ascensión. */
+	restriccions: RestriccioAcces[];
+	/**
+	 * `true` si todas las restricciones activas son permanentes y sin fechas (p. ej. obras sin
+	 * inicio conocido): no se puede saber si la ascensión cae dentro del periodo, sobre todo si
+	 * es antigua. La UI debe formularlo como duda ("comprova-ho"), no como afirmación.
+	 */
+	incerta: boolean;
+}
+
+/**
+ * Ascensiones hechas con una restricción de acceso activa (§3.3.5). **Resuelto** (normativa
+ * FEEC vigente desde el 01/01/2024, consultada el 2026-09-29): la FEEC no valida las ascensiones
+ * hechas dentro del periodo restringido. La app solo **avisa**: no bloquea el registro ni las
+ * quita del progreso (es un seguimiento personal). Mantiene el orden de entrada e ignora las
+ * cimas que no están en el catálogo.
+ */
+export function ascensionsEnRestriccio<T extends AscensioMinima>(
+	ascensions: readonly T[],
+	cataleg: Cataleg
+): AvisRestriccio<T>[] {
+	const cims = aMapa(cataleg);
+	const avisos: AvisRestriccio<T>[] = [];
+	for (const ascensio of ascensions) {
+		const cim = cims.get(ascensio.cimId);
+		if (!cim || cim.restriccions.length === 0) continue;
+		const restriccions = restriccionsActives(cim, ascensio.data);
+		if (restriccions.length === 0) continue;
+		avisos.push({
+			ascensio,
+			cim,
+			restriccions,
+			incerta: restriccions.every(esRestriccioPermanent)
+		});
+	}
+	return avisos;
+}
+
 // ---------------------------------------------------------------------------
 // Resumen completo
 // ---------------------------------------------------------------------------
 
-export interface EstatRepte<T> {
+export interface EstatRepte<T extends AscensioMinima> {
 	valides: T[];
 	primeres: Map<number, DataISO>;
 	progres100: Progres100;
@@ -636,6 +725,8 @@ export interface EstatRepte<T> {
 	excesAnual: ExcesAnual[];
 	infantil: ProgresInfantil;
 	perZona: ProgresZona[];
+	/** Avisos de ascensiones con restricción de acceso activa (no afectan al progreso). */
+	enRestriccio: AvisRestriccio<T>[];
 }
 
 /**
@@ -659,6 +750,7 @@ export function calcularEstatRepte<
 		nivell: nivell(valides, cataleg, opcions),
 		excesAnual: excesAnual(valides, opcions),
 		infantil: progresInfantil(valides, mapa, opcions),
-		perZona: progresPerZona(valides, cataleg)
+		perZona: progresPerZona(valides, cataleg),
+		enRestriccio: ascensionsEnRestriccio(valides, mapa)
 	};
 }

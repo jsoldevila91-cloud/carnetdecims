@@ -18,7 +18,15 @@ export { default as PageMeta } from './PageMeta.svelte';
 export { default as RegisterPanel } from './RegisterPanel.svelte';
 export { default as Segell } from './Segell.svelte';
 export { default as SiteFooter } from './SiteFooter.svelte';
+export { default as TextEnLinia } from './TextEnLinia.svelte';
 export { default as Toaster } from './Toaster.svelte';
 export { toasts } from './toast.svelte';
-export { formatAltitude, formatCoordinate, formatKm, formatStampDate, romanPage } from './format';
+export {
+	formatAltitude,
+	formatCoordinate,
+	formatDataLlarga,
+	formatKm,
+	formatStampDate,
+	romanPage
+} from './format';
 export { NOM_ZONA } from './zona';

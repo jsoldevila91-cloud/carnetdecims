@@ -2,11 +2,22 @@
 	import Icon from './Icon.svelte';
 	import Logo from './Logo.svelte';
 	import { href } from '$lib/i18n';
+	import { PAGINES_CONTINGUT } from '$lib/content/types';
 	import { m } from '$lib/paraglide/messages';
 
 	/** Peu amb l'avís de web no oficial. "100 Cims" només com a descriptor, sense logos FEEC. */
 	const FEEC_URL = 'https://www.feec.cat/';
 	const year = new Date().getFullYear();
+
+	/** Pàgines de contingut editorial (hub del repte, metodologia i legals). */
+	const info = [
+		{ path: PAGINES_CONTINGUT.repte, text: m.content_name_repte },
+		{ path: PAGINES_CONTINGUT.normativa, text: m.content_name_normativa },
+		{ path: PAGINES_CONTINGUT.metodologia, text: m.content_name_metodologia },
+		{ path: PAGINES_CONTINGUT.sobreElProjecte, text: m.content_name_sobre },
+		{ path: PAGINES_CONTINGUT.avisLegal, text: m.content_name_avis_legal },
+		{ path: PAGINES_CONTINGUT.privacitat, text: m.content_name_privacitat }
+	];
 </script>
 
 <footer class="site-footer">
@@ -23,6 +34,13 @@
 				<li><a href={href('/cims-essencials')}>{m.explore_essentials()}</a></li>
 				<li><a href={href('/tresmils')}>{m.explore_tresmils()}</a></li>
 				<li><a href={href('/cims-mes-alts')}>{m.explore_highest()}</a></li>
+			</ul>
+		</nav>
+		<nav class="info" aria-label={m.footer_info_label()}>
+			<ul>
+				{#each info as enllac (enllac.path)}
+					<li><a href={href(enllac.path)}>{enllac.text()}</a></li>
+				{/each}
 			</ul>
 		</nav>
 		<p class="disclaimer">{m.footer_disclaimer()}</p>

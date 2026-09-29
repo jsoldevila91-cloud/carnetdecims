@@ -11,13 +11,23 @@
  * - Comarques (`sitemap-ca-comarques.xml`, `sitemap-es-comarcas.xml`): l'índex `/comarques` i les
  *   pàgines de comarca indexables (`comarcaIndexable`: almenys 3 cims; docs/02 §4.2).
  * - Llistats curats (`sitemap-ca-llistats.xml`, `sitemap-es-listados.xml`): `LLISTAT_PATHS`.
- * - Pàgines: la resta de `PRERENDER_PATHS` (sense l'índex de comarques ni els llistats).
+ * - Contingut editorial (`sitemap-ca-contingut.xml`, `sitemap-es-contenido.xml`): les pàgines de
+ *   `PAGINES_CONTINGUT` indexables en tots dos idiomes, amb `lastmod` = `actualitzat` de cada
+ *   idioma (data real de revisió del text). Les legals (`CONTINGUT_FORA_SITEMAP`) en queden fora.
+ * - Pàgines: la resta de `PRERENDER_PATHS` (sense l'índex de comarques, els llistats ni el contingut).
  *
  * El fa servir `vite.config.ts` (entrades de prerender), per això no depèn de `$lib` ni del runtime.
  */
 import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
 import {
+	CONTINGUTS,
+	PAGINES_CONTINGUT,
+	type ClauPagina,
+	type Contingut
+} from '../content/index.ts';
+import {
 	COMARQUES_PATH,
+	CONTINGUT_PATHS,
 	LLISTAT_PATHS,
 	LOCALES,
 	PRERENDER_PATHS,
@@ -82,8 +92,42 @@ export function cimSitemapUrls(cims: readonly CimSitemap[], locale: AppLocale): 
 		);
 }
 
-/** Camins de `PRERENDER_PATHS` que tenen secció pròpia i no van a `pagines`. */
-const AMB_SECCIO_PROPIA: ReadonlySet<string> = new Set([COMARQUES_PATH, ...LLISTAT_PATHS]);
+/** Camins de `PRERENDER_PATHS` que tenen secció pròpia (o cap) i no van a `pagines`. */
+const AMB_SECCIO_PROPIA: ReadonlySet<string> = new Set([
+	COMARQUES_PATH,
+	...LLISTAT_PATHS,
+	...CONTINGUT_PATHS
+]);
+
+/**
+ * Pàgines de contingut indexables que NO entren al sitemap: l'avís legal i la privadesa.
+ * Són indexables (senyal de confiança, enllaçades des del peu de totes les pàgines), però no
+ * responen cap cerca que ens interessi i el protocol de sitemaps no permet marcar-les com a
+ * poc prioritàries de manera útil (Google ignora `priority`). Decisió del bloc 3c (docs/02 §6).
+ */
+export const CONTINGUT_FORA_SITEMAP: readonly ClauPagina[] = ['avisLegal', 'privacitat'];
+
+/**
+ * URL de les pàgines de contingut en un idioma: indexables en ca i es (hreflang només entre
+ * versions indexables, docs/02 §6), sense les legals, amb `lastmod` = `actualitzat` si és una
+ * data ISO vàlida.
+ */
+export function contingutSitemapUrls(
+	locale: AppLocale,
+	continguts: Readonly<Record<ClauPagina, Contingut>> = CONTINGUTS
+): SitemapUrl[] {
+	return (Object.keys(PAGINES_CONTINGUT) as ClauPagina[])
+		.filter((clau) => !CONTINGUT_FORA_SITEMAP.includes(clau))
+		.filter((clau) => LOCALES.every((l) => !continguts[clau][l].noindex))
+		.map((clau) => {
+			const actualitzat = continguts[clau][locale].actualitzat;
+			return urlAmbAlternates(
+				(l) => localizePath(PAGINES_CONTINGUT[clau], l),
+				locale,
+				DATA_ISO.test(actualitzat) ? actualitzat : undefined
+			);
+		});
+}
 
 /** Nombre de cims del catàleg per comarca (slug). */
 function cimsPerComarca(): Map<string, number> {
@@ -124,6 +168,10 @@ export const SITEMAP_SECTIONS: readonly SitemapSection[] = [
 	{
 		name: { ca: 'llistats', es: 'listados' },
 		urls: (locale) => LLISTAT_PATHS.map((p) => urlAmbAlternates((l) => localizePath(p, l), locale))
+	},
+	{
+		name: { ca: 'contingut', es: 'contenido' },
+		urls: (locale) => contingutSitemapUrls(locale)
 	},
 	{
 		name: { ca: 'cims', es: 'cimas' },

@@ -4,6 +4,8 @@
  */
 import type { CimCataleg, ComarcaCataleg } from '../domain/types.ts';
 import type { LlistatId } from '../data/catalog/queries.ts';
+import { PAGINES_CONTINGUT, type PaginaContingut } from '../content/types.ts';
+import { textPla } from '../content/text.ts';
 import {
 	COMARQUES_PATH,
 	LLISTAT_PATHS,
@@ -360,4 +362,93 @@ export function cimsGraph(opts: {
 			{ name: opts.breadcrumbNames.cims }
 		]
 	});
+}
+
+/** Camí intern del hub del repte: les subpàgines (`/repte-100-cims/…`) hi pengen al breadcrumb. */
+const REPTE_PATH = PAGINES_CONTINGUT.repte;
+
+/** Noms del breadcrumb d'una pàgina de contingut. */
+export type PaginaBreadcrumbNames = {
+	inici: string;
+	/** Nom curt del hub del repte. Obligatori a les subpàgines (`/repte-100-cims/…`). */
+	repte?: string;
+	/** Nom curt de la pàgina (per defecte, l'`h1`). */
+	pagina?: string;
+};
+
+/**
+ * Pàgina de contingut editorial (`PAGINES_CONTINGUT`): `WebPage` (`AboutPage` per a
+ * `/sobre-el-projecte`) amb `dateModified` = `actualitzat` + `BreadcrumbList`
+ * (Inici › {pàgina}, o Inici › {repte} › {pàgina} a les subpàgines del hub) i, si la pàgina té
+ * preguntes freqüents, un `FAQPage` amb les preguntes i respostes en text pla.
+ * @throws RangeError si `path` no és una pàgina de contingut, o si és una subpàgina del hub i
+ *   falta `breadcrumbNames.repte`.
+ */
+export function paginaGraph(opts: {
+	pagina: PaginaContingut;
+	locale: AppLocale;
+	/** Camí intern deslocalitzat (`/repte-100-cims/normativa`). */
+	path: string;
+	breadcrumbNames: PaginaBreadcrumbNames;
+}) {
+	const { pagina, locale, path, breadcrumbNames: names } = opts;
+	if (!(Object.values(PAGINES_CONTINGUT) as string[]).includes(path)) {
+		throw new RangeError(`Pàgina de contingut desconeguda: ${path}`);
+	}
+	const esSubpaginaRepte = path.startsWith(`${REPTE_PATH}/`);
+	if (esSubpaginaRepte && !names.repte) {
+		throw new RangeError(`Falta breadcrumbNames.repte per a ${path}`);
+	}
+
+	const pageUrl = SITE_ORIGIN + localizePath(path, locale);
+	const breadcrumbId = `${pageUrl}#breadcrumb`;
+	const faqId = `${pageUrl}#faq`;
+	const faq = pagina.faq ?? [];
+	const esAbout = path === PAGINES_CONTINGUT.sobreElProjecte;
+
+	const crumbs: Crumb[] = [
+		{ name: names.inici, item: SITE_ORIGIN + localizePath('/', locale) },
+		...(esSubpaginaRepte
+			? [{ name: names.repte!, item: SITE_ORIGIN + localizePath(REPTE_PATH, locale) }]
+			: []),
+		{ name: names.pagina ?? pagina.h1 }
+	];
+
+	const webPage: Record<string, unknown> = {
+		'@type': esAbout ? 'AboutPage' : 'WebPage',
+		'@id': pageUrl,
+		url: pageUrl,
+		name: pagina.title,
+		description: pagina.description,
+		inLanguage: locale,
+		isPartOf: { '@id': WEBSITE_ID },
+		...(esAbout && { about: { '@id': ORG_ID } }),
+		dateModified: pagina.actualitzat,
+		breadcrumb: { '@id': breadcrumbId },
+		...(faq.length > 0 && { hasPart: { '@id': faqId } })
+	};
+
+	return {
+		'@context': 'https://schema.org',
+		'@graph': [
+			webPage,
+			breadcrumbList(breadcrumbId, crumbs),
+			...(faq.length > 0
+				? [
+						{
+							'@type': 'FAQPage',
+							'@id': faqId,
+							url: pageUrl,
+							inLanguage: locale,
+							isPartOf: { '@id': pageUrl },
+							mainEntity: faq.map((q) => ({
+								'@type': 'Question',
+								name: textPla(q.pregunta),
+								acceptedAnswer: { '@type': 'Answer', text: textPla(q.resposta) }
+							}))
+						}
+					]
+				: [])
+		]
+	};
 }

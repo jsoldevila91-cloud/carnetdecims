@@ -11,6 +11,8 @@
 // Imports relatius (sense `$lib`): només per als slugs de `cimEntries()` i `comarcaEntries()`.
 import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
 import comarquesJson from '../data/catalog/comarques.json' with { type: 'json' };
+// Només la taula de camins de les pàgines de contingut (`types.ts` només hi té imports de tipus).
+import { PAGINES_CONTINGUT } from '../content/types.ts';
 
 export const LOCALES = ['ca', 'es'] as const;
 export type AppLocale = (typeof LOCALES)[number];
@@ -59,6 +61,7 @@ export const LOCALIZED_ROUTES: ReadonlyArray<{ path: string; localized: Localize
 	},
 	{ path: '/avis-legal', localized: { ca: '/avis-legal', es: '/aviso-legal' } },
 	{ path: '/privacitat', localized: { ca: '/privacitat', es: '/privacidad' } },
+	{ path: '/metodologia', localized: { ca: '/metodologia', es: '/metodologia' } },
 
 	// Zona app (noindex): /app es manté igual en tots dos idiomes
 	{ path: '/app/compte', localized: { ca: '/app/compte', es: '/app/cuenta' } },
@@ -77,7 +80,7 @@ export function buildUrlPatterns(): UrlPattern[] {
 			pattern: path,
 			localized: LOCALES.map((l): [AppLocale, string] => [l, `/${l}${localized[l]}`])
 		})),
-		// La resta de camins (mapa, metodologia, app/registrar…) només afegeixen el prefix.
+		// La resta de camins (mapa, app/registrar…) només afegeixen el prefix.
 		{
 			pattern: '/:path(.*)?',
 			localized: LOCALES.map((l): [AppLocale, string] => [l, `/${l}/:path(.*)?`])
@@ -102,11 +105,25 @@ export const LLISTAT_PATHS = ['/cims-essencials', '/tresmils', '/cims-mes-alts']
 export const COMARQUES_PATH = '/comarques';
 
 /**
- * Pàgines públiques sense paràmetres que es prerenderitzen en tots dos idiomes.
- * Totes són indexables i entren al sitemap (`$lib/seo/sitemap.ts`): si mai n'hi ha
- * una de `noindex`, cal excloure-la allà.
+ * Pàgines de contingut editorial (hub del repte, metodologia, legals…): `PAGINES_CONTINGUT` de
+ * `$lib/content/types.ts`. Sitemap: secció `contingut`, amb `lastmod` = `actualitzat`
+ * (les legals en queden fora; vegeu `$lib/seo/sitemap.ts`).
  */
-export const PRERENDER_PATHS = ['/', '/cims', '/mapa', COMARQUES_PATH, ...LLISTAT_PATHS] as const;
+export const CONTINGUT_PATHS = Object.values(PAGINES_CONTINGUT);
+
+/**
+ * Pàgines públiques sense paràmetres que es prerenderitzen en tots dos idiomes.
+ * Totes són indexables; el sitemap (`$lib/seo/sitemap.ts`) decideix en quina secció van i
+ * quines en queden fora (les de `noindex` i les legals).
+ */
+export const PRERENDER_PATHS = [
+	'/',
+	'/cims',
+	'/mapa',
+	COMARQUES_PATH,
+	...LLISTAT_PATHS,
+	...CONTINGUT_PATHS
+] as const;
 
 export function prerenderEntries(): `/${string}`[] {
 	return PRERENDER_PATHS.flatMap((p) => LOCALES.map((l) => localizePath(p, l) as `/${string}`));

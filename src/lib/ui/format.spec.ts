@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { formatAltitude, formatCoordinate, formatKm, formatStampDate, romanPage } from './format';
+import {
+	formatAltitude,
+	formatCoordinate,
+	formatDataLlarga,
+	formatKm,
+	formatStampDate,
+	romanPage
+} from './format';
 
 describe('format', () => {
 	it('coordenades amb coma decimal i sense signe', () => {
@@ -25,5 +32,12 @@ describe('format', () => {
 
 	it('pàgines del carnet I–V', () => {
 		expect([1, 2, 3, 4, 5].map(romanPage)).toEqual(['I', 'II', 'III', 'IV', 'V']);
+	});
+
+	it('data llarga per idioma, sense desplaçament de zona horària', () => {
+		expect(formatDataLlarga('2026-09-29', 'es')).toBe('29 de septiembre de 2026');
+		expect(formatDataLlarga('2026-09-29', 'ca')).toMatch(/^29 de setembre (de|del) 2026$/);
+		expect(formatDataLlarga('2026-01-01', 'ca')).toMatch(/^1 de gener (de|del) 2026$/);
+		expect(formatDataLlarga('no-data', 'ca')).toBe('no-data');
 	});
 });

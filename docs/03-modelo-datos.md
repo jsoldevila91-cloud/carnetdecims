@@ -158,18 +158,40 @@ db.version(1).stores({
 | `nivell(primeres, cataleg)`         | 0 si no se ha completado 100; si no, `min(5, floor(cimsDistints / 100))` contando **todas** las cimas distintas (esenciales y no esenciales, también las anteriores a llegar a 100) |
 | `excesAnual(primeres)`              | Años con más de 100 cimas nuevas → **aviso informativo**, no bloquea el registro                                                                                                    |
 | `restriccioActiva(r, data)`         | Periodo `mm-dd` que puede cruzar el cambio de año (01-12 → 01-06) o rango de fechas → aviso                                                                                         |
+| `ascensionsEnRestriccio(asc, cat)`  | Ascensiones hechas con una restricción activa (la FEEC no las valida) → **aviso**, no bloquea ni resta progreso; `incerta` si la restricción es permanente sin fechas               |
+| `progresInfantil(asc, cat, o, p)`   | 50 cimas distintas desde el 2026-07-01; si hay `dataNaixement`, solo las hechas con 7–14 años cumplidos ese día                                                                     |
 | `cimsPropers(pos, cims, filtre)`    | Haversine sobre 522 puntos, ordenado por distancia, funciona offline                                                                                                                |
 | `progresPerZona(primeres, cataleg)` | % hecho por comarca/zona                                                                                                                                                            |
 
-### 3.3 Ambigüedades (se implementan con la interpretación indicada, configurable, y conviene confirmarlas con 100cims@feec.cat)
+### 3.3 Ambigüedades de la normativa
 
-1. **¿Cuentan las repeticiones para 2×100?** La normativa no lo dice explícitamente. "200… 500 **dels cims del llistat**" y que 5×100 = 500 ≤ 522 apuntan a **cimas distintas**. Implementamos: solo cuentan cimas distintas; las repeticiones se guardan como historial.
-2. **Límite de 100 por año:** habla de cims _presentados para validar_ por año, no de ascensiones por año natural. Como la app no presenta nada a la FEEC, se muestra un aviso por año de ascensión (> 100 cimas nuevas) y no se bloquea. Queda por aclarar si un excedente se puede presentar al año siguiente.
-3. **Día de corte 01/07/2019:** "des del dia 1 de juliol" frente a "assolits fins al dia 1 de juliol". Tomamos `< 2019-07-01` como normativa antigua.
-4. **Esenciales como requisito:** se interpreta que los primeros 100 (salvo los anteriores a 2019) deben ser esenciales, y que las no esenciales posteriores a 2019 cuentan con carácter retroactivo para 2×100 una vez completado el 100 (así lo resume el CE Taradell). La literalidad ("no es tindran en compte… fins que") permite otra lectura: que solo cuenten las posteriores a completar el 100.
-5. **Restricciones de acceso:** no se sabe si la FEEC invalida una ascensión hecha dentro del periodo restringido. Solo mostramos un aviso.
-6. **Reto infantil:** ¿cuentan las ascensiones anteriores al 01/07/2026? ¿La edad se mide en la fecha de cada ascensión? Queda fuera del MVP.
-7. **Cimas retiradas o reasignadas de comarca** en futuras revisiones de la lista: se conservan `actiu = false` y la ascensión sigue en el historial. No sabemos si siguen contando.
+Estado a **2026-09-29**, tras leer la normativa vigente de la FEEC (vigente desde el **01/01/2024**; reto infantil desde el 01/07/2026): [Normativa i funcionament](https://www.feec.cat/activitats/100-cims/normativa-i-funcionament/) y [Cims amb restriccions d'accés](https://www.feec.cat/activitats/100-cims/cims-amb-restriccions-dacces/), consultadas el 2026-09-29 (lectura del agente SEO, bloque 3c). Las interpretaciones siguen siendo configurables en `OpcionsRepte` (`src/lib/domain/repte.ts`).
+
+**Resueltas (con la fuente y la fecha de arriba):**
+
+- **§3.3.3 Día de corte 01/07/2019.** La normativa dice "abans del dia 1 de juliol de 2019": normativa antigua = primera ascensión `< 2019-07-01`. Es el valor por defecto que ya había (`diaTallEsNormativaAntiga: false`); hay un test que lo fija.
+- **§3.3.5 Restricciones de acceso.** La FEEC **no valida** las ascensiones hechas dentro del periodo restringido. La app solo avisa: `ascensionsEnRestriccio(ascensions, cataleg)` devuelve las ascensiones afectadas (con las restricciones activas ese día) y `calcularEstatRepte(...).enRestriccio` las expone a la UI. No bloquea el registro ni las quita del progreso (seguimiento personal). Si la restricción es permanente y sin fechas (p. ej. obras sin inicio conocido), el aviso lleva `incerta: true`: no se puede saber si una ascensión antigua cae dentro, y la UI debe formularlo como duda.
+- **§3.3.6 Reto infantil.** Cuenta la **edad el día de cada ascensión** (7 a 14 años cumplidos, ambos inclusive) y las ascensiones **anteriores al 2026-07-01 no cuentan**. Por defecto `dataIniciInfantil: '2026-07-01'` (`DATA_INICI_INFANTIL`). `progresInfantil(asc, cataleg, opcions, { dataNaixement })` filtra por edad si se conoce la fecha de nacimiento (`edatEnData`, `edatInfantilValida`; quien nace un 29/02 cumple el 01/03 en años no bisiestos). El MVP no pide la fecha de nacimiento (dato personal de un menor): sin ella no se filtra por edad.
+
+**Siguen ambiguas** (interpretación por defecto indicada; conviene confirmarlas con 100cims@feec.cat):
+
+- **§3.3.1 ¿Cuentan las repeticiones para 2×100?** La normativa no lo dice explícitamente. "200… 500 **dels cims del llistat**" y que 5×100 = 500 ≤ 522 apuntan a **cimas distintas**. Por defecto: solo cimas distintas; las repeticiones son historial (`comptarRepeticions: false`).
+- **§3.3.2 Exceso de más de 100 al año:** el límite es de cims _presentados para validar_ por año, no de ascensiones por año natural. Como la app no presenta nada a la FEEC, se avisa por año de ascensión (> 100 cimas nuevas) y no se bloquea. No se sabe si el excedente se puede presentar al año siguiente.
+- **§3.3.4 No esenciales posteriores al 01/07/2019 y el 2×100:** se interpreta que cuentan con carácter retroactivo una vez completado el 100 (resumen del CE Taradell; `noEssencialsRetroactives: true`). La literalidad ("no es tindran en compte… fins que") permite leer que solo cuentan las posteriores a completar el 100.
+- **§3.3.8 Licencia federativa vigente el día de la ascensión:** la normativa exige licencia; la app no lo comprueba ni lo modela (es cosa de cada persona y de su entidad). No está claro si basta con tenerla al presentar el full.
+- **§3.3.7 Cimas que salgan de la lista o cambien de comarca** en futuras revisiones: se conservan con `actiu = false` y la ascensión sigue en el historial. No se sabe si siguen contando.
+- **§3.3.6 (resto) Detalles del reto infantil:** como cuenta la edad el día de la ascensión, parece que las ascensiones hechas antes de cumplir 15 se pueden presentar después, pero la normativa no lo concreta. Tampoco detalla cómo se aplican las reglas del adulto (esenciales, límite anual) a esas mismas ascensiones cuando cuentan para los 100 Cims.
+
+**Restricciones de acceso publicadas por la FEEC (2026-09-29):** 4 cimas.
+
+| Cima                         | Esencial | Restricción                              | En el catálogo                    |
+| ---------------------------- | -------- | ---------------------------------------- | --------------------------------- |
+| La Picossa                   | Sí       | Fauna: del 15/01 al 15/06 (anual)        | Sí (`01-15`..`06-15`)             |
+| Sant Salvador de les Espases | Sí       | Obras (sin fechas publicadas)            | Sí (permanente → aviso `incerta`) |
+| Les Càrcoles                 | No       | Fauna: del 15/01 al 15/06 (anual)        | **Pendiente** (catálogo de 522)   |
+| Roc Roi                      | No       | Gall fer: del 01/12 al 01/06 (cruza año) | **Pendiente** (catálogo de 522)   |
+
+Al ampliar el catálogo a 522 hay que cargar Les Càrcoles y Roc Roi en `scripts/catalog/manual.ts` (o la fuente de restricciones), con `fontUrl` a la página de restricciones de la FEEC, y revisar la página en cada build.
 
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 

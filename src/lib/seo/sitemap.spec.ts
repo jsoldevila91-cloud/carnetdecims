@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS, cimsPerComarca, comarquesAmbCims } from '$lib/data/catalog';
 import { comarcaIndexable } from './indexabilitat';
+import { CONTINGUTS, PAGINES_CONTINGUT, type Contingut, type ClauPagina } from '$lib/content';
 import {
+	CONTINGUT_FORA_SITEMAP,
+	contingutSitemapUrls,
 	comarcaSitemapUrls,
 	cimSitemapUrls,
 	sitemapEntries,
@@ -21,7 +24,9 @@ describe('sitemaps', () => {
 			'/sitemap-ca-comarques.xml',
 			'/sitemap-es-comarcas.xml',
 			'/sitemap-ca-llistats.xml',
-			'/sitemap-es-listados.xml'
+			'/sitemap-es-listados.xml',
+			'/sitemap-ca-contingut.xml',
+			'/sitemap-es-contenido.xml'
 		]);
 		const index = sitemapIndexXml();
 		expect(index).toContain('<loc>https://carnetdecims.cat/sitemap-ca-pagines.xml</loc>');
@@ -165,5 +170,55 @@ describe('sitemaps de comarques i llistats', () => {
 			[...(sitemapXml(n) ?? '').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
 		);
 		expect(new Set(totes).size).toBe(totes.length);
+	});
+});
+
+describe('sitemap de contingut editorial', () => {
+	it('les pàgines de contingut no van a `pagines`, sinó a `contingut`', () => {
+		const pagines = sitemapXml('ca-pagines') ?? '';
+		expect(pagines).not.toMatch(
+			/repte-100-cims|metodologia|sobre-el-projecte|avis-legal|privacitat/
+		);
+		const ca = sitemapXml('ca-contingut') ?? '';
+		expect(ca).toContain('<loc>https://carnetdecims.cat/ca/repte-100-cims/normativa</loc>');
+		expect(ca).toContain('<loc>https://carnetdecims.cat/ca/metodologia</loc>');
+		const es = sitemapXml('es-contenido') ?? '';
+		expect(es).toContain('<loc>https://carnetdecims.cat/es/reto-100-cims/como-validar</loc>');
+		expect(es).toContain('<loc>https://carnetdecims.cat/es/sobre-el-proyecto</loc>');
+	});
+
+	it('lastmod = actualitzat de cada idioma, amb alternates recíproques', () => {
+		for (const locale of ['ca', 'es'] as const) {
+			const urls = contingutSitemapUrls(locale);
+			expect(urls).toHaveLength(6);
+			const metodologia = urls.find((u) => u.loc.endsWith('/metodologia'));
+			expect(metodologia).toEqual({
+				loc: `https://carnetdecims.cat/${locale}/metodologia`,
+				lastmod: CONTINGUTS.metodologia[locale].actualitzat,
+				alternates: [
+					{ hreflang: 'ca', href: 'https://carnetdecims.cat/ca/metodologia' },
+					{ hreflang: 'es', href: 'https://carnetdecims.cat/es/metodologia' },
+					{ hreflang: 'x-default', href: 'https://carnetdecims.cat/ca/metodologia' }
+				]
+			});
+			for (const u of urls) expect(u.lastmod).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+		}
+	});
+
+	it('les legals (avís legal i privadesa) en queden fora', () => {
+		expect(CONTINGUT_FORA_SITEMAP).toEqual(['avisLegal', 'privacitat']);
+		const xml = (sitemapXml('ca-contingut') ?? '') + (sitemapXml('es-contenido') ?? '');
+		expect(xml).not.toMatch(/avis-legal|aviso-legal|privacitat|privacidad/);
+	});
+
+	it('una pàgina noindex en qualsevol idioma en queda fora; data invàlida → sense lastmod', () => {
+		const copia = structuredClone(CONTINGUTS) as Record<ClauPagina, Contingut>;
+		copia.normativa.es.noindex = true;
+		copia.repte.ca.actualitzat = 'aviat';
+		const ca = contingutSitemapUrls('ca', copia);
+		expect(ca.some((u) => u.loc.endsWith(PAGINES_CONTINGUT.normativa))).toBe(false);
+		const repte = ca.find((u) => u.loc === 'https://carnetdecims.cat/ca/repte-100-cims');
+		expect(repte).toBeDefined();
+		expect(repte).not.toHaveProperty('lastmod');
 	});
 });

@@ -17,8 +17,10 @@ import {
 	comarcaGraph,
 	comarcaPlace,
 	comarquesGraph,
-	llistatGraph
+	llistatGraph,
+	paginaGraph
 } from './jsonld';
+import type { PaginaContingut } from '$lib/content';
 
 const BREADCRUMB = { inici: 'Inici', comarques: 'Comarques' };
 const ESSENCIAL = 'Cim essencial del repte 100 Cims';
@@ -378,5 +380,107 @@ describe('cimsGraph (llista completa /cims)', () => {
 			['Inicio', 'https://carnetdecims.cat/es'],
 			['Lista de cimas', undefined]
 		]);
+	});
+});
+
+describe('paginaGraph (pàgines de contingut)', () => {
+	const pagina: PaginaContingut = {
+		title: 'Normativa del repte 100 Cims',
+		description: 'Descripció de prova',
+		h1: 'La normativa, explicada',
+		intro: 'Entradeta.',
+		seccions: [],
+		faq: [
+			{
+				pregunta: 'Quants cims per any?',
+				resposta: 'Com a màxim **100**. Vegeu la [normativa](/repte-100-cims/normativa).'
+			}
+		],
+		actualitzat: '2026-09-29'
+	};
+	type Graf = ReturnType<typeof paginaGraph>;
+	const n = (g: Graf, type: string) =>
+		g['@graph'].find((x) => (x as Record<string, unknown>)['@type'] === type) as
+			Record<string, unknown> | undefined;
+
+	it('WebPage amb dateModified, breadcrumb Inici › Repte › pàgina i FAQPage en text pla', () => {
+		const g = paginaGraph({
+			pagina,
+			locale: 'es',
+			path: '/repte-100-cims/normativa',
+			breadcrumbNames: { inici: 'Inicio', repte: 'El reto', pagina: 'Normativa' }
+		});
+		const url = 'https://carnetdecims.cat/es/reto-100-cims/normativa';
+		expect(n(g, 'WebPage')).toMatchObject({
+			'@id': url,
+			url,
+			name: pagina.title,
+			inLanguage: 'es',
+			isPartOf: { '@id': WEBSITE_ID },
+			dateModified: '2026-09-29',
+			breadcrumb: { '@id': `${url}#breadcrumb` },
+			hasPart: { '@id': `${url}#faq` }
+		});
+		expect(n(g, 'BreadcrumbList')?.itemListElement).toEqual([
+			{ '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://carnetdecims.cat/es' },
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'El reto',
+				item: 'https://carnetdecims.cat/es/reto-100-cims'
+			},
+			{ '@type': 'ListItem', position: 3, name: 'Normativa' }
+		]);
+		expect(n(g, 'FAQPage')).toMatchObject({
+			'@id': `${url}#faq`,
+			isPartOf: { '@id': url },
+			mainEntity: [
+				{
+					'@type': 'Question',
+					name: 'Quants cims per any?',
+					acceptedAnswer: { '@type': 'Answer', text: 'Com a màxim 100. Vegeu la normativa.' }
+				}
+			]
+		});
+	});
+
+	it('AboutPage per a sobre-el-projecte; sense FAQ no hi ha FAQPage; breadcrumb amb h1', () => {
+		const g = paginaGraph({
+			pagina: { ...pagina, faq: undefined },
+			locale: 'ca',
+			path: '/sobre-el-projecte',
+			breadcrumbNames: { inici: 'Inici' }
+		});
+		const about = n(g, 'AboutPage');
+		expect(about).toMatchObject({
+			'@id': 'https://carnetdecims.cat/ca/sobre-el-projecte',
+			about: { '@id': 'https://carnetdecims.cat/#org' }
+		});
+		expect(about).not.toHaveProperty('hasPart');
+		expect(n(g, 'WebPage')).toBeUndefined();
+		expect(n(g, 'FAQPage')).toBeUndefined();
+		expect(n(g, 'BreadcrumbList')?.itemListElement).toEqual([
+			{ '@type': 'ListItem', position: 1, name: 'Inici', item: 'https://carnetdecims.cat/ca' },
+			{ '@type': 'ListItem', position: 2, name: pagina.h1 }
+		]);
+	});
+
+	it('el hub i les legals pengen de l’inici; FAQ buida → sense FAQPage', () => {
+		const g = paginaGraph({
+			pagina: { ...pagina, faq: [] },
+			locale: 'es',
+			path: '/privacitat',
+			breadcrumbNames: { inici: 'Inicio', pagina: 'Privacidad' }
+		});
+		expect(n(g, 'WebPage')?.url).toBe('https://carnetdecims.cat/es/privacidad');
+		expect(n(g, 'FAQPage')).toBeUndefined();
+		expect((n(g, 'BreadcrumbList')?.itemListElement as unknown[]).length).toBe(2);
+	});
+
+	it('camí desconegut o subpàgina del hub sense nom del repte → RangeError', () => {
+		const base = { pagina, locale: 'ca' as const, breadcrumbNames: { inici: 'Inici' } };
+		expect(() => paginaGraph({ ...base, path: '/cims' })).toThrow(RangeError);
+		expect(() => paginaGraph({ ...base, path: '/repte-100-cims/com-validar' })).toThrow(RangeError);
+		expect(() => paginaGraph({ ...base, path: '/repte-100-cims' })).not.toThrow();
 	});
 });

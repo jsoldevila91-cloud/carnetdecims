@@ -32,3 +32,18 @@ export function formatStampDate(date: Date): string {
 export function romanPage(n: number): string {
 	return ['I', 'II', 'III', 'IV', 'V'][n - 1] ?? String(n);
 }
+
+/**
+ * Data ISO (`AAAA-MM-DD`) en format llarg de l'idioma: "29 de setembre de 2026" /
+ * "29 de septiembre de 2026". Es calcula en UTC perquè el dia no canviï segons la zona horària.
+ */
+export function formatDataLlarga(iso: string, locale: string): string {
+	const data = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
+	if (Number.isNaN(data.getTime())) return iso;
+	return new Intl.DateTimeFormat(locale, {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	}).format(data);
+}

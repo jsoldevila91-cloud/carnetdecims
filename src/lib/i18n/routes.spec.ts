@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { PAGINES_CONTINGUT } from '$lib/content/types';
 import {
+	CONTINGUT_PATHS,
+	LOCALIZED_ROUTES,
+	PRERENDER_PATHS,
 	buildUrlPatterns,
 	cimEntries,
 	comarcaEntries,
@@ -54,7 +58,37 @@ describe('rutes localitzades', () => {
 			'/ca/tresmils',
 			'/es/tresmiles',
 			'/ca/cims-mes-alts',
-			'/es/cimas-mas-altas'
+			'/es/cimas-mas-altas',
+			'/ca/repte-100-cims',
+			'/es/reto-100-cims',
+			'/ca/repte-100-cims/normativa',
+			'/es/reto-100-cims/normativa',
+			'/ca/repte-100-cims/com-validar',
+			'/es/reto-100-cims/como-validar',
+			'/ca/repte-100-cims/repte-infantil',
+			'/es/reto-100-cims/reto-infantil',
+			'/ca/metodologia',
+			'/es/metodologia',
+			'/ca/sobre-el-projecte',
+			'/es/sobre-el-proyecto',
+			'/ca/avis-legal',
+			'/es/aviso-legal',
+			'/ca/privacitat',
+			'/es/privacidad'
+		]);
+	});
+
+	it('pàgines de contingut: totes tenen ruta localitzada explícita i es prerenderitzen', () => {
+		expect(CONTINGUT_PATHS).toEqual(Object.values(PAGINES_CONTINGUT));
+		for (const p of CONTINGUT_PATHS) {
+			expect(LOCALIZED_ROUTES.some((r) => r.path === p)).toBe(true);
+			expect(PRERENDER_PATHS).toContain(p);
+		}
+		expect(localizePath('/metodologia', 'es')).toBe('/es/metodologia');
+		const patro = buildUrlPatterns().find((p) => p.pattern === '/metodologia');
+		expect(patro?.localized).toEqual([
+			['ca', '/ca/metodologia'],
+			['es', '/es/metodologia']
 		]);
 	});
 
