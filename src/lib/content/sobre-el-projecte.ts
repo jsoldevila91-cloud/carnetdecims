@@ -91,7 +91,7 @@ export const sobreElProjecte: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Carnet de Cims és un projecte independent, sense activitat econòmica. El crea i el manté ${TITULAR.responsable}, una persona aficionada a la muntanya que també segueix el repte 100 Cims.`
+						text: `Carnet de Cims neix d'una història petita: la parella de ${TITULAR.responsable} és una gran amant de la muntanya. ${TITULAR.responsable}, que s'hi entén amb la tecnologia, va voler fer-li una eina per seguir els seus cims del repte 100 Cims i, a partir de les seves idees, va néixer aquest projecte. És independent i sense activitat econòmica.`
 					}
 				]
 			},
@@ -189,7 +189,7 @@ export const sobreElProjecte: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Carnet de Cims es un proyecto independiente, sin actividad económica. Lo crea y lo mantiene ${TITULAR.responsable}, una persona aficionada a la montaña que también sigue el reto 100 Cims.`
+						text: `Carnet de Cims nace de una historia pequeña: la pareja de ${TITULAR.responsable} es una gran amante de la montaña. ${TITULAR.responsable}, que se maneja bien con la tecnología, quiso hacerle una herramienta para seguir sus cimas del reto 100 Cims y, a partir de sus ideas, nació este proyecto. Es independiente y sin actividad económica.`
 					}
 				]
 			},
