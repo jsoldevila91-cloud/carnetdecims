@@ -111,6 +111,9 @@ test.describe('Full "Registrar" (shallow routing)', () => {
 	test('recarregar /ca/app/registrar mostra la pàgina completa', async ({ page }) => {
 		await registerTab(page).click();
 		await expect(sheet(page)).toBeVisible();
+		// Espera que el formulari (import dinàmic) hagi carregat: recarregar amb l'import en curs
+		// fa que WebKit escrigui "Importing a module script failed" a la consola (soroll, no bug).
+		await expect(sheet(page).getByRole('button', { name: 'Registrar i segellar' })).toBeVisible();
 		await page.reload();
 		await expect(page.locator('main h1')).toHaveText(SHEET, { ignoreCase: true });
 		await expect(sheet(page)).toBeHidden();

@@ -536,17 +536,79 @@ test.describe('Rendiment: Dexie només es baixa en obrir el registre', () => {
 	}
 
 	for (const url of ['/ca', FITXA_PEDRAFORCA, '/ca/cims']) {
-		test(`${url} no descarrega Dexie fins que s’obre el full`, async ({ page }) => {
+		test(`${url} no descarrega Dexie abans de cap interacció; sí en obrir el registre`, async ({
+			page
+		}) => {
 			const dexie = vigilaDexie(page);
 			await gotoHydrated(page, url);
-			await page.evaluate(() => window.scrollBy(0, 600));
-			await page.waitForTimeout(500);
+			// Més que el retard de la precàrrega (3 s): sense interacció no s'ha de demanar mai
+			await page.waitForTimeout(4500);
 			expect(await dexie.urls(), 'Dexie abans d’interactuar').toEqual([]);
 
 			await mainNav(page).getByRole('link', { name: 'Registrar una ascensió' }).click();
 			await expect(botoRegistrar(sheetRegistre(page))).toBeVisible();
-			await settleAnimations(page);
 			await expect.poll(async () => (await dexie.urls()).length).toBeGreaterThan(0);
 		});
 	}
+
+	test('precàrrega: amb la pàgina carregada i una interacció, el registre funciona offline', async ({
+		page,
+		context,
+		consoleGuard
+	}) => {
+		// Offline, SvelteKit intenta precarregar la ruta /app/registrar en tocar l'enllaç
+		// (data-sveltekit-preload-data="hover") i ho registra a la consola; no afecta el full.
+		consoleGuard.allow(
+			/Failed to load resource|Failed to fetch dynamically imported module|Importing a module script failed|ERR_INTERNET_DISCONNECTED|Load failed/i
+		);
+		const dexie = vigilaDexie(page);
+		await gotoHydrated(page, FITXA_PEDRAFORCA);
+		await expectBdBuida(page);
+		expect(await dexie.urls()).toEqual([]);
+		// Primera interacció (keydown a la finestra) → precàrrega en reposo al cap de ~3 s
+		await page.keyboard.press('Shift');
+		await expect
+			.poll(async () => (await dexie.urls()).length, { timeout: 15_000 })
+			.toBeGreaterThan(0);
+		await settleAnimations(page);
+
+		await context.setOffline(true);
+		await expect(page.getByText(/Sense connexió/)).toBeVisible();
+		await page.locator('main').getByRole('link', { name: 'Registrar aquest cim' }).click();
+		const full = sheetRegistre(page);
+		await expect(full.getByRole('button', { name: 'Canvia el cim (Pedraforca)' })).toBeVisible();
+		await botoRegistrar(full).click();
+		await expect(full).toBeHidden();
+		await expect(toast(page, 'Segellat: Pedraforca.')).toBeVisible();
+		const files = await filesBd(page);
+		expect(files).toHaveLength(1);
+		expect(files[0]).toMatchObject({ cimId: CIM.pedraforca.id, deletedAt: null });
+		await context.setOffline(false);
+	});
+
+	test('sense precàrrega i offline: error visible amb "Torna-ho a provar" (no un full buit)', async ({
+		page,
+		context,
+		consoleGuard
+	}) => {
+		consoleGuard.allow(
+			/Failed to (load resource|fetch dynamically imported module)|Importing a module script failed|ERR_INTERNET_DISCONNECTED|Load failed|error loading dynamically imported module/i
+		);
+		await gotoHydrated(page, '/ca/cims');
+		// Sense cap interacció prèvia: el formulari no s'ha precarregat
+		await context.setOffline(true);
+		await mainNav(page).getByRole('link', { name: 'Registrar una ascensió' }).click();
+		const full = sheetRegistre(page);
+		await expect(full).toBeVisible();
+		const alerta = full.getByRole('alert');
+		await expect(alerta).toContainText("No s'ha pogut carregar el formulari");
+		const reintenta = alerta.getByRole('button', { name: 'Torna-ho a provar' });
+		await expect(reintenta).toBeVisible();
+		// Reintentar encara offline: continua l'error i el focus queda al botó
+		await reintenta.click();
+		await expect(
+			full.getByRole('alert').getByRole('button', { name: 'Torna-ho a provar' })
+		).toBeFocused();
+		await context.setOffline(false);
+	});
 });

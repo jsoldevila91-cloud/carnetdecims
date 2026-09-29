@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-09-29.
+> Se actualiza al final de cada bloque. Última actualización: 2026-09-30.
 
 ## Hecho
 
@@ -60,9 +60,30 @@
 - **FASE 3 TERMINADA — pendiente de aprobación del usuario.**
   - Cosmético pendiente (bajo): en el Alt Urgell, la separación en cascada desplaza algunos marcadores más de lo necesario (Monturull a 42,6 px).
 
+- **Bloque 4a (terminado, 2026-09-30): registrar ascensiones.**
+  - **Datos locales:** Dexie (`src/lib/data/ascensions.ts`, `local/db.ts`; BD `carnetdecims` v1, tablas `ascensions` y `outbox`; ids UUIDv7; reloj inyectable). CRUD con tombstones y restaurar; `ascensionsVives`/`ascensionsVivesAmbEstat`; export/import JSON versionado (fusionar LWW / substituir, en bloques de 200 con `onProgres`); `esborrarTot`; `demanarPersistencia`.
+  - **UI:**
+    - formulario de registro (combobox `SelectorCim`, fecha, método, nota ≤ 500) en sheet y en `/app/registrar`;
+    - avisos no bloqueantes: restricción, repetición, > 100 al año;
+    - toast "+1 → n/100" con sello y Desfés;
+    - `/app/historial` por años;
+    - `/app` con progreso mínimo;
+    - `/app/compte` con "Les teves dades" (exportar, importar con barra de progreso, borrar todo).
+  - **Rendimiento:** Dexie solo en un chunk diferido; precarga en reposo 3 s después de la primera interacción (permite registrar offline con la página ya cargada); error con "Torna-ho a provar" si el formulario no carga.
+  - **SEO:** textos veraces con el registro disponible; `nofollow` en el CTA de registro; meta `noindex` en el HTML inicial de `/app` (`seo/robots-shell.ts`, `hooks.server.ts`, `hooks.client.ts`).
+  - **Privacitat:** actualizada (datos solo en el dispositivo).
+  - **QA:** `e2e/registre`, `historial`, `dades`; **810 E2E pasados** en los 3 proyectos (1 fallo intermitente de WebKit corregido en el test).
+  - **Pendientes bajos (para 4b/4d):**
+    - al abrir el error offline el foco cae en "Tanca" y no en "Torna-ho a provar";
+    - "Importades n de N" queda detrás de la barra inferior;
+    - durante la importación el foco se va a `<body>` (el botón se desactiva).
+  - **A vigilar:**
+    - importar en WebKit/Windows cuesta ~15 ms por petición a IndexedDB (2000 entradas ≈ 60 s): **medir en un iPhone real**;
+    - descartado de momento no escribir `outbox` sin cuentas (reduciría el tiempo a la mitad), para no cambiar el diseño de la sync de la fase 5.
+
 ## Siguiente
 
-Bloque **4a** (en curso): capa de datos local (Dexie), registrar ascensión e historial.
+Bloque **4b** (en curso): carnet con sellos I–V, esenciales pendientes y progreso por comarca.
 
 ## Pendiente o decisiones abiertas
 
