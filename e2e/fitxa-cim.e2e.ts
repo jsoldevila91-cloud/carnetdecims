@@ -59,7 +59,7 @@ const T = {
 	ca: {
 		breadcrumb: 'Ruta de navegació',
 		home: 'Inici',
-		peaks: 'Cims',
+		comarques: 'Comarques',
 		altitude: 'Altitud',
 		comarca: 'Comarca',
 		essential: 'Essencial',
@@ -80,7 +80,7 @@ const T = {
 	es: {
 		breadcrumb: 'Ruta de navegación',
 		home: 'Inicio',
-		peaks: 'Cimas',
+		comarques: 'Comarcas',
 		altitude: 'Altitud',
 		comarca: 'Comarca',
 		essential: 'Esencial',
@@ -181,26 +181,42 @@ for (const slug of MOSTRA) {
 				expect(mountain.containedInPlace?.name).toBe(comarcaNom(c));
 				expect(JSON.stringify(nodes)).not.toMatch(/FEEC|feec\.cat/);
 
+				// Bloc 3b: Inici › Comarques › {comarca} › {cim}
+				const comarquesUrl = locale === 'ca' ? '/ca/comarques' : '/es/comarcas';
+				const comarcaUrl = `${comarquesUrl}/${c.comarca}`;
 				const bc = nodes.find((n) => n['@type'] === 'BreadcrumbList');
 				expect(bc.itemListElement.map((i: { name: string }) => i.name)).toEqual([
 					t.home,
-					t.peaks,
+					t.comarques,
+					comarcaNom(c),
 					c.nom
 				]);
-				expect(bc.itemListElement[1].item).toBe(
-					`https://carnetdecims.cat${locale === 'ca' ? '/ca/cims' : '/es/cimas'}`
-				);
+				expect(bc.itemListElement[1].item).toBe(`https://carnetdecims.cat${comarquesUrl}`);
+				expect(bc.itemListElement[2].item).toBe(`https://carnetdecims.cat${comarcaUrl}`);
+				expect(mountain.containedInPlace?.url).toBe(`https://carnetdecims.cat${comarcaUrl}`);
 
-				// Breadcrumb visible
+				// Breadcrumb visible (mateixos noms i ordre que el JSON-LD)
 				const crumb = page.getByRole('navigation', { name: t.breadcrumb });
-				await expect(crumb.getByRole('link', { name: t.home })).toHaveAttribute(
+				await expect(crumb.getByRole('listitem')).toHaveText([
+					t.home,
+					t.comarques,
+					comarcaNom(c),
+					c.nom
+				]);
+				await expect(crumb.getByRole('link', { name: t.home, exact: true })).toHaveAttribute(
 					'href',
 					`/${locale}`
 				);
-				await expect(crumb.getByRole('link', { name: t.peaks })).toHaveAttribute(
+				await expect(crumb.getByRole('link', { name: t.comarques, exact: true })).toHaveAttribute(
 					'href',
-					locale === 'ca' ? '/ca/cims' : '/es/cimas'
+					comarquesUrl
 				);
+				await expect(crumb.getByRole('link', { name: comarcaNom(c), exact: true })).toHaveAttribute(
+					'href',
+					comarcaUrl
+				);
+				// La comarca de la llista de dades també enllaça a la seva pàgina
+				await expect(dd(page, t.comarca).getByRole('link')).toHaveAttribute('href', comarcaUrl);
 				await expect(crumb.locator('[aria-current="page"]')).toHaveText(c.nom);
 			});
 
@@ -295,30 +311,40 @@ test.describe('Fitxa: navegació', () => {
 		);
 	});
 
-	for (const [locale, text, llistat] of [
-		['ca', 'Tots els cims del Berguedà', '/ca/cims'],
-		['es', 'Todas las cimas del Berguedà', '/es/cimas']
+	// Bloc 3b: l'enllaç "Tots els cims del…" porta a la pàgina de comarca (abans, /cims#comarca-…)
+	for (const [locale, text, desti] of [
+		['ca', 'Tots els cims del Berguedà', '/ca/comarques/bergueda'],
+		['es', 'Todas las cimas del Berguedà', '/es/comarcas/bergueda']
 	] as const) {
-		test(`"${text}" porta a la comarca dins el llistat`, async ({ page }) => {
+		test(`"${text}" porta a la pàgina de la comarca`, async ({ page }) => {
 			await gotoHydrated(page, fitxaUrl('pedraforca-pollego-superior', locale));
 			const link = page.getByRole('link', { name: text });
-			await expect(link).toHaveAttribute('href', `${llistat}#comarca-bergueda`);
+			await expect(link).toHaveAttribute('href', desti);
 			await link.click();
-			await expect(page).toHaveURL(`${llistat}#comarca-bergueda`);
-			await expect(page.locator('#comarca-bergueda')).toBeInViewport();
+			await expect(page).toHaveURL(desti);
+			await expect(page.getByRole('heading', { level: 1 })).toContainText('Berguedà');
 		});
 	}
 
-	test('el breadcrumb torna al llistat i el llistat enllaça la fitxa', async ({ page }) => {
+	test('el breadcrumb porta a la comarca i la comarca enllaça la fitxa', async ({ page }) => {
 		await gotoHydrated(page, fitxaUrl('canigo', 'es'));
 		await page
 			.getByRole('navigation', { name: 'Ruta de navegación' })
-			.getByRole('link', { name: 'Cimas' })
+			.getByRole('link', { name: 'Catalunya Nord', exact: true })
 			.click();
-		await expect(page).toHaveURL('/es/cimas');
-		await page.getByRole('link', { name: /^Canigó/ }).click();
+		await expect(page).toHaveURL('/es/comarcas/catalunya-nord');
+		// Enllaç de la llista (els marcadors del mapa es proven a comarques.e2e.ts)
+		await page
+			.locator('main section[aria-labelledby="essencials"]')
+			.getByRole('link', { name: /^Canigó/ })
+			.click();
 		await expect(page).toHaveURL('/es/cimas/canigo');
 		await expect(page.getByRole('heading', { level: 1 })).toHaveText('Canigó');
+		await page
+			.getByRole('navigation', { name: 'Ruta de navegación' })
+			.getByRole('link', { name: 'Comarcas', exact: true })
+			.click();
+		await expect(page).toHaveURL('/es/comarcas');
 	});
 
 	for (const slug of ['pica-d-estats', 'la-picossa'] as const) {
