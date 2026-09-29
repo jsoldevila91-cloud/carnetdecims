@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"brand_name": "Carnet de Cims",
-	"brand_tagline": "Tu seguimiento del reto 100 Cims",
+	"brand_tagline": "Cimas esenciales y guía del reto 100 Cims",
 	"brand_home_label": "Carnet de Cims, inicio",
 	"skip_to_content": "Saltar al contenido",
 
@@ -35,8 +35,8 @@
 	"home_meta_title": "Carnet de Cims: cimas esenciales y guía del reto 100 Cims",
 	"home_meta_description": "Las 150 cimas esenciales del reto 100 Cims: ficha con mapa y restricciones, por comarcas y listas, y la normativa explicada. Pronto, tu carnet.",
 	"home_kicker": "Tu carnet de montaña",
-	"home_title": "Sigue el reto 100 Cims: mapa, lista y tu progreso",
-	"home_lede": "Consulta las cimas del reto en el mapa y en la lista, con la altitud, la comarca y las restricciones de acceso. Pronto podrás sellar cada ascensión y completar tu carnet desde el móvil, sin cuenta.",
+	"home_title": "Las cimas esenciales del reto 100 Cims, ficha a ficha",
+	"home_lede": "Consulta las cimas esenciales del reto en la lista y por comarcas, con la altitud, el mapa de situación y las restricciones de acceso. Pronto podrás sellar cada ascensión y completar tu carnet desde el móvil, sin cuenta.",
 	"home_cta_primary": "Abrir mi carnet",
 	"home_cta_secondary": "Explorar las cimas",
 	"home_steps_title": "Cómo funciona",

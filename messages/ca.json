@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"brand_name": "Carnet de Cims",
-	"brand_tagline": "El teu seguiment del repte 100 Cims",
+	"brand_tagline": "Cims essencials i guia del repte 100 Cims",
 	"brand_home_label": "Carnet de Cims, inici",
 	"skip_to_content": "Salta al contingut",
 
@@ -35,8 +35,8 @@
 	"home_meta_title": "Carnet de Cims: cims essencials i guia del repte 100 Cims",
 	"home_meta_description": "Els 150 cims essencials del repte 100 Cims: fitxa amb mapa i restriccions, per comarques i llistes, i la normativa explicada. Aviat, el teu carnet.",
 	"home_kicker": "El teu carnet de muntanya",
-	"home_title": "Segueix el repte 100 Cims: mapa, llista i el teu progrés",
-	"home_lede": "Consulta els cims del repte al mapa i a la llista, amb l'altitud, la comarca i les restriccions d'accés. Aviat hi podràs segellar cada ascensió i omplir el teu carnet des del mòbil, sense compte.",
+	"home_title": "Els cims essencials del repte 100 Cims, fitxa a fitxa",
+	"home_lede": "Consulta els cims essencials del repte a la llista i per comarques, amb l'altitud, el mapa de situació i les restriccions d'accés. Aviat hi podràs segellar cada ascensió i omplir el teu carnet des del mòbil, sense compte.",
 	"home_cta_primary": "Obre el meu carnet",
 	"home_cta_secondary": "Explora els cims",
 	"home_steps_title": "Com funciona",
