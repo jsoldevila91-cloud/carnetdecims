@@ -39,12 +39,13 @@ const MES_ALTS = [...CIMS].sort(perAltitudDesc).slice(0, 25);
 
 /** Fitxes enllaçades per la llista principal (sense la navegació "Explora"). */
 const hrefsLlista = (page: import('@playwright/test').Page, locale: Locale) =>
-	page
-		.locator('main .llista a')
-		.evaluateAll(
-			(as, p) => as.map((a) => a.getAttribute('href')!).filter((h) => h.startsWith(p)),
-			locale === 'ca' ? '/ca/cims/' : '/es/cimas/'
-		);
+	page.locator('main .llista a').evaluateAll(
+		// `pathname` resolt: l'HTML prerenderitzat porta hrefs relatius (`../ca/cims/…`) fins que
+		// la hidratació els reescriu; així el resultat no depèn del moment de la lectura.
+		(as, p) =>
+			as.map((a) => new URL((a as HTMLAnchorElement).href).pathname).filter((h) => h.startsWith(p)),
+		locale === 'ca' ? '/ca/cims/' : '/es/cimas/'
+	);
 
 for (const locale of LOCALES) {
 	test.describe(`Llistats (${locale})`, () => {

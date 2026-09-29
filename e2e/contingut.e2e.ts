@@ -153,12 +153,20 @@ for (const clau of CLAUS) {
 			}) => {
 				await gotoHydrated(page, url);
 				const links = await page.locator('main a[href]').evaluateAll((as) =>
-					as.map((a) => ({
-						href: a.getAttribute('href')!,
-						rel: a.getAttribute('rel'),
-						target: a.getAttribute('target'),
-						text: (a.textContent ?? '').trim()
-					}))
+					as.map((a) => {
+						// L'HTML prerenderitzat porta els interns relatius (`../es`) fins que la hidratació
+						// els reescriu: es resolen per no dependre del moment de la lectura.
+						const raw = a.getAttribute('href')!;
+						const abs = new URL(raw, location.href);
+						const intern =
+							!raw.startsWith('#') && !/^[a-z]+:/i.test(raw) && abs.origin === location.origin;
+						return {
+							href: intern ? abs.pathname + abs.search + abs.hash : raw,
+							rel: a.getAttribute('rel'),
+							target: a.getAttribute('target'),
+							text: (a.textContent ?? '').trim()
+						};
+					})
 				);
 				expect(links.length).toBeGreaterThan(0);
 				const interns = new Set<string>();

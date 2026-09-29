@@ -140,7 +140,31 @@ test.describe('noindex de la zona /app', () => {
 		});
 	}
 
-	for (const url of [ROUTES.ca.home, ROUTES.es.peaks, ROUTES.ca.map]) {
+	// /mapa és un espai reservat fins a la fase 4 (PAGINES_NOINDEX): noindex i fora del sitemap
+	for (const url of [ROUTES.ca.map, ROUTES.es.map]) {
+		test(`${url} (espai reservat) és noindex, sense canonical i fora del sitemap`, async ({
+			page,
+			request
+		}) => {
+			const res = await page.goto(url);
+			expect(res?.status()).toBe(200);
+			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+			await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+
+			const index = await (await request.get('/sitemap-index.xml')).text();
+			const sitemaps = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+				(m) => new URL(m[1]).pathname
+			);
+			expect(sitemaps.length).toBeGreaterThan(0);
+			for (const sitemap of sitemaps) {
+				const xml = await (await request.get(sitemap)).text();
+				expect(xml, sitemap).not.toContain(`https://carnetdecims.cat${url}<`);
+				expect(xml, sitemap).not.toContain(`https://carnetdecims.cat${url}"`);
+			}
+		});
+	}
+
+	for (const url of [ROUTES.ca.home, ROUTES.es.peaks]) {
 		test(`${url} (pública) és indexable i té canonical`, async ({ page }) => {
 			const res = await page.goto(url);
 			expect(res?.headers()['x-robots-tag'] ?? '').not.toContain('noindex');
