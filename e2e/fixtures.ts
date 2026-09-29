@@ -1,4 +1,4 @@
-import { test as base, expect, type Page } from '@playwright/test';
+import { test as base, expect, type Locator, type Page } from '@playwright/test';
 
 /**
  * Fixture automàtica: recull errors de consola i excepcions no capturades de cada
@@ -26,11 +26,70 @@ export const test = base.extend<{ consoleGuard: ConsoleGuard }>({
 
 export { expect };
 
+/**
+ * Espera que SvelteKit hagi hidratat la pàgina. Senyal fiable i sense `networkidle` (que sota
+ * càrrega, amb els 3 projectes en paral·lel, és lent i no garanteix res): l'HTML prerenderitzat
+ * porta hrefs relatius (`../../ca`) i, en hidratar, Svelte els reescriu com a absoluts (`/ca`).
+ * Després deixa passar dos frames perquè s'executin els efectes (`onMount`, `$effect`).
+ */
+export async function waitForHydration(page: Page, timeout = 15_000) {
+	await page.waitForFunction(
+		() => {
+			const a = document.querySelector('header a[href]:not([href^="#"])');
+			return !!a && a.getAttribute('href')!.startsWith('/');
+		},
+		undefined,
+		{ timeout }
+	);
+	await page.evaluate(
+		() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+	);
+}
+
 /** Navega i espera que SvelteKit hagi hidratat (necessari per al shallow routing). */
 export async function gotoHydrated(page: Page, url: string) {
 	const response = await page.goto(url);
-	await page.waitForLoadState('networkidle');
+	await waitForHydration(page);
 	return response;
+}
+
+/**
+ * Destí d'un enllaç resolt contra la URL del document, independent de si la pàgina ja ha
+ * hidratat: l'HTML prerenderitzat porta hrefs relatius (`../ca/cims/x`) i `getAttribute('href')`
+ * cru només coincideix amb `/ca/cims/x` després d'hidratar (intermitent a WebKit sota càrrega).
+ * Interns: `pathname + search + hash`; àncores (`#x`) tal qual; externs: URL absoluta.
+ * Funciona també amb `<a>` d'SVG. (Duplicat dins cada `evaluate`: s'executa al navegador.)
+ */
+export function hrefsAbsoluts(locator: Locator): Promise<string[]> {
+	return locator.evaluateAll((as) =>
+		as.map((a) => {
+			const raw = a.getAttribute('href') ?? '';
+			if (raw.startsWith('#')) return raw;
+			const u = new URL(raw, document.baseURI);
+			return u.origin === location.origin ? u.pathname + u.search + u.hash : u.href;
+		})
+	);
+}
+
+/** Href resolt d'un sol enllaç (espera que existeixi); vegeu `hrefsAbsoluts`. */
+export function hrefAbsolut(locator: Locator, timeout = 5_000): Promise<string> {
+	return locator.evaluate(
+		(a) => {
+			const raw = a.getAttribute('href') ?? '';
+			if (raw.startsWith('#')) return raw;
+			const u = new URL(raw, document.baseURI);
+			return u.origin === location.origin ? u.pathname + u.search + u.hash : u.href;
+		},
+		undefined,
+		{ timeout }
+	);
+}
+
+/** Com `toHaveAttribute('href', …)` però amb l'href resolt; reintenta fins al timeout d'expect. */
+export async function expectHref(locator: Locator, expected: string | RegExp, message?: string) {
+	const poll = expect.poll(() => hrefAbsolut(locator), { message });
+	if (typeof expected === 'string') await poll.toBe(expected);
+	else await poll.toMatch(expected);
 }
 
 /** Espera que acabin les animacions CSS (full inferior, transicions) abans de mesurar. */

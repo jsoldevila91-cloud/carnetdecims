@@ -12,7 +12,7 @@
 		formatCoordinate,
 		formatKm
 	} from '$lib/ui';
-	import { ampleParaulaMesLlargaEm, ampleTextEm } from '$lib/ui/titol-ample';
+	import { ampleLiniesEm, ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import {
@@ -61,11 +61,17 @@
 	// Andorra i la Catalunya Nord són alhora "comarca" i zona: no es repeteix.
 	const zona = $derived(comarca.slug === cim.zona ? null : ZONES[cim.zona]());
 
-	// Amplades estimades (em) del nom per ajustar la mida del H1 (lletra ampla): la paraula més
-	// llarga hi ha de cabre sencera ("Castellsapera") i el nom sencer en ~3 línies ("Tuc deth
-	// Pòrt de Vielha"). Vegeu el CSS del h1.
+	// H1 = "{nom} ({alt} m)" (docs/02 §4.1), amb l'altitud en un <span> més petit i sense salt.
+	// Amplades estimades (em) per ajustar la mida del H1 (lletra ampla): la paraula més llarga hi
+	// ha de cabre sencera ("Castellsapera") i el titular sencer, altitud inclosa, en 3 línies
+	// com a màxim, amb el salt per paraules ("Sant Salvador de les Espases (413 m)"). Vegeu el CSS
+	// del h1 i de `.h1-alt`.
+	const ESCALA_ALT = 0.5;
 	const paraulaEm = $derived(ampleParaulaMesLlargaEm(cim.nom));
-	const nomEm = $derived(ampleTextEm(cim.nom));
+	// Les paraules amb guionet ("Mont-roig") no es parteixen pel guionet: amb l'altitud al
+	// darrere, el navegador hi faria el salt. Parts senars = paraules amb guionet.
+	const partsNom = $derived(cim.nom.split(/(\S*-\S*)/));
+	const liniesEm = $derived(ampleLiniesEm(cim.nom, 3, { text: `(${alt} m)`, escala: ESCALA_ALT }));
 
 	const altresNoms = $derived.by(() => {
 		// Noms diferents del visible, sense repetits (sense distingir majúscules).
@@ -206,14 +212,40 @@
 
 			<Breadcrumb items={crumbs} class={{ 'beside-stamp': cim.essencial }} />
 
-			<h1 class="x-wide" style:--paraula-em={paraulaEm} style:--nom-em={nomEm}>{cim.nom}</h1>
+			<h1
+				class="x-wide"
+				style:--paraula-em={paraulaEm}
+				style:--linies-em={liniesEm}
+				style:--escala-alt={ESCALA_ALT}
+			>
+				{#each partsNom as part, i (i)}{#if i % 2}<span class="nowrap">{part}</span
+						>{:else}{part}{/if}{/each}
+				<span class="h1-alt">({alt} m)</span>
+			</h1>
 			<p class="sub mono">
-				{[`${alt} m`, comarca.nom, zona].filter(Boolean).join(' · ')}
+				{[comarca.nom, zona].filter(Boolean).join(' · ')}
 			</p>
 
 			{#if altresNoms.length > 0}
 				<p class="aka">{m.cim_also_known({ names: llistaNoms })}</p>
 			{/if}
+
+			<!-- Just sota el titular: visible al primer viewport del mòbil, abans de la taula. -->
+			<div class="ctas">
+				<Button
+					href={registrarHref}
+					variant="stamp"
+					size="lg"
+					icon="stamp"
+					block
+					class="cta-registre"
+				>
+					{m.cim_register_cta()}
+				</Button>
+				{#if coords}
+					<Button href={mapaHref} variant="outline" icon="map" block>{m.cim_open_map()}</Button>
+				{/if}
+			</div>
 
 			<h2 class="sr-only">{m.cim_data_title()}</h2>
 			<dl class="tbl mono">
@@ -256,15 +288,6 @@
 			{#if cim.estat_revisio === 'esborrany'}
 				<p class="draft" role="note">{m.catalog_draft_notice()}</p>
 			{/if}
-
-			<div class="ctas">
-				<Button href={registrarHref} variant="stamp" size="lg" icon="stamp" block>
-					{m.cim_register_cta()}
-				</Button>
-				{#if coords}
-					<Button href={mapaHref} variant="outline" icon="map" block>{m.cim_open_map()}</Button>
-				{/if}
-			</div>
 		</Card>
 
 		{#if restriccions.length > 0}
@@ -418,7 +441,8 @@
 		/*
 		 * Mida fluida (100cqi = amplada del full), la més petita de:
 		 * - la paraula més llarga cap sencera, amb un 4 % de marge (mai es parteix);
-		 * - el nom sencer cap en 3 línies, amb un 25 % de marge pel salt de línia per paraules;
+		 * - el titular sencer (nom + altitud) cap en 3 línies amb el salt per paraules, amb un 6 %
+		 *   de marge (`ampleLiniesEm` ja simula el salt; les amplades per lletra són a l'alça);
 		 * - un sostre de 11cqi (≈ 28 px a 320–375 px, 48 px a escriptori), perquè la mida sigui
 		 *   compacta i semblant entre fitxes al mòbil.
 		 * Mínim llegible 1,25rem; `overflow-wrap: anywhere` només és la xarxa de seguretat.
@@ -427,7 +451,7 @@
 			1.25rem,
 			min(
 				100cqi / (var(--paraula-em, 10) * 1.04),
-				300cqi / (var(--nom-em, 10) * 1.25),
+				100cqi / (var(--linies-em, 10) * 1.06),
 				11cqi,
 				var(--fs-3xl)
 			),
@@ -437,6 +461,15 @@
 		line-height: 0.95;
 		letter-spacing: -0.01em;
 		overflow-wrap: anywhere;
+	}
+
+	/* Altitud dins del H1: més petita, discreta i mai partida */
+	.h1-alt {
+		font-size: calc(var(--escala-alt, 0.5) * 1em);
+		font-weight: var(--fw-bold);
+		letter-spacing: 0;
+		color: var(--c-ink-2);
+		white-space: nowrap;
 	}
 
 	.sub {
@@ -537,7 +570,16 @@
 	.ctas {
 		display: grid;
 		gap: var(--sp-3);
-		margin-top: var(--sp-5);
+		margin-top: var(--sp-4);
+	}
+
+	/* 320 px: el CTA en una sola línia (text i farciment més compactes) */
+	@media (max-width: 29.99rem) {
+		.ctas :global(a.cta-registre) {
+			padding-inline: var(--sp-2);
+			font-size: 0.8125rem;
+			letter-spacing: 0.02em;
+		}
 	}
 
 	/* ---------- Blocs ---------- */

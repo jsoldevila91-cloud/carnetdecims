@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { afterNavigate, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import { Breadcrumb, JsonLd, LlistaCims, NOM_ZONA, PageMeta } from '$lib/ui';
@@ -54,16 +53,15 @@
 	);
 	const visibles = $derived(CIMS.length - amagats.size);
 
-	// Estat inicial des de la query string, un sol cop (no indexable: el canonical és la URL
-	// base). Els valors desconeguts s'ignoren i la URL es normalitza quan el router és a punt.
-	onMount(() => {
-		filtres = filtresDesDeUrl(new URLSearchParams(location.search));
-	});
-
+	// Estat des de la query string (no indexable: el canonical és la URL base) a cada navegació
+	// cap a aquesta pàgina: la càrrega inicial, enrere/endavant i també un enllaç a la mateixa
+	// pàgina (p. ex. "Cims" a la barra inferior amb un filtre actiu → URL sense query = sense
+	// filtres). Els valors desconeguts s'ignoren i la URL es normalitza quan el router és a punt.
 	// `replaceState` falla si el router encara no s'ha inicialitzat: a la primera càrrega,
 	// SvelteKit crida `afterNavigate` just abans de marcar-lo com a iniciat, per això s'espera
 	// una microtasca.
-	afterNavigate(() => {
+	afterNavigate((nav) => {
+		filtres = filtresDesDeUrl(nav.to?.url.searchParams ?? new URLSearchParams(location.search));
 		if (!llest) queueMicrotask(() => (llest = true));
 	});
 

@@ -1,4 +1,4 @@
-import { test, expect, gotoHydrated } from './fixtures';
+import { test, expect, gotoHydrated, hrefsAbsoluts } from './fixtures';
 import {
 	CIMS,
 	COMARQUES_AMB_CIMS,
@@ -105,9 +105,7 @@ for (const locale of LOCALES) {
 			);
 			const h2 = page.locator('main h2');
 			await expect(h2).toHaveCount(comarquesAmbEss.length);
-			const h2Links = await page
-				.locator('main h2 a')
-				.evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+			const h2Links = await hrefsAbsoluts(page.locator('main h2 a'));
 			expect(h2Links).toEqual(comarquesAmbEss.map((c) => comarcaUrl(c.slug, locale)));
 		});
 

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
-import { test, expect, gotoHydrated } from './fixtures';
+import { test, expect, gotoHydrated, expectHref, hrefsAbsoluts } from './fixtures';
 import { CIMS, LOCALES, expectNoAxeViolations, fitxaUrl, jsonLdNodes, overflowX } from './cataleg';
 import type { Locale } from './cataleg';
 import { CONTINGUTS, type ClauPagina } from '../src/lib/content/index.ts';
@@ -117,9 +117,7 @@ for (const clau of CLAUS) {
 				}
 				const links = nav.getByRole('link');
 				await expect(links).toHaveCount(entradesIndex.length);
-				expect(await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(
-					entradesIndex.map((id) => `#${id}`)
-				);
+				expect(await hrefsAbsoluts(links)).toEqual(entradesIndex.map((id) => `#${id}`));
 				for (const [i, id] of entradesIndex.entries()) {
 					await links.nth(i).click();
 					await expect(page).toHaveURL(new RegExp(`#${id}$`));
@@ -218,7 +216,7 @@ for (const clau of CLAUS) {
 				await gotoHydrated(page, url);
 				const o = altre(l);
 				const enllac = page.locator(`header a[hreflang="${o}"]`).first();
-				await expect(enllac).toHaveAttribute('href', URLS[clau][o]);
+				await expectHref(enllac, URLS[clau][o]);
 				await enllac.click();
 				await expect(page).toHaveURL(URLS[clau][o]);
 				await expect(page.locator('html')).toHaveAttribute('lang', o);
@@ -361,12 +359,14 @@ test.describe('Portada definitiva', () => {
 				MSG[l].home_unofficial_title
 			]);
 			const main = page.locator('main');
-			await expect(
-				main.getByRole('link', { name: MSG[l].home_cta_primary, exact: true })
-			).toHaveAttribute('href', `/${l}/app`);
-			await expect(
-				main.getByRole('link', { name: MSG[l].home_cta_secondary, exact: true })
-			).toHaveAttribute('href', l === 'ca' ? '/ca/cims' : '/es/cimas');
+			await expectHref(
+				main.getByRole('link', { name: MSG[l].home_cta_primary, exact: true }),
+				`/${l}/app`
+			);
+			await expectHref(
+				main.getByRole('link', { name: MSG[l].home_cta_secondary, exact: true }),
+				l === 'ca' ? '/ca/cims' : '/es/cimas'
+			);
 			// Enllaços al hub del repte
 			for (const [k, clau] of [
 				['home_repte_link_hub', 'repte'],
@@ -375,10 +375,7 @@ test.describe('Portada definitiva', () => {
 				['home_repte_link_infantil', 'repteInfantil']
 			] as const) {
 				expect(MSG[l][k], `missatge ${k}`).toBeTruthy();
-				await expect(main.getByRole('link', { name: MSG[l][k], exact: true })).toHaveAttribute(
-					'href',
-					URLS[clau][l]
-				);
+				await expectHref(main.getByRole('link', { name: MSG[l][k], exact: true }), URLS[clau][l]);
 			}
 			await expect(main).toContainText(MSG[l].footer_disclaimer);
 		});
@@ -387,7 +384,7 @@ test.describe('Portada definitiva', () => {
 			await gotoHydrated(page, home);
 			const links = page.locator('main section.destacats ul a');
 			await expect(links).toHaveCount(4);
-			const hrefs = await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+			const hrefs = await hrefsAbsoluts(links);
 			expect(hrefs).toEqual(DESTACATS.map((s) => fitxaUrl(s, l)));
 			for (const [i, slug] of DESTACATS.entries()) {
 				const cim = CIMS.find((c) => c.slug === slug)!;
@@ -429,9 +426,7 @@ test.describe('Peu i landmarks', () => {
 			await gotoHydrated(page, `/${l}`);
 			const nav = page.getByRole('navigation', { name: MSG[l].footer_info_label });
 			await expect(nav).toHaveCount(1);
-			const hrefs = await nav
-				.getByRole('link')
-				.evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+			const hrefs = await hrefsAbsoluts(nav.getByRole('link'));
 			expect(hrefs).toEqual(INFO.map((c) => URLS[c][l]));
 			for (const h of hrefs) expect((await request.get(h!)).status(), h!).toBe(200);
 		});

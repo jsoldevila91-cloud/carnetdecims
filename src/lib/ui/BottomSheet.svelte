@@ -9,6 +9,8 @@
 	 * Esc tanca i el focus torna al control que l'ha obert.
 	 * L'estat `open` el controla qui el fa servir (p. ex. `page.state` amb shallow
 	 * routing, de manera que el botó enrere del mòbil també el tanca).
+	 * Tancat, el contingut (i el seu H2) no es renderitza: el full és al layout de totes les
+	 * pàgines i no ha d'afegir encapçalaments ni controls al document.
 	 */
 	let {
 		open,
@@ -52,23 +54,25 @@
 <dialog
 	bind:this={dialog}
 	class="sheet"
-	aria-labelledby={titleId}
+	aria-labelledby={open ? titleId : undefined}
 	oncancel={handleCancel}
 	onclose={handleNativeClose}
 	onclick={handleBackdropClick}
 >
-	<div class="panel">
-		<header class="head">
-			<h2 id={titleId} class="x-wide">{title}</h2>
-			<button type="button" class="close" onclick={onclose}>
-				<Icon name="close" />
-				<span class="sr-only">{m.sheet_close()}</span>
-			</button>
-		</header>
-		<div class="body">
-			{@render children()}
+	{#if open}
+		<div class="panel">
+			<header class="head">
+				<h2 id={titleId} class="x-wide">{title}</h2>
+				<button type="button" class="close" onclick={onclose}>
+					<Icon name="close" />
+					<span class="sr-only">{m.sheet_close()}</span>
+				</button>
+			</header>
+			<div class="body">
+				{@render children()}
+			</div>
 		</div>
-	</div>
+	{/if}
 </dialog>
 
 <style>

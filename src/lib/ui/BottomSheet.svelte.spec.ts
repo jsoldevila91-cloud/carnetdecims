@@ -23,6 +23,9 @@ describe('BottomSheet', () => {
 		const { dialog } = setup(false);
 		expect(dialog().open).toBe(false);
 		await expect.element(page.getByRole('dialog')).not.toBeInTheDocument();
+		// Ni el títol (H2) ni el contingut són al document mentre és tancat.
+		expect(dialog().querySelector('h2')).toBeNull();
+		expect(dialog().textContent?.trim()).toBe('');
 	});
 
 	it('obert: diàleg modal amb nom accessible i contingut', async () => {

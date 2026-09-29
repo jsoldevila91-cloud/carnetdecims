@@ -1,7 +1,15 @@
 import AxeBuilder from '@axe-core/playwright';
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
-import { test, expect, gotoHydrated, settleAnimations } from './fixtures';
+import {
+	test,
+	expect,
+	gotoHydrated,
+	settleAnimations,
+	expectHref,
+	hrefsAbsoluts,
+	hrefAbsolut
+} from './fixtures';
 
 /**
  * Fitxa de cim (bloc 3a): /ca/cims/{slug} i /es/cimas/{slug}.
@@ -43,6 +51,8 @@ const fitxaUrl = (slug: string, locale: Locale) =>
 	locale === 'ca' ? `/ca/cims/${slug}` : `/es/cimas/${slug}`;
 /** Mateix format que `formatAltitude`: 2506 → "2.506". */
 const alt = (m: number) => String(Math.round(m)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+/** H1 de la fitxa (docs/02 §4.1): "{nom} ({alt} m)". */
+const h1Cim = (c: Cim) => `${c.nom} (${alt(c.altitud)} m)`;
 
 const MOSTRA = [
 	'pedraforca-pollego-superior',
@@ -129,12 +139,11 @@ for (const slug of MOSTRA) {
 				expect(res?.status()).toBe(200);
 				await expect(page.locator('html')).toHaveAttribute('lang', locale);
 
-				await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.nom);
+				await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1Cim(c));
 				await expect(dd(page, t.altitude)).toHaveText(`${alt(c.altitud)} m`);
 				await expect(dd(page, t.comarca)).toHaveText(comarcaNom(c));
-				await expect(page.locator('main .sub')).toContainText(
-					`${alt(c.altitud)} m · ${comarcaNom(c)}`
-				);
+				// L'altitud ja és al H1: el subtítol comença per la comarca
+				await expect(page.locator('main .sub')).toContainText(comarcaNom(c));
 
 				if (c.essencial) {
 					await expect(page.locator('main dd.essential')).toHaveText(t.essential);
@@ -203,20 +212,11 @@ for (const slug of MOSTRA) {
 					comarcaNom(c),
 					c.nom
 				]);
-				await expect(crumb.getByRole('link', { name: t.home, exact: true })).toHaveAttribute(
-					'href',
-					`/${locale}`
-				);
-				await expect(crumb.getByRole('link', { name: t.comarques, exact: true })).toHaveAttribute(
-					'href',
-					comarquesUrl
-				);
-				await expect(crumb.getByRole('link', { name: comarcaNom(c), exact: true })).toHaveAttribute(
-					'href',
-					comarcaUrl
-				);
+				await expectHref(crumb.getByRole('link', { name: t.home, exact: true }), `/${locale}`);
+				await expectHref(crumb.getByRole('link', { name: t.comarques, exact: true }), comarquesUrl);
+				await expectHref(crumb.getByRole('link', { name: comarcaNom(c), exact: true }), comarcaUrl);
 				// La comarca de la llista de dades també enllaça a la seva pàgina
-				await expect(dd(page, t.comarca).getByRole('link')).toHaveAttribute('href', comarcaUrl);
+				await expectHref(dd(page, t.comarca).getByRole('link'), comarcaUrl);
 				await expect(crumb.locator('[aria-current="page"]')).toHaveText(c.nom);
 			});
 
@@ -240,18 +240,18 @@ for (const slug of MOSTRA) {
 				await expect(atribucio).toHaveAttribute('target', '_blank');
 				await expect(atribucio).toHaveAttribute('rel', /noopener/);
 
-				await expect(page.getByRole('link', { name: t.register })).toHaveAttribute(
-					'href',
+				await expectHref(
+					page.getByRole('link', { name: t.register }),
 					`/${locale}/app/registrar?cim=${slug}`
 				);
 
 				const wl = page.getByRole('link', { name: new RegExp(t.wikiloc) });
-				await expect(wl).toHaveAttribute('href', new RegExp(`^https://${locale}\\.wikiloc\\.com/`));
+				await expectHref(wl, new RegExp(`^https://${locale}\\.wikiloc\\.com/`));
 				await expect(wl).toHaveAttribute('target', '_blank');
 				await expect(wl).toHaveAttribute('rel', /\bnofollow\b/);
 				await expect(wl).toHaveAttribute('rel', /\bnoopener\b/);
 				// La caixa sw/ne conté el cim
-				const href = new URL((await wl.getAttribute('href'))!);
+				const href = new URL(await hrefAbsolut(wl));
 				const [s, w] = href.searchParams.get('sw')!.split(',').map(Number);
 				const [n, e] = href.searchParams.get('ne')!.split(',').map(Number);
 				expect(c.lat!).toBeGreaterThan(s);
@@ -268,12 +268,8 @@ for (const slug of MOSTRA) {
 				const nearby = page.getByRole('region', { name: t.nearby });
 				await expect(nearby.getByRole('link')).not.toHaveCount(0);
 				const hrefs = [
-					...(await nearby
-						.getByRole('link')
-						.evaluateAll((as) => as.map((a) => a.getAttribute('href')))),
-					...(await page
-						.locator('section[aria-labelledby="comarca"] a')
-						.evaluateAll((as) => as.map((a) => a.getAttribute('href'))))
+					...(await hrefsAbsoluts(nearby.getByRole('link'))),
+					...(await hrefsAbsoluts(page.locator('section[aria-labelledby="comarca"] a')))
 				] as string[];
 				const prefix = locale === 'ca' ? '/ca/cims/' : '/es/cimas/';
 				for (const h of hrefs) {
@@ -295,19 +291,19 @@ test.describe('Fitxa: navegació', () => {
 	test('clicar un cim proper i un de la comarca obre la seva fitxa', async ({ page }) => {
 		await gotoHydrated(page, fitxaUrl('pedraforca-pollego-superior', 'ca'));
 		const primer = page.getByRole('region', { name: 'Cims a prop' }).getByRole('link').first();
-		const desti = (await primer.getAttribute('href'))!;
+		const desti = await hrefAbsolut(primer);
 		await primer.click();
 		await expect(page).toHaveURL(desti);
 		await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-			cim(desti.split('/').pop()!).nom
+			h1Cim(cim(desti.split('/').pop()!))
 		);
 
 		const comarca = page.locator('section[aria-labelledby="comarca"] a').first();
-		const desti2 = (await comarca.getAttribute('href'))!;
+		const desti2 = await hrefAbsolut(comarca);
 		await comarca.click();
 		await expect(page).toHaveURL(desti2);
 		await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-			cim(desti2.split('/').pop()!).nom
+			h1Cim(cim(desti2.split('/').pop()!))
 		);
 	});
 
@@ -319,7 +315,7 @@ test.describe('Fitxa: navegació', () => {
 		test(`"${text}" porta a la pàgina de la comarca`, async ({ page }) => {
 			await gotoHydrated(page, fitxaUrl('pedraforca-pollego-superior', locale));
 			const link = page.getByRole('link', { name: text });
-			await expect(link).toHaveAttribute('href', desti);
+			await expectHref(link, desti);
 			await link.click();
 			await expect(page).toHaveURL(desti);
 			await expect(page.getByRole('heading', { level: 1 })).toContainText('Berguedà');
@@ -339,7 +335,7 @@ test.describe('Fitxa: navegació', () => {
 			.getByRole('link', { name: /^Canigó/ })
 			.click();
 		await expect(page).toHaveURL('/es/cimas/canigo');
-		await expect(page.getByRole('heading', { level: 1 })).toHaveText('Canigó');
+		await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1Cim(cim('canigo')));
 		await page
 			.getByRole('navigation', { name: 'Ruta de navegación' })
 			.getByRole('link', { name: 'Comarcas', exact: true })
@@ -354,13 +350,13 @@ test.describe('Fitxa: navegació', () => {
 			await page.getByRole('banner').getByRole('link', { name: 'Español' }).click();
 			await expect(page).toHaveURL(fitxaUrl(slug, 'es'));
 			await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-			await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.nom);
+			await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1Cim(c));
 			await expect(page.getByRole('link', { name: 'Registrar esta cima' })).toBeVisible();
 
 			await page.getByRole('banner').getByRole('link', { name: 'Català' }).click();
 			await expect(page).toHaveURL(fitxaUrl(slug, 'ca'));
 			await expect(page.locator('html')).toHaveAttribute('lang', 'ca');
-			await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.nom);
+			await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1Cim(c));
 		});
 	}
 

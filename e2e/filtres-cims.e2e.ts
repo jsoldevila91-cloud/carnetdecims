@@ -1,5 +1,12 @@
 import type { Page } from '@playwright/test';
-import { test, expect, gotoHydrated } from './fixtures';
+import {
+	test,
+	expect,
+	gotoHydrated,
+	expectHref,
+	hrefsAbsoluts,
+	waitForHydration
+} from './fixtures';
 import { CIMS, expectNoAxeViolations } from './cataleg';
 
 /**
@@ -17,8 +24,8 @@ const altitud = (page: Page) => page.getByLabel('Altitud', { exact: true });
 const essencials = (page: Page) => page.getByRole('checkbox', { name: 'Només essencials' });
 const treu = (page: Page) => page.getByRole('button', { name: 'Treu els filtres' });
 
-const slugsVisibles = (page: Page) =>
-	visibles(page).evaluateAll((as) => as.map((a) => a.getAttribute('href')!.split('/').pop()!));
+const slugsVisibles = async (page: Page) =>
+	(await hrefsAbsoluts(visibles(page))).map((h) => h.split('/').pop()!);
 
 const count = (f: (c: (typeof CIMS)[number]) => boolean) => CIMS.filter(f).length;
 const textResultat = (n: number) =>
@@ -173,7 +180,7 @@ test.describe('Filtres de /cims', () => {
 		await cerca(page).fill('canigo');
 		await expect(page).toHaveURL(/zona=catalunya-nord/);
 		await page.reload();
-		await page.waitForLoadState('networkidle');
+		await waitForHydration(page);
 		await expect(cerca(page)).toHaveValue('canigo');
 		await expect(zona(page)).toHaveValue('catalunya-nord');
 		expect(await slugsVisibles(page)).toEqual(['canigo']);
@@ -183,7 +190,7 @@ test.describe('Filtres de /cims', () => {
 	test('els canvis no creen entrades a l’historial (replaceState)', async ({ page }) => {
 		await gotoHydrated(page, '/ca');
 		await page.goto('/ca/cims');
-		await page.waitForLoadState('networkidle');
+		await waitForHydration(page);
 		await cerca(page).fill('pica');
 		await zona(page).selectOption('catalunya');
 		await expect(page).toHaveURL(/q=pica/);
@@ -223,7 +230,7 @@ test.describe('Filtres de /cims', () => {
 		await expect(grups).toHaveCount(1);
 		await expect(grups.locator('h3')).toContainText('Andorra');
 		await expect(grups.locator('h3 .count')).toHaveText(String(count((c) => c.zona === 'andorra')));
-		await expect(grups.locator('h3 a')).toHaveAttribute('href', '/ca/comarques/andorra');
+		await expectHref(grups.locator('h3 a'), '/ca/comarques/andorra');
 	});
 
 	test('castellà: etiquetes i recompte traduïts', async ({ page }) => {
@@ -240,7 +247,7 @@ test.describe('Filtres de /cims', () => {
 		await gotoHydrated(page, '/ca/cims?zona=andorra');
 		await page.getByRole('banner').getByRole('link', { name: 'Español' }).click();
 		await expect(page).toHaveURL('/es/cimas?zona=andorra');
-		await page.waitForLoadState('networkidle');
+		await waitForHydration(page);
 		await expect(page.getByLabel('Zona', { exact: true })).toHaveValue('andorra');
 	});
 });

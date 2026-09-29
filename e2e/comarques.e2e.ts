@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { test, expect, gotoHydrated } from './fixtures';
+import { test, expect, expectHref, gotoHydrated, hrefsAbsoluts } from './fixtures';
 import {
 	COMARQUES_AMB_CIMS,
 	LOCALES,
@@ -63,14 +63,12 @@ const markers = (page: Page, locale: Locale) =>
 /** Enllaços a fitxes de les llistes de la pàgina (sense els marcadors del mapa). */
 async function hrefsLlistes(page: Page, locale: Locale) {
 	const prefix = locale === 'ca' ? '/ca/cims/' : '/es/cimas/';
-	return page
-		.locator(
+	const hrefs = await hrefsAbsoluts(
+		page.locator(
 			'main section[aria-labelledby="essencials"] a, main section[aria-labelledby="altres"] a'
 		)
-		.evaluateAll(
-			(as, p) => as.map((a) => a.getAttribute('href')!).filter((h) => h.startsWith(p)),
-			prefix
-		);
+	);
+	return hrefs.filter((h) => h.startsWith(prefix));
 }
 
 // ── Índex ───────────────────────────────────────────────────────────────────────────────────
@@ -92,7 +90,7 @@ for (const locale of LOCALES) {
 				const esperades = COMARQUES_AMB_CIMS.filter((c) => c.zona === zona);
 				const region = page.getByRole('region', { name: t.zones[zona], exact: true });
 				const links = region.getByRole('link');
-				const hrefs = await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+				const hrefs = await hrefsAbsoluts(links);
 				expect(hrefs, `comarques de la zona ${zona} en ordre`).toEqual(
 					esperades.map((c) => comarcaUrl(c.slug, locale))
 				);
@@ -100,15 +98,22 @@ for (const locale of LOCALES) {
 					await expect(links.nth(i)).toContainText(c.nom);
 				}
 			}
-			// La Segarra (sense cims) no hi surt
-			await expect(page.locator(`main a[href="${comarcaUrl('segarra', locale)}"]`)).toHaveCount(0);
+			// La Segarra (sense cims) no hi surt. Amb l'href resolt: `a[href="/ca/…"]` sobre l'HTML
+			// prerenderitzat (hrefs relatius) no trobaria mai res i el test passaria sense provar res.
+			expect(await hrefsAbsoluts(page.locator('main a'))).not.toContain(
+				comarcaUrl('segarra', locale)
+			);
 		});
 
 		test('el recompte de cada targeta coincideix amb el catàleg', async ({ page }) => {
 			await page.goto(url);
+			const cards = page.locator('main a');
+			const hrefs = await hrefsAbsoluts(cards);
 			for (const c of COMARQUES_AMB_CIMS) {
 				const n = cimsDe(c.slug).length;
-				const card = page.locator(`main a[href="${comarcaUrl(c.slug, locale)}"]`);
+				const i = hrefs.indexOf(comarcaUrl(c.slug, locale));
+				expect(i, `targeta de ${c.slug}`).toBeGreaterThanOrEqual(0);
+				const card = cards.nth(i);
 				// Amb el catàleg només d'essencials, el text és "{n} essencials" / "1 essencial"
 				await expect(card, c.slug).toContainText(new RegExp(`(^|\\D)${n}\\s`));
 			}
@@ -119,9 +124,7 @@ for (const locale of LOCALES) {
 			request
 		}) => {
 			await page.goto(url);
-			const hrefs = await page
-				.locator('main ul a')
-				.evaluateAll((as) => as.map((a) => a.getAttribute('href')!));
+			const hrefs = await hrefsAbsoluts(page.locator('main ul a'));
 			expect(hrefs).toHaveLength(43);
 			expect(new Set(hrefs).size).toBe(43);
 			const estats = await Promise.all(
@@ -194,12 +197,9 @@ for (const slug of MOSTRA) {
 
 				const crumb = page.getByRole('navigation', { name: t.breadcrumb });
 				await expect(crumb.getByRole('listitem')).toHaveText([t.home, t.comarques, co.nom]);
-				await expect(crumb.getByRole('link', { name: t.home, exact: true })).toHaveAttribute(
-					'href',
-					`/${locale}`
-				);
-				await expect(crumb.getByRole('link', { name: t.comarques, exact: true })).toHaveAttribute(
-					'href',
+				await expectHref(crumb.getByRole('link', { name: t.home, exact: true }), `/${locale}`);
+				await expectHref(
+					crumb.getByRole('link', { name: t.comarques, exact: true }),
 					comarquesUrl(locale)
 				);
 				await expect(crumb.locator('[aria-current="page"]')).toHaveText(co.nom);
@@ -225,13 +225,15 @@ for (const slug of MOSTRA) {
 
 				const ms = markers(page, locale);
 				await expect(ms).toHaveCount(ambCoords.length);
-				const info = await ms.evaluateAll((as) =>
-					as.map((a) => ({
-						href: a.getAttribute('href')!,
-						label: a.getAttribute('aria-label')!,
-						num: a.textContent!.trim().match(/^\d+/)?.[0]
-					}))
-				);
+				const hrefs = await hrefsAbsoluts(ms);
+				const info = (
+					await ms.evaluateAll((as) =>
+						as.map((a) => ({
+							label: a.getAttribute('aria-label')!,
+							num: a.textContent!.trim().match(/^\d+/)?.[0]
+						}))
+					)
+				).map((m, i) => ({ ...m, href: hrefs[i]! }));
 				// Mateix ordre i número que la llista (de més alt a més baix)
 				expect(info.map((i) => i.href)).toEqual(ambCoords.map((c) => fitxaUrl(c.slug, locale)));
 				expect(info.map((i) => i.label)).toEqual(
@@ -283,7 +285,7 @@ for (const slug of MOSTRA) {
 			test('les comarques properes responen 200', async ({ page, request }) => {
 				await page.goto(url);
 				const links = page.getByRole('region', { name: t.nearby }).getByRole('link');
-				const hrefs = await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')!));
+				const hrefs = await hrefsAbsoluts(links);
 				expect(hrefs.length).toBeGreaterThan(0);
 				expect(hrefs).not.toContain(url);
 				for (const h of hrefs) expect((await request.get(h)).status(), h).toBe(200);
@@ -296,12 +298,17 @@ test.describe('Comarca: marcadors (navegació)', () => {
 	test.beforeEach(async ({ page }) => stubMaps(page));
 
 	test('cada marcador del Berguedà obre la seva fitxa', async ({ page }) => {
+		// Una navegació completa per marcador: 30 s no basten sota càrrega
+		test.setTimeout(90_000);
 		const cims = cimsDe('bergueda');
 		for (const [i, c] of cims.entries()) {
 			await gotoHydrated(page, comarcaUrl('bergueda', 'ca'));
 			await markers(page, 'ca').nth(i).click();
 			await expect(page).toHaveURL(fitxaUrl(c.slug, 'ca'));
-			await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.nom);
+			// H1 de la fitxa: "{Nom} ({alt} m)" (docs/02 §4.1)
+			await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+				`${c.nom} (${alt(c.altitud)} m)`
+			);
 		}
 	});
 

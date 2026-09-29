@@ -79,11 +79,12 @@ test.describe('Objectius tàctils i reflow', () => {
 	});
 
 	test('sense scroll horitzontal a 320 px', async ({ page }) => {
+		// 12 navegacions amb hidratació: 30 s no basten sota càrrega (3 projectes en paral·lel)
+		test.setTimeout(90_000);
 		await page.setViewportSize({ width: 320, height: 640 });
 		const urls = [...Object.values(ROUTES.ca), ...Object.values(ROUTES.es)];
 		for (const url of urls) {
-			await page.goto(url);
-			await page.waitForLoadState('networkidle');
+			await gotoHydrated(page, url);
 			const { overflow, culprit } = await page.evaluate(() => {
 				const vw = document.documentElement.clientWidth;
 				const wide = [...document.querySelectorAll<HTMLElement>('main *')].find(

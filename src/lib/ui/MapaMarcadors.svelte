@@ -11,7 +11,9 @@
 	 *   del cim a la llista de la pàgina (mateix ordre de tabulació que la llista).
 	 * - Àrea tàctil de 24 × 24 px (WCAG 2.2, 2.5.8) i etiqueta visible en passar-hi o en fer-hi focus.
 	 * - Els cims molt propers se separen (`separarMarcadors`) perquè cap marcador en tapi un altre
-	 *   ni a 320 px; una línia guia uneix el marcador desplaçat amb el punt real del cim.
+	 *   ni a 320 px; una línia guia uneix el marcador desplaçat amb el punt real del cim. El
+	 *   desplaçament mínim i la distància als punts reals fan que guia i punt quedin a la vista
+	 *   (no sota el disc del marcador), amb un halo blanc per llegir-se sobre el mapa.
 	 * - Atribució visible sota la imatge (ICGC CC BY 4.0 / IGN Llicència Oberta).
 	 */
 	let {
@@ -55,6 +57,14 @@
 		{#if marcadors.some((p) => p.desplacat)}
 			<svg class="guies" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
 				{#each marcadors.filter((p) => p.desplacat) as p (p.slug)}
+					<line
+						class="halo"
+						x1={p.x0Pct}
+						y1={p.y0Pct}
+						x2={p.xPct}
+						y2={p.yPct}
+						vector-effect="non-scaling-stroke"
+					/>
 					<line
 						x1={p.x0Pct}
 						y1={p.y0Pct}
@@ -132,14 +142,22 @@
 		stroke-width: 1.5;
 	}
 
+	/* Halo blanc sota la guia: es llegeix sobre qualsevol zona del mapa */
+	.guies line.halo {
+		stroke: #fff;
+		stroke-width: 4;
+		stroke-opacity: 0.85;
+	}
+
 	.real {
 		position: absolute;
-		width: 6px;
-		height: 6px;
-		margin: -3px 0 0 -3px;
-		border: 1px solid #fff;
+		width: 8px;
+		height: 8px;
+		margin: -4px 0 0 -4px;
+		border: 1.5px solid #fff;
 		border-radius: var(--r-full);
 		background: #1b2a47;
+		box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35);
 		pointer-events: none;
 	}
 

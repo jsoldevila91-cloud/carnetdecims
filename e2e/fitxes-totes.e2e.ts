@@ -3,13 +3,17 @@ import { test, expect } from './fixtures';
 
 /**
  * Recorregut lleuger de TOTES les fitxes de cim del build (ca + es), sense render al navegador:
- * status 200, `<html lang>`, H1 = nom del cim i `<title>` ≤ 60 caràcters (docs/02 §4.1).
+ * status 200, `<html lang>`, H1 = "{nom} ({alt} m)" i `<title>` ≤ 60 caràcters (docs/02 §4.1).
  * Només corre a `desktop-chrome`: fa servir `request`, el dispositiu no hi influeix.
  */
 
-const CIMS: { slug: string; nom: string }[] = JSON.parse(
+const CIMS: { slug: string; nom: string; altitud: number }[] = JSON.parse(
 	readFileSync(new URL('../src/lib/data/catalog/cims.json', import.meta.url), 'utf8')
 );
+
+/** H1 de la fitxa (docs/02 §4.1), amb l'altitud com `formatAltitude`: "Pica d'Estats (3.143 m)". */
+const h1Cim = (c: { nom: string; altitud: number }) =>
+	`${c.nom} (${String(Math.round(c.altitud)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')} m)`;
 
 const decode = (s: string) =>
 	s
@@ -33,8 +37,8 @@ test('les 300 fitxes (150 × ca/es) responen 200 amb H1 i <title> ≤ 60', async
 	test.setTimeout(180_000);
 
 	const urls = CIMS.flatMap((c) => [
-		{ url: `/ca/cims/${c.slug}`, lang: 'ca', nom: c.nom },
-		{ url: `/es/cimas/${c.slug}`, lang: 'es', nom: c.nom }
+		{ url: `/ca/cims/${c.slug}`, lang: 'ca', nom: h1Cim(c) },
+		{ url: `/es/cimas/${c.slug}`, lang: 'es', nom: h1Cim(c) }
 	]);
 	expect(urls).toHaveLength(300);
 
@@ -91,21 +95,27 @@ for (const width of [320, 375, 768, 1280]) {
 			const { px, partides, linies, xoc } = await page.evaluate(() => {
 				// `overflow-wrap: anywhere` evita el desbordament partint paraules: cap paraula de
 				// l'H1 ha d'ocupar més d'una línia (la mida s'ajusta a la paraula més llarga).
+				// L'H1 és "{nom} <span>({alt} m)</span>": es recorren tots els nodes de text.
 				const h1 = document.querySelector('main h1')!;
-				const text = h1.firstChild!;
 				const partides: string[] = [];
-				for (const m of h1.textContent!.matchAll(/\S+/g)) {
-					const r = document.createRange();
-					r.setStart(text, m.index!);
-					r.setEnd(text, m.index! + m[0].length);
-					const linies = new Set([...r.getClientRects()].map((x) => Math.round(x.top)));
-					if (linies.size > 1) partides.push(m[0]);
+				const nodes = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+				for (let text = nodes.nextNode(); text; text = nodes.nextNode()) {
+					for (const m of text.textContent!.matchAll(/\S+/g)) {
+						const r = document.createRange();
+						r.setStart(text, m.index!);
+						r.setEnd(text, m.index! + m[0].length);
+						const linies = new Set([...r.getClientRects()].map((x) => Math.round(x.top)));
+						if (linies.size > 1) partides.push(m[0]);
+					}
 				}
 				// Línies de l'H1 i solapament de cada línia amb el segell (cercle inscrit a l'SVG)
 				const tot = document.createRange();
 				tot.selectNodeContents(h1);
 				const rects = [...tot.getClientRects()];
-				const linies = new Set(rects.map((x) => Math.round(x.top))).size;
+				// Per alçada: l'altitud (més petita) té un altre `top` dins de la mateixa línia.
+				const linies = Math.round(
+					h1.getBoundingClientRect().height / parseFloat(getComputedStyle(h1).lineHeight)
+				);
 				const segell = document.querySelector('main .stamp svg')?.getBoundingClientRect();
 				const xoc =
 					!!segell &&

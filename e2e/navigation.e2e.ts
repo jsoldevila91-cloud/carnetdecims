@@ -1,4 +1,4 @@
-import { test, expect, gotoHydrated, mainNav, ROUTES } from './fixtures';
+import { test, expect, gotoHydrated, mainNav, ROUTES, expectHref } from './fixtures';
 
 test.describe('Navegació principal (5 pestanyes)', () => {
 	const tabs = [
@@ -37,22 +37,10 @@ test.describe('Navegació principal (5 pestanyes)', () => {
 	test('en castellà, les pestanyes apunten a les rutes traduïdes', async ({ page }) => {
 		await page.goto(ROUTES.es.home);
 		const nav = mainNav(page, 'es');
-		await expect(nav.getByRole('link', { name: 'Inicio', exact: true })).toHaveAttribute(
-			'href',
-			/\/es\/app$/
-		);
-		await expect(nav.getByRole('link', { name: 'Cimas', exact: true })).toHaveAttribute(
-			'href',
-			/\/es\/cimas$/
-		);
-		await expect(nav.getByRole('link', { name: 'Perfil', exact: true })).toHaveAttribute(
-			'href',
-			/\/es\/app\/cuenta$/
-		);
-		await expect(nav.getByRole('link', { name: 'Mapa', exact: true })).toHaveAttribute(
-			'href',
-			/\/es\/mapa$/
-		);
+		await expectHref(nav.getByRole('link', { name: 'Inicio', exact: true }), '/es/app');
+		await expectHref(nav.getByRole('link', { name: 'Cimas', exact: true }), '/es/cimas');
+		await expectHref(nav.getByRole('link', { name: 'Perfil', exact: true }), '/es/app/cuenta');
+		await expectHref(nav.getByRole('link', { name: 'Mapa', exact: true }), '/es/mapa');
 	});
 });
 
@@ -82,9 +70,9 @@ test.describe('Idioma', () => {
 
 	test('el selector conserva la query string', async ({ page }) => {
 		await gotoHydrated(page, `${ROUTES.ca.peaks}?essencials=1`);
-		await expect(page.getByRole('banner').getByRole('link', { name: 'Español' })).toHaveAttribute(
-			'href',
-			/\/es\/cimas\?essencials=1$/
+		await expectHref(
+			page.getByRole('banner').getByRole('link', { name: 'Español' }),
+			'/es/cimas?essencials=1'
 		);
 	});
 

@@ -54,4 +54,30 @@ describe('separació de marcadors del mapa de comarca', () => {
 			}
 		}
 	});
+
+	it('a totes les comarques: el punt real i la guia dels desplaçats queden a la vista', () => {
+		const px = (m: MarcadorSeparat) => ({
+			x: (m.xPct / 100) * W,
+			y: (m.yPct / 100) * H,
+			x0: (m.x0Pct / 100) * W,
+			y0: (m.y0Pct / 100) * H
+		});
+		for (const c of comarquesAmbCims()) {
+			const mapa = mapaEstaticComarca(cimsPerComarca(c.slug), { ample: 640, alt: 480 });
+			if (!mapa) continue;
+			const ms = separarMarcadors(mapa.punts).map(px);
+			for (const [i, m] of ms.entries()) {
+				const desp = Math.hypot(m.x - m.x0, m.y - m.y0);
+				if (desp < 3) continue;
+				// Disc de radi ~11 px + punt real de 3 px + tram de guia visible.
+				expect(desp, `${c.slug}: desplaçament`).toBeGreaterThanOrEqual(19.9);
+				for (const [j, n] of ms.entries())
+					if (j !== i)
+						expect(
+							Math.hypot(n.x - m.x0, n.y - m.y0),
+							`${c.slug}: punt real tapat`
+						).toBeGreaterThanOrEqual(14.9);
+			}
+		}
+	});
 });

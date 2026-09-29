@@ -23,10 +23,19 @@
 		{ path: '/cims-mes-alts', text: m.explore_highest }
 	];
 
-	const valors = [
+	const valors: {
+		title: () => string;
+		text: () => string;
+		link?: { path: string; text: () => string };
+	}[] = [
 		{ title: m.home_value1_title, text: m.home_value1_text },
 		{ title: m.home_value2_title, text: m.home_value2_text },
-		{ title: m.home_value3_title, text: m.home_value3_text }
+		{
+			title: m.home_value3_title,
+			text: m.home_value3_text,
+			// L'origen de cada dada es documenta a Metodologia (la fitxa només en mostra l'atribució).
+			link: { path: PAGINES_CONTINGUT.metodologia, text: m.home_value3_link }
+		}
 	];
 
 	const steps = [
@@ -133,6 +142,9 @@
 			<li>
 				<h3>{v.title()}</h3>
 				<p>{v.text()}</p>
+				{#if v.link}
+					<a class="valor-link" href={href(v.link.path)}>{v.link.text()}</a>
+				{/if}
 			</li>
 		{/each}
 	</ul>
@@ -416,6 +428,15 @@
 	.valors p {
 		margin-top: var(--sp-1);
 		color: var(--c-ink-2);
+	}
+
+	.valor-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-semibold);
+		color: var(--c-stamp-ink);
 	}
 
 	.steps ol {

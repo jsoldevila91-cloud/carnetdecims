@@ -72,3 +72,50 @@ export function ampleTextEm(text: string): number {
 	const ps = paraules(text);
 	return Math.max(1, ps.reduce((suma, p) => suma + ampleParaula(p), 0) + ESPAI * (ps.length - 1));
 }
+
+/**
+ * Amplada mínima de línia (em) perquè el titular hi càpiga en `linies` línies amb el salt de
+ * línia per paraules del navegador (voraç). Opcionalment, un sufix que no es parteix
+ * (`white-space: nowrap`) i va a una mida relativa `escala` (p. ex. "(3.143 m)" a 0,5em):
+ * el H1 de la fitxa "{nom} ({alt} m)" (docs/02 §4.1).
+ *
+ * A diferència de `ampleTextEm / linies`, té en compte que les paraules no es parteixen:
+ * "Sant Salvador de les Espases" no cap en 3 línies d'un terç de l'amplada total.
+ */
+export function ampleLiniesEm(
+	text: string,
+	linies: number,
+	sufix?: { text: string; escala: number }
+): number {
+	const items = paraules(text).map(ampleParaula);
+	if (sufix && sufix.text.trim()) {
+		const ps = paraules(sufix.text);
+		items.push(
+			sufix.escala * (ps.reduce((suma, p) => suma + ampleParaula(p), 0) + ESPAI * (ps.length - 1))
+		);
+	}
+	if (items.length === 0) return 1;
+
+	const liniesAmb = (ample: number) => {
+		let n = 1;
+		let actual = items[0];
+		for (const w of items.slice(1)) {
+			if (actual + ESPAI + w <= ample) actual += ESPAI + w;
+			else {
+				n++;
+				actual = w;
+			}
+		}
+		return n;
+	};
+
+	let lo = Math.max(...items);
+	let hi = items.reduce((s, w) => s + w, 0) + ESPAI * (items.length - 1);
+	if (liniesAmb(lo) <= linies) return Math.max(1, lo);
+	for (let i = 0; i < 40; i++) {
+		const mig = (lo + hi) / 2;
+		if (liniesAmb(mig) <= linies) hi = mig;
+		else lo = mig;
+	}
+	return Math.max(1, hi);
+}
