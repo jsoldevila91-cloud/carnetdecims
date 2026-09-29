@@ -208,7 +208,7 @@ export const normativa: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Per ser honestos, hi ha qüestions que el text oficial no resol. Mentre no hi hagi una resposta de la FEEC, aquest és el criteri del carnet de Carnet de Cims:'
+						text: 'Per ser honestos, hi ha qüestions que el text oficial no resol. Mentre no hi hagi una resposta de la FEEC, aquest és el criteri que segueix Carnet de Cims:'
 					},
 					{
 						tipus: 'llista',
@@ -448,7 +448,7 @@ export const normativa: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Siendo honestos, hay cuestiones que el texto oficial no resuelve. Mientras no haya una respuesta de la FEEC, este es el criterio del carnet de Carnet de Cims:'
+						text: 'Siendo honestos, hay cuestiones que el texto oficial no resuelve. Mientras no haya una respuesta de la FEEC, este es el criterio que sigue Carnet de Cims:'
 					},
 					{
 						tipus: 'llista',

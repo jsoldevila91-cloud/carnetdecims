@@ -1,9 +1,11 @@
 /**
  * `/privacitat` (RGPD), ajustada al que fa el web AVUI (verificat al codi el 2026-09-29):
  * - sense comptes ni formularis; el registre d'ascensions encara no desa res (`RegisterPanel`);
- * - cap `localStorage`, `sessionStorage`, IndexedDB ni cookie pròpia (Paraglide amb estratègia
+ * - cap `localStorage`, IndexedDB ni cookie pròpia (Paraglide amb estratègia
  *   `url` + `baseLocale`, sense cookie); cap analítica, publicitat ni Google Fonts (fonts
  *   autoallotjades amb @fontsource);
+ * - `sessionStorage` només el de SvelteKit (`sveltekit:scroll`, `sveltekit:snapshot`): tècnic,
+ *   sense dades personals, s'esborra en tancar la pestanya (informe QA 3c);
  * - tercers que reben la IP en carregar recursos: mapes estàtics WMS de l'ICGC
  *   (`geoserveis.icgc.cat`) i de l'IGN (`data.geopf.fr`), vegeu `platform/mapa-estatic.ts`;
  *   Wikiloc i la FEEC només si es fa clic a l'enllaç; allotjament a Cloudflare.
@@ -27,7 +29,7 @@ export const privacitat: Contingut = {
 			'Com tracta Carnet de Cims les teves dades: sense comptes, sense cookies de seguiment ni analítica. Quins serveis reben la IP i quins drets tens.',
 		h1: 'Política de privadesa',
 		intro:
-			"En resum: ara mateix Carnet de Cims no et demana cap dada, no fa servir cookies de seguiment ni analítica i no desa res al teu dispositiu. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
+			"En resum: ara mateix Carnet de Cims no et demana cap dada, no fa servir cookies de seguiment ni analítica i no desa cap dada personal al teu dispositiu. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
 		seccions: [
 			{
 				id: 'responsable',
@@ -60,7 +62,7 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Ara mateix el web no desa res al teu navegador: ni cookies pròpies, ni emmagatzematge local (localStorage), ni base de dades del navegador (IndexedDB).'
+						text: "Ara mateix el web no desa cap dada personal al teu navegador: ni cookies pròpies, ni emmagatzematge local (localStorage), ni base de dades del navegador (IndexedDB). L'únic que hi guarda és informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. No conté dades personals i s'esborra en tancar la pestanya."
 					},
 					{
 						tipus: 'paragraf',
@@ -151,7 +153,7 @@ export const privacitat: Contingut = {
 			'Cómo trata Carnet de Cims tus datos: sin cuentas, sin cookies de seguimiento ni analítica. Qué servicios reciben la IP y qué derechos tienes.',
 		h1: 'Política de privacidad',
 		intro:
-			'En resumen: ahora mismo Carnet de Cims no te pide ningún dato, no usa cookies de seguimiento ni analítica y no guarda nada en tu dispositivo. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
+			'En resumen: ahora mismo Carnet de Cims no te pide ningún dato, no usa cookies de seguimiento ni analítica y no guarda ningún dato personal en tu dispositivo. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
 		seccions: [
 			{
 				id: 'responsable',
@@ -184,7 +186,7 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Ahora mismo la web no guarda nada en tu navegador: ni cookies propias, ni almacenamiento local (localStorage), ni base de datos del navegador (IndexedDB).'
+						text: 'Ahora mismo la web no guarda ningún dato personal en tu navegador: ni cookies propias, ni almacenamiento local (localStorage), ni base de datos del navegador (IndexedDB). Lo único que guarda es información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. No contiene datos personales y se borra al cerrar la pestaña.'
 					},
 					{
 						tipus: 'paragraf',
