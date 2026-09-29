@@ -23,6 +23,14 @@
 	import { getLocale, href } from '$lib/i18n';
 	import { CONTINGUTS, PAGINES_CONTINGUT } from '$lib/content';
 	import { paginaGraph } from '$lib/seo/jsonld';
+	import {
+		ID_FAQ,
+		ID_FAQ_TITOL,
+		ID_FONTS,
+		ID_FONTS_TITOL,
+		idTitolSeccio
+	} from '$lib/ui/pagina-contingut-ids';
+	import { onMount } from 'svelte';
 
 	/**
 	 * Plantilla de les pàgines de text (hub del repte, normativa, legals…): pinta la
@@ -57,8 +65,6 @@
 		})
 	);
 
-	const ID_FAQ = 'preguntes-frequents';
-	const ID_FONTS = 'fonts';
 	const faq = $derived(pagina.faq ?? []);
 	const fonts = $derived(pagina.fonts ?? []);
 
@@ -68,6 +74,24 @@
 		...(faq.length ? [{ id: ID_FAQ, titol: m.content_faq_title() }] : [])
 	]);
 	const ambIndex = $derived(entradesIndex.length >= 3);
+
+	/**
+	 * Índex plegable: tancat al mòbil (no empeny el contingut avall) i sempre obert a
+	 * escriptori, on és una columna lateral fixa. Sense JS queda tancat però operable.
+	 */
+	const MQ_ESCRIPTORI = '(min-width: 60rem)';
+	let indexObert = $state(false);
+	let escriptori = $state(false);
+	onMount(() => {
+		const mq = window.matchMedia(MQ_ESCRIPTORI);
+		const sync = () => {
+			escriptori = mq.matches;
+			indexObert = mq.matches;
+		};
+		sync();
+		mq.addEventListener('change', sync);
+		return () => mq.removeEventListener('change', sync);
+	});
 
 	// Mida del H1 perquè la paraula més llarga hi càpiga sencera (vegeu `titol-ample.ts`).
 	const paraulaEm = $derived(ampleParaulaMesLlargaEm(pagina.h1));
@@ -100,20 +124,25 @@
 
 	<div class={['cos', { 'amb-index': ambIndex }]}>
 		{#if ambIndex}
-			<nav class="index" aria-labelledby="index-titol">
-				<p id="index-titol" class="label">{m.content_toc_label()}</p>
-				<ol>
-					{#each entradesIndex as e (e.id)}
-						<li><a href="#{e.id}">{e.titol}</a></li>
-					{/each}
-				</ol>
+			<nav class="index" aria-label={m.content_toc_label()}>
+				<details bind:open={indexObert} class={{ escriptori }}>
+					<summary>
+						<span class="label">{m.content_toc_summary()}</span>
+						<span class="count mono" aria-hidden="true">{entradesIndex.length}</span>
+					</summary>
+					<ol>
+						{#each entradesIndex as e (e.id)}
+							<li><a href="#{e.id}">{e.titol}</a></li>
+						{/each}
+					</ol>
+				</details>
 			</nav>
 		{/if}
 
 		<div class="text">
 			{#each pagina.seccions as seccio (seccio.id)}
-				<section id={seccio.id} aria-labelledby="{seccio.id}-titol">
-					<h2 id="{seccio.id}-titol" class="x-wide">{seccio.titol}</h2>
+				<section id={seccio.id} aria-labelledby={idTitolSeccio(seccio.id)}>
+					<h2 id={idTitolSeccio(seccio.id)} class="x-wide">{seccio.titol}</h2>
 					{#each seccio.blocs as bloc, i (i)}
 						{#if bloc.tipus === 'paragraf'}
 							<p><TextEnLinia text={bloc.text} /></p>
@@ -136,8 +165,8 @@
 			{/each}
 
 			{#if faq.length}
-				<section id={ID_FAQ} class="faq" aria-labelledby="{ID_FAQ}-titol">
-					<h2 id="{ID_FAQ}-titol" class="x-wide">{m.content_faq_title()}</h2>
+				<section id={ID_FAQ} class="faq" aria-labelledby={ID_FAQ_TITOL}>
+					<h2 id={ID_FAQ_TITOL} class="x-wide">{m.content_faq_title()}</h2>
 					{#each faq as p, i (i)}
 						<details>
 							<summary>{p.pregunta}</summary>
@@ -148,8 +177,8 @@
 			{/if}
 
 			{#if fonts.length}
-				<section id={ID_FONTS} class="fonts" aria-labelledby="{ID_FONTS}-titol">
-					<h2 id="{ID_FONTS}-titol" class="label">{m.content_sources_title()}</h2>
+				<section id={ID_FONTS} class="fonts" aria-labelledby={ID_FONTS_TITOL}>
+					<h2 id={ID_FONTS_TITOL} class="label">{m.content_sources_title()}</h2>
 					<ul>
 						{#each fonts as f (f.url)}
 							<li>
@@ -237,18 +266,63 @@
 	/* Índex de seccions: full de carnet discret al capdamunt (mòbil) o columna fixa (escriptori). */
 	.index {
 		align-self: start;
-		padding: var(--sp-3) var(--sp-4);
+		padding: 0 var(--sp-4);
 		border: var(--bw) solid var(--c-line);
 		border-radius: var(--r-lg);
 		background: var(--c-card);
 		box-shadow: var(--sh-1);
 	}
 
+	.index summary {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-2);
+		min-height: var(--tap);
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.index summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.index summary .count {
+		color: var(--c-ink-2);
+		font-size: var(--fs-xs);
+	}
+
+	.index summary::after {
+		content: '+';
+		margin-left: auto;
+		color: var(--c-stamp-ink);
+		font-family: var(--font-mono);
+		font-size: var(--fs-lg);
+		line-height: 1;
+	}
+
+	.index details[open] summary::after {
+		content: '−';
+	}
+
+	/* Escriptori: índex lateral sempre obert, sense control de plegar. */
+	.index details.escriptori[open] summary {
+		cursor: default;
+		pointer-events: none;
+	}
+
+	.index details.escriptori[open] summary::after {
+		content: none;
+	}
+
 	.index ol {
-		margin: var(--sp-2) 0 0;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 		counter-reset: idx;
+	}
+
+	.index li:last-child {
+		margin-bottom: var(--sp-2);
 	}
 
 	.index li {

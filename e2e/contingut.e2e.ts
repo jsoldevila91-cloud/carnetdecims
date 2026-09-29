@@ -53,10 +53,7 @@ for (const clau of CLAUS) {
 		const url = URLS[clau][l];
 		const pagina = CONTINGUTS[clau][l];
 		const faq = pagina.faq ?? [];
-		const entradesIndex = [
-			...pagina.seccions.map((s) => s.id),
-			...(faq.length ? ['preguntes-frequents'] : [])
-		];
+		const entradesIndex = [...pagina.seccions.map((s) => s.id), ...(faq.length ? ['pc-faq'] : [])];
 
 		test.describe(`Contingut ${url}`, () => {
 			test('200, lang, un H1, data de revisió, JSON-LD i FAQ coherents', async ({ page }) => {
@@ -78,7 +75,7 @@ for (const clau of CLAUS) {
 				}
 
 				// FAQ visibles ⇔ FAQPage al JSON-LD, amb el mateix nombre de preguntes
-				const details = page.locator('main section#preguntes-frequents details');
+				const details = page.locator('main section#pc-faq details');
 				await expect(details).toHaveCount(faq.length);
 				const nodes = await jsonLdNodes(page);
 				const faqPage = nodes.filter((n) => n['@type'] === 'FAQPage');
@@ -90,6 +87,12 @@ for (const clau of CLAUS) {
 					);
 					expect(faqPage[0].mainEntity.map((q: { name: string }) => q.name)).toEqual(visibles);
 				}
+				// Cap id repetit al document (àncores i aria-labelledby inequívocs)
+				const idsRepetits = await page.evaluate(() => {
+					const ids = [...document.querySelectorAll('[id]')].map((e) => e.id);
+					return ids.filter((id, i) => ids.indexOf(id) !== i);
+				});
+				expect(idsRepetits, 'ids repetits').toEqual([]);
 				const webPage = nodes.find((n) => n['@type'] === 'WebPage' || n['@type'] === 'AboutPage');
 				expect(webPage?.dateModified).toBe(pagina.actualitzat);
 				expect(webPage?.inLanguage).toBe(l);
@@ -105,6 +108,12 @@ for (const clau of CLAUS) {
 				if (entradesIndex.length < 3) {
 					await expect(nav).toHaveCount(0);
 					return;
+				}
+				// Al mòbil l'índex és plegable i surt tancat: s'obre des del seu summary.
+				const plegable = nav.locator('details');
+				if ((await plegable.getAttribute('open')) === null) {
+					await nav.locator('summary').click();
+					await expect(plegable).toHaveAttribute('open', '');
 				}
 				const links = nav.getByRole('link');
 				await expect(links).toHaveCount(entradesIndex.length);
@@ -178,7 +187,7 @@ for (const clau of CLAUS) {
 			test('FAQ operables amb teclat', async ({ page }) => {
 				test.skip(!faq.length, 'sense FAQ');
 				await gotoHydrated(page, url);
-				const summaries = page.locator('main section#preguntes-frequents summary');
+				const summaries = page.locator('main section#pc-faq summary');
 				for (const i of [0, faq.length - 1]) {
 					const s = summaries.nth(i);
 					const d = s.locator('xpath=..');
