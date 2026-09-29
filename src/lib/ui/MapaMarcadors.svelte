@@ -3,12 +3,15 @@
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import { formatAltitude } from './format';
+	import { separarMarcadors } from './marcadors';
 
 	/**
 	 * Mapa estàtic (imatge WMS, SSR) amb un marcador enllaçat per cim a sobre.
 	 * - Cada marcador és un enllaç a la fitxa, amb nom accessible "{nom}, {alt} m" i el número
 	 *   del cim a la llista de la pàgina (mateix ordre de tabulació que la llista).
 	 * - Àrea tàctil de 24 × 24 px (WCAG 2.2, 2.5.8) i etiqueta visible en passar-hi o en fer-hi focus.
+	 * - Els cims molt propers se separen (`separarMarcadors`) perquè cap marcador en tapi un altre
+	 *   ni a 320 px; una línia guia uneix el marcador desplaçat amb el punt real del cim.
 	 * - Atribució visible sota la imatge (ICGC CC BY 4.0 / IGN Llicència Oberta).
 	 */
 	let {
@@ -39,7 +42,7 @@
 	const perSlug = $derived(new Map(cims.map((c) => [c.slug, c])));
 	// Marcadors en l'ordre de la llista de la pàgina (ordre de tabulació coherent).
 	const marcadors = $derived(
-		mapa.punts
+		separarMarcadors(mapa.punts)
 			.map((p) => ({ ...p, cim: perSlug.get(p.slug), num: numeros.get(p.slug) }))
 			.filter((p): p is typeof p & { cim: CimCataleg; num: number } => !!p.cim && !!p.num)
 			.sort((a, b) => a.num - b.num)
@@ -49,12 +52,28 @@
 <figure class="map">
 	<div class="map-img" style:aspect-ratio="{ample} / {altura}">
 		<img src={mapa.url} width={ample} height={altura} {alt} loading="lazy" decoding="async" />
+		{#if marcadors.some((p) => p.desplacat)}
+			<svg class="guies" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+				{#each marcadors.filter((p) => p.desplacat) as p (p.slug)}
+					<line
+						x1={p.x0Pct}
+						y1={p.y0Pct}
+						x2={p.xPct}
+						y2={p.yPct}
+						vector-effect="non-scaling-stroke"
+					/>
+				{/each}
+			</svg>
+			{#each marcadors.filter((p) => p.desplacat) as p (p.slug)}
+				<span class="real" style:left="{p.x0Pct}%" style:top="{p.y0Pct}%" aria-hidden="true"></span>
+			{/each}
+		{/if}
 		<ul class="marcadors" aria-label={etiqueta}>
 			{#each marcadors as p (p.slug)}
 				<li
 					style:left="{p.xPct}%"
 					style:top="{p.yPct}%"
-					class={{ dreta: p.xPct > 60, sota: p.yPct < 18 }}
+					class={{ dreta: p.xPct >= 50, sota: p.yPct < 25 }}
 				>
 					<a
 						href={href(`/cims/${p.slug}`)}
@@ -83,6 +102,8 @@
 
 	.map-img {
 		position: relative;
+		/* Referència (cqi) de l'amplada màxima de les etiquetes */
+		container-type: inline-size;
 		border: var(--bw) solid var(--c-line);
 		border-radius: var(--r-lg);
 		background: var(--c-paper-2);
@@ -94,6 +115,32 @@
 		height: 100%;
 		object-fit: cover;
 		border-radius: calc(var(--r-lg) - var(--bw));
+	}
+
+	/* Línies guia i punt real dels marcadors desplaçats */
+	.guies {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		pointer-events: none;
+	}
+
+	.guies line {
+		stroke: #1b2a47;
+		stroke-width: 1.5;
+	}
+
+	.real {
+		position: absolute;
+		width: 6px;
+		height: 6px;
+		margin: -3px 0 0 -3px;
+		border: 1px solid #fff;
+		border-radius: var(--r-full);
+		background: #1b2a47;
+		pointer-events: none;
 	}
 
 	.marcadors {
@@ -148,11 +195,17 @@
 		background: #c0392b;
 	}
 
+	/*
+	 * Etiqueta ancorada a la vora del marcador i cap al centre del mapa (esquerra → cap a la dreta
+	 * i al revés), amb una amplada màxima de mig mapa: mai surt de la imatge, ni a 320 px.
+	 */
 	.etiqueta {
 		position: absolute;
 		bottom: calc(100% + 4px);
-		left: 50%;
+		left: 0;
 		z-index: 2;
+		width: max-content;
+		max-width: 46cqi;
 		padding: 2px var(--sp-2);
 		border: var(--bw) solid var(--c-line);
 		border-radius: var(--r-sm);
@@ -161,18 +214,16 @@
 		box-shadow: var(--sh-1);
 		font-size: var(--fs-xs);
 		font-weight: var(--fw-bold);
-		white-space: nowrap;
-		transform: translateX(-50%);
+		line-height: 1.3;
+		overflow-wrap: anywhere;
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity var(--dur-fast) ease;
 	}
 
-	/* Marcadors a prop de les vores: l'etiqueta no surt del mapa */
 	.dreta .etiqueta {
 		left: auto;
 		right: 0;
-		transform: none;
 	}
 
 	.sota .etiqueta {

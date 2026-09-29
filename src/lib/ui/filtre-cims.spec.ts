@@ -17,7 +17,9 @@ const resultat = (filtres: FiltresCims) =>
 
 describe('filtres de /cims', () => {
 	it('normalitza accents, majúscules, apòstrofs i guions', () => {
-		expect(normalitzar('  Pica  d’Estats ')).toBe("pica d'estats");
+		expect(normalitzar('  Pica  d’Estats ')).toBe('pica destats');
+		expect(normalitzar("Pica d'Estats")).toBe('pica destats');
+		expect(normalitzar('Pic d’Enclar (Bony de la Pica)')).toBe('pic denclar bony de la pica');
 		expect(normalitzar('CANIGÓ')).toBe('canigo');
 		expect(normalitzar('Puig-agut')).toBe('puig agut');
 		expect(normalitzar('Col·legi')).toBe('collegi');
@@ -31,7 +33,12 @@ describe('filtres de /cims', () => {
 	it('cerca sense accents ni majúscules, per nom i per comarca', () => {
 		const canigo = resultat(f({ text: 'canigo' })).map((c) => c.slug);
 		expect(canigo).toContain('canigo');
-		expect(resultat(f({ text: "PICA D'ESTATS" })).map((c) => c.slug)).toContain('pica-d-estats');
+		for (const text of ["PICA D'ESTATS", 'PICA DESTATS', 'pica d’estats', 'pica  d estats']) {
+			expect(
+				resultat(f({ text })).map((c) => c.slug),
+				text
+			).toEqual(['pica-d-estats']);
+		}
 		const bergueda = resultat(f({ text: 'bergueda' }));
 		expect(bergueda.length).toBeGreaterThan(0);
 		expect(bergueda.every((c) => c.comarca === 'bergueda')).toBe(true);

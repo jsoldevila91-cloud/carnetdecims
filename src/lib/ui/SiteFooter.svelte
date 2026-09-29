@@ -16,7 +16,7 @@
 			<span>{m.brand_name()}</span>
 		</p>
 		<p class="tagline">{m.brand_tagline()}</p>
-		<nav class="explora" aria-label={m.explore_label()}>
+		<nav class="explora" aria-label={m.footer_explore_label()}>
 			<ul>
 				<li><a href={href('/cims')}>{m.explore_all()}</a></li>
 				<li><a href={href('/comarques')}>{m.explore_comarques()}</a></li>

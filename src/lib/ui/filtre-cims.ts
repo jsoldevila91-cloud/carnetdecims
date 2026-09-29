@@ -33,19 +33,18 @@ export const FILTRES_BUITS: Readonly<FiltresCims> = Object.freeze({
 });
 
 /**
- * Text normalitzat per cercar: minúscules, sense diacrítics ("Puigmal" = "puígmal"),
- * apòstrofs tipogràfics = rectes, sense punt volat ("col·legi" = "collegi"), guions com a
- * espais i espais simplificats.
+ * Text normalitzat per cercar: minúscules, sense diacrítics ("Puigmal" = "puígmal"), sense
+ * apòstrofs ("d'Estats" = "d’Estats" = "destats") ni punt volat ("col·legi" = "collegi"), i la
+ * resta de puntuació (guions, parèntesis, punts…) com a espais. Com que cada paraula de la
+ * consulta s'ha de trobar dins del text, "pica d estats" també troba "pica destats".
  */
 export function normalitzar(text: string): string {
 	return text
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/gu, '')
 		.toLocaleLowerCase('ca')
-		.replace(/[’`´]/g, "'")
-		.replace(/·/g, '')
-		.replace(/[-.]/g, ' ')
-		.replace(/\s+/g, ' ')
+		.replace(/['’‘`´·]/g, '')
+		.replace(/[^\p{L}\p{N}]+/gu, ' ')
 		.trim();
 }
 
