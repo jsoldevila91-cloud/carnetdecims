@@ -38,7 +38,7 @@ import {
 	slugsComarquesAmbCims,
 	type AppLocale
 } from '../i18n/routes.ts';
-import { comarcaIndexable } from './indexabilitat.ts';
+import { PAGINES_NOINDEX, comarcaIndexable } from './indexabilitat.ts';
 
 export type SitemapAlternate = { hreflang: AppLocale | 'x-default'; href: string };
 export type SitemapUrl = { loc: string; lastmod?: string; alternates?: SitemapAlternate[] };
@@ -157,7 +157,7 @@ export const SITEMAP_SECTIONS: readonly SitemapSection[] = [
 	{
 		name: { ca: 'pagines', es: 'paginas' },
 		urls: (locale) =>
-			PRERENDER_PATHS.filter((p) => !AMB_SECCIO_PROPIA.has(p)).map((p) =>
+			PRERENDER_PATHS.filter((p) => !AMB_SECCIO_PROPIA.has(p) && !PAGINES_NOINDEX.has(p)).map((p) =>
 				urlAmbAlternates((l) => localizePath(p, l), locale)
 			)
 	},

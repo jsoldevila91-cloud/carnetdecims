@@ -18,3 +18,10 @@ export const MIN_CIMS_COMARCA_INDEXABLE = 3;
 export function comarcaIndexable(nCims: number): boolean {
 	return nCims >= MIN_CIMS_COMARCA_INDEXABLE;
 }
+
+/**
+ * Pàgines prerenderitzades que encara són només un espai reservat: es publiquen amb `noindex`
+ * i fora del sitemap fins que tinguin contingut real. `/mapa`: el mapa interactiu arriba a la
+ * fase 4; avui la pàgina només remet a la llista (contingut prim i descripció no veraç).
+ */
+export const PAGINES_NOINDEX: ReadonlySet<string> = new Set(['/mapa']);

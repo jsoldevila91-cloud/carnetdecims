@@ -13,7 +13,7 @@ export const sobreElProjecte: Contingut = {
 	ca: {
 		title: 'Sobre el projecte: què és i què preparem',
 		description:
-			'Carnet de Cims és una eina independent i gratuïta per seguir el repte 100 Cims: llista i mapa de cims i el teu progrés. Què és i què preparem.',
+			'Carnet de Cims és una eina independent i gratuïta sobre el repte 100 Cims: fitxes i llistes de cims, normativa explicada i, aviat, el teu carnet.',
 		h1: 'Sobre Carnet de Cims',
 		intro:
 			'Carnet de Cims és una eina per seguir el teu repte 100 Cims: consultar els cims, preparar sortides i, aviat, anotar les teves ascensions i veure com avança el carnet.',
@@ -111,7 +111,7 @@ export const sobreElProjecte: Contingut = {
 	es: {
 		title: 'Sobre el proyecto: qué es y qué preparamos',
 		description:
-			'Carnet de Cims es una herramienta independiente y gratuita para seguir el reto 100 Cims: lista y mapa de cimas y tu progreso. Qué es y qué preparamos.',
+			'Carnet de Cims es una herramienta independiente y gratuita sobre el reto 100 Cims: fichas y listas de cimas, normativa explicada y, pronto, tu carnet.',
 		h1: 'Sobre Carnet de Cims',
 		intro:
 			'Carnet de Cims es una herramienta para seguir tu reto 100 Cims: consultar las cimas, preparar salidas y, pronto, anotar tus ascensiones y ver cómo avanza el carnet.',

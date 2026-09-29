@@ -30,10 +30,10 @@
 	"toast_region_label": "Notificacions",
 	"toast_dismiss": "Descarta la notificació",
 
-	"seo_org_description": "Web independent i no oficial per fer el seguiment del repte 100 Cims. No està vinculada a la FEEC.",
+	"seo_org_description": "Web independent i no oficial sobre el repte 100 Cims. No està vinculada a la FEEC.",
 
-	"home_meta_title": "Carnet de Cims: mapa, llista i seguiment del repte 100 Cims",
-	"home_meta_description": "Web independent per seguir el repte 100 Cims: llista i mapa de cims, cims essencials i el teu carnet de progrés, fins i tot sense cobertura.",
+	"home_meta_title": "Carnet de Cims: cims essencials i guia del repte 100 Cims",
+	"home_meta_description": "Els 150 cims essencials del repte 100 Cims: fitxa amb mapa i restriccions, per comarques i llistes, i la normativa explicada. Aviat, el teu carnet.",
 	"home_kicker": "El teu carnet de muntanya",
 	"home_title": "Segueix el repte 100 Cims: mapa, llista i el teu progrés",
 	"home_lede": "Consulta els cims del repte al mapa i a la llista, amb l'altitud, la comarca i les restriccions d'accés. Aviat hi podràs segellar cada ascensió i omplir el teu carnet des del mòbil, sense compte.",
@@ -56,9 +56,9 @@
 	"peaks_essential_short": "essencial",
 
 	"map_meta_title": "Mapa dels cims del repte 100 Cims",
-	"map_meta_description": "Mapa topogràfic amb els cims del repte 100 Cims, amb filtres per comarca, altitud i cims essencials. Web independent i no oficial.",
+	"map_meta_description": "El mapa interactiu dels cims del repte 100 Cims arribarà aviat. Mentrestant, cada fitxa de cim té el seu mapa topogràfic.",
 	"map_title": "Mapa dels cims",
-	"map_lede": "Tots els cims del repte sobre el mapa topogràfic, amb filtres per comarca, altitud i essencials.",
+	"map_lede": "Aviat hi veuràs tots els cims del repte sobre el mapa topogràfic, amb filtres per comarca, altitud i essencials.",
 	"map_placeholder_title": "El mapa arribarà aviat",
 	"map_placeholder_text": "Mentrestant, pots consultar la llista de cims.",
 	"map_placeholder_cta": "Llista de cims",

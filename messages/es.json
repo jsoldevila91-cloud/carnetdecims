@@ -30,10 +30,10 @@
 	"toast_region_label": "Notificaciones",
 	"toast_dismiss": "Descartar la notificación",
 
-	"seo_org_description": "Web independiente y no oficial para hacer el seguimiento del reto 100 Cims. No está vinculada a la FEEC.",
+	"seo_org_description": "Web independiente y no oficial sobre el reto 100 Cims. No está vinculada a la FEEC.",
 
-	"home_meta_title": "Carnet de Cims: mapa, lista y seguimiento del reto 100 Cims",
-	"home_meta_description": "Web independiente para seguir el reto 100 Cims: lista y mapa de cimas, cimas esenciales y tu carnet de progreso, incluso sin cobertura.",
+	"home_meta_title": "Carnet de Cims: cimas esenciales y guía del reto 100 Cims",
+	"home_meta_description": "Las 150 cimas esenciales del reto 100 Cims: ficha con mapa y restricciones, por comarcas y listas, y la normativa explicada. Pronto, tu carnet.",
 	"home_kicker": "Tu carnet de montaña",
 	"home_title": "Sigue el reto 100 Cims: mapa, lista y tu progreso",
 	"home_lede": "Consulta las cimas del reto en el mapa y en la lista, con la altitud, la comarca y las restricciones de acceso. Pronto podrás sellar cada ascensión y completar tu carnet desde el móvil, sin cuenta.",
@@ -56,9 +56,9 @@
 	"peaks_essential_short": "esencial",
 
 	"map_meta_title": "Mapa de las cimas del reto 100 Cims",
-	"map_meta_description": "Mapa topográfico con las cimas del reto 100 Cims, con filtros por comarca, altitud y cimas esenciales. Web independiente y no oficial.",
+	"map_meta_description": "El mapa interactivo de las cimas del reto 100 Cims llegará pronto. Mientras tanto, cada ficha de cima tiene su mapa topográfico.",
 	"map_title": "Mapa de las cimas",
-	"map_lede": "Todas las cimas del reto sobre el mapa topográfico, con filtros por comarca, altitud y esenciales.",
+	"map_lede": "Pronto verás todas las cimas del reto sobre el mapa topográfico, con filtros por comarca, altitud y esenciales.",
 	"map_placeholder_title": "El mapa llegará pronto",
 	"map_placeholder_text": "Mientras tanto, puedes consultar la lista de cimas.",
 	"map_placeholder_cta": "Lista de cimas",

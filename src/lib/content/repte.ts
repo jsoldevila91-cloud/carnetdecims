@@ -186,7 +186,7 @@ export const repte: Contingut = {
 			{
 				pregunta: 'Carnet de Cims és la web oficial del repte?',
 				resposta:
-					'No. Carnet de Cims és una eina independent per seguir el teu progrés. La normativa, el llistat oficial i la validació són de la FEEC: consulta sempre el [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
+					'No. Carnet de Cims és una eina independent que explica el repte i, aviat, et permetrà seguir el teu progrés. La normativa, el llistat oficial i la validació són de la FEEC: consulta sempre el [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
 			}
 		],
 		fonts: FONTS_CA,
@@ -346,7 +346,7 @@ export const repte: Contingut = {
 			{
 				pregunta: '¿Carnet de Cims es la web oficial del reto?',
 				resposta:
-					'No. Carnet de Cims es una herramienta independiente para seguir tu progreso. La normativa, la lista oficial y la validación son de la FEEC: consulta siempre la [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
+					'No. Carnet de Cims es una herramienta independiente que explica el reto y, pronto, te permitirá seguir tu progreso. La normativa, la lista oficial y la validación son de la FEEC: consulta siempre la [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
 			}
 		],
 		fonts: FONTS_ES,

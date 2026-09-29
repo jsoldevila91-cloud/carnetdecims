@@ -2,9 +2,14 @@
 	import { Button, PageMeta } from '$lib/ui';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
+	import { PAGINES_NOINDEX } from '$lib/seo/indexabilitat';
 </script>
 
-<PageMeta title={m.map_meta_title()} description={m.map_meta_description()} />
+<PageMeta
+	title={m.map_meta_title()}
+	description={m.map_meta_description()}
+	noindex={PAGINES_NOINDEX.has('/mapa')}
+/>
 
 <header class="page-head">
 	<h1 class="x-wide">{m.map_title()}</h1>
