@@ -52,5 +52,6 @@ npx playwright test --ui      # depuración; trazas en test-results/ cuando fall
 ```
 
 - El `webServer` de Playwright borra `.svelte-kit/cloudflare` antes del build: en Windows el adapter falla con `EPERM` si la carpeta ya existe (o si otro proceso, p. ej. otro build o `eslint .`, la tiene abierta).
+- **No tengas `npm run dev` ni el servidor de preview del navegador abiertos mientras Playwright hace el build.** Comparten `.svelte-kit`: sus procesos `workerd` bloquean `.svelte-kit/cloudflare` (`EPERM`) o dejan la build inconsistente, lo que da errores `pageerror` falsos en todas las páginas.
 - La primera vez: `npx playwright install chromium webkit` (lo hace `npm run test:e2e`).
 - Tests nuevos: usa `test`/`expect` de `e2e/fixtures.ts` (vigila la consola) y `gotoHydrated()` antes de interactuar con shallow routing.

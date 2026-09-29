@@ -30,9 +30,20 @@
     - todas las fichas en `noindex` mientras estén en `esborrany`.
   - **QA:** `e2e/fitxa-cim.e2e.ts` y `e2e/fitxes-totes.e2e.ts` (las 150 fichas a 320/375/768/1280: desborde, palabras partidas, H1 ≤ 3 líneas, sello sin solaparse). **529 E2E pasados y 0 fallidos** en los 3 proyectos; 221 unitarios; build OK.
 
+- **Bloque 3b (terminado, 2026-09-29): comarcas y listados.**
+  - **Páginas:**
+    - índice `/ca/comarques` (`/es/comarcas`);
+    - 43 comarcas `/ca/comarques/{slug}` (Segarra sin cims → 404) con intro generada con datos, mapa estático con marcadores numerados (`ui/MapaMarcadors.svelte`, `ui/marcadors.ts`: separación ≥ 26 px con línea guía al punto real) y lista;
+    - listados `/cims-essencials`, `/tresmils` (5) y `/cims-mes-alts` (25);
+    - filtros en cliente en `/cims` (nombre sin acentos ni apóstrofos, alias, zona, altitud, solo esenciales; estado en query no indexable).
+  - **Ficha:** breadcrumb Inici › Comarques › {comarca} › {cim} y comarca enlazada.
+  - **Backend:** `cimsPerComarca`, `comarquesAmbCims`, `LLISTATS`, `localizeComarcaPath`, `comarcaEntries`, `mapaEstaticComarca` (con proyección de puntos), `comarcaGraph` / `llistatGraph` / `comarquesGraph` / `cimsGraph`, sitemaps de comarques y llistats.
+  - **SEO:** textos "essencials" (sin cifras falsas del reto completo); una comarca es **indexable solo con ≥ 3 cims** (`seo/indexabilitat.ts`: 25 indexables y 18 `noindex`); castellano "de la Anoia".
+  - **QA:** `e2e/comarques`, `llistats`, `filtres-cims` y el helper `e2e/cataleg.ts`. **998 E2E pasados y 0 fallidos** en los 3 proyectos; 266 unitarios; build OK.
+
 ## Siguiente
 
-Bloque **3b**: páginas de comarca (`/ca/comarques/{slug}`), listados (cims, esenciales, tresmils…) y sitemap con fichas. Al crear las páginas de comarca, **enlazar la comarca desde la ficha**: ahora es texto y el enlace "Tots els cims del…" apunta a `/cims#comarca-{slug}`. También hay que añadir la URL de la comarca a `cimGraph` (`containedInPlace`).
+Bloque **3c**: hub del reto (normativa explicada), portada definitiva, páginas legales y metodología.
 
 ## Pendiente o decisiones abiertas
 
@@ -44,4 +55,8 @@ Bloque **3b**: páginas de comarca (`/ca/comarques/{slug}`), listados (cims, ese
   - Falta el campo `data_revisio` (para `lastmod`).
 - **Cosmético (para el bloque 3d):** en móvil, el CTA "Registrar aquest cim" queda debajo de la barra inferior en fichas con H1 de 3 líneas (hace falta un poco de scroll) y a 320 px ocupa 2 líneas. La barra inferior ya tiene "Registrar".
 - **Wikiloc:** sin filtro de actividad (no se ha podido verificar el parámetro); en el Montcau son relevantes unas 11 de 24 rutas.
-- **SEO (para el bloque 3d):** H1 sin "(alt m)" (§4.1); H2 de los sheets del layout en todas las páginas; `/cims` sin JSON-LD.
+- **SEO (para el bloque 3d):** H1 sin "(alt m)" (§4.1); H2 de los sheets del layout en todas las páginas.
+- **Bugs bajos del 3b (para el bloque 3d):**
+  1. A 320 px las líneas guía y el punto real de los marcadores desplazados quedan tapados por el marcador (desplazamientos de 4,6 a 11 px). Además, en Catalunya Nord a 1280 px los puntos 1 y 3 apenas asoman (`MapaMarcadors.svelte`: `.real` y `.guies` se pintan debajo de `.marcadors`).
+  2. Con un filtro activo en `/cims`, pulsar "Cims" (BottomNav o pie) deja la URL sin query pero la lista sigue filtrada (`afterNavigate` no relee la URL con la página ya montada).
+- Las páginas de comarca con < 3 cims son `noindex`: hay que revisar el umbral en la fase 6 o con el catálogo de 522.
