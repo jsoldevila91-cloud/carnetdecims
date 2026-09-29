@@ -134,7 +134,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'A més, el [teu carnet](/app) és un carnet personal per seguir el teu progrés: amb Carnet de Cims podràs anotar les ascensions, veure quants essencials et falten i rebre un avís si en un any passes de 100 cims nous.'
+						text: 'A més, al [teu carnet](/app) pots anotar les ascensions (es desen al teu dispositiu, sense compte), veure quants cims i quants essencials portes i rebre un avís si en un any passes de 100 cims nous, si repeteixes un cim o si el dia de l’ascensió hi havia una restricció d’accés.'
 					},
 					{
 						tipus: 'paragraf',
@@ -287,7 +287,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'Además, [tu carnet](/app) es un carnet personal para seguir tu progreso: con Carnet de Cims podrás anotar las ascensiones, ver cuántas esenciales te faltan y recibir un aviso si en un año pasas de 100 cimas nuevas.'
+						text: 'Además, en [tu carnet](/app) puedes anotar las ascensiones (se guardan en tu dispositivo, sin cuenta), ver cuántas cimas y cuántas esenciales llevas y recibir un aviso si en un año pasas de 100 cimas nuevas, si repites una cima o si el día de la ascensión había una restricción de acceso.'
 					},
 					{
 						tipus: 'paragraf',

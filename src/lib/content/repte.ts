@@ -152,7 +152,7 @@ export const repte: Contingut = {
 							'Mira els cims que tens més a prop a la [llista de comarques](/comarques) o al [mapa](/mapa).',
 							'Si busques reptes d’alta muntanya, comença pels [tresmils](/tresmils) o pels [cims més alts](/cims-mes-alts).',
 							'Consulta la [llista completa de cims](/cims), amb la fitxa, el mapa i les restriccions de cadascun.',
-							'Al [teu carnet](/app), un carnet personal per seguir el teu progrés, podràs anotar les ascensions; és un seguiment que no substitueix la validació de la FEEC.'
+							'Anota cada ascensió al [teu carnet](/app): es desa al teu dispositiu, sense compte, i hi veus quants cims i quants essencials portes. És un seguiment personal que no substitueix la validació de la FEEC.'
 						]
 					},
 					{
@@ -186,7 +186,7 @@ export const repte: Contingut = {
 			{
 				pregunta: 'Carnet de Cims és la web oficial del repte?',
 				resposta:
-					'No. Carnet de Cims és una eina independent que explica el repte i, aviat, et permetrà seguir el teu progrés. La normativa, el llistat oficial i la validació són de la FEEC: consulta sempre el [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
+					'No. Carnet de Cims és una eina independent que explica el repte i et permet anotar les teves ascensions per seguir el progrés. La normativa, el llistat oficial i la validació són de la FEEC: consulta sempre el [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
 			}
 		],
 		fonts: FONTS_CA,
@@ -312,7 +312,7 @@ export const repte: Contingut = {
 							'Mira qué cimas tienes más cerca en la [lista de comarcas](/comarques) o en el [mapa](/mapa).',
 							'Si buscas alta montaña, empieza por los [tresmiles](/tresmils) o por las [cimas más altas](/cims-mes-alts).',
 							'Consulta la [lista completa de cimas](/cims), con la ficha, el mapa y las restricciones de cada una.',
-							'En [tu carnet](/app), un carnet personal para seguir tu progreso, podrás anotar las ascensiones; es un seguimiento que no sustituye la validación de la FEEC.'
+							'Anota cada ascensión en [tu carnet](/app): se guarda en tu dispositivo, sin cuenta, y ves cuántas cimas y cuántas esenciales llevas. Es un seguimiento personal que no sustituye la validación de la FEEC.'
 						]
 					},
 					{
@@ -346,7 +346,7 @@ export const repte: Contingut = {
 			{
 				pregunta: '¿Carnet de Cims es la web oficial del reto?',
 				resposta:
-					'No. Carnet de Cims es una herramienta independiente que explica el reto y, pronto, te permitirá seguir tu progreso. La normativa, la lista oficial y la validación son de la FEEC: consulta siempre la [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
+					'No. Carnet de Cims es una herramienta independiente que explica el reto y te permite anotar tus ascensiones para seguir tu progreso. La normativa, la lista oficial y la validación son de la FEEC: consulta siempre la [web de la FEEC](https://www.feec.cat/activitats/100-cims/).'
 			}
 		],
 		fonts: FONTS_ES,

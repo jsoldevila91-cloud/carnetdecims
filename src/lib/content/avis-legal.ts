@@ -43,7 +43,7 @@ export const avisLegal: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Carnet de Cims és un web informatiu i una eina gratuïta de seguiment personal del repte 100 Cims. Ofereix informació sobre els cims del repte i, més endavant, permetrà anotar-hi les ascensions pròpies.'
+						text: 'Carnet de Cims és un web informatiu i una eina gratuïta de seguiment personal del repte 100 Cims. Ofereix informació sobre els cims del repte i permet anotar-hi les ascensions pròpies, que es desen al dispositiu de la persona usuària.'
 					},
 					{
 						tipus: 'avis',
@@ -175,7 +175,7 @@ export const avisLegal: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Carnet de Cims es una web informativa y una herramienta gratuita de seguimiento personal del reto 100 Cims. Ofrece información sobre las cimas del reto y, más adelante, permitirá anotar las ascensiones propias.'
+						text: 'Carnet de Cims es una web informativa y una herramienta gratuita de seguimiento personal del reto 100 Cims. Ofrece información sobre las cimas del reto y permite anotar las ascensiones propias, que se guardan en el dispositivo de la persona usuaria.'
 					},
 					{
 						tipus: 'avis',

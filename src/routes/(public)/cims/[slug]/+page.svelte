@@ -232,9 +232,13 @@
 			{/if}
 
 			<!-- Just sota el titular: visible al primer viewport del mòbil, abans de la taula. -->
+			<!-- `nofollow`: són URL amb query (`/app/registrar?cim=…`, `/mapa?cim=…`) que porten a
+			     pàgines `noindex`; així els cercadors no rastregen una variant per fitxa i idioma.
+			     L'enllaç continua sent real (pestanya nova, sense JS). -->
 			<div class="ctas">
 				<Button
 					href={registrarHref}
+					rel="nofollow"
 					onclick={(e: MouseEvent) => obrirRegistre(e, cim.slug)}
 					variant="stamp"
 					size="lg"
@@ -245,7 +249,9 @@
 					{m.cim_register_cta()}
 				</Button>
 				{#if coords}
-					<Button href={mapaHref} variant="outline" icon="map" block>{m.cim_open_map()}</Button>
+					<Button href={mapaHref} rel="nofollow" variant="outline" icon="map" block
+						>{m.cim_open_map()}</Button
+					>
 				{/if}
 			</div>
 

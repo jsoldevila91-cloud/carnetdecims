@@ -109,7 +109,7 @@ export const repteInfantil: Contingut = {
 						items: [
 							'Busca els cims més propers a casa a la [llista de comarques](/comarques) o al [mapa](/mapa).',
 							'Tria rutes curtes al principi i ves allargant a mesura que el nen o la nena guanyi confiança.',
-							'Amb el [carnet](/app), un carnet personal per seguir el progrés, podràs portar el compte dels cims de cada infant.'
+							'Anota les ascensions al [carnet](/app), que es desa al dispositiu i no demana compte. De moment hi ha un sol carnet per dispositiu, sense perfils per a cada infant.'
 						]
 					},
 					{
@@ -253,7 +253,7 @@ export const repteInfantil: Contingut = {
 						items: [
 							'Busca las cimas más cercanas a casa en la [lista de comarcas](/comarques) o en el [mapa](/mapa).',
 							'Elige rutas cortas al principio y ve alargándolas a medida que el niño o la niña gane confianza.',
-							'Con el [carnet](/app), un carnet personal para seguir el progreso, podrás llevar la cuenta de las cimas de cada peque.'
+							'Anota las ascensiones en el [carnet](/app), que se guarda en el dispositivo y no pide cuenta. Por ahora hay un solo carnet por dispositivo, sin perfiles para cada peque.'
 						]
 					},
 					{

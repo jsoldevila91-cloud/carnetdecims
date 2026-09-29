@@ -13,10 +13,10 @@ export const sobreElProjecte: Contingut = {
 	ca: {
 		title: 'Sobre el projecte: què és i què preparem',
 		description:
-			'Carnet de Cims és una eina independent i gratuïta sobre el repte 100 Cims: fitxes i llistes de cims, normativa explicada i, aviat, el teu carnet.',
+			'Carnet de Cims és una eina independent i gratuïta sobre el repte 100 Cims: fitxes i llistes de cims, normativa explicada i el teu carnet d’ascensions.',
 		h1: 'Sobre Carnet de Cims',
 		intro:
-			'Carnet de Cims és una eina per seguir el teu repte 100 Cims: consultar els cims, preparar sortides i, aviat, anotar les teves ascensions i veure com avança el carnet.',
+			'Carnet de Cims és una eina per seguir el teu repte 100 Cims: consultar els cims, preparar sortides, anotar les teves ascensions i veure com avança el carnet.',
 		seccions: [
 			{
 				id: 'que-es',
@@ -44,7 +44,8 @@ export const sobreElProjecte: Contingut = {
 							'Els cims agrupats per [comarques](/comarques).',
 							'Llistats curats: [cims essencials](/cims-essencials), [tresmils](/tresmils) i [cims més alts](/cims-mes-alts).',
 							'El repte explicat en llenguatge clar: [normativa](/repte-100-cims/normativa), [com validar les ascensions](/repte-100-cims/com-validar) i [repte infantil](/repte-100-cims/repte-infantil).',
-							"D'on surten les dades i com les revisem: [metodologia](/metodologia)."
+							"D'on surten les dades i com les revisem: [metodologia](/metodologia).",
+							'El teu carnet: anotes les ascensions al dispositiu, sense compte, i en veus el progrés i l’historial; les pots exportar, importar i esborrar quan vulguis.'
 						]
 					}
 				]
@@ -57,8 +58,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Web pública (ara):** fitxes de cims, comarques, llistats i la normativa explicada.',
-							"**L'aplicació:** registrar ascensions al teu dispositiu, sense compte i sense connexió; el carnet amb el progrés (100, 2×100…); un mapa interactiu amb els cims a prop, i instal·lar-la com una app.",
+							'**Ara:** fitxes de cims, comarques, llistats, la normativa explicada i el carnet per anotar ascensions al teu dispositiu, sense compte, amb historial i progrés.',
+							"**L'aplicació:** el carnet complet, amb els segells de cada pàgina (100, 2×100…) i els essencials pendents; un mapa interactiu amb els cims a prop, i instal·lar-la com una app que funcioni sense connexió.",
 							'**Comptes opcionals:** per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea, i amb opcions per exportar-les i esborrar-les.',
 							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones, i la previsió meteorològica a cada cim.',
 							'**Més cims:** la resta de cims del repte, per lots.'
@@ -77,7 +78,7 @@ export const sobreElProjecte: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Les teves dades, al teu dispositiu.** El carnet funcionarà sense compte; el compte serà opcional. Ho expliquem a la [política de privadesa](/privacitat).',
+							'**Les teves dades, al teu dispositiu.** El carnet funciona sense compte; quan n’hi hagi, el compte serà opcional. Ho expliquem a la [política de privadesa](/privacitat).',
 							"**Fonts obertes i citades.** Cada dada del catàleg té la seva font, i preval la de l'ICGC. Detalls a la [metodologia](/metodologia).",
 							'**Respecte al repte i a la FEEC.** "100 Cims" només s\'usa per descriure el repte, sense logotips de la FEEC.',
 							"**Revisió humana.** Cap fitxa es dona per revisada sense que una persona n'hagi comprovat les dades."
@@ -111,10 +112,10 @@ export const sobreElProjecte: Contingut = {
 	es: {
 		title: 'Sobre el proyecto: qué es y qué preparamos',
 		description:
-			'Carnet de Cims es una herramienta independiente y gratuita sobre el reto 100 Cims: fichas y listas de cimas, normativa explicada y, pronto, tu carnet.',
+			'Carnet de Cims es una herramienta independiente y gratuita sobre el reto 100 Cims: fichas y listas de cimas, normativa explicada y tu carnet personal.',
 		h1: 'Sobre Carnet de Cims',
 		intro:
-			'Carnet de Cims es una herramienta para seguir tu reto 100 Cims: consultar las cimas, preparar salidas y, pronto, anotar tus ascensiones y ver cómo avanza el carnet.',
+			'Carnet de Cims es una herramienta para seguir tu reto 100 Cims: consultar las cimas, preparar salidas, anotar tus ascensiones y ver cómo avanza el carnet.',
 		seccions: [
 			{
 				id: 'que-es',
@@ -142,7 +143,8 @@ export const sobreElProjecte: Contingut = {
 							'Las cimas agrupadas por [comarcas](/comarques).',
 							'Listados seleccionados: [cimas esenciales](/cims-essencials), [tresmiles](/tresmils) y [cimas más altas](/cims-mes-alts).',
 							'El reto explicado en lenguaje claro: [normativa](/repte-100-cims/normativa), [cómo validar las ascensiones](/repte-100-cims/com-validar) y [reto infantil](/repte-100-cims/repte-infantil).',
-							'De dónde salen los datos y cómo los revisamos: [metodología](/metodologia).'
+							'De dónde salen los datos y cómo los revisamos: [metodología](/metodologia).',
+							'Tu carnet: anotas las ascensiones en el dispositivo, sin cuenta, y ves el progreso y el historial; puedes exportarlas, importarlas y borrarlas cuando quieras.'
 						]
 					}
 				]
@@ -155,8 +157,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Web pública (ahora):** fichas de cimas, comarcas, listados y la normativa explicada.',
-							'**La aplicación:** registrar ascensiones en tu dispositivo, sin cuenta y sin conexión; el carnet con el progreso (100, 2×100…); un mapa interactivo con las cimas cercanas, e instalarla como una app.',
+							'**Ahora:** fichas de cimas, comarcas, listados, la normativa explicada y el carnet para anotar ascensiones en tu dispositivo, sin cuenta, con historial y progreso.',
+							'**La aplicación:** el carnet completo, con los sellos de cada página (100, 2×100…) y las esenciales pendientes; un mapa interactivo con las cimas cercanas, e instalarla como una app que funcione sin conexión.',
 							'**Cuentas opcionales:** para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea, y con opciones para exportarlos y borrarlos.',
 							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas, y la previsión meteorológica en cada cima.',
 							'**Más cimas:** el resto de cimas del reto, por lotes.'
@@ -175,7 +177,7 @@ export const sobreElProjecte: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Tus datos, en tu dispositivo.** El carnet funcionará sin cuenta; la cuenta será opcional. Lo explicamos en la [política de privacidad](/privacitat).',
+							'**Tus datos, en tu dispositivo.** El carnet funciona sin cuenta; cuando la haya, la cuenta será opcional. Lo explicamos en la [política de privacidad](/privacitat).',
 							'**Fuentes abiertas y citadas.** Cada dato del catálogo tiene su fuente, y prevalece la del ICGC. Detalles en la [metodología](/metodologia).',
 							'**Respeto al reto y a la FEEC.** "100 Cims" solo se usa para describir el reto, sin logotipos de la FEEC.',
 							'**Revisión humana.** Ninguna ficha se da por revisada sin que una persona haya comprobado sus datos.'
