@@ -30,7 +30,13 @@ export default defineConfig({
 	},
 	projects: [
 		{ name: 'mobile-chrome', use: { ...devices['Pixel 7'] } },
-		{ name: 'mobile-safari', use: { ...devices['iPhone SE (3rd gen)'] } },
+		{
+			name: 'mobile-safari',
+			use: { ...devices['iPhone SE (3rd gen)'] },
+			// WebKit és el més lent sota càrrega (3 projectes en paral·lel): axe a /cims (150 cims)
+			// i els índexs de seccions de contingut hi fan 25–43 s. 60 s continua detectant penjades.
+			timeout: 60_000
+		},
 		{
 			name: 'desktop-chrome',
 			use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } }

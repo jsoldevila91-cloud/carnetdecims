@@ -49,23 +49,20 @@
   - **SEO:** `paginaGraph` (WebPage/AboutPage + BreadcrumbList + FAQPage), sitemap de contenido con `lastmod`; legales fuera del sitemap; **`/mapa` en `noindex`** hasta que exista (`PAGINES_NOINDEX`).
   - **QA:** `e2e/contingut.e2e.ts`. **1471 E2E pasados** en los 3 proyectos (4 fallos de tests frágiles, ya corregidos); build OK.
 
-## En curso: bloque 3d exprés (decisión del usuario: solo pendientes + E2E completo)
-
-Pendientes que hay que arreglar:
-
-1. Marcadores: a 320 px las líneas guía y el punto real quedan tapados (`MapaMarcadors.svelte`: `.real` y `.guies` debajo de `.marcadors`); en Catalunya Nord a 1280 px los puntos 1 y 3 apenas asoman.
-2. `/cims`: con un filtro activo, pulsar "Cims" (BottomNav o pie) deja la URL sin query pero la lista filtrada.
-3. Ficha: en móvil, el CTA "Registrar aquest cim" queda bajo la barra inferior con H1 de 3 líneas; a 320 px ocupa 2 líneas.
-4. SEO ficha: H1 sin "(alt m)" (§4.1).
-5. H2 de los sheets del layout presentes en todas las páginas.
-6. Textos de portada en presente: `home_step1_text` ("…o al mapa"), `home_value3_text` ("l'origen de cada dada"), `home_value2_text` ("el carnet és teu…").
-7. QA: E2E que leen `getAttribute('href')` crudo (`comarques.e2e.ts:71`, `filtres-cims.e2e.ts:21`, `fitxa-cim.e2e.ts:273`): resolverlos contra la URL de la página.
-
-Después: batería E2E completa de la fase 3 en los 3 proyectos → fase 3 terminada (**pendiente de aprobación del usuario**).
+- **Bloque 3d exprés (terminado, 2026-09-29):**
+  - marcadores con guía y punto real visibles (≥ 20 px);
+  - filtro de `/cims` resincronizado con la URL en cada navegación;
+  - H1 de ficha `{nom} ({alt} m)` (palabras con guion en `nowrap`) y CTA bajo el H1, visible en móvil;
+  - sheets sin H2 mientras están cerrados;
+  - textos de portada veraces;
+  - E2E endurecidos (`hrefsAbsoluts`, `expectHref`, `waitForHydration` en lugar de `networkidle`; `mobile-safari` con 60 s).
+  - **QA final de la fase 3: 1506 E2E pasados, 0 fallidos, 0 flaky** en los 3 proyectos (build de `591d0f3`).
+- **FASE 3 TERMINADA — pendiente de aprobación del usuario.**
+  - Cosmético pendiente (bajo): en el Alt Urgell, la separación en cascada desplaza algunos marcadores más de lo necesario (Monturull a 42,6 px).
 
 ## Siguiente
 
-Bloque **4a**: capa de datos local (Dexie), registrar ascensión e historial.
+Bloque **4a** (en curso): capa de datos local (Dexie), registrar ascensión e historial.
 
 ## Pendiente o decisiones abiertas
 
