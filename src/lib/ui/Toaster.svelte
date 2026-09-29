@@ -12,9 +12,36 @@
 <section class="toaster" aria-label={m.toast_region_label()}>
 	<ol role="status" aria-live="polite" aria-atomic="false">
 		{#each toasts.items as toast (toast.id)}
-			<li class={['toast', toast.tone]} transition:fly={{ y: reduced ? 0 : 16, duration: 200 }}>
-				{#if toast.tone === 'success'}<Icon name="check" size={20} />{/if}
-				<span class="msg">{toast.message}</span>
+			<li
+				class={['toast', toast.tone, { segell: !!toast.segell }]}
+				transition:fly={{ y: reduced ? 0 : 16, duration: 200 }}
+				onpointerenter={() => toasts.pause(toast.id)}
+				onpointerleave={() => toasts.resume(toast.id)}
+				onfocusin={() => toasts.pause(toast.id)}
+				onfocusout={() => toasts.resume(toast.id)}
+			>
+				{#if toast.segell}
+					<!-- Microanimació de segell: "+1 → 38/100". Decorativa: el comptador és al text sr. -->
+					<span class="stamp-ic" aria-hidden="true"
+						><Icon name="stamp" size={20} strokeWidth={2} /></span
+					>
+				{:else if toast.tone === 'success'}<Icon name="check" size={20} />{/if}
+				<span class="msg">
+					{#if toast.segell}
+						<span class="stamp-txt" aria-hidden="true">
+							{#if toast.segell.delta > 0}<b class="delta">+{toast.segell.delta}</b><span
+									class="arrow">→</span
+								>
+							{/if}<b>{toast.segell.count}</b>/{toast.segell.target}
+						</span>
+					{/if}
+					<span>{toast.message}</span>{#if toast.sr}<span class="sr-only"> {toast.sr}</span>{/if}
+				</span>
+				{#if toast.action}
+					<button type="button" class="action" onclick={() => toasts.run(toast.id)}>
+						{toast.action.label}
+					</button>
+				{/if}
 				<button type="button" class="dismiss" onclick={() => toasts.dismiss(toast.id)}>
 					<Icon name="close" size={18} />
 					<span class="sr-only">{m.toast_dismiss()}</span>
@@ -65,7 +92,52 @@
 	}
 
 	.msg {
+		display: grid;
 		flex: 1;
+		min-width: 0;
+		padding-block: var(--sp-1);
+		overflow-wrap: anywhere;
+	}
+
+	.stamp-ic {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2rem;
+		height: 2rem;
+		border-radius: var(--r-full);
+		background: var(--c-stamp);
+		color: var(--c-on-stamp);
+		animation: stamp-thump 520ms var(--ease) both;
+	}
+
+	.stamp-txt {
+		font-size: var(--fs-md);
+		line-height: var(--lh-snug);
+		white-space: nowrap;
+	}
+
+	.delta {
+		display: inline-block;
+		animation: stamp-pop 520ms 160ms var(--ease) both;
+	}
+
+	.arrow {
+		margin: 0 0.35em;
+	}
+
+	.action {
+		flex: none;
+		min-height: var(--tap);
+		padding: 0 var(--sp-2);
+		background: none;
+		border: 0;
+		color: inherit;
+		font-family: var(--font-mono);
+		font-weight: var(--fw-bold);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		cursor: pointer;
 	}
 
 	.dismiss {
@@ -78,6 +150,34 @@
 		border: 0;
 		color: inherit;
 		cursor: pointer;
+	}
+
+	@keyframes stamp-thump {
+		0% {
+			transform: scale(1.9) rotate(-18deg);
+			opacity: 0;
+		}
+		60% {
+			transform: scale(0.9) rotate(4deg);
+			opacity: 1;
+		}
+		100% {
+			transform: none;
+		}
+	}
+
+	@keyframes stamp-pop {
+		from {
+			transform: translateY(6px);
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.stamp-ic,
+		.delta {
+			animation: none;
+		}
 	}
 
 	@media (min-width: 48rem) {

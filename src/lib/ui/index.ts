@@ -15,7 +15,6 @@ export { default as Logo } from './Logo.svelte';
 export { default as MapaMarcadors } from './MapaMarcadors.svelte';
 export { default as OfflineBanner } from './OfflineBanner.svelte';
 export { default as PageMeta } from './PageMeta.svelte';
-export { default as RegisterPanel } from './RegisterPanel.svelte';
 export { default as Segell } from './Segell.svelte';
 export { default as SiteFooter } from './SiteFooter.svelte';
 export { default as TextEnLinia } from './TextEnLinia.svelte';

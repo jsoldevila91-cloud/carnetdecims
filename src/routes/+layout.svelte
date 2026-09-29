@@ -6,15 +6,7 @@
 	import { onNavigate } from '$app/navigation';
 	import { asset } from '$app/paths';
 	import { page } from '$app/state';
-	import {
-		AppHeader,
-		BottomNav,
-		BottomSheet,
-		OfflineBanner,
-		RegisterPanel,
-		SiteFooter,
-		Toaster
-	} from '$lib/ui';
+	import { AppHeader, BottomNav, BottomSheet, OfflineBanner, SiteFooter, Toaster } from '$lib/ui';
 	import { m } from '$lib/paraglide/messages';
 	import { prefersReducedMotion, supportsViewTransitions } from '$lib/platform/motion';
 
@@ -59,11 +51,14 @@
 <Toaster />
 
 <BottomSheet
-	open={page.state.sheet === 'registrar'}
-	title={m.register_title()}
+	open={page.state.sheet === 'registrar' || page.state.sheet === 'editar'}
+	title={page.state.sheet === 'editar' ? m.register_edit_title() : m.register_title()}
 	onclose={closeSheet}
 >
-	<RegisterPanel />
+	<!-- Es carrega en obrir-lo: el formulari (i Dexie) no pesa a les pàgines públiques. -->
+	{#await import('$lib/ui/RegisterPanel.svelte') then { default: RegisterPanel }}
+		<RegisterPanel cim={page.state.cim} ascensioId={page.state.ascensio} ondone={closeSheet} />
+	{/await}
 </BottomSheet>
 
 <style>

@@ -13,6 +13,7 @@
 		formatKm
 	} from '$lib/ui';
 	import { ampleLiniesEm, ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
+	import { obrirRegistre, registrarHref as registrarUrl } from '$lib/ui/fulls';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import {
@@ -101,7 +102,7 @@
 	]);
 
 	const mapaHref = $derived(`${href('/mapa')}?cim=${cim.slug}`);
-	const registrarHref = $derived(`${href('/app/registrar')}?cim=${cim.slug}`);
+	const registrarHref = $derived(registrarUrl(cim.slug));
 
 	// ---------- Restriccions ----------
 	const TIPUS: Record<TipusRestriccio, () => string> = {
@@ -234,6 +235,7 @@
 			<div class="ctas">
 				<Button
 					href={registrarHref}
+					onclick={(e: MouseEvent) => obrirRegistre(e, cim.slug)}
 					variant="stamp"
 					size="lg"
 					icon="stamp"

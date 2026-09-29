@@ -1,7 +1,11 @@
 /**
  * `/privacitat` (RGPD), ajustada al que fa el web AVUI (verificat al codi el 2026-09-29):
- * - sense comptes ni formularis; el registre d'ascensions encara no desa res (`RegisterPanel`);
- * - cap `localStorage`, IndexedDB ni cookie pròpia (Paraglide amb estratègia
+ * - sense comptes; el registre d'ascensions (bloc 4a) desa les ascensions NOMÉS al dispositiu,
+ *   a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb exportació JSON, importació i
+ *   esborrat total (`data/ascensions.ts`: `exportarDades`, `importarDades`, `esborrarTot`) i
+ *   petició d'emmagatzematge persistent (`platform/emmagatzematge.ts`); no surten del dispositiu
+ *   (la cua `outbox` és per a la sync futura de la fase 5 i avui no s'envia enlloc);
+ * - cap `localStorage` ni cookie pròpia (Paraglide amb estratègia
  *   `url` + `baseLocale`, sense cookie); cap analítica, publicitat ni Google Fonts (fonts
  *   autoallotjades amb @fontsource);
  * - `sessionStorage` només el de SvelteKit (`sveltekit:scroll`, `sveltekit:snapshot`): tècnic,
@@ -9,7 +13,7 @@
  * - tercers que reben la IP en carregar recursos: mapes estàtics WMS de l'ICGC
  *   (`geoserveis.icgc.cat`) i de l'IGN (`data.geopf.fr`), vegeu `platform/mapa-estatic.ts`;
  *   Wikiloc i la FEEC només si es fa clic a l'enllaç; allotjament a Cloudflare.
- * Cal actualitzar-la abans d'activar: registre local (fase 4, IndexedDB), comptes (fase 5,
+ * Cal actualitzar-la abans d'activar: comptes (fase 5,
  * Supabase UE), meteo (fase 6, Open-Meteo via proxy) i analítica (fase 7).
  */
 import { TITULAR } from './titular.ts';
@@ -29,7 +33,7 @@ export const privacitat: Contingut = {
 			'Com tracta Carnet de Cims les teves dades: sense comptes, sense cookies de seguiment ni analítica. Quins serveis reben la IP i quins drets tens.',
 		h1: 'Política de privadesa',
 		intro:
-			"En resum: ara mateix Carnet de Cims no et demana cap dada, no fa servir cookies de seguiment ni analítica i no desa cap dada personal al teu dispositiu. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
+			"En resum: Carnet de Cims no et demana cap dada ni fa servir cookies de seguiment ni analítica, i les ascensions que registres es desen només al teu dispositiu: no ens arriben. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
 		seccions: [
 			{
 				id: 'responsable',
@@ -62,11 +66,19 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: "Ara mateix el web no desa cap dada personal al teu navegador: ni cookies pròpies, ni emmagatzematge local (localStorage), ni base de dades del navegador (IndexedDB). L'únic que hi guarda és informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. No conté dades personals i s'esborra en tancar la pestanya."
+						text: "Les ascensions que registres (cim, data, mètode i, si en vols posar, una nota) es desen **només al teu dispositiu**, a la base de dades del navegador (IndexedDB). No hi ha comptes ni sincronització: aquestes dades no s'envien a cap servidor, ni al nostre ni al de ningú, i nosaltres no hi tenim accés. El navegador pot demanar-te permís per conservar-les de manera persistent, perquè no les esborri si li falta espai."
+					},
+					{
+						tipus: 'llista',
+						items: [
+							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON i tornar-la a importar en un altre navegador o dispositiu.",
+							"**Esborrar-les:** des de l'aplicació pots esborrar totes les teves ascensions del dispositiu. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
+							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions es perden: et recomanem exportar-ne una còpia de tant en tant.'
+						]
 					},
 					{
 						tipus: 'paragraf',
-						text: "Quan s'activi el registre d'ascensions, les dades que hi anotis es desaran només al teu dispositiu, a l'emmagatzematge del navegador, i no ens arribaran. Les podràs esborrar quan vulguis esborrant les dades del lloc al navegador. Actualitzarem aquesta política abans d'activar-lo."
+						text: "No fem servir cookies pròpies ni emmagatzematge local (localStorage). A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. No conté dades personals i s'esborra en tancar la pestanya."
 					}
 				]
 			},
@@ -136,7 +148,6 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							"**Registre d'ascensions** al teu dispositiu (sense compte).",
 							"**Comptes opcionals** per sincronitzar el carnet, amb les dades allotjades a la Unió Europea (Supabase), i amb opcions per exportar-les i esborrar-les. També s'hi explicaran les condicions per a menors d'edat (a Espanya, el consentiment propi es pot donar a partir dels 14 anys).",
 							'**Previsió meteorològica** a les fitxes de cim, que es demanarà a través del nostre servidor.',
 							"**Mesura d'audiència**, si mai n'hi ha: seria sense cookies i sense dades personals identificables."
@@ -153,7 +164,7 @@ export const privacitat: Contingut = {
 			'Cómo trata Carnet de Cims tus datos: sin cuentas, sin cookies de seguimiento ni analítica. Qué servicios reciben la IP y qué derechos tienes.',
 		h1: 'Política de privacidad',
 		intro:
-			'En resumen: ahora mismo Carnet de Cims no te pide ningún dato, no usa cookies de seguimiento ni analítica y no guarda ningún dato personal en tu dispositivo. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
+			'En resumen: Carnet de Cims no te pide ningún dato ni usa cookies de seguimiento ni analítica, y las ascensiones que registras se guardan solo en tu dispositivo: no nos llegan. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
 		seccions: [
 			{
 				id: 'responsable',
@@ -186,11 +197,19 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Ahora mismo la web no guarda ningún dato personal en tu navegador: ni cookies propias, ni almacenamiento local (localStorage), ni base de datos del navegador (IndexedDB). Lo único que guarda es información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. No contiene datos personales y se borra al cerrar la pestaña.'
+						text: 'Las ascensiones que registras (cima, fecha, método y, si quieres, una nota) se guardan **solo en tu dispositivo**, en la base de datos del navegador (IndexedDB). No hay cuentas ni sincronización: estos datos no se envían a ningún servidor, ni al nuestro ni al de nadie, y nosotros no tenemos acceso a ellos. El navegador puede pedirte permiso para conservarlos de forma persistente, para que no los borre si le falta espacio.'
+					},
+					{
+						tipus: 'llista',
+						items: [
+							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON y volver a importarla en otro navegador o dispositivo.',
+							'**Borrarlas:** desde la aplicación puedes borrar todas tus ascensiones del dispositivo. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
+							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones se pierden: te recomendamos exportar una copia de vez en cuando.'
+						]
 					},
 					{
 						tipus: 'paragraf',
-						text: 'Cuando se active el registro de ascensiones, los datos que anotes se guardarán solo en tu dispositivo, en el almacenamiento del navegador, y no nos llegarán. Podrás borrarlos cuando quieras borrando los datos del sitio en el navegador. Actualizaremos esta política antes de activarlo.'
+						text: 'No usamos cookies propias ni almacenamiento local (localStorage). Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. No contiene datos personales y se borra al cerrar la pestaña.'
 					}
 				]
 			},
@@ -260,7 +279,6 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Registro de ascensiones** en tu dispositivo (sin cuenta).',
 							'**Cuentas opcionales** para sincronizar el carnet, con los datos alojados en la Unión Europea (Supabase), y con opciones para exportarlos y borrarlos. También se explicarán las condiciones para menores de edad (en España, el consentimiento propio puede darse a partir de los 14 años).',
 							'**Previsión meteorológica** en las fichas de cima, que se pedirá a través de nuestro servidor.',
 							'**Medición de audiencia**, si algún día la hay: sería sin cookies y sin datos personales identificables.'

@@ -104,7 +104,7 @@
 				<span class="label exemple">{m.home_passport_example()}</span>
 			</div>
 			<div class="row">
-				<p class="count">{EXEMPLE}<small>{m.app_count_of()}</small></p>
+				<p class="count">{EXEMPLE}<small>{m.app_count_of({ target: '100' })}</small></p>
 				<ol class="pages">
 					{#each pagines as p (p)}
 						<li class={{ cur: p === 1 }} style:--omplert="{p === 1 ? EXEMPLE : 0}%">

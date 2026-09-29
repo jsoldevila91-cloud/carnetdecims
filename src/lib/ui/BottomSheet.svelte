@@ -81,7 +81,9 @@
 		inset: auto 0 0 0;
 		width: 100%;
 		max-width: 100%;
-		max-height: min(88dvh, 100% - var(--safe-top) - var(--sp-8));
+		/* Unitats de viewport (no %): el panell n'hereta el valor i ha de resoldre's igual. */
+		--sheet-max-h: min(88dvh, 100dvh - var(--safe-top) - var(--sp-8));
+		max-height: var(--sheet-max-h);
 		margin: 0;
 		padding: 0;
 		border: 0;
@@ -106,7 +108,7 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		max-height: inherit;
+		max-height: var(--sheet-max-h);
 		background: var(--c-card);
 		border-top: var(--bw) solid var(--c-line);
 		box-shadow: var(--sh-sheet);
