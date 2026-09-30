@@ -109,7 +109,7 @@ export const repteInfantil: Contingut = {
 						items: [
 							'Busca els cims més propers a casa a la [llista de comarques](/comarques) o al [mapa](/mapa).',
 							'Tria rutes curtes al principi i ves allargant a mesura que el nen o la nena guanyi confiança.',
-							'Anota les ascensions al [carnet](/app), que es desa al dispositiu i no demana compte. De moment hi ha un sol carnet per dispositiu, sense perfils per a cada infant.'
+							'Anota les ascensions al [carnet](/app), que es desa al dispositiu i no demana compte. El carnet compta com el repte adult, amb pàgines de 100 cims: per al repte infantil, la fita són 50. De moment hi ha un sol carnet per dispositiu, sense perfils per a cada infant.'
 						]
 					},
 					{
@@ -165,7 +165,7 @@ export const repteInfantil: Contingut = {
 			}
 		],
 		fonts: FONTS_CA,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	},
 	es: {
 		title: 'Reto infantil 100 Cims: 50 cimas para niños',
@@ -253,7 +253,7 @@ export const repteInfantil: Contingut = {
 						items: [
 							'Busca las cimas más cercanas a casa en la [lista de comarcas](/comarques) o en el [mapa](/mapa).',
 							'Elige rutas cortas al principio y ve alargándolas a medida que el niño o la niña gane confianza.',
-							'Anota las ascensiones en el [carnet](/app), que se guarda en el dispositivo y no pide cuenta. Por ahora hay un solo carnet por dispositivo, sin perfiles para cada peque.'
+							'Anota las ascensiones en el [carnet](/app), que se guarda en el dispositivo y no pide cuenta. El carnet cuenta como el reto adulto, con páginas de 100 cimas: para el reto infantil, la meta son 50. Por ahora hay un solo carnet por dispositivo, sin perfiles para cada peque.'
 						]
 					},
 					{
@@ -309,6 +309,6 @@ export const repteInfantil: Contingut = {
 			}
 		],
 		fonts: FONTS_ES,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	}
 };

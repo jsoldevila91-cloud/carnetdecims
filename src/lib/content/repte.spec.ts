@@ -105,7 +105,9 @@ describe.each(Object.entries(PAGINES))('contingut del hub: %s', (_nom, contingut
 		expect(p.description.length).toBeGreaterThanOrEqual(110);
 		expect(p.h1.length).toBeGreaterThan(0);
 		expect(p.intro.length).toBeGreaterThan(0);
-		expect(p.actualitzat).toBe('2026-09-29');
+		// Data ISO i no anterior a la publicació del hub (bloc 3c).
+		expect(p.actualitzat).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+		expect(p.actualitzat >= '2026-09-29').toBe(true);
 		expect(p.noindex).toBeFalsy();
 		// "100 Cims" com a descriptor del repte, sempre amb la grafia de la marca.
 		expect(p.title).toContain('100 Cims');

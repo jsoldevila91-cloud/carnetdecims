@@ -152,7 +152,7 @@ export const repte: Contingut = {
 							'Mira els cims que tens més a prop a la [llista de comarques](/comarques) o al [mapa](/mapa).',
 							'Si busques reptes d’alta muntanya, comença pels [tresmils](/tresmils) o pels [cims més alts](/cims-mes-alts).',
 							'Consulta la [llista completa de cims](/cims), amb la fitxa, el mapa i les restriccions de cadascun.',
-							'Anota cada ascensió al [teu carnet](/app): es desa al teu dispositiu, sense compte, i hi veus quants cims i quants essencials portes. És un seguiment personal que no substitueix la validació de la FEEC.'
+							'Anota cada ascensió al [teu carnet](/app): es desa al teu dispositiu, sense compte, i cada cim hi queda segellat en pàgines de la I a la V, una per cada 100 cims. Hi veus quins essencials et falten, els més propers primer si vols, i com vas a cada comarca. És un seguiment personal que no substitueix la validació de la FEEC.'
 						]
 					},
 					{
@@ -190,7 +190,7 @@ export const repte: Contingut = {
 			}
 		],
 		fonts: FONTS_CA,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	},
 	es: {
 		title: 'Reto 100 Cims: qué es y cómo funciona',
@@ -312,7 +312,7 @@ export const repte: Contingut = {
 							'Mira qué cimas tienes más cerca en la [lista de comarcas](/comarques) o en el [mapa](/mapa).',
 							'Si buscas alta montaña, empieza por los [tresmiles](/tresmils) o por las [cimas más altas](/cims-mes-alts).',
 							'Consulta la [lista completa de cimas](/cims), con la ficha, el mapa y las restricciones de cada una.',
-							'Anota cada ascensión en [tu carnet](/app): se guarda en tu dispositivo, sin cuenta, y ves cuántas cimas y cuántas esenciales llevas. Es un seguimiento personal que no sustituye la validación de la FEEC.'
+							'Anota cada ascensión en [tu carnet](/app): se guarda en tu dispositivo, sin cuenta, y cada cima queda sellada en páginas de la I a la V, una por cada 100 cimas. Ves qué esenciales te faltan, las más cercanas primero si quieres, y cómo vas en cada comarca. Es un seguimiento personal que no sustituye la validación de la FEEC.'
 						]
 					},
 					{
@@ -350,6 +350,6 @@ export const repte: Contingut = {
 			}
 		],
 		fonts: FONTS_ES,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	}
 };

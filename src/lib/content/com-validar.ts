@@ -134,7 +134,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'A més, al [teu carnet](/app) pots anotar les ascensions (es desen al teu dispositiu, sense compte), veure quants cims i quants essencials portes i rebre un avís si en un any passes de 100 cims nous, si repeteixes un cim o si el dia de l’ascensió hi havia una restricció d’accés.'
+						text: 'A més, al [teu carnet](/app) pots anotar les ascensions (es desen al teu dispositiu, sense compte) i veure-les segellades en pàgines de la I a la V, quins essencials et falten i com vas a cada comarca. També t’avisa si en un any passes de 100 cims nous, si repeteixes un cim o si el dia de l’ascensió hi havia una restricció d’accés.'
 					},
 					{
 						tipus: 'paragraf',
@@ -180,7 +180,7 @@ export const comValidar: Contingut = {
 			}
 		],
 		fonts: FONTS_CA,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	},
 	es: {
 		title: 'Cómo validar las cimas del reto 100 Cims',
@@ -287,7 +287,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'Además, en [tu carnet](/app) puedes anotar las ascensiones (se guardan en tu dispositivo, sin cuenta), ver cuántas cimas y cuántas esenciales llevas y recibir un aviso si en un año pasas de 100 cimas nuevas, si repites una cima o si el día de la ascensión había una restricción de acceso.'
+						text: 'Además, en [tu carnet](/app) puedes anotar las ascensiones (se guardan en tu dispositivo, sin cuenta) y verlas selladas en páginas de la I a la V, qué esenciales te faltan y cómo vas en cada comarca. También te avisa si en un año pasas de 100 cimas nuevas, si repites una cima o si el día de la ascensión había una restricción de acceso.'
 					},
 					{
 						tipus: 'paragraf',
@@ -333,6 +333,6 @@ export const comValidar: Contingut = {
 			}
 		],
 		fonts: FONTS_ES,
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	}
 };

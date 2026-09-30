@@ -1,10 +1,12 @@
 /**
- * `/privacitat` (RGPD), ajustada al que fa el web AVUI (verificat al codi el 2026-09-29):
+ * `/privacitat` (RGPD), ajustada al que fa el web AVUI (verificat al codi el 2026-09-30):
  * - sense comptes; el registre d'ascensions (bloc 4a) desa les ascensions NOMÉS al dispositiu,
  *   a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb exportació JSON, importació i
  *   esborrat total (`data/ascensions.ts`: `exportarDades`, `importarDades`, `esborrarTot`) i
  *   petició d'emmagatzematge persistent (`platform/emmagatzematge.ts`); no surten del dispositiu
  *   (la cua `outbox` és per a la sync futura de la fase 5 i avui no s'envia enlloc);
+ * - geolocalització (bloc 4b, `platform/geolocalitzacio.ts`): només amb el botó «Ordena per
+ *   proximitat» dels essencials pendents; la posició es queda en memòria i no es desa ni s'envia;
  * - cap `localStorage` ni cookie pròpia (Paraglide amb estratègia
  *   `url` + `baseLocale`, sense cookie); cap analítica, publicitat ni Google Fonts (fonts
  *   autoallotjades amb @fontsource);
@@ -73,7 +75,8 @@ export const privacitat: Contingut = {
 						items: [
 							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON i tornar-la a importar en un altre navegador o dispositiu.",
 							"**Esborrar-les:** des de l'aplicació pots esborrar totes les teves ascensions del dispositiu. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
-							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions es perden: et recomanem exportar-ne una còpia de tant en tant.'
+							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions es perden: et recomanem exportar-ne una còpia de tant en tant.',
+							"**La teva ubicació:** només si a la llista d'essencials pendents tries ordenar-los per proximitat, i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies: no es desa ni s'envia enlloc. Si no dones permís, la llista s'ordena per comarca."
 						]
 					},
 					{
@@ -156,7 +159,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -204,7 +207,8 @@ export const privacitat: Contingut = {
 						items: [
 							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON y volver a importarla en otro navegador o dispositivo.',
 							'**Borrarlas:** desde la aplicación puedes borrar todas tus ascensiones del dispositivo. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
-							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones se pierden: te recomendamos exportar una copia de vez en cuando.'
+							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones se pierden: te recomendamos exportar una copia de vez en cuando.',
+							'**Tu ubicación:** solo si en la lista de esenciales pendientes eliges ordenarlas por proximidad, y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias: no se guarda ni se envía a ningún sitio. Si no das permiso, la lista se ordena por comarca.'
 						]
 					},
 					{
@@ -287,6 +291,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-09-30'
 	}
 };
