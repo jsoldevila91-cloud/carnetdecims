@@ -449,7 +449,8 @@ test.describe('Desfés, persistència i moviment', () => {
 		await expect(page.getByRole('heading', { name: 'Registra el teu primer cim' })).toBeVisible();
 	});
 
-	test('/ca/app mostra el progrés i les darreres ascensions després de recarregar', async ({
+	// Bloc 4b: la llista "Últimes ascensions" de /app l'ha substituïda el carnet de segells.
+	test('/ca/app mostra el progrés, els segells en ordre i l’últim segell després de recarregar', async ({
 		page
 	}) => {
 		await sembrar(page, [
@@ -459,10 +460,15 @@ test.describe('Desfés, persistència i moviment', () => {
 			{ cimId: CIM.canigo.id, data: '2022-07-01' }
 		]);
 		await expect.poll(() => comptador(page)).toBe('4/100');
-		const recents = page.getByRole('region', { name: /Últimes ascensions/ }).getByRole('heading', {
-			level: 3
-		});
-		await expect(recents).toHaveText(['Montcau', 'Pedraforca', 'Matagalls']);
+		const segells = page.getByRole('list', { name: 'Caselles de la pàgina I' }).getByRole('button');
+		await expect(segells).toHaveCount(4);
+		const noms = await segells.evaluateAll((bs) =>
+			bs.map((b) => /^Casella \d+: (.+), [^,]+$/.exec(b.getAttribute('aria-label') ?? '')?.[1])
+		);
+		expect(noms).toEqual(['Canigó', 'Matagalls', 'Pedraforca', 'Montcau']);
+		await expect(page.getByRole('region', { name: 'Progrés del repte' })).toContainText(
+			'Últim segell: Montcau'
+		);
 	});
 
 	test('prefers-reduced-motion: el segell del toast no s’anima', async ({ page }) => {

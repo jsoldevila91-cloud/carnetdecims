@@ -113,7 +113,9 @@ export const ROUTES = {
 		map: '/ca/mapa',
 		app: '/ca/app',
 		account: '/ca/app/compte',
-		register: '/ca/app/registrar'
+		register: '/ca/app/registrar',
+		essentials: '/ca/app/essencials',
+		regions: '/ca/app/comarques'
 	},
 	es: {
 		home: '/es',
@@ -121,6 +123,8 @@ export const ROUTES = {
 		map: '/es/mapa',
 		app: '/es/app',
 		account: '/es/app/cuenta',
-		register: '/es/app/registrar'
+		register: '/es/app/registrar',
+		essentials: '/es/app/esenciales',
+		regions: '/es/app/comarcas'
 	}
 } as const;

@@ -123,7 +123,12 @@ export async function expectBdBuida(page: Page) {
  */
 export async function sembrar(page: Page, files: FilaSembra[], url = '/ca/app') {
 	await gotoHydrated(page, '/ca/app');
-	await expect(page.getByText('Carregant el carnet…')).toHaveCount(0);
+	// Des del bloc 4b el text de càrrega és un esquelet; el senyal fiable que Dexie ja ha obert
+	// (i creat) la BD és `aria-busy="false"` a la targeta de progrés.
+	await expect(page.getByRole('region', { name: 'Progrés del repte' })).toHaveAttribute(
+		'aria-busy',
+		'false'
+	);
 	const rows = files.map((f, i) => completar(f, i));
 	await page.evaluate(
 		({ nom, rows }) =>
