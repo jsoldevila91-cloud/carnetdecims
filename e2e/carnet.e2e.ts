@@ -442,8 +442,15 @@ test.describe('Detall del segell', () => {
 		expect(files.find((f) => f.cimId === CIM.pedraforca.id)?.data).toBe('2024-06-01');
 
 		// El focus ha de tornar al segell editat (ara a la casella 3), no a una altra casella
-		const focus = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'));
-		expect(focus, 'focus després d’editar').toMatch(/^Casella 3: Pedraforca/);
+		// (El focus s'aplica en un frame posterior: es reintenta fins al timeout d'expect.)
+		await expect
+			.poll(() => page.evaluate(() => document.activeElement?.getAttribute('aria-label') ?? ''), {
+				message: 'focus després d’editar'
+			})
+			.toMatch(/^Casella 3: Pedraforca/);
+		// Passat el termini (2,5 s) el focus no salta enlloc: continua al mateix segell
+		await page.waitForTimeout(3000);
+		await expect(casella(page, 3)).toBeFocused();
 	});
 
 	test('recarregar amb el detall obert no trenca la pàgina', async ({ page }) => {

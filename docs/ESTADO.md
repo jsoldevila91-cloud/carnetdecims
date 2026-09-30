@@ -81,9 +81,21 @@
     - importar en WebKit/Windows cuesta ~15 ms por petición a IndexedDB (2000 entradas ≈ 60 s): **medir en un iPhone real**;
     - descartado de momento no escribir `outbox` sin cuentas (reduciría el tiempo a la mitad), para no cambiar el diseño de la sync de la fase 5.
 
+- **Bloque 4b (terminado, 2026-09-30): el carnet con sellos.**
+  - **Dominio** `src/lib/domain/carnet.ts`:
+    - `paginesCarnet` (I–V, 100 casillas por página; página I con la regla de esenciales §3.1; `enEspera` para no esenciales ≥ 2019-07-01 sin el 100; `fora` para > 500);
+    - `resumCarnet`, `progresComarques`, `essencialsPendentsOrdenades`.
+  - **UI:**
+    - `/app` "El meu carnet": pestañas ARIA I–V, cuadrícula con sellos (solo la página visible; casillas vacías `aria-hidden` con resumen "Caselles buides: n–100");
+    - detalle del sello en una hoja (foco vuelve al sello, también tras editar y reordenar);
+    - `/app/essencials` (geolocalización solo al pulsar) y `/app/comarques` (`role="meter"`);
+    - el historial marca "Fora del repte" las inválidas.
+  - **SEO:** textos públicos en presente; privacitat menciona la ubicación opcional.
+  - **QA:** `e2e/carnet.e2e.ts` + `PaginesCarnet.svelte.spec.ts`. **916 E2E pasados, 0 fallidos** en los 3 proyectos; 522 unitarios.
+
 ## Siguiente
 
-Bloque **4b** (en curso): carnet con sellos I–V, esenciales pendientes y progreso por comarca.
+Bloque **4c** (en curso): mapa interactivo MapLibre + ICGC, filtros y "Cims a prop".
 
 ## Pendiente o decisiones abiertas
 
