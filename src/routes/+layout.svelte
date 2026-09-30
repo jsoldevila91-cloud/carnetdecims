@@ -61,6 +61,15 @@
 		document.querySelector<HTMLElement>(selector)?.focus();
 	}
 
+	/**
+	 * En aparèixer l'error de càrrega, el focus va a "Torna-ho a provar" (l'única acció útil):
+	 * `showModal` l'havia deixat a "Tanca". Es fa al frame següent perquè el diàleg ja sigui obert.
+	 */
+	function enfocarEnMuntar(node: HTMLElement) {
+		const id = requestAnimationFrame(() => node.focus());
+		return () => cancelAnimationFrame(id);
+	}
+
 	function closeSheet() {
 		// El full s'ha obert amb pushState: tornar enrere el tanca i restaura l'URL.
 		history.back();
@@ -100,7 +109,9 @@
 	{:catch}
 		<div class="carrega-error" role="alert">
 			<p>{m.register_load_error()}</p>
-			<Button variant="ink" onclick={reintentaCarrega}>{m.register_load_retry()}</Button>
+			<Button variant="ink" onclick={reintentaCarrega} {@attach enfocarEnMuntar}>
+				{m.register_load_retry()}
+			</Button>
 		</div>
 	{/await}
 </BottomSheet>

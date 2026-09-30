@@ -14,10 +14,10 @@ declare global {
 		// interface PageData {}
 		interface PageState {
 			/** Full inferior obert amb shallow routing (el botó enrere el tanca). */
-			sheet?: 'registrar' | 'editar';
+			sheet?: 'registrar' | 'editar' | 'segell';
 			/** Registrar: slug del cim preseleccionat (des de la fitxa). */
 			cim?: string;
-			/** Editar: id de l'ascensió. */
+			/** Editar / detall del segell: id de l'ascensió. */
 			ascensio?: string;
 		}
 	}

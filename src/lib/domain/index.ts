@@ -3,3 +3,4 @@ export * from './types';
 export * from './repte';
 export * from './toponims';
 export * from './geo';
+export * from './carnet';

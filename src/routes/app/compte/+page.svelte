@@ -23,6 +23,8 @@
 	let important = $state(false);
 	let progres = $state<{ fetes: number; total: number } | null>(null);
 	let titolDades: HTMLHeadingElement | undefined = $state();
+	let estatProgres: HTMLDivElement | undefined = $state();
+	let botoImportar: HTMLElement | undefined;
 
 	async function exportar() {
 		ocupat = true;
@@ -43,6 +45,10 @@
 		if (!f) return;
 		important = true;
 		progres = null;
+		// El botó d'importar es desactiva: el focus passa a l'estat de progrés (no a <body>) i
+		// aquest es mostra per sobre de la barra inferior.
+		await tick();
+		estatProgres?.focus();
 		try {
 			const r = await importarDades(await f.text(), 'fusionar', {
 				onProgres: (p) => (progres = { ...p })
@@ -68,7 +74,19 @@
 		} finally {
 			important = false;
 			progres = null;
+			// L'estat de progrés desapareix: el focus torna al botó d'importar (ja actiu).
+			await tick();
+			if (!document.activeElement || document.activeElement === document.body) {
+				botoImportar?.focus();
+			}
 		}
+	}
+
+	function desaBotoImportar(node: HTMLElement) {
+		botoImportar = node;
+		return () => {
+			if (botoImportar === node) botoImportar = undefined;
+		};
 	}
 
 	async function esborrarTotConfirmat() {
@@ -112,7 +130,12 @@
 		</div>
 
 		<div class="import">
-			<Button variant="outline" onclick={() => fitxer?.click()} disabled={ocupat || important}>
+			<Button
+				variant="outline"
+				onclick={() => fitxer?.click()}
+				disabled={ocupat || important}
+				{@attach desaBotoImportar}
+			>
 				{m.account_import()}
 			</Button>
 			<input
@@ -131,7 +154,7 @@
 				{important ? m.account_importing() : ''}
 			</p>
 			{#if important}
-				<div class="progres">
+				<div class="progres" tabindex="-1" bind:this={estatProgres}>
 					<progress
 						max={progres?.total || 1}
 						value={progres ? progres.fetes : undefined}
@@ -249,6 +272,21 @@
 		flex: 1 1 100%;
 		font-size: var(--fs-sm);
 		color: var(--c-ink-2);
+		/* En enfocar-lo (o fer-hi scroll) queda per sobre de la barra inferior del mòbil. */
+		scroll-margin-bottom: calc(var(--nav-h) + var(--safe-bottom) + var(--sp-4));
+		scroll-margin-top: var(--sp-8);
+		border-radius: var(--r-sm);
+	}
+
+	.progres:focus-visible {
+		outline: 2px solid var(--c-ink);
+		outline-offset: 4px;
+	}
+
+	@media (min-width: 48rem) {
+		.progres {
+			scroll-margin-bottom: var(--sp-6);
+		}
 	}
 
 	.progres progress {

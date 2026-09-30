@@ -65,6 +65,8 @@ export const LOCALIZED_ROUTES: ReadonlyArray<{ path: string; localized: Localize
 
 	// Zona app (noindex): /app es manté igual en tots dos idiomes
 	{ path: '/app/compte', localized: { ca: '/app/compte', es: '/app/cuenta' } },
+	{ path: '/app/essencials', localized: { ca: '/app/essencials', es: '/app/esenciales' } },
+	{ path: '/app/comarques', localized: { ca: '/app/comarques', es: '/app/comarcas' } },
 	{ path: '/app/a-prop', localized: { ca: '/app/a-prop', es: '/app/cerca' } },
 	{ path: '/app/progres', localized: { ca: '/app/progres', es: '/app/progreso' } }
 ];
