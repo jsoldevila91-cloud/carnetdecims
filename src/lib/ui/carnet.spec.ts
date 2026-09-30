@@ -4,7 +4,8 @@ import {
 	dataSegellCurta,
 	dataSegellLlarga,
 	inclinacioSegell,
-	inicialsCim
+	inicialsCim,
+	rangsCasellesBuides
 } from './carnet';
 
 describe('carnet (presentació)', () => {
@@ -35,6 +36,14 @@ describe('carnet (presentació)', () => {
 			expect(r).toBeLessThanOrEqual(7);
 			expect(inclinacioSegell(i)).toBe(r);
 		}
+	});
+
+	it('rangs de caselles buides', () => {
+		expect(rangsCasellesBuides(new Set([1, 2, 5]))).toBe('3–4, 6–100');
+		expect(rangsCasellesBuides(new Set())).toBe('1–100');
+		expect(rangsCasellesBuides(new Set([100]))).toBe('1–99');
+		expect(rangsCasellesBuides(new Set([1, 3]), 4)).toBe('2, 4');
+		expect(rangsCasellesBuides(new Set(CASELLES_PAGINA))).toBe('');
 	});
 
 	it('100 caselles per pàgina', () => {

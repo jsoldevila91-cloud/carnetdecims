@@ -2,7 +2,7 @@
 	import type { Ascensio } from '$lib/domain';
 	import { ascensionsVivesAmbEstat } from '$lib/data/ascensions';
 	import { CIMS } from '$lib/data/catalog';
-	import { ascensionsEnRestriccio } from '$lib/domain';
+	import { ascensionsEnRestriccio, ascensionsValides, avuiLocal } from '$lib/domain';
 	import { Button, EmptyState, PageMeta } from '$lib/ui';
 	import FilaAscensio from '$lib/ui/FilaAscensio.svelte';
 	import { esborrarAmbDesfer } from '$lib/ui/accions-ascensio';
@@ -25,7 +25,15 @@
 
 	const llista = $derived($vives.ascensions);
 	const grups = $derived(agruparPerAny(llista));
-	const repeticions = $derived(idsRepeticions(llista));
+	// Mateix criteri que el carnet: les repeticions es calculen sobre les ascensions vàlides
+	// (`ascensionsValides`); les invàlides (abans del 01/07/2006, futures…) són "fora del repte".
+	const avui = avuiLocal();
+	const valides = $derived(ascensionsValides(llista, CIMS, avui));
+	const repeticions = $derived(idsRepeticions(valides));
+	const foraRepte = $derived.by(() => {
+		const ok = new Set(valides.map((a) => a.id));
+		return new Set(llista.filter((a) => !ok.has(a.id)).map((a) => a.id));
+	});
 	const enRestriccio = $derived(
 		new Set(ascensionsEnRestriccio(llista, CIMS).map((a) => a.ascensio.id))
 	);
@@ -79,6 +87,7 @@
 						<FilaAscensio
 							ascensio={a}
 							repeticio={repeticions.has(a.id)}
+							foraRepte={foraRepte.has(a.id)}
 							restriccio={enRestriccio.has(a.id)}
 							onedit={() => obrirEdicio(a.id)}
 							ondelete={() => esborrar(a)}

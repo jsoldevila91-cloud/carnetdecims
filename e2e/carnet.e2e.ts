@@ -176,7 +176,10 @@ test.describe('Carnet amb dades', () => {
 
 		// Nombre de segells = cims diferents que compten (les repeticions no en creen)
 		await expect(segells(page)).toHaveCount(30);
-		await expect(graella(page).getByRole('listitem')).toHaveCount(100);
+		// 100 caselles visibles; per al lector, només les 30 amb segell i un resum de les buides
+		await expect(graella(page).locator('li')).toHaveCount(100);
+		await expect(graella(page).getByRole('listitem')).toHaveCount(30);
+		await expect(panell(page).getByText('Caselles buides: 31–100.')).toHaveCount(1);
 		const vist = await segellsVisibles(page);
 		expect(vist).toEqual(esperat.map(([id], i) => [i + 1, cimId(id).nom]));
 
@@ -243,6 +246,13 @@ test.describe('Carnet amb dades', () => {
 		await expect(fila2012, 'l’ascensió que segella no és una repetició').not.toContainText(
 			'Repetició · no suma'
 		);
+		// La del 30/06/2006 (abans de l'inici del repte) surt com a "fora del repte"
+		const fila2006 = page
+			.getByRole('region', { name: /^2006\b/ })
+			.locator('li')
+			.filter({ hasText: 'Pedraforca' });
+		await expect(fila2006).toContainText('Fora del repte · no compta');
+		await expect(fila2006).not.toContainText('Repetició · no suma');
 	});
 });
 
@@ -515,7 +525,7 @@ test.describe('Essencials pendents (/app/essencials)', () => {
 		await expect(page.locator('main')).toContainText(
 			`Et falten ${pendents.length} de 150 cims essencials.`
 		);
-		await expect(estat(page)).toHaveText('Ordenades per comarca i altitud.');
+		await expect(estat(page)).toHaveText('Ordenats per comarca i altitud.');
 		const esperat = [...pendents].sort(perComarca).map((c) => c.nom);
 		expect(await noms(page)).toEqual(esperat);
 		await page.waitForTimeout(500);
@@ -544,7 +554,7 @@ test.describe('Essencials pendents (/app/essencials)', () => {
 			.map((c) => c.nom);
 		await page.getByRole('button', { name: 'Ordena per proximitat' }).click();
 		await expect(page.getByRole('alert')).toContainText('No hi ha permís per saber on ets');
-		await expect(estat(page)).toHaveText('Ordenades per comarca i altitud.');
+		await expect(estat(page)).toHaveText('Ordenats per comarca i altitud.');
 		expect(await noms(page)).toEqual(esperat);
 		await expect(page.getByRole('button', { name: 'Ordena per proximitat' })).toBeVisible();
 	});
@@ -570,7 +580,7 @@ test.describe('Essencials pendents (/app/essencials)', () => {
 		expect(perDistancia[0].nom).toBe('Turó de la Magarola');
 
 		await page.getByRole('button', { name: 'Ordena per proximitat' }).click();
-		await expect(estat(page)).toHaveText('Ordenades per distància des de la teva posició.');
+		await expect(estat(page)).toHaveText('Ordenats per distància des de la teva posició.');
 		const vist = await noms(page);
 		expect(vist[0]).toBe(perDistancia[0].nom);
 		expect(vist).toEqual(perDistancia.map((c) => c.nom));
@@ -582,7 +592,7 @@ test.describe('Essencials pendents (/app/essencials)', () => {
 		const boto = page.getByRole('button', { name: 'Ordena per comarca' });
 		await boto.focus();
 		await page.keyboard.press('Enter');
-		await expect(estat(page)).toHaveText('Ordenades per comarca i altitud.');
+		await expect(estat(page)).toHaveText('Ordenats per comarca i altitud.');
 		await expect(page.getByRole('button', { name: 'Ordena per proximitat' })).toBeFocused();
 		expect(await noms(page)).toEqual([...pendents].sort(perComarca).map((c) => c.nom));
 		await expect(page.locator('main ul.llista')).not.toContainText(' km');
@@ -829,18 +839,17 @@ test.describe('Reflow a 320 px i idiomes', () => {
 
 // ── Verbositat per a lectors de pantalla ─────────────────────────────────────
 
-test('lector de pantalla: quantes caselles buides s’anuncien a la graella', async ({ page }) => {
+test('lector de pantalla: la graella només anuncia els segells i resumeix les buides', async ({
+	page
+}) => {
 	await sembrar(page, [{ cimId: CIM.pedraforca.id, data: '2020-01-01' }]);
-	const buides = graella(page)
-		.getByRole('listitem')
-		.filter({ hasText: /^\s*\d+\s*Casella \d+, buida\s*$/ });
-	const n = await graella(page).getByRole('listitem').count();
-	const b = await buides.count();
-	test.info().annotations.push({
-		type: 'a11y',
-		description: `Graella: ${n} elements de llista; ${b} caselles buides amb text "Casella n, buida" per al lector.`
-	});
-	expect(n).toBe(100);
-	// Informatiu (vegeu l'informe): amb 1 segell, el lector recorre 99 "Casella n, buida".
-	expect(b).toBe(99);
+	// Visualment hi ha 100 caselles; per al lector, la llista només té la casella amb segell.
+	await expect(graella(page).locator('li')).toHaveCount(100);
+	await expect(graella(page).getByRole('listitem')).toHaveCount(1);
+	await expect(graella(page).getByRole('listitem').getByRole('button')).toHaveAccessibleName(
+		/^Casella 1: Pedraforca, /
+	);
+	await expect(graella(page).locator('li[aria-hidden="true"]')).toHaveCount(99);
+	// Un sol resum de les buides, fora de la llista
+	await expect(panell(page).getByText('Caselles buides: 2–100.')).toHaveCount(1);
 });

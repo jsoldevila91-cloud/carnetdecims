@@ -58,8 +58,39 @@
 
 	function obrirSegell(s: SegellCarnet | SegellFora) {
 		if (page.state.sheet) return;
+		segellActiu = s.ascensioId;
 		pushState('', { sheet: 'segell', ascensio: s.ascensioId });
 	}
+
+	/**
+	 * Focus en tancar el detall (o l'edició / el registre que s'hi obre): no es confia en el
+	 * `<dialog>` natiu (WebKit el deixa a <body> i, si l'edició reordena les caselles, el botó
+	 * original ja és un altre cim). Es demana a la graella que enfoqui el segell per
+	 * `ascensioId`, també quan arribin les dades desades; s'oblida a la primera interacció o
+	 * al cap d'uns segons.
+	 */
+	let segellActiu: string | null = null;
+	let focusSegell = $state<string | null>(null);
+
+	$effect(() => {
+		if (page.state.sheet) {
+			focusSegell = null;
+			return;
+		}
+		if (!segellActiu) return;
+		focusSegell = segellActiu;
+		segellActiu = null;
+		const oblida = () => (focusSegell = null);
+		const temps = setTimeout(oblida, 2500);
+		const opts = { once: true, capture: true } as const;
+		window.addEventListener('pointerdown', oblida, opts);
+		window.addEventListener('keydown', oblida, opts);
+		return () => {
+			clearTimeout(temps);
+			window.removeEventListener('pointerdown', oblida, opts);
+			window.removeEventListener('keydown', oblida, opts);
+		};
+	});
 
 	function tancarSegell() {
 		history.back();
@@ -188,7 +219,7 @@
 			<h2 id="pagines-t" class="x-wide">{m.carnet_pages_title()}</h2>
 			<a href={href('/app/historial')}>{m.app_history_link()} →</a>
 		</div>
-		<PaginesCarnet {carnet} onobrir={obrirSegell} />
+		<PaginesCarnet {carnet} onobrir={obrirSegell} enfocar={focusSegell} />
 		<div class="actions">
 			<Button
 				href={registrarHref()}

@@ -14,12 +14,15 @@
 	let {
 		ascensio,
 		repeticio = false,
+		foraRepte = false,
 		restriccio = false,
 		onedit,
 		ondelete
 	}: {
 		ascensio: Ascensio;
 		repeticio?: boolean;
+		/** Ascensió invàlida per al repte (abans del 01/07/2006, futura…): no segella. */
+		foraRepte?: boolean;
 		restriccio?: boolean;
 		onedit?: () => void;
 		ondelete?: () => void;
@@ -48,7 +51,7 @@
 			bottom={dataSegell}
 			center={formatAltitude(cim.altitud)}
 			sub={cim.essencial ? '◆' : ''}
-			tone={repeticio ? 'ink' : 'stamp'}
+			tone={repeticio || foraRepte ? 'ink' : 'stamp'}
 			size={64}
 			texture={false}
 		/>
@@ -60,9 +63,10 @@
 		<p class="meta mono">
 			<time datetime={ascensio.data}>{data}</time> · {METODE[ascensio.metode]()}
 		</p>
-		{#if repeticio || restriccio}
+		{#if repeticio || foraRepte || restriccio}
 			<p class="tags">
-				{#if repeticio}<span class="tag mono">{m.history_repeat()}</span>{/if}
+				{#if foraRepte}<span class="tag mono">{m.history_out_of_challenge()}</span>
+				{:else if repeticio}<span class="tag mono">{m.history_repeat()}</span>{/if}
 				{#if restriccio}<span class="tag mono warn">! {m.history_restriction()}</span>{/if}
 			</p>
 		{/if}

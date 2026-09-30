@@ -79,6 +79,24 @@ export function inclinacioSegell(llavor: number): number {
 	return Math.round((x - Math.floor(x)) * 14 - 7);
 }
 
+/**
+ * Rangs de caselles buides d'una pàgina (1..100) per al resum del lector de pantalla:
+ * ocupades {1, 2, 5} → "3–4, 6–100"; cap de buida → "".
+ */
+export function rangsCasellesBuides(ocupades: { has(n: number): boolean }, total = 100): string {
+	const rangs: string[] = [];
+	let inici: number | null = null;
+	for (let n = 1; n <= total + 1; n++) {
+		const buida = n <= total && !ocupades.has(n);
+		if (buida && inici === null) inici = n;
+		else if (!buida && inici !== null) {
+			rangs.push(inici === n - 1 ? String(inici) : `${inici}–${n - 1}`);
+			inici = null;
+		}
+	}
+	return rangs.join(', ');
+}
+
 /** Números de les caselles d'una pàgina (1..100). */
 export const CASELLES_PAGINA: readonly number[] = Object.freeze(
 	Array.from({ length: 100 }, (_, i) => i + 1)

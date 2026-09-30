@@ -8,8 +8,10 @@
 		dataSegellCurta,
 		dataSegellLlarga,
 		inclinacioSegell,
-		inicialsCim
+		inicialsCim,
+		rangsCasellesBuides
 	} from './carnet';
+	import { tick, untrack } from 'svelte';
 	import { formatDataLlarga, romanPage } from './format';
 	import Segell from './Segell.svelte';
 	import SegellMini from './SegellMini.svelte';
@@ -21,12 +23,17 @@
 	 */
 	let {
 		carnet,
-		onobrir
+		onobrir,
+		enfocar = null
 	}: {
 		carnet: Carnet;
 		/** Tocar un segell (obre el detall). */
 		onobrir: (segell: SegellCarnet | SegellFora) => void;
+		/** `ascensioId` del segell que ha de rebre el focus (p. ex. en tancar el detall o l'edició). */
+		enfocar?: string | null;
 	} = $props();
+
+	let arrel: HTMLDivElement | undefined = $state();
 
 	const locale = getLocale();
 	const uid = $props.id();
@@ -37,6 +44,32 @@
 	const pagina = $derived(carnet.pagines[visible - 1]);
 
 	const perCasella = $derived(new Map(pagina.segells.map((s) => [s.casella, s])));
+	/** "36–100": caselles buides de la pàgina visible, per al resum del lector. */
+	const buides = $derived(rangsCasellesBuides(perCasella));
+
+	/**
+	 * Focus a un segell (p. ex. el que s'acaba d'editar): canvia a la seva pàgina i l'enfoca
+	 * pel seu `ascensioId`. Es torna a aplicar si el carnet canvia (la casella es reordena quan
+	 * arriben les dades desades) mentre `enfocar` tingui valor.
+	 */
+	$effect(() => {
+		const id = enfocar;
+		if (!id) return;
+		// Segell de la graella (canvia a la seva pàgina) o de les llistes "en espera" / "fora".
+		const aPagina = carnet.pagines.flatMap((p) => p.segells).find((x) => x.ascensioId === id);
+		const extra =
+			carnet.enEspera.some((x) => x.ascensioId === id) ||
+			carnet.fora.some((x) => x.ascensioId === id);
+		if (!aPagina && !extra) return;
+		if (aPagina && untrack(() => visible) !== aPagina.pagina) triada = aPagina.pagina;
+		let frame = 0;
+		tick().then(() => {
+			frame = requestAnimationFrame(() => {
+				arrel?.querySelector<HTMLElement>(`button[data-ascensio="${CSS.escape(id)}"]`)?.focus();
+			});
+		});
+		return () => cancelAnimationFrame(frame);
+	});
 	const nSegells = (p: NumeroPagina) => carnet.pagines[p - 1].segells.length;
 	const tabs: HTMLButtonElement[] = $state([]);
 
@@ -73,7 +106,7 @@
 	}
 </script>
 
-<div class="carnet">
+<div class="carnet" bind:this={arrel}>
 	<div class="tabs" role="tablist" aria-label={m.carnet_pages_tabs_label()}>
 		{#each PAGINES as p (p)}
 			{@const sel = p === visible}
@@ -144,6 +177,8 @@
 			{/if}
 		</header>
 
+		<!-- Per al lector, la llista només té les caselles amb segell (el número va al nom
+		     accessible); les buides són decoratives i es resumeixen en un sol text després. -->
 		{#key visible}
 			<ol class="graella" aria-label={m.carnet_grid_label({ page: romanPage(visible) })}>
 				{#each CASELLES_PAGINA as n (n)}
@@ -155,6 +190,7 @@
 								type="button"
 								aria-label={etiqueta(s)}
 								data-casella={n}
+								data-ascensio={s.ascensioId}
 								onclick={() => onobrir(s)}
 							>
 								<span class="num mono" aria-hidden="true">{n}</span>
@@ -170,14 +206,16 @@
 							</button>
 						</li>
 					{:else}
-						<li class="casella buida">
-							<span class="num mono" aria-hidden="true">{n}</span>
-							<span class="sr-only">{m.carnet_cell_empty({ n: String(n) })}</span>
+						<li class="casella buida" aria-hidden="true">
+							<span class="num mono">{n}</span>
 						</li>
 					{/if}
 				{/each}
 			</ol>
 		{/key}
+		{#if buides}
+			<p class="sr-only">{m.carnet_empty_cells({ ranges: buides })}</p>
+		{/if}
 
 		<p class="llegenda">
 			<span class="mostra compta" aria-hidden="true"></span>{m.carnet_legend_counts()}
@@ -189,7 +227,12 @@
 			{#each llista as s (s.ascensioId)}
 				{@const cim = cimPerId(s.cimId)}
 				<li>
-					<button type="button" onclick={() => onobrir(s)} aria-label={etiquetaExtra(s)}>
+					<button
+						type="button"
+						data-ascensio={s.ascensioId}
+						onclick={() => onobrir(s)}
+						aria-label={etiquetaExtra(s)}
+					>
 						<span class="segell">
 							<SegellMini
 								inicials={inicialsCim(cim?.nom ?? '?')}
@@ -405,8 +448,10 @@
 		color: var(--c-ink-2);
 	}
 
-	.buida .num {
-		opacity: 0.8;
+	/* Jerarquia sense opacitat (contrast ≥ 4,5:1 a 10 px): número de casella plena en negreta. */
+	.plena .num {
+		font-weight: var(--fw-bold);
+		color: var(--c-ink);
 	}
 
 	.plena {

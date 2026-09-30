@@ -193,7 +193,9 @@ export function agruparPerAny<T extends Pick<Ascensio, 'data'>>(
 
 /**
  * Ids de les ascensions que són repeticions (no la primera del cim; a igual data, la creada
- * abans és la primera).
+ * abans és la primera, i després l'id: el mateix ordre que el carnet). Cal passar-hi les
+ * ascensions ja filtrades amb `ascensionsValides`, perquè una ascensió invàlida no pot ser
+ * "la primera" del cim.
  */
 export function idsRepeticions(
 	ascensions: readonly Pick<Ascensio, 'id' | 'cimId' | 'data' | 'createdAt'>[]
@@ -201,7 +203,12 @@ export function idsRepeticions(
 	const primera = new Map<number, Pick<Ascensio, 'id' | 'data' | 'createdAt'>>();
 	for (const a of ascensions) {
 		const p = primera.get(a.cimId);
-		if (!p || a.data < p.data || (a.data === p.data && a.createdAt < p.createdAt)) {
+		if (
+			!p ||
+			a.data < p.data ||
+			(a.data === p.data &&
+				(a.createdAt < p.createdAt || (a.createdAt === p.createdAt && a.id < p.id)))
+		) {
 			primera.set(a.cimId, a);
 		}
 	}
