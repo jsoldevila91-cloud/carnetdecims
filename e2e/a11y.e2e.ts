@@ -1,6 +1,14 @@
 import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
-import { test, expect, gotoHydrated, mainNav, settleAnimations, ROUTES } from './fixtures';
+import {
+	test,
+	expect,
+	gotoHydrated,
+	mainNav,
+	settleAnimations,
+	toleraAvortamentsWebKit,
+	ROUTES
+} from './fixtures';
 
 /** WCAG 2.2 AA (inclou 2.0/2.1 A i AA). */
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
@@ -78,9 +86,11 @@ test.describe('Objectius tàctils i reflow', () => {
 		}
 	});
 
-	test('sense scroll horitzontal a 320 px', async ({ page }) => {
-		// 12 navegacions amb hidratació: 30 s no basten sota càrrega (3 projectes en paral·lel)
-		test.setTimeout(90_000);
+	test('sense scroll horitzontal a 320 px', async ({ page, consoleGuard, browserName }) => {
+		// 16 navegacions amb hidratació: 30 s no basten sota càrrega (3 projectes en paral·lel)
+		test.setTimeout(120_000);
+		// Es surt de /mapa amb el mapa carregant (soroll de WebKit en descarregar el document)
+		toleraAvortamentsWebKit(consoleGuard, browserName);
 		await page.setViewportSize({ width: 320, height: 640 });
 		const urls = [...Object.values(ROUTES.ca), ...Object.values(ROUTES.es)];
 		for (const url of urls) {

@@ -27,6 +27,20 @@ export const test = base.extend<{ consoleGuard: ConsoleGuard }>({
 export { expect };
 
 /**
+ * WebKit: en fer `page.goto` amb el mapa carregant tessel·les, les peticions avortades per la
+ * descàrrega del document surten com a "due to access control checks" (alguna com a rebuig no
+ * gestionat) i "Worker failed to load". No passa amb la navegació del client (MapLibre es destrueix
+ * a `onDestroy`) ni a Chromium; un CORS real fallaria també a Chromium.
+ */
+export function toleraAvortamentsWebKit(
+	consoleGuard: { allow: (p: RegExp) => void },
+	browserName: string
+) {
+	if (browserName === 'webkit')
+		consoleGuard.allow(/due to access control checks|Worker failed to load/);
+}
+
+/**
  * Espera que SvelteKit hagi hidratat la pàgina. Senyal fiable i sense `networkidle` (que sota
  * càrrega, amb els 3 projectes en paral·lel, és lent i no garanteix res): l'HTML prerenderitzat
  * porta hrefs relatius (`../../ca`) i, en hidratar, Svelte els reescriu com a absoluts (`/ca`).
@@ -115,7 +129,8 @@ export const ROUTES = {
 		account: '/ca/app/compte',
 		register: '/ca/app/registrar',
 		essentials: '/ca/app/essencials',
-		regions: '/ca/app/comarques'
+		regions: '/ca/app/comarques',
+		nearby: '/ca/app/a-prop'
 	},
 	es: {
 		home: '/es',
@@ -125,6 +140,7 @@ export const ROUTES = {
 		account: '/es/app/cuenta',
 		register: '/es/app/registrar',
 		essentials: '/es/app/esenciales',
-		regions: '/es/app/comarcas'
+		regions: '/es/app/comarcas',
+		nearby: '/es/app/cerca'
 	}
 } as const;

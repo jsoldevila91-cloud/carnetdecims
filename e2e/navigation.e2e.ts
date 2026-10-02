@@ -1,9 +1,17 @@
-import { test, expect, gotoHydrated, mainNav, ROUTES, expectHref } from './fixtures';
+import {
+	test,
+	expect,
+	gotoHydrated,
+	mainNav,
+	ROUTES,
+	expectHref,
+	toleraAvortamentsWebKit
+} from './fixtures';
 
 test.describe('Navegació principal (5 pestanyes)', () => {
 	const tabs = [
 		{ name: 'Inici', url: ROUTES.ca.app, h1: 'El meu carnet' },
-		{ name: 'Mapa', url: ROUTES.ca.map, h1: 'Mapa dels cims' },
+		{ name: 'Mapa', url: ROUTES.ca.map, h1: 'Mapa del repte 100 Cims' },
 		{ name: 'Cims', url: ROUTES.ca.peaks, h1: 'Llista de cims del repte 100 Cims' },
 		{ name: 'Perfil', url: ROUTES.ca.account, h1: 'Perfil' }
 	];
@@ -145,26 +153,51 @@ test.describe('noindex de la zona /app', () => {
 		await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
 	});
 
-	// /mapa és un espai reservat fins a la fase 4 (PAGINES_NOINDEX): noindex i fora del sitemap
-	for (const url of [ROUTES.ca.map, ROUTES.es.map]) {
-		test(`${url} (espai reservat) és noindex, sense canonical i fora del sitemap`, async ({
+	// /mapa: espai reservat (noindex) fins al bloc 4c; ara és el mapa real (imatge estàtica + text
+	// sense JS) i és indexable: canonical sense query, hreflang, al sitemap de pàgines i JSON-LD Map.
+	for (const [url, altra, sitemap] of [
+		[ROUTES.ca.map, ROUTES.es.map, '/sitemap-ca-pagines.xml'],
+		[ROUTES.es.map, ROUTES.ca.map, '/sitemap-es-paginas.xml']
+	] as const) {
+		test(`${url} és indexable, amb canonical, hreflang, al sitemap i JSON-LD Map`, async ({
 			page,
 			request
 		}) => {
 			const res = await page.goto(url);
 			expect(res?.status()).toBe(200);
-			await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-			await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
-
-			const index = await (await request.get('/sitemap-index.xml')).text();
-			const sitemaps = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
-				(m) => new URL(m[1]).pathname
+			expect(res?.headers()['x-robots-tag'] ?? '').not.toContain('noindex');
+			await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
+			await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+				'href',
+				`https://carnetdecims.cat${url}`
 			);
-			expect(sitemaps.length).toBeGreaterThan(0);
-			for (const sitemap of sitemaps) {
-				const xml = await (await request.get(sitemap)).text();
-				expect(xml, sitemap).not.toContain(`https://carnetdecims.cat${url}<`);
-				expect(xml, sitemap).not.toContain(`https://carnetdecims.cat${url}"`);
+			await expect(
+				page.locator(`link[rel="alternate"][hreflang="${altra.slice(1, 3)}"]`)
+			).toHaveAttribute('href', `https://carnetdecims.cat${altra}`);
+
+			const xml = await (await request.get(sitemap)).text();
+			expect(xml, sitemap).toContain(`<loc>https://carnetdecims.cat${url}</loc>`);
+
+			const blocs = await page.locator('script[type="application/ld+json"]').allTextContents();
+			const nodes = blocs.flatMap((b) => JSON.parse(b)['@graph'] ?? [JSON.parse(b)]);
+			const map = nodes.find((n: { '@type'?: string }) => n['@type'] === 'Map');
+			expect(map?.url).toBe(`https://carnetdecims.cat${url}`);
+		});
+
+		test(`${url} amb filtres o ?cim= manté el canonical a la URL base`, async ({
+			page,
+			consoleGuard,
+			browserName
+		}) => {
+			// Es navega amb el mapa carregant: a WebKit les peticions avortades fan soroll (mapa.e2e.ts)
+			toleraAvortamentsWebKit(consoleGuard, browserName);
+			for (const qs of ['?zona=andorra&essencials=1', '?cim=pedraforca-pollego-superior']) {
+				await page.goto(`${url}${qs}`);
+				await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+					'href',
+					`https://carnetdecims.cat${url}`
+				);
+				await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
 			}
 		});
 	}
