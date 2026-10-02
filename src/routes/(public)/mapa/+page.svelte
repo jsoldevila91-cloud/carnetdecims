@@ -414,6 +414,7 @@
 					alt={m.map_static_alt({ count: String(CIMS.length) })}
 					fetchpriority="high"
 					decoding="async"
+					crossorigin="anonymous"
 				/>
 			</picture>
 			{#each [{ e: estaticMobil, mida: MOBIL, cls: 'mobil' }, { e: estaticEscriptori, mida: ESCRIPTORI, cls: 'escriptori' }] as v (v.cls)}

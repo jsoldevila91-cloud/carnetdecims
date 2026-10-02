@@ -335,6 +335,7 @@
 							alt={seo.mapAlt}
 							loading="lazy"
 							decoding="async"
+							crossorigin="anonymous"
 						/>
 						<span class="pin" aria-hidden="true"></span>
 					</div>

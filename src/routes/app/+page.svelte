@@ -21,6 +21,7 @@
 	import { CASELLES_PAGINA } from '$lib/ui/carnet';
 	import { esClicSimple, obrirRegistre, registrarHref } from '$lib/ui/fulls';
 	import { formatDataLlarga } from '$lib/ui/format';
+	import { precarregarFitxes } from '$lib/platform/pwa';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -37,6 +38,18 @@
 	const pendents = $derived(essencialsPendentsOrdenades(ascensions, CIMS, { avui }));
 	const comarques = $derived(progresComarques(ascensions, CIMS, { avui }));
 	const comarquesResum = $derived(comarques.slice(0, N_COMARQUES));
+
+	/**
+	 * Un cop carregat el carnet, les fitxes dels essencials pendents es desen per a ús sense
+	 * connexió (el SW decideix si toca: wifi, estalvi de dades…). Un sol cop per visita.
+	 */
+	let fitxesDemanades = false;
+	$effect(() => {
+		if (!$vives.carregat || fitxesDemanades) return;
+		fitxesDemanades = true;
+		const slugs = pendents.map((c) => c.slug);
+		if (slugs.length > 0) void precarregarFitxes(slugs);
+	});
 
 	/** Pàgina que s'està omplint i segells dins d'ella (per a la regla). */
 	const pagina = $derived(carnet.paginaActual);

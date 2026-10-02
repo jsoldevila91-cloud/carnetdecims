@@ -13,10 +13,11 @@ export { getLocale, locales, type Locale };
 export { SITE_ORIGIN } from './routes';
 
 /**
- * Camins de pàgina. S'exclouen els sitemaps: SvelteKit genera el `Pathname` de
- * `/sitemap-[name].xml` com a literal igual al `RouteId` (amb paràmetres) i trenca `resolve()`.
+ * Camins de pàgina. S'exclouen els sitemaps i els manifests: SvelteKit genera el `Pathname` de
+ * `/sitemap-[name].xml` (i `/manifest-[lang].webmanifest`) com a literal igual al `RouteId`
+ * (amb paràmetres) i trenca `resolve()`.
  */
-type PagePathname = Exclude<Pathname, `/sitemap-${string}`>;
+type PagePathname = Exclude<Pathname, `/sitemap-${string}` | `/manifest-${string}`>;
 
 /**
  * Enllaç intern localitzat a partir del camí intern (el de `src/routes`).

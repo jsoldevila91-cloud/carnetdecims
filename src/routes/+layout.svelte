@@ -16,9 +16,11 @@
 		SiteFooter,
 		Toaster
 	} from '$lib/ui';
+	import AvisInstallacio from '$lib/ui/AvisInstallacio.svelte';
 	import { carregarRegistre, precarregarRegistreQuanOcios } from '$lib/ui/carrega-registre';
 	import { m } from '$lib/paraglide/messages';
 	import { prefersReducedMotion, supportsViewTransitions } from '$lib/platform/motion';
+	import { registrarServiceWorker } from '$lib/platform/pwa';
 
 	let { children } = $props();
 
@@ -36,6 +38,9 @@
 
 	// Formulari del full: es carrega sota demanda i es precarrega en segon pla (en línia i ociós).
 	onMount(() => precarregarRegistreQuanOcios());
+
+	// Service worker (ús sense connexió i avís de nova versió): només al client.
+	onMount(() => void registrarServiceWorker());
 	let intentsCarrega = $state(0);
 	// `intent` fa que el bloc {#await} torni a demanar el mòdul en reintentar.
 	const carregaFormulari = (intent: number) => (void intent, carregarRegistre());
@@ -78,6 +83,7 @@
 
 <svelte:head>
 	<!-- URL estable a /static (no data: URI) perquè els cercadors el puguin rastrejar. -->
+	<link rel="icon" href={asset('/favicon.ico')} sizes="32x32" />
 	<link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
 	<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
@@ -95,6 +101,7 @@
 
 <BottomNav />
 <Toaster />
+<AvisInstallacio />
 
 <BottomSheet
 	open={page.state.sheet === 'registrar' || page.state.sheet === 'editar'}

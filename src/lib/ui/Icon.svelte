@@ -34,7 +34,13 @@
 		shrink: ['M9 4.5V9H4.5M19.5 9H15V4.5M15 19.5V15h4.5M4.5 15H9v4.5'],
 		list: ['M9 6.5h11M9 12h11M9 17.5h11M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01'],
 		filter: ['M4 6h16M7 12h10M10 18h4'],
-		compass: ['M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z', 'm15.5 8.5-2 5-5 2 2-5z']
+		compass: ['M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z', 'm15.5 8.5-2 5-5 2 2-5z'],
+		/** Botó Comparteix d'iOS (quadrat amb fletxa cap amunt): instruccions d'instal·lació. */
+		share: ['M12 3.5v11M8.5 7 12 3.5 15.5 7', 'M9 10H6.5v10.5h11V10H15'],
+		/** "Afegeix a la pantalla d'inici" d'iOS. */
+		'add-square': ['M5 4.5h14v15H5z', 'M12 8.5v7M8.5 12h7'],
+		install: ['M12 4v10.5M7.5 10 12 14.5 16.5 10', 'M5 19.5h14'],
+		refresh: ['M19.5 12a7.5 7.5 0 1 1-2.2-5.3', 'M19.5 4.5v4h-4']
 	} as const;
 
 	export type IconName = keyof typeof ICONS;

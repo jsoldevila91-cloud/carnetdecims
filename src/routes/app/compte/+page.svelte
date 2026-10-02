@@ -10,6 +10,7 @@
 	import { avuiLocal } from '$lib/domain';
 	import { BottomSheet, Button, Card, LanguageSwitcher, PageMeta, toasts } from '$lib/ui';
 	import { descarregarText } from '$lib/platform/fitxers';
+	import { installacio } from '$lib/platform/installacio.svelte';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -188,6 +189,25 @@
 		</p>
 	</Card>
 
+	<!-- Sempre disponible si es pot instal·lar (també després de rebutjar l'avís automàtic). -->
+	<Card as="section" padding="md" variant="flat" aria-labelledby="account-app">
+		<h2 id="account-app" class="x-wide">{m.pwa_profile_title()}</h2>
+		{#if installacio.standalone}
+			<p>{m.pwa_profile_installed()}</p>
+		{:else}
+			<p>{m.pwa_profile_text()}</p>
+			{#if installacio.disponible}
+				<div class="actions">
+					<Button variant="stamp" icon="install" onclick={() => installacio.installar()}>
+						{m.pwa_profile_cta()}
+					</Button>
+				</div>
+			{:else}
+				<p class="hint-app">{m.pwa_profile_unavailable()}</p>
+			{/if}
+		{/if}
+	</Card>
+
 	<Card as="section" padding="md" variant="flat" aria-labelledby="account-lang">
 		<h2 id="account-lang" class="x-wide">{m.account_language_title()}</h2>
 		<LanguageSwitcher variant="full" />
@@ -293,6 +313,10 @@
 		width: 100%;
 		height: 0.625rem;
 		accent-color: var(--c-ink);
+	}
+
+	.hint-app {
+		font-size: var(--fs-sm);
 	}
 
 	.hint {

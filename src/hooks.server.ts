@@ -35,8 +35,9 @@ const handleParaglide: Handle = ({ event, resolve }) => {
 
 		return resolve(event, {
 			transformPageChunk: ({ html }) =>
+				// `replaceAll`: l'idioma surt a `<html lang>` i a l'enllaç del manifest (app.html).
 				html
-					.replace('%paraglide.lang%', locale)
+					.replaceAll('%paraglide.lang%', locale)
 					.replace('%paraglide.dir%', getTextDirection(locale))
 		});
 	});

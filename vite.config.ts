@@ -7,9 +7,11 @@ import {
 	buildUrlPatterns,
 	cimEntries,
 	comarcaEntries,
+	LOCALES,
 	prerenderEntries
 } from './src/lib/i18n/routes.ts';
 import { sitemapEntries } from './src/lib/seo/sitemap.ts';
+import { pluginSwDiferits } from './src/lib/platform/sw/plugin-vite.ts';
 
 export default defineConfig({
 	plugins: [
@@ -20,15 +22,33 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 			adapter: adapter(),
+			// El service worker (`src/service-worker.ts`) el registra `platform/pwa.ts` (no en dev,
+			// actualització controlada per l'usuari), no SvelteKit.
+			serviceWorker: { register: false },
+			// Camins absoluts (`/_app/...`): el SW serveix el shell de `/app` i la pàgina offline des
+			// de qualsevol URL, i amb camins relatius (`../_app`) es trencarien en una altra profunditat.
+			paths: { relative: false },
 			prerender: {
 				// Les rutes internes no porten idioma: es prerenderitzen les URL localitzades
 				// (/ca, /es, /ca/cims, /es/cimas…) i el crawler segueix els enllaços.
 				// Els sitemaps (/sitemap-index.xml i un per secció i idioma) no s'enllacen: s'hi afegeixen.
 				// Les fitxes de cim (/ca/cims/{slug}, /es/cimas/{slug}) i les pàgines de comarca amb cims
 				// (/ca/comarques/{slug}, /es/comarcas/{slug}) s'hi afegeixen totes explícitament.
-				entries: [...prerenderEntries(), ...cimEntries(), ...comarcaEntries(), ...sitemapEntries()]
+				// Els manifests de la PWA (un per idioma) s'enllacen des de app.html amb un marcador.
+				entries: [
+					...prerenderEntries(),
+					...cimEntries(),
+					...comarcaEntries(),
+					...sitemapEntries(),
+					...LOCALES.map((l) => `/manifest-${l}.webmanifest` as const),
+					// Pàgina offline que serveix el service worker (noindex, fora del sitemap).
+					...LOCALES.map((l) => `/${l}/offline` as const)
+				]
 			}
 		}),
+
+		// Fitxers que el service worker no precarrega (MapLibre i el seu worker): `platform/sw/diferits.ts`.
+		pluginSwDiferits(),
 
 		paraglideVitePlugin({
 			project: './project.inlang',

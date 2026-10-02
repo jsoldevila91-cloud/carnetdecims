@@ -53,7 +53,16 @@
 
 <figure class="map">
 	<div class="map-img" style:aspect-ratio="{ample} / {altura}">
-		<img src={mapa.url} width={ample} height={altura} {alt} loading="lazy" decoding="async" />
+		<!-- crossorigin: ICGC i IGN responen amb CORS (*); així el service worker pot desar la imatge per a ús sense connexió. -->
+		<img
+			src={mapa.url}
+			width={ample}
+			height={altura}
+			{alt}
+			loading="lazy"
+			decoding="async"
+			crossorigin="anonymous"
+		/>
 		{#if marcadors.some((p) => p.desplacat)}
 			<svg class="guies" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
 				{#each marcadors.filter((p) => p.desplacat) as p (p.slug)}

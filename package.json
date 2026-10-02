@@ -17,7 +17,9 @@
 		"test:e2e": "playwright install chromium webkit && playwright test",
 		"gen": "wrangler types",
 		"catalog:build": "node --experimental-strip-types scripts/catalog/build.ts",
-		"catalog:typecheck": "tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module nodenext --moduleResolution nodenext --target es2023 --strict --skipLibCheck --types node --resolveJsonModule scripts/catalog/build.ts"
+		"catalog:typecheck": "tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module nodenext --moduleResolution nodenext --target es2023 --strict --skipLibCheck --types node --resolveJsonModule scripts/catalog/build.ts",
+		"pwa:icones": "node --experimental-strip-types scripts/pwa/icones.ts",
+		"pwa:captures": "node --experimental-strip-types scripts/pwa/captures.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.13.0",
@@ -39,6 +41,7 @@
 		"playwright": "^1.60.0",
 		"prettier": "^3.8.3",
 		"prettier-plugin-svelte": "^4.1.0",
+		"sharp": "^0.35.5",
 		"svelte": "^5.56.1",
 		"svelte-check": "^4.6.0",
 		"typescript": "^6.0.3",

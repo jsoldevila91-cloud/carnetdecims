@@ -14,6 +14,7 @@ import {
 import { CIMS } from '$lib/data/catalog';
 import { avuiLocal, calcularEstatRepte, type Ascensio } from '$lib/domain';
 import { demanarPersistencia } from '$lib/platform/emmagatzematge';
+import { installacio } from '$lib/platform/installacio.svelte';
 import { m } from '$lib/paraglide/messages';
 import { marcadorRepte } from './registre';
 import { toasts } from './toast.svelte';
@@ -56,7 +57,8 @@ async function desfer(
 /**
  * Registra una ascensió nova. Toast amb el segell i el comptador del carnet abans → després
  * (les repeticions i les no essencials posteriors al 2019 no sumen). Després de la primera
- * ascensió demana emmagatzematge persistent.
+ * ascensió demana emmagatzematge persistent. Després d'un registre (mai en entrar) es pot oferir
+ * instal·lar l'app (`AvisInstallacio`).
  * @throws ErrorValidacio (el formulari ja valida abans)
  */
 export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
@@ -83,6 +85,7 @@ export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
 			action: { label: m.toast_undo(), run: () => desfer(() => esborrarAscensio(desada.id)) }
 		}
 	);
+	installacio.despresDeRegistrar();
 	return desada;
 }
 
