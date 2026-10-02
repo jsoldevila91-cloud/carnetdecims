@@ -50,7 +50,11 @@
 		const r = await demanarPosicio();
 		buscant = false;
 		if (r.ok) posicio = r.punt;
-		else error = r.error;
+		else {
+			// Sense posició actual, la llista anterior ja no és fiable: es treu.
+			error = r.error;
+			posicio = null;
+		}
 	}
 
 	const mapaHref = (slug: string) => `${href('/mapa')}?cim=${slug}`;

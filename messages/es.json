@@ -517,5 +517,6 @@
 	"map_filter_comarca": "Comarca",
 	"map_filter_comarca_all": "Todas",
 	"map_filter_alt_custom": "{min}–{max} m",
-	"map_filters_active": "{count} activos"
+	"map_filters_active": "{count} activos",
+	"map_count_done_one": "1 hecha"
 }

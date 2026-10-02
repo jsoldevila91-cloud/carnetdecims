@@ -305,10 +305,6 @@ test.describe('MapLibre: càrrega diferida', () => {
 	test('/mapa?cim= amb estalvi de dades tampoc no baixa MapLibre sense el botó', async ({
 		page
 	}) => {
-		test.fail(
-			true,
-			'Bug obert: ?cim= ignora l’estalvi de dades (mapa/+page.svelte, afterNavigate)'
-		);
 		await estalviDeDades(page);
 		const baixats = espiaMapLibre(page);
 		await gotoHydrated(page, `${MAPA}?cim=${CIM.pedraforca.slug}`);
@@ -387,7 +383,6 @@ test.describe('Mapa interactiu', () => {
 	// respost al worker (image_manager.ts `_getImagesForIds`): la icona que s'hi afegeix no entra a
 	// la tessel·la que la demanava. Cal `map.setMissingStyleImageResolver` (motor.ts).
 	test('canviar un filtre amb el mapa actiu redibuixa els cims', async ({ page, context }) => {
-		test.fail(true, 'Bug obert: icones creades a styleimagemissing no es dibuixen (motor.ts)');
 		await estilMinim(page);
 		await gotoHydrated(page, MAPA);
 		await esperaMapa(page);
@@ -476,7 +471,6 @@ test.describe('Mapa interactiu', () => {
 
 	// BUG (i18n): amb 1 cim fet el comptador diu "· 1 fets" (map_count_done sense singular).
 	test('comptador amb un sol cim fet en singular', async ({ page }) => {
-		test.fail(true, 'Bug obert: "1 fets" (messages/ca.json map_count_done sense forma singular)');
 		await estalviDeDades(page);
 		await sembrar(page, [{ cimId: CIM.pedraforca.id, data: '2024-06-15' }], MAPA);
 		await expect(comptador(page)).toContainText('· 1 fet');
@@ -753,7 +747,6 @@ test.describe('Cims a prop (/app/a-prop)', () => {
 		page,
 		context
 	}) => {
-		test.fail(true, 'Bug conegut: la llista anterior es manté amb la posició denegada');
 		await context.grantPermissions(['geolocation']);
 		await context.setGeolocation(BERGA);
 		await gotoHydrated(page, A_PROP);

@@ -94,6 +94,12 @@
 		return new Set(CIMS.filter((c) => !si.has(c.slug)).map((c) => c.slug));
 	});
 	const nFets = $derived(visibles.filter((c) => estat.get(c.id) === 'fet').length);
+	/** "· 1 fet" / "· n fets" (buit si no n'hi ha cap), en una sola cadena: sense salts de línia. */
+	const textFets = $derived(
+		nFets === 0
+			? ''
+			: `· ${nFets === 1 ? m.map_count_done_one() : m.map_count_done({ done: String(nFets) })}`
+	);
 	const dades = $derived(geojsonCims(CIMS, estat, filtres));
 	const seleccionat = $derived(page.state.sheet === 'cim' ? (page.state.cim ?? null) : null);
 	const cimObert = $derived(seleccionat ? cimPerSlug(seleccionat) : undefined);
@@ -138,7 +144,8 @@
 			vista = 'mapa';
 			if (cim.lat !== null && cim.lon !== null) {
 				centreInicial = { lat: cim.lat, lon: cim.lon };
-				void activarMapa();
+				// Amb estalvi de dades, el mapa espera el botó (el full del cim s'obre igualment).
+				if (!estalviDades()) void activarMapa();
 			}
 			pushState(urlMapa(filtres, vista, slug), { sheet: 'cim', cim: slug });
 		});
@@ -157,14 +164,19 @@
 	const temaActual = () =>
 		matchMedia('(prefers-color-scheme: dark)').matches ? ('fosc' as const) : ('clar' as const);
 
+	/** S'avorta en desmuntar la pàgina: un mapa que encara es carregava es destrueix. */
+	const desmuntatge = new AbortController();
+
 	async function activarMapa() {
 		if (estatMapa === 'carregant' || estatMapa === 'actiu' || !contenidor) return;
+		if (desmuntatge.signal.aborted) return;
 		estatMapa = 'carregant';
 		try {
 			const { crearMotor } = await import('$lib/ui/mapa/motor');
+			if (desmuntatge.signal.aborted) return;
 			const escriptori = matchMedia('(min-width: 48rem)').matches;
 			const estatic: MapaEstaticComarca = escriptori ? estaticEscriptori : estaticMobil;
-			motor = await crearMotor({
+			const nou = await crearMotor({
 				contenidor,
 				tema: temaActual(),
 				limits: limitsDeBbox(estatic.bbox),
@@ -173,10 +185,18 @@
 				seleccionat,
 				movimentReduit: prefersReducedMotion(),
 				textos: { regio: m.map_region_label() },
-				onseleccio: obrirCim
+				onseleccio: obrirCim,
+				senyal: desmuntatge.signal
 			});
+			// La pàgina s'ha desmuntat mentre es carregava: cap mapa orfe.
+			if (desmuntatge.signal.aborted) {
+				nou.destruir();
+				return;
+			}
+			motor = nou;
 			estatMapa = 'actiu';
 		} catch (error) {
+			if (desmuntatge.signal.aborted) return;
 			console.warn('[mapa]', error);
 			estatMapa = 'error';
 		}
@@ -244,9 +264,10 @@
 		}
 	}
 
+	/** Estalvi de dades del navegador: Save-Data o `prefers-reduced-data` (on hi ha suport). */
 	const estalviDades = () =>
 		(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData ===
-		true;
+			true || matchMedia('(prefers-reduced-data: reduce)').matches;
 
 	onMount(() => {
 		potPantallaCompleta = document.fullscreenEnabled === true;
@@ -301,6 +322,7 @@
 
 		return () => {
 			viu = false;
+			desmuntatge.abort();
 			esquema.removeEventListener('change', canviEsquema);
 			moviment.removeEventListener('change', canviMoviment);
 			document.removeEventListener('fullscreenchange', canviFs);
@@ -369,7 +391,7 @@
 	{visibles.length === 1
 		? m.map_count_one({ total: String(CIMS.length) })
 		: m.map_count({ count: String(visibles.length), total: String(CIMS.length) })}
-	{#if nFets > 0}· {m.map_count_done({ done: String(nFets) })}{/if}
+	{textFets}
 </p>
 {#if noTrobat}
 	<p class="avis" role="alert">{m.map_not_found()}</p>
