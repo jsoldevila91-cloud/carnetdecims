@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-09-30.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-02.
 
 ## Hecho
 
@@ -93,9 +93,21 @@
   - **SEO:** textos públicos en presente; privacitat menciona la ubicación opcional.
   - **QA:** `e2e/carnet.e2e.ts` + `PaginesCarnet.svelte.spec.ts`. **916 E2E pasados, 0 fallidos** en los 3 proyectos; 522 unitarios.
 
+- **Bloque 4c (terminado, 2026-10-02): mapa interactivo.**
+  - **Backend:**
+    - `platform/mapa-estil.ts`: estilo vectorial ICGC claro/oscuro con `transformarEstil` (atribución exacta, relieve en oscuro, saneo de sprites y `text-size`: 0 avisos) y capa IGN de respaldo en Catalunya Nord (`mostraRespatllaIgn`);
+    - `data/catalog/geojson.ts` y filtro compartido con `/cims` (`domain/filtres-cims.ts`);
+    - `domain/a-prop.ts` (`cimsAProp` con rumbo).
+  - **Frontend:**
+    - `/mapa` con imagen estática ICGC (LCP y contenido sin JS) y MapLibre diferido (chunk ~275 kB gzip + worker propio, solo en `/mapa`);
+    - clustering dibujado con tokens del tema, forma + color, filtros en query, sheet de cim (`?cim=`), conmutador Mapa|Llista, "La meva ubicació", ahorro de datos (solo con botón);
+    - `/app/a-prop` "Cims a prop".
+  - **SEO:** `/mapa` **indexable** (JSON-LD Map, en el sitemap, enlaces desde portada, `/cims`, listados y fichas); privacitat con los terceros del mapa (ICGC, IGN, Mapterhorn).
+  - **QA:** `e2e/mapa.e2e.ts` (WebGL real en Chromium y WebKit; fallback sin WebGL). **1169 E2E pasados, 0 fallidos** en los 3 proyectos.
+
 ## Siguiente
 
-Bloque **4c** (en curso): mapa interactivo MapLibre + ICGC, filtros y "Cims a prop".
+Bloque **4d** (en curso): PWA (manifest, service worker, offline, instalación) + pasada completa de la fase 4.
 
 ## Pendiente o decisiones abiertas
 

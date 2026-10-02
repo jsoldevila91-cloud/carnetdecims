@@ -300,17 +300,75 @@ test.describe('MapLibre: càrrega diferida', () => {
 		expect((await baixats()).length).toBeGreaterThan(0);
 	});
 
-	// BUG: un enllaç `?cim=` (p. ex. "Mapa" a /app/a-prop) carrega MapLibre encara que hi hagi
-	// estalvi de dades: `afterNavigate` crida `activarMapa()` sense mirar `estalviDades()`.
-	test('/mapa?cim= amb estalvi de dades tampoc no baixa MapLibre sense el botó', async ({
+	// Regressió (bloc 4c): un enllaç `?cim=` (p. ex. "Mapa" a /app/a-prop) carregava MapLibre
+	// encara que hi hagués estalvi de dades.
+	test('/mapa?cim= amb estalvi de dades: el full s’obre i MapLibre espera el botó', async ({
 		page
 	}) => {
 		await estalviDeDades(page);
 		const baixats = espiaMapLibre(page);
 		await gotoHydrated(page, `${MAPA}?cim=${CIM.pedraforca.slug}`);
-		await expect(fullCim(page, PEDRAFORCA.nom)).toBeVisible();
+		const full = fullCim(page, PEDRAFORCA.nom);
+		await expect(full).toBeVisible();
+		await expect(full).toContainText(`${alt(PEDRAFORCA.altitud)} m`);
+		await page.waitForTimeout(3000);
+		expect(await baixats(), 'MapLibre amb el full obert').toEqual([]);
+
+		// En tancar el full, el botó carrega el mapa (centrat al cim de l'enllaç)
+		await page.keyboard.press('Escape');
+		await expect(full).toBeHidden();
+		expect(await baixats()).toEqual([]);
+		await boto(page, 'Activa el mapa interactiu').click();
+		await esperaMapa(page);
+		expect((await baixats()).length).toBeGreaterThan(0);
+	});
+
+	test('/mapa amb prefers-reduced-data: tampoc no es baixa sense el botó', async ({ page }) => {
+		// Cap navegador ho emula: es simula la media query.
+		await page.addInitScript(() => {
+			const orig = window.matchMedia.bind(window);
+			window.matchMedia = (q: string) => {
+				if (/prefers-reduced-data:\s*reduce/.test(q)) {
+					const mql = orig('(min-width: 0px)');
+					return Object.defineProperty(mql, 'matches', { value: true }) as MediaQueryList;
+				}
+				return orig(q);
+			};
+		});
+		const baixats = espiaMapLibre(page);
+		await gotoHydrated(page, `${MAPA}?cim=${CIM.canigo.slug}`);
+		await expect(fullCim(page, CIM.canigo.nom)).toBeVisible();
+		await page.keyboard.press('Escape');
 		await page.waitForTimeout(3000);
 		expect(await baixats()).toEqual([]);
+		await expect(boto(page, 'Activa el mapa interactiu')).toBeVisible();
+	});
+
+	test('sortir de /mapa mentre es carrega no deixa cap mapa orfe baixant tessel·les', async ({
+		page
+	}) => {
+		let fora = false;
+		const despres: string[] = [];
+		page.on('request', (r) => {
+			if (fora && /geoserveis\.icgc\.cat|mapterhorn|data\.geopf\.fr/.test(r.url()))
+				despres.push(r.url());
+		});
+		// L'estil arriba tard: la navegació passa amb el mapa "Carregant…"
+		await page.route(/geoserveis\.icgc\.cat\/styles\//, async (route) => {
+			await new Promise((r) => setTimeout(r, 2500));
+			await route.continue().catch(() => undefined);
+		});
+		await gotoHydrated(page, MAPA);
+		await expect(page.getByText('Carregant el mapa…')).toBeVisible({ timeout: 15_000 });
+		await page
+			.getByRole('navigation', { name: 'Navegació principal' })
+			.getByRole('link', { name: 'Cims', exact: true })
+			.click();
+		fora = true;
+		await expect(page).toHaveURL('/ca/cims');
+		await page.waitForTimeout(6000);
+		expect(despres, 'peticions del mapa després de sortir de /mapa').toEqual([]);
+		await expect(page.locator('.maplibregl-canvas')).toHaveCount(0);
 	});
 
 	test('/mapa sense estalvi: es carrega sol en repòs (sense cap interacció)', async ({ page }) => {
@@ -327,6 +385,11 @@ test.describe('Mapa interactiu', () => {
 	test('canvas, atribució ICGC visible i única, worker propi, sense errors', async ({ page }) => {
 		const workers: string[] = [];
 		page.on('worker', (w) => workers.push(w.url()));
+		// Estil ICGC sanejat: sense avisos de sprites que falten ni de `text-size` invàlid
+		const avisos: string[] = [];
+		page.on('console', (m) => {
+			if (m.type() === 'warning') avisos.push(m.text());
+		});
 		await gotoHydrated(page, MAPA);
 		await esperaMapa(page);
 
@@ -348,6 +411,10 @@ test.describe('Mapa interactiu', () => {
 		expect(text).not.toContain('IGN');
 
 		expect(workers).toContainEqual(expect.stringMatching(/\/workers\/maplibre-worker-[^/]+\.js$/));
+		await page.waitForTimeout(2000);
+		expect(avisos.filter((t) => /could not be loaded|text-size|Expected value/.test(t))).toEqual(
+			[]
+		);
 	});
 
 	/** Fracció dibuixada amb el mapa obert directament a `url` (estil mínim). */
@@ -378,10 +445,9 @@ test.describe('Mapa interactiu', () => {
 		expect(tots, 'tots els cims dibuixen més que Andorra').toBeGreaterThan(andorra * 2);
 	});
 
-	// BUG: amb el mapa ja actiu, un filtre que necessita una icona nova (p. ex. el clúster "5" en
-	// triar Andorra) deixa el mapa buit. MapLibre 6 dispara `styleimagemissing` DESPRÉS d'haver
-	// respost al worker (image_manager.ts `_getImagesForIds`): la icona que s'hi afegeix no entra a
-	// la tessel·la que la demanava. Cal `map.setMissingStyleImageResolver` (motor.ts).
+	// Regressió (bloc 4c): amb el mapa actiu, un filtre que necessitava una icona nova (el clúster
+	// "5" d'Andorra, "8" de la Catalunya Nord) deixava el mapa buit: MapLibre 6 dispara
+	// `styleimagemissing` després de respondre al worker. Ara: `setMissingStyleImageResolver`.
 	test('canviar un filtre amb el mapa actiu redibuixa els cims', async ({ page, context }) => {
 		await estilMinim(page);
 		await gotoHydrated(page, MAPA);
@@ -395,6 +461,12 @@ test.describe('Mapa interactiu', () => {
 		await expect(comptador(page)).toHaveText(textComptador(5));
 		const andorra = await dibuixEstable(page, context);
 		expect(andorra, 'Andorra dibuixa el seu clúster').toBeGreaterThan(cap + 0.0005);
+		await page.getByLabel('Zona', { exact: true }).selectOption('catalunya-nord');
+		await expect(comptador(page)).toHaveText(
+			textComptador(CIMS.filter((c) => c.zona === 'catalunya-nord').length)
+		);
+		const nord = await dibuixEstable(page, context);
+		expect(nord, 'la Catalunya Nord dibuixa els seus cims').toBeGreaterThan(cap + 0.0005);
 	});
 
 	test('filtres (essencials, estat, zona) actualitzen el comptador i la query', async ({
@@ -469,12 +541,14 @@ test.describe('Mapa interactiu', () => {
 		await expect(comptador(page)).toHaveText(textComptador(TOTAL - 2));
 	});
 
-	// BUG (i18n): amb 1 cim fet el comptador diu "· 1 fets" (map_count_done sense singular).
-	test('comptador amb un sol cim fet en singular', async ({ page }) => {
+	// Regressió (i18n): amb 1 cim fet el comptador deia "· 1 fets".
+	test('comptador amb un sol cim fet en singular (ca i es)', async ({ page }) => {
 		await estalviDeDades(page);
 		await sembrar(page, [{ cimId: CIM.pedraforca.id, data: '2024-06-15' }], MAPA);
-		await expect(comptador(page)).toContainText('· 1 fet');
-		await expect(comptador(page)).not.toContainText('1 fets');
+		await expect(comptador(page)).toHaveText(textComptador(TOTAL, 1));
+		await expect(comptador(page)).toContainText(/· 1 fet\s*$/);
+		await gotoHydrated(page, ROUTES.es.map);
+		await expect(comptador(page)).toContainText(/· 1 hecha\s*$/);
 	});
 
 	test('?cim= obre el full amb les dades del cim; enrere el tanca', async ({ page }) => {
@@ -740,9 +814,8 @@ test.describe('Cims a prop (/app/a-prop)', () => {
 		await expect(boto(page, 'Troba cims a prop')).toBeVisible();
 	});
 
-	// BUG conegut: després d'una posició bona, si en actualitzar-la es denega, l'error surt però
-	// la llista anterior continua com si fos vàlida (a-prop/+page.svelte: `localitzar` no buida
-	// `posicio` en error).
+	// Regressió (bloc 4c): amb la posició denegada en actualitzar-la, la llista anterior es quedava
+	// com si fos vàlida.
 	test('denegat després d’una posició bona: no es mostra la llista antiga', async ({
 		page,
 		context
@@ -759,7 +832,9 @@ test.describe('Cims a prop (/app/a-prop)', () => {
 		});
 		await boto(page, 'Actualitza la posició').click();
 		await expect(page.getByRole('alert')).toContainText('No hi ha permís per saber on ets');
-		await expect(page.locator('main ol.llista')).toHaveCount(0, { timeout: 2000 });
+		await expect(page.locator('main ol.llista')).toHaveCount(0);
+		await expect(estatAProp(page)).toHaveText('');
+		await expect(boto(page, 'Troba cims a prop')).toBeVisible();
 	});
 });
 
