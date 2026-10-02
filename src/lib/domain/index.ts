@@ -4,3 +4,4 @@ export * from './repte';
 export * from './toponims';
 export * from './geo';
 export * from './carnet';
+export * from './a-prop';

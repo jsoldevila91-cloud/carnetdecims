@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { distanciaKm } from './geo';
+import { bboxPunts, distanciaKm } from './geo';
 
 describe('distanciaKm (Haversine)', () => {
 	it('és 0 per al mateix punt i simètrica', () => {
@@ -28,5 +28,26 @@ describe('distanciaKm (Haversine)', () => {
 	it('punts antipodals: mig perímetre sense NaN', () => {
 		const d = distanciaKm({ lat: 0, lon: 0 }, { lat: 0, lon: 180 });
 		expect(d).toBeCloseTo(Math.PI * 6371.0088, 3);
+	});
+});
+
+describe('bboxPunts', () => {
+	it('null sense punts; sense marge, la caixa exacta', () => {
+		expect(bboxPunts([])).toBeNull();
+		expect(
+			bboxPunts([
+				{ lat: 42, lon: 1 },
+				{ lat: 41, lon: 3 }
+			])
+		).toEqual([1, 41, 3, 42]);
+	});
+
+	it('el marge són km reals a cada costat', () => {
+		const [o, s, e, n] = bboxPunts([{ lat: 42, lon: 2 }], 10)!;
+		expect(distanciaKm({ lat: 42, lon: 2 }, { lat: n, lon: 2 })).toBeCloseTo(10, 3);
+		expect(distanciaKm({ lat: 42, lon: 2 }, { lat: s, lon: 2 })).toBeCloseTo(10, 3);
+		// En longitud, com a mínim 10 km (es corregeix amb la latitud més alta de la caixa).
+		expect(distanciaKm({ lat: 42, lon: 2 }, { lat: 42, lon: e })).toBeGreaterThanOrEqual(10);
+		expect(distanciaKm({ lat: 42, lon: 2 }, { lat: 42, lon: o })).toBeLessThan(10.2);
 	});
 });
