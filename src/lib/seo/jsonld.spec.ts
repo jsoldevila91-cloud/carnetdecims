@@ -18,6 +18,7 @@ import {
 	comarcaPlace,
 	comarquesGraph,
 	llistatGraph,
+	mapaGraph,
 	paginaGraph
 } from './jsonld';
 import type { PaginaContingut } from '$lib/content';
@@ -380,6 +381,36 @@ describe('cimsGraph (llista completa /cims)', () => {
 			['Inicio', 'https://carnetdecims.cat/es'],
 			['Lista de cimas', undefined]
 		]);
+	});
+});
+
+describe('mapaGraph (mapa dels cims /mapa)', () => {
+	it('WebPage amb un Map com a mainEntity, URL sense query i sense FEEC', () => {
+		const g = mapaGraph({
+			locale: 'es',
+			title: 'Mapa de las cimas esenciales del reto 100 Cims',
+			description: 'D',
+			mapName: 'Mapa del reto 100 Cims'
+		});
+		const url = 'https://carnetdecims.cat/es/mapa';
+		expect(g['@graph'].map((n) => n['@type'])).toEqual(['WebPage', 'Map']);
+		const web = g['@graph'][0] as Record<string, unknown>;
+		const mapa = g['@graph'][1] as Record<string, unknown>;
+		expect(web).toMatchObject({
+			'@id': url,
+			url,
+			inLanguage: 'es',
+			isPartOf: { '@id': WEBSITE_ID },
+			mainEntity: { '@id': `${url}#mapa` }
+		});
+		expect(mapa).toMatchObject({
+			'@id': `${url}#mapa`,
+			name: 'Mapa del reto 100 Cims',
+			url,
+			isPartOf: { '@id': url }
+		});
+		// Sense duplicar la llista de fitxes de /cims ni suggerir vincle amb la FEEC.
+		expect(JSON.stringify(g)).not.toMatch(/ItemList|feec|\?/i);
 	});
 });
 

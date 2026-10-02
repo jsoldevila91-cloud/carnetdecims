@@ -100,6 +100,7 @@
 	<p class="lede">{m.peaks_lede({ count: CIMS.length })}</p>
 	<nav class="explora" aria-label={m.explore_label()}>
 		<a href={href('/comarques')}>{m.explore_comarques()}</a>
+		<a href={href('/mapa')}>{m.explore_map()}</a>
 		<a href={href('/cims-essencials')}>{m.explore_essentials()}</a>
 		<a href={href('/tresmils')}>{m.explore_tresmils()}</a>
 		<a href={href('/cims-mes-alts')}>{m.explore_highest()}</a>

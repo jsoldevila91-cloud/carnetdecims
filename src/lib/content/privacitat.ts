@@ -5,8 +5,9 @@
  *   esborrat total (`data/ascensions.ts`: `exportarDades`, `importarDades`, `esborrarTot`) i
  *   petició d'emmagatzematge persistent (`platform/emmagatzematge.ts`); no surten del dispositiu
  *   (la cua `outbox` és per a la sync futura de la fase 5 i avui no s'envia enlloc);
- * - geolocalització (bloc 4b, `platform/geolocalitzacio.ts`): només amb el botó «Ordena per
- *   proximitat» dels essencials pendents; la posició es queda en memòria i no es desa ni s'envia;
+ * - geolocalització (blocs 4b i 4c, `platform/geolocalitzacio.ts`): només amb un botó («Ordena
+ *   per proximitat» dels essencials pendents, «La meva ubicació» del mapa i «Cims a prop»); la
+ *   posició es queda en memòria i no es desa ni s'envia;
  * - cap `localStorage` ni cookie pròpia (Paraglide amb estratègia
  *   `url` + `baseLocale`, sense cookie); cap analítica, publicitat ni Google Fonts (fonts
  *   autoallotjades amb @fontsource);
@@ -14,6 +15,11 @@
  *   sense dades personals, s'esborra en tancar la pestanya (informe QA 3c);
  * - tercers que reben la IP en carregar recursos: mapes estàtics WMS de l'ICGC
  *   (`geoserveis.icgc.cat`) i de l'IGN (`data.geopf.fr`), vegeu `platform/mapa-estatic.ts`;
+ *   mapa interactiu de `/mapa` (bloc 4c, `platform/mapa-estil.ts`, verificat el 2026-10-02 amb
+ *   els estils de l'ICGC): estil, tessel·les vectorials, ombrejat, glifs i sprites de l'ICGC
+ *   (`geoserveis.icgc.cat`), ombrejat de Mapterhorn (`tiles.mapterhorn.com`) i, a la Catalunya
+ *   Nord amb zoom ≥ 10, el Plan IGN WMTS (`data.geopf.fr`); la font d'ortofoto d'Esri de l'estil
+ *   fosc té les capes amagades i MapLibre no en demana tessel·les;
  *   Wikiloc i la FEEC només si es fa clic a l'enllaç; allotjament a Cloudflare.
  * Cal actualitzar-la abans d'activar: comptes (fase 5,
  * Supabase UE), meteo (fase 6, Open-Meteo via proxy) i analítica (fase 7).
@@ -26,6 +32,7 @@ const AEPD = 'https://www.aepd.es/';
 const CLOUDFLARE_PRIVACY = 'https://www.cloudflare.com/privacypolicy/';
 const ICGC = 'https://www.icgc.cat/';
 const IGN = 'https://www.ign.fr/';
+const MAPTERHORN = 'https://mapterhorn.com/';
 const WIKILOC = 'https://www.wikiloc.com/';
 
 export const privacitat: Contingut = {
@@ -76,7 +83,7 @@ export const privacitat: Contingut = {
 							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON i tornar-la a importar en un altre navegador o dispositiu.",
 							"**Esborrar-les:** des de l'aplicació pots esborrar totes les teves ascensions del dispositiu. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
 							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions es perden: et recomanem exportar-ne una còpia de tant en tant.',
-							"**La teva ubicació:** només si a la llista d'essencials pendents tries ordenar-los per proximitat, i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies: no es desa ni s'envia enlloc. Si no dones permís, la llista s'ordena per comarca."
+							"**La teva ubicació:** només quan la demanes amb un botó (ordenar per proximitat els essencials pendents, «La meva ubicació» al mapa o «Cims a prop»), i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies o centrar el mapa: no es desa ni s'envia enlloc. Si no dones permís, la resta funciona igual (per exemple, la llista d'essencials s'ordena per comarca)."
 						]
 					},
 					{
@@ -97,8 +104,9 @@ export const privacitat: Contingut = {
 						tipus: 'llista',
 						items: [
 							`**Cloudflare** (allotjament i distribució del web): tracta l'adreça IP i les dades de cada petició per servir les pàgines i protegir el web d'atacs, per encàrrec nostre. Pot implicar transferències fora de l'Espai Econòmic Europeu amb les garanties del RGPD. [Política de privadesa de Cloudflare](${CLOUDFLARE_PRIVACY}).`,
-							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): les imatges del mapa de les fitxes de cim i de les pàgines de comarca de Catalunya i Andorra es carreguen des dels seus servidors.`,
-							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord es carreguen des de la Géoplateforme de l'IGN.`,
+							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): les imatges del mapa de les fitxes de cim, de les pàgines de comarca i del mapa general, i les tessel·les, la tipografia i les icones del [mapa interactiu](/mapa), es carreguen des dels seus servidors.`,
+							`**[Mapterhorn](${MAPTERHORN})**: quan fas servir el mapa interactiu, l'ombrejat del relleu es carrega des dels seus servidors.`,
+							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord, i el Plan IGN del mapa interactiu quan t'hi apropes, es carreguen des de la Géoplateforme de l'IGN.`,
 							`**[Wikiloc](${WIKILOC})**: només si fas clic al botó de rutes d'una fitxa. Llavors surts del nostre web i s'aplica la política de Wikiloc.`,
 							'**Altres enllaços externs** (FEEC, fonts de dades): només si hi fas clic.'
 						]
@@ -159,7 +167,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-02'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -208,7 +216,7 @@ export const privacitat: Contingut = {
 							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON y volver a importarla en otro navegador o dispositivo.',
 							'**Borrarlas:** desde la aplicación puedes borrar todas tus ascensiones del dispositivo. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
 							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones se pierden: te recomendamos exportar una copia de vez en cuando.',
-							'**Tu ubicación:** solo si en la lista de esenciales pendientes eliges ordenarlas por proximidad, y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias: no se guarda ni se envía a ningún sitio. Si no das permiso, la lista se ordena por comarca.'
+							'**Tu ubicación:** solo cuando la pides con un botón (ordenar por proximidad las esenciales pendientes, «Mi ubicación» en el mapa o «Cimas cerca»), y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias o centrar el mapa: no se guarda ni se envía a ningún sitio. Si no das permiso, el resto funciona igual (por ejemplo, la lista de esenciales se ordena por comarca).'
 						]
 					},
 					{
@@ -229,8 +237,9 @@ export const privacitat: Contingut = {
 						tipus: 'llista',
 						items: [
 							`**Cloudflare** (alojamiento y distribución de la web): trata la dirección IP y los datos de cada petición para servir las páginas y proteger la web de ataques, por encargo nuestro. Puede implicar transferencias fuera del Espacio Económico Europeo con las garantías del RGPD. [Política de privacidad de Cloudflare](${CLOUDFLARE_PRIVACY}).`,
-							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): las imágenes del mapa de las fichas de cima y de las páginas de comarca de Cataluña y Andorra se cargan desde sus servidores.`,
-							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte se cargan desde la Géoplateforme del IGN.`,
+							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): las imágenes del mapa de las fichas de cima, de las páginas de comarca y del mapa general, y las teselas, la tipografía y los iconos del [mapa interactivo](/mapa), se cargan desde sus servidores.`,
+							`**[Mapterhorn](${MAPTERHORN})**: cuando usas el mapa interactivo, el sombreado del relieve se carga desde sus servidores.`,
+							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte, y el Plan IGN del mapa interactivo al acercarte, se cargan desde la Géoplateforme del IGN.`,
 							`**[Wikiloc](${WIKILOC})**: solo si pulsas el botón de rutas de una ficha. Entonces sales de nuestra web y se aplica la política de Wikiloc.`,
 							'**Otros enlaces externos** (FEEC, fuentes de datos): solo si los pulsas.'
 						]
@@ -291,6 +300,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-02'
 	}
 };

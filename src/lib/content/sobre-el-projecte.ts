@@ -42,6 +42,7 @@ export const sobreElProjecte: Contingut = {
 						items: [
 							"Una fitxa de cada cim essencial amb l'altitud, la comarca, el mapa, les restriccions d'accés conegudes i els cims propers: [tots els cims](/cims).",
 							'Els cims agrupats per [comarques](/comarques).',
+							"El [mapa interactiu](/mapa) amb tots els cims del catàleg sobre el topogràfic de l'ICGC, amb filtres per zona i altitud, i els cims que tens més a prop.",
 							'Llistats curats: [cims essencials](/cims-essencials), [tresmils](/tresmils) i [cims més alts](/cims-mes-alts).',
 							'El repte explicat en llenguatge clar: [normativa](/repte-100-cims/normativa), [com validar les ascensions](/repte-100-cims/com-validar) i [repte infantil](/repte-100-cims/repte-infantil).',
 							"D'on surten les dades i com les revisem: [metodologia](/metodologia).",
@@ -58,8 +59,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ara:** fitxes de cims, comarques, llistats, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca i historial.',
-							"**L'aplicació:** un mapa interactiu amb els cims a prop, i poder-la instal·lar com una app que funcioni sense connexió.",
+							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca i historial.',
+							"**L'aplicació:** poder-la instal·lar com una app que funcioni sense connexió.",
 							'**Comptes opcionals:** per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea, i amb opcions per exportar-les i esborrar-les.',
 							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones, i la previsió meteorològica a cada cim.',
 							'**Més cims:** la resta de cims del repte, per lots.'
@@ -107,7 +108,7 @@ export const sobreElProjecte: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-02'
 	},
 	es: {
 		title: 'Sobre el proyecto: qué es y qué preparamos',
@@ -141,6 +142,7 @@ export const sobreElProjecte: Contingut = {
 						items: [
 							'Una ficha de cada cima esencial con la altitud, la comarca, el mapa, las restricciones de acceso conocidas y las cimas cercanas: [todas las cimas](/cims).',
 							'Las cimas agrupadas por [comarcas](/comarques).',
+							'El [mapa interactivo](/mapa) con todas las cimas del catálogo sobre el topográfico del ICGC, con filtros por zona y altitud, y las cimas que tienes más cerca.',
 							'Listados seleccionados: [cimas esenciales](/cims-essencials), [tresmiles](/tresmils) y [cimas más altas](/cims-mes-alts).',
 							'El reto explicado en lenguaje claro: [normativa](/repte-100-cims/normativa), [cómo validar las ascensiones](/repte-100-cims/com-validar) y [reto infantil](/repte-100-cims/repte-infantil).',
 							'De dónde salen los datos y cómo los revisamos: [metodología](/metodologia).',
@@ -157,8 +159,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ahora:** fichas de cimas, comarcas, listados, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca e historial.',
-							'**La aplicación:** un mapa interactivo con las cimas cercanas, y poder instalarla como una app que funcione sin conexión.',
+							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca e historial.',
+							'**La aplicación:** poder instalarla como una app que funcione sin conexión.',
 							'**Cuentas opcionales:** para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea, y con opciones para exportarlos y borrarlos.',
 							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas, y la previsión meteorológica en cada cima.',
 							'**Más cimas:** el resto de cimas del reto, por lotes.'
@@ -206,6 +208,6 @@ export const sobreElProjecte: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-02'
 	}
 };

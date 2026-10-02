@@ -345,6 +345,8 @@
 						</a>
 					</figcaption>
 				</figure>
+				<!-- Enllaç net (indexable) al mapa general; el botó "Obre al mapa" amb `?cim=` és `nofollow`. -->
+				<a class="mapa-tots" href={href('/mapa')}>{m.cim_map_all()}</a>
 			</section>
 		{/if}
 
@@ -710,6 +712,15 @@
 		min-height: var(--tap);
 		color: inherit;
 		text-underline-offset: 0.2em;
+	}
+
+	.mapa-tots {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-semibold);
+		color: var(--c-stamp-ink);
 	}
 
 	/* Llistes de cims */

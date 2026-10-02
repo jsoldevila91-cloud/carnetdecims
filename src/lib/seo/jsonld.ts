@@ -364,6 +364,47 @@ export function cimsGraph(opts: {
 	});
 }
 
+/**
+ * Mapa dels cims (`/mapa`, bloc 4c): `WebPage` amb un `Map` com a `mainEntity`. Sense `ItemList`
+ * (la llista sencera de fitxes ja la porta `/cims`; aquí seria duplicada) ni `BreadcrumbList`
+ * (la pàgina no mostra breadcrumb: és una secció de primer nivell de la navegació). Els filtres i
+ * el cim obert (`?zona=…`, `?cim=…`) no hi compten: el canonical és sempre la URL sense query.
+ */
+export function mapaGraph(opts: {
+	locale: AppLocale;
+	title: string;
+	description: string;
+	/** Nom visible del mapa (l'`h1`). */
+	mapName: string;
+}) {
+	const pageUrl = SITE_ORIGIN + localizePath('/mapa', opts.locale);
+	const mapId = `${pageUrl}#mapa`;
+	return {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'WebPage',
+				'@id': pageUrl,
+				url: pageUrl,
+				name: opts.title,
+				description: opts.description,
+				inLanguage: opts.locale,
+				isPartOf: { '@id': WEBSITE_ID },
+				mainEntity: { '@id': mapId }
+			},
+			{
+				'@type': 'Map',
+				'@id': mapId,
+				name: opts.mapName,
+				url: pageUrl,
+				inLanguage: opts.locale,
+				isPartOf: { '@id': pageUrl },
+				publisher: { '@id': ORG_ID }
+			}
+		]
+	};
+}
+
 /** Camí intern del hub del repte: les subpàgines (`/repte-100-cims/…`) hi pengen al breadcrumb. */
 const REPTE_PATH = PAGINES_CONTINGUT.repte;
 

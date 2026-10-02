@@ -18,6 +18,7 @@
 
 	const explora = [
 		{ path: '/comarques', text: m.explore_comarques },
+		{ path: '/mapa', text: m.explore_map },
 		{ path: '/cims-essencials', text: m.explore_essentials },
 		{ path: '/tresmils', text: m.explore_tresmils },
 		{ path: '/cims-mes-alts', text: m.explore_highest }

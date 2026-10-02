@@ -16,8 +16,10 @@ const WIKIDATA = 'https://www.wikidata.org/';
 const OSM_COPYRIGHT = 'https://www.openstreetmap.org/copyright';
 const ODBL = 'https://opendatacommons.org/licenses/odbl/1-0/';
 const ETALAB = 'https://www.etalab.gouv.fr/licence-ouverte-open-licence/';
+const OPENMAPTILES = 'https://openmaptiles.org/';
+const MAPTERHORN_ATRIBUCIO = 'https://mapterhorn.com/attribution';
 
-const ACTUALITZAT = '2026-09-29';
+const ACTUALITZAT = '2026-10-02';
 const CONSULTAT = '2026-09-28';
 
 export const metodologia: Contingut = {
@@ -58,7 +60,8 @@ export const metodologia: Contingut = {
 							`**[OpenStreetMap](${OSM_COPYRIGHT}):** comprovació creuada de noms, punts i altituds, i l'altitud de 2 cims. Cap coordenada publicada no surt d'OpenStreetMap.`,
 							"**Límits comarcals:** els de l'ICGC, només per comprovar que cada cim és dins de la seva comarca.",
 							`**Restriccions d'accés:** la [pàgina de restriccions de la FEEC](${FEEC_RESTRICCIONS}), revisada a mà.`,
-							"**Mapes de les fitxes:** el mapa topogràfic de l'ICGC a Catalunya i Andorra, i el Plan IGN a la Catalunya Nord."
+							"**Mapes de les fitxes i de les comarques:** el mapa topogràfic de l'ICGC a Catalunya i Andorra, i el Plan IGN a la Catalunya Nord.",
+							"**[Mapa interactiu](/mapa):** el mapa base vectorial de l'ICGC (amb dades d'OpenMapTiles i OpenStreetMap fora de Catalunya), l'ombrejat del relleu de l'ICGC i de Mapterhorn i, a la Catalunya Nord, el Plan IGN. Els cims hi són amb les coordenades del catàleg."
 						]
 					},
 					{
@@ -153,6 +156,7 @@ export const metodologia: Contingut = {
 							`Coordenades, topònims, elevacions, límits comarcals i mapes de Catalunya: © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ca).`,
 							`Catalunya Nord: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Llicència Oberta 2.0](${ETALAB}).`,
 							`© [Col·laboradors d'OpenStreetMap](${OSM_COPYRIGHT}), dades sota llicència [ODbL 1.0](${ODBL}).`,
+							`Mapa interactiu: © [OpenMapTiles](${OPENMAPTILES}) i, per a l'ombrejat del relleu, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
 							`Altituds i coordenades complementàries: [Wikidata](${WIKIDATA}), dades en domini públic ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.ca)). La citem per transparència.`,
 							`Llista de cims essencials: FEEC, repte 100 Cims ([llista pública](${PDF_ESSENCIALS})). Web no oficial; la validació d'ascensions la fa la FEEC a través de les entitats.`
 						]
@@ -234,7 +238,8 @@ export const metodologia: Contingut = {
 							`**[OpenStreetMap](${OSM_COPYRIGHT}):** comprobación cruzada de nombres, puntos y altitudes, y la altitud de 2 cimas. Ninguna coordenada publicada sale de OpenStreetMap.`,
 							'**Límites comarcales:** los del ICGC, solo para comprobar que cada cima está dentro de su comarca.',
 							`**Restricciones de acceso:** la [página de restricciones de la FEEC](${FEEC_RESTRICCIONS}), revisada a mano.`,
-							'**Mapas de las fichas:** el mapa topográfico del ICGC en Cataluña y Andorra, y el Plan IGN en Cataluña Norte.'
+							'**Mapas de las fichas y de las comarcas:** el mapa topográfico del ICGC en Cataluña y Andorra, y el Plan IGN en Cataluña Norte.',
+							'**[Mapa interactivo](/mapa):** el mapa base vectorial del ICGC (con datos de OpenMapTiles y OpenStreetMap fuera de Cataluña), el sombreado del relieve del ICGC y de Mapterhorn y, en Cataluña Norte, el Plan IGN. Las cimas aparecen con las coordenadas del catálogo.'
 						]
 					},
 					{
@@ -329,6 +334,7 @@ export const metodologia: Contingut = {
 							`Coordenadas, topónimos, elevaciones, límites comarcales y mapas de Cataluña: © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).`,
 							`Cataluña Norte: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Licencia Abierta 2.0](${ETALAB}).`,
 							`© [Colaboradores de OpenStreetMap](${OSM_COPYRIGHT}), datos bajo licencia [ODbL 1.0](${ODBL}).`,
+							`Mapa interactivo: © [OpenMapTiles](${OPENMAPTILES}) y, para el sombreado del relieve, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
 							`Altitudes y coordenadas complementarias: [Wikidata](${WIKIDATA}), datos en dominio público ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.es)). La citamos por transparencia.`,
 							`Lista de cimas esenciales: FEEC, reto 100 Cims ([lista pública](${PDF_ESSENCIALS})). Web no oficial; la validación de ascensiones la hace la FEEC a través de las entidades.`
 						]

@@ -21,7 +21,8 @@ export function comarcaIndexable(nCims: number): boolean {
 
 /**
  * Pàgines prerenderitzades que encara són només un espai reservat: es publiquen amb `noindex`
- * i fora del sitemap fins que tinguin contingut real. `/mapa`: el mapa interactiu arriba a la
- * fase 4; avui la pàgina només remet a la llista (contingut prim i descripció no veraç).
+ * i fora del sitemap fins que tinguin contingut real.
+ * Avui no n'hi ha cap: `/mapa` hi va ser des del bloc 3c fins al 4c, quan va passar a ser el mapa
+ * interactiu real (imatge estàtica + text sense JS) i, per tant, indexable (docs/02 §4.3).
  */
-export const PAGINES_NOINDEX: ReadonlySet<string> = new Set(['/mapa']);
+export const PAGINES_NOINDEX: ReadonlySet<string> = new Set<string>();

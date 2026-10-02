@@ -82,6 +82,7 @@
 
 <nav class="altres" aria-label={m.explore_label()}>
 	<a href={href('/comarques')}>{m.explore_comarques()}</a>
+	<a href={href('/mapa')}>{m.explore_map()}</a>
 	{#if id !== 'essencials'}<a href={href('/cims-essencials')}>{m.explore_essentials()}</a>{/if}
 	{#if id !== 'tresmils'}<a href={href('/tresmils')}>{m.explore_tresmils()}</a>{/if}
 	{#if id !== 'mes-alts'}<a href={href('/cims-mes-alts')}>{m.explore_highest()}</a>{/if}

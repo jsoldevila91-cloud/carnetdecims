@@ -2,7 +2,7 @@
 	import { onMount, tick } from 'svelte';
 	import { afterNavigate, pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
-	import { BottomSheet, Icon, LlistaCims, PageMeta } from '$lib/ui';
+	import { BottomSheet, Icon, JsonLd, LlistaCims, PageMeta } from '$lib/ui';
 	import MarcaCim from '$lib/ui/MarcaCim.svelte';
 	import FiltresMapa from '$lib/ui/mapa/FiltresMapa.svelte';
 	import FitxaCimMapa from '$lib/ui/mapa/FitxaCimMapa.svelte';
@@ -32,9 +32,11 @@
 	import { mapaEstaticComarca, type MapaEstaticComarca } from '$lib/platform/mapa-estatic';
 	import { demanarPosicio, type ErrorPosicio } from '$lib/platform/geolocalitzacio';
 	import { prefersReducedMotion } from '$lib/platform/motion';
-	import { href } from '$lib/i18n';
+	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import { PAGINES_NOINDEX } from '$lib/seo/indexabilitat';
+	import { mapaGraph } from '$lib/seo/jsonld';
+	import { PAGINES_CONTINGUT } from '$lib/content/types';
 
 	// ---------- Imatge estàtica (LCP i contingut sense JS) ----------
 	// Dues proporcions (mòbil 4:5, escriptori 16:10) amb la mateixa BBOX que farà servir MapLibre:
@@ -44,6 +46,16 @@
 	const estaticMobil = mapaEstaticComarca(CIMS, { ...MOBIL, format: 'jpeg' })!;
 	const estaticEscriptori = mapaEstaticComarca(CIMS, { ...ESCRIPTORI, format: 'jpeg' })!;
 	const ESSENCIAL = new Map(CIMS.map((c) => [c.slug, c.essencial]));
+
+	// ---------- SEO (docs/02 §4.3): indexable; canonical sense query (filtres i `?cim=`) ----------
+	const N_ESSENCIALS = String(CIMS.filter((c) => c.essencial).length);
+	const metaDescription = m.map_meta_description({ count: N_ESSENCIALS });
+	const jsonLd = mapaGraph({
+		locale: getLocale(),
+		title: m.map_meta_title(),
+		description: metaDescription,
+		mapName: m.map_title()
+	});
 
 	// Llista (vista alternativa): per ordre alfabètic.
 	const collator = new Intl.Collator('ca');
@@ -306,9 +318,10 @@
 
 <PageMeta
 	title={m.map_meta_title()}
-	description={m.map_meta_description()}
+	description={metaDescription}
 	noindex={PAGINES_NOINDEX.has('/mapa')}
 />
+<JsonLd data={jsonLd} />
 
 <svelte:head>
 	<!-- Sense JS: el mapa és una imatge i la llista és visible; els controls s'amaguen. -->
@@ -329,7 +342,7 @@
 
 <header class="page-head">
 	<h1 class="x-wide">{m.map_title()}</h1>
-	<p class="lede">{m.map_lede()}</p>
+	<p class="lede">{m.map_lede({ count: N_ESSENCIALS })}</p>
 </header>
 
 <noscript><p class="noscript">{m.map_noscript()}</p></noscript>
@@ -480,6 +493,19 @@
 		</div>
 	{/if}
 	<LlistaCims cims={ORDENATS} {amagats} meta={metaLlista} />
+</section>
+
+<!-- Text útil i veraç visible sense JS (SEO i context del mapa), en totes dues vistes. -->
+<section class="sobre" aria-labelledby="sobre-t">
+	<h2 id="sobre-t" class="x-wide">{m.map_about_title()}</h2>
+	<p>{m.map_about_points()}</p>
+	<p>{m.map_about_base()}</p>
+	<nav class="explora" aria-label={m.explore_label()}>
+		<a href={href('/cims')}>{m.explore_all()}</a>
+		<a href={href('/comarques')}>{m.explore_comarques()}</a>
+		<a href={href('/cims-essencials')}>{m.explore_essentials()}</a>
+		<a href={href(PAGINES_CONTINGUT.metodologia)}>{m.map_about_methodology()}</a>
+	</nav>
 </section>
 
 <BottomSheet open={page.state.sheet === 'cim'} title={cimObert?.nom ?? ''} onclose={tancarCim}>
@@ -840,6 +866,37 @@
 	.buit-titol {
 		font-weight: var(--fw-bold);
 		color: var(--c-ink);
+	}
+
+	/* ---------- Sobre aquest mapa ---------- */
+	.sobre {
+		display: grid;
+		gap: var(--sp-3);
+		max-width: 65ch;
+		margin-bottom: var(--sp-8);
+	}
+
+	.sobre h2 {
+		font-size: var(--fs-md);
+		font-weight: var(--fw-black);
+	}
+
+	.sobre p {
+		color: var(--c-ink-2);
+	}
+
+	.explora {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sp-1) var(--sp-4);
+	}
+
+	.explora a {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		font-weight: var(--fw-semibold);
+		color: var(--c-stamp-ink);
 	}
 
 	@media (prefers-color-scheme: dark) {
