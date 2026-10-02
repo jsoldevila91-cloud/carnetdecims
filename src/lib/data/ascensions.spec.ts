@@ -533,45 +533,63 @@ describe('importació gran (rendiment, progrés, atomicitat)', () => {
 		return { format: FORMAT_EXPORTACIO, versio: 1, ascensions };
 	}
 
-	it('2000 entrades: una lectura i escriptures en bloc (sense get/put per fila), en poc temps', async () => {
-		// La meitat ja existeixen en local amb una versió més antiga (LWW les actualitza).
-		const f = fitxerGran(2000);
-		const existents = f.ascensions.slice(0, 1000).map((a) => ({
-			...a,
-			nota: 'local',
-			updatedAt: '2026-01-01T00:00:00.000Z',
-			deletedAt: null
-		}));
-		const bd = obtenirBd();
-		await bd.ascensions.bulkPut(existents as never);
-		const get = vi.spyOn(bd.ascensions, 'get');
-		const put = vi.spyOn(bd.ascensions, 'put');
-		const add = vi.spyOn(bd.ascensions, 'add');
-		const bulkGet = vi.spyOn(bd.ascensions, 'bulkGet');
-		const toArray = vi.spyOn(bd.ascensions, 'toArray');
+	// Robust amb la màquina carregada (p. ex. Playwright en paral·lel): la garantia de rendiment són
+	// els recomptes d'operacions (una lectura i 10 + 10 escriptures en bloc per a 2000 files), que no
+	// depenen del rellotge; el temps només té un sostre ampli contra regressions d'ordre de magnitud
+	// (p. ex. un O(n²) en memòria) i el timeout del test és de 60 s.
+	it(
+		'2000 entrades: una lectura i escriptures en bloc (sense get/put per fila)',
+		{ timeout: 60_000 },
+		async () => {
+			// La meitat ja existeixen en local amb una versió més antiga (LWW les actualitza).
+			const f = fitxerGran(2000);
+			const existents = f.ascensions.slice(0, 1000).map((a) => ({
+				...a,
+				nota: 'local',
+				updatedAt: '2026-01-01T00:00:00.000Z',
+				deletedAt: null
+			}));
+			const bd = obtenirBd();
+			await bd.ascensions.bulkPut(existents as never);
+			const get = vi.spyOn(bd.ascensions, 'get');
+			const put = vi.spyOn(bd.ascensions, 'put');
+			const add = vi.spyOn(bd.ascensions, 'add');
+			const bulkGet = vi.spyOn(bd.ascensions, 'bulkGet');
+			const toArray = vi.spyOn(bd.ascensions, 'toArray');
+			const bulkPut = vi.spyOn(bd.ascensions, 'bulkPut');
+			const outboxPut = vi.spyOn(bd.outbox, 'put');
+			const outboxAdd = vi.spyOn(bd.outbox, 'add');
+			const outboxBulkPut = vi.spyOn(bd.outbox, 'bulkPut');
 
-		const t0 = performance.now();
-		const r = await importarDades(JSON.stringify(f), 'fusionar');
-		const ms = performance.now() - t0;
+			const t0 = performance.now();
+			const r = await importarDades(JSON.stringify(f), 'fusionar');
+			const ms = performance.now() - t0;
 
-		expect(r).toEqual({ afegides: 1000, actualitzades: 1000, ignorades: 0 });
-		expect(get).not.toHaveBeenCalled();
-		expect(put).not.toHaveBeenCalled();
-		expect(add).not.toHaveBeenCalled();
-		expect(bulkGet).not.toHaveBeenCalled();
-		expect(toArray).toHaveBeenCalledTimes(1); // una sola lectura (getAll)
-		expect(await llistarAscensions()).toHaveLength(2000);
-		expect(await bd.outbox.count()).toBe(2000);
-		// Llindar molt generós (fake-indexeddb amb la màquina carregada): la garantia real són les
-		// assercions estructurals de sobre; això només atura regressions d'ordre de magnitud.
-		expect(ms).toBeLessThan(10_000);
-		// Idempotent també en gran.
-		expect(await importarDades(JSON.stringify(f), 'fusionar')).toEqual({
-			afegides: 0,
-			actualitzades: 0,
-			ignorades: 2000
-		});
-	});
+			expect(r).toEqual({ afegides: 1000, actualitzades: 1000, ignorades: 0 });
+			expect(get).not.toHaveBeenCalled();
+			expect(put).not.toHaveBeenCalled();
+			expect(add).not.toHaveBeenCalled();
+			expect(bulkGet).not.toHaveBeenCalled();
+			expect(toArray).toHaveBeenCalledTimes(1); // una sola lectura (getAll)
+			// Escriptures en blocs de 200: 2000 files → 10 bulkPut a cada taula, cap escriptura per fila.
+			expect(bulkPut).toHaveBeenCalledTimes(10);
+			expect(outboxBulkPut).toHaveBeenCalledTimes(10);
+			for (const crida of [...bulkPut.mock.calls, ...outboxBulkPut.mock.calls])
+				expect((crida[0] as unknown[]).length).toBeLessThanOrEqual(200);
+			expect(outboxPut).not.toHaveBeenCalled();
+			expect(outboxAdd).not.toHaveBeenCalled();
+			expect(await llistarAscensions()).toHaveLength(2000);
+			expect(await bd.outbox.count()).toBe(2000);
+			// Sostre de temps molt ampli (aïllat triga < 1 s): només per a regressions d'ordre de magnitud.
+			expect(ms).toBeLessThan(30_000);
+			// Idempotent també en gran.
+			expect(await importarDades(JSON.stringify(f), 'fusionar')).toEqual({
+				afegides: 0,
+				actualitzades: 0,
+				ignorades: 2000
+			});
+		}
+	);
 
 	it('onProgres: 0 → total, creixent; si el callback llança, la importació continua', async () => {
 		const progres: { fetes: number; total: number }[] = [];

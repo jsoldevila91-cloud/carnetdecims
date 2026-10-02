@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createPropertyExpression, latest } from '@maplibre/maplibre-gl-style-spec';
 import type { StyleSpecification } from 'maplibre-gl';
 import { CIMS } from '$lib/data/catalog';
 import {
@@ -13,6 +14,9 @@ import {
 	CENTRE_INICIAL,
 	CONTORN_CATALUNYA_NORD,
 	ESTIL_ICGC_URL,
+	IMATGES_ICGC,
+	SPRITE_ICGC,
+	TEXT_SIZE_PER_DEFECTE,
 	OMBREJAT_FOSC,
 	FONT_IGN_ID,
 	PLAN_IGN_WMTS,
@@ -20,6 +24,8 @@ import {
 	dinsCatalunyaNord,
 	estilMapa,
 	mostraRespatllaIgn,
+	sanejarIconImage,
+	sanejarTextSize,
 	transformarEstil
 } from './mapa-estil';
 
@@ -232,5 +238,160 @@ describe('encaix inicial', () => {
 		expect(CENTRE_INICIAL[0]).toBeLessThan(3);
 		expect(CENTRE_INICIAL[1]).toBeGreaterThan(41);
 		expect(CENTRE_INICIAL[1]).toBeLessThan(42.5);
+	});
+});
+
+describe('sanejament de l’estil de l’ICGC', () => {
+	const imatges = new Set(['camping_11', 'circle_blue_5']);
+	const spec = (prop: 'text-size' | 'icon-image') =>
+		(latest as unknown as Record<string, Record<string, unknown>>).layout_symbol[prop];
+	/** Avalua una expressió de propietat com ho fa MapLibre (avís + valor per defecte si falla). */
+	function avalua(valor: unknown, prop: 'text-size' | 'icon-image', zoom: number, props: object) {
+		const e = (
+			createPropertyExpression as (...a: unknown[]) => {
+				result: string;
+				value: { evaluate(g: object, f: object): unknown };
+			}
+		)(valor, `layers.prova.layout.${prop}`, spec(prop));
+		expect(e.result, JSON.stringify(e.value)).toBe('success');
+		const avisos: unknown[] = [];
+		const warn = console.warn;
+		console.warn = (...a: unknown[]) => avisos.push(a);
+		try {
+			const r = e.value.evaluate({ zoom }, { type: 1, properties: props });
+			const valor = typeof r === 'object' && r !== null ? (r as { name: string }).name : r;
+			return { valor: valor as number | string | null, avisos: avisos.length };
+		} finally {
+			console.warn = warn;
+		}
+	}
+
+	it('la instantània del sprite de l’ICGC no és buida', () => {
+		expect(IMATGES_ICGC.size).toBeGreaterThan(100);
+		expect(IMATGES_ICGC.has('nucl')).toBe(false);
+		expect(IMATGES_ICGC.has('cest')).toBe(false);
+	});
+
+	it('icon-image literal: es manté si existeix, "" si no', () => {
+		expect(sanejarIconImage('camping_11', imatges)).toBe('camping_11');
+		expect(sanejarIconImage('nucl', imatges)).toBe('');
+		expect(sanejarIconImage('-', imatges)).toBe('');
+	});
+
+	it('icon-image funció de zoom antiga: es saneja cada parada', () => {
+		expect(
+			sanejarIconImage(
+				{
+					stops: [
+						[6, 'nucl'],
+						[7, 'circle_blue_5'],
+						[10, '-']
+					]
+				},
+				imatges
+			)
+		).toEqual({
+			stops: [
+				[6, ''],
+				[7, 'circle_blue_5'],
+				[10, '']
+			]
+		});
+		const perPropietat = { property: 'class', type: 'categorical', stops: [['a', 'x']] };
+		expect(sanejarIconImage(perPropietat, imatges)).toBe(perPropietat);
+	});
+
+	it('icon-image amb tokens: només resol noms existents (sense avisos)', () => {
+		const v = sanejarIconImage('{class}_11', imatges);
+		expect(avalua(v, 'icon-image', 12, { class: 'camping' })).toEqual({
+			valor: 'camping_11',
+			avisos: 0
+		});
+		expect(avalua(v, 'icon-image', 12, { class: 'camping3' }).valor).toBeFalsy();
+		expect(avalua(v, 'icon-image', 12, {}).valor).toBeFalsy();
+	});
+
+	it('text-size: mateix valor que l’original, sense avís quan falta la propietat', () => {
+		const casos: unknown[] = [
+			['+', 3, ['get', 'fontsize']],
+			['get', 'mida'],
+			[
+				'interpolate',
+				['linear'],
+				['zoom'],
+				8,
+				['literal', 10],
+				12,
+				['*', 1.5, ['get', 'fontsize']],
+				15,
+				['get', 'fontsize']
+			],
+			['step', ['zoom'], ['*', 2, ['get', 'fontsize']], 12, 14]
+		];
+		for (const original of casos) {
+			const sanejat = sanejarTextSize(original);
+			for (const zoom of [6, 8, 9, 10, 11.5, 12, 13, 14, 15, 16])
+				for (const props of [{ fontsize: 12, mida: 11 }, {}, { fontsize: 'gran' }]) {
+					const a = avalua(original, 'text-size', zoom, props);
+					const b = avalua(sanejat, 'text-size', zoom, props);
+					expect(
+						b.valor,
+						`${JSON.stringify(original)} z${zoom} ${JSON.stringify(props)}`
+					).toBeCloseTo(a.valor as number, 4);
+					expect(b.avisos).toBe(0);
+				}
+		}
+		expect(sanejarTextSize(14)).toBe(14);
+		expect(sanejarTextSize({ stops: [[8, 10]] })).toEqual({ stops: [[8, 10]] });
+		expect(sanejarTextSize(['+', 3, ['get', 'fontsize']])).toEqual([
+			'case',
+			['==', ['typeof', ['get', 'fontsize']], 'number'],
+			['+', 3, ['get', 'fontsize']],
+			TEXT_SIZE_PER_DEFECTE
+		]);
+	});
+
+	it('transformarEstil saneja les capes de símbols només amb el sprite de l’ICGC', () => {
+		const estil = (sprite: string): StyleSpecification => ({
+			version: 8,
+			sprite,
+			sources: {},
+			layers: [
+				{
+					id: 'place-city_z6',
+					type: 'symbol',
+					source: 'openmaptiles',
+					'source-layer': 'place',
+					layout: {
+						'icon-image': {
+							stops: [
+								[6, 'nucl'],
+								[7, 'circle_grey_2']
+							]
+						},
+						'text-size': ['+', 3, ['get', 'fontsize']]
+					}
+				} as unknown as StyleSpecification['layers'][number]
+			]
+		});
+		const icgc = transformarEstil('clar', { imatges })(undefined, estil(SPRITE_ICGC));
+		const capa = icgc.layers[0] as { layout: Record<string, unknown> };
+		expect(capa.layout['icon-image']).toEqual({
+			stops: [
+				[6, ''],
+				[7, '']
+			]
+		});
+		expect((capa.layout['text-size'] as unknown[])[0]).toBe('case');
+
+		const altre = transformarEstil('clar', { imatges })(undefined, estil('https://altre/sprite'));
+		const capa2 = altre.layers[0] as { layout: Record<string, unknown> };
+		expect(capa2.layout['icon-image']).toEqual({
+			stops: [
+				[6, 'nucl'],
+				[7, 'circle_grey_2']
+			]
+		});
+		expect((capa2.layout['text-size'] as unknown[])[0]).toBe('case');
 	});
 });

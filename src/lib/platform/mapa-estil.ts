@@ -48,6 +48,7 @@ import type {
 } from 'maplibre-gl';
 import { bboxPunts, type Punt } from '$lib/domain';
 import { CIMS } from '$lib/data/catalog/cataleg';
+import spriteIcgc from './sprite-icgc.json';
 
 export type TemaMapa = 'clar' | 'fosc';
 
@@ -243,15 +244,180 @@ function activadaFosc(capa: LayerSpecification): LayerSpecification {
 	return { ...capa, layout } as LayerSpecification;
 }
 
+// ---------------------------------------------------------------------------
+// Sanejament de l'estil de l'ICGC (avisos de MapLibre a la consola)
+// ---------------------------------------------------------------------------
+
+/** Sprite dels estils de l'ICGC (el de la instantània `sprite-icgc.json`). */
+export const SPRITE_ICGC = 'https://geoserveis.icgc.cat/vector-tiles/simbologia/sprites1/sprite';
+
+/** Noms d'icona del sprite de l'ICGC (instantània: `scripts/mapa/sprite-icgc.ts`). */
+export const IMATGES_ICGC: ReadonlySet<string> = new Set(spriteIcgc.noms);
+
+/** Valor per defecte de `text-size` a l'especificació: el que MapLibre fa servir si falla. */
+export const TEXT_SIZE_PER_DEFECTE = 16;
+
+type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
+
+const TOKEN = /\{([^{}]+)\}/g;
+
+/** "{class}_11" → `["concat", ["to-string", ["get", "class"]], "_11"]` (com resol MapLibre). */
+function tokensAExpressio(text: string): Json {
+	const parts: Json[] = [];
+	let darrer = 0;
+	for (const m of text.matchAll(TOKEN)) {
+		if (m.index > darrer) parts.push(text.slice(darrer, m.index));
+		parts.push(['to-string', ['get', m[1]]]);
+		darrer = m.index + m[0].length;
+	}
+	if (darrer < text.length) parts.push(text.slice(darrer));
+	return ['concat', ...parts];
+}
+
+/**
+ * `icon-image` que només demana icones que existeixen: un nom absent del sprite passa a ""
+ * (MapLibre no hi dibuixa icona, igual que quan no la troba, però sense avís). Els tokens
+ * (`{class}_11`) es converteixen en una expressió que comprova el nom resultant.
+ */
+export function sanejarIconImage(valor: unknown, imatges: ReadonlySet<string>): unknown {
+	if (typeof valor === 'string') {
+		if (/\{[^{}]+\}/.test(valor)) {
+			return [
+				'let',
+				'nom',
+				tokensAExpressio(valor),
+				['match', ['var', 'nom'], [...imatges], ['var', 'nom'], '']
+			];
+		}
+		return imatges.has(valor) ? valor : '';
+	}
+	// Funció antiga de zoom ({ stops: [[z, "nom"], …] }): es saneja cada parada literal.
+	if (valor && typeof valor === 'object' && !Array.isArray(valor) && 'stops' in valor) {
+		const f = valor as { stops: [unknown, unknown][]; property?: string };
+		if (f.property !== undefined) return valor;
+		return {
+			...f,
+			stops: f.stops.map(([z, v]) => [
+				z,
+				typeof v === 'string' && !v.includes('{') && !imatges.has(v) ? '' : v
+			])
+		};
+	}
+	return valor;
+}
+
+const OPERADORS_ARITMETICS = new Set(['+', '-', '*', '/', '%', '^', 'min', 'max']);
+
+/**
+ * Propietats llegides per una expressió aritmètica simple (números, `["literal", n]`,
+ * `["get", p]` i operadors aritmètics). `null` si l'expressió té qualsevol altra cosa
+ * (`case`, `coalesce`…): llavors no es toca, perquè protegir-la podria canviar-ne el valor.
+ */
+function propietatsAritmetica(e: unknown, acc = new Set<string>()): Set<string> | null {
+	if (typeof e === 'number') return acc;
+	if (!Array.isArray(e)) return null;
+	if (e[0] === 'literal') return typeof e[1] === 'number' ? acc : null;
+	if (e[0] === 'get') {
+		if (e.length !== 2 || typeof e[1] !== 'string') return null;
+		acc.add(e[1]);
+		return acc;
+	}
+	if (!OPERADORS_ARITMETICS.has(e[0] as string)) return null;
+	for (const x of e.slice(1)) if (propietatsAritmetica(x, acc) === null) return null;
+	return acc;
+}
+
+/** `["case", <totes les propietats són números>, e, 16]` (o `e` si no en llegeix cap). */
+function protegit(e: unknown, props: ReadonlySet<string>): unknown {
+	if (props.size === 0) return e;
+	const numeriques = [...props].map((p) => ['==', ['typeof', ['get', p]], 'number']);
+	const condicio = numeriques.length === 1 ? numeriques[0] : ['all', ...numeriques];
+	return ['case', condicio, e, TEXT_SIZE_PER_DEFECTE];
+}
+
+/** Separació entre una parada duplicada i l'original (en nivells de zoom): imperceptible. */
+const EPSILON_ZOOM = 1e-6;
+
+/**
+ * `text-size` sense errors d'avaluació. Les expressions de l'ICGC fan aritmètica amb
+ * propietats de les tessel·les (`["+", 3, ["get", "fontsize"]]`) que de vegades no hi són:
+ * MapLibre avisa ("Expected value to be of type number, but found null") i fa servir el valor per
+ * defecte, 16. Aquí es retorna el mateix 16 explícitament quan alguna propietat no és un número:
+ * mateix resultat, sense avís.
+ *
+ * Amb `interpolate` de zoom (el zoom ha de quedar a dalt de tot), MapLibre avalua les dues
+ * sortides del tram i falla si en falla una; per reproduir-ho, cada tram té les seves parades
+ * (les interiors es dupliquen a `EPSILON_ZOOM`) protegides amb les propietats de tot el tram.
+ * Amb `step` de zoom només s'avalua una sortida i n'hi ha prou de protegir-les una a una.
+ * Qualsevol altra forma es deixa igual.
+ */
+export function sanejarTextSize(valor: unknown): unknown {
+	if (!Array.isArray(valor)) return valor;
+	const zoom = (x: unknown) => Array.isArray(x) && x[0] === 'zoom' && x.length === 1;
+
+	if (valor[0] === 'step' && zoom(valor[1])) {
+		const sortides = valor.map((x, i) => (i >= 2 && i % 2 === 0 ? propietatsAritmetica(x) : null));
+		if (sortides.some((p, i) => i >= 2 && i % 2 === 0 && p === null)) return valor;
+		return valor.map((x, i) => (i >= 2 && i % 2 === 0 ? protegit(x, sortides[i]!) : x));
+	}
+
+	if (valor[0] === 'interpolate' && zoom(valor[2])) {
+		const parades: [number, unknown, Set<string>][] = [];
+		for (let i = 3; i + 1 < valor.length; i += 2) {
+			const props = propietatsAritmetica(valor[i + 1]);
+			if (typeof valor[i] !== 'number' || props === null) return valor;
+			parades.push([valor[i] as number, valor[i + 1], props]);
+		}
+		if (parades.every(([, , p]) => p.size === 0)) return valor;
+		const n = parades.length;
+		const [z0, o0, p0] = parades[0];
+		if (n === 1) return [...valor.slice(0, 3), z0, protegit(o0, p0)];
+		// MapLibre: z ≤ z0 → només o0; z ≥ zn → només on; za ≤ z < zb → oa i ob (tram [za, zb)).
+		const noves: [number, unknown][] = [[z0, protegit(o0, p0)]];
+		for (let k = 0; k + 1 < n; k++) {
+			const [za, oa, pa] = parades[k];
+			const [zb, ob, pb] = parades[k + 1];
+			const tram = new Set([...pa, ...pb]);
+			noves.push([k === 0 ? za + EPSILON_ZOOM : za, protegit(oa, tram)]);
+			noves.push([zb - EPSILON_ZOOM, protegit(ob, tram)]);
+		}
+		const [zn, on, pn] = parades[n - 1];
+		noves.push([zn, protegit(on, pn)]);
+		return [...valor.slice(0, 3), ...noves.flat()];
+	}
+
+	const props = propietatsAritmetica(valor);
+	return props === null ? valor : protegit(valor, props);
+}
+
+function sanejarCapa(capa: LayerSpecification, imatges: ReadonlySet<string> | null) {
+	if (capa.type !== 'symbol' || !capa.layout) return capa;
+	const layout: Record<string, unknown> = { ...capa.layout };
+	if (imatges && layout['icon-image'] !== undefined)
+		layout['icon-image'] = sanejarIconImage(layout['icon-image'], imatges);
+	if (layout['text-size'] !== undefined) layout['text-size'] = sanejarTextSize(layout['text-size']);
+	return { ...capa, layout } as LayerSpecification;
+}
+
+export interface OpcionsTransformarEstil {
+	/** Noms d'icona disponibles al sprite (per defecte, la instantània de l'ICGC). */
+	imatges?: ReadonlySet<string>;
+}
+
 /**
  * `transformStyle` per a `Map#setStyle`: normalitza l'atribució de cada font, activa el relleu
- * de l'estil fosc i afegeix la font i la capa IGN (amagada) damunt del mapa base. Pura: no
- * modifica l'estil rebut. Si l'ICGC canvia els identificadors de capa, simplement no s'activen.
+ * de l'estil fosc, afegeix la font i la capa IGN (amagada) damunt del mapa base i saneja les
+ * capes de símbols de l'ICGC (icones que no existeixen al sprite i `text-size` que falla), sense
+ * canviar l'aspecte. Pura: no modifica l'estil rebut. Si l'ICGC canvia els identificadors de
+ * capa, simplement no s'activen; si l'estil no fa servir el sprite de l'ICGC, les icones no es
+ * toquen.
  */
 export function transformarEstil(
-	tema: TemaMapa
+	tema: TemaMapa,
+	opcions: OpcionsTransformarEstil = {}
 ): (previous: StyleSpecification | undefined, next: StyleSpecification) => StyleSpecification {
 	return (_previous, next) => {
+		const imatges = next.sprite === SPRITE_ICGC ? (opcions.imatges ?? IMATGES_ICGC) : null;
 		const sources: Record<string, SourceSpecification> = {};
 		for (const [id, font] of Object.entries(next.sources)) {
 			const attribution = atribucioFont(id, font);
@@ -263,7 +429,8 @@ export function transformarEstil(
 		const activar = tema === 'fosc' ? new Set(CAPES_FOSC_ACTIVADES) : new Set<string>();
 		const layers = next.layers
 			.filter((l) => l.id !== CAPA_IGN_ID)
-			.map((l) => (activar.has(l.id) && l.type !== 'background' ? activadaFosc(l) : l));
+			.map((l) => (activar.has(l.id) && l.type !== 'background' ? activadaFosc(l) : l))
+			.map((l) => sanejarCapa(l, imatges));
 		layers.push(capaIgn(tema));
 
 		return { ...next, sources, layers };
