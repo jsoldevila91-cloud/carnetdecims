@@ -49,6 +49,7 @@
 		"wrangler": "^4.97.0"
 	},
 	"dependencies": {
-		"dexie": "^4.4.6"
+		"dexie": "^4.4.6",
+		"maplibre-gl": "^6.11.2"
 	}
 }

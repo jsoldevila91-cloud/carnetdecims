@@ -12,7 +12,7 @@
 		type Segell as SegellCarnet,
 		type SegellFora
 	} from '$lib/domain';
-	import { BottomSheet, Button, Card, EmptyState, PageMeta, romanPage } from '$lib/ui';
+	import { BottomSheet, Button, Card, EmptyState, Icon, PageMeta, romanPage } from '$lib/ui';
 	import BarresComarques from '$lib/ui/BarresComarques.svelte';
 	import DetallSegell from '$lib/ui/DetallSegell.svelte';
 	import FilaEssencial from '$lib/ui/FilaEssencial.svelte';
@@ -253,6 +253,9 @@
 				{/each}
 			</ul>
 		{/if}
+		<p class="mes">
+			<a href={href('/app/a-prop')}><Icon name="locate" size={18} />{m.app_nearby_link()} →</a>
+		</p>
 	</section>
 
 	{#if ascensions.length > 0}
@@ -446,6 +449,22 @@
 	}
 
 	.sec-h a:hover {
+		text-decoration: underline;
+	}
+
+	.mes a {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--sp-2);
+		min-height: var(--tap);
+		font-family: var(--font-mono);
+		font-size: var(--fs-xs);
+		font-weight: var(--fw-semibold);
+		color: var(--c-stamp-ink);
+		text-decoration: none;
+	}
+
+	.mes a:hover {
 		text-decoration: underline;
 	}
 

@@ -14,8 +14,8 @@ declare global {
 		// interface PageData {}
 		interface PageState {
 			/** Full inferior obert amb shallow routing (el botó enrere el tanca). */
-			sheet?: 'registrar' | 'editar' | 'segell';
-			/** Registrar: slug del cim preseleccionat (des de la fitxa). */
+			sheet?: 'registrar' | 'editar' | 'segell' | 'cim';
+			/** Registrar: slug del cim preseleccionat (des de la fitxa). Mapa (`cim`): cim obert. */
 			cim?: string;
 			/** Editar / detall del segell: id de l'ascensió. */
 			ascensio?: string;

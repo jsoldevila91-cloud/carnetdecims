@@ -99,7 +99,7 @@ export function mapaEstaticUrl(lat: number, lon: number, opts: OpcionsMapaEstati
 	return urlIcgc(bbox, ample, alt);
 }
 
-function urlIcgc(bbox: string, ample: number, alt: number): string {
+function urlIcgc(bbox: string, ample: number, alt: number, format: FormatImatge = 'png'): string {
 	return `${MAPA_ESTATIC_WMS}?${query({
 		SERVICE: 'WMS',
 		VERSION: '1.1.1',
@@ -110,7 +110,7 @@ function urlIcgc(bbox: string, ample: number, alt: number): string {
 		BBOX: bbox,
 		WIDTH: String(ample),
 		HEIGHT: String(alt),
-		FORMAT: 'image/png'
+		FORMAT: `image/${format}`
 	})}`;
 }
 
@@ -120,7 +120,7 @@ export function mapaEstaticIgnUrl(lat: number, lon: number, opts: OpcionsMapaEst
 	return urlIgn(bbox, ample, alt);
 }
 
-function urlIgn(bbox: string, ample: number, alt: number): string {
+function urlIgn(bbox: string, ample: number, alt: number, format: FormatImatge = 'png'): string {
 	return `${MAPA_IGN_WMS}?${query({
 		SERVICE: 'WMS',
 		VERSION: '1.3.0',
@@ -131,9 +131,15 @@ function urlIgn(bbox: string, ample: number, alt: number): string {
 		BBOX: bbox,
 		WIDTH: String(ample),
 		HEIGHT: String(alt),
-		FORMAT: 'image/png'
+		FORMAT: `image/${format}`
 	})}`;
 }
+
+/**
+ * Format de la imatge. PNG per defecte (fitxes i comarques); JPEG per a extensions grans com el
+ * mapa de tot el catàleg (`/mapa`), on pesa unes 5 vegades menys (640×800: ~105 kB vs ~505 kB).
+ */
+export type FormatImatge = 'png' | 'jpeg';
 
 type CimMapa = Pick<Cim, 'lat' | 'lon' | 'zona'>;
 
@@ -207,7 +213,7 @@ export interface MapaEstaticComarca extends MapaEstatic {
  */
 export function mapaEstaticComarca(
 	cims: readonly CimMapaComarca[],
-	opts: { ample?: number; alt?: number } = {}
+	opts: { ample?: number; alt?: number; format?: FormatImatge } = {}
 ): MapaEstaticComarca | null {
 	const ample = midaPx(opts.ample, 640, 'ample');
 	const alt = midaPx(opts.alt, 400, 'alt');
@@ -261,7 +267,7 @@ export function mapaEstaticComarca(
 
 	const ign = ambCoords.every((c) => c.zona === 'catalunya-nord');
 	return {
-		url: ign ? urlIgn(bbox, ample, alt) : urlIcgc(bbox, ample, alt),
+		url: ign ? urlIgn(bbox, ample, alt, opts.format) : urlIcgc(bbox, ample, alt, opts.format),
 		atribucio: ign ? MAPA_IGN_ATRIBUCIO : MAPA_ESTATIC_ATRIBUCIO,
 		llicenciaUrl: ign ? MAPA_IGN_LLICENCIA_URL : MAPA_ESTATIC_LLICENCIA_URL,
 		font: ign ? 'ign' : 'icgc',
