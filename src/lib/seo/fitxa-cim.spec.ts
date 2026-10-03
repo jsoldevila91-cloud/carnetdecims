@@ -1,8 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS, cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
 import { formatAltitude } from '$lib/ui/format';
-import { contingutFitxa, totsElsContingutsFitxa } from '$lib/content/fitxes';
-import type { RutaAcces } from '$lib/content/fitxes/types';
+import {
+	contingutFitxa,
+	contingutFitxaLocal,
+	totsElsContingutsFitxa,
+	type RutaAccesLocal
+} from '$lib/content/fitxes';
 import {
 	MAX_DESCRIPTION,
 	MAX_TITLE,
@@ -133,7 +137,13 @@ describe('fitxa de cim · SEO', () => {
 	describe('amb contingut editorial (fase 6): la ruta normal a la description', () => {
 		const ambContingut = (slug: string, locale: 'ca' | 'es') => {
 			const cim = cimPerSlug(slug)!;
-			return seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, locale, contingutFitxa(slug));
+			const c = contingutFitxa(slug);
+			return seoFitxaCim(
+				cim,
+				comarcaPerSlug(cim.comarca)!,
+				locale,
+				c && contingutFitxaLocal(c, locale)
+			);
 		};
 
 		it("punt de sortida, desnivell i temps d'anada (dades amb font)", () => {
@@ -170,11 +180,11 @@ describe('fitxa de cim · SEO', () => {
 
 		it('una ruta massa llarga no trenca el límit: cau a la cua genèrica', () => {
 			const cim = cimPerSlug('canigo')!;
-			const ruta: RutaAcces = {
+			const ruta: RutaAccesLocal = {
 				id: 'llarga',
-				nom: { ca: 'Des de ' + 'molt '.repeat(40), es: 'Desde ' + 'muy '.repeat(40) },
+				nom: 'Des de ' + 'molt '.repeat(40),
 				sortida: { nom: 'x' },
-				descripcio: { ca: '', es: '' },
+				descripcio: '',
 				fonts: []
 			};
 			const d = seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, 'ca', { rutes: [ruta] });
@@ -189,7 +199,7 @@ describe('fitxa de cim · SEO', () => {
 				for (const c of continguts) {
 					const cim = cimPerSlug(c.slug)!;
 					const comarca = comarcaPerSlug(cim.comarca)!;
-					const { description } = seoFitxaCim(cim, comarca, locale, c);
+					const { description } = seoFitxaCim(cim, comarca, locale, contingutFitxaLocal(c, locale));
 					const id = `${locale}/${c.slug}`;
 					expect(description.length, `${id}: ${description}`).toBeLessThanOrEqual(MAX_DESCRIPTION);
 					expect(description, id).toContain(`${formatAltitude(cim.altitud)} m`);

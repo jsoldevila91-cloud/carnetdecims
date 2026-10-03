@@ -7,10 +7,11 @@
 	import { formatAltitude, formatDurada, formatKm } from '../format';
 	import { getLocale } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
-	import type { RutaAcces } from '$lib/content/fitxes/types';
+	import type { RutaAccesLocal } from '$lib/content/fitxes/local';
 
 	/** Targeta d'una ruta d'accés: nom, sortida, xifres d'anada, descripció, MIDE i fonts. */
-	let { ruta }: { ruta: RutaAcces } = $props();
+	// Ja en l'idioma de la pàgina (`contingutFitxaLocal`).
+	let { ruta }: { ruta: RutaAccesLocal } = $props();
 
 	const locale = getLocale();
 	const idTitol = $derived(`ruta-${ruta.id}`);
@@ -52,7 +53,7 @@
 </script>
 
 <Card as="article" variant="flat" class="ruta" aria-labelledby={idTitol}>
-	<h3 id={idTitol}>{ruta.nom[locale]}</h3>
+	<h3 id={idTitol}>{ruta.nom}</h3>
 
 	<p class="sortida">
 		<span class="label">{m.cim_route_start()}</span>
@@ -77,7 +78,7 @@
 		<p class="nota">{m.cim_route_note()}</p>
 	{/if}
 
-	<p class="desc"><TextEnLinia text={ruta.descripcio[locale]} /></p>
+	<p class="desc"><TextEnLinia text={ruta.descripcio} /></p>
 
 	{#if ruta.mide}
 		<MideIndicadors mide={ruta.mide} titolId={`${idTitol}-mide`} />

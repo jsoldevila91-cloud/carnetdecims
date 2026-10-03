@@ -24,7 +24,64 @@ function senyalRouter() {
 	} as Window['addEventListener'];
 }
 
-export const test = base.extend<{ consoleGuard: ConsoleGuard; senyalHidratacio: void }>({
+/**
+ * Previsió fixa per a `/api/meteo/*` (4 dies des d'avui, hora local del navegador = la de la
+ * màquina). Sense aquest mock, un test que fa scroll fins a la meteo depèn de la xarxa i un 502
+ * del proveïdor surt com a error de consola del navegador ("Failed to load resource"), que no es
+ * pot silenciar des de l'app.
+ */
+function previsioPerDefecte() {
+	const dies = Array.from({ length: 4 }, (_, i) => {
+		const d = new Date();
+		d.setDate(d.getDate() + i);
+		const data = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+		return {
+			data,
+			tMax: 12,
+			tMin: 3,
+			ventMax: 15,
+			ratxaMax: 35,
+			precipitacio: 0,
+			probPrecipitacio: 10,
+			codi: 1,
+			iso0: 3000
+		};
+	});
+	return {
+		actualitzat: new Date().toISOString(),
+		altitud: 2000,
+		font: {
+			nom: 'Open-Meteo',
+			url: 'https://open-meteo.com/',
+			llicencia: 'CC BY 4.0',
+			llicenciaUrl: 'https://creativecommons.org/licenses/by/4.0/'
+		},
+		dies
+	};
+}
+
+export const test = base.extend<{
+	consoleGuard: ConsoleGuard;
+	senyalHidratacio: void;
+	meteoPerDefecte: void;
+}>({
+	/**
+	 * Mock de la meteo a nivell de context: un `page.route` o un `context.route` posterior del
+	 * test (p. ex. `mockMeteo` de `contingut-fitxa.e2e.ts`) hi té preferència.
+	 */
+	meteoPerDefecte: [
+		async ({ context }, use) => {
+			await context.route(/\/api\/meteo\//, (route) =>
+				route.fulfill({
+					status: 200,
+					contentType: 'application/json; charset=utf-8',
+					body: JSON.stringify(previsioPerDefecte())
+				})
+			);
+			await use();
+		},
+		{ auto: true }
+	],
 	senyalHidratacio: [
 		async ({ context }, use) => {
 			await context.addInitScript(senyalRouter);

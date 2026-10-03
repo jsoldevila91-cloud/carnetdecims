@@ -231,6 +231,7 @@
 	"cim_weather_error": "No s'ha pogut carregar la previsió.",
 	"cim_weather_retry": "Torna-ho a provar",
 	"cim_weather_offline": "Sense connexió: previsió no disponible.",
+	"cim_weather_nojs": "La previsió del temps necessita JavaScript.",
 	"cim_weather_saved": "Sense connexió: es mostra l'última previsió guardada.",
 	"cim_weather_updated": "Previsió actualitzada {fa}",
 	"cim_weather_old": "Previsió antiga: pot no estar al dia.",

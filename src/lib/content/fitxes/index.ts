@@ -18,10 +18,11 @@ import type { ContingutFitxa } from './types.ts';
 // `export type`: `types.ts` només té tipus (i un import sense extensió que la config de Vite no ha de tocar).
 export type * from './types.ts';
 export { comptarParaules, paraulesFitxa } from './paraules.ts';
+export { contingutFitxaLocal, type ContingutFitxaLocal, type RutaAccesLocal } from './local.ts';
 export { validarContingutFitxa, type CatalegValidacio } from './validacio.ts';
 
 /** Fitxers de la carpeta que no són contingut d'un cim. */
-const NO_SON_FITXES = ['index', 'types', 'paraules', 'validacio'];
+const NO_SON_FITXES = ['index', 'types', 'local', 'paraules', 'validacio'];
 
 let fitxes: ReadonlyMap<string, ContingutFitxa> | null = null;
 
@@ -32,6 +33,7 @@ function moduls(): Record<string, ContingutFitxa | undefined> {
 			'./*.ts',
 			'!./index.ts',
 			'!./types.ts',
+			'!./local.ts',
 			'!./paraules.ts',
 			'!./validacio.ts',
 			'!./*.spec.ts',

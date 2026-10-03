@@ -18,7 +18,7 @@
 	import MeteoCim from '$lib/ui/fitxa/MeteoCim.svelte';
 	import RutaAccesCard from '$lib/ui/fitxa/RutaAccesCard.svelte';
 	import WikilocRecomanada from '$lib/ui/fitxa/WikilocRecomanada.svelte';
-	import { ampleLiniesEm, ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
+	import { ampleLiniesEm, ampleParaulaMesLlargaEm, saltsTitolEm } from '$lib/ui/titol-ample';
 	import { obrirRegistre, registrarHref as registrarUrl } from '$lib/ui/fulls';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -60,7 +60,7 @@
 			essencialLabel: m.cim_ld_essential(),
 			// FAQPage: les mateixes preguntes que es pinten a la secció de FAQ, i només si la fitxa
 			// és indexable (`cimGraph` no l'emet amb `noindex`).
-			faq: data.contingut?.faq?.[locale],
+			faq: data.contingut?.faq,
 			indexable: data.indexable,
 			dateModified: data.contingut?.actualitzat
 		})
@@ -83,9 +83,15 @@
 	const ESCALA_ALT = 0.5;
 	const paraulaEm = $derived(ampleParaulaMesLlargaEm(cim.nom));
 	// Les paraules amb guionet ("Mont-roig") no es parteixen pel guionet: amb l'altitud al
-	// darrere, el navegador hi faria el salt. Parts senars = paraules amb guionet.
-	const partsNom = $derived(cim.nom.split(/(\S*-\S*)/));
-	const liniesEm = $derived(ampleLiniesEm(cim.nom, 3, { text: `(${alt} m)`, escala: ESCALA_ALT }));
+	// darrere, el navegador hi faria el salt.
+	const paraulesNom = $derived(cim.nom.trim().split(/\s+/));
+	const sufixAlt = $derived({ text: `(${alt} m)`, escala: ESCALA_ALT });
+	const liniesEm = $derived(ampleLiniesEm(cim.nom, 3, sufixAlt));
+	// Al mòbil, salts de línia explícits (`<br class="salt">`): el mateix nombre de línies amb la
+	// font de reserva i amb Archivo (sense CLS en arribar la woff2). Índex = paraulesNom.length
+	// → salt abans de l'altitud.
+	const ESPAI = ' ';
+	const salts = $derived(new Set(saltsTitolEm(cim.nom, sufixAlt, paraulaEm, liniesEm)));
 
 	const altresNoms = $derived.by(() => {
 		// Noms diferents del visible, sense repetits (sense distingir majúscules).
@@ -177,12 +183,13 @@
 	);
 
 	// ---------- Contingut editorial (fase 6) ----------
-	// Sense contingut, la fitxa queda com la plantilla: cap secció buida.
+	// Sense contingut, la fitxa queda com la plantilla: cap secció buida. El contingut ja ve
+	// només en l'idioma de la pàgina (`contingutFitxaLocal`, `+page.server.ts`).
 	const contingut = $derived(data.contingut);
-	const descripcio = $derived(contingut?.descripcio[locale] ?? []);
+	const descripcio = $derived(contingut?.descripcio ?? []);
 	const rutes = $derived(contingut?.rutes ?? []);
-	const consells = $derived(contingut?.consells?.[locale] ?? []);
-	const faq = $derived(contingut?.faq?.[locale] ?? []);
+	const consells = $derived(contingut?.consells ?? []);
+	const faq = $derived(contingut?.faq ?? []);
 	const wikilocRecomanades = $derived(contingut?.wikiloc ?? []);
 	const fontsGenerals = $derived(contingut?.fonts ?? []);
 
@@ -252,9 +259,11 @@
 				style:--linies-em={liniesEm}
 				style:--escala-alt={ESCALA_ALT}
 			>
-				{#each partsNom as part, i (i)}{#if i % 2}<span class="nowrap">{part}</span
-						>{:else}{part}{/if}{/each}
-				<span class="h1-alt">({alt} m)</span>
+				{#each paraulesNom as paraula, i (i)}{#if salts.has(i)}<br class="salt" />{/if}<span
+						class={{ nowrap: paraula.includes('-') }}>{paraula}</span
+					>{ESPAI}{/each}{#if salts.has(paraulesNom.length)}<br class="salt" />{/if}<span
+					class="h1-alt">({alt} m)</span
+				>
 			</h1>
 			<p class="sub mono">
 				{[comarca.nom, zona].filter(Boolean).join(' · ')}
@@ -587,6 +596,16 @@
 	}
 
 	/* Altitud dins del H1: més petita, discreta i mai partida */
+	/*
+	 * Salts calculats per al mòbil: la capacitat de línia en em és fixa mentre 11cqi < --fs-3xl
+	 * (capçalera < 436 px). Més ample, el navegador parteix sol.
+	 */
+	@container (min-width: 437px) {
+		.salt {
+			display: none;
+		}
+	}
+
 	.h1-alt {
 		font-size: calc(var(--escala-alt, 0.5) * 1em);
 		font-weight: var(--fw-bold);

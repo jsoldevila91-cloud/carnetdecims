@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { ampleLiniesEm, ampleParaulaMesLlargaEm, ampleTextEm } from './titol-ample';
+import {
+	ampleLiniesEm,
+	ampleParaulaMesLlargaEm,
+	ampleTextEm,
+	capacitatLiniaEm,
+	saltsTitolEm
+} from './titol-ample';
 
 describe('ampleParaulaMesLlargaEm', () => {
 	it('suma les amplades de la paraula més llarga (en em)', () => {
@@ -72,5 +78,36 @@ describe('ampleLiniesEm', () => {
 
 	it('text buit', () => {
 		expect(ampleLiniesEm('  ', 3)).toBe(1);
+	});
+});
+
+describe('saltsTitolEm (H1 de la fitxa al mòbil)', () => {
+	const salts = (nom: string, alt: string) => {
+		const sufix = { text: `(${alt} m)`, escala: 0.5 };
+		return saltsTitolEm(nom, sufix, ampleParaulaMesLlargaEm(nom), ampleLiniesEm(nom, 3, sufix));
+	};
+
+	it("noms curts: l'altitud a la segona línia si no hi cap amb marge", () => {
+		// "PUIGMAL (2.910 M)" queda just al límit: el salt és explícit per a les dues fonts.
+		expect(salts('Puigmal', '2.910')).toEqual([1]);
+	});
+
+	it('cap salt si tot hi cap amb marge', () => {
+		expect(salts('Taga', '2.040')).toEqual([]);
+	});
+
+	it('mai més de 3 línies i cap línia més ampla que la capacitat', () => {
+		for (const [nom, alt] of [
+			['Sant Salvador de les Espases', '413'],
+			['Torre de Madeloc', '652'],
+			['Molló-Puntaire', '1.032'],
+			['Castellsapera', '1.000']
+		] as const) {
+			const s = salts(nom, alt);
+			expect(s.length, nom).toBeLessThanOrEqual(2);
+			const sufix = { text: `(${alt} m)`, escala: 0.5 };
+			const cap = capacitatLiniaEm(ampleParaulaMesLlargaEm(nom), ampleLiniesEm(nom, 3, sufix));
+			expect(cap).toBeGreaterThanOrEqual(100 / 11);
+		}
 	});
 });

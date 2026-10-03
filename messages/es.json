@@ -231,6 +231,7 @@
 	"cim_weather_error": "No se ha podido cargar la previsión.",
 	"cim_weather_retry": "Reintentar",
 	"cim_weather_offline": "Sin conexión: previsión no disponible.",
+	"cim_weather_nojs": "La previsión del tiempo necesita JavaScript.",
 	"cim_weather_saved": "Sin conexión: se muestra la última previsión guardada.",
 	"cim_weather_updated": "Previsión actualizada {fa}",
 	"cim_weather_old": "Previsión antigua: puede no estar al día.",

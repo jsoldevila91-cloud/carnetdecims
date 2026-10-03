@@ -1055,17 +1055,15 @@ test.describe('CLS de les fitxes pilot', () => {
 	/**
 	 * Determinista: l'alçada de la capçalera (H1 inclòs) ha de ser la mateixa amb la font de
 	 * reserva (woff2 bloquejades) i amb Archivo. Si canvia, hi ha CLS quan la font arriba tard.
-	 * BUG QA-6a (obert): a Puigmal el H1 passa d'1 a 2 línies amb Archivo (també La Muga,
-	 * Molló-Puntaire i Torre de Madeloc, fora dels pilots: CLS 0,12–0,16 a 320/375 px).
+	 * (BUG QA-6a corregit: el H1 de Puigmal passava d'1 a 2 línies amb Archivo; ara els salts del
+	 * mòbil són explícits, `saltsTitolEm`.)
 	 */
-	const CLS_FONT_CONEGUT = new Set(['puigmal']);
 	for (const ample of [320, 375]) {
 		for (const p of PILOTS) {
 			test(`${ample} px · ${p.slug}: la capçalera no canvia d'alçada en carregar Archivo`, async ({
 				browser
 			}, ti) => {
 				test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-				test.fail(CLS_FONT_CONEGUT.has(p.slug), 'BUG QA-6a: el H1 canvia de línies amb Archivo');
 				const mida = async (bloquejaFonts: boolean) => {
 					const ctx = await browser.newContext({
 						viewport: { width: ample, height: 740 },
@@ -1102,10 +1100,7 @@ test.describe('CLS de les fitxes pilot', () => {
 			browser
 		}, ti) => {
 			test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-			// BUG QA-6a (obert): l'estat d'error/sense connexió (`.avis-estat`, una línia) substitueix
-			// l'esquelet de 4 dies sense reservar-ne l'alçada → la pàgina puja (CLS ≈ 0,48 a 375 px).
-			// Treure `test.fail` quan es corregeixi `MeteoCim.svelte`.
-			test.fail(cas === 'error', 'BUG QA-6a: CLS en passar de l’esquelet a l’error');
+			// (BUG QA-6a corregit: l'estat d'error ocupa la mateixa alçada que l'esquelet de 4 dies.)
 			const ctx = await browser.newContext({
 				viewport: { width: 375, height: 740 },
 				isMobile: true,

@@ -7,7 +7,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-svelte';
-import type { RutaAcces, RutaWikiloc } from '$lib/content/fitxes/types';
+import type { RutaAccesLocal } from '$lib/content/fitxes/local';
+import type { RutaWikiloc } from '$lib/content/fitxes/types';
 import { ErrorMeteo, type PrevisioMeteo } from '$lib/platform/meteo';
 import { avuiLocal } from '$lib/domain';
 import RutaAccesCard from './RutaAccesCard.svelte';
@@ -21,15 +22,15 @@ vi.mock('$lib/platform/meteo', async (importOriginal) => ({
 	obtenirMeteo: obtenir
 }));
 
-const RUTA: RutaAcces = {
+const RUTA: RutaAccesLocal = {
 	id: 'prova',
-	nom: { ca: 'Ruta de prova', es: 'Ruta de prueba' },
+	nom: 'Ruta de prova',
 	sortida: { nom: 'Aparcament de prova', lat: 42.1, lon: 1.8 },
 	desnivellPositiuM: 1050,
 	distanciaKm: 4.25,
 	tempsMinuts: 195,
 	mide: { medi: 2, itinerari: 3, desplacament: 3, esforc: 4 },
-	descripcio: { ca: 'Descripció **de prova**.', es: 'Descripción de prueba.' },
+	descripcio: 'Descripció **de prova**.',
 	fonts: [{ nom: 'Font de prova', url: 'https://example.org/', consultat: '2026-10-03' }]
 };
 

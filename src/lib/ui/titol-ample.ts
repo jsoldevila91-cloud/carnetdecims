@@ -119,3 +119,53 @@ export function ampleLiniesEm(
 	}
 	return Math.max(1, hi);
 }
+
+/**
+ * H1 de la fitxa al mòbil: el CSS fixa la mida perquè hi càpiguen `capacitatLiniaEm` em per línia
+ * (vegeu el `clamp()` del h1 a `cims/[slug]/+page.svelte`: 100cqi / (paraula · 1,04),
+ * 100cqi / (línies · 1,06) i 11cqi). Mentre 11cqi no arriba al sostre de la mida (amplada de la
+ * capçalera < 436 px), la capacitat en em no depèn de l'amplada de la pantalla.
+ */
+export const H1_MARGE_PARAULA = 1.04;
+export const H1_MARGE_LINIES = 1.06;
+export const H1_CQI = 11;
+
+/** Capacitat d'una línia del H1 (em) al mòbil. */
+export function capacitatLiniaEm(paraulaEm: number, liniesEm: number): number {
+	return Math.max(paraulaEm * H1_MARGE_PARAULA, liniesEm * H1_MARGE_LINIES, 100 / H1_CQI);
+}
+
+/**
+ * Salts de línia explícits del H1 al mòbil, perquè el nombre de línies sigui el mateix amb la
+ * font de reserva i amb Archivo (si el text cau just al límit, cada font el parteix diferent i
+ * la capçalera canvia d'alçada en arribar la woff2: CLS).
+ *
+ * Retorna els índexs dels elements (paraules del `text` i, al final, el `sufix`) davant dels
+ * quals comença una línia nova, amb el salt voraç a una amplada amb un 5 % de marge sota la
+ * capacitat (mai per sota del mínim que ja garanteix `liniesEm` ni de la paraula més llarga).
+ */
+export function saltsTitolEm(
+	text: string,
+	sufix: { text: string; escala: number },
+	paraulaEm: number,
+	liniesEm: number
+): number[] {
+	const items = paraules(text).map(ampleParaula);
+	const ps = paraules(sufix.text);
+	if (ps.length) {
+		items.push(
+			sufix.escala * (ps.reduce((suma, p) => suma + ampleParaula(p), 0) + ESPAI * (ps.length - 1))
+		);
+	}
+	const ample = Math.max(paraulaEm, liniesEm, capacitatLiniaEm(paraulaEm, liniesEm) / 1.05);
+	const salts: number[] = [];
+	let actual = items[0] ?? 0;
+	for (let i = 1; i < items.length; i++) {
+		if (actual + ESPAI + items[i] <= ample) actual += ESPAI + items[i];
+		else {
+			salts.push(i);
+			actual = items[i];
+		}
+	}
+	return salts;
+}

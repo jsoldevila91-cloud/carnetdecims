@@ -36,6 +36,8 @@
 	let previsio = $state<PrevisioMeteo | null>(null);
 	let avui = $state<string | null>(null);
 	let seccio: HTMLElement | undefined = $state();
+	/** `false` a l'HTML estàtic: l'esquelet només surt amb JS (sense JS no "carregaria" mai). */
+	let montat = $state(false);
 	let peticio = 0;
 	/** S'avorta en desmuntar el component (navegació a una altra fitxa). */
 	const desmuntatge = new AbortController();
@@ -112,6 +114,7 @@
 
 	onMount(() => {
 		avui = avuiLocal();
+		montat = true;
 		const aturarXarxa = network.start();
 
 		// Sense connexió: es prova de seguida (resposta local del SW o error immediat).
@@ -222,29 +225,40 @@
 					</li>
 				{/each}
 			</ul>
-		{:else if estat === 'error' || estat === 'offline' || (estat === 'ok' && dies.length === 0)}
-			<div class="avis-estat" role="status">
-				<p>{estat === 'error' ? m.cim_weather_error() : m.cim_weather_offline()}</p>
-				{#if estat === 'error'}
-					<button type="button" class="reintenta" onclick={carregar}>{m.cim_weather_retry()}</button
-					>
+		{:else}
+			<!--
+				Reserva: la mateixa alçada que els 4 dies en tots els estats (esquelet, error, sense
+				connexió, sense JS). Canviar d'estat no mou la pàgina.
+			-->
+			<div class="reserva">
+				{#if estat === 'error' || estat === 'offline' || estat === 'ok'}
+					<div class="avis-estat" role="status">
+						<p>{estat === 'error' ? m.cim_weather_error() : m.cim_weather_offline()}</p>
+						{#if estat === 'error'}
+							<button type="button" class="reintenta" onclick={carregar}
+								>{m.cim_weather_retry()}</button
+							>
+						{/if}
+					</div>
+				{:else if montat}
+					<ul class="dies esquelet" aria-hidden="true">
+						{#each Array.from({ length: DIES }, (_, i) => i) as i (i)}
+							<li class="dia">
+								<span class="barra curta"></span>
+								<div class="dia-cap">
+									<span class="cercle"></span>
+									<span class="barra mitjana"></span>
+								</div>
+								<span class="barra"></span>
+								<span class="barra"></span>
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<!-- HTML estàtic (abans d'hidratar): sense esquelet; sense JS, un avís. -->
+					<noscript><p class="avis-estat">{m.cim_weather_nojs()}</p></noscript>
 				{/if}
 			</div>
-		{:else}
-			<!-- Esquelet: mateixa graella i mida que les dades (sense salts de disseny). -->
-			<ul class="dies esquelet" aria-hidden="true">
-				{#each Array.from({ length: DIES }, (_, i) => i) as i (i)}
-					<li class="dia">
-						<span class="barra curta"></span>
-						<div class="dia-cap">
-							<span class="cercle"></span>
-							<span class="barra mitjana"></span>
-						</div>
-						<span class="barra"></span>
-						<span class="barra"></span>
-					</li>
-				{/each}
-			</ul>
 		{/if}
 	</div>
 
@@ -275,8 +289,8 @@
 						>{previsio.font.llicencia}<span class="sr-only"> {m.external_new_tab()}</span></a
 					>{:else}{previsio.font.llicencia}{/if}{/if}
 		</p>
-	{:else if estat === 'esperant' || estat === 'carregant'}
-		<!-- Reserva l'alçada de "actualitzada" i de la font mentre carrega (sense salts). -->
+	{:else}
+		<!-- Reserva l'alçada de "actualitzada" i de la font (sense salts en cap estat). -->
 		<p class="actualitzada" aria-hidden="true">&nbsp;</p>
 		<p class="font" aria-hidden="true">&nbsp;</p>
 	{/if}
@@ -405,6 +419,14 @@
 		white-space: nowrap;
 	}
 
+	/*
+	 * Alçada dels 4 dies (min-height de .dia × 4 + 3 separacions): esquelet, error i sense JS
+	 * ocupen el mateix que les dades.
+	 */
+	.reserva {
+		min-height: calc(4 * 9.5rem + 3 * var(--sp-2));
+	}
+
 	/* Esquelet */
 	.esquelet .dia {
 		grid-template-areas: none;
@@ -515,6 +537,10 @@
 	@container (min-width: 36rem) {
 		.dies {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+
+		.reserva {
+			min-height: 18.5rem;
 		}
 
 		.dia {

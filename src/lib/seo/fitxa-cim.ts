@@ -12,7 +12,7 @@ import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } fro
 import { m } from '$lib/paraglide/messages';
 import { formatAltitude, formatDurada, formatKm } from '$lib/ui/format';
 // Només el tipus: l'índex de fitxes (`import.meta.glob`) no ha d'entrar al JS del client.
-import type { ContingutFitxa, RutaAcces } from '$lib/content/fitxes/types';
+import type { ContingutFitxaLocal, RutaAccesLocal } from '$lib/content/fitxes/local';
 
 type Locale = 'ca' | 'es';
 
@@ -107,7 +107,7 @@ function ambMinuscula(text: string): string {
  * temps d'anada; la distància només si no hi ha desnivell. "1.100 m de desnivell i 3 h 30 min
  * d'anada" · "10,2 km y 5 h 15 min de ida". Buit si la ruta no té cap dada.
  */
-function dadesRuta(ruta: RutaAcces, locale: Locale): string {
+function dadesRuta(ruta: RutaAccesLocal, locale: Locale): string {
 	const opts = { locale };
 	const parts: string[] = [];
 	if (ruta.desnivellPositiuM !== undefined) {
@@ -127,10 +127,10 @@ function dadesRuta(ruta: RutaAcces, locale: Locale): string {
  * Frases de la ruta normal (la primera de `rutes`) per a la description, de la més completa a
  * la més curta: amb nom i dades, només amb el nom i només amb les dades.
  */
-function frasesRutaNormal(ruta: RutaAcces | undefined, locale: Locale): string[] {
+function frasesRutaNormal(ruta: RutaAccesLocal | undefined, locale: Locale): string[] {
 	if (!ruta) return [];
 	const opts = { locale };
-	const nom = ambMinuscula(ruta.nom[locale].trim());
+	const nom = ambMinuscula(ruta.nom.trim());
 	const dades = dadesRuta(ruta, locale);
 	return dades
 		? [
@@ -155,7 +155,8 @@ export function seoFitxaCim(
 	cim: CimCataleg,
 	comarca: ComarcaCataleg,
 	locale: Locale,
-	contingut?: Pick<ContingutFitxa, 'rutes'> | null
+	/** Contingut ja projectat a `locale` (`contingutFitxaLocal`). */
+	contingut?: Pick<ContingutFitxaLocal, 'rutes'> | null
 ) {
 	const opts = { locale };
 	const alt = formatAltitude(cim.altitud);
