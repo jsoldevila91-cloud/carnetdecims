@@ -132,6 +132,15 @@
   1. Todo el contenido redactado por agentes queda en `estat: 'esborrany'`. **Solo el usuario puede marcar `revisat`**, que es lo que hace indexable la ficha.
   2. Primero un piloto de 10 fichas; si la calidad es buena, el 6b y el 6c escalan a las 150.
   3. Ningún dato sin fuente: MIDE, desnivel y tiempos vacíos si no hay fuente fiable.
+- **Revisión del usuario (2026-10-03):**
+  - Pedraforca: la tartera de Saldes **no está prohibida**, solo desaconsejada por el parque y los servicios de emergencia;
+  - Canigó y La Mola: correctos;
+  - la grafía es **"Mas Malet"**.
+- **Dificultad (propuesta de Claude, aceptada por defecto):** escala propia **"Dificultat orientativa"** de 4 niveles (Fàcil · Moderada · Exigent · Molt exigent), calculada a partir de la ruta normal (desnivel, distancia, tiempo, altitud) y de los pasos técnicos con fuente (grimpada…).
+  - Se etiqueta como estimación de Carnet de Cims y enlaza a Metodología.
+  - El MIDE solo se muestra cuando una fuente lo publica.
+  - Desbloquea los listados "Cims fàcils" y "Cims amb nens".
+  - Pendiente de implementar tras el QA del 6a.
 - Después: 6b (+ fichas), 6c (resto + revisión). La **fase 5** se hará cuando el usuario haga las acciones previas.
 
 ## Pendiente o decisiones abiertas
