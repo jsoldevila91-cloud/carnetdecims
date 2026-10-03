@@ -125,7 +125,14 @@
 
 ## Siguiente
 
-**Fase 5 · Cuentas y sincronización.** Requiere acciones del usuario antes de empezar (ver "Pendiente o decisiones abiertas").
+**Fase 6 · Contenido** (en curso; el usuario eligió adelantarla a la 5, el 2026-10-03, porque la 5 requiere acciones suyas).
+
+- **Bloque 6a (en curso):** contrato `src/lib/content/fitxes/types.ts` (descripció, rutes d'accés con MIDE y fuentes, consells, FAQ, Wikiloc, `estat`); guía `docs/07-guia-contingut.md`; **10 fichas piloto** (Pedraforca, Pica d'Estats, Puigmal, Canigó, Matagalls, Montcau, Sant Jeroni, Comapedrosa, La Mola, Taga); meteo con Open-Meteo vía `/api/meteo/{slug}` (caché de 3 h en el Worker); Wikiloc click-to-load.
+- **Decisiones de Claude, pendientes de que el usuario las confirme:**
+  1. Todo el contenido redactado por agentes queda en `estat: 'esborrany'`. **Solo el usuario puede marcar `revisat`**, que es lo que hace indexable la ficha.
+  2. Primero un piloto de 10 fichas; si la calidad es buena, el 6b y el 6c escalan a las 150.
+  3. Ningún dato sin fuente: MIDE, desnivel y tiempos vacíos si no hay fuente fiable.
+- Después: 6b (+ fichas), 6c (resto + revisión). La **fase 5** se hará cuando el usuario haga las acciones previas.
 
 ## Pendiente o decisiones abiertas
 
