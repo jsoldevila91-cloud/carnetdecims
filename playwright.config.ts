@@ -26,6 +26,11 @@ export default defineConfig({
 		locale: 'ca-ES',
 		timezoneId: 'Europe/Madrid',
 		trace: 'retain-on-failure',
+		// Des del bloc 4d hi ha service worker a producció. Bloquejat per defecte: si el SW controla
+		// la pàgina, les peticions que ell fa (estils i tessel·les del mapa, imatges) no passen per
+		// `page.route` i els mocks deixen de ser deterministes. El SW es prova a `e2e/pwa.e2e.ts`
+		// (i a la prova de privadesa) amb `test.use({ serviceWorkers: 'allow' })`.
+		serviceWorkers: 'block',
 		screenshot: 'only-on-failure'
 	},
 	projects: [

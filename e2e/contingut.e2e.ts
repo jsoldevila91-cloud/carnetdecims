@@ -286,41 +286,49 @@ test.describe('Avisos de web no oficial', () => {
 });
 
 test.describe('Privadesa: el web fa el que diu la política', () => {
-	test('sense cookies, emmagatzematge ni peticions a tercers a portada i contingut', async ({
-		page,
-		context
-	}) => {
-		test.setTimeout(60_000);
-		const hosts = new Set<string>();
-		page.on('request', (r) => hosts.add(new URL(r.url()).hostname));
-		for (const u of ['/ca', URLS.privacitat.ca, URLS.normativa.es, '/ca/cims', '/es/mapa']) {
-			await gotoHydrated(page, u);
-		}
-		expect(await context.cookies()).toEqual([]);
-		const storage = await page.evaluate(async () => ({
-			local: Object.keys(localStorage),
-			session: Object.keys(sessionStorage),
-			idb: 'databases' in indexedDB ? (await indexedDB.databases()).map((d) => d.name ?? '?') : [],
-			sw:
-				'serviceWorker' in navigator
-					? (await navigator.serviceWorker.getRegistrations()).length
-					: 0,
-			caches: 'caches' in window ? await caches.keys() : []
-		}));
-		// sessionStorage: només l'estat tècnic de SvelteKit (scroll i snapshots de navegació), sense
-		// dades personals. La política diu "no desa res": vegeu l'informe de QA del bloc 3c.
-		const tecnic = storage.session.filter((k) => !/^sveltekit:/.test(k));
-		test
-			.info()
-			.annotations.push({ type: 'sessionStorage', description: storage.session.join(', ') });
-		expect({ ...storage, session: tecnic }).toEqual({
-			local: [],
-			session: [],
-			idb: [],
-			sw: 0,
-			caches: []
+	test.describe('amb el service worker actiu (com en producció)', () => {
+		test.use({ serviceWorkers: 'allow' });
+		test('sense cookies ni peticions a tercers; només l’emmagatzematge tècnic que diu la política', async ({
+			page,
+			context
+		}) => {
+			test.setTimeout(60_000);
+			const hosts = new Set<string>();
+			page.on('request', (r) => hosts.add(new URL(r.url()).hostname));
+			for (const u of ['/ca', URLS.privacitat.ca, URLS.normativa.es, '/ca/cims']) {
+				await gotoHydrated(page, u);
+			}
+			// Fins aquí, cap tercer. El mapa (des del bloc 4c) contacta els serveis de mapes que
+			// enumera la política (ICGC, IGN i Mapterhorn), i res més.
+			expect([...hosts].filter((h) => h !== 'localhost')).toEqual([]);
+			await gotoHydrated(page, '/es/mapa');
+			expect(await context.cookies()).toEqual([]);
+			const storage = await page.evaluate(async () => ({
+				local: Object.keys(localStorage),
+				session: Object.keys(sessionStorage),
+				idb:
+					'databases' in indexedDB ? (await indexedDB.databases()).map((d) => d.name ?? '?') : [],
+				sw:
+					'serviceWorker' in navigator
+						? (await navigator.serviceWorker.getRegistrations()).length
+						: 0,
+				caches: 'caches' in window ? await caches.keys() : []
+			}));
+			// La política (bloc 4d) diu: memòria cau del service worker (`carnet-*`), dues preferències
+			// tècniques a localStorage i l'estat de navegació de SvelteKit a sessionStorage. Res més.
+			// IndexedDB: /mapa obre la BD local (Dexie) per marcar els cims fets; buida, sense dades.
+			test
+				.info()
+				.annotations.push({ type: 'sessionStorage', description: storage.session.join(', ') });
+			expect(storage.session.filter((k) => !/^sveltekit:/.test(k))).toEqual([]);
+			for (const k of storage.local)
+				expect(['carnetdecims:llest-offline', 'carnetdecims:avis-installacio']).toContain(k);
+			for (const nom of storage.idb) expect(nom).toBe('carnetdecims');
+			expect(storage.sw).toBeLessThanOrEqual(1);
+			for (const c of storage.caches) expect(c).toMatch(/^carnet-/);
+			for (const h of [...hosts].filter((h) => h !== 'localhost'))
+				expect(['geoserveis.icgc.cat', 'data.geopf.fr', 'tiles.mapterhorn.com']).toContain(h);
 		});
-		expect([...hosts].filter((h) => h !== 'localhost')).toEqual([]);
 	});
 
 	test('a la fitxa de cim només es contacta ICGC/IGN (mapes), com diu la política', async ({

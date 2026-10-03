@@ -153,6 +153,7 @@ test('/cims enllaça els llistats i les comarques, i tots responen 200', async (
 		.evaluateAll((as) => as.map((a) => new URL((a as HTMLAnchorElement).href).pathname));
 	expect(hrefs).toEqual([
 		'/ca/comarques',
+		'/ca/mapa',
 		'/ca/cims-essencials',
 		'/ca/tresmils',
 		'/ca/cims-mes-alts'

@@ -75,7 +75,8 @@ for (const width of [320, 375, 768, 1280]) {
 		page
 	}, testInfo) => {
 		test.skip(testInfo.project.name !== 'desktop-chrome', 'Una sola passada n’hi ha prou');
-		test.setTimeout(300_000);
+		// ~4 min sola; amb la suite completa (3 projectes en paral·lel) pot passar dels 5.
+		test.setTimeout(480_000);
 		// Els mapes WMS externs no hi influeixen (la mida de la imatge és fixa per CSS)
 		const png = Buffer.from(
 			'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',

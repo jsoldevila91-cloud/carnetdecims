@@ -364,8 +364,10 @@ test.describe('MapLibre: càrrega diferida', () => {
 			.getByRole('navigation', { name: 'Navegació principal' })
 			.getByRole('link', { name: 'Cims', exact: true })
 			.click();
-		fora = true;
+		// Compta des que la navegació ha acabat (el component del mapa ja s'ha destruït): una
+		// petició de l'estil llançada just abans, encara a /mapa, no és un mapa orfe.
 		await expect(page).toHaveURL('/ca/cims');
+		fora = true;
 		await page.waitForTimeout(6000);
 		expect(despres, 'peticions del mapa després de sortir de /mapa').toEqual([]);
 		await expect(page.locator('.maplibregl-canvas')).toHaveCount(0);

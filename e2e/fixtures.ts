@@ -7,7 +7,31 @@ import { test as base, expect, type Locator, type Page } from '@playwright/test'
  */
 type ConsoleGuard = { errors: string[]; allow: (pattern: RegExp) => void };
 
-export const test = base.extend<{ consoleGuard: ConsoleGuard }>({
+/**
+ * Senyal d'hidratació per a `waitForHydration` (s'injecta a totes les pàgines del context abans
+ * dels scripts de l'app). El router de SvelteKit (`_start_router`, després d'hidratar) registra
+ * `hashchange` a `window`; cap altre codi de l'app ho fa abans. Des del bloc 4d
+ * (`paths.relative: false`) l'HTML prerenderitzat ja porta hrefs absoluts i el senyal antic
+ * (hrefs relatius → absoluts) ja no distingia res.
+ */
+function senyalRouter() {
+	const w = window as Window & { __e2eSenyal?: boolean; __e2eRouter?: boolean };
+	w.__e2eSenyal = true;
+	const original = w.addEventListener;
+	w.addEventListener = function (this: unknown, ...args: Parameters<Window['addEventListener']>) {
+		if (args[0] === 'hashchange') w.__e2eRouter = true;
+		return original.apply((this as Window | undefined) ?? w, args);
+	} as Window['addEventListener'];
+}
+
+export const test = base.extend<{ consoleGuard: ConsoleGuard; senyalHidratacio: void }>({
+	senyalHidratacio: [
+		async ({ context }, use) => {
+			await context.addInitScript(senyalRouter);
+			await use();
+		},
+		{ auto: true }
+	],
 	consoleGuard: [
 		async ({ page }, use) => {
 			const errors: string[] = [];
@@ -41,16 +65,19 @@ export function toleraAvortamentsWebKit(
 }
 
 /**
- * Espera que SvelteKit hagi hidratat la pàgina. Senyal fiable i sense `networkidle` (que sota
- * càrrega, amb els 3 projectes en paral·lel, és lent i no garanteix res): l'HTML prerenderitzat
- * porta hrefs relatius (`../../ca`) i, en hidratar, Svelte els reescriu com a absoluts (`/ca`).
+ * Espera que SvelteKit hagi hidratat la pàgina i arrencat el router. Senyal fiable i sense
+ * `networkidle` (que sota càrrega, amb els 3 projectes en paral·lel, és lent i no garanteix res):
+ * el router registra `hashchange` en acabar d'hidratar (`senyalRouter`, injectat per la fixture
+ * `senyalHidratacio`). Sense la fixture (pàgina d'un context creat a mà) es fa servir
+ * `history.scrollRestoration === 'manual'`, que el router fixa en arrencar.
  * Després deixa passar dos frames perquè s'executin els efectes (`onMount`, `$effect`).
  */
 export async function waitForHydration(page: Page, timeout = 15_000) {
 	await page.waitForFunction(
 		() => {
-			const a = document.querySelector('header a[href]:not([href^="#"])');
-			return !!a && a.getAttribute('href')!.startsWith('/');
+			const w = window as Window & { __e2eSenyal?: boolean; __e2eRouter?: boolean };
+			if (w.__e2eSenyal) return w.__e2eRouter === true;
+			return history.scrollRestoration === 'manual' && !!document.querySelector('header a[href]');
 		},
 		undefined,
 		{ timeout }
