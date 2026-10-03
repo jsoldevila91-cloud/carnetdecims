@@ -52,8 +52,8 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Aparcament del mirador de Gresolet (Saldes)' },
 			descripcio: {
-				ca: "Ruta circular del parc natural: 8,9 km, 1.100 m de desnivell i unes 5 h en total, valorada com a molt exigent. Puja pel refugi Lluís Estasen fins al coll del Verdet i continua per la canal del Verdet, un pas equipat on cal grimpar uns 120 m. Es baixa per l'Enforcadura i el camí que voreja la tartera de Saldes: el parc indica que està prohibit baixar per la mateixa tartera.",
-				es: 'Ruta circular del parque natural: 8,9 km, 1.100 m de desnivel y unas 5 h en total, valorada como muy exigente. Sube por el refugio Lluís Estasen hasta el collado del Verdet y sigue por la canal del Verdet, un paso equipado donde hay que trepar unos 120 m. Se baja por la Enforcadura y el sendero que bordea la pedrera de Saldes: el parque indica que está prohibido bajar por la propia pedrera.'
+				ca: "Ruta circular del parc natural: 8,9 km, 1.100 m de desnivell i unes 5 h en total, valorada com a molt exigent. Puja pel refugi Lluís Estasen fins al coll del Verdet i continua per la canal del Verdet, un pas equipat on cal grimpar uns 120 m. Es baixa per l'Enforcadura i el camí que voreja la tartera de Saldes: no es recomana baixar per la mateixa tartera, molt degradada i amb risc d'accidents.",
+				es: 'Ruta circular del parque natural: 8,9 km, 1.100 m de desnivel y unas 5 h en total, valorada como muy exigente. Sube por el refugio Lluís Estasen hasta el collado del Verdet y sigue por la canal del Verdet, un paso equipado donde hay que trepar unos 120 m. Se baja por la Enforcadura y el sendero que bordea la pedrera de Saldes: no se recomienda bajar por la propia pedrera, muy degradada y con riesgo de accidentes.'
 			},
 			fonts: [PARC_ESTASEN]
 		}
@@ -61,14 +61,14 @@ const fitxa: ContingutFitxa = {
 	consells: {
 		ca: [
 			'Si no tens experiència en grimpades, puja per Gósol: evita la canal del Verdet.',
-			'No baixis per la tartera de Saldes: està prohibit i en restauració; fes servir el camí senyalitzat que la voreja.',
+			"Evita baixar per la tartera de Saldes: les autoritats i els serveis d'emergència ho desaconsellen pel desgast del terreny i el risc d'accidents; fes servir el camí senyalitzat que la voreja.",
 			"Surt d'hora a l'estiu: les tempestes de tarda són habituals i la roca mullada és molt relliscosa.",
 			"A l'aparcament del mirador de Gresolet hi ha unes 25 places; en alguns estius el parc ha regulat l'accés motoritzat a la zona, consulta-ho abans de sortir.",
 			"Amb neu o gel, l'ascensió requereix crampons, piolet i experiència. En cas d'emergència, truca al 112."
 		],
 		es: [
 			'Si no tienes experiencia trepando, sube por Gósol: evita la canal del Verdet.',
-			'No bajes por la pedrera de Saldes: está prohibido y en restauración; usa el sendero señalizado que la bordea.',
+			'Evita bajar por la pedrera de Saldes: las autoridades y los servicios de emergencia lo desaconsejan por el desgaste del terreno y el riesgo de accidentes; usa el sendero señalizado que la bordea.',
 			'En verano sal temprano: las tormentas de tarde son habituales y la roca mojada resbala mucho.',
 			'El aparcamiento del mirador de Gresolet tiene unas 25 plazas; algunos veranos el parque ha regulado el acceso motorizado a la zona, consúltalo antes de salir.',
 			'Con nieve o hielo, la ascensión requiere crampones, piolet y experiencia. En caso de emergencia, llama al 112.'
