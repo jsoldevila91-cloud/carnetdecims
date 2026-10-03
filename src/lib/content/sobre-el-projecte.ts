@@ -46,7 +46,8 @@ export const sobreElProjecte: Contingut = {
 							'Llistats curats: [cims essencials](/cims-essencials), [tresmils](/tresmils) i [cims més alts](/cims-mes-alts).',
 							'El repte explicat en llenguatge clar: [normativa](/repte-100-cims/normativa), [com validar les ascensions](/repte-100-cims/com-validar) i [repte infantil](/repte-100-cims/repte-infantil).',
 							"D'on surten les dades i com les revisem: [metodologia](/metodologia).",
-							'El teu carnet: anotes les ascensions al dispositiu, sense compte, i cada cim hi queda segellat en pàgines de la I a la V, una per cada 100 cims. Hi veus els essencials que et falten (també ordenats per proximitat), el progrés per comarca i l’historial, i pots exportar, importar i esborrar les dades quan vulguis.'
+							'El teu carnet: anotes les ascensions al dispositiu, sense compte, i cada cim hi queda segellat en pàgines de la I a la V, una per cada 100 cims. Hi veus els essencials que et falten (també ordenats per proximitat), el progrés per comarca i l’historial, i pots exportar, importar i esborrar les dades quan vulguis.',
+							"L'app instal·lable: la pots afegir a la pantalla d'inici del mòbil i fer servir el carnet sense cobertura. Les fitxes que ja has consultat també es poden tornar a obrir sense connexió."
 						]
 					}
 				]
@@ -59,8 +60,7 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca i historial.',
-							"**L'aplicació:** poder-la instal·lar com una app que funcioni sense connexió.",
+							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca i historial. Es pot instal·lar com una app i funciona sense connexió.',
 							'**Comptes opcionals:** per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea, i amb opcions per exportar-les i esborrar-les.',
 							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones, i la previsió meteorològica a cada cim.',
 							'**Més cims:** la resta de cims del repte, per lots.'
@@ -146,7 +146,8 @@ export const sobreElProjecte: Contingut = {
 							'Listados seleccionados: [cimas esenciales](/cims-essencials), [tresmiles](/tresmils) y [cimas más altas](/cims-mes-alts).',
 							'El reto explicado en lenguaje claro: [normativa](/repte-100-cims/normativa), [cómo validar las ascensiones](/repte-100-cims/com-validar) y [reto infantil](/repte-100-cims/repte-infantil).',
 							'De dónde salen los datos y cómo los revisamos: [metodología](/metodologia).',
-							'Tu carnet: anotas las ascensiones en el dispositivo, sin cuenta, y cada cima queda sellada en páginas de la I a la V, una por cada 100 cimas. Ves las esenciales que te faltan (también ordenadas por proximidad), el progreso por comarca y el historial, y puedes exportar, importar y borrar los datos cuando quieras.'
+							'Tu carnet: anotas las ascensiones en el dispositivo, sin cuenta, y cada cima queda sellada en páginas de la I a la V, una por cada 100 cimas. Ves las esenciales que te faltan (también ordenadas por proximidad), el progreso por comarca y el historial, y puedes exportar, importar y borrar los datos cuando quieras.',
+							'La app instalable: puedes añadirla a la pantalla de inicio del móvil y usar el carnet sin cobertura. Las fichas que ya has consultado también se pueden volver a abrir sin conexión.'
 						]
 					}
 				]
@@ -159,8 +160,7 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca e historial.',
-							'**La aplicación:** poder instalarla como una app que funcione sin conexión.',
+							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca e historial. Se puede instalar como una app y funciona sin conexión.',
 							'**Cuentas opcionales:** para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea, y con opciones para exportarlos y borrarlos.',
 							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas, y la previsión meteorológica en cada cima.',
 							'**Más cimas:** el resto de cimas del reto, por lotes.'

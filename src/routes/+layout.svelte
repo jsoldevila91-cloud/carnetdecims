@@ -5,7 +5,6 @@
 	import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 	import { onMount, tick } from 'svelte';
 	import { onNavigate } from '$app/navigation';
-	import { asset } from '$app/paths';
 	import { page } from '$app/state';
 	import {
 		AppHeader,
@@ -82,9 +81,7 @@
 </script>
 
 <svelte:head>
-	<!-- URL estable a /static (no data: URI) perquè els cercadors el puguin rastrejar. -->
-	<link rel="icon" href={asset('/favicon.ico')} sizes="32x32" />
-	<link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
+	<!-- Favicons: a src/app.html (també als shells SPA de /app). -->
 	<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 

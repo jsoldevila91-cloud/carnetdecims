@@ -8,9 +8,14 @@
  * - geolocalització (blocs 4b i 4c, `platform/geolocalitzacio.ts`): només amb un botó («Ordena
  *   per proximitat» dels essencials pendents, «La meva ubicació» del mapa i «Cims a prop»); la
  *   posició es queda en memòria i no es desa ni s'envia;
- * - cap `localStorage` ni cookie pròpia (Paraglide amb estratègia
- *   `url` + `baseLocale`, sense cookie); cap analítica, publicitat ni Google Fonts (fonts
- *   autoallotjades amb @fontsource);
+ * - cap cookie pròpia (Paraglide amb estratègia `url` + `baseLocale`, sense cookie); cap
+ *   analítica, publicitat ni Google Fonts (fonts autoallotjades amb @fontsource);
+ * - PWA (bloc 4d, verificat el 2026-10-02): el service worker desa a la Cache Storage del
+ *   navegador (caches `carnet-*`, `platform/sw/estrategia.ts`) els fitxers del web, les pàgines
+ *   públiques visitades i les tessel·les dels mapes, per funcionar sense connexió; dues
+ *   preferències tècniques a `localStorage`: `carnetdecims:avis-installacio`
+ *   (`platform/installacio.svelte.ts`, avís d'instal·lació rebutjat o app instal·lada) i el
+ *   senyal d'"app preparada sense connexió" ja mostrat (`ui/OfflineBanner.svelte`);
  * - `sessionStorage` només el de SvelteKit (`sveltekit:scroll`, `sveltekit:snapshot`): tècnic,
  *   sense dades personals, s'esborra en tancar la pestanya (informe QA 3c);
  * - tercers que reben la IP en carregar recursos: mapes estàtics WMS de l'ICGC
@@ -88,7 +93,7 @@ export const privacitat: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: "No fem servir cookies pròpies ni emmagatzematge local (localStorage). A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. No conté dades personals i s'esborra en tancar la pestanya."
+						text: "No fem servir cookies pròpies. Perquè el web funcioni sense connexió, el navegador hi desa una còpia dels fitxers del web, de les pàgines visitades i dels trossos de mapa que has consultat (memòria cau del service worker); també hi guarda dues preferències tècniques a l'emmagatzematge local (localStorage): si has tancat l'avís d'instal·lació o ja tens l'app instal·lada, i si ja t'hem avisat que l'app està preparada per funcionar sense connexió. A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. Res d'això conté dades personals ni ens arriba, i ho pots esborrar eliminant les dades del lloc a la configuració del navegador."
 					}
 				]
 			},
@@ -221,7 +226,7 @@ export const privacitat: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'No usamos cookies propias ni almacenamiento local (localStorage). Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. No contiene datos personales y se borra al cerrar la pestaña.'
+						text: 'No usamos cookies propias. Para que la web funcione sin conexión, el navegador guarda una copia de los archivos de la web, de las páginas visitadas y de los fragmentos de mapa que has consultado (memoria caché del service worker); también guarda dos preferencias técnicas en el almacenamiento local (localStorage): si has cerrado el aviso de instalación o ya tienes la app instalada, y si ya te hemos avisado de que la app está preparada para funcionar sin conexión. Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. Nada de esto contiene datos personales ni nos llega, y puedes borrarlo eliminando los datos del sitio en la configuración del navegador.'
 					}
 				]
 			},
