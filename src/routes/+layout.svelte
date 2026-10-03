@@ -3,6 +3,7 @@
 	import '$lib/ui/styles/tokens.css';
 	import '$lib/ui/styles/base.css';
 	import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+	import plexMonoLatin from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url';
 	import { onMount, tick } from 'svelte';
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -83,6 +84,8 @@
 <svelte:head>
 	<!-- Favicons: a src/app.html (també als shells SPA de /app). -->
 	<link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
+	<!-- La mono 400 surt al primer viewport (taula de la fitxa, etiquetes): es demana amb el CSS. -->
+	<link rel="preload" href={plexMonoLatin} as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 
 <a class="skip-link" href="#contingut">{m.skip_to_content()}</a>

@@ -539,7 +539,7 @@ test.describe('Avís d’instal·lació a iOS (WebKit, UA d’iPhone)', () => {
 		await full.getByRole('button', { name: 'Entesos' }).click();
 		await expect(full).toBeHidden();
 		await expect(AVIS(page)).toHaveCount(0);
-		// (El focus en tancar el full: test de sota, marcat com a bug.)
+		// (El focus en tancar el full: test de sota.)
 		// Haver vist les instruccions compta com a resposta
 		expect(await page.evaluate(() => localStorage.getItem('carnetdecims:avis-installacio'))).toBe(
 			'rebutjat'
@@ -554,9 +554,6 @@ test.describe('Avís d’instal·lació a iOS (WebKit, UA d’iPhone)', () => {
 	test("en tancar el full d'instruccions obert des de l'avís, el focus va a #contingut", async ({
 		page
 	}) => {
-		// BUG (QA 4d): `tancarFullIos` (ui/AvisInstallacio.svelte) mou el focus en el frame
-		// següent, quan el <dialog> encara és obert; en acabar de tancar-se el focus cau a <body>.
-		test.fail(true, "Bug 4d: el focus es perd a <body> en tancar el full d'iOS (WCAG 2.4.3)");
 		await registraMatagalls(page);
 		await expect(AVIS(page)).toBeVisible({ timeout: 20_000 });
 		await AVIS(page).getByRole('button', { name: "Com s'instal·la" }).click();

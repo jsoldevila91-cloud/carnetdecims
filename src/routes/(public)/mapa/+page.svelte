@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { EVENT_ASCENSIONS, bdLocalExisteix } from '$lib/data/local/existeix';
 	import { onMount, tick } from 'svelte';
 	import { afterNavigate, pushState, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
@@ -273,18 +274,29 @@
 		potPantallaCompleta = document.fullscreenEnabled === true;
 		const neteja: (() => void)[] = [];
 
-		// Estat de l'usuari (Dexie en un chunk diferit; no pesa a la càrrega inicial).
+		// Estat de l'usuari (Dexie en un chunk diferit; no pesa a la càrrega inicial). Si encara no
+		// hi ha BD local no s'obre (Dexie la crearia buida): s'espera al primer registre.
 		let viu = true;
-		void import('$lib/data/ascensions').then(({ ascensionsVivesAmbEstat }) => {
-			if (!viu) return;
-			const dia = avuiLocal();
-			avui = dia;
-			neteja.push(
-				ascensionsVivesAmbEstat().subscribe(({ ascensions }) => {
-					estat = estatCims(ascensions, CIMS, dia);
-					primeres = primeresAscensions(ascensionsValides(ascensions, CIMS, dia));
-				})
-			);
+		let subscrit = false;
+		const llegeixEstat = () => {
+			if (subscrit) return;
+			subscrit = true;
+			void import('$lib/data/ascensions').then(({ ascensionsVivesAmbEstat }) => {
+				if (!viu) return;
+				const dia = avuiLocal();
+				avui = dia;
+				neteja.push(
+					ascensionsVivesAmbEstat().subscribe(({ ascensions }) => {
+						estat = estatCims(ascensions, CIMS, dia);
+						primeres = primeresAscensions(ascensionsValides(ascensions, CIMS, dia));
+					})
+				);
+			});
+		};
+		window.addEventListener(EVENT_ASCENSIONS, llegeixEstat, { once: true });
+		neteja.push(() => window.removeEventListener(EVENT_ASCENSIONS, llegeixEstat));
+		void bdLocalExisteix().then((existeix) => {
+			if (existeix && viu) llegeixEstat();
 		});
 
 		// El mapa es carrega quan el marc és a la pantalla i el navegador està ociós (la imatge

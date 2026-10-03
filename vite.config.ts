@@ -28,6 +28,9 @@ export default defineConfig({
 			// Camins absoluts (`/_app/...`): el SW serveix el shell de `/app` i la pàgina offline des
 			// de qualsevol URL, i amb camins relatius (`../_app`) es trencarien en una altra profunditat.
 			paths: { relative: false },
+			// CSS petit inline a l'HTML (sense peticions que bloquegin el render): baixa FCP i LCP al
+			// mòbil. 20 kB deixa fora el CSS de MapLibre (~83 kB), que només fa servir /mapa.
+			inlineStyleThreshold: 20_000,
 			prerender: {
 				// Les rutes internes no porten idioma: es prerenderitzen les URL localitzades
 				// (/ca, /es, /ca/cims, /es/cimas…) i el crawler segueix els enllaços.

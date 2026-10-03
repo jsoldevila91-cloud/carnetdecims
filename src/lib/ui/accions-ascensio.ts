@@ -13,6 +13,7 @@ import {
 } from '$lib/data/ascensions';
 import { CIMS } from '$lib/data/catalog';
 import { avuiLocal, calcularEstatRepte, type Ascensio } from '$lib/domain';
+import { EVENT_ASCENSIONS } from '$lib/data/local/existeix';
 import { demanarPersistencia } from '$lib/platform/emmagatzematge';
 import { installacio } from '$lib/platform/installacio.svelte';
 import { m } from '$lib/paraglide/messages';
@@ -86,6 +87,8 @@ export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
 		}
 	);
 	installacio.despresDeRegistrar();
+	// Pàgines que no obren la BD fins que hi ha dades (p. ex. /mapa) ja la poden llegir.
+	window.dispatchEvent(new Event(EVENT_ASCENSIONS));
 	return desada;
 }
 

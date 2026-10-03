@@ -51,21 +51,52 @@
 		void focusSiCal();
 	}
 
+	/** El full d'iOS s'ha obert des de l'avís (el botó que l'ha obert desapareix). */
+	let fullDesDeAvis = false;
+
 	async function installar() {
 		if (installacio.natiu) {
 			await installacio.installar();
 			void focusSiCal();
 		} else {
+			fullDesDeAvis = true;
 			installacio.fullIos = true;
 		}
+	}
+
+	/**
+	 * Després de tancar el full obert des de l'avís, el focus va a `#contingut`. El `<dialog>` es
+	 * tanca de manera asíncrona (i WebKit hi torna el focus, a <body>, en acabar): es reintenta a
+	 * cada fotograma fins que el diàleg és tancat i el focus queda al contingut (màx. ~1 s).
+	 */
+	function focusContingutEnTancar() {
+		let intents = 0;
+		const prova = () => {
+			const desti = document.getElementById('contingut');
+			const obert = document.querySelector('dialog[open]');
+			const actiu = document.activeElement;
+			const perdut = !actiu || actiu === document.body || !!actiu.closest('dialog:not([open])');
+			if (!obert && desti && (perdut || actiu === desti)) {
+				if (actiu !== desti) desti.focus();
+				// Es comprova uns quants fotogrames més: el navegador encara podria moure'l.
+				if (intents > 3 && document.activeElement === desti) return;
+			} else if (!obert && !perdut) {
+				return; // l'usuari ja és en un altre lloc
+			}
+			if (++intents < 60) requestAnimationFrame(prova);
+		};
+		requestAnimationFrame(prova);
 	}
 
 	function tancarFullIos() {
 		installacio.fullIos = false;
 		// Des de l'avís, haver vist les instruccions compta com a resposta: no torna a sortir sol.
 		if (installacio.avisPendent) installacio.rebutjar();
-		// El botó que l'ha obert (a l'avís) ja no hi és; des del Perfil el diàleg ja hi torna.
-		requestAnimationFrame(() => void focusSiCal());
+		// Des del Perfil el diàleg ja torna el focus al botó que l'ha obert.
+		if (fullDesDeAvis) {
+			fullDesDeAvis = false;
+			focusContingutEnTancar();
+		}
 	}
 </script>
 

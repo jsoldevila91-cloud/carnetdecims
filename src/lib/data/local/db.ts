@@ -8,9 +8,9 @@
  */
 import { Dexie, type EntityTable } from 'dexie';
 import type { Ascensio, InstantISO } from '$lib/domain';
+import { NOM_BD } from './existeix';
 
-/** Nom de la base de dades IndexedDB (un per origen). */
-export const NOM_BD = 'carnetdecims';
+export { NOM_BD };
 
 /**
  * Fila de `ascensions`: la mateixa forma que `Ascensio`, amb `deletedAt` sempre present
