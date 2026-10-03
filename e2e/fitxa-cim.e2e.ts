@@ -512,13 +512,18 @@ test.describe('Fitxa: reflow i objectius tàctils', () => {
 	// passa WCAG 2.5.8 per l'excepció d'espaiat (axe no el marca), però fa 15 px d'alt.
 	test('els enllaços del contingut fan ≥ 24 px d’alt', async ({ page }) => {
 		await page.goto(fitxaUrl('pedraforca-pollego-superior', 'ca'));
-		const petits = await page
-			.locator('main a')
-			.evaluateAll((as) =>
-				as
-					.map((a) => ({ text: a.textContent?.trim(), h: a.getBoundingClientRect().height }))
-					.filter((r) => r.h > 0 && r.h < 24)
-			);
+		const petits = await page.locator('main a').evaluateAll((as) =>
+			as
+				// WCAG 2.5.8, excepció "en línia": els enllaços dins d'una frase del text
+				// editorial (fase 6) van a l'alçada de la línia.
+				.filter((a) => {
+					const bloc = a.closest('p, li');
+					const text = (a.textContent ?? '').trim();
+					return !bloc || (bloc.textContent ?? '').trim().length <= text.length + 5;
+				})
+				.map((a) => ({ text: a.textContent?.trim(), h: a.getBoundingClientRect().height }))
+				.filter((r) => r.h > 0 && r.h < 24)
+		);
 		expect(petits, 'enllaços per sota del mínim de 24 px (WCAG 2.5.8)').toEqual([]);
 	});
 

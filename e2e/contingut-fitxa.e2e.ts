@@ -130,16 +130,18 @@ const pla = (s: string) =>
  * Sondes per buscar el text d'una fitxa dins del JS: el tros ASCII més llarg (≥ 25 caràcters)
  * de cada paràgraf, perquè el minificador pot escapar els accents i les cometes.
  */
-function sondes(c: ContingutFitxa): string[] {
+function sondes(c: ContingutFitxa, locales: readonly ('ca' | 'es')[] = LOCALES): string[] {
 	const out: string[] = [];
-	for (const locale of LOCALES) {
+	for (const locale of locales) {
 		const textos = [
 			...c.descripcio[locale],
 			...(c.faq?.[locale] ?? []).map((f) => f.resposta),
 			...c.rutes.map((r) => r.descripcio[locale])
 		];
 		for (const t of textos) {
-			const millor = pla(t)
+			// Sobre el text cru: `[`, `]`, `(`, `)`, `*` i `/` tallen, i així la sonda no travessa
+			// cap marca d'enllaç (és present tal qual a les dades i al text visible).
+			const millor = t
 				.split(/[^A-Za-z0-9 ,.]+/)
 				.map((s) => s.trim())
 				.sort((a, b) => b.length - a.length)[0];
@@ -496,17 +498,30 @@ test.describe('Text de les fitxes fora del JS del client', () => {
 		expect(trobades).toEqual([]);
 	});
 
-	test('__data.json de cada fitxa només porta el contingut d’aquell cim', async ({
+	test('__data.json i HTML de cada fitxa: només aquell cim i només l’idioma de la pàgina', async ({
 		request
 	}, ti) => {
 		test.skip(ti.project.name !== 'desktop-chrome', 'només un cop');
 		for (const p of PILOTS) {
-			const res = await request.get(`${fitxaUrl(p.slug, 'ca')}/__data.json`);
-			expect(res.status(), p.slug).toBe(200);
-			const cos = await res.text();
-			for (const altre of PILOTS.filter((x) => x.slug !== p.slug))
-				for (const s of sondes(altre))
-					expect(cos.includes(s), `${p.slug} conté ${altre.slug}`).toBe(false);
+			for (const locale of LOCALES) {
+				const altre = locale === 'ca' ? 'es' : 'ca';
+				const url = fitxaUrl(p.slug, locale);
+				const dades = await request.get(`${url}/__data.json`);
+				expect(dades.status(), url).toBe(200);
+				const html = await (await request.get(url)).text();
+				for (const [nom, cos] of [
+					['__data.json', await dades.text()],
+					['HTML', html]
+				]) {
+					for (const s of sondes(p, [locale]))
+						expect(cos.includes(s), `${url} ${nom}: falta «${s}»`).toBe(true);
+					for (const s of sondes(p, [altre]))
+						expect(cos.includes(s), `${url} ${nom}: porta text en ${altre} «${s}»`).toBe(false);
+					for (const x of PILOTS.filter((x) => x.slug !== p.slug))
+						for (const s of sondes(x))
+							expect(cos.includes(s), `${url} ${nom} conté ${x.slug}`).toBe(false);
+				}
+			}
 		}
 	});
 });
@@ -917,9 +932,12 @@ test.describe('GET /api/meteo/{slug} (endpoint real)', () => {
 			expect(typeof d.tMax).toBe('number');
 			expect(d.tMax).toBeGreaterThanOrEqual(d.tMin);
 		}
-		// La segona petició surt de la cache del Worker
+		// La petició següent surt d'una cache (no torna a preguntar al proveïdor): mateix
+		// `actualitzat`. No es mira `x-carnet-meteo`: la cache per URL de l'adapter (15 min) torna
+		// la resposta tal com va sortir, amb el seu "MISS" original (vegeu `server/meteo/servei.ts`).
 		const res2 = await request.get('/api/meteo/puigmal');
-		expect(res2.headers()['x-carnet-meteo']).toMatch(/^(HIT|STALE)$/);
+		expect(res2.status()).toBe(200);
+		expect((await res2.json()).actualitzat).toBe(cos.actualitzat);
 	});
 });
 
@@ -1014,18 +1032,18 @@ test.describe('CLS de les fitxes pilot', () => {
 	test.skip(({ browserName }) => browserName !== 'chromium', 'layout-shift només a Chromium');
 
 	// Mesura informativa (depèn del moment en què arriba la font; no s'hi fa cap asserció).
-	for (const ample of [320, 375]) {
+	for (const ample of [320, 375, 768]) {
 		test(`${ample} px, fonts lentes (800 ms): CLS de càrrega mesurat a les 10 (informatiu)`, async ({
 			browser
 		}, ti) => {
 			test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-			test.slow();
+			test.setTimeout(300_000);
 			const resultats: string[] = [];
 			for (const p of PILOTS) {
 				const ctx = await browser.newContext({
-					viewport: { width: ample, height: 740 },
+					viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
 					deviceScaleFactor: 2,
-					isMobile: true,
+					isMobile: ample < 768,
 					hasTouch: true,
 					serviceWorkers: 'block'
 				});
@@ -1058,44 +1076,79 @@ test.describe('CLS de les fitxes pilot', () => {
 	 * (BUG QA-6a corregit: el H1 de Puigmal passava d'1 a 2 línies amb Archivo; ara els salts del
 	 * mòbil són explícits, `saltsTitolEm`.)
 	 */
-	for (const ample of [320, 375]) {
-		for (const p of PILOTS) {
-			test(`${ample} px · ${p.slug}: la capçalera no canvia d'alçada en carregar Archivo`, async ({
-				browser
-			}, ti) => {
-				test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-				const mida = async (bloquejaFonts: boolean) => {
-					const ctx = await browser.newContext({
-						viewport: { width: ample, height: 740 },
-						deviceScaleFactor: 2,
-						isMobile: true,
-						hasTouch: true,
-						serviceWorkers: 'block'
-					});
-					const page = await ctx.newPage();
-					await stubMaps(page);
-					await mockMeteo(page, {});
-					if (bloquejaFonts) await page.route(/\.woff2(\?|$)/, (r) => r.abort());
-					await page.goto(fitxaUrl(p.slug, 'ca'));
-					await page.evaluate(() => document.fonts.ready);
-					const h = await page.evaluate(() => ({
-						h1: Math.round(document.querySelector('main h1')!.getBoundingClientRect().height),
-						cap: Math.round(document.querySelector('main header')!.getBoundingClientRect().height)
-					}));
-					await ctx.close();
-					return h;
-				};
-				const reserva = await mida(true);
-				const archivo = await mida(false);
-				expect(
-					Math.abs(archivo.cap - reserva.cap),
-					JSON.stringify({ reserva, archivo })
-				).toBeLessThanOrEqual(2);
-			});
-		}
+	/**
+	 * Els 10 pilots i els cims on el H1 canviava de línies amb Archivo (escombrat de les 150 fitxes
+	 * del QA 6a: Puigmal, La Muga, Molló-Puntaire, Torre de Madeloc; Tossa Plana de Lles, 0,05).
+	 */
+	const CAPCALERA = [
+		...PILOTS.map((p) => cim(p.slug)),
+		...['la-muga', 'mollo-puntaire', 'torre-de-madeloc', 'tossa-plana-de-lles'].map(cim)
+	];
+	for (const ample of [320, 375, 768]) {
+		test(`${ample} px · pilots i noms curts: la capçalera no canvia d'alçada en carregar Archivo`, async ({
+			browser
+		}, ti) => {
+			test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
+			test.setTimeout(300_000);
+			const nouContext = async (bloquejaFonts: boolean) => {
+				const ctx = await browser.newContext({
+					viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
+					deviceScaleFactor: 2,
+					isMobile: ample < 768,
+					hasTouch: true,
+					serviceWorkers: 'block'
+				});
+				const page = await ctx.newPage();
+				await stubMaps(page);
+				await mockMeteo(page, {});
+				if (bloquejaFonts) await page.route(/\.woff2(\?|$)/, (r) => r.abort());
+				return { ctx, page };
+			};
+			const reserva = await nouContext(true);
+			const archivo = await nouContext(false);
+			const mida = async (page: Page, slug: string) => {
+				await page.goto(fitxaUrl(slug, 'ca'));
+				await page.evaluate(() => document.fonts.ready);
+				return page.evaluate(() => {
+					const h1 = document.querySelector('main h1')!;
+					const r = h1.getBoundingClientRect();
+					const lh = parseFloat(getComputedStyle(h1).fontSize) * 0.95;
+					return {
+						h1: Math.round(r.height),
+						linies: Math.round(r.height / lh),
+						cap: Math.round(document.querySelector('main header')!.getBoundingClientRect().height),
+						// `fonts.check` torna `true` si cap cara cal carregar: es mira l'estat real.
+						font: [...document.fonts].some(
+							(f) => /^["']?Archivo Variable/.test(f.family) && f.status === 'loaded'
+						)
+					};
+				});
+			};
+			const dolents: string[] = [];
+			let ambArchivo = 0;
+			let reservaAmbArchivo = 0;
+			for (const c of CAPCALERA) {
+				const r = await mida(reserva.page, c.slug);
+				const a = await mida(archivo.page, c.slug);
+				if (a.font) ambArchivo++;
+				if (r.font) reservaAmbArchivo++;
+				if (Math.abs(a.cap - r.cap) > 2)
+					dolents.push(
+						`${c.slug}: reserva ${r.linies} línies/${r.cap} px → Archivo ${a.linies} línies/${a.cap} px`
+					);
+			}
+			await reserva.ctx.close();
+			await archivo.ctx.close();
+			const informe = dolents.join('\n') || 'cap';
+			console.log(`Capçalera ${ample}px (reserva vs Archivo):\n${informe}`);
+			ti.annotations.push({ type: `H1 ${ample}px`, description: informe });
+			expect(ambArchivo, 'Archivo s’ha carregat al context normal').toBe(CAPCALERA.length);
+			expect(reservaAmbArchivo, 'el context de reserva no té Archivo').toBe(0);
+			expect(dolents, informe).toEqual([]);
+		});
 	}
 
-	for (const cas of ['ok', 'error'] as const) {
+	for (const cas of ['ok', 'error', 'offline'] as const) {
 		test(`375 px: carregar la meteo en fer scroll no mou la pàgina (${cas})`, async ({
 			browser
 		}, ti) => {
@@ -1112,7 +1165,11 @@ test.describe('CLS de les fitxes pilot', () => {
 			await stubMaps(page);
 			await mockMeteo(
 				page,
-				cas === 'ok' ? { delayMs: 600 } : { delayMs: 600, status: 502, body: {} }
+				cas === 'ok'
+					? { delayMs: 600 }
+					: cas === 'error'
+						? { delayMs: 600, status: 502, body: {} }
+						: { delayMs: 600, abort: true }
 			);
 			await page.goto(fitxaUrl('puigmal', 'ca'));
 			await waitForHydration(page);

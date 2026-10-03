@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-03.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-04.
 
 ## Hecho
 
@@ -127,7 +127,7 @@
 
 **Fase 6 · Contenido** (en curso; el usuario eligió adelantarla a la 5, el 2026-10-03, porque la 5 requiere acciones suyas).
 
-- **Bloque 6a (en curso):** contrato `src/lib/content/fitxes/types.ts` (descripció, rutes d'accés con MIDE y fuentes, consells, FAQ, Wikiloc, `estat`); guía `docs/07-guia-contingut.md`; **10 fichas piloto** (Pedraforca, Pica d'Estats, Puigmal, Canigó, Matagalls, Montcau, Sant Jeroni, Comapedrosa, La Mola, Taga); meteo con Open-Meteo vía `/api/meteo/{slug}` (caché de 3 h en el Worker); Wikiloc click-to-load.
+- **Bloque 6a (terminado, 2026-10-04; QA: 882 E2E pasados, 0 fallidos en los 3 proyectos):** contrato `src/lib/content/fitxes/types.ts` (descripció, rutes d'accés con MIDE y fuentes, consells, FAQ, Wikiloc, `estat`); guía `docs/07-guia-contingut.md`; **10 fichas piloto** (Pedraforca, Pica d'Estats, Puigmal, Canigó, Matagalls, Montcau, Sant Jeroni, Comapedrosa, La Mola, Taga); meteo con Open-Meteo vía `/api/meteo/{slug}` (caché de 3 h en el Worker); Wikiloc click-to-load.
 - **Decisiones de Claude, pendientes de que el usuario las confirme:**
   1. Todo el contenido redactado por agentes queda en `estat: 'esborrany'`. **Solo el usuario puede marcar `revisat`**, que es lo que hace indexable la ficha.
   2. Primero un piloto de 10 fichas; si la calidad es buena, el 6b y el 6c escalan a las 150.
@@ -141,6 +141,13 @@
   - El MIDE solo se muestra cuando una fuente lo publica.
   - Desbloquea los listados "Cims fàcils" y "Cims amb nens".
   - Pendiente de implementar tras el QA del 6a.
+- **Resultado del 6a:**
+  - **Contenido:** 10 pilotos (583–734 palabras por idioma, 2 rutas, 5 consells, 4 FAQ y 2–3 rutas de Wikiloc cada una; MIDE vacío por falta de fuente). Cada ficha solo envía su idioma (`contingutFitxaLocal`).
+  - **Meteo:** `/api/meteo/{slug}` (Open-Meteo, caché de 3 h + 24 h de respaldo; en el SW, network-first con la última previsión ≤ 3 días). UI `MeteoCim` sin CLS en ningún estado.
+  - **SEO:** FAQPage solo en fichas indexables; description con la ruta normal; privacitat con el widget de Wikiloc.
+  - **H1:** saltos de línea calculados (CLS 0 a 320/375/768 px).
+  - **Pendiente bajo:** a 768 px La Mola tiene CLS 0,126 con fuentes lentas (reflujo lateral); salto puntual no reproducible en Bastiments.
+- **Bloque 6a-bis (en curso):** dificultad orientativa + listados "Cims fàcils" y "Cims amb nens".
 - Después: 6b (+ fichas), 6c (resto + revisión). La **fase 5** se hará cuando el usuario haga las acciones previas.
 
 ## Pendiente o decisiones abiertas

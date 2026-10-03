@@ -192,8 +192,14 @@ export async function expectHref(locator: Locator, expected: string | RegExp, me
 
 /** Espera que acabin les animacions CSS (full inferior, transicions) abans de mesurar. */
 export async function settleAnimations(page: Page) {
+	// Les animacions infinites (esquelet de càrrega de la meteo) no acaben mai: no s'esperen.
 	await page.evaluate(() =>
-		Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined)))
+		Promise.all(
+			document
+				.getAnimations()
+				.filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+				.map((a) => a.finished.catch(() => undefined))
+		)
 	);
 }
 
