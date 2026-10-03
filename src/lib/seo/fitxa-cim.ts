@@ -10,7 +10,9 @@
  */
 import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
 import { m } from '$lib/paraglide/messages';
-import { formatAltitude } from '$lib/ui/format';
+import { formatAltitude, formatDurada, formatKm } from '$lib/ui/format';
+// Només el tipus: l'índex de fitxes (`import.meta.glob`) no ha d'entrar al JS del client.
+import type { ContingutFitxa, RutaAcces } from '$lib/content/fitxes/types';
 
 type Locale = 'ca' | 'es';
 
@@ -95,13 +97,66 @@ export function primerQueHiCapi(opcions: readonly string[], max = MAX_TITLE): st
 	return opcions.find((t) => t.length <= max) ?? opcions[opcions.length - 1];
 }
 
+/** Primera lletra en minúscula ("Des de Gósol…" → "des de Gósol…"). */
+function ambMinuscula(text: string): string {
+	return text.charAt(0).toLocaleLowerCase() + text.slice(1);
+}
+
+/**
+ * Dades de la ruta normal per a la description (màxim dues, amb font a la fitxa): desnivell i
+ * temps d'anada; la distància només si no hi ha desnivell. "1.100 m de desnivell i 3 h 30 min
+ * d'anada" · "10,2 km y 5 h 15 min de ida". Buit si la ruta no té cap dada.
+ */
+function dadesRuta(ruta: RutaAcces, locale: Locale): string {
+	const opts = { locale };
+	const parts: string[] = [];
+	if (ruta.desnivellPositiuM !== undefined) {
+		parts.push(
+			m.cim_meta_route_elevation({ metres: formatAltitude(ruta.desnivellPositiuM) }, opts)
+		);
+	} else if (ruta.distanciaKm !== undefined) {
+		parts.push(m.cim_meta_route_distance({ km: formatKm(ruta.distanciaKm, locale) }, opts));
+	}
+	if (ruta.tempsMinuts !== undefined) {
+		parts.push(m.cim_meta_route_time({ temps: formatDurada(ruta.tempsMinuts) }, opts));
+	}
+	return new Intl.ListFormat(locale, { type: 'conjunction' }).format(parts);
+}
+
+/**
+ * Frases de la ruta normal (la primera de `rutes`) per a la description, de la més completa a
+ * la més curta: amb nom i dades, només amb el nom i només amb les dades.
+ */
+function frasesRutaNormal(ruta: RutaAcces | undefined, locale: Locale): string[] {
+	if (!ruta) return [];
+	const opts = { locale };
+	const nom = ambMinuscula(ruta.nom[locale].trim());
+	const dades = dadesRuta(ruta, locale);
+	return dades
+		? [
+				m.cim_meta_route_data({ ruta: nom, dades }, opts),
+				m.cim_meta_route({ ruta: nom }, opts),
+				m.cim_meta_route_data_only({ dades }, opts)
+			]
+		: [m.cim_meta_route({ ruta: nom }, opts)];
+}
+
 /**
  * Title, meta description i textos de lloc de la fitxa, en l'idioma indicat.
  * - Title: "Com pujar al Pedraforca (2.506 m) · Berguedà" (≤ 60; sense comarca si no hi cap).
+ *   No depèn del contingut: ja respon la consulta principal ("com pujar al [cim]") i el punt de
+ *   sortida no hi cabria de manera fiable.
  * - Description: nom, altitud, comarca i si és essencial (única per cim), amb la cua més
- *   llarga que hi càpiga (≤ 155).
+ *   llarga que hi càpiga (≤ 155). Amb contingut editorial (fase 6), la cua és la ruta normal
+ *   (punt de sortida, desnivell i temps d'anada, només dades amb font) i, si hi cap, el que
+ *   ofereix la fitxa; si la ruta no hi cap de cap manera, la cua genèrica.
  */
-export function seoFitxaCim(cim: CimCataleg, comarca: ComarcaCataleg, locale: Locale) {
+export function seoFitxaCim(
+	cim: CimCataleg,
+	comarca: ComarcaCataleg,
+	locale: Locale,
+	contingut?: Pick<ContingutFitxa, 'rutes'> | null
+) {
 	const opts = { locale };
 	const alt = formatAltitude(cim.altitud);
 	const comarcaA = nomAmbEn(comarca.nom_amb_article, locale);
@@ -117,8 +172,14 @@ export function seoFitxaCim(cim: CimCataleg, comarca: ComarcaCataleg, locale: Lo
 		{ nom_alt: ambAltitud(cim.nom, alt), comarca_a: comarcaA },
 		opts
 	);
+	const cuaContingut = m.cim_meta_description_tail_content({}, opts);
+	const cuesRuta = frasesRutaNormal(contingut?.rutes[0], locale).flatMap((frase) => [
+		`${frase} ${cuaContingut}`,
+		frase
+	]);
 	const description = primerQueHiCapi(
 		[
+			...cuesRuta,
 			m.cim_meta_description_tail_long({}, opts),
 			m.cim_meta_description_tail({}, opts),
 			m.cim_meta_description_tail_short({}, opts)

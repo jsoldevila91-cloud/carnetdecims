@@ -22,6 +22,7 @@ import {
 	paginaGraph
 } from './jsonld';
 import type { PaginaContingut } from '$lib/content';
+import { contingutFitxa } from '$lib/content/fitxes';
 
 const BREADCRUMB = { inici: 'Inici', comarques: 'Comarques' };
 const ESSENCIAL = 'Cim essencial del repte 100 Cims';
@@ -160,6 +161,75 @@ describe('cimGraph (JSON-LD de la fitxa de cim)', () => {
 			url: 'https://carnetdecims.cat/es/comarcas/andorra'
 		});
 		expect(comarcaPlace(comarcaPerSlug('catalunya-nord')!, 'ca')['@type']).toBe('Place');
+	});
+
+	describe('contingut editorial: FAQPage i dateModified', () => {
+		const slug = 'pedraforca-pollego-superior';
+		const cim = cimPerSlug(slug)!;
+		const contingut = contingutFitxa(slug)!;
+		const amb = (locale: 'ca' | 'es', extra: Partial<Parameters<typeof cimGraph>[0]>) =>
+			cimGraph({
+				cim,
+				comarca: comarcaPerSlug(cim.comarca)!,
+				locale,
+				title: cim.nom,
+				description: cim.nom,
+				breadcrumbNames: BREADCRUMB,
+				essencialLabel: ESSENCIAL,
+				...extra
+			});
+
+		it('fitxa indexable amb preguntes: FAQPage en text pla, enllaçat amb hasPart', () => {
+			const faq = contingut.faq!.es;
+			const g = amb('es', { faq, indexable: true, dateModified: contingut.actualitzat });
+			const url = `https://carnetdecims.cat/es/cimas/${slug}`;
+			expect(g['@graph'].map((n) => n['@type'])).toEqual([
+				'Mountain',
+				'WebPage',
+				'BreadcrumbList',
+				'FAQPage'
+			]);
+			expect(node(g, 'WebPage')).toMatchObject({
+				hasPart: { '@id': `${url}#faq` },
+				dateModified: contingut.actualitzat
+			});
+			const fp = node(g, 'FAQPage');
+			expect(fp).toMatchObject({
+				'@id': `${url}#faq`,
+				url,
+				inLanguage: 'es',
+				isPartOf: { '@id': url }
+			});
+			const qs = fp.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
+			// Les mateixes preguntes, en el mateix ordre, que es pinten a la fitxa.
+			expect(qs.map((q) => q.name)).toEqual(faq.map((q) => q.pregunta));
+			for (const q of qs) {
+				expect(q.acceptedAnswer.text).not.toMatch(/\]\(|\*\*/);
+			}
+			// "[cimas esenciales](/cims-essencials)" → "cimas esenciales"
+			expect(qs.at(-1)!.acceptedAnswer.text).toContain('una de las cimas esenciales del reto');
+		});
+
+		it('sense FAQPage si la fitxa no és indexable (esborrany) o no té preguntes', () => {
+			const faq = contingut.faq!.ca;
+			for (const g of [
+				amb('ca', { faq }),
+				amb('ca', { faq, indexable: false }),
+				amb('ca', { faq: [], indexable: true }),
+				amb('ca', { indexable: true })
+			]) {
+				expect(g['@graph'].map((n) => n['@type'])).toEqual([
+					'Mountain',
+					'WebPage',
+					'BreadcrumbList'
+				]);
+				expect(node(g, 'WebPage')).not.toHaveProperty('hasPart');
+			}
+		});
+
+		it('sense dateModified si no hi ha contingut', () => {
+			expect(node(graf(slug), 'WebPage')).not.toHaveProperty('dateModified');
+		});
 	});
 
 	it('format antic del breadcrumb ({ inici, cims }) encara compatible', () => {

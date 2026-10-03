@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS, cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
 import { formatAltitude } from '$lib/ui/format';
+import { contingutFitxa, totsElsContingutsFitxa } from '$lib/content/fitxes';
+import type { RutaAcces } from '$lib/content/fitxes/types';
 import {
 	MAX_DESCRIPTION,
 	MAX_TITLE,
@@ -126,5 +128,78 @@ describe('fitxa de cim · SEO', () => {
 			}
 			expect(descripcions.size, locale).toBe(CIMS.length);
 		}
+	});
+
+	describe('amb contingut editorial (fase 6): la ruta normal a la description', () => {
+		const ambContingut = (slug: string, locale: 'ca' | 'es') => {
+			const cim = cimPerSlug(slug)!;
+			return seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, locale, contingutFitxa(slug));
+		};
+
+		it("punt de sortida, desnivell i temps d'anada (dades amb font)", () => {
+			expect(ambContingut('pedraforca-pollego-superior', 'ca').description).toBe(
+				"Pedraforca (2.506 m), cim essencial del repte 100 Cims al Berguedà. Ruta normal des de Gósol per l'Enforcadura: 1.100 m de desnivell i 3 h 30 min d'anada."
+			);
+			expect(ambContingut('pedraforca-pollego-superior', 'es').description).toBe(
+				'Pedraforca (2.506 m), cima esencial del reto 100 Cims en el Berguedà. Ruta normal desde Gósol por la Enforcadura: 1.100 m de desnivel y 3 h 30 min de ida.'
+			);
+			expect(ambContingut('taga', 'es').description).toBe(
+				'Taga (2.040 m), cima esencial del reto 100 Cims en el Ripollès. Ruta normal desde Bruguera por el coll de Jou: 893 m de desnivel.'
+			);
+		});
+
+		it('sense dades de la ruta: només el nom, i hi afegeix què ofereix la fitxa si hi cap', () => {
+			expect(ambContingut('montcau', 'ca').description).toBe(
+				"Montcau (1.057 m), cim essencial del repte 100 Cims al Bages. Ruta normal des del coll d'Estenalles. Rutes, mapa i previsió meteorològica."
+			);
+		});
+
+		it('el title no canvia amb el contingut', () => {
+			for (const locale of ['ca', 'es'] as const) {
+				expect(ambContingut('canigo', locale).title).toBe(seo('canigo', locale).title);
+			}
+		});
+
+		it('sense rutes, o sense contingut, la cua genèrica', () => {
+			const cim = cimPerSlug('canigo')!;
+			const comarca = comarcaPerSlug(cim.comarca)!;
+			const generica = seoFitxaCim(cim, comarca, 'ca').description;
+			expect(seoFitxaCim(cim, comarca, 'ca', null).description).toBe(generica);
+			expect(seoFitxaCim(cim, comarca, 'ca', { rutes: [] }).description).toBe(generica);
+		});
+
+		it('una ruta massa llarga no trenca el límit: cau a la cua genèrica', () => {
+			const cim = cimPerSlug('canigo')!;
+			const ruta: RutaAcces = {
+				id: 'llarga',
+				nom: { ca: 'Des de ' + 'molt '.repeat(40), es: 'Desde ' + 'muy '.repeat(40) },
+				sortida: { nom: 'x' },
+				descripcio: { ca: '', es: '' },
+				fonts: []
+			};
+			const d = seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, 'ca', { rutes: [ruta] });
+			expect(d.description).toBe(seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, 'ca').description);
+		});
+
+		it('totes les fitxes amb contingut: ≤ 155, úniques, amb altitud, comarca i ruta normal', () => {
+			const continguts = totsElsContingutsFitxa();
+			expect(continguts.length).toBeGreaterThan(0);
+			for (const locale of ['ca', 'es'] as const) {
+				const descripcions = new Set<string>();
+				for (const c of continguts) {
+					const cim = cimPerSlug(c.slug)!;
+					const comarca = comarcaPerSlug(cim.comarca)!;
+					const { description } = seoFitxaCim(cim, comarca, locale, c);
+					const id = `${locale}/${c.slug}`;
+					expect(description.length, `${id}: ${description}`).toBeLessThanOrEqual(MAX_DESCRIPTION);
+					expect(description, id).toContain(`${formatAltitude(cim.altitud)} m`);
+					expect(description, id).toContain(comarca.nom);
+					expect(description, id).toMatch(/ Ruta normal[ :]/);
+					expect(description, id).not.toMatch(/\.\./);
+					descripcions.add(description);
+				}
+				expect(descripcions.size, locale).toBe(continguts.length);
+			}
+		});
 	});
 });

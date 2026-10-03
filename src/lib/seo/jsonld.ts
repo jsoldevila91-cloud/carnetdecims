@@ -4,7 +4,7 @@
  */
 import type { CimCataleg, ComarcaCataleg } from '../domain/types.ts';
 import type { LlistatId } from '../data/catalog/queries.ts';
-import { PAGINES_CONTINGUT, type PaginaContingut } from '../content/types.ts';
+import { PAGINES_CONTINGUT, type PaginaContingut, type PreguntaFaq } from '../content/types.ts';
 import { textPla } from '../content/text.ts';
 import {
 	COMARQUES_PATH,
@@ -97,6 +97,25 @@ function breadcrumbList(id: string, crumbs: readonly Crumb[]) {
 	};
 }
 
+/**
+ * `FAQPage` d'una pàgina (`{pageUrl}#faq`) amb les preguntes i respostes en text pla (sense la
+ * sintaxi d'enllaços). Només s'ha d'emetre si les preguntes són visibles a la pàgina.
+ */
+function faqPage(pageUrl: string, locale: AppLocale, faq: readonly PreguntaFaq[]) {
+	return {
+		'@type': 'FAQPage',
+		'@id': `${pageUrl}#faq`,
+		url: pageUrl,
+		inLanguage: locale,
+		isPartOf: { '@id': pageUrl },
+		mainEntity: faq.map((q) => ({
+			'@type': 'Question',
+			name: textPla(q.pregunta),
+			acceptedAnswer: { '@type': 'Answer', text: textPla(q.resposta) }
+		}))
+	};
+}
+
 /** `ItemList` de fitxes de cim (URL absoluta localitzada + nom visible), en l'ordre donat. */
 function itemListCims(cims: readonly Pick<CimCataleg, 'slug' | 'nom'>[], locale: AppLocale) {
 	return {
@@ -158,6 +177,11 @@ export type CimBreadcrumbNames =
  * de la seva pàgina (`comarcaPlace`). No s'hi afirma cap vincle amb la FEEC: el nom oficial de la
  * llista només surt com a `alternateName`, i "essencial" és una `PropertyValue` descriptiva
  * (`essencialLabel`, p. ex. "Cim essencial del repte 100 Cims"), mai un segell oficial.
+ *
+ * Contingut editorial (fase 6): `dateModified` (data `actualitzat` del contingut) i, si la fitxa
+ * és **indexable** i té preguntes, un `FAQPage` (`{url}#faq`, `hasPart` de la `WebPage`). Les
+ * preguntes han de ser les mateixes que es veuen a la pàgina (Google ho exigeix); amb `noindex`
+ * no s'emet, perquè el contingut encara no és revisat.
  */
 export function cimGraph(opts: {
 	cim: CimCataleg;
@@ -167,12 +191,19 @@ export function cimGraph(opts: {
 	description: string;
 	breadcrumbNames: CimBreadcrumbNames;
 	essencialLabel: string;
+	/** Preguntes freqüents visibles a la fitxa, en l'idioma de la pàgina. */
+	faq?: readonly PreguntaFaq[];
+	/** La fitxa és indexable (catàleg i contingut `revisat`). Per defecte, `false`. */
+	indexable?: boolean;
+	/** Data de l'última revisió del contingut editorial (`AAAA-MM-DD`). */
+	dateModified?: string;
 }) {
 	const { cim, comarca, locale } = opts;
 	const pageUrl = SITE_ORIGIN + localizeCimPath(cim.slug, locale);
 	const mountainId = `${pageUrl}#cim`;
 	const breadcrumbId = `${pageUrl}#breadcrumb`;
 	const lloc = comarcaPlace(comarca, locale);
+	const faq = opts.indexable === true ? (opts.faq ?? []) : [];
 
 	const alternateName = [...new Set([...cim.alies, cim.nom_oficial])].filter(
 		(n) => n.trim() !== '' && n !== cim.nom
@@ -227,9 +258,12 @@ export function cimGraph(opts: {
 				inLanguage: locale,
 				isPartOf: { '@id': WEBSITE_ID },
 				about: { '@id': mountainId },
-				breadcrumb: { '@id': breadcrumbId }
+				...(opts.dateModified && { dateModified: opts.dateModified }),
+				breadcrumb: { '@id': breadcrumbId },
+				...(faq.length > 0 && { hasPart: { '@id': `${pageUrl}#faq` } })
 			},
-			breadcrumbList(breadcrumbId, crumbs)
+			breadcrumbList(breadcrumbId, crumbs),
+			...(faq.length > 0 ? [faqPage(pageUrl, locale, faq)] : [])
 		]
 	};
 }
@@ -476,22 +510,7 @@ export function paginaGraph(opts: {
 		'@graph': [
 			webPage,
 			breadcrumbList(breadcrumbId, crumbs),
-			...(faq.length > 0
-				? [
-						{
-							'@type': 'FAQPage',
-							'@id': faqId,
-							url: pageUrl,
-							inLanguage: locale,
-							isPartOf: { '@id': pageUrl },
-							mainEntity: faq.map((q) => ({
-								'@type': 'Question',
-								name: textPla(q.pregunta),
-								acceptedAnswer: { '@type': 'Answer', text: textPla(q.resposta) }
-							}))
-						}
-					]
-				: [])
+			...(faq.length > 0 ? [faqPage(pageUrl, locale, faq)] : [])
 		]
 	};
 }

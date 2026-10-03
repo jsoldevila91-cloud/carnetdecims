@@ -44,7 +44,8 @@
 	const alt = $derived(formatAltitude(cim.altitud));
 
 	// ---------- SEO ----------
-	const seo = $derived(seoFitxaCim(cim, comarca, locale));
+	// Amb contingut editorial, la description porta la ruta normal (`seoFitxaCim`).
+	const seo = $derived(seoFitxaCim(cim, comarca, locale, data.contingut));
 	// Política de docs/02: només s'indexen les fitxes revisades (catàleg i contingut; el sitemap
 	// aplica el mateix filtre). `indexable` ve del `load` del servidor.
 	const noindex = $derived(!data.indexable);
@@ -56,7 +57,12 @@
 			title: seo.title,
 			description: seo.description,
 			breadcrumbNames: { inici: m.nav_home(), comarques: m.nav_comarques() },
-			essencialLabel: m.cim_ld_essential()
+			essencialLabel: m.cim_ld_essential(),
+			// FAQPage: les mateixes preguntes que es pinten a la secció de FAQ, i només si la fitxa
+			// és indexable (`cimGraph` no l'emet amb `noindex`).
+			faq: data.contingut?.faq?.[locale],
+			indexable: data.indexable,
+			dateModified: data.contingut?.actualitzat
 		})
 	);
 
