@@ -24,6 +24,7 @@ export {
 	formatAltitude,
 	formatCoordinate,
 	formatDataLlarga,
+	formatDurada,
 	formatKm,
 	formatStampDate,
 	romanPage

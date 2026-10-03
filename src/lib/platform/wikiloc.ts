@@ -31,3 +31,13 @@ export function wikilocUrl(lat: number, lon: number, locale: WikilocLocale): str
 	const ne = `${arrodonir(lat + dLat)},${arrodonir(lon + dLon)}`;
 	return `https://${locale}.wikiloc.com/wikiloc/map.do?sw=${sw}&ne=${ne}&page=1`;
 }
+
+/**
+ * URL del widget oficial d'incrustació de Wikiloc (el codi que dona "Compartir › Incrustar mapa"
+ * a cada ruta): `https://{idioma}.wikiloc.com/wikiloc/embedv2.do?id={id}&elevation=on&images=off&maptype=H`.
+ * Només es carrega quan l'usuari ho demana (privacitat: és un tercer).
+ */
+export function wikilocEmbedUrl(id: number, locale: WikilocLocale): string {
+	if (!Number.isSafeInteger(id) || id <= 0) throw new RangeError('Id de ruta de Wikiloc invàlid');
+	return `https://${locale}.wikiloc.com/wikiloc/embedv2.do?id=${id}&elevation=on&images=off&maptype=H`;
+}

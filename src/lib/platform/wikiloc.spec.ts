@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { wikilocUrl } from './wikiloc';
+import { wikilocEmbedUrl, wikilocUrl } from './wikiloc';
 
 describe('wikilocUrl', () => {
 	it("obre el mapa de Wikiloc centrat al cim, en l'idioma de la pàgina", () => {
@@ -23,5 +23,21 @@ describe('wikilocUrl', () => {
 	it('rebutja coordenades invàlides', () => {
 		expect(() => wikilocUrl(Number.NaN, 1, 'ca')).toThrow(RangeError);
 		expect(() => wikilocUrl(95, 1, 'ca')).toThrow(RangeError);
+	});
+});
+
+describe('wikilocEmbedUrl', () => {
+	it("dona l'URL del widget oficial en l'idioma de la pàgina", () => {
+		const url = new URL(wikilocEmbedUrl(227473032, 'ca'));
+		expect(url.origin).toBe('https://ca.wikiloc.com');
+		expect(url.pathname).toBe('/wikiloc/embedv2.do');
+		expect(url.searchParams.get('id')).toBe('227473032');
+		expect(url.searchParams.get('elevation')).toBe('on');
+		expect(wikilocEmbedUrl(1, 'es')).toMatch(/^https:\/\/es\.wikiloc\.com\//);
+	});
+
+	it('rebutja ids invàlids', () => {
+		expect(() => wikilocEmbedUrl(0, 'ca')).toThrow(RangeError);
+		expect(() => wikilocEmbedUrl(1.5, 'ca')).toThrow(RangeError);
 	});
 });

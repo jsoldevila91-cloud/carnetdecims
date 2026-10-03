@@ -8,10 +8,16 @@
 		JsonLd,
 		PageMeta,
 		Segell,
+		TextEnLinia,
 		formatAltitude,
 		formatCoordinate,
+		formatDataLlarga,
 		formatKm
 	} from '$lib/ui';
+	import LlistaFonts from '$lib/ui/fitxa/LlistaFonts.svelte';
+	import MeteoCim from '$lib/ui/fitxa/MeteoCim.svelte';
+	import RutaAccesCard from '$lib/ui/fitxa/RutaAccesCard.svelte';
+	import WikilocRecomanada from '$lib/ui/fitxa/WikilocRecomanada.svelte';
 	import { ampleLiniesEm, ampleParaulaMesLlargaEm } from '$lib/ui/titol-ample';
 	import { obrirRegistre, registrarHref as registrarUrl } from '$lib/ui/fulls';
 	import { getLocale, href } from '$lib/i18n';
@@ -26,7 +32,7 @@
 		type Zona
 	} from '$lib/domain';
 	import { cimGraph } from '$lib/seo/jsonld';
-	import { seoFitxaCim } from '$lib/seo/fitxa-cim';
+	import { nomAmbA, nomAmbArticle, seoFitxaCim } from '$lib/seo/fitxa-cim';
 	import { mapaEstaticPerCim } from '$lib/platform/mapa-estatic';
 	import { wikilocUrl } from '$lib/platform/wikiloc';
 
@@ -39,8 +45,9 @@
 
 	// ---------- SEO ----------
 	const seo = $derived(seoFitxaCim(cim, comarca, locale));
-	// Política de docs/02: només s'indexen les fitxes revisades (el sitemap aplica el mateix filtre).
-	const noindex = $derived(cim.estat_revisio !== 'revisat');
+	// Política de docs/02: només s'indexen les fitxes revisades (catàleg i contingut; el sitemap
+	// aplica el mateix filtre). `indexable` ve del `load` del servidor.
+	const noindex = $derived(!data.indexable);
 	const jsonLd = $derived(
 		cimGraph({
 			cim,
@@ -162,6 +169,26 @@
 	const wikiloc = $derived(
 		cim.lat !== null && cim.lon !== null ? wikilocUrl(cim.lat, cim.lon, locale) : null
 	);
+
+	// ---------- Contingut editorial (fase 6) ----------
+	// Sense contingut, la fitxa queda com la plantilla: cap secció buida.
+	const contingut = $derived(data.contingut);
+	const descripcio = $derived(contingut?.descripcio[locale] ?? []);
+	const rutes = $derived(contingut?.rutes ?? []);
+	const consells = $derived(contingut?.consells?.[locale] ?? []);
+	const faq = $derived(contingut?.faq?.[locale] ?? []);
+	const wikilocRecomanades = $derived(contingut?.wikiloc ?? []);
+	const fontsGenerals = $derived(contingut?.fonts ?? []);
+
+	/** Un sol avís de revisió a la capçalera (dades del catàleg i/o textos). */
+	const avisRevisio = $derived.by(() => {
+		const catalegEsborrany = cim.estat_revisio === 'esborrany';
+		const textEnRevisio = contingut !== null && contingut.estat !== 'revisat';
+		if (catalegEsborrany && textEnRevisio) return m.cim_draft_notice_all();
+		if (catalegEsborrany) return m.catalog_draft_notice();
+		if (textEnRevisio) return m.cim_draft_notice_content();
+		return null;
+	});
 </script>
 
 <PageMeta title={seo.title} description={seo.description} {noindex} />
@@ -293,8 +320,8 @@
 				</div>
 			</dl>
 
-			{#if cim.estat_revisio === 'esborrany'}
-				<p class="draft" role="note">{m.catalog_draft_notice()}</p>
+			{#if avisRevisio}
+				<p class="draft" role="note">{avisRevisio}</p>
 			{/if}
 		</Card>
 
@@ -320,6 +347,41 @@
 					{/each}
 				</ul>
 				<p class="note">{m.cim_restrictions_note()}</p>
+			</section>
+		{/if}
+
+		{#if descripcio.length > 0}
+			<section class="blk text" aria-labelledby="sobre">
+				<h2 id="sobre" class="x-wide">
+					{m.cim_about_title({ nom: nomAmbArticle(cim.nom_amb_article, locale) })}
+				</h2>
+				{#each descripcio as paragraf, i (i)}
+					<p><TextEnLinia text={paragraf} /></p>
+				{/each}
+			</section>
+		{/if}
+
+		{#if rutes.length > 0}
+			<section class="blk" aria-labelledby="rutes">
+				<h2 id="rutes" class="x-wide">
+					{m.cim_routes_title({ nom_a: nomAmbA(cim.nom_amb_article, locale) })}
+				</h2>
+				<div class="rutes">
+					{#each rutes as ruta (ruta.id)}
+						<RutaAccesCard {ruta} />
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		{#if consells.length > 0}
+			<section class="blk" aria-labelledby="consells">
+				<h2 id="consells" class="x-wide">{m.cim_tips_title()}</h2>
+				<ul class="consells">
+					{#each consells as consell, i (i)}
+						<li><TextEnLinia text={consell} /></li>
+					{/each}
+				</ul>
 			</section>
 		{/if}
 
@@ -351,22 +413,66 @@
 			</section>
 		{/if}
 
-		<!-- Fase 6: aquí aniran la descripció, la ruta normal, el MIDE, la meteo i les rutes
-		     recomanades (widget oficial de Wikiloc). No es mostren seccions buides. -->
-		{#if wikiloc}
+		<!-- Previsió: es carrega al client quan s'hi acosta la pantalla (no s'indexa). Només a les
+		     fitxes amb contingut editorial. `key`: en navegar a una altra fitxa es torna a muntar. -->
+		{#if contingut}
+			{#key cim.slug}
+				<MeteoCim slug={cim.slug} altitud={cim.altitud} />
+			{/key}
+		{/if}
+
+		{#if wikiloc || wikilocRecomanades.length > 0}
 			<section class="blk" aria-labelledby="wikiloc">
 				<h2 id="wikiloc" class="x-wide">{m.cim_wikiloc_title()}</h2>
-				<p class="note">{m.cim_wikiloc_text()}</p>
-				<Button
-					href={wikiloc}
-					variant="outline"
-					icon="external"
-					rel="external nofollow noopener"
-					target="_blank"
-				>
-					{m.cim_wikiloc_cta()}<span class="sr-only"> {m.external_new_tab()}</span>
-				</Button>
+				{#if wikilocRecomanades.length > 0}
+					<p class="note">{m.cim_wikiloc_recommended_text()}</p>
+					<ul class="wl-llista">
+						{#each wikilocRecomanades as ruta (ruta.id)}
+							<WikilocRecomanada {ruta} />
+						{/each}
+					</ul>
+				{/if}
+				{#if wikiloc}
+					<p class="note">{m.cim_wikiloc_text()}</p>
+					<Button
+						href={wikiloc}
+						variant="outline"
+						icon="external"
+						rel="external nofollow noopener"
+						target="_blank"
+					>
+						{m.cim_wikiloc_cta()}<span class="sr-only"> {m.external_new_tab()}</span>
+					</Button>
+				{/if}
 			</section>
+		{/if}
+
+		{#if faq.length > 0}
+			<section class="blk faq" aria-labelledby="faq">
+				<h2 id="faq" class="x-wide">{m.content_faq_title()}</h2>
+				{#each faq as p, i (i)}
+					<details>
+						<summary>{p.pregunta}</summary>
+						<div class="resposta"><p><TextEnLinia text={p.resposta} /></p></div>
+					</details>
+				{/each}
+			</section>
+		{/if}
+
+		{#if contingut}
+			<div class="fonts-fitxa">
+				{#if fontsGenerals.length > 0}
+					<section aria-labelledby="fonts">
+						<h2 id="fonts" class="label">{m.content_sources_title()}</h2>
+						<LlistaFonts fonts={fontsGenerals} />
+					</section>
+				{/if}
+				<p class="updated mono">
+					<time datetime={contingut.actualitzat}>
+						{m.content_updated({ date: formatDataLlarga(contingut.actualitzat, locale) })}
+					</time>
+				</p>
+			</div>
 		{/if}
 	</div>
 
@@ -722,6 +828,121 @@
 		font-size: var(--fs-sm);
 		font-weight: var(--fw-semibold);
 		color: var(--c-stamp-ink);
+	}
+
+	/* ---------- Contingut editorial (fase 6) ---------- */
+	.text {
+		display: grid;
+		gap: var(--sp-3);
+	}
+
+	.text h2 {
+		margin-bottom: 0;
+	}
+
+	.text p {
+		max-width: 68ch;
+	}
+
+	.rutes {
+		display: grid;
+		gap: var(--sp-4);
+	}
+
+	.consells {
+		display: grid;
+		gap: var(--sp-2);
+		margin: 0;
+		padding-left: var(--sp-6);
+		max-width: 68ch;
+	}
+
+	.consells li::marker {
+		color: var(--c-stamp-ink);
+		font-weight: var(--fw-bold);
+	}
+
+	.wl-llista {
+		display: grid;
+		gap: var(--sp-3);
+		margin: 0 0 var(--sp-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.faq {
+		display: grid;
+		gap: var(--sp-2);
+	}
+
+	.faq h2 {
+		margin-bottom: var(--sp-1);
+	}
+
+	.faq details {
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-md);
+		background: var(--c-card);
+	}
+
+	.faq summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--sp-3);
+		min-height: var(--tap);
+		padding: var(--sp-2) var(--sp-4);
+		cursor: pointer;
+		font-weight: var(--fw-bold);
+		list-style: none;
+	}
+
+	.faq summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq summary::after {
+		content: '+';
+		flex: none;
+		color: var(--c-stamp-ink);
+		font-family: var(--font-mono);
+		font-size: var(--fs-lg);
+		line-height: 1;
+	}
+
+	.faq details[open] summary::after {
+		content: '−';
+	}
+
+	.faq details[open] summary {
+		border-bottom: 1px dashed var(--c-rule);
+	}
+
+	.resposta {
+		padding: var(--sp-3) var(--sp-4) var(--sp-4);
+		color: var(--c-ink-2);
+	}
+
+	.fonts-fitxa {
+		display: grid;
+		gap: var(--sp-2);
+	}
+
+	.fonts-fitxa section {
+		display: grid;
+		gap: var(--sp-2);
+	}
+
+	.fonts-fitxa h2 {
+		padding-top: var(--sp-2);
+		border-top: 1px dashed var(--c-rule);
+		font-size: var(--fs-xs);
+		font-weight: var(--fw-semibold);
+	}
+
+	.updated {
+		font-size: var(--fs-xs);
+		color: var(--c-ink-2);
 	}
 
 	/* Llistes de cims */

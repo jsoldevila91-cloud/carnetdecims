@@ -3,12 +3,21 @@ import {
 	formatAltitude,
 	formatCoordinate,
 	formatDataLlarga,
+	formatDurada,
 	formatKm,
 	formatStampDate,
 	romanPage
 } from './format';
 
 describe('format', () => {
+	it('durades en hores i minuts', () => {
+		expect(formatDurada(195)).toBe('3 h 15 min');
+		expect(formatDurada(180)).toBe('3 h');
+		expect(formatDurada(45)).toBe('45 min');
+		expect(formatDurada(0)).toBe('0 min');
+		expect(formatDurada(59.6)).toBe('1 h');
+	});
+
 	it('coordenades amb coma decimal i sense signe', () => {
 		expect(formatCoordinate(42.66695, 'ca')).toBe('42,66695');
 		expect(formatCoordinate(1.3979, 'es')).toBe('1,39790');

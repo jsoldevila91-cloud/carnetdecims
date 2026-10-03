@@ -47,3 +47,15 @@ export function formatDataLlarga(iso: string, locale: string): string {
 		timeZone: 'UTC'
 	}).format(data);
 }
+
+/**
+ * Durada en minuts en format curt: 195 → "3 h 15 min", 180 → "3 h", 45 → "45 min".
+ * Igual en català i castellà (símbols d'unitat).
+ */
+export function formatDurada(minuts: number): string {
+	const total = Math.max(0, Math.round(minuts));
+	const h = Math.floor(total / 60);
+	const min = total % 60;
+	if (h === 0) return `${min} min`;
+	return min === 0 ? `${h} h` : `${h} h ${min} min`;
+}
