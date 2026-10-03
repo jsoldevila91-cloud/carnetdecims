@@ -390,6 +390,9 @@ Sitemap: https://carnetdecims.cat/sitemap-index.xml
 **Contenido generado con IA (política de calidad):**
 
 1. **Indexar solo fichas en estado `revisat`**, validadas por una persona con criterio de montaña. Los borradores quedan visibles para quien usa la app, pero con `noindex` y fuera del sitemap.
+   - **Criterio único (bloque 6a, `fitxaIndexable` en `src/lib/seo/indexabilitat.ts`):** una ficha es indexable solo si **las dos** revisiones están en `revisat`: el catálogo (`estat_revisio` en `cims.json`: nombre, altitud, coordenadas, comarca) **y** el contenido editorial (`estat` en `src/lib/content/fitxes/{slug}.ts`: texto ≥ 400 palabras por idioma, rutas con fuentes). Ninguna manda sola; sin fichero de contenido, la ficha es solo plantilla → `noindex`. Lo aplican la página (`data.indexable` desde `+page.server.ts`) y el sitemap de cims.
+   - `lastmod` del sitemap de fichas = `actualitzat` del contenido editorial (sustituye al `data_revisio` previsto en el catálogo).
+   - `validarContingutFitxa` (test `fitxes.spec.ts` sobre todas las fichas) bloquea el build de contenido inválido; el estado `verificat` (datos comprobados por un agente) no indexa.
 2. **Trazabilidad por campo:** cada dato lleva su fuente (FEEC, ICGC, OSM, parque natural, club). Si falta información, el campo se deja vacío y se oculta el bloque; nada de relleno.
 3. **Unicidad:** prohibido el spinning de plantillas. El bloque "Sobre {nom}" y la ruta deben contener hechos propios de esa cima. Control automático de similitud entre fichas (p. ej. shingles/coseno > 0,6 → revisión).
 4. **La versión ES se revisa, no se publica automáticamente.** El riesgo principal es que Google interprete ~1.000 fichas como _scaled content abuse_, así que se publican por lotes y solo cuando alcanzan el umbral de calidad.

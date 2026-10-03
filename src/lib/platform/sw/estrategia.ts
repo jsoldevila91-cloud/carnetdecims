@@ -25,15 +25,39 @@ export const CACHES = {
 	pagines: `${PREFIX_CACHE}pagines-v1`,
 	/** Tesel·les, estils, sprites i glifs dels mapes (ICGC, IGN, Mapterhorn): cache-first + LRU. */
 	teseles: `${PREFIX_CACHE}teseles-v1`,
-	/** Índexs LRU serialitzats de `pagines` i `teseles`. */
+	/** Darrera previsió de cada cim (`/api/meteo/{slug}`): network-first, per a l'ús sense xarxa. */
+	meteo: `${PREFIX_CACHE}meteo-v1`,
+	/** Índexs LRU serialitzats de `pagines`, `teseles` i `meteo`. */
 	meta: `${PREFIX_CACHE}meta-v1`
 } as const;
 
 /** Límits LRU (docs/05 §2). */
 export const LIMITS = {
 	pagines: { maxEntrades: 200, maxBytes: 25 * 1024 * 1024 },
-	teseles: { maxEntrades: 3000, maxBytes: 60 * 1024 * 1024 }
+	teseles: { maxEntrades: 3000, maxBytes: 60 * 1024 * 1024 },
+	/** Una previsió fa ~1 kB: 40 cims consultats és de sobres. */
+	meteo: { maxEntrades: 40, maxBytes: 1024 * 1024 }
 } as const;
+
+/**
+ * Meteo (`/api/meteo/{slug}`), decisió del bloc 6a: **network-first** amb temps màxim i, sense
+ * xarxa (o si el servidor falla), la darrera previsió desada d'aquell cim. A la muntanya és
+ * habitual consultar la previsió a casa i tornar-la a obrir sense cobertura al punt de sortida;
+ * la resposta porta `actualitzat` i la UI l'ha de mostrar. Una còpia de més de
+ * `MAX_EDAT_METEO_MS` ja no es fa servir (una previsió de fa dies enganya més que no ajuda).
+ */
+export const TIMEOUT_METEO_MS = 6000;
+export const MAX_EDAT_METEO_MS = 3 * 24 * 60 * 60 * 1000;
+/** Capçalera amb l'instant (ms) en què el SW va desar la previsió. */
+export const CAPCALERA_DESAT = 'x-carnet-sw-desat';
+
+/** Camí de l'API de meteo d'un cim (`/api/meteo/{slug}`). */
+const CAMI_METEO = /^\/api\/meteo\/[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/** La còpia desada de la meteo (desada a `desatMs`) encara es pot servir a `araMs`. */
+export function meteoDesadaUtil(desatMs: number, araMs: number): boolean {
+	return Number.isFinite(desatMs) && araMs - desatMs >= 0 && araMs - desatMs <= MAX_EDAT_METEO_MS;
+}
 
 /** Capçalera que el SW afegeix a les pàgines desades: la versió de l'app amb què encaixen. */
 export const CAPCALERA_VERSIO = 'x-carnet-sw-versio';
@@ -151,7 +175,9 @@ export type Estrategia =
 	/** Tesel·la de mapa: cache-first + LRU. */
 	| { tipus: 'tesela' }
 	/** Estil, TileJSON o sprite JSON d'un mapa: stale-while-revalidate a la cache de tesel·les. */
-	| { tipus: 'estil-mapa' };
+	| { tipus: 'estil-mapa' }
+	/** Previsió d'un cim (`/api/meteo/{slug}`): network-first; sense xarxa, la darrera desada. */
+	| { tipus: 'meteo'; clau: string };
 
 export type PeticioSW = {
 	url: string;
@@ -189,6 +215,10 @@ export function estrategiaPer(
 	}
 
 	const cami = url.pathname;
+	// La query no forma part de la clau: una previsió per cim.
+	if (CAMI_METEO.test(cami) && peticio.mode !== 'navigate') {
+		return { tipus: 'meteo', clau: `${url.origin}${cami}` };
+	}
 	if (
 		cami.startsWith('/api/') ||
 		cami === '/service-worker.js' ||
@@ -232,6 +262,7 @@ export function cachesObsoletes(noms: readonly string[], version: string): strin
 		CACHES.recursos,
 		CACHES.pagines,
 		CACHES.teseles,
+		CACHES.meteo,
 		CACHES.meta
 	]);
 	return noms.filter((n) => n.startsWith(PREFIX_CACHE) && !vigents.has(n));

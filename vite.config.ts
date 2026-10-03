@@ -10,7 +10,7 @@ import {
 	LOCALES,
 	prerenderEntries
 } from './src/lib/i18n/routes.ts';
-import { sitemapEntries } from './src/lib/seo/sitemap.ts';
+import { SITEMAP_INDEX_PATH } from './src/lib/seo/sitemap.ts';
 import { pluginSwDiferits } from './src/lib/platform/sw/plugin-vite.ts';
 
 export default defineConfig({
@@ -34,7 +34,9 @@ export default defineConfig({
 			prerender: {
 				// Les rutes internes no porten idioma: es prerenderitzen les URL localitzades
 				// (/ca, /es, /ca/cims, /es/cimas…) i el crawler segueix els enllaços.
-				// Els sitemaps (/sitemap-index.xml i un per secció i idioma) no s'enllacen: s'hi afegeixen.
+				// Els sitemaps no s'enllacen: s'hi afegeix l'índex; els de secció (un per secció i idioma)
+				// els genera l'`entries` de la ruta `sitemap-[name].xml` (la config no pot calcular-los:
+				// el contingut de les fitxes es carrega amb `import.meta.glob`; vegeu `seo/sitemap.ts`).
 				// Les fitxes de cim (/ca/cims/{slug}, /es/cimas/{slug}) i les pàgines de comarca amb cims
 				// (/ca/comarques/{slug}, /es/comarcas/{slug}) s'hi afegeixen totes explícitament.
 				// Els manifests de la PWA (un per idioma) s'enllacen des de app.html amb un marcador.
@@ -42,7 +44,7 @@ export default defineConfig({
 					...prerenderEntries(),
 					...cimEntries(),
 					...comarcaEntries(),
-					...sitemapEntries(),
+					SITEMAP_INDEX_PATH,
 					...LOCALES.map((l) => `/manifest-${l}.webmanifest` as const),
 					// Pàgina offline que serveix el service worker (noindex, fora del sitemap).
 					...LOCALES.map((l) => `/${l}/offline` as const)

@@ -8,8 +8,10 @@
  *   Sense xarxa i sense còpia → pàgina offline de l'idioma.
  * - Tesel·les ICGC/IGN/Mapterhorn: cache-first amb LRU (3.000 entrades / 60 MB). Només es desen
  *   respostes 200 CORS (mai opaques ni errors).
- * - No s'intercepta `/api/*` ni cap petició que no sigui GET. Les dades de l'usuari són a
- *   IndexedDB, no aquí.
+ * - Meteo (`/api/meteo/{slug}`): network-first amb temps màxim; sense xarxa o si el servidor
+ *   falla, la darrera previsió desada d'aquell cim (fins a 3 dies; LRU de 40 cims).
+ * - No s'intercepta la resta de `/api/*` ni cap petició que no sigui GET. Les dades de l'usuari
+ *   són a IndexedDB, no aquí.
  * - Actualització controlada: sense `skipWaiting` automàtic; la pàgina envia
  *   `{ type: 'SKIP_WAITING' }` quan l'usuari tria "Actualitza" (`platform/pwa.ts`).
  *
@@ -20,14 +22,17 @@ import { build, files, prerendered, version } from '$service-worker';
 import { connexioPermetPrecarrega, type InfoConnexio } from '$lib/platform/sw/connexio';
 import {
 	CACHES,
+	CAPCALERA_DESAT,
 	CAPCALERA_VERSIO,
 	LIMITS,
+	TIMEOUT_METEO_MS,
 	MISSATGE,
 	cachesObsoletes,
 	esFitxaOComarca,
 	estrategiaPer,
 	htmlEsDeLaVersio,
 	llistaPrecache,
+	meteoDesadaUtil,
 	normalitzaCami,
 	paginaOffline,
 	type Estrategia,
@@ -184,6 +189,7 @@ class CacheLru {
 
 const lruPagines = new CacheLru(CACHES.pagines, LIMITS.pagines);
 const lruTeseles = new CacheLru(CACHES.teseles, LIMITS.teseles);
+const lruMeteo = new CacheLru(CACHES.meteo, LIMITS.meteo);
 
 // --- Instal·lació: precache ---
 
@@ -440,6 +446,50 @@ async function estilMapa(event: EventFetch): Promise<Response> {
 	return xarxa;
 }
 
+// --- Meteo ---
+
+/**
+ * Network-first: la previsió de la xarxa (i se'n desa una còpia); si no n'hi ha (sense xarxa,
+ * temps esgotat o error del servidor), la darrera desada d'aquell cim si no és massa antiga.
+ */
+async function meteo(event: EventFetch, clau: string): Promise<Response> {
+	const cache = await caches.open(CACHES.meteo);
+	let res: Response | null;
+	try {
+		res = await fetch(event.request, { signal: AbortSignal.timeout(TIMEOUT_METEO_MS) });
+	} catch {
+		res = null;
+	}
+	if (res && res.status === 200 && res.type === 'basic') {
+		const copia = res.clone();
+		event.waitUntil(
+			copia
+				.text()
+				.then((cos) =>
+					lruMeteo.desa(
+						clau,
+						new Response(cos, {
+							status: 200,
+							headers: capcaleres(copia.headers, { [CAPCALERA_DESAT]: String(Date.now()) })
+						}),
+						cos.length,
+						event
+					)
+				)
+				.catch(() => undefined)
+		);
+		return res;
+	}
+	// 404 (cim inexistent): no hi ha res a substituir.
+	if (res && res.status < 500) return res;
+	const desada = await cache.match(clau);
+	if (desada && meteoDesadaUtil(Number(desada.headers.get(CAPCALERA_DESAT)), Date.now())) {
+		event.waitUntil(lruMeteo.toca(clau, event));
+		return desada;
+	}
+	return res ?? respostaSenseXarxa();
+}
+
 // --- Encaminament ---
 
 sw.addEventListener('fetch', (event) => {
@@ -481,6 +531,9 @@ sw.addEventListener('fetch', (event) => {
 			return;
 		case 'estil-mapa':
 			event.respondWith(estilMapa(event));
+			return;
+		case 'meteo':
+			event.respondWith(meteo(event, e.clau));
 			return;
 	}
 });

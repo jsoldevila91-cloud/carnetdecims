@@ -26,3 +26,19 @@ export function comarcaIndexable(nCims: number): boolean {
  * interactiu real (imatge estàtica + text sense JS) i, per tant, indexable (docs/02 §4.3).
  */
 export const PAGINES_NOINDEX: ReadonlySet<string> = new Set<string>();
+
+/**
+ * Fitxa de cim indexable (fase 6, docs/02 §4.1): calen **les dues** revisions humanes.
+ * - `estatCataleg` (`estat_revisio` de `cims.json`): dades del catàleg (nom, altitud, coordenades,
+ *   comarca) comprovades.
+ * - `estatContingut` (`estat` de `src/lib/content/fitxes/{slug}.ts`): text editorial revisat
+ *   (≥ 400 paraules, rutes amb fonts). Sense fitxer de contingut, la fitxa és només plantilla.
+ * Cap de les dues mana sola: totes dues han de ser `'revisat'`. Ho fan servir la pàgina (`noindex`)
+ * i el sitemap, sempre amb aquest mateix criteri.
+ */
+export function fitxaIndexable(
+	estatCataleg: string | undefined,
+	estatContingut: string | undefined
+): boolean {
+	return estatCataleg === 'revisat' && estatContingut === 'revisat';
+}

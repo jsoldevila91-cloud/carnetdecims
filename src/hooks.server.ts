@@ -5,9 +5,14 @@ import { paraglideMiddleware } from '$lib/paraglide/server';
 import { esRutaNoindexShell, injectarNoindexShell } from '$lib/seo/robots-shell';
 
 const LOCALE_PREFIX = new RegExp(`^/(${locales.join('|')})(/|$)`);
-/** Fitxers (`/sitemap-index.xml`, `/favicon.ico`…) i rutes internes de SvelteKit: sense idioma. */
+/**
+ * Fitxers (`/sitemap-index.xml`, `/favicon.ico`…), rutes internes de SvelteKit i l'API
+ * (`/api/meteo/{slug}`): sense idioma.
+ */
+const esApi = (pathname: string) => pathname.startsWith('/api/');
 const isUnlocalized = (pathname: string) =>
 	/\.[a-z0-9]+$/i.test(pathname) ||
+	esApi(pathname) ||
 	pathname.startsWith('/_app/') ||
 	pathname.startsWith('/.well-known/');
 
@@ -28,7 +33,10 @@ const handleLocaleRedirect: Handle = ({ event, resolve }) => {
 
 const handleParaglide: Handle = ({ event, resolve }) => {
 	// Els sitemaps viuen a l'arrel i no porten idioma: sense redirecció de Paraglide.
-	if (/^\/sitemap-[\w-]+\.xml$/.test(event.url.pathname)) return resolve(event);
+	// L'API tampoc: respon JSON, sense pàgina ni idioma.
+	if (/^\/sitemap-[\w-]+\.xml$/.test(event.url.pathname) || esApi(event.url.pathname)) {
+		return resolve(event);
+	}
 
 	return paraglideMiddleware(event.request, ({ request, locale }) => {
 		event.request = request;

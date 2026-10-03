@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { LOCALES, localizeCimPath, localizeComarcaPath, localizePath } from '$lib/i18n/routes';
 import {
 	CACHES,
+	LIMITS,
+	MAX_EDAT_METEO_MS,
 	camiFitxa,
 	cachesObsoletes,
 	entradesReferenciades,
@@ -10,6 +12,7 @@ import {
 	fitxerEstaticPrecache,
 	htmlEsDeLaVersio,
 	llistaPrecache,
+	meteoDesadaUtil,
 	paginaOffline,
 	paginesAppPrecache,
 	type PeticioSW
@@ -113,11 +116,11 @@ describe('llistaPrecache', () => {
 });
 
 describe('estrategiaPer', () => {
-	it('no intercepta peticions que no són GET, /api ni el propi SW', () => {
+	it('no intercepta peticions que no són GET, /api (llevat de la meteo) ni el propi SW', () => {
 		expect(decideix({ ...recurs('/api/meteo/montcau'), method: 'POST' })).toEqual({
 			tipus: 'xarxa'
 		});
-		expect(decideix(recurs('/api/meteo/montcau', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		expect(decideix(recurs('/api/altra/montcau', 'cors', ''))).toEqual({ tipus: 'xarxa' });
 		expect(decideix(nav('/api/x'))).toEqual({ tipus: 'xarxa' });
 		expect(decideix(recurs('/service-worker.js'))).toEqual({ tipus: 'xarxa' });
 		expect(decideix(recurs('/_app/version.json', 'cors', ''))).toEqual({ tipus: 'xarxa' });
@@ -225,6 +228,38 @@ describe('estrategiaPer', () => {
 	});
 });
 
+describe('meteo (/api/meteo/{slug}): network-first amb la darrera còpia', () => {
+	it('fetch de la meteo d’un cim → meteo, clau sense query', () => {
+		expect(decideix(recurs('/api/meteo/montcau', 'cors', ''))).toEqual({
+			tipus: 'meteo',
+			clau: `${ORIGEN}/api/meteo/montcau`
+		});
+		expect(
+			decideix(recurs('/api/meteo/pedraforca-pollego-superior?x=1', 'same-origin', ''))
+		).toEqual({ tipus: 'meteo', clau: `${ORIGEN}/api/meteo/pedraforca-pollego-superior` });
+	});
+
+	it('navegació, slug no vàlid, subcamins o un altre origen → xarxa', () => {
+		expect(decideix(nav('/api/meteo/montcau'))).toEqual({ tipus: 'xarxa' });
+		expect(decideix(recurs('/api/meteo/Montcau', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		expect(decideix(recurs('/api/meteo/montcau/x', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		expect(decideix(recurs('/api/meteo/', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		expect(
+			decideix(recurs('https://api.open-meteo.com/v1/forecast?latitude=1', 'cors', ''))
+		).toEqual({ tipus: 'xarxa' });
+	});
+
+	it('la còpia desada només serveix fins a 3 dies', () => {
+		const ara = Date.parse('2026-10-03T08:00:00Z');
+		expect(meteoDesadaUtil(ara - 60_000, ara)).toBe(true);
+		expect(meteoDesadaUtil(ara - MAX_EDAT_METEO_MS, ara)).toBe(true);
+		expect(meteoDesadaUtil(ara - MAX_EDAT_METEO_MS - 1, ara)).toBe(false);
+		expect(meteoDesadaUtil(ara + 60_000, ara)).toBe(false);
+		expect(meteoDesadaUtil(Number.NaN, ara)).toBe(false);
+		expect(LIMITS.meteo.maxEntrades).toBeGreaterThan(0);
+	});
+});
+
 describe('cachesObsoletes', () => {
 	it('esborra precaches d’altres versions i caches pròpies desconegudes; no toca les alienes', () => {
 		const noms = [
@@ -233,6 +268,7 @@ describe('cachesObsoletes', () => {
 			CACHES.recursos,
 			CACHES.pagines,
 			CACHES.teseles,
+			CACHES.meteo,
 			CACHES.meta,
 			'carnet-pagines-v0',
 			'workbox-precache-v2',

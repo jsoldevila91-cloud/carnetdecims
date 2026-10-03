@@ -26,8 +26,11 @@
  *   Nord amb zoom ≥ 10, el Plan IGN WMTS (`data.geopf.fr`); la font d'ortofoto d'Esri de l'estil
  *   fosc té les capes amagades i MapLibre no en demana tessel·les;
  *   Wikiloc i la FEEC només si es fa clic a l'enllaç; allotjament a Cloudflare.
- * Cal actualitzar-la abans d'activar: comptes (fase 5,
- * Supabase UE), meteo (fase 6, Open-Meteo via proxy) i analítica (fase 7).
+ * - meteo (fase 6a, `routes/api/meteo/[slug]`, `server/meteo/`): el navegador només demana
+ *   `/api/meteo/{slug}` al nostre origen; el Worker demana la previsió a Open-Meteo amb les
+ *   coordenades i l'altitud del cim (cap dada del visitant: ni IP, ni capçaleres, ni galetes) i el
+ *   SW en desa la darrera de cada cim consultat (`carnet-meteo-v1`).
+ * Cal actualitzar-la abans d'activar: comptes (fase 5, Supabase UE) i analítica (fase 7).
  */
 import { TITULAR } from './titular.ts';
 import type { Contingut } from './types.ts';
@@ -39,6 +42,7 @@ const ICGC = 'https://www.icgc.cat/';
 const IGN = 'https://www.ign.fr/';
 const MAPTERHORN = 'https://mapterhorn.com/';
 const WIKILOC = 'https://www.wikiloc.com/';
+const OPEN_METEO = 'https://open-meteo.com/';
 
 export const privacitat: Contingut = {
 	ca: {
@@ -93,7 +97,7 @@ export const privacitat: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: "No fem servir cookies pròpies. Perquè el web funcioni sense connexió, el navegador hi desa una còpia dels fitxers del web, de les pàgines visitades i dels trossos de mapa que has consultat (memòria cau del service worker); també hi guarda dues preferències tècniques a l'emmagatzematge local (localStorage): si has tancat l'avís d'instal·lació o ja tens l'app instal·lada, i si ja t'hem avisat que l'app està preparada per funcionar sense connexió. A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. Res d'això conté dades personals ni ens arriba, i ho pots esborrar eliminant les dades del lloc a la configuració del navegador."
+						text: "No fem servir cookies pròpies. Perquè el web funcioni sense connexió, el navegador hi desa una còpia dels fitxers del web, de les pàgines visitades, dels trossos de mapa que has consultat i de l'última previsió meteorològica dels cims que has mirat (memòria cau del service worker); també hi guarda dues preferències tècniques a l'emmagatzematge local (localStorage): si has tancat l'avís d'instal·lació o ja tens l'app instal·lada, i si ja t'hem avisat que l'app està preparada per funcionar sense connexió. A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. Res d'això conté dades personals ni ens arriba, i ho pots esborrar eliminant les dades del lloc a la configuració del navegador."
 					}
 				]
 			},
@@ -112,6 +116,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): les imatges del mapa de les fitxes de cim, de les pàgines de comarca i del mapa general, i les tessel·les, la tipografia i les icones del [mapa interactiu](/mapa), es carreguen des dels seus servidors.`,
 							`**[Mapterhorn](${MAPTERHORN})**: quan fas servir el mapa interactiu, l'ombrejat del relleu es carrega des dels seus servidors.`,
 							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord, i el Plan IGN del mapa interactiu quan t'hi apropes, es carreguen des de la Géoplateforme de l'IGN.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim): **no rep la teva IP**. El teu navegador només demana la previsió al nostre servidor, i és el nostre servidor qui la demana a Open-Meteo amb les coordenades i l'altitud del cim, sense cap dada teva.`,
 							`**[Wikiloc](${WIKILOC})**: només si fas clic al botó de rutes d'una fitxa. Llavors surts del nostre web i s'aplica la política de Wikiloc.`,
 							'**Altres enllaços externs** (FEEC, fonts de dades): només si hi fas clic.'
 						]
@@ -172,7 +177,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-02'
+		actualitzat: '2026-10-03'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -226,7 +231,7 @@ export const privacitat: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'No usamos cookies propias. Para que la web funcione sin conexión, el navegador guarda una copia de los archivos de la web, de las páginas visitadas y de los fragmentos de mapa que has consultado (memoria caché del service worker); también guarda dos preferencias técnicas en el almacenamiento local (localStorage): si has cerrado el aviso de instalación o ya tienes la app instalada, y si ya te hemos avisado de que la app está preparada para funcionar sin conexión. Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. Nada de esto contiene datos personales ni nos llega, y puedes borrarlo eliminando los datos del sitio en la configuración del navegador.'
+						text: 'No usamos cookies propias. Para que la web funcione sin conexión, el navegador guarda una copia de los archivos de la web, de las páginas visitadas, de los fragmentos de mapa que has consultado y de la última previsión meteorológica de las cimas que has mirado (memoria caché del service worker); también guarda dos preferencias técnicas en el almacenamiento local (localStorage): si has cerrado el aviso de instalación o ya tienes la app instalada, y si ya te hemos avisado de que la app está preparada para funcionar sin conexión. Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. Nada de esto contiene datos personales ni nos llega, y puedes borrarlo eliminando los datos del sitio en la configuración del navegador.'
 					}
 				]
 			},
@@ -245,6 +250,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): las imágenes del mapa de las fichas de cima, de las páginas de comarca y del mapa general, y las teselas, la tipografía y los iconos del [mapa interactivo](/mapa), se cargan desde sus servidores.`,
 							`**[Mapterhorn](${MAPTERHORN})**: cuando usas el mapa interactivo, el sombreado del relieve se carga desde sus servidores.`,
 							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte, y el Plan IGN del mapa interactivo al acercarte, se cargan desde la Géoplateforme del IGN.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima): **no recibe tu IP**. Tu navegador solo pide la previsión a nuestro servidor, y es nuestro servidor quien la pide a Open-Meteo con las coordenadas y la altitud de la cima, sin ningún dato tuyo.`,
 							`**[Wikiloc](${WIKILOC})**: solo si pulsas el botón de rutas de una ficha. Entonces sales de nuestra web y se aplica la política de Wikiloc.`,
 							'**Otros enlaces externos** (FEEC, fuentes de datos): solo si los pulsas.'
 						]
@@ -305,6 +311,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-02'
+		actualitzat: '2026-10-03'
 	}
 };

@@ -5,8 +5,9 @@
  * - Només URL indexables, amb estat 200 i canonical propi (mai `/app`).
  * - Cada URL porta les alternates `hreflang` (ca, es i x-default → ca), recíproques.
  * - `lastmod` només si hi ha la data real de revisió del contingut (mai la del build).
- * - Fitxes de cim: només les `revisat` (la fitxa aplica el mateix criteri per al `noindex`).
- *   Els sitemaps buits no es publiquen: mentre no n'hi hagi cap de revisada no hi ha
+ * - Fitxes de cim: només les indexables (`fitxaIndexable`: catàleg **i** contingut editorial
+ *   `revisat`; la fitxa aplica el mateix criteri per al `noindex`), amb `lastmod` = `actualitzat`
+ *   del contingut. Els sitemaps buits no es publiquen: mentre no n'hi hagi cap de revisada no hi ha
  *   `sitemap-ca-cims.xml`.
  * - Comarques (`sitemap-ca-comarques.xml`, `sitemap-es-comarcas.xml`): l'índex `/comarques` i les
  *   pàgines de comarca indexables (`comarcaIndexable`: almenys 3 cims; docs/02 §4.2).
@@ -16,7 +17,10 @@
  *   idioma (data real de revisió del text). Les legals (`CONTINGUT_FORA_SITEMAP`) en queden fora.
  * - Pàgines: la resta de `PRERENDER_PATHS` (sense l'índex de comarques, els llistats ni el contingut).
  *
- * El fa servir `vite.config.ts` (entrades de prerender), per això no depèn de `$lib` ni del runtime.
+ * El fa servir `vite.config.ts` (entrada de prerender `SITEMAP_INDEX_PATH`), per això no depèn de
+ * `$lib` ni del runtime. Els sitemaps de secció els prerenderitza la ruta `sitemap-[name].xml` amb
+ * el seu `entries` (`sitemapFiles()`): la config no els pot calcular, perquè el contingut de les
+ * fitxes es carrega amb `import.meta.glob`, que el carregador de la config de Vite no transforma.
  */
 import cimsJson from '../data/catalog/cims.json' with { type: 'json' };
 import {
@@ -38,7 +42,8 @@ import {
 	slugsComarquesAmbCims,
 	type AppLocale
 } from '../i18n/routes.ts';
-import { PAGINES_NOINDEX, comarcaIndexable } from './indexabilitat.ts';
+import { contingutFitxa } from '../content/fitxes/index.ts';
+import { PAGINES_NOINDEX, comarcaIndexable, fitxaIndexable } from './indexabilitat.ts';
 
 export type SitemapAlternate = { hreflang: AppLocale | 'x-default'; href: string };
 export type SitemapUrl = { loc: string; lastmod?: string; alternates?: SitemapAlternate[] };
@@ -70,26 +75,28 @@ function urlAmbAlternates(
 }
 
 /** Camps del catàleg que necessita el sitemap (`cims.json`). */
-export type CimSitemap = {
-	slug: string;
-	estat_revisio: string;
-	/** Data real de l'última revisió (AAAA-MM-DD). Pendent d'afegir al catàleg. */
-	data_revisio?: string | null;
-};
+export type CimSitemap = { slug: string; estat_revisio: string };
+
+/** Camps del contingut editorial d'una fitxa que necessita el sitemap (`content/fitxes`). */
+export type ContingutSitemap = { estat: string; actualitzat: string };
 
 const DATA_ISO = /^\d{4}-\d{2}-\d{2}$/;
 
-/** URL de les fitxes de cim indexables (`revisat`) en un idioma. */
-export function cimSitemapUrls(cims: readonly CimSitemap[], locale: AppLocale): SitemapUrl[] {
-	return cims
-		.filter((c) => c.estat_revisio === 'revisat')
-		.map((c) =>
-			urlAmbAlternates(
-				(l) => localizeCimPath(c.slug, l),
-				locale,
-				c.data_revisio && DATA_ISO.test(c.data_revisio) ? c.data_revisio : undefined
-			)
-		);
+/**
+ * URL de les fitxes de cim indexables en un idioma: catàleg i contingut `revisat`
+ * (`fitxaIndexable`), amb `lastmod` = `actualitzat` del contingut si és una data ISO.
+ */
+export function cimSitemapUrls(
+	cims: readonly CimSitemap[],
+	locale: AppLocale,
+	contingut: (slug: string) => ContingutSitemap | undefined = contingutFitxa
+): SitemapUrl[] {
+	return cims.flatMap((c) => {
+		const fitxa = contingut(c.slug);
+		if (!fitxaIndexable(c.estat_revisio, fitxa?.estat)) return [];
+		const lastmod = fitxa && DATA_ISO.test(fitxa.actualitzat) ? fitxa.actualitzat : undefined;
+		return [urlAmbAlternates((l) => localizeCimPath(c.slug, l), locale, lastmod)];
+	});
 }
 
 /** Camins de `PRERENDER_PATHS` que tenen secció pròpia (o cap) i no van a `pagines`. */

@@ -63,14 +63,25 @@ describe('sitemaps', () => {
 });
 
 describe('sitemap de fitxes de cim', () => {
+	// Catàleg i contingut editorial han d'estar tots dos revisats (`fitxaIndexable`).
 	const cims = [
-		{ slug: 'pedraforca-pollego-superior', estat_revisio: 'revisat', data_revisio: '2026-10-15' },
-		{ slug: 'pica-d-estats', estat_revisio: 'esborrany', data_revisio: '2026-10-01' },
-		{ slug: 'canigo', estat_revisio: 'revisat' }
+		{ slug: 'pedraforca-pollego-superior', estat_revisio: 'revisat' },
+		{ slug: 'pica-d-estats', estat_revisio: 'esborrany' },
+		{ slug: 'canigo', estat_revisio: 'revisat' },
+		{ slug: 'puigmal', estat_revisio: 'revisat' },
+		{ slug: 'montcau', estat_revisio: 'revisat' }
 	];
+	const continguts: Record<string, { estat: string; actualitzat: string }> = {
+		'pedraforca-pollego-superior': { estat: 'revisat', actualitzat: '2026-10-15' },
+		'pica-d-estats': { estat: 'revisat', actualitzat: '2026-10-01' },
+		canigo: { estat: 'revisat', actualitzat: '15/10/2026' },
+		puigmal: { estat: 'verificat', actualitzat: '2026-10-01' }
+		// montcau: sense contingut editorial
+	};
+	const contingut = (slug: string) => continguts[slug];
 
-	it('només les fitxes revisades, amb lastmod real i alternates', () => {
-		const es = cimSitemapUrls(cims, 'es');
+	it('només les fitxes amb catàleg i contingut revisats, amb lastmod = actualitzat', () => {
+		const es = cimSitemapUrls(cims, 'es', contingut);
 		expect(es).toEqual([
 			{
 				loc: 'https://carnetdecims.cat/es/cimas/pedraforca-pollego-superior',
@@ -101,22 +112,18 @@ describe('sitemap de fitxes de cim', () => {
 		]);
 	});
 
-	it('XML amb lastmod només si hi ha data (mai la del build)', () => {
-		const xml = urlsetXml(cimSitemapUrls(cims, 'ca'));
+	it('XML amb lastmod només si hi ha data ISO (mai la del build)', () => {
+		const xml = urlsetXml(cimSitemapUrls(cims, 'ca', contingut));
 		expect(xml).toContain(
 			'<loc>https://carnetdecims.cat/ca/cims/pedraforca-pollego-superior</loc><lastmod>2026-10-15</lastmod>'
 		);
 		expect(xml).toContain('<loc>https://carnetdecims.cat/ca/cims/canigo</loc><xhtml:link');
-		expect(xml).not.toContain('pica-d-estats');
+		expect(xml).not.toMatch(/pica-d-estats|puigmal|montcau/);
 		expect(xml.match(/<lastmod>/g)).toHaveLength(1);
 	});
 
-	it('una data mal formada no es publica com a lastmod', () => {
-		const [url] = cimSitemapUrls(
-			[{ slug: 'canigo', estat_revisio: 'revisat', data_revisio: '15/10/2026' }],
-			'ca'
-		);
-		expect(url).not.toHaveProperty('lastmod');
+	it('amb el contingut real: avui cap fitxa és indexable', () => {
+		expect(cimSitemapUrls(CIMS, 'ca')).toEqual([]);
 	});
 });
 

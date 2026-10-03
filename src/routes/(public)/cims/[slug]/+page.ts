@@ -8,7 +8,7 @@ import type { PageLoad } from './$types';
 // pública (el hook el redirigeix a /ca/…) i trenca el prerender.
 export const prerender = true;
 
-export const load: PageLoad = ({ params }) => {
+export const load: PageLoad = ({ params, data }) => {
 	const cim = cimPerSlug(params.slug);
 	if (!cim) error(404, 'Not found');
 
@@ -16,6 +16,8 @@ export const load: PageLoad = ({ params }) => {
 	if (!comarca) error(500, `Comarca desconeguda: ${cim.comarca}`);
 
 	return {
+		// `contingut` i `indexable` (contingut editorial, fase 6): `+page.server.ts`.
+		...data,
 		cim,
 		comarca,
 		propers: cimsPropers(cim, 6),
