@@ -316,14 +316,14 @@ test.describe('Privadesa: el web fa el que diu la política', () => {
 			}));
 			// La política (bloc 4d) diu: memòria cau del service worker (`carnet-*`), dues preferències
 			// tècniques a localStorage i l'estat de navegació de SvelteKit a sessionStorage. Res més.
-			// IndexedDB: /mapa obre la BD local (Dexie) per marcar els cims fets; buida, sense dades.
+			// IndexedDB: cap BD sense ascensions (/mapa només la llegeix si ja existeix, `data/local/existeix.ts`).
 			test
 				.info()
 				.annotations.push({ type: 'sessionStorage', description: storage.session.join(', ') });
 			expect(storage.session.filter((k) => !/^sveltekit:/.test(k))).toEqual([]);
 			for (const k of storage.local)
 				expect(['carnetdecims:llest-offline', 'carnetdecims:avis-installacio']).toContain(k);
-			for (const nom of storage.idb) expect(nom).toBe('carnetdecims');
+			expect(storage.idb).toEqual([]);
 			expect(storage.sw).toBeLessThanOrEqual(1);
 			for (const c of storage.caches) expect(c).toMatch(/^carnet-/);
 			for (const h of [...hosts].filter((h) => h !== 'localhost'))

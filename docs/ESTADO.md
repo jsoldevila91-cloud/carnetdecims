@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-02.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-03.
 
 ## Hecho
 
@@ -105,11 +105,36 @@
   - **SEO:** `/mapa` **indexable** (JSON-LD Map, en el sitemap, enlaces desde portada, `/cims`, listados y fichas); privacitat con los terceros del mapa (ICGC, IGN, Mapterhorn).
   - **QA:** `e2e/mapa.e2e.ts` (WebGL real en Chromium y WebKit; fallback sin WebGL). **1169 E2E pasados, 0 fallidos** en los 3 proyectos.
 
+- **Bloque 4d (terminado, 2026-10-03): PWA instalable y offline.**
+  - **Service worker nativo de SvelteKit** (`src/service-worker.ts`, lógica en `platform/sw/`):
+    - precache del shell, los assets y 16 páginas (shells de `/app` y `/ca|es/offline`; ~520 kB gzip);
+    - HTML público con stale-while-revalidate y LRU 200;
+    - teselas cache-first con LRU 3000 (solo respuestas CORS 200);
+    - MapLibre en caché solo tras visitar el mapa;
+    - actualización controlada (SKIP_WAITING a petición).
+  - **Contrato** `platform/pwa.ts`: `registrarServiceWorker`, `estatSW`, `aplicarActualitzacio`, `precarregarFitxes` (solo con wifi y sin ahorro de datos).
+  - **Frontend:**
+    - manifests por idioma (`id` común, dreceres, capturas) e iconos generados (`npm run pwa:icones`);
+    - aviso de instalación tras la primera ascensión (hoja de instrucciones en iOS), banner de nueva versión y toast "Preparat per funcionar sense connexió";
+    - `crossorigin` en los mapas estáticos (se guardan para offline).
+  - **Rendimiento:** fallbacks métricos de fuentes y preload de Plex Mono; CSS inline (`inlineStyleThreshold`). Ficha: CLS 0,19 → 0; Perf 93–95.
+  - **SEO:** textos en presente; privacitat con la caché del SW y las 2 preferencias en `localStorage`; favicons en `app.html`; Lighthouse portada 100/100/100/89.
+  - **Config:** `paths.relative: false`; SW no se registra en dev (`VITE_SW_DEV=true` para forzarlo).
+  - **QA:** `e2e/pwa.e2e.ts`; fixture `senyalHidratacio`; SW bloqueado por defecto en E2E.
+- **FASE 4 TERMINADA (2026-10-03) — pendiente de aprobación del usuario.** Suite completa: **2072 E2E pasados, 0 fallidos, 0 flaky** en los 3 proyectos; 637 unitarios.
+
 ## Siguiente
 
-Bloque **4d** (en curso): PWA (manifest, service worker, offline, instalación) + pasada completa de la fase 4.
+**Fase 5 · Cuentas y sincronización.** Requiere acciones del usuario antes de empezar (ver "Pendiente o decisiones abiertas").
 
 ## Pendiente o decisiones abiertas
+
+- **Para empezar la fase 5 (el usuario):**
+  1. Crear la cuenta y el proyecto de **Supabase** en región UE (Claude no puede crear cuentas).
+  2. Crear las credenciales OAuth de **Google** (Google Cloud Console).
+  3. Decidir el **responsable del tratamiento** (RGPD art. 13): con cuentas hay que identificar a una persona física o jurídica; el nombre del proyecto no basta.
+- **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
+- **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).
 
 - **Titular y contacto** (decisión del usuario, 2026-09-29): el titular es "Carnet de Cims" (nombre del proyecto) y el email **hola@carnetdecims.cat**. Hay que crear el buzón al activar el dominio (fase 7).
 
