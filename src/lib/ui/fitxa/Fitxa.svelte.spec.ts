@@ -1,6 +1,7 @@
 /**
  * Components del contingut de la fitxa (fase 6a) amb dades sintètiques: les fitxes pilot encara
- * no tenen MIDE, coordenades de sortida ni rutes de Wikiloc, i la meteo depèn de la xarxa.
+ * no tenen MIDE ni coordenades de sortida (sí 2–3 rutes de Wikiloc cadascuna; vegeu
+ * `e2e/contingut-fitxa.e2e.ts`), i la meteo depèn de la xarxa.
  * Les dades d'aquí són de prova (no són cap fitxa real).
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
