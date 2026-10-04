@@ -123,6 +123,34 @@
   - **QA:** `e2e/pwa.e2e.ts`; fixture `senyalHidratacio`; SW bloqueado por defecto en E2E.
 - **FASE 4 TERMINADA (2026-10-03) — pendiente de aprobación del usuario.** Suite completa: **2072 E2E pasados, 0 fallidos, 0 flaky** en los 3 proyectos; 637 unitarios.
 
+## Pendiente al reanudar (límite semanal agotado el 2026-10-05; se restablece el 2026-10-09 a las 16:00)
+
+**Estado del 6b:** 50 fichas en borrador en commit (`7dc6810`); criterio estricto de "amb nens" en commit (`9531ed4`: fàcils 11, amb nens 8).
+
+**Cortados por el límite (reanudar):**
+
+1. **SEO:**
+   - `src/lib/seo/fitxa-cim.spec.ts` falla: la description de Tossa Grossa de Montferri no tiene ruta normal; hace falta un fallback en `seoFitxaCim` para fichas sin cifras.
+   - Revisión de calidad por muestreo de las 40 fichas nuevas (frases calcadas entre fichas, guía docs/07).
+2. **Frontend:**
+   - "des de {ruta}" en `/cims-amb-nens` (`rutesAmbNens` ya viene del servidor);
+   - enlaces a `/cims-facils` y `/cims-amb-nens` (ya indexables) en el "Explora" de la portada, en `/cims` y en el pie.
+3. **QA:** ampliar `e2e/dificultat.e2e.ts` y `contingut-fitxa.e2e.ts` a las 50 fichas (el oráculo de listados asume solo las 10 pilotos y fallará) y hacer una pasada completa.
+
+**Correcciones del usuario (2026-10-05) a aplicar:**
+
+- **Catálogo** (`scripts/catalog/manual.ts` + `npm run catalog:build`):
+  - **Caro 1.441 m** (antes 1.442);
+  - **La Fita Alta 286 m** (antes 289);
+  - Montardo 2.833 m y Sant Pere Màrtir 389 m se quedan como están (correctos).
+- **Montardo:** el acceso en coche por la Val de Valarties está **regulado y depende de la época del año**. Añadirlo a consells/ruta, con fuente oficial (Conselh Generau d'Aran / Parc Nacional).
+- **Castell de Burriac** (el usuario aporta información; verificar en fuentes):
+  - salida clásica desde **Argentona, parc de la Font Picant**, por el sendero **SL-C 114**;
+  - alternativa desde **Cabrera de Mar** (centro del pueblo o aparcamiento de tierra regulado junto a la pista forestal), por el **SL-C 115**;
+  - corregir la salida ("aparcament de la Font Picant" → "parc de la Font Picant") y añadir la ruta de Cabrera de Mar.
+- **Castell del Montgrí** (decisión de Claude): mantener `terreny-irregular` (Moderada) por la tartera del Pedrigolet, y añadir una nota: "el parc la considera una excursió familiar; el tram de tartera demana atenció amb infants".
+- **Castell de Saverdera** (decisión de Claude): mantener `terreny-irregular` y añadir una nota: "hi ha trams de roca on els infants poden necessitar ajuda".
+
 ## Siguiente
 
 **Fase 6 · Contenido** (en curso; el usuario eligió adelantarla a la 5, el 2026-10-03, porque la 5 requiere acciones suyas).
