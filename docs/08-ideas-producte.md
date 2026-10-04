@@ -96,8 +96,10 @@ Ordenado por valor y esfuerzo:
 | **Fase 5+**                  | con cuentas                           | percentil anónimo con opt-in, perfil público, amigos, fotos con permiso para Instagram, alertas push                                                      |
 | **Catálogo**                 | continuo                              | ampliación poco a poco con datos del ICGC (más allá de las 150), sin copiar la tabla de la FEEC                                                           |
 
-## Decisiones abiertas para el usuario
+## Decisiones del usuario (2026-10-05)
 
-1. ¿Qué retos iniciales del punto 2 te gustan (o propones otros)?
-2. ¿Hacemos R1–R3 **antes del lanzamiento** (retrasa la fase 7 unas 3 sesiones) o lanzamos antes y los añadimos después?
-3. Percentiles y fotos: ¿de acuerdo en hacerlos solo con cuentas y consentimiento explícito?
+1. **Retos iniciales:** Totes les comarques, Les 4 estacions, 12 mesos 12 cims y Massissos (más el 100 Cims como destacado y el Repte infantil, que ya existe).
+2. **R1–R3 se hacen antes del lanzamiento** (la fase 7 se retrasa unas 3 sesiones).
+3. **Percentil y fotos para Instagram:** solo con cuenta y consentimiento explícito (opt-in, revocable, con moderación).
+
+**Orden previsto:** cerrar el 6b → 6c (resto de fichas) → R1 → R2 → R3 → (R4) → fase 5 cuando el usuario haga las acciones previas → fase 7.
