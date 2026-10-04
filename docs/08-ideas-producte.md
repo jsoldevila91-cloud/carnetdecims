@@ -74,16 +74,34 @@
 - **Permiso explícito por foto** para publicarla en el Instagram oficial de Carnet de Cims, con el **usuario de Instagram** para etiquetarlo y la posibilidad de retirar el permiso. Texto de cesión de derechos claro (licencia no exclusiva, revocable).
 - Moderación antes de publicar; límites de tamaño y número; política de privacidad y aviso legal actualizados.
 
-## 6. Utilidad real (por qué usar la app más allá de los sellos)
+## 6. Utilidad real: la propuesta de valor (aprobada por el usuario el 2026-10-05)
 
-Ordenado por valor y esfuerzo:
+Los sellos son la recompensa; la razón para usar la app son las **3 necesidades reales** de quien hace el reto:
 
-1. **Preparar la validación oficial**: exportar las ascensiones en el formato que pide el club o la FEEC (PDF o CSV listo para imprimir o enviar), con el aviso de > 100 al año y de restricciones. _Valor alto, esfuerzo bajo._
-2. **"El teu proper cim"**: recomendación de cimas pendientes según cercanía al municipio de origen, dificultad, época del año y meteo del fin de semana. _Valor alto._
-3. **Planificador**: ya hay ficha, rutas, meteo a la altitud de la cima, restricciones, mapa offline y Wikiloc; reunirlo en una vista "Planifica una sortida".
-4. **Diari de muntanya**: notas, compañeros y (más adelante) fotos de cada ascensión; recuerdos ordenados.
-5. **Alertas** (con cuentas o notificaciones push): restricción que empieza en una cima pendiente, buen tiempo el fin de semana en una cima pendiente cercana.
-6. **Retos y medallas** (punto 2) y **estadísticas** (punto 3).
+1. **"Què pujo aquest cap de setmana?" (decidir y planificar).** Es la necesidad más frecuente y el motivo para volver cada semana.
+   - **"El teu proper cim":** cada semana, 3 cimas **pendientes** recomendadas según la distancia desde tu municipio, la dificultad que sueles hacer, la época, las restricciones y la meteo del fin de semana a la altitud de la cima.
+   - **"Planifica la sortida":** ruta, desnivel, tiempo, meteo, restricciones, mapa sin conexión y Wikiloc en una sola pantalla.
+   - Ni la web de la FEEC ni Wikiloc lo ofrecen.
+2. **"Com ho valido?" (el papeleo del reto).**
+   - **Exportación para la validación** en el club/FEEC (PDF/CSV), con avisos de > 100 al año y de ascensiones en periodo de restricción.
+   - Recordatorio de las fechas de presentación (hasta el 31/12).
+3. **"Quant em falta i què he fet?" (motivación y memoria).**
+   - Estadísticas, retos y medallas.
+   - **Diari de muntanya** (compañeros, notas y, más adelante, fotos).
+   - Compartir el carnet.
+
+**Hábito:**
+
+- un motivo semanal para volver (la propuesta del fin de semana);
+- avisos útiles, nunca spam: restricción que empieza en una cima pendiente, reto a punto de completarse, buen tiempo en cimas pendientes cercanas (push, con cuentas);
+- el registro en la cima sin cobertura (ya funciona).
+
+**Prioridad acordada:**
+
+1. **Exportación para la validación** → R3.
+2. **"El teu proper cim"** → **sube a R2**, junto a los retos.
+3. **Diari de muntanya** (compañeros y notas) → R1.
+4. **Avisos** → fase 5 (cuentas).
 
 ## Encaje en el plan (propuesta)
 
