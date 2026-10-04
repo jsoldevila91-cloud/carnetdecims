@@ -43,7 +43,7 @@ const fitxa: ContingutFitxa = {
 				ca: 'Des del monestir pel camí de Sant Miquel',
 				es: 'Desde el monasterio por el camino de Sant Miquel'
 			},
-			sortida: { nom: 'Estació del cremallera de Montserrat (705 m)' },
+			sortida: { nom: 'Estació superior del cremallera, al monestir de Montserrat (705 m)' },
 			tempsMinuts: 155,
 			tecnicitat: 'cap',
 			descripcio: {

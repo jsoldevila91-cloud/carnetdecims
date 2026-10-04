@@ -502,6 +502,9 @@ test.describe('Text de les fitxes fora del JS del client', () => {
 		request
 	}, ti) => {
 		test.skip(ti.project.name !== 'desktop-chrome', 'només un cop');
+		// 40 peticions seqüencials + milers de cerques de sondes: ~4 s en solitari, però > 30 s amb
+		// els 3 projectes en paral·lel (QA 6a-bis). Marge ampli sense perdre cap comprovació.
+		test.setTimeout(120_000);
 		for (const p of PILOTS) {
 			for (const locale of LOCALES) {
 				const altre = locale === 'ca' ? 'es' : 'ca';

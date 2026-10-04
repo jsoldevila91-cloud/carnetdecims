@@ -63,10 +63,11 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Els Dipòsits (Matadepera)' },
 			desnivellPositiuM: 481,
+			distanciaKm: 2.6,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És la pujada més popular. El tram final del camí medieval que unia els monestirs de Sant Cugat i de Sant Llorenç del Munt surt de la zona dels Dipòsits, a Matadepera, i en uns 2,5–3 km s'enfila de manera sostinguda fins al monestir. El parc hi va renovar el 2023 el ferm per frenar l'erosió causada pel pas d'unes 200.000 persones l'any.",
-				es: 'Es la subida más popular. El tramo final del camino medieval que unía los monasterios de Sant Cugat y de Sant Llorenç del Munt sale de la zona de els Dipòsits, en Matadepera, y en unos 2,5–3 km sube de forma sostenida hasta el monasterio. El parque renovó en 2023 el firme para frenar la erosión causada por el paso de unas 200.000 personas al año.'
+				ca: "És la pujada més popular. El tram final del camí medieval que unia els monestirs de Sant Cugat i de Sant Llorenç del Munt surt de la zona dels Dipòsits, a Matadepera, i en uns 2,6 km i 481 m de desnivell s'enfila de manera sostinguda fins al monestir. El parc hi va renovar el 2023 el ferm per frenar l'erosió causada pel pas d'unes 200.000 persones l'any.",
+				es: 'Es la subida más popular. El tramo final del camino medieval que unía los monasterios de Sant Cugat y de Sant Llorenç del Munt sale de la zona de els Dipòsits, en Matadepera, y en unos 2,6 km y 481 m de desnivel sube de forma sostenida hasta el monasterio. El parque renovó en 2023 el firme para frenar la erosión causada por el paso de unas 200.000 personas al año.'
 			},
 			fonts: [VIQUIPEDIA_MONJOS, VIQUIPEDIA, DIBA_MONJOS]
 		},
@@ -77,6 +78,7 @@ const fitxa: ContingutFitxa = {
 				es: "Desde el coll d'Estenalles (SL-C 54)"
 			},
 			sortida: { nom: "Coll d'Estenalles" },
+			distanciaKm: 6,
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
 				ca: "Accés pel nord, més llarg però més tranquil i ombrívol. El sender local SL-C 54 passa pel cim del Montcau (amb una grimpada curta i fàcil al final) i el coll d'Eres i segueix la carena fins al monestir: anada i tornada són uns 12 km i 501 m de desnivell, unes 3–4 h segons Femturisme.",
@@ -106,7 +108,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quina és la manera més ràpida de pujar a la Mola?',
 				resposta:
-					'El camí dels Monjos des de Matadepera: són uns 2,5–3 km i uns 480 m de desnivell, segons la Viquipèdia. És curt però costerut i molt concorregut.'
+					'El camí dels Monjos des de Matadepera: són uns 2,6 km i uns 480 m de desnivell, segons la Viquipèdia. És curt però costerut i molt concorregut.'
 			},
 			{
 				pregunta: 'Es pot pujar a la Mola amb nens?',
@@ -128,7 +130,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Cuál es la forma más rápida de subir a la Mola?',
 				resposta:
-					'El camí dels Monjos desde Matadepera: son unos 2,5–3 km y unos 480 m de desnivel, según la Viquipèdia. Es corto pero empinado y muy concurrido.'
+					'El camí dels Monjos desde Matadepera: son unos 2,6 km y unos 480 m de desnivel, según la Viquipèdia. Es corto pero empinado y muy concurrido.'
 			},
 			{
 				pregunta: '¿Se puede subir a la Mola con niños?',

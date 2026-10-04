@@ -34,7 +34,7 @@ const fitxa: ContingutFitxa = {
 		{
 			id: 'gosol',
 			nom: { ca: "Des de Gósol per l'Enforcadura", es: 'Desde Gósol por la Enforcadura' },
-			sortida: { nom: 'Gósol (Hostal Cal Franciscó)' },
+			sortida: { nom: 'Gósol (Hostal Cal Franciscó, 1.415 m)' },
 			desnivellPositiuM: 1100,
 			distanciaKm: 4.2,
 			tempsMinuts: 210,
