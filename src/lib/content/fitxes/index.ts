@@ -15,7 +15,7 @@
  */
 import type { LlistatDificultatId, RutaAmbDificultat } from '../../domain/dificultat.ts';
 import { FILTRES_LLISTATS_DIFICULTAT } from '../../domain/dificultat.ts';
-import { rutaNormalAmbDificultat } from './dificultat.ts';
+import { rutaNormalAmbDificultat, rutesAmbDificultat } from './dificultat.ts';
 import type { ContingutFitxa } from './types.ts';
 
 // `export type`: `types.ts` només té tipus (i un import sense extensió que la config de Vite no ha de tocar).
@@ -27,7 +27,9 @@ export {
 	dificultatFitxa,
 	dificultatsRutes,
 	entradaDificultat,
-	rutaNormalAmbDificultat
+	rutaAmbNensFitxa,
+	rutaNormalAmbDificultat,
+	rutesAmbDificultat
 } from './dificultat.ts';
 
 /** Fitxers de la carpeta que no són contingut d'un cim. */
@@ -102,14 +104,27 @@ export function rutesNormalsAmbDificultat(): ReadonlyMap<string, RutaAmbDificult
 }
 
 /**
+ * Totes les rutes amb dificultat (la normal primer) de cada cim **amb contingut** (clau: slug).
+ * És el context complet dels llistats de dificultat (`cimsDelLlistat(id, { rutes })`):
+ * `cims-amb-nens` pot fer servir qualsevol ruta de la fitxa.
+ */
+export function rutesAmbDificultatPerCim(): ReadonlyMap<string, readonly RutaAmbDificultat[]> {
+	const mapa = new Map<string, RutaAmbDificultat[]>();
+	for (const c of carregar().values()) {
+		if (c.rutes.length > 0) mapa.set(c.slug, rutesAmbDificultat(c));
+	}
+	return mapa;
+}
+
+/**
  * Slugs dels cims amb contingut que entren a un llistat de dificultat (ordre de slug). El fa
  * servir el sitemap (que no pot importar `$lib/data/catalog`); `cimsDelLlistat` aplica el mateix
  * predicat (`FILTRES_LLISTATS_DIFICULTAT`) i un test comprova que coincideixen.
  */
 export function slugsLlistatDificultat(id: LlistatDificultatId): string[] {
 	const filtre = FILTRES_LLISTATS_DIFICULTAT[id];
-	return [...rutesNormalsAmbDificultat()]
-		.filter(([, r]) => filtre(r))
+	return [...rutesAmbDificultatPerCim()]
+		.filter(([, rutes]) => filtre(rutes))
 		.map(([slug]) => slug)
 		.sort();
 }

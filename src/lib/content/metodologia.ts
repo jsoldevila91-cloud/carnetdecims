@@ -137,7 +137,7 @@ function seccioDificultat(locale: AppLocale): Seccio {
 				},
 				{
 					tipus: 'paragraf',
-					text: `**Llistats.** Els [cims fàcils](/cims-facils) són els que tenen la ruta normal de nivell ${nom[facils.nivellMax]}. Els [cims per fer amb nens](/cims-amb-nens) tenen nivell ${nivellsNens}, com a pas més tècnic ${tecnicitatsNens} (sense grimpades) i com a màxim ${num(nens.desnivellMaxM)} m de desnivell i ${durada(nens.tempsMaxMinuts)} d'anada quan se'n coneixen. En tots dos cal que la ruta tingui l'esforç calculat i el pas més tècnic amb font. Els llistats creixen a mesura que completem fitxes.`
+					text: `**Llistats.** Els [cims fàcils](/cims-facils) són els que tenen la ruta normal de nivell ${nom[facils.nivellMax]}, amb l'esforç calculat i el pas més tècnic amb font. Els [cims per fer amb nens](/cims-amb-nens) han de tenir alguna ruta (la normal o una variant més fàcil) de nivell ${nivellsNens}, amb ${tecnicitatsNens} com a pas més tècnic (sense grimpades) i com a màxim ${num(nens.desnivellMaxM)} m de desnivell i ${durada(nens.tempsMaxMinuts)} d'anada. En aquest llistat el desnivell, el temps i el pas més tècnic han de tenir font: si en falta algun, el cim no hi entra encara que sembli fàcil. Els llistats creixen a mesura que completem fitxes.`
 				},
 				{
 					tipus: 'paragraf',
@@ -181,7 +181,7 @@ function seccioDificultat(locale: AppLocale): Seccio {
 				},
 				{
 					tipus: 'paragraf',
-					text: `**Listados.** Las [cimas fáciles](/cims-facils) son las que tienen la ruta normal de nivel ${nom[facils.nivellMax]}. Las [cimas para hacer con niños](/cims-amb-nens) tienen nivel ${nivellsNens}, como paso más técnico ${tecnicitatsNens} (sin trepadas) y como máximo ${num(nens.desnivellMaxM)} m de desnivel y ${durada(nens.tempsMaxMinuts)} de ida cuando se conocen. En ambos hace falta que la ruta tenga el esfuerzo calculado y el paso más técnico con fuente. Los listados crecen a medida que completamos fichas.`
+					text: `**Listados.** Las [cimas fáciles](/cims-facils) son las que tienen la ruta normal de nivel ${nom[facils.nivellMax]}, con el esfuerzo calculado y el paso más técnico con fuente. Las [cimas para hacer con niños](/cims-amb-nens) deben tener alguna ruta (la normal o una variante más fácil) de nivel ${nivellsNens}, con ${tecnicitatsNens} como paso más técnico (sin trepadas) y como máximo ${num(nens.desnivellMaxM)} m de desnivel y ${durada(nens.tempsMaxMinuts)} de ida. En este listado el desnivel, el tiempo y el paso más técnico deben tener fuente: si falta alguno, la cima no entra aunque parezca fácil. Los listados crecen a medida que completamos fichas.`
 				},
 				{
 					tipus: 'paragraf',

@@ -191,23 +191,26 @@ export function dificultatOrientativa(r: EntradaDificultat): DificultatOrientati
 	return resultat;
 }
 
-/** Dificultat de la ruta d'un cim (normalment la ruta normal) amb les dades d'on surt. */
+/** Dificultat d'una ruta d'un cim amb les dades d'on surt. */
 export interface RutaAmbDificultat {
+	/** `id` de la ruta a la fitxa (`RutaAcces.id`), si se sap. */
+	id?: string;
 	ruta: EntradaDificultat;
 	dificultat: DificultatOrientativa | null;
 }
 
-/** Llistats basats en la dificultat orientativa de la ruta normal (només cims amb contingut). */
+/** Llistats basats en la dificultat orientativa (només cims amb contingut). */
 export type LlistatDificultatId = 'cims-facils' | 'cims-amb-nens';
 
 /**
- * Criteris dels llistats de dificultat (la Metodologia els ha de mostrar d'aquí). Comuns:
- * la ruta normal ha de tenir l'**esforç calculat** (desnivell + distància, temps o desnivell) i la
- * **tecnicitat amb font**: sense una de les dues no se sap prou per recomanar-la.
- * - `cims-facils`: nivell 1 (Fàcil).
- * - `cims-amb-nens`: nivell ≤ 2, tecnicitat `cap` o `terreny-irregular` (sense grimpades), i
- *   desnivell ≤ 600 m i temps d'anada ≤ 2 h 30 min **quan se'n coneguin** (si no se'n coneix cap
- *   dels dos, l'esforç ve només del temps o del desnivell i el nivell ≤ 2 ja el limita).
+ * Criteris dels llistats de dificultat (la Metodologia els mostra d'aquí).
+ * - `cims-facils`: la **ruta normal** és de nivell 1 (Fàcil), amb l'esforç calculat i la
+ *   tecnicitat amb font.
+ * - `cims-amb-nens` (llista per a famílies: cap dada es dona per bona si falta): **alguna ruta**
+ *   de la fitxa (la més fàcil que compleixi; la normal primer en cas d'empat) amb nivell ≤ 2,
+ *   tecnicitat **amb font** `cap` o `terreny-irregular` (sense grimpades), desnivell positiu
+ *   d'anada **amb font** ≤ 600 m i temps d'anada **amb font** ≤ 2 h 30 min. Si a la ruta li falta
+ *   el desnivell, el temps o la tecnicitat, no compta.
  */
 export const CRITERIS_LLISTATS_DIFICULTAT = Object.freeze({
 	'cims-facils': Object.freeze({ nivellMax: 1 as NivellDificultat }),
@@ -215,7 +218,15 @@ export const CRITERIS_LLISTATS_DIFICULTAT = Object.freeze({
 		nivellMax: 2 as NivellDificultat,
 		tecnicitats: Object.freeze(['cap', 'terreny-irregular'] as const satisfies Tecnicitat[]),
 		desnivellMaxM: 600,
-		tempsMaxMinuts: 150
+		tempsMaxMinuts: 150,
+		/** Dades de la ruta que han de tenir font (si en falta alguna, la ruta no compta). */
+		dadesObligatories: Object.freeze([
+			'desnivell',
+			'temps',
+			'tecnicitat'
+		] as const satisfies DadaDificultat[]),
+		/** Es pot fer servir qualsevol ruta de la fitxa (la més fàcil que compleixi). */
+		qualsevolRuta: true
 	})
 });
 
@@ -227,26 +238,62 @@ function prouDades(r: RutaAmbDificultat | undefined): r is RutaAmbDificultat & {
 	return !!d && d.factors.esforc !== undefined && d.factors.tecnica !== undefined;
 }
 
-/** La ruta entra al llistat `cims-facils`. */
+/** La ruta (normal) entra al llistat `cims-facils`. */
 export function esRutaFacil(r: RutaAmbDificultat | undefined): boolean {
 	return (
 		prouDades(r) && r.dificultat.nivell <= CRITERIS_LLISTATS_DIFICULTAT['cims-facils'].nivellMax
 	);
 }
 
-/** La ruta entra al llistat `cims-amb-nens`. */
+/**
+ * La ruta és apta per al llistat `cims-amb-nens`: desnivell, temps i tecnicitat amb font i dins
+ * dels límits, i nivell ≤ 2.
+ */
 export function esRutaAmbNens(r: RutaAmbDificultat | undefined): boolean {
 	if (!prouDades(r)) return false;
 	const c = CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'];
 	const { desnivellPositiuM: desnivell, tempsMinuts: temps, tecnicitat } = r.ruta;
 	if (r.dificultat.nivell > c.nivellMax) return false;
 	if (!(c.tecnicitats as readonly string[]).includes(tecnicitat ?? '')) return false;
-	if (esNoNegatiu(desnivell) && desnivell > c.desnivellMaxM) return false;
-	if (esPositiu(temps) && temps > c.tempsMaxMinuts) return false;
+	if (!esNoNegatiu(desnivell) || desnivell > c.desnivellMaxM) return false;
+	if (!esPositiu(temps) || temps > c.tempsMaxMinuts) return false;
 	return true;
 }
 
-/** Predicat de cada llistat de dificultat (el comparteixen `LLISTATS` i el sitemap). */
+/**
+ * Ruta per anar-hi amb nens: la més fàcil de les que compleixen `esRutaAmbNens` (menys nivell,
+ * després menys km-esforç, després menys temps; en cas d'empat, la que surt abans a la fitxa,
+ * és a dir, la normal). `undefined` si cap no compleix.
+ */
+export function rutaAmbNens(
+	rutes: readonly (RutaAmbDificultat | undefined)[]
+): RutaAmbDificultat | undefined {
+	let millor: RutaAmbDificultat | undefined;
+	for (const r of rutes) {
+		if (!esRutaAmbNens(r)) continue;
+		if (!millor || mesFacil(r!, millor)) millor = r;
+	}
+	return millor;
+}
+
+/** `a` és estrictament més fàcil que `b` (les dues aptes, amb dificultat i temps). */
+function mesFacil(a: RutaAmbDificultat, b: RutaAmbDificultat): boolean {
+	const da = a.dificultat!;
+	const db = b.dificultat!;
+	if (da.nivell !== db.nivell) return da.nivell < db.nivell;
+	const ka = da.kmEsforc ?? Number.POSITIVE_INFINITY;
+	const kb = db.kmEsforc ?? Number.POSITIVE_INFINITY;
+	if (ka !== kb) return ka < kb;
+	return a.ruta.tempsMinuts! < b.ruta.tempsMinuts!;
+}
+
+/**
+ * Predicat de cada llistat de dificultat sobre **totes les rutes** d'una fitxa (la normal
+ * primer). El comparteixen `LLISTATS` i el sitemap.
+ */
 export const FILTRES_LLISTATS_DIFICULTAT: Readonly<
-	Record<LlistatDificultatId, (r: RutaAmbDificultat | undefined) => boolean>
-> = Object.freeze({ 'cims-facils': esRutaFacil, 'cims-amb-nens': esRutaAmbNens });
+	Record<LlistatDificultatId, (rutes: readonly RutaAmbDificultat[]) => boolean>
+> = Object.freeze({
+	'cims-facils': (rutes) => esRutaFacil(rutes[0]),
+	'cims-amb-nens': (rutes) => rutaAmbNens(rutes) !== undefined
+});

@@ -7,6 +7,7 @@
 import cimsJson from '../../data/catalog/cims.json' with { type: 'json' };
 import {
 	dificultatOrientativa,
+	rutaAmbNens,
 	type DificultatOrientativa,
 	type EntradaDificultat,
 	type RutaAmbDificultat
@@ -42,7 +43,26 @@ export function rutaNormalAmbDificultat(c: ContingutFitxa): RutaAmbDificultat | 
 	const [normal] = c.rutes;
 	if (!normal) return undefined;
 	const ruta = entradaDificultat(normal, altitudCim(c.slug) ?? Number.NaN);
-	return { ruta, dificultat: dificultatOrientativa(ruta) };
+	return { id: normal.id, ruta, dificultat: dificultatOrientativa(ruta) };
+}
+
+/** Totes les rutes d'una fitxa amb la seva dificultat, en l'ordre de `rutes` (la normal primer). */
+export function rutesAmbDificultat(c: ContingutFitxa): RutaAmbDificultat[] {
+	const altitud = altitudCim(c.slug) ?? Number.NaN;
+	return c.rutes.map((r) => {
+		const ruta = entradaDificultat(r, altitud);
+		return { id: r.id, ruta, dificultat: dificultatOrientativa(ruta) };
+	});
+}
+
+/**
+ * Ruta de la fitxa per anar-hi amb nens (`rutaAmbNens` del domini: la més fàcil que compleix
+ * els criteris de `cims-amb-nens`), o `undefined` si cap no els compleix. Retorna la `RutaAcces`
+ * sencera perquè la interfície pugui dir "des de …" (`nom`, `sortida`).
+ */
+export function rutaAmbNensFitxa(c: ContingutFitxa): RutaAcces | undefined {
+	const id = rutaAmbNens(rutesAmbDificultat(c))?.id;
+	return id === undefined ? undefined : c.rutes.find((r) => r.id === id);
 }
 
 /**

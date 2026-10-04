@@ -9,12 +9,14 @@ import {
 	esRutaFacil,
 	nivellAltitud,
 	nivellEsforc,
+	rutaAmbNens,
 	type EntradaDificultat,
 	type RutaAmbDificultat,
 	type Tecnicitat
 } from './dificultat';
 
-const ambDificultat = (ruta: EntradaDificultat): RutaAmbDificultat => ({
+const ambDificultat = (ruta: EntradaDificultat, id?: string): RutaAmbDificultat => ({
+	...(id !== undefined && { id }),
 	ruta,
 	dificultat: dificultatOrientativa(ruta)
 });
@@ -336,14 +338,15 @@ describe('criteris dels llistats de dificultat', () => {
 
 	it('constants documentades', () => {
 		expect(CRITERIS_LLISTATS_DIFICULTAT['cims-facils'].nivellMax).toBe(1);
-		expect(CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens']).toMatchObject({
+		expect(CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens']).toEqual({
 			nivellMax: 2,
 			tecnicitats: ['cap', 'terreny-irregular'],
 			desnivellMaxM: 600,
-			tempsMaxMinuts: 150
+			tempsMaxMinuts: 150,
+			dadesObligatories: ['desnivell', 'temps', 'tecnicitat'],
+			qualsevolRuta: true
 		});
-		expect(FILTRES_LLISTATS_DIFICULTAT['cims-facils']).toBe(esRutaFacil);
-		expect(FILTRES_LLISTATS_DIFICULTAT['cims-amb-nens']).toBe(esRutaAmbNens);
+		expect(Object.isFrozen(CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'])).toBe(true);
 	});
 
 	it('cal esforç i tecnicitat (sense una de les dues, cap llistat)', () => {
@@ -358,10 +361,15 @@ describe('criteris dels llistats de dificultat', () => {
 		expect(esRutaFacil(senseEsforc)).toBe(false);
 		expect(esRutaAmbNens(senseEsforc)).toBe(false);
 		expect(esRutaFacil({ ruta: facil, dificultat: null })).toBe(false);
+		expect(esRutaAmbNens({ ruta: facil, dificultat: null })).toBe(false);
 	});
 
-	it('cims-facils: només nivell 1', () => {
+	it('cims-facils: només nivell 1 (sense exigir temps ni desnivell)', () => {
 		expect(esRutaFacil(ambDificultat(facil))).toBe(true);
+		expect(esRutaFacil(ambDificultat({ ...facil, tempsMinuts: undefined }))).toBe(true);
+		expect(
+			esRutaFacil(ambDificultat({ desnivellPositiuM: 481, altitudCim: 1103, tecnicitat: 'cap' }))
+		).toBe(true);
 		expect(esRutaFacil(ambDificultat({ ...facil, tecnicitat: 'terreny-irregular' }))).toBe(false);
 		expect(esRutaFacil(ambDificultat({ ...facil, altitudCim: 2600 }))).toBe(false);
 	});
@@ -375,14 +383,68 @@ describe('criteris dels llistats de dificultat', () => {
 		expect(esRutaAmbNens(ambDificultat({ ...facil, altitudCim: 3000 }))).toBe(false);
 	});
 
-	it('cims-amb-nens: desnivell ≤ 600 m i temps ≤ 2 h 30 (límits inclosos), si se saben', () => {
+	it('cims-amb-nens: desnivell ≤ 600 m i temps ≤ 2 h 30 (límits inclosos)', () => {
 		expect(esRutaAmbNens(ambDificultat({ ...facil, desnivellPositiuM: 600 }))).toBe(true);
 		expect(esRutaAmbNens(ambDificultat({ ...facil, desnivellPositiuM: 601 }))).toBe(false);
-		const perTemps = { altitudCim: 1200, tecnicitat: 'cap' as const };
-		expect(esRutaAmbNens(ambDificultat({ ...perTemps, tempsMinuts: 150 }))).toBe(true);
-		expect(esRutaAmbNens(ambDificultat({ ...perTemps, tempsMinuts: 151 }))).toBe(false);
-		// Sense temps: el desnivell (i el nivell ≤ 2) decideix
-		expect(esRutaAmbNens(ambDificultat({ ...perTemps, desnivellPositiuM: 481 }))).toBe(true);
-		expect(esRutaAmbNens(ambDificultat({ ...perTemps, desnivellPositiuM: 893 }))).toBe(false);
+		expect(esRutaAmbNens(ambDificultat({ ...facil, tempsMinuts: 150 }))).toBe(true);
+		expect(esRutaAmbNens(ambDificultat({ ...facil, tempsMinuts: 151 }))).toBe(false);
+		// Ruta planera: desnivell 0 amb font és vàlid
+		expect(esRutaAmbNens(ambDificultat({ ...facil, desnivellPositiuM: 0 }))).toBe(true);
+	});
+
+	it('cims-amb-nens: sense desnivell, temps o tecnicitat amb font → fora (encara que sigui fàcil)', () => {
+		// Cas Casamanya: tècnica i temps dins dels límits, però sense desnivell amb font
+		const senseDesnivell = ambDificultat({ ...facil, desnivellPositiuM: undefined });
+		expect(senseDesnivell.dificultat!.nivell).toBe(1);
+		expect(esRutaAmbNens(senseDesnivell)).toBe(false);
+		const senseTemps = ambDificultat({ ...facil, tempsMinuts: undefined });
+		expect(esRutaFacil(senseTemps)).toBe(true);
+		expect(esRutaAmbNens(senseTemps)).toBe(false);
+		expect(esRutaAmbNens(ambDificultat({ ...facil, tecnicitat: undefined }))).toBe(false);
+		// Valors no vàlids compten com a absents
+		for (const dolent of [-1, Number.NaN])
+			expect(esRutaAmbNens(ambDificultat({ ...facil, desnivellPositiuM: dolent }))).toBe(false);
+		expect(esRutaAmbNens(ambDificultat({ ...facil, tempsMinuts: 0 }))).toBe(false);
+	});
+
+	it('rutaAmbNens: la més fàcil de les rutes que compleixen (no cal que sigui la normal)', () => {
+		const normal = ambDificultat(
+			{ ...facil, desnivellPositiuM: 760, tempsMinuts: 140, tecnicitat: 'cap' },
+			'normal'
+		);
+		const familiar = ambDificultat({ ...facil, tecnicitat: 'terreny-irregular' }, 'familiar');
+		const mesCurta = ambDificultat(
+			{ ...facil, desnivellPositiuM: 200, distanciaKm: 1.5, tempsMinuts: 45 },
+			'curta'
+		);
+		expect(rutaAmbNens([])).toBeUndefined();
+		expect(rutaAmbNens([normal, undefined])).toBeUndefined();
+		expect(rutaAmbNens([normal, familiar])?.id).toBe('familiar');
+		// Nivell 1 guanya a nivell 2; a igual nivell, menys km-esforç
+		const nivell1 = ambDificultat({ ...facil }, 'n1');
+		expect(rutaAmbNens([familiar, nivell1])?.id).toBe('n1');
+		expect(rutaAmbNens([nivell1, mesCurta])?.id).toBe('curta');
+		// Empat total: la que surt abans (la normal)
+		const a = ambDificultat({ ...facil }, 'a');
+		const b = ambDificultat({ ...facil }, 'b');
+		expect(rutaAmbNens([a, b])?.id).toBe('a');
+		expect(rutaAmbNens([b, a])?.id).toBe('b');
+	});
+
+	it('a igual nivell i km-esforç, desempata el temps', () => {
+		const lenta = ambDificultat({ ...facil, tempsMinuts: 100 }, 'lenta');
+		const rapida = ambDificultat({ ...facil, tempsMinuts: 60 }, 'rapida');
+		expect(rutaAmbNens([lenta, rapida])?.id).toBe('rapida');
+	});
+
+	it('FILTRES_LLISTATS_DIFICULTAT: fàcils mira la normal; amb nens, qualsevol ruta', () => {
+		const exigent = ambDificultat({ ...facil, tecnicitat: 'grimpada' });
+		const bona = ambDificultat(facil);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-facils']([bona, exigent])).toBe(true);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-facils']([exigent, bona])).toBe(false);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-amb-nens']([exigent, bona])).toBe(true);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-amb-nens']([exigent])).toBe(false);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-facils']([])).toBe(false);
+		expect(FILTRES_LLISTATS_DIFICULTAT['cims-amb-nens']([])).toBe(false);
 	});
 });

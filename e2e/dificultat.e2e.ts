@@ -24,8 +24,8 @@ import {
 	CRITERIS_LLISTATS_DIFICULTAT,
 	ESCALA_DIFICULTAT,
 	dificultatOrientativa,
-	esRutaAmbNens,
 	esRutaFacil,
+	rutaAmbNens,
 	type DadaDificultat,
 	type DificultatOrientativa,
 	type NivellDificultat,
@@ -140,19 +140,26 @@ const ESPERAT_LLISTES = new Map(
 const prouDades = (d: DificultatOrientativa | null): d is DificultatOrientativa =>
 	!!d && d.factors.esforc !== undefined && d.factors.tecnica !== undefined;
 
-/** Reimplementació dels criteris a partir de `CRITERIS_LLISTATS_DIFICULTAT`. */
+/**
+ * Ruta apta per anar-hi amb nens (reimplementació a partir de `CRITERIS_LLISTATS_DIFICULTAT`):
+ * desnivell, temps i tecnicitat **amb font** i dins dels límits, i nivell ≤ nivellMax.
+ */
+function rutaAptaNens(slug: string, r: RutaAcces): boolean {
+	const c = CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'];
+	const d = dificultatRuta(slug, r);
+	if (!prouDades(d) || d.nivell > c.nivellMax) return false;
+	if (!(c.tecnicitats as readonly Tecnicitat[]).includes(r.tecnicitat as Tecnicitat)) return false;
+	if (r.desnivellPositiuM === undefined || r.desnivellPositiuM > c.desnivellMaxM) return false;
+	if (r.tempsMinuts === undefined || r.tempsMinuts > c.tempsMaxMinuts) return false;
+	return true;
+}
+
+/** Reimplementació dels criteris: fàcils mira la ruta normal; amb nens, qualsevol ruta. */
 function entraAlLlistat(id: 'cims-facils' | 'cims-amb-nens', p: ContingutFitxa): boolean {
-	const r = p.rutes[0];
+	if (id === 'cims-amb-nens') return p.rutes.some((r) => rutaAptaNens(p.slug, r));
 	const d = NORMAL.get(p.slug) ?? null;
 	if (!prouDades(d)) return false;
-	if (id === 'cims-facils')
-		return d.nivell <= CRITERIS_LLISTATS_DIFICULTAT['cims-facils'].nivellMax;
-	const c = CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'];
-	if (d.nivell > c.nivellMax) return false;
-	if (!(c.tecnicitats as readonly Tecnicitat[]).includes(r.tecnicitat as Tecnicitat)) return false;
-	if (r.desnivellPositiuM !== undefined && r.desnivellPositiuM > c.desnivellMaxM) return false;
-	if (r.tempsMinuts !== undefined && r.tempsMinuts > c.tempsMaxMinuts) return false;
-	return true;
+	return d.nivell <= CRITERIS_LLISTATS_DIFICULTAT['cims-facils'].nivellMax;
 }
 const ESPERAT_LLISTAT = {
 	'cims-facils': PILOTS.filter((p) => entraAlLlistat('cims-facils', p)).map((p) => p.slug),
@@ -320,7 +327,20 @@ test.describe('Dificultat · dades dels pilots', () => {
 				dificultat: d ?? null
 			};
 			expect(esRutaFacil(entrada), `${p.slug}: fàcil`).toBe(entraAlLlistat('cims-facils', p));
-			expect(esRutaAmbNens(entrada), `${p.slug}: nens`).toBe(entraAlLlistat('cims-amb-nens', p));
+			const totes = p.rutes.map((x) => ({
+				id: x.id,
+				ruta: {
+					desnivellPositiuM: x.desnivellPositiuM,
+					distanciaKm: x.distanciaKm,
+					tempsMinuts: x.tempsMinuts,
+					tecnicitat: x.tecnicitat,
+					altitudCim: cim(p.slug).altitud
+				},
+				dificultat: dificultatRuta(p.slug, x)
+			}));
+			expect(rutaAmbNens(totes) !== undefined, `${p.slug}: nens`).toBe(
+				entraAlLlistat('cims-amb-nens', p)
+			);
 			taula.push(
 				`${p.slug} (${cim(p.slug).altitud} m): nivell ${d!.nivell} ${d!.clau}` +
 					` · km-esf ${d!.kmEsforc ?? '—'} (${d!.baseEsforc ?? '—'})` +
@@ -530,9 +550,11 @@ test.describe('Llistats de dificultat', () => {
 				expect(files.map((f) => f.slug).sort()).toEqual([...esperats].sort());
 				await expectBadgesLlista(page, locale);
 				for (const slug of esperats) {
-					const d = NORMAL.get(slug)!;
-					if (id === 'cims-facils') expect(d.nivell).toBe(1);
-					else expect(d.nivell).toBeLessThanOrEqual(2);
+					if (id === 'cims-facils') expect(NORMAL.get(slug)!.nivell).toBe(1);
+					else {
+						const p = PILOTS.find((x) => x.slug === slug)!;
+						expect(p.rutes.some((r) => rutaAptaNens(slug, r))).toBe(true);
+					}
 				}
 				// Tots els enllaços porten a una fitxa que existeix
 				for (const slug of esperats)

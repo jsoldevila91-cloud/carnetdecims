@@ -113,17 +113,21 @@ export function agruparPerComarca(
 /**
  * Llistats curats. Els de catàleg (`essencials`, `tresmils`, `mes-alts`) només depenen de
  * `cims.json`; els de dificultat (`cims-facils`, `cims-amb-nens`) depenen de la dificultat
- * orientativa de la ruta normal (`domain/dificultat.ts`), que surt del contingut editorial: només
+ * orientativa de les rutes (`domain/dificultat.ts`), que surt del contingut editorial: només
  * hi entren cims **amb contingut**, i es calculen al servidor passant `ContextLlistat`.
  */
 export type LlistatId = 'essencials' | 'tresmils' | 'mes-alts' | LlistatDificultatId;
 
 /**
- * Dades del contingut editorial que necessiten els llistats de dificultat. Les dona
- * `rutesNormalsAmbDificultat()` de `$lib/content/fitxes` (**només servidor/prerender**: el
- * contingut de les fitxes no pot anar al JS del client).
+ * Dades del contingut editorial que necessiten els llistats de dificultat. Les donen
+ * `rutesAmbDificultatPerCim()` i `rutesNormalsAmbDificultat()` de `$lib/content/fitxes`
+ * (**només servidor/prerender**: el contingut de les fitxes no pot anar al JS del client).
+ * - `cims-facils` només mira la ruta normal: n'hi ha prou amb `rutesNormals` (o `rutes`).
+ * - `cims-amb-nens` pot fer servir qualsevol ruta: cal `rutes`.
  */
 export interface ContextLlistat {
+	/** Totes les rutes amb dificultat (la normal primer) de cada cim amb contingut (clau: slug). */
+	rutes?: ReadonlyMap<string, readonly RutaAmbDificultat[]>;
 	/** Ruta normal amb dificultat de cada cim amb contingut (clau: slug). */
 	rutesNormals?: ReadonlyMap<string, RutaAmbDificultat>;
 }
@@ -138,8 +142,11 @@ export interface LlistatDef {
 	filtre: (cim: CimCataleg, ctx: ContextLlistat) => boolean;
 	/** Nombre màxim de cims (rànquing), si n'hi ha. */
 	limit?: number;
-	/** Depèn del contingut editorial: cal `ctx.rutesNormals` (si no, `cimsDelLlistat` llança). */
-	requereixContingut?: true;
+	/**
+	 * Depèn del contingut editorial: `ruta-normal` necessita `ctx.rutes` o `ctx.rutesNormals`;
+	 * `totes-les-rutes`, `ctx.rutes` (si no, `cimsDelLlistat` llança).
+	 */
+	requereixContingut?: 'ruta-normal' | 'totes-les-rutes';
 }
 
 /** Altitud mínima (m) per ser un "tresmil". */
@@ -147,13 +154,24 @@ export const ALTITUD_TRESMIL = 3000;
 /** Mida del rànquing de `/cims-mes-alts`. */
 export const MIDA_RANQUING_MES_ALTS = 25;
 
-const llistatDificultat = (id: LlistatDificultatId): LlistatDef => ({
+/** Rutes d'un cim segons el context (la normal primer); `[]` si no té contingut. */
+function rutesDelCim(slug: string, ctx: ContextLlistat): readonly RutaAmbDificultat[] {
+	const rutes = ctx.rutes?.get(slug);
+	if (rutes) return rutes;
+	const normal = ctx.rutesNormals?.get(slug);
+	return normal ? [normal] : [];
+}
+
+const llistatDificultat = (
+	id: LlistatDificultatId,
+	requereixContingut: NonNullable<LlistatDef['requereixContingut']>
+): LlistatDef => ({
 	id,
 	path: `/${id}`,
 	// Agrupats per comarca (com `/cims-essencials`), i dins de cada una per altitud.
 	ordre: 'comarca',
-	filtre: (c, ctx) => FILTRES_LLISTATS_DIFICULTAT[id](ctx.rutesNormals?.get(c.slug)),
-	requereixContingut: true
+	filtre: (c, ctx) => FILTRES_LLISTATS_DIFICULTAT[id](rutesDelCim(c.slug, ctx)),
+	requereixContingut
 });
 
 export const LLISTATS: Readonly<Record<LlistatId, LlistatDef>> = Object.freeze({
@@ -177,8 +195,8 @@ export const LLISTATS: Readonly<Record<LlistatId, LlistatDef>> = Object.freeze({
 		filtre: () => true,
 		limit: MIDA_RANQUING_MES_ALTS
 	},
-	'cims-facils': llistatDificultat('cims-facils'),
-	'cims-amb-nens': llistatDificultat('cims-amb-nens')
+	'cims-facils': llistatDificultat('cims-facils', 'ruta-normal'),
+	'cims-amb-nens': llistatDificultat('cims-amb-nens', 'totes-les-rutes')
 });
 
 export const LLISTAT_IDS: readonly LlistatId[] = Object.freeze(
@@ -188,15 +206,17 @@ export const LLISTAT_IDS: readonly LlistatId[] = Object.freeze(
 /**
  * Cims d'un llistat curat. Ordre `altitud`: de més alt a més baix (empat: ordre del catàleg).
  * Ordre `comarca`: per comarca (ordre de `comarquesAmbCims()`) i, dins de cada una, per altitud.
- * Els llistats de dificultat necessiten `ctx.rutesNormals` (servidor/prerender).
+ * Els llistats de dificultat necessiten el context de contingut (servidor/prerender).
  * @throws RangeError si l'id no existeix.
- * @throws TypeError si el llistat depèn del contingut i no es passa `ctx.rutesNormals`.
+ * @throws TypeError si el llistat depèn del contingut i el context no porta les rutes que cal.
  */
 export function cimsDelLlistat(id: LlistatId, ctx: ContextLlistat = {}): CimCataleg[] {
 	const def = Object.hasOwn(LLISTATS, id) ? LLISTATS[id] : undefined;
 	if (!def) throw new RangeError(`Llistat desconegut: ${id}`);
-	if (def.requereixContingut && !ctx.rutesNormals)
-		throw new TypeError(`El llistat ${id} necessita ctx.rutesNormals (contingut de les fitxes)`);
+	if (def.requereixContingut === 'totes-les-rutes' && !ctx.rutes)
+		throw new TypeError(`El llistat ${id} necessita ctx.rutes (totes les rutes de les fitxes)`);
+	if (def.requereixContingut === 'ruta-normal' && !ctx.rutes && !ctx.rutesNormals)
+		throw new TypeError(`El llistat ${id} necessita ctx.rutes o ctx.rutesNormals`);
 	const cims = CIMS.filter((c) => def.filtre(c, ctx)).sort(perAltitudDesc);
 	const ordenats = def.ordre === 'comarca' ? agruparPerComarca(cims).flatMap((g) => g.cims) : cims;
 	return def.limit === undefined ? ordenats : ordenats.slice(0, def.limit);

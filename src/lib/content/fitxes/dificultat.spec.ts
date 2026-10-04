@@ -5,7 +5,10 @@ import {
 	contingutFitxa,
 	dificultatFitxa,
 	dificultatsRutes,
+	rutaAmbNensFitxa,
 	rutaNormalAmbDificultat,
+	rutesAmbDificultat,
+	rutesAmbDificultatPerCim,
 	rutesNormalsAmbDificultat,
 	slugsLlistatDificultat,
 	totsElsContingutsFitxa,
@@ -99,10 +102,55 @@ describe('fitxes pilot: dificultat raonable de la ruta normal', () => {
 			expect(slugs).toEqual([...slugs].sort());
 			for (const s of slugs) {
 				expect(cimPerSlug(s)).toBeDefined();
-				const r = mapa.get(s)!;
+				// fàcils: la ruta normal; amb nens: la ruta triada (pot ser una variant)
+				const c = contingutFitxa(s)!;
+				const r =
+					id === 'cims-facils'
+						? mapa.get(s)!
+						: rutesAmbDificultat(c).find((x) => x.id === rutaAmbNensFitxa(c)?.id)!;
 				expect(r.dificultat!.nivell).toBeLessThanOrEqual(id === 'cims-facils' ? 1 : 2);
 				expect(['cap', 'terreny-irregular']).toContain(r.ruta.tecnicitat);
+				if (id === 'cims-amb-nens') {
+					expect(r.ruta.desnivellPositiuM).toBeLessThanOrEqual(600);
+					expect(r.ruta.tempsMinuts).toBeLessThanOrEqual(150);
+				}
 			}
+		}
+	});
+
+	it('rutaAmbNensFitxa: la variant més fàcil que compleix, amb el seu id i nom', () => {
+		const normal = ruta({
+			id: 'normal',
+			desnivellPositiuM: 760,
+			tempsMinuts: 140,
+			tecnicitat: 'cap'
+		});
+		const sensePas = ruta({ id: 'sense-desnivell', tempsMinuts: 60, tecnicitat: 'cap' });
+		const familiar = ruta({
+			id: 'familiar',
+			nom: { ca: 'Per Cal Fenollet', es: 'Por Cal Fenollet' },
+			desnivellPositiuM: 350,
+			tempsMinuts: 75,
+			tecnicitat: 'cap'
+		});
+		const f = fitxa('montcau', [normal, sensePas, familiar]);
+		expect(rutaAmbNensFitxa(f)?.id).toBe('familiar');
+		expect(rutaAmbNensFitxa(f)?.nom.ca).toBe('Per Cal Fenollet');
+		expect(rutesAmbDificultat(f).map((r) => r.id)).toEqual([
+			'normal',
+			'sense-desnivell',
+			'familiar'
+		]);
+		expect(rutaAmbNensFitxa(fitxa('montcau', [normal, sensePas]))).toBeUndefined();
+		expect(rutaAmbNensFitxa(fitxa('montcau', []))).toBeUndefined();
+	});
+
+	it('rutesAmbDificultatPerCim: totes les rutes, la normal primer', () => {
+		const mapa = rutesAmbDificultatPerCim();
+		for (const c of totsElsContingutsFitxa()) {
+			if (c.rutes.length === 0) continue;
+			expect(mapa.get(c.slug)!.map((r) => r.id)).toEqual(c.rutes.map((r) => r.id));
+			expect(mapa.get(c.slug)![0].dificultat).toEqual(dificultatFitxa(c));
 		}
 	});
 });
