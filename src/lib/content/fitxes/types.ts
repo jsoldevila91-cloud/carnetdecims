@@ -30,6 +30,16 @@ export interface RutaAcces {
 	tempsMinuts?: number;
 	/** Valoració MIDE oficial o publicada per una font fiable (mai estimada sense font). */
 	mide?: Mide;
+	/**
+	 * Pas més tècnic de la ruta, segons les fonts (alimenta la "dificultat orientativa", que
+	 * calcula `domain/dificultat.ts`; no és MIDE). Si no hi ha font, s'omet.
+	 * - `cap`: camí o pista sense dificultat tècnica.
+	 * - `terreny-irregular`: tarteres, pedra solta o trams sense camí marcat.
+	 * - `grimpada-facil`: passos puntuals on cal posar les mans (I).
+	 * - `grimpada`: grimpada continuada o aèria (II o més) / cadenes.
+	 * - `via-equipada`: via ferrada o trams equipats obligatoris.
+	 */
+	tecnicitat?: 'cap' | 'terreny-irregular' | 'grimpada-facil' | 'grimpada' | 'via-equipada';
 	/** Descripció breu del recorregut per idioma (2–4 frases). */
 	descripcio: Record<AppLocale, string>;
 	/** Fonts d'aquesta ruta (obligatori si hi ha cap dada numèrica o MIDE). */
