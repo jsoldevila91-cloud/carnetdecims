@@ -147,7 +147,14 @@
   - **SEO:** FAQPage solo en fichas indexables; description con la ruta normal; privacitat con el widget de Wikiloc.
   - **H1:** saltos de línea calculados (CLS 0 a 320/375/768 px).
   - **Pendiente bajo:** a 768 px La Mola tiene CLS 0,126 con fuentes lentas (reflujo lateral); salto puntual no reproducible en Bastiments.
-- **Bloque 6a-bis (en curso):** dificultad orientativa + listados "Cims fàcils" y "Cims amb nens".
+- **Bloque 6a-bis (terminado, 2026-10-04): dificultad orientativa.**
+  - **Fórmula** en `domain/dificultat.ts`: km-esfuerzo = km + D+/100 (o el tiempo); técnica según `tecnicitat`; altitud; el nivel es el factor más alto; "aproximada" si faltan datos.
+  - **Datos:** `tecnicitat` con fuente en las pilotos; La Mola con distancia (pasa a Moderada).
+  - **UI:** `DificultatBadge` en la ficha, en las rutas y en las listas; metodología `#dificultat-orientativa`; listados `/cims-facils` (hoy 0) y `/cims-amb-nens` (hoy 2), `noindex` hasta tener 3 cims.
+  - **QA:** `e2e/dificultat.e2e.ts`; 1305 E2E pasados.
+  - **Decisiones abiertas (usuario):**
+    - límite de tiempo de "amb nens", 2 h 30 o 3 h (Sant Jeroni se queda fuera por 5 min);
+    - estrechar el tramo "Moderada" (el Puigmal, con 14 km-esfuerzo, queda en el límite de Exigent).
 - Después: 6b (+ fichas), 6c (resto + revisión). La **fase 5** se hará cuando el usuario haga las acciones previas.
 
 ## Pendiente o decisiones abiertas
