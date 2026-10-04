@@ -10,7 +10,7 @@
  * - Text en línia: mateixa sintaxi que el contingut editorial (`[text](/intern)`, `[text](https://…)`,
  *   `**negreta**`), vegeu `src/lib/content/types.ts`.
  */
-import type { DataISO, Mide } from '$lib/domain';
+import type { DataISO, Mide, Tecnicitat } from '$lib/domain';
 import type { AppLocale } from '$lib/i18n/routes';
 import type { FontCitada, PreguntaFaq } from '../types';
 
@@ -39,7 +39,7 @@ export interface RutaAcces {
 	 * - `grimpada`: grimpada continuada o aèria (II o més) / cadenes.
 	 * - `via-equipada`: via ferrada o trams equipats obligatoris.
 	 */
-	tecnicitat?: 'cap' | 'terreny-irregular' | 'grimpada-facil' | 'grimpada' | 'via-equipada';
+	tecnicitat?: Tecnicitat;
 	/** Descripció breu del recorregut per idioma (2–4 frases). */
 	descripcio: Record<AppLocale, string>;
 	/** Fonts d'aquesta ruta (obligatori si hi ha cap dada numèrica o MIDE). */

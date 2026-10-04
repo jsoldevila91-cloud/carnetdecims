@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS, cimsPerComarca, comarquesAmbCims } from '$lib/data/catalog';
-import { comarcaIndexable } from './indexabilitat';
+import { comarcaIndexable, llistatIndexable, MIN_CIMS_LLISTAT_INDEXABLE } from './indexabilitat';
+import { slugsLlistatDificultat } from '$lib/content/fitxes';
 import { CONTINGUTS, PAGINES_CONTINGUT, type Contingut, type ClauPagina } from '$lib/content';
 import {
 	CONTINGUT_FORA_SITEMAP,
 	contingutSitemapUrls,
 	comarcaSitemapUrls,
 	cimSitemapUrls,
+	llistatSitemapUrls,
 	sitemapEntries,
 	sitemapIndexXml,
 	sitemapXml,
@@ -157,17 +159,38 @@ describe('sitemaps de comarques i llistats', () => {
 		expect(xml).not.toMatch(/lastmod|<loc>[^<]*\/<\/loc>/);
 	});
 
-	it('llistats: essencials, tresmils i més alts; sense fàcils ni amb nens', () => {
+	it('llistats: els de catàleg sempre; fàcils i amb nens només si tenen ≥ 3 cims', () => {
 		const ca = sitemapXml('ca-llistats') ?? '';
 		const locs = [...ca.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+		const dificultat = (['cims-facils', 'cims-amb-nens'] as const)
+			.filter((id) => llistatIndexable(slugsLlistatDificultat(id).length))
+			.map((id) => `https://carnetdecims.cat/ca/${id}`);
 		expect(locs).toEqual([
 			'https://carnetdecims.cat/ca/cims-essencials',
 			'https://carnetdecims.cat/ca/tresmils',
-			'https://carnetdecims.cat/ca/cims-mes-alts'
+			'https://carnetdecims.cat/ca/cims-mes-alts',
+			...dificultat
 		]);
 		expect(sitemapXml('es-listados')).toContain(
 			'hreflang="es" href="https://carnetdecims.cat/es/cimas-mas-altas"'
 		);
+	});
+
+	it('llistatSitemapUrls: llindar de MIN_CIMS_LLISTAT_INDEXABLE (3) per als de dificultat', () => {
+		expect(MIN_CIMS_LLISTAT_INDEXABLE).toBe(3);
+		expect(llistatIndexable(2)).toBe(false);
+		expect(llistatIndexable(3)).toBe(true);
+		const locs = (n: (id: string) => number) =>
+			llistatSitemapUrls('es', n).map((u) => u.loc.replace('https://carnetdecims.cat', ''));
+		expect(locs(() => 2)).toEqual(['/es/cimas-esenciales', '/es/tresmiles', '/es/cimas-mas-altas']);
+		expect(locs((id) => (id === 'cims-amb-nens' ? 3 : 0)).at(-1)).toBe('/es/cimas-con-ninos');
+		expect(locs(() => 3).slice(3)).toEqual(['/es/cimas-faciles', '/es/cimas-con-ninos']);
+		const nens = llistatSitemapUrls('ca', () => 5).at(-1)!;
+		expect(nens.alternates?.map((a) => a.href)).toEqual([
+			'https://carnetdecims.cat/ca/cims-amb-nens',
+			'https://carnetdecims.cat/es/cimas-con-ninos',
+			'https://carnetdecims.cat/ca/cims-amb-nens'
+		]);
 	});
 
 	it('cap URL repetida entre seccions; pàgines sense comarques ni llistats', () => {

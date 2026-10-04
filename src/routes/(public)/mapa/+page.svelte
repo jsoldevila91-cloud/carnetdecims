@@ -1,4 +1,5 @@
 <script lang="ts">
+	let { data } = $props();
 	import { EVENT_ASCENSIONS, bdLocalExisteix } from '$lib/data/local/existeix';
 	import { onMount, tick } from 'svelte';
 	import { afterNavigate, pushState, replaceState } from '$app/navigation';
@@ -527,7 +528,7 @@
 			<p>{m.filters_empty_text()}</p>
 		</div>
 	{/if}
-	<LlistaCims cims={ORDENATS} {amagats} meta={metaLlista} />
+	<LlistaCims cims={ORDENATS} {amagats} meta={metaLlista} dificultats={data.dificultats} />
 </section>
 
 <!-- Text útil i veraç visible sense JS (SEO i context del mapa), en totes dues vistes. -->

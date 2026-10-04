@@ -99,8 +99,18 @@ export function localizePath(path: string, locale: AppLocale): string {
 	return `/${locale}${route ? route.localized[locale] : path}`;
 }
 
-/** Llistats curats (vegeu `LLISTATS` a `$lib/data/catalog/queries.ts`). Sitemap: secció `llistats`. */
-export const LLISTAT_PATHS = ['/cims-essencials', '/tresmils', '/cims-mes-alts'] as const;
+/**
+ * Llistats curats (vegeu `LLISTATS` a `$lib/data/catalog/queries.ts`). Sitemap: secció `llistats`.
+ * Es prerenderitzen tots; els de dificultat (`/cims-facils`, `/cims-amb-nens`) només van al
+ * sitemap si són indexables (`llistatIndexable`, docs/02 §4.2); si no, porten `noindex`.
+ */
+export const LLISTAT_PATHS = [
+	'/cims-essencials',
+	'/tresmils',
+	'/cims-mes-alts',
+	'/cims-facils',
+	'/cims-amb-nens'
+] as const;
 
 /** Índex de comarques. Sitemap: secció `comarques`, amb les pàgines de comarca. */
 export const COMARQUES_PATH = '/comarques';

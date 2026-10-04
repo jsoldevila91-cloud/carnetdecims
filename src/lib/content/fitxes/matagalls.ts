@@ -44,6 +44,7 @@ const fitxa: ContingutFitxa = {
 			desnivellPositiuM: 555,
 			distanciaKm: 3.6,
 			tempsMinuts: 75,
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
 				ca: 'És la pujada més directa i concorreguda. Comença amb unes escales de pissarra, passa per la creu Carlina, el pla de la Barraca, un antic pou de glaç i la font del Matagalls, i acaba per un llom pelat fins a la creu. Tot el camí segueix les marques del GR 5.2.',
 				es: 'Es la subida más directa y concurrida. Empieza con unos escalones de pizarra, pasa por la cruz Carlina, el pla de la Barraca, un antiguo pozo de nieve y la fuente del Matagalls, y termina por un lomo pelado hasta la cruz. Todo el camino sigue las marcas del GR 5.2.'
@@ -54,11 +55,12 @@ const fitxa: ContingutFitxa = {
 			id: 'collformic-sant-segimon',
 			nom: { ca: 'Circular per Sant Segimon', es: 'Circular por Sant Segimon' },
 			sortida: { nom: 'Collformic (el Brull)' },
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
 				ca: 'Variant circular de 9,8 km i 660 m de desnivell (unes 4 h 15 min amb parades), segons De ruta en ruta: es puja pel GR 5.2 i es baixa pel PR-C 205 cap al santuari de Sant Segimon, encastat a la roca del vessant de Viladrau.',
 				es: 'Variante circular de 9,8 km y 660 m de desnivel (unas 4 h 15 min con paradas), según De ruta en ruta: se sube por el GR 5.2 y se baja por el PR-C 205 hacia el santuario de Sant Segimon, encajado en la roca de la vertiente de Viladrau.'
 			},
-			fonts: [DERUTAENRUTA]
+			fonts: [DERUTAENRUTA, TOTNENS]
 		}
 	],
 	consells: {
@@ -135,7 +137,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, TOTNENS, DERUTAENRUTA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

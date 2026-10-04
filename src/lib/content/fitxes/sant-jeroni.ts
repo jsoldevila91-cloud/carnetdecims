@@ -45,6 +45,7 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Estació del cremallera de Montserrat (705 m)' },
 			tempsMinuts: 155,
+			tecnicitat: 'cap',
 			descripcio: {
 				ca: "Ruta a peu sencera des del monestir: es puja pel camí de l'ermita de Sant Miquel fins a l'altiplà del funicular de Sant Joan i es continua fins al cim. Rutes Pirineus la planteja gairebé circular, amb 10,1 km, 565 m de desnivell i unes 4 h en total, baixant pel torrent de Santa Maria.",
 				es: 'Ruta a pie completa desde el monasterio: se sube por el camino de la ermita de Sant Miquel hasta el altiplano del funicular de Sant Joan y se continúa hasta la cima. Rutes Pirineus la plantea casi circular, con 10,1 km, 565 m de desnivel y unas 4 h en total, bajando por el torrente de Santa Maria.'
@@ -55,6 +56,7 @@ const fitxa: ContingutFitxa = {
 			id: 'funicular-sant-joan',
 			nom: { ca: 'Des del funicular de Sant Joan', es: 'Desde el funicular de Sant Joan' },
 			sortida: { nom: 'Pla de les Taràntules (estació superior del funicular de Sant Joan)' },
+			tecnicitat: 'cap',
 			descripcio: {
 				ca: "La manera més còmoda. Des de l'estació superior del funicular, el camí passa per les Gorres i el mirador de la serra de les Paparres, travessa un torrent per una passera de fusta i arriba a la capella de Sant Jeroni. El Patronat el descriu com un itinerari de dificultat moderada, de 7 km i unes 2 h 30 min, amb tornada pel mateix camí o pel camí vell de Sant Jeroni fins al monestir.",
 				es: 'La forma más cómoda. Desde la estación superior del funicular, el camino pasa por las Gorres y el mirador de la sierra de les Paparres, cruza un torrente por una pasarela de madera y llega a la capilla de Sant Jeroni. El Patronat lo describe como un itinerario de dificultad moderada, de 7 km y unas 2 h 30 min, con vuelta por el mismo camino o por el camí vell de Sant Jeroni hasta el monasterio.'
@@ -138,7 +140,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, PATRONAT, RUTES_PIRINEUS],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

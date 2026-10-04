@@ -416,7 +416,7 @@ describe('llistatGraph (JSON-LD dels llistats curats)', () => {
 		);
 		expect(() =>
 			llistatGraph({
-				id: 'cims-facils' as LlistatId,
+				id: 'inexistent' as LlistatId,
 				cims: [],
 				locale: 'ca',
 				title: 'x',

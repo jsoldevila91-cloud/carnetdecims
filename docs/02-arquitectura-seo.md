@@ -80,8 +80,8 @@ Sin herramientas de volumen. La prioridad es cualitativa y combina la demanda es
 /ca/cims                              Llistat complet 522 (SSR, filtrable) index
 /ca/cims/{slug}                       Fitxa de cim                          index si `revisat`
 /ca/cims-essencials                   Els ~150 essencials per comarca       index
-/ca/cims-facils                       MIDE baix (criteri publicat)          index
-/ca/cims-amb-nens                     Selecció revisada (no automàtica)     index
+/ca/cims-facils                       Dificultat orientativa 1 (Fàcil)      index si ≥ 3 cims
+/ca/cims-amb-nens                     Dificultat ≤ 2, sense grimpades       index si ≥ 3 cims
 /ca/tresmils                          Cims ≥ 3.000 m                        index
 /ca/cims-mes-alts                     Rànquing per altitud                  index
 /ca/comarques                         Índex de comarques                    index
@@ -181,6 +181,7 @@ Equivalencias ES: `/es/reto-100-cims` (`/normativa`, `/como-validar`, `/reto-inf
   - **JSON-LD** (`mapaGraph`): `WebPage` con `mainEntity` → `Map` (nombre = H1, `publisher` = la organización). Sin `ItemList` (ya está en `/cims`, sería duplicado) ni `BreadcrumbList` (la página no muestra breadcrumb; es sección de primer nivel de la navegación).
   - **Enlazado interno** con anchor descriptivo ("Mapa dels cims" / "Veure tots els cims al mapa"): portada (Explora els cims), `/cims`, listados (`PaginaLlistat`), fichas (bajo el mapa de situación, enlace limpio sin query) y contenido editorial (hub, normativa, com-validar, repte-infantil, sobre-el-projecte, metodologia). Además, la barra de navegación inferior.
   - **Revisar en la fase 6** (catálogo de 522): title, description, H1 y lede hablan de "cims essencials"; cuando el mapa muestre también no esenciales, hay que reescribirlos ("Mapa dels cims del repte 100 Cims…").
+- **`/cims-facils` y `/cims-amb-nens` (bloque 6a-bis):** se generan solo con cims **con contenido editorial**, a partir de la "Dificultat orientativa" de la ruta normal (`src/lib/domain/dificultat.ts`; criterios en `CRITERIS_LLISTATS_DIFICULTAT` y en docs/03 §3.4). **Umbral de indexación:** `MIN_CIMS_LLISTAT_INDEXABLE = 3` (`llistatIndexable` en `src/lib/seo/indexabilitat.ts`), el mismo que las comarcas. Siempre se prerenderizan (están en `LLISTAT_PATHS`); con 0–2 cims la página lleva `noindex` (los enlaces se siguen) y queda fuera del sitemap `llistats` (`llistatSitemapUrls`). Página y sitemap usan el mismo predicado (`FILTRES_LLISTATS_DIFICULTAT`) y la misma función de umbral. Con las 10 pilotos: 1 fàcil y 2 amb nens → ambas `noindex` hasta tener más fichas.
 - **OG/Twitter:** `og:title`, `og:description`, `og:image` (generada), `og:locale` `ca_ES`/`es_ES` + `og:locale:alternate`, `twitter:card=summary_large_image`.
 
 ## 5. Datos estructurados (JSON-LD)

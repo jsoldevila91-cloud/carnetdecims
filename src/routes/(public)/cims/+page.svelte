@@ -1,4 +1,5 @@
 <script lang="ts">
+	let { data } = $props();
 	import { afterNavigate, replaceState } from '$app/navigation';
 	import { page } from '$app/state';
 	import { Breadcrumb, JsonLd, LlistaCims, NOM_ZONA, PageMeta } from '$lib/ui';
@@ -183,7 +184,7 @@
 					<a href={href(`/comarques/${comarca.slug}`)}>{comarca.nom}</a>
 					<span class="count mono">{n}</span>
 				</h3>
-				<LlistaCims {cims} {amagats} />
+				<LlistaCims {cims} {amagats} dificultats={data.dificultats} />
 			</section>
 		{/each}
 	</div>

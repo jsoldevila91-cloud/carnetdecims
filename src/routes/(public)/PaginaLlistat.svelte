@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { Breadcrumb, JsonLd, LlistaCims, PageMeta } from '$lib/ui';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -6,12 +7,18 @@
 	import { CIMS, agruparPerComarca, comarcaPerSlug, type LlistatId } from '$lib/data/catalog';
 	import { llistatGraph } from '$lib/seo/jsonld';
 	import { PAGINES_CONTINGUT } from '$lib/content/types';
+	import type { DificultatResum } from '$lib/ui/fitxa/DificultatBadge.svelte';
 
 	/**
 	 * Plantilla comuna dels llistats curats (`/cims-essencials`, `/tresmils`, `/cims-mes-alts`):
 	 * H1, introducció, llista enllaçada (SSR) i JSON-LD `CollectionPage` + `ItemList`.
 	 * - `agrupat`: un H2 per comarca (enllaçat a la pàgina de comarca), com a `/cims-essencials`.
 	 * - Si no, rànquing numerat amb la comarca de cada cim.
+	 * - `nota`: avís sota l'entradeta (p. ex. als llistats de dificultat, que només inclouen cims
+	 *   amb fitxa completa i creixen amb les fitxes). Sense cims, no es pinta cap llista buida.
+	 * - `noindex`: llistats amb massa pocs cims (contingut prim, `llistatIndexable`).
+	 * - `avisos`: contingut addicional de la capçalera (p. ex. "no és el MIDE" i l'enllaç a la
+	 *   metodologia als llistats de dificultat).
 	 */
 	let {
 		id,
@@ -21,7 +28,11 @@
 		descripcio,
 		entradeta,
 		nomCurt,
-		agrupat = false
+		agrupat = false,
+		dificultats,
+		nota,
+		noindex = false,
+		avisos
 	}: {
 		id: LlistatId;
 		cims: readonly CimCataleg[];
@@ -32,6 +43,11 @@
 		/** Nom al breadcrumb (visible i JSON-LD). */
 		nomCurt: string;
 		agrupat?: boolean;
+		/** Dificultat orientativa dels cims amb contingut (`$lib/server/dificultats`). */
+		dificultats?: Readonly<Record<string, DificultatResum>>;
+		nota?: string;
+		noindex?: boolean;
+		avisos?: Snippet;
 	} = $props();
 
 	const locale = getLocale();
@@ -52,19 +68,24 @@
 	const nomesEssencials = CIMS.every((c) => c.essencial);
 </script>
 
-<PageMeta title={metaTitol} description={descripcio} />
+<PageMeta title={metaTitol} description={descripcio} {noindex} />
 <JsonLd data={jsonLd} />
 
 <header class="page-head">
 	<Breadcrumb items={[{ name: m.nav_home(), href: href('/') }, { name: nomCurt }]} />
 	<h1 class="x-wide">{titol}</h1>
 	<p class="lede">{entradeta}</p>
-	{#if nomesEssencials && !agrupat}
+	{#if nota}
+		<p class="draft" role="note">{nota}</p>
+	{:else if nomesEssencials && !agrupat}
 		<p class="draft" role="note">{m.catalog_only_essentials({ count: CIMS.length })}</p>
 	{/if}
+	{@render avisos?.()}
 </header>
 
-{#if agrupat}
+{#if cims.length === 0}
+	<!-- Llistat encara buit (llistats de dificultat): la `nota` ja ho explica. -->
+{:else if agrupat}
 	<div class="grups">
 		{#each grups as { comarca, cims: delGrup } (comarca.slug)}
 			<section class="grup" aria-labelledby="comarca-{comarca.slug}">
@@ -72,12 +93,12 @@
 					<a href={href(`/comarques/${comarca.slug}`)}>{comarca.nom}</a>
 					<span class="count mono">{delGrup.length}</span>
 				</h2>
-				<LlistaCims cims={delGrup} />
+				<LlistaCims cims={delGrup} {dificultats} />
 			</section>
 		{/each}
 	</div>
 {:else}
-	<LlistaCims {cims} ordenada meta={nomComarca} />
+	<LlistaCims {cims} ordenada meta={nomComarca} {dificultats} />
 {/if}
 
 <nav class="altres" aria-label={m.explore_label()}>
@@ -86,6 +107,8 @@
 	{#if id !== 'essencials'}<a href={href('/cims-essencials')}>{m.explore_essentials()}</a>{/if}
 	{#if id !== 'tresmils'}<a href={href('/tresmils')}>{m.explore_tresmils()}</a>{/if}
 	{#if id !== 'mes-alts'}<a href={href('/cims-mes-alts')}>{m.explore_highest()}</a>{/if}
+	{#if id !== 'cims-facils'}<a href={href('/cims-facils')}>{m.explore_easy()}</a>{/if}
+	{#if id !== 'cims-amb-nens'}<a href={href('/cims-amb-nens')}>{m.explore_kids()}</a>{/if}
 	<a href={href('/cims')}>{m.explore_all()}</a>
 	{#if id === 'essencials'}
 		<a href="{href(PAGINES_CONTINGUT.normativa)}#cims-essencials">{m.explore_essentials_rule()}</a>

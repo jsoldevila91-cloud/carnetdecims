@@ -44,11 +44,13 @@ const fitxa: ContingutFitxa = {
 				es: 'Desde la Molinassa por el refugio de Vallferrera y el port de Sotllo'
 			},
 			sortida: { nom: 'Aparcament de la Molinassa (Àreu, 1.805 m)' },
+			desnivellPositiuM: 1338,
 			distanciaKm: 10.2,
 			tempsMinuts: 315,
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "És la via clàssica pel vessant sud. Des de la Molinassa es passa pel refugi de Vallferrera i es remunta la vall de Sotllo, amb els estanys de Sotllo i d'Estats, fins al port de Sotllo. Allà es fa un breu tram pel vessant francès fins al coll de Riufred i s'acaba per la carena. No té passos tècnics, però hi ha pendents forts i és molt llarga: més de 20 km anada i tornada.",
-				es: 'Es la vía clásica por la vertiente sur. Desde la Molinassa se pasa por el refugio de Vallferrera y se remonta el valle de Sotllo, con los lagos de Sotllo y de Estats, hasta el port de Sotllo. Allí se hace un breve tramo por la vertiente francesa hasta el collado de Riufred y se termina por la cresta. No tiene pasos técnicos, pero hay pendientes fuertes y es muy larga: más de 20 km ida y vuelta.'
+				ca: "És la via clàssica pel vessant sud. Des de la Molinassa es passa pel refugi de Vallferrera i es remunta la vall de Sotllo, amb els estanys de Sotllo i d'Estats, fins al port de Sotllo. Allà es fa un breu tram pel vessant francès fins al coll de Riufred i s'acaba per la carena. No té passos tècnics continuats (en algun ressalt rocós cal ajudar-se de les mans, segons Rutes Pirineus), però hi ha pendents forts i és molt llarga: més de 20 km anada i tornada.",
+				es: 'Es la vía clásica por la vertiente sur. Desde la Molinassa se pasa por el refugio de Vallferrera y se remonta el valle de Sotllo, con los lagos de Sotllo y de Estats, hasta el port de Sotllo. Allí se hace un breve tramo por la vertiente francesa hasta el collado de Riufred y se termina por la cresta. No tiene pasos técnicos continuados (en algún resalte rocoso hay que ayudarse de las manos, según Rutes Pirineus), pero hay pendientes fuertes y es muy larga: más de 20 km ida y vuelta.'
 			},
 			fonts: [RUTES_PIRINEUS, DEXCURSIO]
 		},
@@ -147,7 +149,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, RUTES_PIRINEUS, DEXCURSIO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

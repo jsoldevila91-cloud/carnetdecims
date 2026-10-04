@@ -2,7 +2,14 @@
  * Consultes síncrones sobre el catàleg estàtic per a la fitxa de cim i la resta de pàgines
  * prerenderitzades. Índexs construïts un sol cop en carregar el mòdul.
  */
-import { distanciaKm, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
+import {
+	FILTRES_LLISTATS_DIFICULTAT,
+	distanciaKm,
+	type CimCataleg,
+	type ComarcaCataleg,
+	type LlistatDificultatId,
+	type RutaAmbDificultat
+} from '$lib/domain';
 import { CIMS, COMARQUES } from './cataleg';
 
 const CIMS_PER_SLUG: ReadonlyMap<string, CimCataleg> = new Map(CIMS.map((c) => [c.slug, c]));
@@ -104,27 +111,50 @@ export function agruparPerComarca(
 // ── Llistats curats (bloc 3b) ────────────────────────────────────────────────
 
 /**
- * Llistats que ja es poden construir amb el catàleg actual. `cims-facils` i `cims-amb-nens`
- * necessiten el MIDE (fase 6) i no s'hi defineixen.
+ * Llistats curats. Els de catàleg (`essencials`, `tresmils`, `mes-alts`) només depenen de
+ * `cims.json`; els de dificultat (`cims-facils`, `cims-amb-nens`) depenen de la dificultat
+ * orientativa de la ruta normal (`domain/dificultat.ts`), que surt del contingut editorial: només
+ * hi entren cims **amb contingut**, i es calculen al servidor passant `ContextLlistat`.
  */
-export type LlistatId = 'essencials' | 'tresmils' | 'mes-alts';
+export type LlistatId = 'essencials' | 'tresmils' | 'mes-alts' | LlistatDificultatId;
+
+/**
+ * Dades del contingut editorial que necessiten els llistats de dificultat. Les dona
+ * `rutesNormalsAmbDificultat()` de `$lib/content/fitxes` (**només servidor/prerender**: el
+ * contingut de les fitxes no pot anar al JS del client).
+ */
+export interface ContextLlistat {
+	/** Ruta normal amb dificultat de cada cim amb contingut (clau: slug). */
+	rutesNormals?: ReadonlyMap<string, RutaAmbDificultat>;
+}
 
 export interface LlistatDef {
 	id: LlistatId;
 	/** Camí intern (deslocalitzat) de `LOCALIZED_ROUTES` i `LLISTAT_PATHS`. */
-	path: '/cims-essencials' | '/tresmils' | '/cims-mes-alts';
+	path: '/cims-essencials' | '/tresmils' | '/cims-mes-alts' | '/cims-facils' | '/cims-amb-nens';
 	/** Ordre dels cims retornats per `cimsDelLlistat`. */
 	ordre: 'comarca' | 'altitud';
 	/** Criteri d'inclusió. */
-	filtre: (cim: CimCataleg) => boolean;
+	filtre: (cim: CimCataleg, ctx: ContextLlistat) => boolean;
 	/** Nombre màxim de cims (rànquing), si n'hi ha. */
 	limit?: number;
+	/** Depèn del contingut editorial: cal `ctx.rutesNormals` (si no, `cimsDelLlistat` llança). */
+	requereixContingut?: true;
 }
 
 /** Altitud mínima (m) per ser un "tresmil". */
 export const ALTITUD_TRESMIL = 3000;
 /** Mida del rànquing de `/cims-mes-alts`. */
 export const MIDA_RANQUING_MES_ALTS = 25;
+
+const llistatDificultat = (id: LlistatDificultatId): LlistatDef => ({
+	id,
+	path: `/${id}`,
+	// Agrupats per comarca (com `/cims-essencials`), i dins de cada una per altitud.
+	ordre: 'comarca',
+	filtre: (c, ctx) => FILTRES_LLISTATS_DIFICULTAT[id](ctx.rutesNormals?.get(c.slug)),
+	requereixContingut: true
+});
 
 export const LLISTATS: Readonly<Record<LlistatId, LlistatDef>> = Object.freeze({
 	essencials: {
@@ -146,7 +176,9 @@ export const LLISTATS: Readonly<Record<LlistatId, LlistatDef>> = Object.freeze({
 		ordre: 'altitud',
 		filtre: () => true,
 		limit: MIDA_RANQUING_MES_ALTS
-	}
+	},
+	'cims-facils': llistatDificultat('cims-facils'),
+	'cims-amb-nens': llistatDificultat('cims-amb-nens')
 });
 
 export const LLISTAT_IDS: readonly LlistatId[] = Object.freeze(
@@ -156,12 +188,16 @@ export const LLISTAT_IDS: readonly LlistatId[] = Object.freeze(
 /**
  * Cims d'un llistat curat. Ordre `altitud`: de més alt a més baix (empat: ordre del catàleg).
  * Ordre `comarca`: per comarca (ordre de `comarquesAmbCims()`) i, dins de cada una, per altitud.
+ * Els llistats de dificultat necessiten `ctx.rutesNormals` (servidor/prerender).
  * @throws RangeError si l'id no existeix.
+ * @throws TypeError si el llistat depèn del contingut i no es passa `ctx.rutesNormals`.
  */
-export function cimsDelLlistat(id: LlistatId): CimCataleg[] {
+export function cimsDelLlistat(id: LlistatId, ctx: ContextLlistat = {}): CimCataleg[] {
 	const def = Object.hasOwn(LLISTATS, id) ? LLISTATS[id] : undefined;
 	if (!def) throw new RangeError(`Llistat desconegut: ${id}`);
-	const cims = CIMS.filter(def.filtre).sort(perAltitudDesc);
+	if (def.requereixContingut && !ctx.rutesNormals)
+		throw new TypeError(`El llistat ${id} necessita ctx.rutesNormals (contingut de les fitxes)`);
+	const cims = CIMS.filter((c) => def.filtre(c, ctx)).sort(perAltitudDesc);
 	const ordenats = def.ordre === 'comarca' ? agruparPerComarca(cims).flatMap((g) => g.cims) : cims;
 	return def.limit === undefined ? ordenats : ordenats.slice(0, def.limit);
 }

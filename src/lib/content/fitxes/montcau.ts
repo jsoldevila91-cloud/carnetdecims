@@ -53,11 +53,12 @@ const fitxa: ContingutFitxa = {
 			id: 'estenalles',
 			nom: { ca: "Des del coll d'Estenalles", es: "Desde el coll d'Estenalles" },
 			sortida: { nom: "Coll d'Estenalles (870 m)" },
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "La pujada habitual surt de l'aparcament del coll d'Estenalles, al costat del centre d'informació del parc, a la carretera BV-1221 entre Terrassa i Navarcles. Segueix el sender local SL-C 54, primer per una pista i després per un corriol que s'enfila per la carena sud-oest fins al cim, uns 190 m per sobre del coll. L'últim tram és rocós i cal mirar on es posen els peus.",
-				es: "La subida habitual sale del aparcamiento del coll d'Estenalles, junto al centro de información del parque, en la carretera BV-1221 entre Terrassa y Navarcles. Sigue el sendero local SL-C 54, primero por una pista y luego por una senda que sube por la cresta suroeste hasta la cima, unos 190 m por encima del collado. El último tramo es rocoso y hay que mirar dónde se ponen los pies."
+				ca: "La pujada habitual surt de l'aparcament del coll d'Estenalles, al costat del centre d'informació del parc, a la carretera BV-1221 entre Terrassa i Navarcles. Segueix el sender local SL-C 54, primer per una pista i després per un corriol que s'enfila per la carena sud-oest fins al cim, uns 190 m per sobre del coll. L'últim tram és rocós i més dret, amb alguna grimpada curta i sense gaire dificultat (segons Femturisme): cal mirar on es posen els peus.",
+				es: "La subida habitual sale del aparcamiento del coll d'Estenalles, junto al centro de información del parque, en la carretera BV-1221 entre Terrassa y Navarcles. Sigue el sendero local SL-C 54, primero por una pista y luego por una senda que sube por la cresta suroeste hasta la cima, unos 190 m por encima del collado. El último tramo es rocoso y más empinado, con alguna trepada corta y sin mucha dificultad (según Femturisme): hay que mirar dónde se ponen los pies."
 			},
-			fonts: [VIQUIPEDIA, FEMTURISME, DIBA_ESTENALLES]
+			fonts: [VIQUIPEDIA, FEMTURISME, DIBA_ESTENALLES, TOTNENS, DEXCURSIO]
 		},
 		{
 			id: 'estenalles-la-mola',
@@ -66,11 +67,12 @@ const fitxa: ContingutFitxa = {
 				es: "Encadenado con la Mola por el coll d'Eres"
 			},
 			sortida: { nom: "Coll d'Estenalles (870 m)" },
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
 				ca: "Des del Montcau, el mateix SL-C 54 baixa al coll d'Eres i continua per la carena, entre alzinars, fins al monestir de la Mola. Anada i tornada són uns 12 km i 501 m de desnivell, unes 3–4 h segons el ritme, segons Femturisme. A la tornada es pot estalviar la segona pujada al Montcau.",
 				es: "Desde el Montcau, el mismo SL-C 54 baja al coll d'Eres y sigue por la cresta, entre encinares, hasta el monasterio de la Mola. Ida y vuelta son unos 12 km y 501 m de desnivel, unas 3–4 h según el ritmo, según Femturisme. A la vuelta se puede evitar la segunda subida al Montcau."
 			},
-			fonts: [FEMTURISME]
+			fonts: [FEMTURISME, TOTNENS, DEXCURSIO]
 		}
 	],
 	consells: {
@@ -147,7 +149,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, TOTNENS, FEMTURISME, DEXCURSIO, DIBA_ESTENALLES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

@@ -34,11 +34,12 @@ function comarquesProperes(comarca: ComarcaCataleg, cims: readonly CimCataleg[],
 		.map((p) => p.comarca);
 }
 
-export const load: PageLoad = ({ params }) => {
+export const load: PageLoad = ({ params, data }) => {
 	const comarca = comarcaPerSlug(params.slug);
 	if (!comarca) error(404, 'Not found');
 	const cims = cimsPerComarca(comarca.slug);
 	if (cims.length === 0) error(404, 'Not found');
 
-	return { comarca, cims, properes: comarquesProperes(comarca, cims, N_PROPERES) };
+	// `dificultats` (mapa lleuger de dificultat orientativa): `+page.server.ts`.
+	return { ...data, comarca, cims, properes: comarquesProperes(comarca, cims, N_PROPERES) };
 };

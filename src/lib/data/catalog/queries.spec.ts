@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { distanciaKm } from '$lib/domain';
+import {
+	dificultatOrientativa,
+	distanciaKm,
+	type EntradaDificultat,
+	type RutaAmbDificultat
+} from '$lib/domain';
+import { rutesNormalsAmbDificultat, slugsLlistatDificultat } from '$lib/content/fitxes';
 import { LLISTAT_PATHS, slugsComarquesAmbCims } from '$lib/i18n/routes';
 import {
 	ALTITUD_TRESMIL,
@@ -166,8 +172,14 @@ describe('comarques', () => {
 });
 
 describe('llistats curats', () => {
-	it('només els llistats que es poden fer sense MIDE, amb camins de routes.ts', () => {
-		expect([...LLISTAT_IDS].sort()).toEqual(['essencials', 'mes-alts', 'tresmils']);
+	it('llistats de catàleg i de dificultat, amb camins de routes.ts', () => {
+		expect([...LLISTAT_IDS].sort()).toEqual([
+			'cims-amb-nens',
+			'cims-facils',
+			'essencials',
+			'mes-alts',
+			'tresmils'
+		]);
 		expect(LLISTAT_IDS.map((id) => LLISTATS[id].path)).toEqual([...LLISTAT_PATHS]);
 		for (const id of LLISTAT_IDS) expect(LLISTATS[id].id).toBe(id);
 	});
@@ -211,10 +223,67 @@ describe('llistats curats', () => {
 	});
 
 	it('id desconegut → RangeError; el resultat és una còpia', () => {
-		expect(() => cimsDelLlistat('cims-facils' as LlistatId)).toThrow(RangeError);
+		expect(() => cimsDelLlistat('inexistent' as LlistatId)).toThrow(RangeError);
 		expect(() => cimsDelLlistat('toString' as LlistatId)).toThrow(RangeError);
 		const a = cimsDelLlistat('tresmils');
 		a.pop();
 		expect(cimsDelLlistat('tresmils')).toHaveLength(a.length + 1);
+	});
+});
+
+describe('llistats de dificultat (cims-facils, cims-amb-nens)', () => {
+	const ruta = (r: Partial<EntradaDificultat> & { altitudCim: number }): RutaAmbDificultat => ({
+		ruta: r,
+		dificultat: dificultatOrientativa(r)
+	});
+
+	it('sense context de contingut → TypeError (no es poden calcular al client)', () => {
+		expect(() => cimsDelLlistat('cims-facils')).toThrow(TypeError);
+		expect(() => cimsDelLlistat('cims-amb-nens', {})).toThrow(TypeError);
+		expect(LLISTATS['cims-facils'].requereixContingut).toBe(true);
+		expect(LLISTATS.tresmils.requereixContingut).toBeUndefined();
+	});
+
+	it('només cims amb contingut; aplica els predicats del domini', () => {
+		const montcau = cim('montcau');
+		const pedraforca = cim('pedraforca-pollego-superior');
+		const facil = ruta({
+			desnivellPositiuM: 400,
+			distanciaKm: 2.5,
+			altitudCim: montcau.altitud,
+			tecnicitat: 'cap'
+		});
+		const rutesNormals = new Map<string, RutaAmbDificultat>([
+			[montcau.slug, facil],
+			[
+				pedraforca.slug,
+				ruta({
+					desnivellPositiuM: 1100,
+					distanciaKm: 4.2,
+					altitudCim: pedraforca.altitud,
+					tecnicitat: 'grimpada'
+				})
+			]
+		]);
+		expect(cimsDelLlistat('cims-facils', { rutesNormals })).toEqual([montcau]);
+		expect(cimsDelLlistat('cims-amb-nens', { rutesNormals })).toEqual([montcau]);
+		expect(cimsDelLlistat('cims-facils', { rutesNormals: new Map() })).toEqual([]);
+		// Slug fora del catàleg: no hi surt mai
+		expect(
+			cimsDelLlistat('cims-facils', { rutesNormals: new Map([['no-existeix', facil]]) })
+		).toEqual([]);
+	});
+
+	it('amb el contingut real: coincideix amb slugsLlistatDificultat (sitemap)', () => {
+		const rutesNormals = rutesNormalsAmbDificultat();
+		for (const id of ['cims-facils', 'cims-amb-nens'] as const) {
+			const cims = cimsDelLlistat(id, { rutesNormals });
+			expect(cims.map((c) => c.slug).sort()).toEqual(slugsLlistatDificultat(id));
+			for (const c of cims) expect(rutesNormals.has(c.slug)).toBe(true);
+		}
+		// Tot cim fàcil (nivell 1, sense grimpades) també és apte per anar-hi amb nens si no
+		// supera el desnivell ni el temps màxims.
+		const facils = cimsDelLlistat('cims-facils', { rutesNormals });
+		for (const c of facils) expect(rutesNormals.get(c.slug)!.dificultat!.nivell).toBe(1);
 	});
 });

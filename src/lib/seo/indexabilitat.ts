@@ -20,6 +20,19 @@ export function comarcaIndexable(nCims: number): boolean {
 }
 
 /**
+ * Mínim de cims perquè un llistat de dificultat (`/cims-facils`, `/cims-amb-nens`) sigui
+ * indexable. Aquests llistats només inclouen cims amb contingut editorial (fase 6): amb 0–2 cims
+ * la pàgina és contingut prim i es publica amb `noindex` (els enllaços se segueixen) i fora del
+ * sitemap, fins que n'hi hagi prou. Mateix llindar que les comarques (docs/02 §4.2).
+ */
+export const MIN_CIMS_LLISTAT_INDEXABLE = 3;
+
+/** El llistat de dificultat amb `nCims` cims és indexable (i va al sitemap). */
+export function llistatIndexable(nCims: number): boolean {
+	return nCims >= MIN_CIMS_LLISTAT_INDEXABLE;
+}
+
+/**
  * Pàgines prerenderitzades que encara són només un espai reservat: es publiquen amb `noindex`
  * i fora del sitemap fins que tinguin contingut real.
  * Avui no n'hi ha cap: `/mapa` hi va ser des del bloc 3c fins al 4c, quan va passar a ser el mapa

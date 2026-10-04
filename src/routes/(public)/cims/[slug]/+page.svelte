@@ -14,6 +14,7 @@
 		formatDataLlarga,
 		formatKm
 	} from '$lib/ui';
+	import DificultatBadge from '$lib/ui/fitxa/DificultatBadge.svelte';
 	import LlistaFonts from '$lib/ui/fitxa/LlistaFonts.svelte';
 	import MeteoCim from '$lib/ui/fitxa/MeteoCim.svelte';
 	import RutaAccesCard from '$lib/ui/fitxa/RutaAccesCard.svelte';
@@ -273,6 +274,14 @@
 				<p class="aka">{m.cim_also_known({ names: llistaNoms })}</p>
 			{/if}
 
+			<!-- Dificultat orientativa de la ruta normal (estimació pròpia, no és el MIDE). Sota el H1
+			     (no n'altera la mida ni els salts) i abans dels CTA. -->
+			{#if data.dificultat}
+				<div class="dif-cap">
+					<DificultatBadge dificultat={data.dificultat} abast={m.cim_difficulty_normal_route()} />
+				</div>
+			{/if}
+
 			<!-- Just sota el titular: visible al primer viewport del mòbil, abans de la taula. -->
 			<!-- `nofollow`: són URL amb query (`/app/registrar?cim=…`, `/mapa?cim=…`) que porten a
 			     pàgines `noindex`; així els cercadors no rastregen una variant per fitxa i idioma.
@@ -383,7 +392,7 @@
 				</h2>
 				<div class="rutes">
 					{#each rutes as ruta (ruta.id)}
-						<RutaAccesCard {ruta} />
+						<RutaAccesCard {ruta} dificultat={data.dificultatRutes[ruta.id] ?? null} />
 					{/each}
 				</div>
 			</section>
@@ -618,6 +627,10 @@
 		margin-top: var(--sp-2);
 		font-size: var(--fs-sm);
 		color: var(--c-ink-2);
+	}
+
+	.dif-cap {
+		margin-top: var(--sp-3);
 	}
 
 	.aka {

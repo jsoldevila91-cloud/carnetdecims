@@ -1,4 +1,5 @@
 <script lang="ts">
+	let { data } = $props();
 	import { m } from '$lib/paraglide/messages';
 	import { CIMS, cimsDelLlistat } from '$lib/data/catalog';
 	import { formatAltitude } from '$lib/ui';
@@ -15,6 +16,7 @@
 <PaginaLlistat
 	id="mes-alts"
 	{cims}
+	dificultats={data.dificultats}
 	titol={nomesEssencials ? m.highest_title_essentials({ count }) : m.highest_title({ count })}
 	metaTitol={nomesEssencials
 		? m.highest_meta_title_essentials({ count })

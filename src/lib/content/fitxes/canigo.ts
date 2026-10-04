@@ -20,6 +20,12 @@ const REFUGI_CORTALETS = {
 	consultat: CONSULTAT
 };
 
+const RUTES_CIMS_FAMILIA_CORTALETS = {
+	nom: 'Rutes i cims en família: el Canigó des del refugi de Cortalets',
+	url: 'https://rutesicimsenfamilia.wordpress.com/2014/08/09/el-canigo-des-del-refugi-de-cortalets/',
+	consultat: '2026-10-04'
+};
+
 const fitxa: ContingutFitxa = {
 	slug: 'canigo',
 	descripcio: {
@@ -46,6 +52,7 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: 'Refugi de Marialles (Castell de Vernet)' },
 			desnivellPositiuM: 1096,
 			tempsMinuts: 240,
+			tecnicitat: 'grimpada',
 			descripcio: {
 				ca: "És l'ascensió clàssica pel vessant oest. Se segueix el GR i després les marques grogues fins a la portella de Vallmanya, i s'acaba per la **xemeneia**, una canal d'uns 70 m sense equipar on cal grimpar amb mans i peus. El refugi avisa que el risc principal és la caiguda de pedres que fan anar els altres excursionistes.",
 				es: 'Es la ascensión clásica por la vertiente oeste. Se sigue el GR y después las marcas amarillas hasta la portella de Vallmanya, y se termina por la **chimenea**, una canal de unos 70 m sin equipar donde hay que trepar con manos y pies. El refugio avisa de que el principal riesgo es la caída de piedras que provocan otros excursionistas.'
@@ -57,11 +64,12 @@ const fitxa: ContingutFitxa = {
 			nom: { ca: 'Des del refugi dels Cortalets', es: 'Desde el refugio de los Cortalets' },
 			sortida: { nom: 'Refugi dels Cortalets' },
 			desnivellPositiuM: 634,
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
 				ca: 'Des dels Cortalets el cim queda a uns 634 m de desnivell i no cal passar per la xemeneia. Ja no es pot pujar en cotxe al refugi (llevat dels drethavents): cal arribar-hi a peu, per exemple des del Mas Malet o des del coll de Milleres, amb 3–4 h de camí i més de 1.000 m de desnivell, segons el mateix refugi. Per això sovint es fa en dos dies.',
 				es: 'Desde los Cortalets la cima queda a unos 634 m de desnivel y no hay que pasar por la chimenea. Ya no se puede subir en coche al refugio (salvo quienes tienen derecho de paso): hay que llegar a pie, por ejemplo desde el Mas Malet o desde el coll de Milleres, con 3–4 h de camino y más de 1.000 m de desnivel, según el propio refugio. Por eso a menudo se hace en dos días.'
 			},
-			fonts: [REFUGI_CORTALETS]
+			fonts: [REFUGI_CORTALETS, RUTES_CIMS_FAMILIA_CORTALETS]
 		}
 	],
 	consells: {
@@ -138,9 +146,9 @@ const fitxa: ContingutFitxa = {
 			url: 'https://ca.wikiloc.com/rutes-senderisme/canigo-per-cortalets-ruta-circular-classica-15384030'
 		}
 	],
-	fonts: [VIQUIPEDIA, REFUGI_MARIALLES, REFUGI_CORTALETS],
+	fonts: [VIQUIPEDIA, REFUGI_MARIALLES, REFUGI_CORTALETS, RUTES_CIMS_FAMILIA_CORTALETS],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

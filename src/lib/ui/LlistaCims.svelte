@@ -3,6 +3,7 @@
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import { formatAltitude } from './format';
+	import DificultatBadge, { type DificultatResum } from './fitxa/DificultatBadge.svelte';
 
 	/**
 	 * Llista de fitxes de cim (nom amb el rombe d'essencial + altitud), amb enllaços a les fitxes
@@ -11,19 +12,23 @@
 	 * - `numeros`: número visible per cim (p. ex. el del marcador al mapa de comarca).
 	 * - `meta`: text secundari opcional (p. ex. la comarca), abans de l'altitud.
 	 * - `amagats`: slugs que no es mostren (filtres en client); el HTML inicial els conté tots.
+	 * - `dificultats`: dificultat orientativa (ruta normal) dels cims amb contingut, per slug
+	 *   (mapa lleuger del `+page.server.ts`, `$lib/server/dificultats`).
 	 */
 	let {
 		cims,
 		ordenada = false,
 		numeros,
 		meta,
-		amagats
+		amagats,
+		dificultats
 	}: {
 		cims: readonly CimCataleg[];
 		ordenada?: boolean;
 		numeros?: ReadonlyMap<string, number>;
 		meta?: (cim: CimCataleg) => string | null;
 		amagats?: ReadonlySet<string>;
+		dificultats?: Readonly<Record<string, DificultatResum>>;
 	} = $props();
 </script>
 
@@ -39,6 +44,11 @@
 				{#if cim.essencial}<span class="sr-only">({m.peaks_essential_short()})</span>{/if}
 			</span>
 		</span>
+		{#if dificultats?.[cim.slug]}
+			<span class="dif"
+				><DificultatBadge dificultat={dificultats[cim.slug]} variant="compacte" /></span
+			>
+		{/if}
 		<span class="meta mono">
 			{[meta?.(cim), `${formatAltitude(cim.altitud)} m`].filter(Boolean).join(' · ')}
 		</span>
@@ -118,6 +128,10 @@
 		border-color: var(--c-stamp);
 		background: var(--c-stamp);
 		color: var(--c-on-stamp);
+	}
+
+	.dif {
+		flex: none;
 	}
 
 	.meta {

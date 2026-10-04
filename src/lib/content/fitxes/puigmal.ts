@@ -49,6 +49,7 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: 'Santuari de Núria (Queralbs)' },
 			desnivellPositiuM: 928,
 			distanciaKm: 4.7,
+			tecnicitat: 'cap',
 			descripcio: {
 				ca: "És la pujada clàssica. Del santuari, on s'arriba amb el cremallera, el camí remunta el torrent de la Coma de l'Embut, molt dret al principi, i després s'enfila pel llom fins al cim. No hi ha passos tècnics, però el pendent és sostingut. Es pot tornar pel mateix camí o fer una circular baixant per Fontalba.",
 				es: "Es la subida clásica. Desde el santuario, al que se llega en tren cremallera, el camino remonta el torrente de la Coma de l'Embut, muy empinado al principio, y luego sube por el lomo hasta la cima. No hay pasos técnicos, pero la pendiente es sostenida. Se puede volver por el mismo camino o hacer una circular bajando por Fontalba."
@@ -60,6 +61,7 @@ const fitxa: ContingutFitxa = {
 			nom: { ca: 'Des de la collada de Fontalba', es: 'Desde el collado de Fontalba' },
 			sortida: { nom: 'Collada de Fontalba (2.070 m)' },
 			tempsMinuts: 110,
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
 				ca: "La pista de Queralbs a Fontalba permet començar més amunt i pujar per la carena del cim de la Dou i el Borrut. És el camí més curt, però a l'estiu l'accés motoritzat a la pista pot estar regulat. Rutes Pirineus el planteja com una circular que baixa per la Coma de l'Embut i Núria.",
 				es: "La pista de Queralbs a Fontalba permite empezar más arriba y subir por la cresta del cim de la Dou y el Borrut. Es el camino más corto, pero en verano el acceso motorizado a la pista puede estar regulado. Rutes Pirineus lo plantea como una circular que baja por la Coma de l'Embut y Núria."
@@ -143,7 +145,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, VIATJAR_NURIA, DEXCURSIO_NURIA, RUTES_PIRINEUS_FONTALBA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

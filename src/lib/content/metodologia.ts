@@ -3,8 +3,15 @@
  * Fets verificats contra `scripts/catalog/` (build.ts, fonts/*), `scripts/catalog/informe.md` i
  * docs/03-modelo-datos.md §4 (2026-09-29). Si canvia el catàleg, cal revisar les xifres.
  */
+import {
+	CRITERIS_LLISTATS_DIFICULTAT,
+	ESCALA_DIFICULTAT,
+	type NivellDificultat,
+	type Tecnicitat
+} from '../domain/dificultat.ts';
+import type { AppLocale } from '../i18n/routes.ts';
 import { TITULAR } from './titular.ts';
-import type { Contingut } from './types.ts';
+import type { Bloc, Contingut, Seccio } from './types.ts';
 
 const PDF_ESSENCIALS = 'https://www.feec.cat/wp-content/uploads/2020/02/Essencials-100-cims.pdf';
 const FEEC_RESTRICCIONS = 'https://www.feec.cat/activitats/100-cims/cims-amb-restriccions-dacces/';
@@ -19,8 +26,180 @@ const ETALAB = 'https://www.etalab.gouv.fr/licence-ouverte-open-licence/';
 const OPENMAPTILES = 'https://openmaptiles.org/';
 const MAPTERHORN_ATRIBUCIO = 'https://mapterhorn.com/attribution';
 
-const ACTUALITZAT = '2026-10-02';
+const ACTUALITZAT = '2026-10-04';
 const CONSULTAT = '2026-09-28';
+
+/* -------- Dificultat orientativa: tots els números surten de `ESCALA_DIFICULTAT` (domain) -------- */
+
+/** Enter amb punt de milers (2.500) i decimals amb coma (1,4), com a la resta de textos. */
+const num = (n: number): string => {
+	const [enter, decimals] = String(n).split('.');
+	const ambMilers = enter.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+	return decimals ? `${ambMilers},${decimals}` : ambMilers;
+};
+
+/** Minuts en format "2 h 30 min". */
+const durada = (minuts: number): string => {
+	const h = Math.floor(minuts / 60);
+	const m = minuts % 60;
+	return [h ? `${h} h` : '', m ? `${m} min` : ''].filter(Boolean).join(' ');
+};
+
+const NOMS_NIVELL: Record<AppLocale, Record<NivellDificultat, string>> = {
+	ca: { 1: 'Fàcil', 2: 'Moderada', 3: 'Exigent', 4: 'Molt exigent' },
+	es: { 1: 'Fácil', 2: 'Moderada', 3: 'Exigente', 4: 'Muy exigente' }
+};
+
+const NOMS_TECNICITAT: Record<AppLocale, Record<Tecnicitat, string>> = {
+	ca: {
+		cap: 'camí o pista sense dificultat tècnica',
+		'terreny-irregular': 'terreny irregular (tarteres, pedra solta o trams sense camí marcat)',
+		'grimpada-facil': 'grimpada fàcil (passos puntuals amb les mans, I)',
+		grimpada: 'grimpada continuada o aèria (II o més) o trams amb cadenes',
+		'via-equipada': 'via ferrada o trams equipats obligatoris'
+	},
+	es: {
+		cap: 'camino o pista sin dificultad técnica',
+		'terreny-irregular': 'terreno irregular (pedreras, piedra suelta o tramos sin camino marcado)',
+		'grimpada-facil': 'trepada fácil (pasos puntuales con las manos, I)',
+		grimpada: 'trepada continuada o aérea (II o más) o tramos con cadenas',
+		'via-equipada': 'vía ferrata o tramos equipados obligatorios'
+	}
+};
+
+/** Noms curts del pas més tècnic (per a frases). */
+const NOMS_TECNICITAT_CURT: Record<AppLocale, Record<Tecnicitat, string>> = {
+	ca: {
+		cap: 'camí sense dificultat',
+		'terreny-irregular': 'terreny irregular',
+		'grimpada-facil': 'grimpada fàcil',
+		grimpada: 'grimpada',
+		'via-equipada': 'via equipada'
+	},
+	es: {
+		cap: 'camino sin dificultad',
+		'terreny-irregular': 'terreno irregular',
+		'grimpada-facil': 'trepada fácil',
+		grimpada: 'trepada',
+		'via-equipada': 'vía equipada'
+	}
+};
+
+/** Secció "Dificultat orientativa" (ancla `#dificultat-orientativa`, l'enllacen les fitxes). */
+function seccioDificultat(locale: AppLocale): Seccio {
+	const ca = locale === 'ca';
+	const nom = NOMS_NIVELL[locale];
+	const { metresPerKmEsforc, minutsPerKmEsforc, factorNomesDesnivell, llindarsKmEsforc } =
+		ESCALA_DIFICULTAT.esforc;
+	const [l1, l2, l3] = llindarsKmEsforc;
+	const [a2, a3] = ESCALA_DIFICULTAT.altitud.llindarsM;
+	const tecnica = (Object.entries(ESCALA_DIFICULTAT.tecnica) as [Tecnicitat, NivellDificultat][])
+		.map(([t, n]) => `${NOMS_TECNICITAT[locale][t]} → ${nom[n]}`)
+		.join('; ');
+	const facils = CRITERIS_LLISTATS_DIFICULTAT['cims-facils'];
+	const nens = CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'];
+	const nivellsNens = ESCALA_DIFICULTAT.nivells
+		.filter((n) => n.nivell <= nens.nivellMax)
+		.map((n) => nom[n.nivell])
+		.join(' o ');
+	const tecnicitatsNens = nens.tecnicitats.map((t) => NOMS_TECNICITAT_CURT[locale][t]).join(' o ');
+
+	const blocs: Bloc[] = ca
+		? [
+				{
+					tipus: 'paragraf',
+					text: "La **dificultat orientativa** és una estimació pròpia de Carnet de Cims per a la ruta normal de cada cim amb fitxa completa. **No és el MIDE** ni cap valoració oficial (ni de la FEEC ni de cap altra entitat): serveix per comparar cims d'un cop d'ull. Té quatre nivells:"
+				},
+				{
+					tipus: 'llista',
+					items: [
+						`**${nom[1]}:** excursió curta per camí, sense passos on calgui posar les mans i per sota dels ${num(a2)} m. Per a qualsevol persona acostumada a caminar.`,
+						`**${nom[2]}:** cal una mica més de forma física: més desnivell o distància, terreny pedregós, algun pas puntual amb les mans o un cim d'alta muntanya.`,
+						`**${nom[3]}:** jornada llarga o amb molt desnivell, grimpades continuades o amb cadenes, o cims de més de ${num(a3)} m. Cal experiència de muntanya.`,
+						`**${nom[4]}:** recorregut molt llarg o amb via equipada obligatòria. Només per a excursionistes amb experiència i bona forma física.`
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: "**Quines dades fem servir.** De la ruta normal, només l'anada: el desnivell positiu, la distància, el temps, el pas més tècnic segons les fonts i l'altitud del cim. Cada dada de la ruta surt d'una font citada a la fitxa; no n'inventem cap. Amb aquestes dades calculem tres factors i el nivell final és **el més alt** dels tres: cap factor no en compensa un altre."
+				},
+				{
+					tipus: 'llista',
+					items: [
+						`**Esforç (km-esforç d'anada):** la distància en km més el desnivell positiu dividit per ${num(metresPerKmEsforc)} (${num(metresPerKmEsforc)} m de pujada equivalen a 1 km pla). Si no tenim totes dues dades, fem servir el temps d'anada (1 km-esforç cada ${num(minutsPerKmEsforc)} min) o, només amb el desnivell, desnivell / ${num(metresPerKmEsforc)} × ${num(factorNomesDesnivell)}. Fins a ${num(l1)} → ${nom[1]}; fins a ${num(l2)} → ${nom[2]}; fins a ${num(l3)} → ${nom[3]}; més de ${num(l3)} → ${nom[4]}.`,
+						`**Pas més tècnic:** ${tecnica}.`,
+						`**Altitud del cim:** per sota dels ${num(a2)} m no hi suma; de ${num(a2)} a ${num(a3 - 1)} m, com a mínim ${nom[2]}; a partir de ${num(a3)} m, com a mínim ${nom[3]}. Fa de mínim, però sola no basta per calcular la dificultat.`
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: "**Quan és aproximada.** Si a la ruta li falta alguna dada amb font (el desnivell, la distància o el pas més tècnic, o el temps quan no hi ha desnivell i distància), la dificultat surt marcada com a **aproximada**. Si no hi ha prou dades ni per a l'esforç ni per al pas més tècnic, no en mostrem cap."
+				},
+				{
+					tipus: 'paragraf',
+					text: `**Llistats.** Els [cims fàcils](/cims-facils) són els que tenen la ruta normal de nivell ${nom[facils.nivellMax]}. Els [cims per fer amb nens](/cims-amb-nens) tenen nivell ${nivellsNens}, com a pas més tècnic ${tecnicitatsNens} (sense grimpades) i com a màxim ${num(nens.desnivellMaxM)} m de desnivell i ${durada(nens.tempsMaxMinuts)} d'anada quan se'n coneixen. En tots dos cal que la ruta tingui l'esforç calculat i el pas més tècnic amb font. Els llistats creixen a mesura que completem fitxes.`
+				},
+				{
+					tipus: 'paragraf',
+					text: "**MIDE.** El MIDE (Mètode d'Informació d'Excursions) és un sistema de valoració estandarditzat. Només el mostrem quan una font fiable el publica per a aquella ruta, i sempre amb la font citada; no el calculem mai nosaltres."
+				},
+				{
+					tipus: 'avis',
+					to: 'alerta',
+					text: "La dificultat real depèn de la meteorologia, de l'estat del terreny (neu, gel, pedra mullada o solta), de l'època de l'any i de la teva forma física i experiència. Una ruta fàcil a l'estiu pot ser perillosa a l'hivern. Consulta la previsió, informa't de l'estat del camí, no dubtis a girar cua i, en cas d'emergència, truca al 112."
+				}
+			]
+		: [
+				{
+					tipus: 'paragraf',
+					text: 'La **dificultad orientativa** es una estimación propia de Carnet de Cims para la ruta normal de cada cima con ficha completa. **No es el MIDE** ni ninguna valoración oficial (ni de la FEEC ni de ninguna otra entidad): sirve para comparar cimas de un vistazo. Tiene cuatro niveles:'
+				},
+				{
+					tipus: 'llista',
+					items: [
+						`**${nom[1]}:** excursión corta por camino, sin pasos donde haya que poner las manos y por debajo de los ${num(a2)} m. Para cualquier persona acostumbrada a caminar.`,
+						`**${nom[2]}:** hace falta algo más de forma física: más desnivel o distancia, terreno pedregoso, algún paso puntual con las manos o una cima de alta montaña.`,
+						`**${nom[3]}:** jornada larga o con mucho desnivel, trepadas continuadas o con cadenas, o cimas de más de ${num(a3)} m. Hace falta experiencia de montaña.`,
+						`**${nom[4]}:** recorrido muy largo o con vía equipada obligatoria. Solo para excursionistas con experiencia y buena forma física.`
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: '**Qué datos usamos.** De la ruta normal, solo la ida: el desnivel positivo, la distancia, el tiempo, el paso más técnico según las fuentes y la altitud de la cima. Cada dato de la ruta sale de una fuente citada en la ficha; no inventamos ninguno. Con estos datos calculamos tres factores y el nivel final es **el más alto** de los tres: ningún factor compensa a otro.'
+				},
+				{
+					tipus: 'llista',
+					items: [
+						`**Esfuerzo (km-esfuerzo de ida):** la distancia en km más el desnivel positivo dividido por ${num(metresPerKmEsforc)} (${num(metresPerKmEsforc)} m de subida equivalen a 1 km llano). Si no tenemos ambos datos, usamos el tiempo de ida (1 km-esfuerzo cada ${num(minutsPerKmEsforc)} min) o, solo con el desnivel, desnivel / ${num(metresPerKmEsforc)} × ${num(factorNomesDesnivell)}. Hasta ${num(l1)} → ${nom[1]}; hasta ${num(l2)} → ${nom[2]}; hasta ${num(l3)} → ${nom[3]}; más de ${num(l3)} → ${nom[4]}.`,
+						`**Paso más técnico:** ${tecnica}.`,
+						`**Altitud de la cima:** por debajo de los ${num(a2)} m no suma; de ${num(a2)} a ${num(a3 - 1)} m, como mínimo ${nom[2]}; a partir de ${num(a3)} m, como mínimo ${nom[3]}. Actúa como mínimo, pero por sí sola no basta para calcular la dificultad.`
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: '**Cuándo es aproximada.** Si a la ruta le falta algún dato con fuente (el desnivel, la distancia o el paso más técnico, o el tiempo cuando no hay desnivel y distancia), la dificultad aparece marcada como **aproximada**. Si no hay datos suficientes ni para el esfuerzo ni para el paso más técnico, no mostramos ninguna.'
+				},
+				{
+					tipus: 'paragraf',
+					text: `**Listados.** Las [cimas fáciles](/cims-facils) son las que tienen la ruta normal de nivel ${nom[facils.nivellMax]}. Las [cimas para hacer con niños](/cims-amb-nens) tienen nivel ${nivellsNens}, como paso más técnico ${tecnicitatsNens} (sin trepadas) y como máximo ${num(nens.desnivellMaxM)} m de desnivel y ${durada(nens.tempsMaxMinuts)} de ida cuando se conocen. En ambos hace falta que la ruta tenga el esfuerzo calculado y el paso más técnico con fuente. Los listados crecen a medida que completamos fichas.`
+				},
+				{
+					tipus: 'paragraf',
+					text: '**MIDE.** El MIDE (Método de Información de Excursiones) es un sistema de valoración estandarizado. Solo lo mostramos cuando una fuente fiable lo publica para esa ruta, y siempre con la fuente citada; nunca lo calculamos nosotros.'
+				},
+				{
+					tipus: 'avis',
+					to: 'alerta',
+					text: 'La dificultad real depende de la meteorología, del estado del terreno (nieve, hielo, roca mojada o suelta), de la época del año y de tu forma física y experiencia. Una ruta fácil en verano puede ser peligrosa en invierno. Consulta la previsión, infórmate del estado del camino, no dudes en darte la vuelta y, en caso de emergencia, llama al 112.'
+				}
+			];
+
+	return {
+		id: 'dificultat-orientativa',
+		titol: ca ? 'Dificultat orientativa' : 'Dificultad orientativa',
+		blocs
+	};
+}
 
 export const metodologia: Contingut = {
 	ca: {
@@ -121,10 +300,11 @@ export const metodologia: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: "Ara mateix totes les fitxes són esborranys. Més endavant hi afegirem descripcions, accessos i dificultat (MIDE). Els textos es redactaran amb ajuda d'eines d'intel·ligència artificial a partir de fonts citades, i una persona els revisarà abans de marcar la fitxa com a revisada."
+						text: "Ara mateix totes les fitxes són esborranys. Les que ja tenen contingut inclouen descripció, accessos i [dificultat orientativa](/metodologia#dificultat-orientativa); el MIDE només hi surt quan una font el publica. Els textos es redactaran amb ajuda d'eines d'intel·ligència artificial a partir de fonts citades, i una persona els revisarà abans de marcar la fitxa com a revisada."
 					}
 				]
 			},
+			seccioDificultat('ca'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',
@@ -299,10 +479,11 @@ export const metodologia: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'Ahora mismo todas las fichas son borradores. Más adelante añadiremos descripciones, accesos y dificultad (MIDE). Los textos se redactarán con ayuda de herramientas de inteligencia artificial a partir de fuentes citadas, y una persona los revisará antes de marcar la ficha como revisada.'
+						text: 'Ahora mismo todas las fichas son borradores. Las que ya tienen contenido incluyen descripción, accesos y [dificultad orientativa](/metodologia#dificultat-orientativa); el MIDE solo aparece cuando una fuente lo publica. Los textos se redactarán con ayuda de herramientas de inteligencia artificial a partir de fuentes citadas, y una persona los revisará antes de marcar la ficha como revisada.'
 					}
 				]
 			},
+			seccioDificultat('es'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',

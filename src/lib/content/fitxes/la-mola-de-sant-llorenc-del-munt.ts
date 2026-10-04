@@ -26,6 +26,18 @@ const FEMTURISME = {
 	consultat: CONSULTAT
 };
 
+const TOTNENS_MONTCAU = {
+	nom: 'Totnens: excursió al Montcau amb nens',
+	url: 'https://totnens.cat/que-fem/montcau/',
+	consultat: '2026-10-04'
+};
+
+const DEXCURSIO = {
+	nom: "D'excursió per Catalunya: el Montcau i la Mola des del coll d'Estenalles",
+	url: 'https://dexcursio.net/montcau-i-la-mola/',
+	consultat: '2026-10-04'
+};
+
 const fitxa: ContingutFitxa = {
 	slug: 'la-mola-de-sant-llorenc-del-munt',
 	descripcio: {
@@ -51,6 +63,7 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Els Dipòsits (Matadepera)' },
 			desnivellPositiuM: 481,
+			tecnicitat: 'cap',
 			descripcio: {
 				ca: "És la pujada més popular. El tram final del camí medieval que unia els monestirs de Sant Cugat i de Sant Llorenç del Munt surt de la zona dels Dipòsits, a Matadepera, i en uns 2,5–3 km s'enfila de manera sostinguda fins al monestir. El parc hi va renovar el 2023 el ferm per frenar l'erosió causada pel pas d'unes 200.000 persones l'any.",
 				es: 'Es la subida más popular. El tramo final del camino medieval que unía los monasterios de Sant Cugat y de Sant Llorenç del Munt sale de la zona de els Dipòsits, en Matadepera, y en unos 2,5–3 km sube de forma sostenida hasta el monasterio. El parque renovó en 2023 el firme para frenar la erosión causada por el paso de unas 200.000 personas al año.'
@@ -64,11 +77,12 @@ const fitxa: ContingutFitxa = {
 				es: "Desde el coll d'Estenalles (SL-C 54)"
 			},
 			sortida: { nom: "Coll d'Estenalles" },
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "Accés pel nord, més llarg però més tranquil i ombrívol. El sender local SL-C 54 passa pel Montcau i el coll d'Eres i segueix la carena fins al monestir: anada i tornada són uns 12 km i 501 m de desnivell, unes 3–4 h segons Femturisme.",
-				es: "Acceso por el norte, más largo pero más tranquilo y sombreado. El sendero local SL-C 54 pasa por el Montcau y el coll d'Eres y sigue la cresta hasta el monasterio: ida y vuelta son unos 12 km y 501 m de desnivel, unas 3–4 h según Femturisme."
+				ca: "Accés pel nord, més llarg però més tranquil i ombrívol. El sender local SL-C 54 passa pel cim del Montcau (amb una grimpada curta i fàcil al final) i el coll d'Eres i segueix la carena fins al monestir: anada i tornada són uns 12 km i 501 m de desnivell, unes 3–4 h segons Femturisme.",
+				es: "Acceso por el norte, más largo pero más tranquilo y sombreado. El sendero local SL-C 54 pasa por la cima del Montcau (con una trepada corta y fácil al final) y el coll d'Eres y sigue la cresta hasta el monasterio: ida y vuelta son unos 12 km y 501 m de desnivel, unas 3–4 h según Femturisme."
 			},
-			fonts: [FEMTURISME, VIQUIPEDIA]
+			fonts: [FEMTURISME, VIQUIPEDIA, TOTNENS_MONTCAU, DEXCURSIO]
 		}
 	],
 	consells: {
@@ -145,9 +159,9 @@ const fitxa: ContingutFitxa = {
 			url: 'https://ca.wikiloc.com/rutes-senderisme/la-mola-sant-llorenc-del-munt-cami-dels-monjos-12348009'
 		}
 	],
-	fonts: [VIQUIPEDIA, VIQUIPEDIA_MONJOS, DIBA_MONJOS, FEMTURISME],
+	fonts: [VIQUIPEDIA, VIQUIPEDIA_MONJOS, DIBA_MONJOS, FEMTURISME, TOTNENS_MONTCAU, DEXCURSIO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

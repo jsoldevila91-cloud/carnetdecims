@@ -32,6 +32,12 @@ const PARC_INFO = {
 	consultat: CONSULTAT
 };
 
+const RUTES_PIRINEUS = {
+	nom: "Rutes Pirineus: pic de Comapedrosa des d'Arinsal",
+	url: 'https://www.rutespirineus.cat/rutes/pic-de-comapedrosa-arinsal-andorra',
+	consultat: '2026-10-04'
+};
+
 const fitxa: ContingutFitxa = {
 	slug: 'comapedrosa',
 	descripcio: {
@@ -59,11 +65,12 @@ const fitxa: ContingutFitxa = {
 			desnivellPositiuM: 1327,
 			distanciaKm: 6,
 			tempsMinuts: 240,
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "És la via normal i suma dos itineraris del parc. El primer segueix el GR 11 pel camí de les Carboneres i l'obaga de Comapedrosa fins al refugi (2 h, 2,7 km i 650 m de desnivell). El segon travessa la pleta de Comapedrosa, puja fort fins a les basses de l'estany Negre i s'enfila cap al cim (2 h, 3,3 km i 677 m). El parc adverteix que l'últim tram és el més dur i que cal ser-hi extremadament prudent.",
-				es: 'Es la vía normal y suma dos itinerarios del parque. El primero sigue el GR 11 por el camino de les Carboneres y la umbría de Comapedrosa hasta el refugio (2 h, 2,7 km y 650 m de desnivel). El segundo cruza la pleta de Comapedrosa, sube fuerte hasta las balsas del estany Negre y se encarama hacia la cima (2 h, 3,3 km y 677 m). El parque advierte de que el último tramo es el más duro y que hay que ser extremadamente prudente.'
+				ca: "És la via normal i suma dos itineraris del parc. El primer segueix el GR 11 pel camí de les Carboneres i l'obaga de Comapedrosa fins al refugi (2 h, 2,7 km i 650 m de desnivell). El segon travessa la pleta de Comapedrosa, puja fort fins a les basses de l'estany Negre i s'enfila cap al cim (2 h, 3,3 km i 677 m). El parc adverteix que l'últim tram és el més dur i que cal ser-hi extremadament prudent: és pedregós i, segons Rutes Pirineus, en alguns trams de la carena cal ajudar-se de les mans.",
+				es: 'Es la vía normal y suma dos itinerarios del parque. El primero sigue el GR 11 por el camino de les Carboneres y la umbría de Comapedrosa hasta el refugio (2 h, 2,7 km y 650 m de desnivel). El segundo cruza la pleta de Comapedrosa, sube fuerte hasta las balsas del estany Negre y se encarama hacia la cima (2 h, 3,3 km y 677 m). El parque advierte de que el último tramo es el más duro y que hay que ser extremadamente prudente: es pedregoso y, según Rutes Pirineus, en algunos tramos de la cresta hay que ayudarse de las manos.'
 			},
-			fonts: [PARC_REFUGI, PARC_CIM]
+			fonts: [PARC_REFUGI, PARC_CIM, RUTES_PIRINEUS]
 		},
 		{
 			id: 'baiau',
@@ -151,9 +158,9 @@ const fitxa: ContingutFitxa = {
 			url: 'https://ca.wikiloc.com/rutes-senderisme/arinsal-pleta-de-comapedrosa-estany-negre-pic-de-comapedrosa-refugi-del-pla-de-lestany-arinsal-7622220'
 		}
 	],
-	fonts: [VIQUIPEDIA, PARC_ITINERARIS, PARC_REFUGI, PARC_CIM, PARC_INFO],
+	fonts: [VIQUIPEDIA, PARC_ITINERARIS, PARC_REFUGI, PARC_CIM, RUTES_PIRINEUS, PARC_INFO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

@@ -11,7 +11,9 @@
  *   `sitemap-ca-cims.xml`.
  * - Comarques (`sitemap-ca-comarques.xml`, `sitemap-es-comarcas.xml`): l'índex `/comarques` i les
  *   pàgines de comarca indexables (`comarcaIndexable`: almenys 3 cims; docs/02 §4.2).
- * - Llistats curats (`sitemap-ca-llistats.xml`, `sitemap-es-listados.xml`): `LLISTAT_PATHS`.
+ * - Llistats curats (`sitemap-ca-llistats.xml`, `sitemap-es-listados.xml`): `LLISTAT_PATHS`; els
+ *   de dificultat (`/cims-facils`, `/cims-amb-nens`), només si tenen almenys 3 cims
+ *   (`llistatIndexable`; la pàgina aplica el mateix criteri per al `noindex`).
  * - Contingut editorial (`sitemap-ca-contingut.xml`, `sitemap-es-contenido.xml`): les pàgines de
  *   `PAGINES_CONTINGUT` indexables en tots dos idiomes, amb `lastmod` = `actualitzat` de cada
  *   idioma (data real de revisió del text). Les legals (`CONTINGUT_FORA_SITEMAP`) en queden fora.
@@ -42,8 +44,14 @@ import {
 	slugsComarquesAmbCims,
 	type AppLocale
 } from '../i18n/routes.ts';
-import { contingutFitxa } from '../content/fitxes/index.ts';
-import { PAGINES_NOINDEX, comarcaIndexable, fitxaIndexable } from './indexabilitat.ts';
+import { contingutFitxa, slugsLlistatDificultat } from '../content/fitxes/index.ts';
+import type { LlistatDificultatId } from '../domain/dificultat.ts';
+import {
+	PAGINES_NOINDEX,
+	comarcaIndexable,
+	fitxaIndexable,
+	llistatIndexable
+} from './indexabilitat.ts';
 
 export type SitemapAlternate = { hreflang: AppLocale | 'x-default'; href: string };
 export type SitemapUrl = { loc: string; lastmod?: string; alternates?: SitemapAlternate[] };
@@ -160,6 +168,26 @@ export function comarcaSitemapUrls(locale: AppLocale): SitemapUrl[] {
 	];
 }
 
+/** Llistats que depenen de la dificultat de les fitxes (camí → id). */
+const LLISTATS_DIFICULTAT: Readonly<Record<string, LlistatDificultatId>> = {
+	'/cims-facils': 'cims-facils',
+	'/cims-amb-nens': 'cims-amb-nens'
+};
+
+/**
+ * Llistats curats indexables en un idioma: tots els de catàleg i els de dificultat amb almenys
+ * `MIN_CIMS_LLISTAT_INDEXABLE` cims. `nCims` es pot injectar per als tests.
+ */
+export function llistatSitemapUrls(
+	locale: AppLocale,
+	nCims: (id: LlistatDificultatId) => number = (id) => slugsLlistatDificultat(id).length
+): SitemapUrl[] {
+	return LLISTAT_PATHS.filter((p) => {
+		const id = LLISTATS_DIFICULTAT[p];
+		return id === undefined || llistatIndexable(nCims(id));
+	}).map((p) => urlAmbAlternates((l) => localizePath(p, l), locale));
+}
+
 export const SITEMAP_SECTIONS: readonly SitemapSection[] = [
 	{
 		name: { ca: 'pagines', es: 'paginas' },
@@ -174,7 +202,7 @@ export const SITEMAP_SECTIONS: readonly SitemapSection[] = [
 	},
 	{
 		name: { ca: 'llistats', es: 'listados' },
-		urls: (locale) => LLISTAT_PATHS.map((p) => urlAmbAlternates((l) => localizePath(p, l), locale))
+		urls: (locale) => llistatSitemapUrls(locale)
 	},
 	{
 		name: { ca: 'contingut', es: 'contenido' },

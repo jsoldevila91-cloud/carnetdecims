@@ -339,7 +339,9 @@ export function comarquesGraph(opts: {
 export const LLISTAT_PATH: Readonly<Record<LlistatId, (typeof LLISTAT_PATHS)[number]>> = {
 	essencials: '/cims-essencials',
 	tresmils: '/tresmils',
-	'mes-alts': '/cims-mes-alts'
+	'mes-alts': '/cims-mes-alts',
+	'cims-facils': '/cims-facils',
+	'cims-amb-nens': '/cims-amb-nens'
 };
 
 /**

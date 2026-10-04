@@ -1,4 +1,5 @@
 <script lang="ts">
+	let { data } = $props();
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale } from '$lib/i18n';
 	import { CIMS, cimsDelLlistat } from '$lib/data/catalog';
@@ -21,6 +22,7 @@
 <PaginaLlistat
 	id="tresmils"
 	{cims}
+	dificultats={data.dificultats}
 	titol={m.tresmils_title()}
 	metaTitol={nomesEssencials
 		? m.tresmils_meta_title_essentials({ count })

@@ -107,7 +107,7 @@
 				<h2 id="essencials" class="x-wide">
 					{m.comarca_essentials_title({ comarca_de: seo.comarcaDe })}
 				</h2>
-				<LlistaCims cims={essencials} {numeros} />
+				<LlistaCims cims={essencials} {numeros} dificultats={data.dificultats} />
 			</section>
 		{/if}
 
@@ -116,7 +116,7 @@
 				<h2 id="altres" class="x-wide">
 					{m.comarca_others_title({ comarca_de: seo.comarcaDe })}
 				</h2>
-				<LlistaCims cims={altres} {numeros} />
+				<LlistaCims cims={altres} {numeros} dificultats={data.dificultats} />
 			</section>
 		{/if}
 

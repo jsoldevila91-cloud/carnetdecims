@@ -27,7 +27,12 @@ type PagePathname = Exclude<
  * `href('/cims')` → `/ca/cims` o `/es/cimas`, amb `base` aplicat via `resolve()`.
  */
 export function href(path: string, locale?: Locale): string {
-	return resolve(localizeHref(path, locale ? { locale } : undefined) as PagePathname);
+	// Els arguments de `resolve` són una unió de tuples (una per camí); en passar de 25 camins
+	// (amb `/cims-facils` i `/cims-amb-nens`), TypeScript ja no relaciona la unió `PagePathname`
+	// amb aquella unió i dona error. Tots aquests camins són sense paràmetres: n'hi ha prou amb
+	// la signatura d'un sol camí.
+	const resoldre = resolve as (route: PagePathname) => string;
+	return resoldre(localizeHref(path, locale ? { locale } : undefined) as PagePathname);
 }
 
 /** Camí intern (deslocalitzat) a partir de l'URL actual: `/es/cimas` → `/cims`. */

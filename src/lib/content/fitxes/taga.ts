@@ -42,6 +42,7 @@ const fitxa: ContingutFitxa = {
 			nom: { ca: 'Des de Bruguera pel coll de Jou', es: 'Desde Bruguera por el coll de Jou' },
 			sortida: { nom: 'Bruguera (Ribes de Freser)' },
 			desnivellPositiuM: 893,
+			tecnicitat: 'cap',
 			descripcio: {
 				ca: "La pujada clàssica des del poble de Bruguera puja pel bosc fins a una pista asfaltada que mena al coll de Jou, un balcó sobre el Puigmal. D'allà, un corriol clar s'enfila pels prats alpins directament al cim. Segons D'excursió per Catalunya, anada i tornada són uns 10,4 km i unes 4 h 30 min.",
 				es: "La subida clásica desde el pueblo de Bruguera sube por el bosque hasta una pista asfaltada que lleva al coll de Jou, un balcón sobre el Puigmal. Desde allí, una senda clara sube por los prados alpinos directamente a la cima. Según D'excursió per Catalunya, ida y vuelta son unos 10,4 km y unas 4 h 30 min."
@@ -133,7 +134,7 @@ const fitxa: ContingutFitxa = {
 	],
 	fonts: [VIQUIPEDIA, DEXCURSIO, ITINERANNIA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

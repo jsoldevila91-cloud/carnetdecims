@@ -38,6 +38,7 @@ const fitxa: ContingutFitxa = {
 			desnivellPositiuM: 1100,
 			distanciaKm: 4.2,
 			tempsMinuts: 210,
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
 				ca: "És la via d'ascens amb menys dificultat tècnica. Es puja per bosc fins a la serra de la Tossa, després per la tartera de Gósol fins a l'Enforcadura i, finalment, per una canal rocosa on cal ajudar-se de les mans en alguns trams. Es torna pel mateix camí. Prop del cim no t'acostis a la vora dels cingles.",
 				es: 'Es la vía de ascenso con menos dificultad técnica. Se sube por bosque hasta la sierra de la Tossa, luego por la pedrera de Gósol hasta la Enforcadura y, al final, por una canal rocosa donde hay que usar las manos en algunos tramos. Se vuelve por el mismo camino. Cerca de la cima, no te acerques al borde de los cortados.'
@@ -51,6 +52,7 @@ const fitxa: ContingutFitxa = {
 				es: 'Desde el mirador de Gresolet por el collado del Verdet'
 			},
 			sortida: { nom: 'Aparcament del mirador de Gresolet (Saldes)' },
+			tecnicitat: 'grimpada',
 			descripcio: {
 				ca: "Ruta circular del parc natural: 8,9 km, 1.100 m de desnivell i unes 5 h en total, valorada com a molt exigent. Puja pel refugi Lluís Estasen fins al coll del Verdet i continua per la canal del Verdet, un pas equipat on cal grimpar uns 120 m. Es baixa per l'Enforcadura i el camí que voreja la tartera de Saldes: no es recomana baixar per la mateixa tartera, molt degradada i amb risc d'accidents.",
 				es: 'Ruta circular del parque natural: 8,9 km, 1.100 m de desnivel y unas 5 h en total, valorada como muy exigente. Sube por el refugio Lluís Estasen hasta el collado del Verdet y sigue por la canal del Verdet, un paso equipado donde hay que trepar unos 120 m. Se baja por la Enforcadura y el sendero que bordea la pedrera de Saldes: no se recomienda bajar por la propia pedrera, muy degradada y con riesgo de accidentes.'
@@ -153,7 +155,7 @@ const fitxa: ContingutFitxa = {
 		}
 	],
 	estat: 'esborrany',
-	actualitzat: '2026-10-03'
+	actualitzat: '2026-10-04'
 };
 
 export default fitxa;

@@ -50,6 +50,29 @@ Párrafos en este orden (se pueden fusionar si el cim da para poco):
 8. **Coordenadas de salida:** solo con fuente (ICGC, IGN, parque natural, refugio); si no, solo el nombre.
 9. **Fuentes válidas, por orden de preferencia:** ICGC; parques naturales y espacios protegidos (Generalitat, Diputació de Barcelona, Govern d'Andorra, Grand Site/PNR en Catalunya Nord); ayuntamientos y oficinas de turismo; FEEC y sus entidades; refugios; Viquipèdia/Wikipedia (para historia y toponimia, contrastada); guías editoriales y clubes reconocidos. Blogs personales y tracks de usuarios: solo para contrastar, no como única fuente de una cifra.
 10. Cada `FontCitada` lleva `consultat` con la fecha de consulta.
+11. **`tecnicitat` (paso más técnico de la ruta) solo con fuente.** Ver §5.1.
+
+### 5.1 Cómo documentar `tecnicitat`
+
+Alimenta la **dificultad orientativa** (`src/lib/domain/dificultat.ts`, explicada en `/metodologia#dificultat-orientativa`) y los listados `/cims-facils` y `/cims-amb-nens`. **No es MIDE.** Un valor demasiado bajo puede llevar a alguien a un paso que no espera: ante la duda entre dos valores, el **más alto**.
+
+| Valor               | Cuándo (según la fuente, en la ruta de **ida** descrita)                                                    | Ejemplos de las pilotos                                                 |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `cap`               | Camino, pista o escaleras sin pasos donde haya que poner las manos; la fuente dice "sin dificultad técnica" | Camí dels Monjos (la Mola), Taga desde Bruguera, Sant Jeroni            |
+| `terreny-irregular` | Tartera, piedra suelta, terreno "molt pedregós", tramos sin camino marcado (solo hitos)                     | Matagalls por el GR 5.2, Puigmal desde Fontalba, Canigó desde Cortalets |
+| `grimpada-facil`    | Pasos **puntuales** donde la fuente dice que hay que ayudarse de las manos (I, "F" de las reseñas)          | Pedraforca por Gósol, Comapedrosa, Pica d'Estats, Montcau               |
+| `grimpada`          | Trepada **continuada** o aérea (II o más), canales a manos y pies, tramos con cadenas                       | Canal del Verdet (Pedraforca), xemeneia del Canigó                      |
+| `via-equipada`      | Vía ferrata o tramos equipados **obligatorios** (no hay alternativa a pie)                                  | —                                                                       |
+
+Reglas:
+
+1. **Fuente explícita sobre el terreno o los pasos** de esa ruta (no de otra variante): frases como "cal ajudar-se de les mans", "grimpada de 70 m", "pas equipat amb cadenes", "tartera", "sense dificultat tècnica". La fuente va en `fonts` de la ruta (si es nueva, se añade también a `fonts` de la ficha).
+2. **Fuentes válidas** (mismo orden que §5.9): parques naturales y refugios (los mejores para pasos y equipamientos), Generalitat/Diputació/Govern d'Andorra, FEEC y entidades, guías y webs de reseñas con descripción propia del itinerario (Rutes Pirineus, D'excursió per Catalunya, Totnens, Itinerànnia…). Un blog personal vale solo si describe el paso con claridad y no hay otra fuente mejor; un track de Wikiloc **no** vale.
+3. **No sirve la leyenda genérica** de la escala de una web (p. ej. "F: pot ser necessari utilitzar les mans" de Rutes Pirineus): tiene que estar en la descripción de la ruta. Tampoco la valoración global ("difícil", "alta") sin detalle del paso.
+4. **Fuentes que discrepan:** se toma el valor más alto y se cuenta en la descripción ("segons Rutes Pirineus, en algun ressalt cal ajudar-se de les mans").
+5. **Coherencia con el texto:** la `descripcio` de la ruta tiene que decir lo mismo (si `tecnicitat` es `grimpada`, el texto lo explica). Nunca "no té passos tècnics" con `grimpada-facil`.
+6. **Variantes de bajada o rutas sin detalle del terreno:** se omite el campo. La dificultad saldrá "aproximada" o no saldrá, que es lo correcto.
+7. Las condiciones invernales (nieve, hielo) no cuentan para `tecnicitat`: es el paso más técnico en condiciones de verano; el invierno se avisa en `consells`.
 
 ## 6. Seguridad de montaña
 
@@ -86,6 +109,7 @@ Párrafos en este orden (se pueden fusionar si el cim da para poco):
 - [ ] ≥ 400 palabras por idioma (550+ en cims famosos).
 - [ ] ca y es simétricos: mismo número de párrafos, rutas, consells y FAQ.
 - [ ] Cada cifra y cada MIDE con fuente; `consultat` en todas las fuentes.
+- [ ] `tecnicitat` en cada ruta con fuente explícita del paso (§5.1) u omitida; coherente con la descripción.
 - [ ] Enlace a la comarca y a 1–3 cims cercanos; todos los enlaces existen.
 - [ ] Ninguna frase copiada; ninguna frase plantilla repetida de otra ficha.
 - [ ] Avisos de seguridad donde toca (trepadas, nieve, tormentas).

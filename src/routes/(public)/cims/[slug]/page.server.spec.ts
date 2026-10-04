@@ -46,6 +46,11 @@ describe('load de la fitxa: contingut només en l’idioma de la pàgina', () =>
 
 	it('cim sense contingut editorial → contingut null i no indexable', () => {
 		const json = dadesSerialitzades('balandrau', 'ca');
-		expect(JSON.parse(json)).toEqual({ contingut: null, indexable: false });
+		expect(JSON.parse(json)).toEqual({
+			contingut: null,
+			dificultat: null,
+			dificultatRutes: {},
+			indexable: false
+		});
 	});
 });

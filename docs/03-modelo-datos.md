@@ -193,6 +193,17 @@ Estado a **2026-09-29**, tras leer la normativa vigente de la FEEC (vigente desd
 
 Al ampliar el catálogo a 522 hay que cargar Les Càrcoles y Roc Roi en `scripts/catalog/manual.ts` (o la fuente de restricciones), con `fontUrl` a la página de restricciones de la FEEC, y revisar la página en cada build.
 
+### 3.4 Dificultat orientativa (bloque 6a-bis, `src/lib/domain/dificultat.ts`)
+
+Estimación **propia** de Carnet de Cims (no es el MIDE ni una valoración oficial) de una ruta de acceso (ida), calculada con las datos con fuente de la ficha. Umbrales exportados en `ESCALA_DIFICULTAT` (la Metodología los muestra desde ahí).
+
+- **Esfuerzo** (km-esfuerzo de ida; 100 m de subida = 1 km llano): con desnivel y distancia, `km + m/100`; si no, con el tiempo, `minutos / 15` (~4 km-esfuerzo/h); si solo hay desnivel, `m/100 × 1,4` (pendiente media del 25 %). La distancia sola no basta. ≤ 7 → 1 · ≤ 15 → 2 · ≤ 22 → 3 · > 22 → 4.
+- **Técnica** (`tecnicitat` con fuente): `cap` 1 · `terreny-irregular` 2 · `grimpada-facil` 2 · `grimpada` 3 · `via-equipada` 4.
+- **Altitud** del cim (catálogo): < 2.500 m → 1 · 2.500–2.999 → 2 · ≥ 3.000 → 3. Actúa de mínimo; sola no da resultado.
+- **Nivel = el factor más alto** (1 Fàcil · 2 Moderada · 3 Exigent · 4 Molt exigent). Sin esfuerzo ni técnica → `null` (no se muestra). Si falta desnivel, distancia (o el tiempo cuando no hay ambos) o la tecnicidad → `aproximada: true` con `dadesQueFalten`.
+- **Calibración** (ruta normal de las 10 pilotos): La Mola fàcil (6,7 km-esf.); Montcau (solo técnica, aproximada), Matagalls (9,2), Sant Jeroni (10,3), Taga (12,5) y Puigmal (14) moderada; Canigó (16), Pedraforca por Gósol (15,2) y Comapedrosa (19,3) exigent; Pica d'Estats (23,6) molt exigent. Pedraforca por el Verdet (grimpada) sería exigent. Tabla en `dificultat.spec.ts`.
+- **Listados** (solo cims con contenido; la ruta normal debe tener esfuerzo calculado **y** tecnicidad con fuente): `cims-facils` = nivel 1; `cims-amb-nens` = nivel ≤ 2, tecnicidad `cap` o `terreny-irregular`, desnivel ≤ 600 m y tiempo de ida ≤ 2 h 30 cuando se conozcan. **Abierto:** el límite de 2 h 30 deja fuera Sant Jeroni (2 h 35); revisar con criterio de montaña cuando haya más fichas.
+
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 
 ### 4.1 Qué publica la FEEC

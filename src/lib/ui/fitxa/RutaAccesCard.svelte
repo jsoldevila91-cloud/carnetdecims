@@ -4,14 +4,26 @@
 	import TextEnLinia from '../TextEnLinia.svelte';
 	import LlistaFonts from './LlistaFonts.svelte';
 	import MideIndicadors from './MideIndicadors.svelte';
+	import DificultatBadge, { type DificultatResum } from './DificultatBadge.svelte';
 	import { formatAltitude, formatDurada, formatKm } from '../format';
 	import { getLocale } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import type { RutaAccesLocal } from '$lib/content/fitxes/local';
 
-	/** Targeta d'una ruta d'accés: nom, sortida, xifres d'anada, descripció, MIDE i fonts. */
-	// Ja en l'idioma de la pàgina (`contingutFitxaLocal`).
-	let { ruta }: { ruta: RutaAccesLocal } = $props();
+	/**
+	 * Targeta d'una ruta d'accés: nom, sortida, xifres d'anada, dificultat orientativa, descripció,
+	 * MIDE (si una font el publica) i fonts. La dificultat orientativa (estimació pròpia) i el MIDE
+	 * (valoració publicada) es mostren en blocs separats i amb títols diferents.
+	 */
+	let {
+		ruta,
+		dificultat = null
+	}: {
+		// Ja en l'idioma de la pàgina (`contingutFitxaLocal`).
+		ruta: RutaAccesLocal;
+		/** Dificultat orientativa d'aquesta ruta (`+page.server.ts` de la fitxa), si es pot calcular. */
+		dificultat?: DificultatResum | null;
+	} = $props();
 
 	const locale = getLocale();
 	const idTitol = $derived(`ruta-${ruta.id}`);
@@ -78,10 +90,17 @@
 		<p class="nota">{m.cim_route_note()}</p>
 	{/if}
 
+	{#if dificultat}
+		<DificultatBadge {dificultat} />
+	{/if}
+
 	<p class="desc"><TextEnLinia text={ruta.descripcio} /></p>
 
 	{#if ruta.mide}
-		<MideIndicadors mide={ruta.mide} titolId={`${idTitol}-mide`} />
+		<!-- MIDE publicat per una font: bloc propi, separat de la dificultat orientativa. -->
+		<div class="mide-bloc">
+			<MideIndicadors mide={ruta.mide} titolId={`${idTitol}-mide`} />
+		</div>
 	{/if}
 
 	{#if ruta.fonts.length > 0}
@@ -200,6 +219,11 @@
 
 	.desc {
 		max-width: 68ch;
+	}
+
+	.mide-bloc {
+		padding-top: var(--sp-2);
+		border-top: var(--bw) solid var(--c-line);
 	}
 
 	.fonts summary {
