@@ -65,7 +65,7 @@ const fitxa: ContingutFitxa = {
 		ca: [
 			"És una ruta d'anada i tornada que surt del mateix barri vell de Girona: no cal cotxe ni buscar aparcament a la muntanya.",
 			"Porta aigua i, a l'estiu, surt d'hora: la pujada per l'alzinar és calorosa a les hores centrals del dia.",
-			"Comparteixes el camí amb bicicletes de muntanya, sobretot a les baixades: camina atent i amb els nens a prop.",
+			'Comparteixes el camí amb bicicletes de muntanya, sobretot a les baixades: camina atent i amb els nens a prop.',
 			"Si puges a la torre, fes-ho amb compte: l'escala de cargol és estreta.",
 			"El cim és dins l'espai protegit de les Gavarres: no llencis res i no encenguis foc."
 		],
@@ -82,7 +82,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al castell de Sant Miquel des de Girona?',
 				resposta:
-					"Segons Rutes Pirineus, uns 1 h 25 min de pujada des de la plaça de Sant Pere de Galligants i 1 h 10 min de baixada pel mateix camí, amb uns 9,6 km i 330 m de desnivell en total. És una sortida de mig matí."
+					'Segons Rutes Pirineus, uns 1 h 25 min de pujada des de la plaça de Sant Pere de Galligants i 1 h 10 min de baixada pel mateix camí, amb uns 9,6 km i 330 m de desnivell en total. És una sortida de mig matí.'
 			},
 			{
 				pregunta: 'Es pot pujar al castell de Sant Miquel amb nens?',

@@ -70,8 +70,8 @@ const fitxa: ContingutFitxa = {
 	],
 	consells: {
 		ca: [
-			'Des de Sant Martí Vell segueix les marques lila de l\'itinerari núm. 2; amb les marques taronja pots tancar una circular per la font de la Pixarella.',
-			"Si vens des de Girona, als encreuaments amb la carretera dels Àngels passen molts cotxes i ciclistes: travessa amb atenció.",
+			"Des de Sant Martí Vell segueix les marques lila de l'itinerari núm. 2; amb les marques taronja pots tancar una circular per la font de la Pixarella.",
+			'Si vens des de Girona, als encreuaments amb la carretera dels Àngels passen molts cotxes i ciclistes: travessa amb atenció.',
 			"Al santuari hi ha restaurant i bar, però consulta'n l'horari abans de comptar-hi per dinar.",
 			"Porta prou aigua a l'estiu: la pujada és per bosc, però les Gavarres són caloroses a les hores centrals.",
 			'El massís de les Gavarres és un espai natural protegit: respecta els camins i no encenguis foc.'
@@ -99,7 +99,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'És veritat que Dalí es va casar al santuari dels Àngels?',
 				resposta:
-					'Sí. Salvador Dalí i Gala s\'hi van casar el 8 d\'agost de 1958, en una cerimònia íntima. El santuari actual és fruit de diverses reconstruccions després de les guerres del 1710 i del 1809.'
+					"Sí. Salvador Dalí i Gala s'hi van casar el 8 d'agost de 1958, en una cerimònia íntima. El santuari actual és fruit de diverses reconstruccions després de les guerres del 1710 i del 1809."
 			},
 			{
 				pregunta: 'Els Àngels compten com a cim essencial?',

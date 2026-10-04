@@ -60,7 +60,7 @@ const fitxa: ContingutFitxa = {
 			"Es pot pujar tot l'any. Per la pista que porta al Bellver hi pot haver gel o neu algun dia d'hivern, i a l'estiu el pla de la Calma és més fresc que la plana, però a ple sol. Els caps de setmana és una sortida molt concorreguda per famílies."
 		],
 		es: [
-			"El Tagamanent es el cerro que cierra por el oeste el pla de la Calma, la meseta de pastos del Montseny, y cae en riscos sobre el valle del Congost. Pertenece al municipio de Tagamanent, [en el Vallès Oriental](/comarques/valles-oriental), dentro del Parque Natural del Montseny. Según la Viquipèdia, el cerro es de calizas y dolomías, y desde el valle del Congost se reconoce por su perfil de acantilado.",
+			'El Tagamanent es el cerro que cierra por el oeste el pla de la Calma, la meseta de pastos del Montseny, y cae en riscos sobre el valle del Congost. Pertenece al municipio de Tagamanent, [en el Vallès Oriental](/comarques/valles-oriental), dentro del Parque Natural del Montseny. Según la Viquipèdia, el cerro es de calizas y dolomías, y desde el valle del Congost se reconoce por su perfil de acantilado.',
 			'En lo alto está la iglesia de **Santa Maria de Tagamanent** y los restos del castillo, documentado ya en el año 945 y que dependió de los condes de Barcelona. La iglesia es románica, del siglo XII, pero el terremoto de 1448 la dañó y se rehízo sobre las ruinas. El conjunto es bien cultural de interés nacional y la Diputación de Barcelona terminó en él unas obras de consolidación en 2019. Por el camino se pasa por las ruinas de la ermita de Sant Martí, y en la salida está la masía del Bellver, que hoy es punto de información del parque y restaurante.',
 			'Es un mirador muy completo para el poco esfuerzo que pide: abajo queda el valle del Congost y, enfrente, los riscos de Bertí; más allá se ven [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) y Montserrat, y hacia el nordeste el [Matagalls](/cims/matagalls) y el resto del Montseny. Según el Ayuntamiento de Figaró-Montmany, en días claros la vista abarca del Canigó al Port del Comte.',
 			'Se puede subir todo el año. En la pista que lleva al Bellver puede haber hielo o nieve algún día de invierno, y en verano el pla de la Calma es más fresco que la llanura, pero a pleno sol. Los fines de semana es una salida muy concurrida por familias.'
@@ -93,7 +93,7 @@ const fitxa: ContingutFitxa = {
 	],
 	consells: {
 		ca: [
-			"La pista asfaltada que puja al Bellver és estreta i plena de revolts: condueix amb calma i aparca només als espais habilitats.",
+			'La pista asfaltada que puja al Bellver és estreta i plena de revolts: condueix amb calma i aparca només als espais habilitats.',
 			"El punt d'informació del conjunt monumental obre els caps de setmana i festius al matí; consulta l'horari al web del parc abans d'anar-hi.",
 			"Si vas en tren, la ruta des de Figaró és llarga i costeruda: porta prou aigua, perquè a l'estiu la pujada és calorosa.",
 			"Les cingleres del cim no tenen protecció: vigila els nens a prop de l'església i del mirador.",
@@ -117,7 +117,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Es pot pujar al Tagamanent amb nens?',
 				resposta:
-					"Sí, és una de les sortides més fàcils del Montseny. Des del Bellver el camí és curt i ben marcat i hi ha nens petits que el fan sencer caminant. Només cal anar amb compte a les cingleres del cim, que no tenen barana."
+					'Sí, és una de les sortides més fàcils del Montseny. Des del Bellver el camí és curt i ben marcat i hi ha nens petits que el fan sencer caminant. Només cal anar amb compte a les cingleres del cim, que no tenen barana.'
 			},
 			{
 				pregunta: 'Què hi ha al cim del Tagamanent?',

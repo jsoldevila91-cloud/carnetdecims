@@ -42,10 +42,10 @@ const fitxa: ContingutFitxa = {
 			"Es pot pujar tot l'any, però a l'estiu fa molta calor i hi ha poca ombra: el parc recomana sortir a primera hora o a mitja tarda. Amb boira, la Serra Major és un altiplà sense referències i el parc desaconsella accedir-hi. A la tardor i a la primavera és quan el Montsant es gaudeix més."
 		],
 		es: [
-			"La Roca Corbatera es el punto más alto de la sierra de Montsant y también el techo [del Priorat](/comarques/priorat). La cima está en el término de la Morera de Montsant, dentro del Parque Natural de la Serra de Montsant, y domina la Serra Major, el altiplano calcáreo y pelado que corona el macizo. Por debajo, los riscos de conglomerado caen hacia Cornudella, Albarca y el valle del Montsant, y solo se pueden superar por los graus, los antiguos pasos de montaña que son una de las singularidades del parque.",
-			"Montsant es una montaña de larga tradición eremítica, y el camino a la cima pasa cerca de lugares que lo atestiguan: la ermita de la Mare de Déu de Montsant, al pie de un risco, y la Cova Santa, donde según la leyenda vivieron los primeros ermitaños. Ya en la cresta está el Crist de la Sang, una ofrenda de la Secció Excursionista del Reus Deportiu para conmemorar el centenario del excursionismo catalán (1876-1976). En la cima, junto al vértice geodésico, encontrarás un monolito de homenaje y un belén.",
-			"Por su posición aislada, la vista es muy amplia. Turisme Priorat explica que, en días claros, se llega a ver el Pirineo e incluso Mallorca. Más cerca se reconocen la Serra Major y el interior salvaje de Montsant, Siurana y su embalse, el Priorat de viñas y laderas y, hacia el nordeste, las montañas de Prades, donde se alza [el Tossal de la Baltasana](/cims/tossal-de-la-baltasana).",
-			"Se puede subir todo el año, pero en verano hace mucho calor y hay poca sombra: el parque recomienda salir a primera hora o a media tarde. Con niebla, la Serra Major es un altiplano sin referencias y el parque desaconseja acceder a ella. En otoño y en primavera es cuando más se disfruta el Montsant."
+			'La Roca Corbatera es el punto más alto de la sierra de Montsant y también el techo [del Priorat](/comarques/priorat). La cima está en el término de la Morera de Montsant, dentro del Parque Natural de la Serra de Montsant, y domina la Serra Major, el altiplano calcáreo y pelado que corona el macizo. Por debajo, los riscos de conglomerado caen hacia Cornudella, Albarca y el valle del Montsant, y solo se pueden superar por los graus, los antiguos pasos de montaña que son una de las singularidades del parque.',
+			'Montsant es una montaña de larga tradición eremítica, y el camino a la cima pasa cerca de lugares que lo atestiguan: la ermita de la Mare de Déu de Montsant, al pie de un risco, y la Cova Santa, donde según la leyenda vivieron los primeros ermitaños. Ya en la cresta está el Crist de la Sang, una ofrenda de la Secció Excursionista del Reus Deportiu para conmemorar el centenario del excursionismo catalán (1876-1976). En la cima, junto al vértice geodésico, encontrarás un monolito de homenaje y un belén.',
+			'Por su posición aislada, la vista es muy amplia. Turisme Priorat explica que, en días claros, se llega a ver el Pirineo e incluso Mallorca. Más cerca se reconocen la Serra Major y el interior salvaje de Montsant, Siurana y su embalse, el Priorat de viñas y laderas y, hacia el nordeste, las montañas de Prades, donde se alza [el Tossal de la Baltasana](/cims/tossal-de-la-baltasana).',
+			'Se puede subir todo el año, pero en verano hace mucho calor y hay poca sombra: el parque recomienda salir a primera hora o a media tarde. Con niebla, la Serra Major es un altiplano sin referencias y el parque desaconseja acceder a ella. En otoño y en primavera es cuando más se disfruta el Montsant.'
 		]
 	},
 	rutes: [
@@ -85,7 +85,7 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Ermita de Sant Joan del Codolar (Cornudella de Montsant), 750 m' },
 			descripcio: {
-				ca: "Itinerari 10 del parc, pel vessant sud. Es puja a la Serra Major pel grau de Montsant (o del Tomaset), un antic camí de ferradura, es passa pel Pla del Moloner, la Cova Santa i el Crist de la Sang fins al cim, i es baixa pel Pla del Grau i el camí de la Llisera. Són 8,3 km i 500 m de desnivell en total, unes 3 h 30 min, sense passos equipats i amb marques de GR, segons el parc.",
+				ca: 'Itinerari 10 del parc, pel vessant sud. Es puja a la Serra Major pel grau de Montsant (o del Tomaset), un antic camí de ferradura, es passa pel Pla del Moloner, la Cova Santa i el Crist de la Sang fins al cim, i es baixa pel Pla del Grau i el camí de la Llisera. Són 8,3 km i 500 m de desnivell en total, unes 3 h 30 min, sense passos equipats i amb marques de GR, segons el parc.',
 				es: 'Itinerario 10 del parque, por la vertiente sur. Se sube a la Serra Major por el grau de Montsant (o del Tomaset), un antiguo camino de herradura, se pasa por el Pla del Moloner, la Cova Santa y el Crist de la Sang hasta la cima, y se baja por el Pla del Grau y el camino de la Llisera. Son 8,3 km y 500 m de desnivel en total, unas 3 h 30 min, sin pasos equipados y con marcas de GR, según el parque.'
 			},
 			fonts: [PARC_IT10]
@@ -96,7 +96,7 @@ const fitxa: ContingutFitxa = {
 			'Amb boira, no pugis a la Serra Major: és un altiplà sense referències on és fàcil perdre el camí.',
 			"Porta prou aigua: a la part alta gairebé no n'hi ha i a l'estiu la calor apreta des de primera hora.",
 			"A Sant Joan del Codolar s'hi arriba per una pista cimentada de 4 km des de Cornudella i l'aparcament és petit, d'unes 15 places segons el parc.",
-			"Després de pluja, els camins pedregosos i el camí de la Llisera rellisquen: baixa amb calma.",
+			'Després de pluja, els camins pedregosos i el camí de la Llisera rellisquen: baixa amb calma.',
 			"Al parc, els gossos han d'anar lligats i l'acampada lliure està prohibida. A l'estiu, consulta el Pla Alfa per si hi ha restriccions per risc d'incendi."
 		],
 		es: [
@@ -117,7 +117,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a fer la volta des de Sant Joan del Codolar?',
 				resposta:
-					"El parc natural calcula unes 3 h 30 min per a la circular de 8,3 km i 500 m de desnivell que puja pel grau de Montsant, passa per la Cova Santa i el cim, i torna pel camí de la Llisera."
+					'El parc natural calcula unes 3 h 30 min per a la circular de 8,3 km i 500 m de desnivell que puja pel grau de Montsant, passa per la Cova Santa i el cim, i torna pel camí de la Llisera.'
 			},
 			{
 				pregunta: 'Es pot pujar a la Roca Corbatera amb nens?',
