@@ -522,8 +522,14 @@ test.describe('Avís d’instal·lació a iOS (WebKit, UA d’iPhone)', () => {
 	test.skip(({ browserName }) => browserName !== 'webkit', 'només Safari d’iOS');
 
 	test('després del primer registre: "Com s\'instal·la" obre el full d\'instruccions', async ({
-		page
+		page,
+		consoleGuard
 	}) => {
+		// Des de la fase 5, /app carrega mòduls diferits (compte, Supabase): a WebKit, un import()
+		// en curs que avorta la navegació completa (`page.goto`) surt com a "TypeError: Load failed".
+		// (I la precàrrega de `__data.json` avortada: "due to access control checks".)
+		consoleGuard.allow(/^console: TypeError: (Load failed|Importing a module script failed\.)$/);
+		consoleGuard.allow(/__data\.json\S* due to access control checks/);
 		await gotoHydrated(page, '/ca/app');
 		await page.waitForTimeout(800);
 		await expect(AVIS(page)).toHaveCount(0);
