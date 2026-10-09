@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-04.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-09.
 
 ## Hecho
 
@@ -123,33 +123,39 @@
   - **QA:** `e2e/pwa.e2e.ts`; fixture `senyalHidratacio`; SW bloqueado por defecto en E2E.
 - **FASE 4 TERMINADA (2026-10-03) — pendiente de aprobación del usuario.** Suite completa: **2072 E2E pasados, 0 fallidos, 0 flaky** en los 3 proyectos; 637 unitarios.
 
-## Pendiente al reanudar (límite semanal agotado el 2026-10-05; se restablece el 2026-10-09 a las 16:00)
+## Beta privada (bloque 5-exprés, 2026-10-09)
 
-**Estado del 6b:** 50 fichas en borrador en commit (`7dc6810`); criterio estricto de "amb nens" en commit (`9531ed4`: fàcils 11, amb nens 8).
+Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** y usar la app el sábado, con sus ascensiones **guardadas en la nube** hasta el lanzamiento.
 
-**Cortados por el límite (reanudar):**
+- **Cuentas en la nube (commit `2a28381`):**
+  - Supabase `ckqhdryopasitqtwjyys` (UE, eu-west-1); migraciones `0002`–`0004` aplicadas (RLS `user_id = auth.uid()`, `sync_push` LWW, `esborrar_compte` con la parte privilegiada en el esquema `privat`). Detalle y pasos del panel: `docs/09-supabase-auth.md`.
+  - Entrada por **enlace o código de 6 cifras** por correo (el código sirve en la PWA instalada del iPhone). Sin contraseñas ni Google en la beta.
+  - Sync con outbox + LWW + tombstones; en el primer inicio de sesión se suben los datos locales (o se pregunta si son de otra cuenta).
+  - Pantallas: `/app/compte` (`CompteNuvol`), indicador de nube, aviso en la cabecera, exportar y borrar la cuenta.
+  - Privacitat con responsable del tratamiento (nombre real **solo ahí**), Supabase como encargado (Irlanda), derechos y AEPD.
+- **Modo beta** (`PUBLIC_MODE_BETA=true`, se lee al compilar): banner beta, `noindex` en meta y en `X-Robots-Tag`, sitemaps vacíos. Los E2E se ejecutan con `PUBLIC_MODE_BETA=false`.
+- **Publicación (commit `90dc423`):** Cloudflare Workers (`carnetdecims`); dominio y correo siguen en Hostinger.
+  - **https://carnetdecims.cat** (custom domain) y https://carnetdecims.carnetdecims.workers.dev. Verificado el 2026-10-09: 200 en `/ca`, `/ca/app`, `/es/app/cuenta` y `/api/meteo/…`; `noindex, nofollow` en cabecera y meta.
+  - DNS en Cloudflare (lee/sofia.ns.cloudflare.com): MX, SPF, DMARC y DKIM (a/b/c) de Hostinger en "DNS only"; borrados el A del apex y el CNAME de `www` de Hostinger.
+  - Despliegue: compilar con `PUBLIC_MODE_BETA=true` y `npx wrangler deploy` (sesión OAuth de wrangler ya hecha). Mejor desde un worktree aparte si hay un servidor de dev/preview abierto (EPERM en `.svelte-kit/cloudflare`).
+  - `www.carnetdecims.cat`: sin configurar (más adelante, redirección al apex).
+- **Pendiente del usuario (bloquea a Inesa):**
+  1. Supabase → URL Configuration: Site URL `https://carnetdecims.cat`; Redirect URLs `https://carnetdecims.cat/**`, `https://carnetdecims.carnetdecims.workers.dev/**`, `http://localhost:5190/**`.
+  2. Supabase → **SMTP propio** (`smtp.hostinger.com`, 465 SSL, `hola@carnetdecims.cat`; la contraseña solo en el panel). Sin esto, el correo solo llega a los miembros de la organización de Supabase.
+  3. Plantilla **Magic Link** de `docs/09` §2.3.
+  4. Probar el registro con su propio correo; después, pasar el enlace a Inesa.
+  5. Hostinger → Correos → "Comprobar estado" del DKIM en verde.
+- **QA de cuentas** (`e2e/compte.e2e.ts` con Supabase simulado en `e2e/supabase-fals.ts`; ningún correo real): en curso.
 
-1. **SEO:**
-   - `src/lib/seo/fitxa-cim.spec.ts` falla: la description de Tossa Grossa de Montferri no tiene ruta normal; hace falta un fallback en `seoFitxaCim` para fichas sin cifras.
-   - Revisión de calidad por muestreo de las 40 fichas nuevas (frases calcadas entre fichas, guía docs/07).
-2. **Frontend:**
-   - "des de {ruta}" en `/cims-amb-nens` (`rutesAmbNens` ya viene del servidor);
-   - enlaces a `/cims-facils` y `/cims-amb-nens` (ya indexables) en el "Explora" de la portada, en `/cims` y en el pie.
-3. **QA:** ampliar `e2e/dificultat.e2e.ts` y `contingut-fitxa.e2e.ts` a las 50 fichas (el oráculo de listados asume solo las 10 pilotos y fallará) y hacer una pasada completa.
+## Pendiente del bloque 6b (cortado por el límite semanal del 2026-10-05)
 
-**Correcciones del usuario (2026-10-05) a aplicar:**
+Ya hecho: 50 fichas en borrador (`7dc6810`), criterio estricto de "amb nens" (`9531ed4`), fallback `nomRutaCurt` en `seoFitxaCim`, y las correcciones del usuario del 2026-10-05 (Caro 1.441 m, La Fita Alta 286 m, acceso regulado a la Val de Valarties en el Montardo, Burriac con SL-C 114 desde el parc de la Font Picant y SL-C 115 desde Cabrera de Mar, notas del Montgrí y Saverdera).
 
-- **Catálogo** (`scripts/catalog/manual.ts` + `npm run catalog:build`):
-  - **Caro 1.441 m** (antes 1.442);
-  - **La Fita Alta 286 m** (antes 289);
-  - Montardo 2.833 m y Sant Pere Màrtir 389 m se quedan como están (correctos).
-- **Montardo:** el acceso en coche por la Val de Valarties está **regulado y depende de la época del año**. Añadirlo a consells/ruta, con fuente oficial (Conselh Generau d'Aran / Parc Nacional).
-- **Castell de Burriac** (el usuario aporta información; verificar en fuentes):
-  - salida clásica desde **Argentona, parc de la Font Picant**, por el sendero **SL-C 114**;
-  - alternativa desde **Cabrera de Mar** (centro del pueblo o aparcamiento de tierra regulado junto a la pista forestal), por el **SL-C 115**;
-  - corregir la salida ("aparcament de la Font Picant" → "parc de la Font Picant") y añadir la ruta de Cabrera de Mar.
-- **Castell del Montgrí** (decisión de Claude): mantener `terreny-irregular` (Moderada) por la tartera del Pedrigolet, y añadir una nota: "el parc la considera una excursió familiar; el tram de tartera demana atenció amb infants".
-- **Castell de Saverdera** (decisión de Claude): mantener `terreny-irregular` y añadir una nota: "hi ha trams de roca on els infants poden necessitar ajuda".
+Queda:
+
+1. **Frontend:** "des de {ruta}" en `/cims-amb-nens` (`rutesAmbNens` ya viene del servidor); enlaces a `/cims-facils` y `/cims-amb-nens` en el "Explora" de la portada, en `/cims` y en el pie.
+2. **SEO:** revisión de calidad por muestreo de las 40 fichas nuevas (frases calcadas entre fichas, guía docs/07).
+3. **QA:** ampliar `e2e/dificultat.e2e.ts` y `contingut-fitxa.e2e.ts` a las 50 fichas y hacer una pasada completa.
 
 ## Siguiente
 
@@ -185,14 +191,11 @@
 
 ## Pendiente o decisiones abiertas
 
-- **Para empezar la fase 5 (el usuario):**
-  1. Crear la cuenta y el proyecto de **Supabase** en región UE (Claude no puede crear cuentas).
-  2. Crear las credenciales OAuth de **Google** (Google Cloud Console).
-  3. Decidir el **responsable del tratamiento** (RGPD art. 13): con cuentas hay que identificar a una persona física o jurídica; el nombre del proyecto no basta.
+- **Fase 5, después de la beta:** Google OAuth (credenciales en Google Cloud Console, las crea el usuario), deduplicación entre dispositivos, `www` → apex.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
 - **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).
 
-- **Titular y contacto** (decisión del usuario, 2026-09-29): el titular es "Carnet de Cims" (nombre del proyecto) y el email **hola@carnetdecims.cat**. Hay que crear el buzón al activar el dominio (fase 7).
+- **Titular y contacto** (decisión del usuario, 2026-09-29): el titular es "Carnet de Cims" (nombre del proyecto) y el email **hola@carnetdecims.cat**. Buzón creado en Hostinger (2026-10-09); será el remitente del SMTP de Supabase.
 
 - Reglas ambiguas del reto: interpretación por defecto en `03-modelo-datos.md` §3.3.
 - Restricciones de acceso: cargadas las 2 esenciales afectadas; hay que revisarlas antes del lanzamiento.

@@ -28,8 +28,8 @@ Migraciones versionadas en `supabase/migrations/` (aplicadas con la herramienta 
 - **Redirect URLs** (añadir todas):
   - `https://carnetdecims.cat/**`
   - `http://localhost:5190/**`
-  - la URL de `workers.dev` que se use para la beta, con `/**` al final (p. ej. `https://carnetdecims.<subdominio>.workers.dev/**`)
-  - si se usan _preview URLs_ de Cloudflare: `https://*-carnetdecims.<subdominio>.workers.dev/**`
+  - `https://carnetdecims.carnetdecims.workers.dev/**`
+  - si se usan _preview URLs_ de Cloudflare: `https://*-carnetdecims.carnetdecims.workers.dev/**`
 
 Si la URL de vuelta no está en la lista, Supabase usa la Site URL y el enlace del correo no llega a `/ca/app/compte`.
 
