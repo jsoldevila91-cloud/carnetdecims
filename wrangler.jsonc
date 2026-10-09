@@ -18,6 +18,8 @@
 		"PUBLIC_SUPABASE_URL": "https://ckqhdryopasitqtwjyys.supabase.co",
 		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_Zo2yYlYYhLqV7LP1FwFAoQ_f64S1pD8"
 	},
+	// Domini propi (zona carnetdecims.cat a Cloudflare; el correu continua a Hostinger: MX/SPF/DKIM).
+	"routes": [{ "pattern": "carnetdecims.cat", "custom_domain": true }],
 	"workers_dev": true,
 	"preview_urls": true
 }
