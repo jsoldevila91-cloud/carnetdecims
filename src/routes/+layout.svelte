@@ -17,6 +17,7 @@
 		Toaster
 	} from '$lib/ui';
 	import AvisInstallacio from '$lib/ui/AvisInstallacio.svelte';
+	import BannerBeta from '$lib/ui/BannerBeta.svelte';
 	import { carregarRegistre, precarregarRegistreQuanOcios } from '$lib/ui/carrega-registre';
 	import { m } from '$lib/paraglide/messages';
 	import { prefersReducedMotion, supportsViewTransitions } from '$lib/platform/motion';
@@ -93,6 +94,7 @@
 <div class="shell">
 	<AppHeader />
 	<OfflineBanner />
+	<BannerBeta />
 	<main id="contingut" tabindex="-1">
 		{@render children()}
 	</main>

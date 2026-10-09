@@ -16,6 +16,7 @@
 	import BarresComarques from '$lib/ui/BarresComarques.svelte';
 	import DetallSegell from '$lib/ui/DetallSegell.svelte';
 	import FilaEssencial from '$lib/ui/FilaEssencial.svelte';
+	import IndicadorNuvol from '$lib/ui/compte/IndicadorNuvol.svelte';
 	import PaginesCarnet from '$lib/ui/PaginesCarnet.svelte';
 	import { cimPerId } from '$lib/ui/cim-per-id';
 	import { CASELLES_PAGINA } from '$lib/ui/carnet';
@@ -124,6 +125,8 @@
 <PageMeta title={m.app_meta_title()} noindex />
 
 <h1 class="x-wide title">{m.app_title()}</h1>
+
+<IndicadorNuvol />
 
 <Card
 	as="section"

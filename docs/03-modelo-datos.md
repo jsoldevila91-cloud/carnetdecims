@@ -102,6 +102,7 @@ ascensions (
 assoliments_usuari (user_id, codi text, assolit_en date, notificat_at timestamptz, pk (user_id, codi))
 ```
 
+- **Implementado en la fase 5 (beta)** con migraciones `supabase/migrations/0002`–`0004` (ver `docs/09-supabase-auth.md`). Diferencias con este esquema: sin `device_id` (empate de `updated_at` → gana el servidor), `updated_at`/`created_at` son el reloj del cliente, `cim_id` sin FK hasta cargar el catálogo en la BD, `perfils` solo con `alias`, y las escrituras pasan por la RPC `sync_push` (LWW en el servidor).
 - Los **logros** se calculan con funciones puras a partir de las ascensiones y del catálogo (`nivell_100`, `nivell_200`…, `comarca_completa:{zona}`, `essencials_50`…). La definición vive en el código y la tabla solo guarda cuándo se notificó al usuario, para no repetir avisos. Todo se puede recalcular.
 - RGPD: exportación = `select` de `perfils` + `ascensions` en JSON o CSV; al borrar la cuenta, `auth.admin.deleteUser` y el borrado en cascada. Los datos de menores (reto infantil, fecha de nacimiento) quedan fuera del MVP.
 

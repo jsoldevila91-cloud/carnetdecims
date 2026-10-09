@@ -237,8 +237,9 @@ const XML_HEAD = '<?xml version="1.0" encoding="UTF-8"?>\n';
 const NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const NS_XHTML = 'http://www.w3.org/1999/xhtml';
 
-export function sitemapIndexXml(): string {
-	const items = sitemapFiles()
+/** Índex de sitemaps. En mode beta (`buit`), sense cap sitemap (docs/02 §7.1). */
+export function sitemapIndexXml(buit = false): string {
+	const items = (buit ? [] : sitemapFiles())
 		.map(
 			(f) => `\t<sitemap><loc>${escapeXml(`${SITE_ORIGIN}/sitemap-${f.name}.xml`)}</loc></sitemap>`
 		)
@@ -263,8 +264,12 @@ export function urlsetXml(urls: readonly SitemapUrl[]): string {
 	return `${XML_HEAD}<urlset xmlns="${NS}" xmlns:xhtml="${NS_XHTML}">\n${items}\n</urlset>\n`;
 }
 
-/** XML d'un sitemap de secció, o `undefined` si el nom no existeix. */
-export function sitemapXml(name: string): string | undefined {
+/**
+ * XML d'un sitemap de secció, o `undefined` si el nom no existeix. En mode beta (`buit`), el
+ * fitxer existeix però sense URL (docs/02 §7.1).
+ */
+export function sitemapXml(name: string, buit = false): string | undefined {
 	const file = sitemapFiles().find((f) => f.name === name);
-	return file ? urlsetXml(file.section.urls(file.locale)) : undefined;
+	if (!file) return undefined;
+	return urlsetXml(buit ? [] : file.section.urls(file.locale));
 }

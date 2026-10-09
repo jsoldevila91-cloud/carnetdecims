@@ -35,7 +35,7 @@ const VISIT_ARAN = {
 const CONSELH = {
 	nom: "Conselh Generau d'Aran: regulació d'accessos al medi natural, estiu 2025",
 	url: 'https://www.conselharan.org/ca/el-conselh-generau-activa-el-calendari-de-regulacio-daccessos-al-medi-natural-per-a-lestiu-de-2025/',
-	consultat: CONSULTAT
+	consultat: '2026-10-09'
 };
 
 const fitxa: ContingutFitxa = {
@@ -65,10 +65,10 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 210,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "És la via més habitual des de l'Aran. Des d'Arties es remunta la vall de Valarties i es puja amb el GR 11 fins a la presa de la Restanca. Després es continua per l'estany de Cap de Port fins al coll de Crestada, on cal sortejar grans blocs de roca seguint les fites, i s'acaba per la carena. Segons D'excursió per Catalunya, la pujada és d'unes 3 h 30 min sense parades; no hi ha passos d'escalada, però sí tarteres i terreny pedregós.",
-				es: "Es la vía más habitual desde el Aran. Desde Arties se remonta el valle de Valarties y se sube con el GR 11 hasta la presa de la Restanca. Después se sigue por el lago de Cap de Port hasta el coll de Crestada, donde hay que sortear grandes bloques de roca siguiendo los hitos, y se termina por la cresta. Según D'excursió per Catalunya, la subida es de unas 3 h 30 min sin paradas; no hay pasos de escalada, pero sí pedreras y terreno pedregoso."
+				ca: "És la via més habitual des de l'Aran. Des d'Arties es remunta la vall de Valarties i es puja amb el GR 11 fins a la presa de la Restanca. Després es continua per l'estany de Cap de Port fins al coll de Crestada, on cal sortejar grans blocs de roca seguint les fites, i s'acaba per la carena. Segons D'excursió per Catalunya, la pujada és d'unes 3 h 30 min sense parades; no hi ha passos d'escalada, però sí tarteres i terreny pedregós. Compte: l'accés en cotxe per la pista de Valarties està regulat i depèn de l'època de l'any (a l'estiu, regulació del Conselh Generau d'Aran), així que el punt on hauràs de deixar el cotxe pot canviar; consulta-ho abans de sortir.",
+				es: "Es la vía más habitual desde el Aran. Desde Arties se remonta el valle de Valarties y se sube con el GR 11 hasta la presa de la Restanca. Después se sigue por el lago de Cap de Port hasta el coll de Crestada, donde hay que sortear grandes bloques de roca siguiendo los hitos, y se termina por la cresta. Según D'excursió per Catalunya, la subida es de unas 3 h 30 min sin paradas; no hay pasos de escalada, pero sí pedreras y terreno pedregoso. Ojo: el acceso en coche por la pista de Valarties está regulado y depende de la época del año (en verano, regulación del Conselh Generau d'Aran), así que el punto donde tendrás que dejar el coche puede cambiar; consúltalo antes de salir."
 			},
-			fonts: [DEXCURSIO, REPTES]
+			fonts: [DEXCURSIO, REPTES, CONSELH]
 		},
 		{
 			id: 'cavallers',
@@ -88,14 +88,14 @@ const fitxa: ContingutFitxa = {
 	],
 	consells: {
 		ca: [
-			"A l'estiu el Conselh Generau d'Aran regula l'accés motoritzat a Valarties (el 2025, del 15 de juny al 15 de setembre): consulta abans les condicions i el transport alternatiu.",
+			"L'accés en cotxe a la vall de Valarties està regulat i depèn de l'època de l'any: a l'estiu el Conselh Generau d'Aran en regula l'accés motoritzat (el 2025, del 15 de juny al 15 de setembre). Consulta abans de sortir les condicions vigents, l'aparcament i el transport alternatiu.",
 			"Fora de la regulació, una cadena pot tancar la pista a partir de l'aparcament principal i obligar a caminar uns quilòmetres més des de baix.",
 			"Si vols repartir l'esforç, dorm al refugi de la Restanca, del Conselh Generau d'Aran, o al Ventosa i Calvell si puges per Cavallers.",
 			'Al coll de Crestada i a la carena el camí es perd entre blocs: segueix les fites i, amb boira, no improvisis dreceres.',
 			"Amb neu, la ruta passa per pales amb risc d'allaus: calen crampons, piolet i consultar el butlletí d'allaus abans de sortir."
 		],
 		es: [
-			"En verano el Conselh Generau d'Aran regula el acceso motorizado a Valarties (en 2025, del 15 de junio al 15 de septiembre): consulta antes las condiciones y el transporte alternativo.",
+			"El acceso en coche al valle de Valarties está regulado y depende de la época del año: en verano el Conselh Generau d'Aran regula el acceso motorizado (en 2025, del 15 de junio al 15 de septiembre). Consulta antes de salir las condiciones vigentes, el aparcamiento y el transporte alternativo.",
 			'Fuera de la regulación, una cadena puede cerrar la pista a partir del aparcamiento principal y obligar a caminar unos kilómetros más desde abajo.',
 			"Si quieres repartir el esfuerzo, duerme en el refugio de la Restanca, del Conselh Generau d'Aran, o en el Ventosa i Calvell si subes por Cavallers.",
 			'En el coll de Crestada y en la cresta el camino se pierde entre bloques: sigue los hitos y, con niebla, no improvises atajos.',
@@ -150,7 +150,7 @@ const fitxa: ContingutFitxa = {
 	},
 	fonts: [VIQUIPEDIA, DEXCURSIO, REPTES, RUTES_PIRINEUS, VISIT_ARAN, CONSELH],
 	estat: 'esborrany',
-	actualitzat: '2026-10-04'
+	actualitzat: '2026-10-09'
 };
 
 export default fitxa;

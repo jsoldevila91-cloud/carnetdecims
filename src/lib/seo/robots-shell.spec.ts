@@ -3,6 +3,7 @@ import {
 	ATRIBUT_SHELL,
 	META_NOINDEX_SHELL,
 	esRutaNoindexShell,
+	injectarAvisNoscript,
 	injectarNoindexShell,
 	retirarNoindexShell
 } from './robots-shell';
@@ -36,6 +37,12 @@ describe('injectarNoindexShell', () => {
 		expect(html.indexOf(META_NOINDEX_SHELL)).toBeLessThan(html.indexOf('<body'));
 	});
 
+	it('mode beta: injecta el contingut indicat (noindex, nofollow)', () => {
+		const html = injectarNoindexShell(SHELL, 'noindex, nofollow');
+		expect(html).toContain(`<meta name="robots" content="noindex, nofollow" ${ATRIBUT_SHELL} />`);
+		expect(html.match(/name="robots"/g)).toHaveLength(1);
+	});
+
 	it('no duplica si ja hi ha meta robots ni toca fragments sense </head>', () => {
 		const ambMeta = SHELL.replace('</head>', '<meta name="robots" content="noindex" /></head>');
 		expect(injectarNoindexShell(ambMeta)).toBe(ambMeta);
@@ -51,5 +58,20 @@ describe('retirarNoindexShell', () => {
 		retirarNoindexShell({ querySelectorAll } as never);
 		expect(querySelectorAll).toHaveBeenCalledWith(`meta[${ATRIBUT_SHELL}]`);
 		expect(remove).toHaveBeenCalledTimes(2);
+	});
+});
+
+describe('injectarAvisNoscript', () => {
+	const html = '<html><head></head><body data-x="1"><div>app</div></body></html>';
+
+	it('afegeix un únic <noscript> just després de <body> amb el text escapat', () => {
+		const out = injectarAvisNoscript(html, "Cal <JavaScript> & l'app");
+		expect(out).toMatch(/<body data-x="1">\s*<noscript data-noscript-shell><p [^>]*>/);
+		expect(out).toContain('Cal &#60;JavaScript&#62; &#38; l&#39;app');
+		expect(injectarAvisNoscript(out, 'x')).toBe(out);
+	});
+
+	it('no fa res sense <body>', () => {
+		expect(injectarAvisNoscript('<div></div>', 'x')).toBe('<div></div>');
 	});
 });

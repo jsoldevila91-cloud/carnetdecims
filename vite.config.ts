@@ -12,9 +12,18 @@ import {
 } from './src/lib/i18n/routes.ts';
 import { SITEMAP_INDEX_PATH } from './src/lib/seo/sitemap.ts';
 import { pluginSwDiferits } from './src/lib/platform/sw/plugin-vite.ts';
+import { pluginModeBeta } from './src/lib/seo/plugin-mode-beta.ts';
+import { pluginEnvSupabase } from './src/lib/platform/plugin-env-supabase.ts';
 
 export default defineConfig({
 	plugins: [
+		// Beta privada (`PUBLIC_MODE_BETA`, per defecte `true`): tot el lloc noindex (docs/02 §7.1).
+		pluginModeBeta(),
+
+		// URL i clau publicable de Supabase: `.env` o, si no n'hi ha, `vars` de `wrangler.jsonc`.
+		// Abans de `sveltekit()`, que llegeix l'entorn per a `$env/static/public`.
+		pluginEnvSupabase(),
+
 		sveltekit({
 			compilerOptions: {
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.

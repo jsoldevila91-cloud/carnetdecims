@@ -32,6 +32,26 @@ const TURISMEMARESME = {
 	consultat: CONSULTAT
 };
 
+const CORRECCIO = '2026-10-09';
+
+const DIBA_SLC114 = {
+	nom: "Diputació de Barcelona, itineraris senyalitzats: SL-C 114, al castell de Burriac des d'Argentona",
+	url: 'https://itineraris-senyalitzats.diba.cat/dibaparcs/routes/view/sl-c-114-al-castell-de-burriac-des-d-argentona',
+	consultat: CORRECCIO
+};
+
+const DIBA_SLC115 = {
+	nom: 'Diputació de Barcelona, itineraris senyalitzats: SL-C 115, al castell de Burriac des de Cabrera de Mar',
+	url: 'https://itineraris-senyalitzats.diba.cat/dibaparcs/routes/view/sl-c-115-al-castell-de-burriac-des-de-cabrera-de-mar',
+	consultat: CORRECCIO
+};
+
+const RUTES_PIRINEUS = {
+	nom: "Rutes Pirineus: el castell de Burriac i el Camí de les Fonts des d'Argentona",
+	url: 'https://www.rutespirineus.cat/rutes/castell-burriac-argentona',
+	consultat: CORRECCIO
+};
+
 const fitxa: ContingutFitxa = {
 	slug: 'castell-de-burriac',
 	descripcio: {
@@ -52,32 +72,47 @@ const fitxa: ContingutFitxa = {
 		{
 			id: 'font-picant',
 			nom: {
-				ca: "Des de l'aparcament de la Font Picant (Cabrera de Mar)",
-				es: 'Desde el aparcamiento de la Font Picant (Cabrera de Mar)'
+				ca: "Des del parc de la Font Picant d'Argentona pel SL-C 114",
+				es: 'Desde el parque de la Font Picant de Argentona por el SL-C 114'
 			},
-			sortida: { nom: 'Aparcament de la Font Picant (Cabrera de Mar)' },
+			sortida: { nom: 'Parc de la Font Picant (Argentona)' },
+			tempsMinuts: 45,
+			tecnicitat: 'cap',
+			descripcio: {
+				ca: "És la pujada clàssica pel vessant d'Argentona. El sender local SL-C 114, senyalitzat per la Diputació de Barcelona, surt de la plaça de l'Església d'Argentona i fa 3,1 km fins al castell, amb dificultat mitjana; molta gent el comença al parc de la Font Picant, la font de l'antic balneari. Des del parc, un corriol puja cap al sud fins a les Roques Encantades, entre pins pinyers i blocs de roca, passa per sota del turó dels Oriols i acaba per pista fins al castell. Rutes Pirineus hi compta uns 45 minuts sense parades (25 fins a les Roques Encantades i 20 més fins al castell).",
+				es: "Es la subida clásica por la vertiente de Argentona. El sendero local SL-C 114, señalizado por la Diputació de Barcelona, sale de la plaça de l'Església de Argentona y tiene 3,1 km hasta el castillo, con dificultad media; mucha gente lo empieza en el parque de la Font Picant, la fuente del antiguo balneario. Desde el parque, un sendero sube hacia el sur hasta las Roques Encantades, entre pinos piñoneros y bloques de roca, pasa por debajo del turó dels Oriols y termina por pista hasta el castillo. Rutes Pirineus calcula unos 45 minutos sin paradas (25 hasta las Roques Encantades y 20 más hasta el castillo)."
+			},
+			fonts: [DIBA_SLC114, RUTES_PIRINEUS]
+		},
+		{
+			id: 'cabrera-pista',
+			nom: {
+				ca: 'Des de Cabrera de Mar per la pista forestal',
+				es: 'Desde Cabrera de Mar por la pista forestal'
+			},
+			sortida: { nom: 'Aparcament de terra al final de la rambla de Cabrera de Mar' },
 			desnivellPositiuM: 150,
 			distanciaKm: 1.2,
 			tempsMinuts: 25,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És l'accés més curt i el que fan les famílies. Es puja per una pista de terra i després per un camí, amb una última rampa curta i forta, fins al castell. Wild Kids i Festes Majors de Catalunya hi donen uns 2,4–2,5 km i 150 m de desnivell anada i tornada pel mateix camí, és a dir, uns 1,2 km d'anada, que es fan en uns 25 minuts.",
-				es: 'Es el acceso más corto y el que hacen las familias. Se sube por una pista de tierra y luego por un camino, con una última rampa corta y fuerte, hasta el castillo. Wild Kids y Festes Majors de Catalunya dan unos 2,4–2,5 km y 150 m de desnivel ida y vuelta por el mismo camino, es decir, unos 1,2 km de ida, que se hacen en unos 25 minutos.'
+				ca: "És l'accés més curt i el que fan les famílies. Se surt de l'aparcament de terra que hi ha al final de la rambla de Cabrera de Mar, al costat de la pista forestal, que és tancada als vehicles amb una cadena. Es puja per la pista i després per un camí, amb una última rampa curta i forta, fins al castell. Wild Kids i Festes Majors de Catalunya hi donen uns 2,4–2,5 km i 150 m de desnivell anada i tornada pel mateix camí, és a dir, uns 1,2 km d'anada, que es fan en uns 25 minuts.",
+				es: 'Es el acceso más corto y el que hacen las familias. Se sale del aparcamiento de tierra que hay al final de la rambla de Cabrera de Mar, junto a la pista forestal, que está cerrada a los vehículos con una cadena. Se sube por la pista y luego por un camino, con una última rampa corta y fuerte, hasta el castillo. Wild Kids y Festes Majors de Catalunya dan unos 2,4–2,5 km y 150 m de desnivel ida y vuelta por el mismo camino, es decir, unos 1,2 km de ida, que se hacen en unos 25 minutos.'
 			},
 			fonts: [WILDKIDS, FESTESMAJORS, VIQUIPEDIA]
 		},
 		{
 			id: 'cabrera-circular',
 			nom: {
-				ca: "Circular des de la plaça de l'Església de Cabrera de Mar",
-				es: "Circular desde la plaça de l'Església de Cabrera de Mar"
+				ca: 'Circular des del centre de Cabrera de Mar pel SL-C 115',
+				es: 'Circular desde el centro de Cabrera de Mar por el SL-C 115'
 			},
-			sortida: { nom: "Plaça de l'Església (Cabrera de Mar)" },
+			sortida: { nom: 'Plaça del Poble (Cabrera de Mar)' },
 			descripcio: {
-				ca: 'Per fer-ne una excursió de mig matí sortint del poble. Viatgeaddictes hi descriu un circuit de 5,5 km i uns 300 m de desnivell, d’1 h 40 min de marxa i dificultat baixa, que passa per la Font Picant i la riera de Cabrera. Turisme Maresme en proposa una versió més llarga, de 8,8 km, pel turó dels Oriols i el turó de l’Infern.',
-				es: 'Para hacer una excursión de media mañana saliendo del pueblo. Viatgeaddictes describe un circuito de 5,5 km y unos 300 m de desnivel, de 1 h 40 min de marcha y dificultad baja, que pasa por la Font Picant y la riera de Cabrera. Turisme Maresme propone una versión más larga, de 8,8 km, por el turó dels Oriols y el turó de l’Infern.'
+				ca: "Per fer-ne una excursió de mig matí sortint del poble. El sender local SL-C 115, senyalitzat per la Diputació de Barcelona, és una circular de 9 km que surt de la plaça del Poble de Cabrera de Mar i puja al castell, amb dificultat mitjana i unes 2 h 30 min de marxa. Turisme Maresme en descriu una versió semblant, de 8,8 km, pel turó dels Oriols i el turó de l'Infern; Viatgeaddictes en proposa una de més curta, de 5,5 km i uns 300 m de desnivell, que passa per la riera de Cabrera.",
+				es: "Para hacer una excursión de media mañana saliendo del pueblo. El sendero local SL-C 115, señalizado por la Diputació de Barcelona, es una circular de 9 km que sale de la plaça del Poble de Cabrera de Mar y sube al castillo, con dificultad media y unas 2 h 30 min de marcha. Turisme Maresme describe una versión parecida, de 8,8 km, por el turó dels Oriols y el turó de l'Infern; Viatgeaddictes propone una más corta, de 5,5 km y unos 300 m de desnivel, que pasa por la riera de Cabrera."
 			},
-			fonts: [VIATGEADDICTES, TURISMEMARESME]
+			fonts: [DIBA_SLC115, TURISMEMARESME, VIATGEADDICTES]
 		}
 	],
 	consells: {
@@ -101,7 +136,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al castell de Burriac?',
 				resposta:
-					"Des de l'aparcament de la Font Picant, uns 25 minuts per 1,2 km i 150 m de desnivell, segons Wild Kids. Des de la plaça de l'Església de Cabrera, la circular de Viatgeaddictes són 5,5 km i 1 h 40 min en total."
+					"Des del parc de la Font Picant d'Argentona, uns 45 minuts segons Rutes Pirineus. El camí més curt surt de l'aparcament de terra del final de la rambla de Cabrera de Mar: uns 25 minuts per 1,2 km i 150 m de desnivell, segons Wild Kids. La circular del SL-C 115 des del centre de Cabrera fa 9 km i unes 2 h 30 min."
 			},
 			{
 				pregunta: 'Es pot pujar al castell de Burriac amb nens?',
@@ -123,7 +158,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Cuánto se tarda en subir al castillo de Burriac?',
 				resposta:
-					'Desde el aparcamiento de la Font Picant, unos 25 minutos para 1,2 km y 150 m de desnivel, según Wild Kids. Desde la plaça de l’Església de Cabrera, la circular de Viatgeaddictes son 5,5 km y 1 h 40 min en total.'
+					'Desde el parque de la Font Picant de Argentona, unos 45 minutos según Rutes Pirineus. El camino más corto sale del aparcamiento de tierra del final de la rambla de Cabrera de Mar: unos 25 minutos para 1,2 km y 150 m de desnivel, según Wild Kids. La circular del SL-C 115 desde el centro de Cabrera tiene 9 km y unas 2 h 30 min.'
 			},
 			{
 				pregunta: '¿Se puede subir al castillo de Burriac con niños?',
@@ -142,9 +177,18 @@ const fitxa: ContingutFitxa = {
 			}
 		]
 	},
-	fonts: [VIQUIPEDIA, WILDKIDS, FESTESMAJORS, VIATGEADDICTES, TURISMEMARESME],
+	fonts: [
+		VIQUIPEDIA,
+		DIBA_SLC114,
+		DIBA_SLC115,
+		RUTES_PIRINEUS,
+		WILDKIDS,
+		FESTESMAJORS,
+		VIATGEADDICTES,
+		TURISMEMARESME
+	],
 	estat: 'esborrany',
-	actualitzat: '2026-10-04'
+	actualitzat: '2026-10-09'
 };
 
 export default fitxa;

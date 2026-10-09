@@ -7,10 +7,12 @@
 		exportarDades,
 		importarDades
 	} from '$lib/data/ascensions';
+	import { sessio } from '$lib/data/compte';
 	import { avuiLocal } from '$lib/domain';
 	import { BottomSheet, Button, Card, LanguageSwitcher, PageMeta, toasts } from '$lib/ui';
 	import { descarregarText } from '$lib/platform/fitxers';
 	import { installacio } from '$lib/platform/installacio.svelte';
+	import CompteNuvol from '$lib/ui/compte/CompteNuvol.svelte';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -113,11 +115,15 @@
 <h1 class="x-wide title">{m.account_title()}</h1>
 
 <div class="stack">
+	<CompteNuvol ascensionsLocals={$vives.carregat ? total : null} />
+
 	<Card as="section" padding="md" aria-labelledby="account-data">
 		<h2 id="account-data" class="x-wide" tabindex="-1" bind:this={titolDades}>
 			{m.account_data_title()}
 		</h2>
-		<p>{m.account_data_text()}</p>
+		<p>
+			{$sessio.estat === 'autenticat' ? m.account_data_text_cloud() : m.account_data_text()}
+		</p>
 		<p class="count mono" aria-live="polite">
 			{$vives.carregat ? m.account_data_count({ count: String(total) }) : m.app_loading()}
 		</p>

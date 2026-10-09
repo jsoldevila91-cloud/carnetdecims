@@ -126,7 +126,7 @@ export const avisLegal: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Com tractem les dades (ara mateix, sense comptes ni cookies de seguiment) ho expliquem a la [política de privadesa](/privacitat).'
+						text: 'Com tractem les dades personals, també les del compte opcional, ho expliquem a la [política de privadesa](/privacitat). No fem servir cookies de seguiment ni analítica.'
 					}
 				]
 			},
@@ -141,7 +141,7 @@ export const avisLegal: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-10-09'
 	},
 	es: {
 		title: 'Aviso legal',
@@ -258,7 +258,7 @@ export const avisLegal: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Cómo tratamos los datos (ahora mismo, sin cuentas ni cookies de seguimiento) lo explicamos en la [política de privacidad](/privacitat).'
+						text: 'Cómo tratamos los datos personales, también los de la cuenta opcional, lo explicamos en la [política de privacidad](/privacitat). No usamos cookies de seguimiento ni analítica.'
 					}
 				]
 			},
@@ -273,6 +273,6 @@ export const avisLegal: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-09-29'
+		actualitzat: '2026-10-09'
 	}
 };

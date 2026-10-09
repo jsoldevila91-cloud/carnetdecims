@@ -124,21 +124,37 @@ function dadesRuta(ruta: RutaAccesLocal, locale: Locale): string {
 }
 
 /**
+ * Nom de la ruta sense el tram "per …" / "por …" ni el que va després d'una coma:
+ * "Circular desde el santuario de Montferri por la Torre del Moro" → "Circular desde el
+ * santuario de Montferri". Igual que el nom si no hi ha res a escurçar.
+ */
+export function nomRutaCurt(nom: string): string {
+	const tall = /\s+(?:per|pel|pels|por)\s|,\s/.exec(nom);
+	return tall && tall.index > 0 ? nom.slice(0, tall.index).trim() : nom;
+}
+
+/**
  * Frases de la ruta normal (la primera de `rutes`) per a la description, de la més completa a
- * la més curta: amb nom i dades, només amb el nom i només amb les dades.
+ * la més curta: amb nom i dades, només amb el nom, amb el nom curt (`nomRutaCurt`) i dades,
+ * només amb el nom curt i només amb les dades. Les fitxes sense xifres amb font (cap desnivell,
+ * distància ni temps d'anada) depenen del nom curt quan el nom sencer no hi cap.
  */
 function frasesRutaNormal(ruta: RutaAccesLocal | undefined, locale: Locale): string[] {
 	if (!ruta) return [];
 	const opts = { locale };
 	const nom = ambMinuscula(ruta.nom.trim());
+	const curt = nomRutaCurt(nom);
 	const dades = dadesRuta(ruta, locale);
+	const noms = curt === nom ? [nom] : [nom, curt];
 	return dades
 		? [
-				m.cim_meta_route_data({ ruta: nom, dades }, opts),
-				m.cim_meta_route({ ruta: nom }, opts),
+				...noms.flatMap((n) => [
+					m.cim_meta_route_data({ ruta: n, dades }, opts),
+					m.cim_meta_route({ ruta: n }, opts)
+				]),
 				m.cim_meta_route_data_only({ dades }, opts)
 			]
-		: [m.cim_meta_route({ ruta: nom }, opts)];
+		: noms.map((n) => m.cim_meta_route({ ruta: n }, opts));
 }
 
 /**

@@ -3,6 +3,7 @@
 	import { SITE_ORIGIN, getLocale, internalPath, locales, type Locale } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import { baseLocale, localizeHref } from '$lib/paraglide/runtime';
+	import { MODE_BETA, ROBOTS_BETA } from '$lib/seo/mode-beta';
 
 	/**
 	 * `<title>`, description, canonical, hreflang (ca, es, x-default → ca) i Open Graph/Twitter.
@@ -11,6 +12,9 @@
 	 *   versions indexables en tots dos idiomes (docs/02 §6): si la versió `es` d'una fitxa
 	 *   encara no està revisada, passa `alternates={['ca']}` i marca la `es` com a `noindex`.
 	 * - `image`: URL absoluta de la imatge OG (1200×630). Sense imatge, targeta `summary`.
+	 * - **Mode beta** (`PUBLIC_MODE_BETA`, docs/02 §7.1): totes les pàgines porten
+	 *   `noindex, nofollow`; la resta (canonical, OG) es manté perquè el dia del llançament només
+	 *   canviï el meta robots.
 	 */
 	let {
 		title,
@@ -39,14 +43,14 @@
 	const locale = $derived(getLocale());
 	const canonical = $derived(abs(locale));
 	const paired = $derived(alternates.length > 1 && alternates.includes(locale));
+	const robots = $derived(MODE_BETA ? ROBOTS_BETA : noindex ? 'noindex' : undefined);
 </script>
 
 <svelte:head>
 	<title>{fullTitle}</title>
 	{#if description}<meta name="description" content={description} />{/if}
-	{#if noindex}
-		<meta name="robots" content="noindex" />
-	{:else}
+	{#if robots}<meta name="robots" content={robots} />{/if}
+	{#if !noindex}
 		<link rel="canonical" href={canonical} />
 		{#if paired}
 			{#each alternates as alt (alt)}

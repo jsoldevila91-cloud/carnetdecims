@@ -188,5 +188,36 @@ export const MANUAL: Record<string, ResolucioManual> = {
 		nota:
 			'El node OSM "Pic Negre d\'Envalira" (2.815,8 m) és a 157 m del punt més alt; el MDT de l\'ICGC dona ' +
 			'2.822,4 m a 7 m del punt de Wikidata (2.822 m). Es fa servir el punt de Wikidata.'
+	},
+	caro: {
+		altitud: {
+			valor: 1441,
+			font: {
+				font: 'manual',
+				ref: 'cota popular del Caro',
+				url: 'https://en.wikipedia.org/wiki/Mont_Caro',
+				nota:
+					'Cota més coneguda del Caro: 1.441 m (correcció de l’usuari, 2026-10-05; la fan servir la ' +
+					'majoria de ressenyes i la Viquipèdia en anglès). Wikidata i la Viquipèdia en català donen ' +
+					'1.442 m.'
+			}
+		},
+		nota:
+			'Altitud: es pren la cota popular (1.441 m) en lloc de la de Wikidata (1.442 m), per la regla ' +
+			'"cota més coneguda" (correcció de l’usuari, 2026-10-05).'
+	},
+	'la-fita-alta': {
+		altitud: {
+			valor: 286,
+			font: {
+				font: 'icgc',
+				ref: 'Mapa topogràfic de Catalunya 1:10.000',
+				url: 'https://www.icgc.cat/',
+				nota: 'Cota de la Fita Alta (Sidamon) al mapa topogràfic 1:10.000 de l’ICGC: 286 m.'
+			}
+		},
+		nota:
+			'Wikidata dona 289 m; el mapa 1:10.000 de l’ICGC (i el text de la Viquipèdia, que el cita) dona ' +
+			'286 m. Prevaleix l’ICGC (correcció de l’usuari, 2026-10-05).'
 	}
 };

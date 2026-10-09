@@ -1,8 +1,18 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Logo from './Logo.svelte';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
+
+	/**
+	 * A la zona /app (SPA), accés discret a "Crea un compte" per a anònims (excepte al Perfil,
+	 * on ja hi és). Es carrega sota demanda: les pàgines públiques no carreguen el client del núvol.
+	 */
+	const ambCta = $derived(
+		(page.route.id === '/app' || (page.route.id?.startsWith('/app/') ?? false)) &&
+			page.route.id !== '/app/compte'
+	);
 </script>
 
 <header class="app-header">
@@ -14,6 +24,14 @@
 		<LanguageSwitcher />
 	</div>
 </header>
+<!-- Sota la barra (no enganxós): al mòbil no hi cap al costat del selector d'idioma. -->
+{#if ambCta}
+	{#await import('./compte/AvisCompteCapcalera.svelte') then { default: AvisCompte }}
+		<AvisCompte />
+	{:catch}
+		<!-- Sense el mòdul (p. ex. sense connexió): el Perfil continua oferint el compte. -->
+	{/await}
+{/if}
 
 <style>
 	.app-header {

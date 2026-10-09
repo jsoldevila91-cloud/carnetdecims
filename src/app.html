@@ -15,6 +15,13 @@
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="apple-mobile-web-app-title" content="Carnet de Cims" />
+		<!-- Avís de beta amagat en aquesta sessió (BannerBeta.svelte): s'amaga abans de pintar. -->
+		<script>
+			try {
+				if (sessionStorage.getItem('carnetdecims:beta-amagat') === '1')
+					document.documentElement.setAttribute('data-beta-amagat', '');
+			} catch (e) {}
+		</script>
 		%sveltekit.head%
 	</head>
 

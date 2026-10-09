@@ -51,6 +51,10 @@ export default defineConfig({
 		command:
 			"node -e \"require('fs').rmSync('.svelte-kit/cloudflare',{recursive:true,force:true})\" && npm run build && npm run preview",
 		url: `http://localhost:${PORT}/ca`,
+		// Els E2E proven el SEO del llançament (canonical, index, sitemaps): build sense mode beta.
+		// El mode beta es prova amb tests unitaris (seo/mode-beta*.spec.ts). Si reaprofites un
+		// servidor obert, construeix-lo amb PUBLIC_MODE_BETA=false.
+		env: { PUBLIC_MODE_BETA: 'false' },
 		reuseExistingServer: !process.env.CI,
 		timeout: 240_000,
 		stdout: 'ignore',

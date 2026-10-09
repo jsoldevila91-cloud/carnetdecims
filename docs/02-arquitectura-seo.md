@@ -408,6 +408,25 @@ Sitemap: https://carnetdecims.cat/sitemap-index.xml
 
 ## 7. Plan de lanzamiento
 
+### 7.1 Modo beta (beta privada, sin indexar)
+
+Mientras dure la beta privada, **todo el sitio es `noindex, nofollow`**. Lo controla la variable pública `PUBLIC_MODE_BETA` (por defecto `true`; solo `false`, `0`, `no` u `off` la desactivan).
+
+- **Se decide en el build**, no en tiempo de ejecución: las páginas son prerenderizadas y Cloudflare las sirve como ficheros estáticos sin pasar por el Worker. Prioridad: variable de entorno del build (`.env`, shell o _Build variables_ de Cloudflare) > `vars.PUBLIC_MODE_BETA` de `wrangler.jsonc` > `true`. Lo resuelve `src/lib/seo/plugin-mode-beta.ts` (Vite `define` → `MODE_BETA` de `src/lib/seo/mode-beta.ts`).
+- **Qué hace en beta:**
+  - `<meta name="robots" content="noindex, nofollow">` en todas las páginas (`PageMeta`) y en el shell SPA de `/app` (`hooks.server.ts` + `seo/robots-shell.ts`). Canonical, hreflang y OG se mantienen.
+  - Cabecera `X-Robots-Tag: noindex, nofollow` en todas las respuestas del Worker (`hooks.server.ts`) y, para los ficheros estáticos y las páginas prerenderizadas, en un bloque `/*` del `_headers` de la raíz, que genera el plugin en cada build (fichero ignorado por git; el adapter lo copia a `.svelte-kit/cloudflare/_headers`).
+  - Sitemaps vacíos: `sitemap-index.xml` sin `<sitemap>` y cada `sitemap-*.xml` sin `<url>`.
+  - `robots.txt` **no cambia** (permite rastrear): Google tiene que poder leer el `noindex`. Un `Disallow: /` lo impediría y las URL podrían indexarse sin contenido.
+- **Los E2E** se ejecutan con `PUBLIC_MODE_BETA=false` (`playwright.config.ts`): prueban el SEO del lanzamiento. El modo beta se prueba con tests unitarios (`seo/mode-beta.spec.ts`, `sitemap.spec.ts`, `robots-shell.spec.ts`).
+
+**El día del lanzamiento:**
+
+1. `wrangler.jsonc` → `"vars": { "PUBLIC_MODE_BETA": "false" }` (y quitar la variable de las _Build variables_ de Cloudflare, o ponerla a `false`, si se había definido).
+2. `npm run build` y desplegar. Comprobar: `curl -sI https://carnetdecims.cat/ca` sin `X-Robots-Tag`; `curl -sI https://carnetdecims.cat/ca/cims/pedraforca` igual; el HTML de una página indexable sin meta robots; `/sitemap-index.xml` con los sitemaps; `/app` sigue con `noindex`.
+3. Search Console: enviar `sitemap-index.xml` e inspeccionar 10 URL de plantilla (ver abajo).
+4. Actualizar la política de privacidad (sección "Beta privada") y `docs/ESTADO.md`.
+
 **Orden de publicación:**
 
 1. **Fase 1 (lanzamiento):** home, hub del reto (4), `/cims` (listado de 522 con fichas enlazadas solo si son indexables), `/cims-essencials`, todas las comarcas, `/mapa`, `/metodologia`, `/sobre-el-projecte` y las **150 fichas esenciales revisadas** en ca. ES a la vez si hay capacidad de revisión; si no, entre 2 y 4 semanas después, sin publicar ES a medias.

@@ -32,3 +32,6 @@ playwright-report
 
 # Catàleg: caché de respostes de les fonts (scripts/catalog)
 scripts/catalog/.cache/
+
+# Generat al build per seo/plugin-mode-beta.ts (X-Robots-Tag del mode beta)
+/_headers

@@ -40,7 +40,26 @@
 		/** "Afegeix a la pantalla d'inici" d'iOS. */
 		'add-square': ['M5 4.5h14v15H5z', 'M12 8.5v7M8.5 12h7'],
 		install: ['M12 4v10.5M7.5 10 12 14.5 16.5 10', 'M5 19.5h14'],
-		refresh: ['M19.5 12a7.5 7.5 0 1 1-2.2-5.3', 'M19.5 4.5v4h-4']
+		refresh: ['M19.5 12a7.5 7.5 0 1 1-2.2-5.3', 'M19.5 4.5v4h-4'],
+		/** Núvol (compte): tot desat, canvis pendents, error. */
+		'cloud-check': [
+			'M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 10 4.3 4.3 0 0 0 7 18.5z',
+			'm9.5 14 2 2 3.5-3.5'
+		],
+		'cloud-up': [
+			'M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 10 4.3 4.3 0 0 0 7 18.5z',
+			'M12 16.5V12M10 14l2-2 2 2'
+		],
+		'cloud-alert': [
+			'M7 18.5h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 10 4.3 4.3 0 0 0 7 18.5z',
+			'M12 11.5v3M12 16.5h.01'
+		],
+		/** Dispositiu (dades només al mòbil). */
+		device: [
+			'M8 3.5h8a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z',
+			'M11 17.5h2'
+		],
+		mail: ['M4 6.5h16v11H4z', 'm4.5 7 7.5 6 7.5-6']
 	} as const;
 
 	export type IconName = keyof typeof ICONS;

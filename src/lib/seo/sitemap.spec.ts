@@ -38,6 +38,16 @@ describe('sitemaps', () => {
 		expect(index).not.toContain('cims.xml');
 	});
 
+	it('mode beta: índex sense sitemaps i sitemaps de secció sense URL (però vàlids)', () => {
+		const index = sitemapIndexXml(true);
+		expect(index).toContain('<sitemapindex');
+		expect(index).not.toContain('<sitemap>');
+		const ca = sitemapXml('ca-pagines', true) ?? '';
+		expect(ca).toContain('<urlset');
+		expect(ca).not.toContain('<url>');
+		expect(sitemapXml('no-existeix', true)).toBeUndefined();
+	});
+
 	it('URL absolutes, localitzades i sense barra final; mai /app', () => {
 		const ca = sitemapXml('ca-pagines') ?? '';
 		const es = sitemapXml('es-paginas') ?? '';

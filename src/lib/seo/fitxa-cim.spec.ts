@@ -16,6 +16,7 @@ import {
 	nomAmbArticle,
 	nomAmbDe,
 	nomAmbEn,
+	nomRutaCurt,
 	primerQueHiCapi,
 	seoFitxaCim
 } from './fitxa-cim';
@@ -189,6 +190,30 @@ describe('fitxa de cim · SEO', () => {
 			};
 			const d = seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, 'ca', { rutes: [ruta] });
 			expect(d.description).toBe(seoFitxaCim(cim, comarcaPerSlug(cim.comarca)!, 'ca').description);
+		});
+
+		it('nomRutaCurt: treu el tram "per/por …" i el que va després de la coma', () => {
+			expect(nomRutaCurt('Circular desde el santuario de Montferri por la Torre del Moro')).toBe(
+				'Circular desde el santuario de Montferri'
+			);
+			expect(nomRutaCurt('des de Gósol pel coll de Jou')).toBe('des de Gósol');
+			expect(nomRutaCurt('des del Collell, per la tartera')).toBe('des del Collell');
+			expect(nomRutaCurt('des de Gósol')).toBe('des de Gósol');
+		});
+
+		it('ruta sense xifres i nom massa llarg: ruta normal amb el nom curt', () => {
+			const cim = cimPerSlug('canigo')!;
+			const comarca = comarcaPerSlug(cim.comarca)!;
+			const ruta: RutaAccesLocal = {
+				id: 'sense-xifres',
+				nom: 'Circular des del refugi de Cortalets per la cresta ' + 'llarga '.repeat(6),
+				sortida: { nom: 'x' },
+				descripcio: '',
+				fonts: []
+			};
+			const { description } = seoFitxaCim(cim, comarca, 'ca', { rutes: [ruta] });
+			expect(description).toContain('Ruta normal circular des del refugi de Cortalets.');
+			expect(description.length).toBeLessThanOrEqual(MAX_DESCRIPTION);
 		});
 
 		it('totes les fitxes amb contingut: ≤ 155, úniques, amb altitud, comarca i ruta normal', () => {

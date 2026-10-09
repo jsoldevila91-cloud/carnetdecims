@@ -33,6 +33,17 @@ export interface EntradaOutbox {
 }
 
 /**
+ * Metadades locals de la sync (versió 2 de l'esquema, fase 5). Claus conegudes:
+ * - `propietari`: id de l'usuari a qui pertanyen les dades del dispositiu (`null`/absent = anònim);
+ * - `cursorPull`: `server_updated_at` (text tal com el retorna el servidor) de l'última fila baixada;
+ * - `ultimaSync`: instant ISO de l'última sync completa.
+ */
+export interface EntradaMeta {
+	clau: 'propietari' | 'cursorPull' | 'ultimaSync';
+	valor: string | null;
+}
+
+/**
  * Esquemes versionats. **Mai no s'edita una versió publicada**: per canviar l'esquema, s'hi
  * afegeix una versió nova amb només les taules que canvien i, si cal, una funció `upgrade`
  * que migri les dades (Dexie les aplica en ordre en obrir la BD).
@@ -52,12 +63,18 @@ export const ESQUEMES: readonly {
 			ascensions: 'id, cimId, data, updatedAt, deletedAt',
 			outbox: 'ascensioId, encuaAt'
 		}
+	},
+	{
+		// Fase 5 (sync): metadades (propietari de les dades, cursor del pull, última sync).
+		versio: 2,
+		stores: { meta: 'clau' }
 	}
 ];
 
 export class CarnetDb extends Dexie {
 	ascensions!: EntityTable<FilaAscensio, 'id'>;
 	outbox!: EntityTable<EntradaOutbox, 'ascensioId'>;
+	meta!: EntityTable<EntradaMeta, 'clau'>;
 
 	constructor(nom = NOM_BD) {
 		super(nom);

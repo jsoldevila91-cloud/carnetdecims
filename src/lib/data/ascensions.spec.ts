@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { Dexie } from 'dexie';
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Ascensio } from '$lib/domain';
 import {
@@ -86,16 +87,45 @@ describe('uuidv7', () => {
 });
 
 describe('esquema', () => {
-	it('BD carnetdecims amb ascensions i outbox indexades', async () => {
+	it('BD carnetdecims amb ascensions i outbox indexades (v2: + meta de la sync)', async () => {
 		const bd = obtenirBd();
 		await bd.open();
 		expect(bd.name).toBe(NOM_BD);
-		expect(bd.verno).toBe(1);
+		expect(bd.verno).toBe(2);
+		expect(bd.meta.schema.primKey.name).toBe('clau');
 		const idx = bd.ascensions.schema.indexes.map((i) => i.name).sort();
 		expect(bd.ascensions.schema.primKey.name).toBe('id');
 		expect(idx).toEqual(['cimId', 'data', 'deletedAt', 'updatedAt']);
 		expect(bd.outbox.schema.primKey.name).toBe('ascensioId');
-		expect(new CarnetDb('x').tables.map((t) => t.name).sort()).toEqual(['ascensions', 'outbox']);
+		expect(new CarnetDb('x').tables.map((t) => t.name).sort()).toEqual([
+			'ascensions',
+			'meta',
+			'outbox'
+		]);
+	});
+
+	it('migra una BD v1 existent a v2 sense perdre ascensions ni la cua', async () => {
+		const nom = 'carnetdecims-v1-prova';
+		const v1 = new Dexie(nom);
+		v1.version(1).stores({
+			ascensions: 'id, cimId, data, updatedAt, deletedAt',
+			outbox: 'ascensioId, encuaAt'
+		});
+		await v1
+			.table('ascensions')
+			.put({ id: 'a', cimId: CIM_A, data: '2026-09-20', deletedAt: null });
+		await v1
+			.table('outbox')
+			.put({ ascensioId: 'a', encuaAt: '2026-09-20T00:00:00.000Z', intents: 0 });
+		v1.close();
+		const v2 = new CarnetDb(nom);
+		await v2.open();
+		expect(v2.verno).toBe(2);
+		expect(await v2.ascensions.count()).toBe(1);
+		expect(await v2.outbox.count()).toBe(1);
+		expect(await v2.meta.count()).toBe(0);
+		v2.close();
+		await Dexie.delete(nom);
 	});
 });
 

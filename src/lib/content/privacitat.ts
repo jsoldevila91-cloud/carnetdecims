@@ -1,10 +1,16 @@
 /**
- * `/privacitat` (RGPD), ajustada al que fa el web AVUI (verificat al codi el 2026-09-30):
- * - sense comptes; el registre d'ascensions (bloc 4a) desa les ascensions NOMÉS al dispositiu,
- *   a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb exportació JSON, importació i
- *   esborrat total (`data/ascensions.ts`: `exportarDades`, `importarDades`, `esborrarTot`) i
- *   petició d'emmagatzematge persistent (`platform/emmagatzematge.ts`); no surten del dispositiu
- *   (la cua `outbox` és per a la sync futura de la fase 5 i avui no s'envia enlloc);
+ * `/privacitat` (RGPD), ajustada al que fa el web AVUI (revisada el 2026-10-09, beta privada):
+ * - registre d'ascensions (bloc 4a) a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb
+ *   exportació JSON, importació i esborrat total (`data/ascensions.ts`) i petició d'emmagatzematge
+ *   persistent (`platform/emmagatzematge.ts`); sense compte, no surten del dispositiu;
+ * - comptes opcionals (fase 5, beta privada): accés amb enllaç al correu (Supabase Auth, projecte a
+ *   eu-west-1, Irlanda); al núvol, taules `ascensions` (cim, data, mètode, nota) i `perfils` (àlies
+ *   opcional), `supabase/migrations/0002_dades_usuari.sql`, amb RLS i supressió del compte
+ *   ("Esborra el compte", `/app/compte`) en cascada; la sessió de supabase-js es desa a
+ *   localStorage. Si es configura un SMTP propi per als correus d'accés, cal afegir-lo aquí;
+ * - responsable del tractament: el nom complet de la persona titular surt NOMÉS a la secció
+ *   `responsable` d'aquesta pàgina (decisió de l'usuari, 2026-10-09); a la resta del web, "JSR"
+ *   (`titular.ts`), i mai a metadades ni JSON-LD (`continguts.spec.ts` ho comprova);
  * - geolocalització (blocs 4b i 4c, `platform/geolocalitzacio.ts`): només amb un botó («Ordena
  *   per proximitat» dels essencials pendents, «La meva ubicació» del mapa i «Cims a prop»); la
  *   posició es queda en memòria i no es desa ni s'envia;
@@ -35,7 +41,7 @@
  *   `/api/meteo/{slug}` al nostre origen; el Worker demana la previsió a Open-Meteo amb les
  *   coordenades i l'altitud del cim (cap dada del visitant: ni IP, ni capçaleres, ni galetes) i el
  *   SW en desa la darrera de cada cim consultat (`carnet-meteo-v1`).
- * Cal actualitzar-la abans d'activar: comptes (fase 5, Supabase UE) i analítica (fase 7).
+ * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
 import type { Contingut } from './types.ts';
@@ -49,15 +55,24 @@ const MAPTERHORN = 'https://mapterhorn.com/';
 const WIKILOC = 'https://www.wikiloc.com/';
 const WIKILOC_PRIVACY = 'https://www.wikiloc.com/wikiloc/privacy.html';
 const OPEN_METEO = 'https://open-meteo.com/';
+const SUPABASE = 'https://supabase.com/';
+const SUPABASE_PRIVACY = 'https://supabase.com/privacy';
+const SUPABASE_DPA = 'https://supabase.com/legal/dpa';
+
+/**
+ * Persona responsable del tractament (art. 13 del RGPD). Només es fa servir a la secció
+ * `responsable` d'aquesta pàgina: enlloc més del web, ni a metadades ni a JSON-LD.
+ */
+export const RESPONSABLE_TRACTAMENT = 'Jonatan Soldevila Rafael';
 
 export const privacitat: Contingut = {
 	ca: {
 		title: 'Política de privadesa',
 		description:
-			'Com tracta Carnet de Cims les teves dades: sense comptes, sense cookies de seguiment ni analítica. Quins serveis reben la IP i quins drets tens.',
+			'Com tracta Carnet de Cims les teves dades: compte opcional amb dades a la UE, sense cookies de seguiment ni analítica. Qui les tracta i quins drets tens.',
 		h1: 'Política de privadesa',
 		intro:
-			"En resum: Carnet de Cims no et demana cap dada ni fa servir cookies de seguiment ni analítica, i les ascensions que registres es desen només al teu dispositiu: no ens arriben. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
+			"En resum: pots fer servir Carnet de Cims sense compte, i aleshores les ascensions es desen només al teu dispositiu. Si crees un compte (opcional), et demanem només el correu i desem el teu carnet en servidors de la Unió Europea per sincronitzar-lo; el pots exportar i esborrar quan vulguis. No fem servir cookies de seguiment ni analítica. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).",
 		seccions: [
 			{
 				id: 'responsable',
@@ -65,7 +80,20 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'llista',
-						items: [`**Responsable:** ${TITULAR.nom}`, `**Contacte:** ${TITULAR.correu}`]
+						items: [
+							`**Responsable:** ${RESPONSABLE_TRACTAMENT}, titular de ${TITULAR.nom}`,
+							`**Contacte:** ${TITULAR.correu}`
+						]
+					}
+				]
+			},
+			{
+				id: 'beta',
+				titol: 'Beta privada',
+				blocs: [
+					{
+						tipus: 'paragraf',
+						text: 'Carnet de Cims és en **beta privada**: una versió de prova oberta a un grup reduït de persones abans del llançament. Pot tenir errors i les funcions poden canviar. Les dades es tracten igual que ho farem després del llançament i amb les mateixes garanties; si alguna cosa canvia, actualitzarem aquesta política i la data de revisió. Et recomanem exportar una còpia del carnet de tant en tant.'
 					}
 				]
 			},
@@ -76,7 +104,8 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'No hi ha comptes ni formularis de registre: no et demanem el nom, el correu ni cap altra dada.',
+							"El compte és opcional: sense compte, no et demanem cap dada. Amb compte, només el correu (i, si vols, un àlies). No et demanem el nom, ni el telèfon, ni l'edat.",
+							'No enviem publicitat ni butlletins: el correu només serveix per entrar al compte.',
 							"No fem servir cookies de seguiment, de publicitat ni d'analítica, ni cap eina de mesura d'audiència.",
 							'No hi ha publicitat, ni botons de xarxes socials, ni continguts incrustats de tercers. Les tipografies es serveixen des del mateix web, no des de Google Fonts.',
 							'No elaborem perfils ni prenem decisions automatitzades sobre ningú.'
@@ -90,20 +119,42 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: "Les ascensions que registres (cim, data, mètode i, si en vols posar, una nota) es desen **només al teu dispositiu**, a la base de dades del navegador (IndexedDB). No hi ha comptes ni sincronització: aquestes dades no s'envien a cap servidor, ni al nostre ni al de ningú, i nosaltres no hi tenim accés. El navegador pot demanar-te permís per conservar-les de manera persistent, perquè no les esborri si li falta espai."
+						text: "Les ascensions que registres (cim, data, mètode i, si en vols posar, una nota) es desen al teu dispositiu, a la base de dades del navegador (IndexedDB). **Sense compte, es queden només aquí:** no s'envien a cap servidor i nosaltres no hi tenim accés. Si crees un compte, també se'n desa una còpia al núvol (ho expliquem a l'apartat «Si crees un compte»). El navegador pot demanar-te permís per conservar-les de manera persistent, perquè no les esborri si li falta espai."
 					},
 					{
 						tipus: 'llista',
 						items: [
 							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON i tornar-la a importar en un altre navegador o dispositiu.",
 							"**Esborrar-les:** des de l'aplicació pots esborrar totes les teves ascensions del dispositiu. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
-							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions es perden: et recomanem exportar-ne una còpia de tant en tant.',
+							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions que no tinguis al compte es perden: et recomanem crear un compte o exportar-ne una còpia de tant en tant.',
 							"**La teva ubicació:** només quan la demanes amb un botó (ordenar per proximitat els essencials pendents, «La meva ubicació» al mapa o «Cims a prop»), i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies o centrar el mapa: no es desa ni s'envia enlloc. Si no dones permís, la resta funciona igual (per exemple, la llista d'essencials s'ordena per comarca)."
 						]
 					},
 					{
 						tipus: 'paragraf',
-						text: "No fem servir cookies pròpies. Perquè el web funcioni sense connexió, el navegador hi desa una còpia dels fitxers del web, de les pàgines visitades, dels trossos de mapa que has consultat i de l'última previsió meteorològica dels cims que has mirat (memòria cau del service worker); també hi guarda dues preferències tècniques a l'emmagatzematge local (localStorage): si has tancat l'avís d'instal·lació o ja tens l'app instal·lada, i si ja t'hem avisat que l'app està preparada per funcionar sense connexió. A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. Res d'això conté dades personals ni ens arriba, i ho pots esborrar eliminant les dades del lloc a la configuració del navegador. A banda d'això, Wikiloc pot posar les seves pròpies galetes, però només si obres el mapa d'una de les seves rutes (ho expliquem a l'apartat de serveis de tercers)."
+						text: "No fem servir cookies pròpies. Perquè el web funcioni sense connexió, el navegador hi desa una còpia dels fitxers del web, de les pàgines visitades, dels trossos de mapa que has consultat i de l'última previsió meteorològica dels cims que has mirat (memòria cau del service worker); també hi guarda dues preferències tècniques a l'emmagatzematge local (localStorage): si has tancat l'avís d'instal·lació o ja tens l'app instal·lada, i si ja t'hem avisat que l'app està preparada per funcionar sense connexió. Si entres al teu compte, hi guarda també la sessió (un identificador d'accés) perquè no hagis d'entrar cada vegada; s'esborra en tancar la sessió. A més, el web guarda informació tècnica de navegació a l'emmagatzematge de sessió (sessionStorage): la posició de desplaçament i l'estat de les pàgines visitades, perquè el botó Enrere funcioni bé. Res d'això no ens arriba, llevat de la sessió, que identifica el teu compte quan sincronitzes, i ho pots esborrar eliminant les dades del lloc a la configuració del navegador. A banda d'això, Wikiloc pot posar les seves pròpies galetes, però només si obres el mapa d'una de les seves rutes (ho expliquem a l'apartat de serveis de tercers)."
+					}
+				]
+			},
+			{
+				id: 'compte',
+				titol: 'Si crees un compte',
+				blocs: [
+					{
+						tipus: 'paragraf',
+						text: "El compte és opcional i serveix per desar el teu carnet al núvol i tenir-lo a tots els teus dispositius. S'hi entra amb un enllaç que t'enviem per correu, sense contrasenya."
+					},
+					{
+						tipus: 'llista',
+						items: [
+							"**Quines dades:** el teu correu electrònic; les ascensions que registres (cim, data, mètode i la nota, si n'hi poses); un àlies, només si en vols posar; i les dades tècniques del compte (dates d'alta i d'últim accés i registres d'accés amb l'adreça IP, que es guarden per seguretat).",
+							"**Per a què:** crear el compte, enviar-te l'enllaç per entrar i desar i sincronitzar el teu carnet entre dispositius. No fem servir el correu per a res més: ni publicitat ni butlletins.",
+							"**Base jurídica:** l'execució del servei que ens demanes en crear el compte (art. 6.1.b del RGPD). L'àlies és voluntari i es basa en el teu consentiment (art. 6.1.a), que pots retirar esborrant-lo.",
+							`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}). També és Supabase qui t'envia el correu amb l'enllaç d'accés.`,
+							"**Quant de temps:** mentre tinguis el compte. Si l'esborres, s'eliminen el compte i totes les ascensions desades al núvol; les còpies de seguretat del proveïdor, si n'hi ha, es renoven al cap de pocs dies. Les ascensions del teu dispositiu no s'esborren: les pots esborrar a part.",
+							"**Menors:** per crear un compte cal tenir 14 anys o més; per sota d'aquesta edat, l'ha de crear el pare, la mare o el tutor legal (art. 7 de la Llei orgànica 3/2018).",
+							'Ningú més no veu el teu carnet: cada compte només pot llegir i modificar les seves pròpies dades.'
+						]
 					}
 				]
 			},
@@ -124,6 +175,7 @@ export const privacitat: Contingut = {
 							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord, i el Plan IGN del mapa interactiu quan t'hi apropes, es carreguen des de la Géoplateforme de l'IGN.`,
 							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim): **no rep la teva IP**. El teu navegador només demana la previsió al nostre servidor, i és el nostre servidor qui la demana a Open-Meteo amb les coordenades i l'altitud del cim, sense cap dada teva.`,
 							`**[Wikiloc](${WIKILOC})** (rutes recomanades d'algunes fitxes de cim): el mapa de cada ruta **no es carrega fins que prems «Mostra la ruta»**; abans no es fa cap connexió amb Wikiloc. Quan el prems, el navegador carrega el mapa des dels servidors de Wikiloc, que rep la teva adreça IP i pot fer servir les seves pròpies galetes, sota la seva responsabilitat i d'acord amb la seva [política de privadesa](${WIKILOC_PRIVACY}). Els enllaços «Obre a Wikiloc» i «Veure rutes a Wikiloc» et porten al seu web només si hi fas clic.`,
+							`**[Supabase](${SUPABASE})** (comptes): només si crees un compte o hi entres. Rep l'adreça IP i les peticions de sincronització, com a encarregat del tractament (vegeu l'apartat «Si crees un compte»).`,
 							'**Altres enllaços externs** (FEEC, fonts de dades): només si hi fas clic.'
 						]
 					},
@@ -140,6 +192,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
+							"**Desar i sincronitzar el teu carnet, si crees un compte.** Ho expliquem a l'apartat «Si crees un compte».",
 							"**Servir el web i protegir-lo.** Els registres tècnics de les peticions (IP, data i hora, pàgina, navegador) els tracta Cloudflare per encàrrec nostre. Base jurídica: l'interès legítim a oferir un web segur i operatiu (art. 6.1.f del RGPD). Es conserven durant els terminis de Cloudflare i no els fem servir per elaborar perfils.",
 							`**Respondre't si ens escrius.** Si ens envies un correu a ${TITULAR.correu}, fem servir la teva adreça i el missatge només per atendre la consulta. Base jurídica: la teva sol·licitud i el nostre interès legítim a respondre-la. Els conservem el temps necessari per atendre-la i, després, els esborrem.`
 						]
@@ -156,7 +209,20 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Pots exercir els drets d'accés, rectificació, supressió, oposició, limitació del tractament i portabilitat escrivint a ${TITULAR.correu}. Indica quin dret vols exercir i, si cal, et demanarem el mínim necessari per comprovar la teva identitat. Et respondrem en el termini d'un mes, com estableix el [RGPD](${RGPD}).`
+						text: "Tens dret d'accés, rectificació, supressió, oposició, limitació del tractament i portabilitat. Si tens compte, molts els pots exercir tu mateix des de «El teu compte», a l'aplicació:"
+					},
+					{
+						tipus: 'llista',
+						items: [
+							'**Accés i portabilitat:** «Descarrega les meves dades» o «Exporta una còpia (JSON)» et donen totes les teves ascensions en un fitxer que pots fer servir en un altre lloc.',
+							'**Rectificació:** pots editar o esborrar cada ascensió. Per canviar el correu del compte, escriu-nos.',
+							'**Supressió:** el botó «Esborra el compte» elimina el compte i totes les dades desades al núvol.',
+							'**Oposició i limitació del tractament:** escriu-nos i ho atendrem.'
+						]
+					},
+					{
+						tipus: 'paragraf',
+						text: `Per a qualsevol d'aquests drets, també pots escriure a ${TITULAR.correu}. Indica quin dret vols exercir i, si cal, et demanarem el mínim necessari per comprovar la teva identitat. Et respondrem en el termini d'un mes, com estableix el [RGPD](${RGPD}).`
 					},
 					{
 						tipus: 'paragraf',
@@ -170,27 +236,26 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: "Aquesta política canviarà quan el web incorpori noves funcions. Abans d'activar-les, l'actualitzarem i en canviarem la data de revisió:"
+						text: "Aquesta política canviarà quan el web incorpori noves funcions o en sortir de la beta. Abans d'activar-les, l'actualitzarem i en canviarem la data de revisió:"
 					},
 					{
 						tipus: 'llista',
 						items: [
-							"**Comptes opcionals** per sincronitzar el carnet, amb les dades allotjades a la Unió Europea (Supabase), i amb opcions per exportar-les i esborrar-les. També s'hi explicaran les condicions per a menors d'edat (a Espanya, el consentiment propi es pot donar a partir dels 14 anys).",
 							"**Mesura d'audiència**, si mai n'hi ha: seria sense cookies i sense dades personals identificables."
 						]
 					}
 				]
 			}
 		],
-		actualitzat: '2026-10-03'
+		actualitzat: '2026-10-09'
 	},
 	es: {
 		title: 'Política de privacidad',
 		description:
-			'Cómo trata Carnet de Cims tus datos: sin cuentas, sin cookies de seguimiento ni analítica. Qué servicios reciben la IP y qué derechos tienes.',
+			'Cómo trata Carnet de Cims tus datos: cuenta opcional con datos en la UE, sin cookies de seguimiento ni analítica. Quién los trata y qué derechos tienes.',
 		h1: 'Política de privacidad',
 		intro:
-			'En resumen: Carnet de Cims no te pide ningún dato ni usa cookies de seguimiento ni analítica, y las ascensiones que registras se guardan solo en tu dispositivo: no nos llegan. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
+			'En resumen: puedes usar Carnet de Cims sin cuenta, y entonces las ascensiones se guardan solo en tu dispositivo. Si creas una cuenta (opcional), solo te pedimos el correo y guardamos tu carnet en servidores de la Unión Europea para sincronizarlo; puedes exportarlo y borrarlo cuando quieras. No usamos cookies de seguimiento ni analítica. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).',
 		seccions: [
 			{
 				id: 'responsable',
@@ -198,7 +263,20 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'llista',
-						items: [`**Responsable:** ${TITULAR.nom}`, `**Contacto:** ${TITULAR.correu}`]
+						items: [
+							`**Responsable:** ${RESPONSABLE_TRACTAMENT}, titular de ${TITULAR.nom}`,
+							`**Contacto:** ${TITULAR.correu}`
+						]
+					}
+				]
+			},
+			{
+				id: 'beta',
+				titol: 'Beta privada',
+				blocs: [
+					{
+						tipus: 'paragraf',
+						text: 'Carnet de Cims está en **beta privada**: una versión de prueba abierta a un grupo reducido de personas antes del lanzamiento. Puede tener errores y las funciones pueden cambiar. Los datos se tratan igual que lo haremos tras el lanzamiento y con las mismas garantías; si algo cambia, actualizaremos esta política y su fecha de revisión. Te recomendamos exportar una copia del carnet de vez en cuando.'
 					}
 				]
 			},
@@ -209,7 +287,8 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'No hay cuentas ni formularios de registro: no te pedimos el nombre, el correo ni ningún otro dato.',
+							'La cuenta es opcional: sin cuenta, no te pedimos ningún dato. Con cuenta, solo el correo (y, si quieres, un alias). No te pedimos el nombre, ni el teléfono, ni la edad.',
+							'No enviamos publicidad ni boletines: el correo solo sirve para entrar en la cuenta.',
 							'No usamos cookies de seguimiento, de publicidad ni de analítica, ni ninguna herramienta de medición de audiencia.',
 							'No hay publicidad, ni botones de redes sociales, ni contenidos incrustados de terceros. Las tipografías se sirven desde la propia web, no desde Google Fonts.',
 							'No elaboramos perfiles ni tomamos decisiones automatizadas sobre nadie.'
@@ -223,20 +302,42 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Las ascensiones que registras (cima, fecha, método y, si quieres, una nota) se guardan **solo en tu dispositivo**, en la base de datos del navegador (IndexedDB). No hay cuentas ni sincronización: estos datos no se envían a ningún servidor, ni al nuestro ni al de nadie, y nosotros no tenemos acceso a ellos. El navegador puede pedirte permiso para conservarlos de forma persistente, para que no los borre si le falta espacio.'
+						text: 'Las ascensiones que registras (cima, fecha, método y, si quieres, una nota) se guardan en tu dispositivo, en la base de datos del navegador (IndexedDB). **Sin cuenta, se quedan solo aquí:** no se envían a ningún servidor y nosotros no tenemos acceso a ellas. Si creas una cuenta, también se guarda una copia en la nube (lo explicamos en el apartado «Si creas una cuenta»). El navegador puede pedirte permiso para conservarlas de forma persistente, para que no las borre si le falta espacio.'
 					},
 					{
 						tipus: 'llista',
 						items: [
 							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON y volver a importarla en otro navegador o dispositivo.',
 							'**Borrarlas:** desde la aplicación puedes borrar todas tus ascensiones del dispositivo. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
-							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones se pierden: te recomendamos exportar una copia de vez en cuando.',
+							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones que no tengas en la cuenta se pierden: te recomendamos crear una cuenta o exportar una copia de vez en cuando.',
 							'**Tu ubicación:** solo cuando la pides con un botón (ordenar por proximidad las esenciales pendientes, «Mi ubicación» en el mapa o «Cimas cerca»), y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias o centrar el mapa: no se guarda ni se envía a ningún sitio. Si no das permiso, el resto funciona igual (por ejemplo, la lista de esenciales se ordena por comarca).'
 						]
 					},
 					{
 						tipus: 'paragraf',
-						text: 'No usamos cookies propias. Para que la web funcione sin conexión, el navegador guarda una copia de los archivos de la web, de las páginas visitadas, de los fragmentos de mapa que has consultado y de la última previsión meteorológica de las cimas que has mirado (memoria caché del service worker); también guarda dos preferencias técnicas en el almacenamiento local (localStorage): si has cerrado el aviso de instalación o ya tienes la app instalada, y si ya te hemos avisado de que la app está preparada para funcionar sin conexión. Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. Nada de esto contiene datos personales ni nos llega, y puedes borrarlo eliminando los datos del sitio en la configuración del navegador. Aparte de eso, Wikiloc puede poner sus propias cookies, pero solo si abres el mapa de una de sus rutas (lo explicamos en el apartado de servicios de terceros).'
+						text: 'No usamos cookies propias. Para que la web funcione sin conexión, el navegador guarda una copia de los archivos de la web, de las páginas visitadas, de los fragmentos de mapa que has consultado y de la última previsión meteorológica de las cimas que has mirado (memoria caché del service worker); también guarda dos preferencias técnicas en el almacenamiento local (localStorage): si has cerrado el aviso de instalación o ya tienes la app instalada, y si ya te hemos avisado de que la app está preparada para funcionar sin conexión. Si entras en tu cuenta, guarda también la sesión (un identificador de acceso) para que no tengas que entrar cada vez; se borra al cerrar la sesión. Además, la web guarda información técnica de navegación en el almacenamiento de sesión (sessionStorage): la posición de desplazamiento y el estado de las páginas visitadas, para que el botón Atrás funcione bien. Nada de esto nos llega, salvo la sesión, que identifica tu cuenta cuando sincronizas, y puedes borrarlo eliminando los datos del sitio en la configuración del navegador. Aparte de eso, Wikiloc puede poner sus propias cookies, pero solo si abres el mapa de una de sus rutas (lo explicamos en el apartado de servicios de terceros).'
+					}
+				]
+			},
+			{
+				id: 'compte',
+				titol: 'Si creas una cuenta',
+				blocs: [
+					{
+						tipus: 'paragraf',
+						text: 'La cuenta es opcional y sirve para guardar tu carnet en la nube y tenerlo en todos tus dispositivos. Se entra con un enlace que te enviamos por correo, sin contraseña.'
+					},
+					{
+						tipus: 'llista',
+						items: [
+							'**Qué datos:** tu correo electrónico; las ascensiones que registras (cima, fecha, método y la nota, si la pones); un alias, solo si quieres ponerlo; y los datos técnicos de la cuenta (fechas de alta y de último acceso y registros de acceso con la dirección IP, que se guardan por seguridad).',
+							'**Para qué:** crear la cuenta, enviarte el enlace para entrar y guardar y sincronizar tu carnet entre dispositivos. No usamos el correo para nada más: ni publicidad ni boletines.',
+							'**Base jurídica:** la ejecución del servicio que nos pides al crear la cuenta (art. 6.1.b del RGPD). El alias es voluntario y se basa en tu consentimiento (art. 6.1.a), que puedes retirar borrándolo.',
+							`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}). También es Supabase quien te envía el correo con el enlace de acceso.`,
+							'**Cuánto tiempo:** mientras tengas la cuenta. Si la borras, se eliminan la cuenta y todas las ascensiones guardadas en la nube; las copias de seguridad del proveedor, si las hay, se renuevan a los pocos días. Las ascensiones de tu dispositivo no se borran: puedes borrarlas aparte.',
+							'**Menores:** para crear una cuenta hay que tener 14 años o más; por debajo de esa edad, debe crearla el padre, la madre o el tutor legal (art. 7 de la Ley Orgánica 3/2018).',
+							'Nadie más ve tu carnet: cada cuenta solo puede leer y modificar sus propios datos.'
+						]
 					}
 				]
 			},
@@ -257,6 +358,7 @@ export const privacitat: Contingut = {
 							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte, y el Plan IGN del mapa interactivo al acercarte, se cargan desde la Géoplateforme del IGN.`,
 							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima): **no recibe tu IP**. Tu navegador solo pide la previsión a nuestro servidor, y es nuestro servidor quien la pide a Open-Meteo con las coordenadas y la altitud de la cima, sin ningún dato tuyo.`,
 							`**[Wikiloc](${WIKILOC})** (rutas recomendadas de algunas fichas de cima): el mapa de cada ruta **no se carga hasta que pulsas «Mostrar la ruta»**; antes no se establece ninguna conexión con Wikiloc. Cuando lo pulsas, el navegador carga el mapa desde los servidores de Wikiloc, que recibe tu dirección IP y puede usar sus propias cookies, bajo su responsabilidad y según su [política de privacidad](${WIKILOC_PRIVACY}). Los enlaces «Abrir en Wikiloc» y «Ver rutas en Wikiloc» te llevan a su web solo si haces clic en ellos.`,
+							`**[Supabase](${SUPABASE})** (cuentas): solo si creas una cuenta o entras en ella. Recibe la dirección IP y las peticiones de sincronización, como encargado del tratamiento (ver el apartado «Si creas una cuenta»).`,
 							'**Otros enlaces externos** (FEEC, fuentes de datos): solo si los pulsas.'
 						]
 					},
@@ -273,6 +375,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
+							'**Guardar y sincronizar tu carnet, si creas una cuenta.** Lo explicamos en el apartado «Si creas una cuenta».',
 							'**Servir la web y protegerla.** Los registros técnicos de las peticiones (IP, fecha y hora, página, navegador) los trata Cloudflare por encargo nuestro. Base jurídica: el interés legítimo en ofrecer una web segura y operativa (art. 6.1.f del RGPD). Se conservan durante los plazos de Cloudflare y no los usamos para elaborar perfiles.',
 							`**Responderte si nos escribes.** Si nos envías un correo a ${TITULAR.correu}, usamos tu dirección y el mensaje solo para atender la consulta. Base jurídica: tu solicitud y nuestro interés legítimo en responderla. Los conservamos el tiempo necesario para atenderla y, después, los borramos.`
 						]
@@ -289,7 +392,20 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: `Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a ${TITULAR.correu}. Indica qué derecho quieres ejercer y, si hace falta, te pediremos lo mínimo necesario para comprobar tu identidad. Te responderemos en el plazo de un mes, como establece el [RGPD](${RGPD}).`
+						text: 'Tienes derecho de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad. Si tienes cuenta, muchos puedes ejercerlos tú mismo desde «Tu cuenta», en la aplicación:'
+					},
+					{
+						tipus: 'llista',
+						items: [
+							'**Acceso y portabilidad:** «Descargar mis datos» o «Exportar una copia (JSON)» te dan todas tus ascensiones en un archivo que puedes usar en otro sitio.',
+							'**Rectificación:** puedes editar o borrar cada ascensión. Para cambiar el correo de la cuenta, escríbenos.',
+							'**Supresión:** el botón «Borrar la cuenta» elimina la cuenta y todos los datos guardados en la nube.',
+							'**Oposición y limitación del tratamiento:** escríbenos y lo atenderemos.'
+						]
+					},
+					{
+						tipus: 'paragraf',
+						text: `Para cualquiera de estos derechos, también puedes escribir a ${TITULAR.correu}. Indica qué derecho quieres ejercer y, si hace falta, te pediremos lo mínimo necesario para comprobar tu identidad. Te responderemos en el plazo de un mes, como establece el [RGPD](${RGPD}).`
 					},
 					{
 						tipus: 'paragraf',
@@ -303,18 +419,17 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Esta política cambiará cuando la web incorpore nuevas funciones. Antes de activarlas, la actualizaremos y cambiaremos su fecha de revisión:'
+						text: 'Esta política cambiará cuando la web incorpore nuevas funciones o al salir de la beta. Antes de activarlas, la actualizaremos y cambiaremos su fecha de revisión:'
 					},
 					{
 						tipus: 'llista',
 						items: [
-							'**Cuentas opcionales** para sincronizar el carnet, con los datos alojados en la Unión Europea (Supabase), y con opciones para exportarlos y borrarlos. También se explicarán las condiciones para menores de edad (en España, el consentimiento propio puede darse a partir de los 14 años).',
 							'**Medición de audiencia**, si algún día la hay: sería sin cookies y sin datos personales identificables.'
 						]
 					}
 				]
 			}
 		],
-		actualitzat: '2026-10-03'
+		actualitzat: '2026-10-09'
 	}
 };

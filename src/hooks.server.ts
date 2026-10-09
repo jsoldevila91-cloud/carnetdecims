@@ -2,7 +2,13 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { baseLocale, getTextDirection, localizeHref, locales } from '$lib/paraglide/runtime';
 import { paraglideMiddleware } from '$lib/paraglide/server';
-import { esRutaNoindexShell, injectarNoindexShell } from '$lib/seo/robots-shell';
+import { MODE_BETA, ROBOTS_BETA } from '$lib/seo/mode-beta';
+import { m } from '$lib/paraglide/messages';
+import {
+	esRutaNoindexShell,
+	injectarAvisNoscript,
+	injectarNoindexShell
+} from '$lib/seo/robots-shell';
 
 const LOCALE_PREFIX = new RegExp(`^/(${locales.join('|')})(/|$)`);
 /**
@@ -51,18 +57,42 @@ const handleParaglide: Handle = ({ event, resolve }) => {
 	});
 };
 
+/** Posa una capçalera; si la resposta té capçaleres immutables (p. ex. de `fetch`), la copia. */
+function ambCapcalera(response: Response, nom: string, valor: string): Response {
+	try {
+		response.headers.set(nom, valor);
+		return response;
+	} catch {
+		const copia = new Response(response.body, response);
+		copia.headers.set(nom, valor);
+		return copia;
+	}
+}
+
 /**
- * La zona `/app` (dades personals) no s'indexa: capçalera `X-Robots-Tag` i, com que és SPA
- * (`ssr = false`), meta robots injectat al shell HTML (`seo/robots-shell.ts`).
+ * - La zona `/app` (dades personals) no s'indexa: capçalera `X-Robots-Tag` i, com que és SPA
+ *   (`ssr = false`), meta robots injectat al shell HTML (`seo/robots-shell.ts`).
+ * - **Mode beta** (`PUBLIC_MODE_BETA`, docs/02 §7.1): `X-Robots-Tag: noindex, nofollow` a totes
+ *   les respostes del Worker i meta robots a tot HTML que no en porti (el de `PageMeta` ja hi és).
+ *   Les pàgines prerenderitzades no passen pel Worker: la capçalera els arriba pel `_headers`
+ *   (`seo/plugin-mode-beta.ts`) i el meta, de `PageMeta`.
  */
 const handleNoindex: Handle = async ({ event, resolve }) => {
-	const noindex = esRutaNoindexShell(event.route.id);
+	const app = esRutaNoindexShell(event.route.id);
+	const robots = MODE_BETA ? ROBOTS_BETA : app ? 'noindex' : undefined;
 	const response = await resolve(
 		event,
-		noindex ? { transformPageChunk: ({ html }) => injectarNoindexShell(html) } : undefined
+		robots
+			? {
+					transformPageChunk: ({ html }) => {
+						const ambRobots = injectarNoindexShell(html, robots);
+						// Shell SPA de /app: avís per a qui no té JavaScript (compte, registre, carnet).
+						return app ? injectarAvisNoscript(ambRobots, m.app_noscript()) : ambRobots;
+					}
+				}
+			: undefined
 	);
-	if (noindex) response.headers.set('X-Robots-Tag', 'noindex');
-	return response;
+	return robots ? ambCapcalera(response, 'X-Robots-Tag', robots) : response;
 };
 
 export const handle: Handle = sequence(handleLocaleRedirect, handleParaglide, handleNoindex);

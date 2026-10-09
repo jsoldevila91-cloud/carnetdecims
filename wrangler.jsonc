@@ -1,12 +1,22 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "100cims-cat",
+	"name": "carnetdecims",
 	"compatibility_date": "2026-09-27",
 	"compatibility_flags": ["nodejs_als"],
 	"main": ".svelte-kit/cloudflare/_worker.js",
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"
+	},
+	// Beta privada: tot el lloc noindex. Es llegeix AL BUILD (pàgines prerenderitzades); per llançar,
+	// posa "false" (o PUBLIC_MODE_BETA=false a les variables de build) i torna a desplegar (docs/02 §7.1).
+	// Supabase (fase 5): URL i clau PUBLICABLE, públiques per disseny (la seguretat és la RLS).
+	// El build les llegeix d'aquí si no hi ha `.env` (`platform/plugin-env-supabase.ts`).
+	// Mai no hi posis la service_role.
+	"vars": {
+		"PUBLIC_MODE_BETA": "true",
+		"PUBLIC_SUPABASE_URL": "https://ckqhdryopasitqtwjyys.supabase.co",
+		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_Zo2yYlYYhLqV7LP1FwFAoQ_f64S1pD8"
 	},
 	"workers_dev": true,
 	"preview_urls": true

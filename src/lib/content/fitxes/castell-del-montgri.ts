@@ -54,8 +54,8 @@ const fitxa: ContingutFitxa = {
 			distanciaKm: 2.45,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "És la ruta 01 del parc natural, senyalitzada amb les marques del GR. De l'aparcament, una pista puja suaument entre conreus abandonats fins al Pedrigolet, una tartera, i després un sender amb murs de pedra seca passa per les tres capelles i arriba a la creu de Santa Caterina. L'últim tram, un sender pedregós, s'enfila pel llom fins al castell. El parc la considera una ruta de caire familiar, sense passos equipats; anada i tornada són 4,9 km i unes 2 h.",
-				es: 'Es la ruta 01 del parque natural, señalizada con las marcas del GR. Desde el aparcamiento, una pista sube suavemente entre cultivos abandonados hasta el Pedrigolet, un pedregal, y después un sendero con muros de piedra seca pasa por las tres capillas y llega a la cruz de Santa Caterina. El último tramo, un sendero pedregoso, sube por el lomo hasta el castillo. El parque la considera una ruta de carácter familiar, sin pasos equipados; ida y vuelta son 4,9 km y unas 2 h.'
+				ca: "És la ruta 01 del parc natural, senyalitzada amb les marques del GR. De l'aparcament, una pista puja suaument entre conreus abandonats fins al Pedrigolet, una tartera, i després un sender amb murs de pedra seca passa per les tres capelles i arriba a la creu de Santa Caterina. L'últim tram, un sender pedregós, s'enfila pel llom fins al castell. El parc la considera una excursió familiar, sense passos equipats, però el tram de tartera del Pedrigolet demana atenció amb infants; anada i tornada són 4,9 km i unes 2 h.",
+				es: 'Es la ruta 01 del parque natural, señalizada con las marcas del GR. Desde el aparcamiento, una pista sube suavemente entre cultivos abandonados hasta el Pedrigolet, un pedregal, y después un sendero con muros de piedra seca pasa por las tres capillas y llega a la cruz de Santa Caterina. El último tramo, un sendero pedregoso, sube por el lomo hasta el castillo. El parque la considera una excursión familiar, sin pasos equipados, pero el tramo de pedregal del Pedrigolet exige atención con niños; ida y vuelta son 4,9 km y unas 2 h.'
 			},
 			fonts: [PARC_NATURAL]
 		},
@@ -76,14 +76,14 @@ const fitxa: ContingutFitxa = {
 			"L'aparcament gratuït del Roser, a la zona de benvinguda del Montgrí, és al nord del poble, just on comença el sender.",
 			'Amb tramuntana forta, vigila als trams pedregosos i a les muralles del castell: el risc de caiguda augmenta.',
 			"Al parc, el trànsit motoritzat per les pistes està tancat del 15 de juny al 15 de setembre; els gossos han d'anar lligats i no es pot acampar ni fer foc.",
-			"Si vas amb nens, la pujada al pati i a les torres del castell és part de la gràcia, però vigila'ls a prop dels merlets."
+			"Si vas amb nens, la tartera del Pedrigolet demana atenció: que vagin a poc a poc i a prop teu. Al castell, la pujada al pati i a les torres és part de la gràcia, però vigila'ls a prop dels merlets."
 		],
 		es: [
 			'Lleva agua: el parque avisa de que en la montaña no hay fuentes con garantías sanitarias, y no hay nada de sombra.',
 			'El aparcamiento gratuito del Roser, en la zona de bienvenida del Montgrí, está al norte del pueblo, justo donde empieza el sendero.',
 			'Con tramontana fuerte, ten cuidado en los tramos pedregosos y en las murallas del castillo: el riesgo de caída aumenta.',
 			'En el parque, el tráfico motorizado por las pistas está cerrado del 15 de junio al 15 de septiembre; los perros deben ir atados y no se puede acampar ni hacer fuego.',
-			'Si vas con niños, subir al patio y a las torres del castillo es parte de la gracia, pero vigílalos cerca de las almenas.'
+			'Si vas con niños, el pedregal del Pedrigolet exige atención: que vayan despacio y cerca de ti. En el castillo, subir al patio y a las torres es parte de la gracia, pero vigílalos cerca de las almenas.'
 		]
 	},
 	faq: {
@@ -134,7 +134,7 @@ const fitxa: ContingutFitxa = {
 	},
 	fonts: [VIQUIPEDIA, PARC_NATURAL, RUTES_PIRINEUS, CPNL],
 	estat: 'esborrany',
-	actualitzat: '2026-10-04'
+	actualitzat: '2026-10-09'
 };
 
 export default fitxa;

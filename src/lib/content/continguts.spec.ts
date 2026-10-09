@@ -125,6 +125,32 @@ describe('dades del titular i marcadors pendents', () => {
 		expect(pendentsDe(CONTINGUTS)).toEqual([]);
 	});
 
+	it('el nom complet del responsable del tractament només surt a privacitat#responsable', async () => {
+		const { RESPONSABLE_TRACTAMENT } = await import('./privacitat');
+		const cognom = RESPONSABLE_TRACTAMENT.split(' ')[1];
+		for (const l of LOCALES) {
+			const pagina = CONTINGUTS.privacitat[l];
+			const amb = pagina.seccions.filter((s) => JSON.stringify(s).includes(cognom));
+			expect(amb.map((s) => s.id)).toEqual(['responsable']);
+			expect(`${pagina.title} ${pagina.description} ${pagina.h1} ${pagina.intro}`).not.toContain(
+				cognom
+			);
+			for (const clau of Object.keys(CONTINGUTS) as (keyof typeof CONTINGUTS)[]) {
+				if (clau !== 'privacitat')
+					expect(JSON.stringify(CONTINGUTS[clau][l]), clau).not.toContain(cognom);
+			}
+		}
+		const { readFileSync } = await import('node:fs');
+		for (const fitxer of [
+			'messages/ca.json',
+			'messages/es.json',
+			'src/lib/seo/jsonld.ts',
+			'src/lib/content/titular.ts'
+		]) {
+			expect(readFileSync(fitxer, 'utf8'), fitxer).not.toContain(cognom);
+		}
+	});
+
 	it('la persona responsable només surt amb les inicials', () => {
 		expect(TITULAR.responsable).toBe('JSR');
 		for (const l of LOCALES) {

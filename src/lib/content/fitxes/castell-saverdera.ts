@@ -55,8 +55,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 20,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "De l'aparcament del monestir s'arriba a peu fins al conjunt monumental, i d'allà un corriol estret i senyalitzat s'enfila en ziga-zaga entre la brolla, amb uns primers graons de pedra, fins a les ruïnes del castell. Rutes Pirineus el valora com un passeig curt sense dificultats; Totnens avisa que el corriol és estret i rocallós, amb algun tram de roca on els nens poden necessitar ajuda.",
-				es: 'Desde el aparcamiento del monasterio se llega a pie hasta el conjunto monumental, y desde allí una senda estrecha y señalizada sube en zigzag entre el matorral, con unos primeros escalones de piedra, hasta las ruinas del castillo. Rutes Pirineus lo valora como un paseo corto sin dificultades; Totnens avisa de que la senda es estrecha y rocosa, con algún tramo de roca en el que los niños pueden necesitar ayuda.'
+				ca: "De l'aparcament del monestir s'arriba a peu fins al conjunt monumental, i d'allà un corriol estret i senyalitzat s'enfila en ziga-zaga entre la brolla, amb uns primers graons de pedra, fins a les ruïnes del castell. Rutes Pirineus el valora com un passeig curt sense dificultats, però el corriol és estret i rocallós i, com avisa Totnens, hi ha trams de roca on els infants poden necessitar ajuda.",
+				es: 'Desde el aparcamiento del monasterio se llega a pie hasta el conjunto monumental, y desde allí una senda estrecha y señalizada sube en zigzag entre el matorral, con unos primeros escalones de piedra, hasta las ruinas del castillo. Rutes Pirineus lo valora como un paseo corto sin dificultades, pero la senda es estrecha y rocosa y, como avisa Totnens, hay tramos de roca en los que los niños pueden necesitar ayuda.'
 			},
 			fonts: [RUTES_PIRINEUS, TOTNENS]
 		},
@@ -138,7 +138,7 @@ const fitxa: ContingutFitxa = {
 	},
 	fonts: [VIQUIPEDIA, RUTES_PIRINEUS, TOTNENS, PORT_DE_LA_SELVA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-04'
+	actualitzat: '2026-10-09'
 };
 
 export default fitxa;

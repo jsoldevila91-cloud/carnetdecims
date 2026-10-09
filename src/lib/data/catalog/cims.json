@@ -1340,7 +1340,7 @@
 		"nom_oficial": "Caro",
 		"toponim": "Caro",
 		"alies": ["Mont Caro"],
-		"altitud": 1442,
+		"altitud": 1441,
 		"lat": 40.80313,
 		"lon": 0.34311,
 		"comarca": "baix-ebre",
@@ -1359,9 +1359,10 @@
 				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Caro&layers=topo1,topo2&size=25"
 			},
 			"altitud": {
-				"font": "wikidata",
-				"ref": "Q599722",
-				"url": "https://www.wikidata.org/wiki/Q599722"
+				"font": "manual",
+				"ref": "cota popular del Caro",
+				"url": "https://en.wikipedia.org/wiki/Mont_Caro",
+				"nota": "Cota més coneguda del Caro: 1.441 m (correcció de l’usuari, 2026-10-05; la fan servir la majoria de ressenyes i la Viquipèdia en anglès). Wikidata i la Viquipèdia en català donen 1.442 m."
 			}
 		},
 		"confianca": "alta",
@@ -3690,7 +3691,7 @@
 		"nom_oficial": "La Fita Alta",
 		"toponim": "la Fita Alta",
 		"alies": [],
-		"altitud": 289,
+		"altitud": 286,
 		"lat": 41.61315,
 		"lon": 0.84306,
 		"comarca": "pla-d-urgell",
@@ -3709,9 +3710,10 @@
 				"url": "https://eines.icgc.cat/geocodificador/cerca?text=la%20Fita%20Alta&layers=topo1,topo2&size=25"
 			},
 			"altitud": {
-				"font": "wikidata",
-				"ref": "Q11930487",
-				"url": "https://www.wikidata.org/wiki/Q11930487"
+				"font": "icgc",
+				"ref": "Mapa topogràfic de Catalunya 1:10.000",
+				"url": "https://www.icgc.cat/",
+				"nota": "Cota de la Fita Alta (Sidamon) al mapa topogràfic 1:10.000 de l’ICGC: 286 m."
 			}
 		},
 		"confianca": "alta",

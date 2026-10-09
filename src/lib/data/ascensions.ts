@@ -594,14 +594,17 @@ export async function importarDades(
 }
 
 /**
- * Esborra del dispositiu totes les ascensions (també les làpides) i la cua de sync (RGPD).
- * Irreversible. Els stores vius emeten `[]`.
+ * Esborra del dispositiu totes les ascensions (també les làpides), la cua de sync i les
+ * metadades de la sync (propietari i cursor) (RGPD). Irreversible **en aquest dispositiu**: amb
+ * compte, el núvol no es toca i la sync següent hi tornarà a baixar les dades (per esborrar-les
+ * del núvol, `esborrarCompte`). Els stores vius emeten `[]`.
  */
 export async function esborrarTot(): Promise<void> {
 	const bd = obtenirBd();
-	await bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
 		await bd.ascensions.clear();
 		await bd.outbox.clear();
+		await bd.meta.clear();
 	});
 }
 
