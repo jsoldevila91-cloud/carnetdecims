@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Castellsapera és el sostre de la serra de l'Obac, la meitat occidental del Parc Natural de Sant Llorenç del Munt i l'Obac. Fa de partió entre Terrassa i Vacarisses, [al Vallès Occidental](/comarques/valles-occidental), i des de dalt es veuen de cara els dos grans cims del parc: [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) i [el Montcau](/cims/montcau). Al nord s'enllaça amb el coll i el turó de les Tres Creus i, al sud, amb el turó de la Carlina.",
 			"És un gran monòlit allargat de conglomerat, la roca de l'Eocè que dona forma a tot el massís, i la Viquipèdia el recull com a punt d'interès geològic. El cim és estret i rocós, amb un aspecte de castell des de diversos punts de vista que, probablement, n'explica el nom; al costat s'hi destaca una altra roca, el Queixal del Porc. Als peus s'obre l'avenc de Castellsapera, amb un pou de 45 m i 84 m de fondària màxima, on a la tardor i a la primavera s'hi refugia el ratpenat de cova.",
 			"La carena cimera és una plataforma oberta amb una vista molt completa: la Mola i el Montcau, el Paller de Tot l'Any, Montserrat i, en dies clars, el Pirineu.",
-			"Es pot pujar tot l'any, però evita els dies de pluja o just després: la roca i les arrels del pas final rellisquen. A l'estiu, millor a primera hora, perquè la carena és molt exposada al sol."
+			"Qualsevol estació és bona si el dia és sec: amb pluja, o just després, la roca i les arrels del pas final rellisquen. A l'estiu, millor a primera hora, perquè la carena és a ple sol."
 		],
 		es: [
 			"El Castellsapera es el techo de la sierra de l'Obac, la mitad occidental del Parque Natural de Sant Llorenç del Munt i l'Obac. Hace de divisoria entre Terrassa y Vacarisses, [en el Vallès Occidental](/comarques/valles-occidental), y desde arriba se ven de frente las dos grandes cimas del parque: [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) y [el Montcau](/cims/montcau). Al norte enlaza con el coll y el turó de les Tres Creus y, al sur, con el turó de la Carlina.",
 			'Es un gran monolito alargado de conglomerado, la roca del Eoceno que da forma a todo el macizo, y la Viquipèdia lo recoge como punto de interés geológico. La cima es estrecha y rocosa, con aspecto de castillo desde varios puntos de vista, lo que probablemente explica su nombre; a su lado destaca otra roca, el Queixal del Porc. A sus pies se abre el avenc de Castellsapera, con un pozo de 45 m y 84 m de profundidad máxima, donde en otoño y primavera se refugia el murciélago de cueva.',
 			'La cresta cimera es una plataforma abierta con una vista muy completa: la Mola y el Montcau, el Paller de Tot l’Any, Montserrat y, en días claros, el Pirineo.',
-			'Se puede subir todo el año, pero evita los días de lluvia o justo después: la roca y las raíces del paso final resbalan. En verano, mejor a primera hora, porque la cresta está muy expuesta al sol.'
+			'Cualquier estación es buena si el día es seco: con lluvia, o justo después, la roca y las raíces del paso final resbalan. En verano, mejor a primera hora, porque la cresta está a pleno sol.'
 		]
 	},
 	rutes: [
@@ -52,8 +52,8 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: "Aparcament de l'Alzina del Salari (carretera de Terrassa a Talamanca)" },
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "La pujada més curta. Per pista i corriol s'arriba al coll de les Tres Creus i d'allà s'encara la carena. Les dues ressenyes consultades coincideixen que el final no és un simple camí: Muntanya amb nens hi descriu un pas una mica exposat sobre conglomerat i una canaleta on cal agafar-se a les arrels, i Rafa Yanes un esglaó de roca de gairebé 2 m que demana una mica d'habilitat. Muntanya amb nens hi calcula una hora d'anada.",
-				es: 'La subida más corta. Por pista y sendero se llega al coll de les Tres Creus y desde allí se encara la cresta. Las dos reseñas consultadas coinciden en que el final no es un simple camino: Montaña con los niños describe un paso algo expuesto sobre conglomerado y una canal estrecha donde hay que agarrarse a las raíces, y Rafa Yanes un escalón de roca de casi 2 m que pide algo de habilidad. Montaña con los niños calcula una hora de ida.'
+				ca: "La pujada més curta. Per pista i corriol s'arriba al coll de les Tres Creus i d'allà s'encara la carena. Les dues ressenyes consultades coincideixen que el final no és un simple camí: el blog Montaña con los niños hi descriu un pas una mica exposat sobre conglomerat i una canaleta on cal agafar-se a les arrels, i Rafa Yanes un esglaó de roca de gairebé 2 m que demana una mica d'habilitat. El mateix blog hi calcula una hora d'anada.",
+				es: 'La subida más corta. Por pista y sendero se llega al coll de les Tres Creus y desde allí se encara la cresta. Las dos reseñas consultadas coinciden en que el final no es un simple camino: Montaña con los niños describe un paso algo expuesto sobre conglomerado y una canal estrecha donde hay que agarrarse a las raíces, y Rafa Yanes un escalón de roca de casi 2 m que pide algo de habilidad. El mismo blog calcula una hora de ida.'
 			},
 			fonts: [MUNTANYAAMBNENS, RAFAYANES]
 		},
@@ -94,7 +94,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Es pot pujar al Castellsapera amb nens?',
 				resposta:
-					"Amb nens que ja estiguin acostumats a posar les mans, sí: Muntanya amb nens la recomana a partir de 4 anys, però amb ajuda d'un adult al pas de roca, sobretot a la baixada."
+					"Amb nens que ja estiguin acostumats a posar les mans, sí: el blog Montaña con los niños la recomana a partir de 4 anys, però amb ajuda d'un adult al pas de roca, sobretot a la baixada."
 			},
 			{
 				pregunta: "D'on ve el nom del Castellsapera?",
@@ -104,7 +104,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Castellsapera és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte, i amb [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) i [el Montcau](/cims/montcau) completa els grans cims del parc.'
+					'Sí. Al Vallès Occidental comparteix la categoria amb [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), Sant Sadurní de Gallifa i el Puig de la Creu. [El Montcau](/cims/montcau), l’altre gran cim del parc, compta per al Bages.'
 			}
 		],
 		es: [
@@ -126,7 +126,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Castellsapera es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto, y con [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) y [el Montcau](/cims/montcau) completa las grandes cimas del parque.'
+					'Sí. En el Vallès Occidental comparte la categoría con [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), Sant Sadurní de Gallifa y el Puig de la Creu. [El Montcau](/cims/montcau), la otra gran cima del parque, cuenta para el Bages.'
 			}
 		]
 	},

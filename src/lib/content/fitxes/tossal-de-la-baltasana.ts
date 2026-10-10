@@ -39,13 +39,13 @@ const fitxa: ContingutFitxa = {
 			"El Tossal de la Baltasana és el sostre de les muntanyes de Prades i, alhora, el punt més alt [del Baix Camp](/comarques/baix-camp) i de la [Conca de Barberà](/comarques/conca-de-barbera), les dues comarques que s'hi toquen. El cim és entre els termes de Prades i de Vimbodí i Poblet, a uns 2 km de la vila de Prades, i forma part de la carena que separa la conca de l'Ebre de la del Francolí. Tot el massís és un espai protegit, amb grans boscos de pi roig, alzina i castanyer.",
 			"La singularitat botànica del lloc és el roure reboll: segons la Viquipèdia, aquí hi ha l'única població d'aquest roure de tot Catalunya, i al coll de la Foguina un plafó informatiu n'explica la història. Al cim hi trobaràs el vèrtex geodèsic, una taula d'orientació, un penell i una placa del centenari de la FEEC, i també una petita torre amb repetidors i una estació meteorològica, que explica per què a la zona també l'anomenen la Torre.",
 			'La vista abraça bona part del sud de Catalunya. Als peus hi ha Prades i, més enllà, la serra de Montsant amb [la Roca Corbatera](/cims/roca-corbatera), [la Mola de Colldejou](/cims/mola-de-colldejou), les antenes de la Mussara i, al fons, els Ports. Segons Femturisme, els dies molt clars es pot arribar a distingir el Pirineu, del Puigmal al Mont Perdut.',
-			"Es pot pujar tot l'any. A l'estiu, Prades és un bon refugi de la calor del Camp, i els boscos donen ombra a bona part del camí. A l'hivern, a 1.200 m, hi pot fer fred i bufar vent a la carena, i el camí pot tenir gel. La tardor, amb els castanyers i els roures canviant de color, és potser el millor moment."
+			"A l'estiu, Prades és un bon refugi de la calor del Camp, i els boscos donen ombra a bona part del camí. A l'hivern, a 1.200 m, hi pot fer fred i bufar vent a la carena, i el camí pot tenir gel. La tardor, amb els castanyers i els roures canviant de color, és potser el millor moment."
 		],
 		es: [
 			'El Tossal de la Baltasana es el techo de las montañas de Prades y, a la vez, el punto más alto [del Baix Camp](/comarques/baix-camp) y de la [Conca de Barberà](/comarques/conca-de-barbera), las dos comarcas que se tocan en él. La cima está entre los términos de Prades y de Vimbodí i Poblet, a unos 2 km de la villa de Prades, y forma parte de la cresta que separa la cuenca del Ebro de la del Francolí. Todo el macizo es un espacio protegido, con grandes bosques de pino silvestre, encina y castaño.',
 			'La singularidad botánica del lugar es el roble melojo (roure reboll): según la Viquipèdia, aquí está la única población de este roble de toda Cataluña, y en el coll de la Foguina un panel informativo explica su historia. En la cima encontrarás el vértice geodésico, una mesa de orientación, una veleta y una placa del centenario de la FEEC, y también una pequeña torre con repetidores y una estación meteorológica, que explica por qué en la zona también la llaman la Torre.',
 			'La vista abarca buena parte del sur de Cataluña. A los pies está Prades y, más allá, la sierra de Montsant con [la Roca Corbatera](/cims/roca-corbatera), [la Mola de Colldejou](/cims/mola-de-colldejou), las antenas de la Mussara y, al fondo, los Ports. Según Femturisme, los días muy claros se puede llegar a distinguir el Pirineo, del Puigmal al Monte Perdido.',
-			'Se puede subir todo el año. En verano, Prades es un buen refugio del calor del Camp, y los bosques dan sombra a buena parte del camino. En invierno, a 1.200 m, puede hacer frío y soplar viento en la cresta, y el camino puede tener hielo. El otoño, con los castaños y los robles cambiando de color, es quizá el mejor momento.'
+			'En verano, Prades es un buen refugio del calor del Camp, y los bosques dan sombra a buena parte del camino. En invierno, a 1.200 m, puede hacer frío y soplar viento en la cresta, y el camino puede tener hielo. El otoño, con los castaños y los robles cambiando de color, es quizá el mejor momento.'
 		]
 	},
 	rutes: [
@@ -111,7 +111,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Tossal de la Baltasana és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i el sostre de dues comarques, el Baix Camp i la Conca de Barberà.'
+					'Sí. És el sostre dels sis [cims essencials](/cims-essencials) del Baix Camp, per sobre de [la Mola de Colldejou](/cims/mola-de-colldejou). Tot i que també és el sostre de la Conca de Barberà, al repte compta com a cim del Baix Camp.'
 			}
 		],
 		es: [
@@ -133,7 +133,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Tossal de la Baltasana es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el techo de dos comarcas, el Baix Camp y la Conca de Barberà.'
+					'Sí. Es el techo de las seis [cimas esenciales](/cims-essencials) del Baix Camp, por encima de [la Mola de Colldejou](/cims/mola-de-colldejou). Aunque también es el techo de la Conca de Barberà, en el reto cuenta como cima del Baix Camp.'
 			}
 		]
 	},

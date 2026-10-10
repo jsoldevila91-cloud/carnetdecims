@@ -122,7 +122,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Montardo compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) de la Val d'Aran. El Montardo Petit, que és al costat, no és a la llista del repte. Les regles de validació són a la [normativa del repte](/repte-100-cims/normativa)."
+					"Sí, és un dels sis [cims essencials](/cims-essencials) de la Val d'Aran. El Montardo Petit, que és al costat, no és a la llista del repte. Per validar-lo cal trepitjar el cim principal."
 			}
 		],
 		es: [
@@ -144,7 +144,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Montardo cuenta como cima esencial?',
 				resposta:
-					"Sí, es una de las [cimas esenciales](/cims-essencials) de la Val d'Aran. El Montardo Petit, que está al lado, no está en la lista del reto. Las reglas de validación están en la [normativa del reto](/repte-100-cims/normativa)."
+					"Sí, es una de las seis [cimas esenciales](/cims-essencials) de la Val d'Aran. El Montardo Petit, que está al lado, no está en la lista del reto. Para validarla hay que pisar la cima principal."
 			}
 		]
 	},

@@ -24,16 +24,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'torreta-de-montsia',
 	descripcio: {
 		ca: [
-			"La Torreta és el punt més alt de la serra del Montsià, la serralada calcària que s'alça gairebé arran de mar al sud de les Terres de l'Ebre i dona nom a la comarca [del Montsià](/comarques/montsia). El cim és al límit entre Alcanar i Ulldecona. Tot i no arribar als 800 m, és una muntanya molt destacada: segons la Viquipèdia, té una prominència de més de 600 m, perquè s'aixeca sola entre el Delta i la plana d'Ulldecona.",
+			"La Torreta és el cim de la serra del Montsià, la serralada calcària que s'alça gairebé arran de mar al sud de les Terres de l'Ebre i dona nom a la comarca [del Montsià](/comarques/montsia). El cim és al límit entre Alcanar i Ulldecona. Tot i no arribar als 800 m, és una muntanya molt destacada: segons la Viquipèdia, té una prominència de més de 600 m, perquè s'aixeca sola entre el Delta i la plana d'Ulldecona.",
 			"La serra té dos vessants molt diferents: el que mira al mar, més salvatge i vertical, solcat pels barrancs del Codonyol i del Llop, i l'interior, que baixa més suaument cap a la Foia d'Ulldecona. Al cim hi ha un vèrtex geodèsic i unes antenes abandonades. A la carena hi ha racons coneguts dels excursionistes de la zona, com la Foradada, una gran finestra natural oberta a la roca, i masos abandonats que recorden l'antic aprofitament de la muntanya.",
 			"La vista és el gran premi. Cap a llevant es veuen Sant Carles de la Ràpita, la Punta de la Banya i tot el Delta de l'Ebre, i la franja costanera cap al sud; cap a ponent, la Foia d'Ulldecona i, al fons, el massís dels Ports, on hi ha [el Caro](/cims/caro) i [el Tossal dels Tres Reis](/cims/tossal-dels-tres-reis).",
-			"La millor època és de la tardor a la primavera. A l'estiu la serra és molt calorosa i no hi ha aigua en el camí; amb vent de mestral, la carena pot ser molt desagradable. Amb pluja i boira, la vista es perd del tot."
+			"Val més reservar-la per als mesos frescos, de la tardor a la primavera. A l'estiu la serra és molt calorosa i no hi ha aigua en el camí; amb vent de mestral, la carena pot ser molt desagradable. Amb pluja i boira, la vista es perd del tot."
 		],
 		es: [
-			"La Torreta es el punto más alto de la sierra del Montsià, la cordillera calcárea que se alza casi junto al mar en el sur de las Terres de l'Ebre y da nombre a la comarca [del Montsià](/comarques/montsia). La cima está en el límite entre Alcanar y Ulldecona. Aunque no llega a los 800 m, es una montaña muy destacada: según la Viquipèdia, tiene una prominencia de más de 600 m, porque se levanta sola entre el Delta y la llanura de Ulldecona.",
+			"La Torreta es la cima de la sierra del Montsià, la cordillera calcárea que se alza casi junto al mar en el sur de las Terres de l'Ebre y da nombre a la comarca [del Montsià](/comarques/montsia). La cima está en el límite entre Alcanar y Ulldecona. Aunque no llega a los 800 m, es una montaña muy destacada: según la Viquipèdia, tiene una prominencia de más de 600 m, porque se levanta sola entre el Delta y la llanura de Ulldecona.",
 			"La sierra tiene dos vertientes muy diferentes: la que mira al mar, más salvaje y vertical, surcada por los barrancos del Codonyol y del Llop, y la interior, que baja más suavemente hacia la Foia d'Ulldecona. En la cima hay un vértice geodésico y unas antenas abandonadas. En la cresta hay rincones conocidos por los excursionistas de la zona, como la Foradada, una gran ventana natural abierta en la roca, y masías abandonadas que recuerdan el antiguo aprovechamiento de la montaña.",
 			"La vista es el gran premio. Hacia levante se ven Sant Carles de la Ràpita, la Punta de la Banya y todo el Delta del Ebro, y la franja costera hacia el sur; hacia poniente, la Foia d'Ulldecona y, al fondo, el macizo de los Ports, donde están [el Caro](/cims/caro) y [el Tossal dels Tres Reis](/cims/tossal-dels-tres-reis).",
-			'La mejor época va del otoño a la primavera. En verano la sierra es muy calurosa y no hay agua en el camino; con viento de mistral, la cresta puede ser muy desagradable. Con lluvia y niebla, la vista se pierde por completo.'
+			'Mejor reservarla para los meses frescos, del otoño a la primavera. En verano la sierra es muy calurosa y no hay agua en el camino; con viento de mistral, la cresta puede ser muy desagradable. Con lluvia y niebla, la vista se pierde por completo.'
 		]
 	},
 	rutes: [
@@ -102,7 +102,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Torreta de Montsià és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i el sostre de la serra del Montsià.'
+					'Sí. La comarca del Montsià en té dos: la Torreta, sostre de la serra que dona nom a la comarca, i el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), als Ports, que gairebé li dobla l’altitud.'
 			}
 		],
 		es: [
@@ -124,7 +124,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Torreta de Montsià es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el techo de la sierra del Montsià.'
+					'Sí. La comarca del Montsià tiene dos: la Torreta, techo de la sierra que da nombre a la comarca, y el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), en los Ports, que casi le dobla la altitud.'
 			}
 		]
 	},

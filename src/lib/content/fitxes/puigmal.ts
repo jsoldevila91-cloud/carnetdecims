@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Puigmal és la gran muntanya que tanca per ponent la Vall de Núria. El cim és a la frontera, entre el terme de Queralbs, [al Ripollès](/comarques/ripolles), i el d'Er, a l'Alta Cerdanya, i és el punt més alt de l'Alt Ter. És una muntanya ampla i arrodonida, de gresos i pissarres, sense les parets verticals d'altres cims del Pirineu: per això, amb bon temps, és una de les maneres més assequibles de superar els 2.900 metres.",
 			"Al cim hi ha una creu de ferro i una placa amb versos de Jacint Verdaguer dedicats a la vista que s'hi contempla. La relació del Puigmal amb Núria és antiga: el santuari i el cremallera, que puja des de Ribes de Freser i Queralbs, el converteixen en un dels cims de gairebé tres mil metres més freqüentats per qui fa les primeres sortides d'alta muntanya. Al seu voltant s'estén una carena llarga cap a la [Torre d'Eina](/cims/torre-d-eina) i els cims de Noufonts, amb els quals es pot encadenar.",
 			"Gràcies a la seva posició avançada, la panoràmica és molt àmplia: la Cerdanya i el Cadí cap a l'oest, el Canigó a l'est, les valls del Ripollès i el Pirineu oriental gairebé sencer. En dies clars, la plana de la Cerdanya queda als peus com un mapa.",
-			"La millor temporada va de juny a octubre. Fora d'aquests mesos el cim sol estar nevat i l'ascensió canvia del tot: la Coma de l'Embut i els vessants ventats poden tenir plaques i gel. A l'estiu, el vent i les tempestes són els principals perills d'una carena tan exposada."
+			"De juny a octubre la pujada és una excursió d'estiu. Fora d'aquests mesos el cim sol estar nevat i l'ascensió canvia del tot: la Coma de l'Embut i els vessants ventats poden tenir plaques i gel. A l'estiu, el vent i les tempestes són els principals perills d'una carena tan exposada."
 		],
 		es: [
 			'El Puigmal es la gran montaña que cierra por el oeste la Vall de Núria. La cima está en la frontera, entre el municipio de Queralbs, [en el Ripollès](/comarques/ripolles), y el de Er, en la Alta Cerdaña, y es el punto más alto del Alt Ter. Es una montaña ancha y redondeada, de areniscas y pizarras, sin las paredes verticales de otras cumbres del Pirineo: por eso, con buen tiempo, es una de las formas más asequibles de superar los 2.900 metros.',
 			"En la cima hay una cruz de hierro y una placa con versos de Jacint Verdaguer dedicados a la vista que se contempla. La relación del Puigmal con Núria es antigua: el santuario y el tren cremallera, que sube desde Ribes de Freser y Queralbs, lo convierten en una de las cimas de casi tres mil metros más frecuentadas por quien hace sus primeras salidas de alta montaña. A su alrededor se extiende una larga cresta hacia la [Torre d'Eina](/cims/torre-d-eina) y las cimas de Noufonts, que se pueden encadenar.",
 			'Gracias a su posición avanzada, la panorámica es muy amplia: la Cerdaña y el Cadí hacia el oeste, el Canigó al este, los valles del Ripollès y casi todo el Pirineo oriental. En días claros, la llanura de la Cerdaña queda a los pies como un mapa.',
-			"La mejor temporada va de junio a octubre. Fuera de esos meses la cima suele estar nevada y la ascensión cambia por completo: la Coma de l'Embut y las laderas venteadas pueden tener placas y hielo. En verano, el viento y las tormentas son los principales peligros de una cresta tan expuesta."
+			"De junio a octubre la subida es una excursión de verano. Fuera de esos meses la cima suele estar nevada y la ascensión cambia por completo: la Coma de l'Embut y las laderas venteadas pueden tener placas y hielo. En verano, el viento y las tormentas son los principales peligros de una cresta tan expuesta."
 		]
 	},
 	rutes: [
@@ -105,7 +105,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Puigmal compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels [cims més alts del repte](/cims-mes-alts) amb una ruta més assequible.'
+					'Sí, i és el sostre dels sis essencials del Ripollès, per sobre del [Bastiments](/cims/bastiments) i del [Taga](/cims/taga). També surt a la llista dels [cims més alts del repte](/cims-mes-alts).'
 			}
 		],
 		es: [
@@ -127,7 +127,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Puigmal cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las [cimas más altas del reto](/cims-mes-alts) con una ruta más asequible.'
+					'Sí, y es el techo de las seis esenciales del Ripollès, por encima del [Bastiments](/cims/bastiments) y del [Taga](/cims/taga). También aparece en la lista de las [cimas más altas del reto](/cims-mes-alts).'
 			}
 		]
 	},

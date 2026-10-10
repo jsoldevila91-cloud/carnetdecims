@@ -26,14 +26,14 @@ const fitxa: ContingutFitxa = {
 		ca: [
 			"La Tosa, més coneguda com a Tosa d'Alp, és el cim que tanca per l'est la serra del Moixeró, dins del Parc Natural del Cadí-Moixeró. Al cim s'hi troben quatre termes municipals, Alp, Urús, Das i Bagà, i és el punt de trobada entre la Cerdanya i [el Berguedà](/comarques/bergueda). És de roca calcària i té formes arrodonides, molt diferents de les parets del Cadí que té a ponent.",
 			"És una muntanya molt humanitzada. Al vessant nord hi ha les pistes de Masella i al vessant est el sector de la Tosa de la Molina, i al cim mateix s'alça el refugi del Niu de l'Àliga, al qual s'arriba amb telecabina des de la Molina. També hi ha un vèrtex geodèsic, una estació meteorològica automàtica que funciona des del 2014 i, a prop, antigues instal·lacions de telecomunicacions. Tot i això, a peu continua sent una ascensió de muntanya: pel coll de Pal hi passa un GR i pel vessant d'Urús hi puja l'antic camí ral del coll de Jou.",
-			"La vista és un dels seus grans atractius. Cap al nord s'obre tota la plana de la Cerdanya, i Rutes Pirineus cita el Pedraforca, el Monturull o el Carlit entre els cims que es veuen en dies clars. Cap a ponent continua la carena del Moixeró, amb les [Penyes Altes](/cims/penyes-altes), un altre cim essencial de la mateixa serra.",
-			"Es pot pujar tot l'any, però amb neu la ruta canvia: calen raquetes o grampons i saber valorar el perill d'allaus. A l'estiu, la carena és molt exposada a les tempestes de tarda i al vent: comença d'hora i porta roba d'abric."
+			"La vista és un dels seus grans atractius. Cap al nord s'obre tota la plana de la Cerdanya, i Rutes Pirineus cita el Pedraforca, el Monturull o el Carlit entre els cims que es veuen en dies clars. Cap a ponent continua la carena del Moixeró, amb les [Penyes Altes](/cims/penyes-altes), que també són essencials.",
+			"Quan hi ha neu, la ruta canvia: calen raquetes o grampons i saber valorar el perill d'allaus. A l'estiu, a la carena no hi ha on amagar-se de les tempestes de tarda ni del vent: comença d'hora i porta roba d'abric."
 		],
 		es: [
 			"La Tosa, más conocida como Tosa d'Alp, es la cima que cierra por el este la sierra del Moixeró, dentro del Parque Natural del Cadí-Moixeró. En la cima se encuentran cuatro términos municipales, Alp, Urús, Das y Bagà, y es el punto de encuentro entre la Cerdanya y [el Berguedà](/comarques/bergueda). Es de roca caliza y tiene formas redondeadas, muy distintas de las paredes del Cadí que tiene al oeste.",
 			"Es una montaña muy humanizada. En la vertiente norte están las pistas de Masella y en la vertiente este el sector de la Tosa de La Molina, y en la misma cima se alza el refugio del Niu de l'Àliga, al que se llega en telecabina desde La Molina. También hay un vértice geodésico, una estación meteorológica automática que funciona desde 2014 y, cerca, antiguas instalaciones de telecomunicaciones. Aun así, a pie sigue siendo una ascensión de montaña: por el coll de Pal pasa un GR y por la vertiente de Urús sube el antiguo camino real del coll de Jou.",
-			'La vista es uno de sus grandes atractivos. Hacia el norte se abre toda la llanura de la Cerdanya, y Rutes Pirineus cita el Pedraforca, el Monturull o el Carlit entre las cimas que se ven en días claros. Hacia el oeste sigue la cresta del Moixeró, con las [Penyes Altes](/cims/penyes-altes), otra cima esencial de la misma sierra.',
-			'Se puede subir todo el año, pero con nieve la ruta cambia: hacen falta raquetas o crampones y saber valorar el peligro de aludes. En verano, la cresta está muy expuesta a las tormentas de tarde y al viento: empieza temprano y lleva ropa de abrigo.'
+			'La vista es uno de sus grandes atractivos. Hacia el norte se abre toda la llanura de la Cerdanya, y Rutes Pirineus cita el Pedraforca, el Monturull o el Carlit entre las cimas que se ven en días claros. Hacia el oeste sigue la cresta del Moixeró, con las [Penyes Altes](/cims/penyes-altes), que también son esenciales.',
+			'Cuando hay nieve, la ruta cambia: hacen falta raquetas o crampones y saber valorar el peligro de aludes. En verano, en la cresta no hay dónde resguardarse de las tormentas de tarde ni del viento: empieza temprano y lleva ropa de abrigo.'
 		]
 	},
 	rutes: [
@@ -97,12 +97,12 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "Es pot pujar a la Tosa d'Alp amb telecabina?",
 				resposta:
-					"Sí: el refugi del Niu de l'Àliga, al cim, té accés amb telecabina des de la Molina. Ara bé, perquè l'ascensió tingui sentit com a sortida de muntanya, el més habitual és fer-la a peu."
+					"Sí: el refugi del Niu de l'Àliga, al cim, té accés amb telecabina des de la Molina. Per al repte, però, no compta: la [normativa](/repte-100-cims/normativa) només admet ascensions sense mitjans motoritzats, així que l'has de pujar a peu (o amb esquís o raquetes)."
 			},
 			{
 				pregunta: 'La Tosa compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del Berguedà. Com s'ha de validar l'ascensió ho explica la [normativa del repte](/repte-100-cims/normativa)."
+					'Sí. Entre els [cims essencials](/cims-essencials) del Berguedà, només el [Comabona](/cims/comabona) la supera en altitud; el Pedraforca queda per sota.'
 			}
 		],
 		es: [
@@ -119,12 +119,12 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "¿Se puede subir a la Tosa d'Alp en telecabina?",
 				resposta:
-					"Sí: el refugio del Niu de l'Àliga, en la cima, tiene acceso en telecabina desde La Molina. Ahora bien, para que la ascensión tenga sentido como salida de montaña, lo habitual es hacerla a pie."
+					"Sí: el refugio del Niu de l'Àliga, en la cima, tiene acceso en telecabina desde La Molina. Para el reto, sin embargo, no cuenta: la [normativa](/repte-100-cims/normativa) solo admite ascensiones sin medios motorizados, así que tienes que subir a pie (o con esquís o raquetas)."
 			},
 			{
 				pregunta: '¿La Tosa cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del Berguedà. Cómo hay que validar la ascensión lo explica la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. Entre las [cimas esenciales](/cims-essencials) del Berguedà, solo el [Comabona](/cims/comabona) la supera en altitud; el Pedraforca queda por debajo.'
 			}
 		]
 	},

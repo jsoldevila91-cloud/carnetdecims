@@ -24,16 +24,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'talaia-del-montmell',
 	descripcio: {
 		ca: [
-			"La Talaia del Montmell és el punt més alt de la serra del Montmell i el sostre [del Baix Penedès](/comarques/baix-penedes). És al terme del Montmell, dins de l'espai natural protegit del Montmell-Marmellar, una serra calcària i dolomítica de carenes rocoses i bosc mediterrani que separa el Penedès de l'Alt Camp. Al seu vessant sud neix la riera de la Bisbal.",
-			"Poques muntanyes del repte acumulen tanta història en tan poc espai. Pel camí es passa per l'església nova de Sant Miquel, de finals del segle XVI, i per les restes de l'ermita romànica i del castell del Montmell, documentat de molt antic, del qual només queden dos panys de mur sobre la roca de la Dent. Entre el castell i el cim hi ha la punta de la Creu, coronada per una gran creu de formigó. Al cim hi ha un vèrtex geodèsic, una placa i algun pessebre. Abans del castell, uns forats coneguts com les Boques Calentes treuen aire tebi de l'interior de la muntanya.",
+			"La Talaia del Montmell corona la serra del Montmell i és el sostre [del Baix Penedès](/comarques/baix-penedes). És al terme del Montmell, dins de l'espai natural protegit del Montmell-Marmellar, una serra calcària i dolomítica de carenes rocoses i bosc mediterrani que separa el Penedès de l'Alt Camp. Al seu vessant sud neix la riera de la Bisbal.",
+			"En poc més d'una hora de camí es travessen molts segles d'història. Pel camí es passa per l'església nova de Sant Miquel, de finals del segle XVI, i per les restes de l'ermita romànica i del castell del Montmell, documentat de molt antic, del qual només queden dos panys de mur sobre la roca de la Dent. Entre el castell i el cim hi ha la punta de la Creu, coronada per una gran creu de formigó. Al cim hi ha un vèrtex geodèsic, una placa i algun pessebre. Abans del castell, uns forats coneguts com les Boques Calentes treuen aire tebi de l'interior de la muntanya.",
 			"Des del castell i la carena es domina tot el Baix Penedès i, cap a l'oest, la plana de l'Alt Camp, on s'alça [la Tossa Grossa de Montferri](/cims/tossa-grossa-de-montferri), un altre cim essencial a poca distància. La punta de Sant Miquel i la de la Creu ja són, per si soles, bons miradors abans d'arribar a dalt.",
-			"Es pot pujar tot l'any, però a l'estiu la cara sud és molt calorosa i té poca ombra; millor a primera hora. Després de pluja, els trams de roca entre la Creu i el castell rellisquen."
+			"A l'estiu la cara sud és molt calorosa i té poca ombra: millor a primera hora. Després de pluja, els trams de roca entre la Creu i el castell rellisquen."
 		],
 		es: [
-			'La Talaia del Montmell es el punto más alto de la sierra del Montmell y el techo [del Baix Penedès](/comarques/baix-penedes). Está en el término de el Montmell, dentro del espacio natural protegido del Montmell-Marmellar, una sierra calcárea y dolomítica de crestas rocosas y bosque mediterráneo que separa el Penedès del Alt Camp. En su vertiente sur nace la riera de la Bisbal.',
-			'Pocas montañas del reto acumulan tanta historia en tan poco espacio. Por el camino se pasa por la iglesia nueva de Sant Miquel, de finales del siglo XVI, y por los restos de la ermita románica y del castillo del Montmell, documentado desde muy antiguo, del que solo quedan dos lienzos de muro sobre la roca de la Dent. Entre el castillo y la cima está la punta de la Creu, coronada por una gran cruz de hormigón. En la cima hay un vértice geodésico, una placa y algún belén. Antes del castillo, unos agujeros conocidos como las Boques Calentes expulsan aire tibio del interior de la montaña.',
+			'La Talaia del Montmell corona la sierra del Montmell y es el techo [del Baix Penedès](/comarques/baix-penedes). Está en el término de el Montmell, dentro del espacio natural protegido del Montmell-Marmellar, una sierra calcárea y dolomítica de crestas rocosas y bosque mediterráneo que separa el Penedès del Alt Camp. En su vertiente sur nace la riera de la Bisbal.',
+			'En poco más de una hora de camino se atraviesan muchos siglos de historia. Por el camino se pasa por la iglesia nueva de Sant Miquel, de finales del siglo XVI, y por los restos de la ermita románica y del castillo del Montmell, documentado desde muy antiguo, del que solo quedan dos lienzos de muro sobre la roca de la Dent. Entre el castillo y la cima está la punta de la Creu, coronada por una gran cruz de hormigón. En la cima hay un vértice geodésico, una placa y algún belén. Antes del castillo, unos agujeros conocidos como las Boques Calentes expulsan aire tibio del interior de la montaña.',
 			'Desde el castillo y la cresta se domina todo el Baix Penedès y, hacia el oeste, la llanura del Alt Camp, donde se alza [la Tossa Grossa de Montferri](/cims/tossa-grossa-de-montferri), otra cima esencial a poca distancia. La punta de Sant Miquel y la de la Creu ya son, por sí solas, buenos miradores antes de llegar arriba.',
-			'Se puede subir todo el año, pero en verano la cara sur es muy calurosa y tiene poca sombra; mejor a primera hora. Después de llover, los tramos de roca entre la Creu y el castillo resbalan.'
+			'En verano la cara sur es muy calurosa y tiene poca sombra: mejor a primera hora. Después de llover, los tramos de roca entre la Creu y el castillo resbalan.'
 		]
 	},
 	rutes: [
@@ -102,7 +102,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Talaia del Montmell és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i el sostre del Baix Penedès.'
+					'Sí. Al Baix Penedès no hi ha cap altre [cim essencial](/cims-essencials), i la Talaia n’és també el sostre. [La Tossa Grossa de Montferri](/cims/tossa-grossa-de-montferri), ja a l’Alt Camp, queda a poca distància.'
 			}
 		],
 		es: [
@@ -124,7 +124,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Talaia del Montmell es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el techo del Baix Penedès.'
+					'Sí. En el Baix Penedès no hay ninguna otra [cima esencial](/cims-essencials), y la Talaia es también su techo. [La Tossa Grossa de Montferri](/cims/tossa-grossa-de-montferri), ya en el Alt Camp, queda a poca distancia.'
 			}
 		]
 	},

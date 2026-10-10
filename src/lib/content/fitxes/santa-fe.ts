@@ -55,8 +55,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 90,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "És la pujada clàssica des del poble. Es passa pel molí i el mas de la Borda i es puja per un corriol dins la pineda, que creua diverses vegades l'antic camí de carro, fins al coll Marí i el monument a Verdaguer. Després es continua pel collet de Prats fins a l'ermita. Rutes Pirineus hi calcula 1 h 30 min de pujada i hi avisa d'un tram final una mica aeri, sense dificultat tècnica, però el desnivell és considerable.",
-				es: 'Es la subida clásica desde el pueblo. Se pasa junto al molino y el mas de la Borda y se sube por un sendero dentro del pinar, que cruza varias veces el antiguo camino de carro, hasta el coll Marí y el monumento a Verdaguer. Después se sigue por el collet de Prats hasta la ermita. Rutes Pirineus calcula 1 h 30 min de subida y avisa de un tramo final algo aéreo, sin dificultad técnica, pero el desnivel es considerable.'
+				ca: "És la pujada clàssica des del poble. Es passa pel molí i el mas de la Borda i es puja per un corriol dins la pineda, que creua diverses vegades l'antic camí de carro, fins al coll Marí i el monument a Verdaguer. Després es continua pel collet de Prats fins a l'ermita. Rutes Pirineus hi calcula 1 h 30 min de pujada i avisa que, passat el coll Marí, el camí ressegueix la cinglera amb algun tram una mica aeri, sense dificultat tècnica; el que pesa és el desnivell.",
+				es: 'Es la subida clásica desde el pueblo. Se pasa junto al molino y el mas de la Borda y se sube por un sendero dentro del pinar, que cruza varias veces el antiguo camino de carro, hasta el coll Marí y el monumento a Verdaguer. Después se sigue por el collet de Prats hasta la ermita. Rutes Pirineus calcula 1 h 30 min de subida y avisa de que, pasado el coll Marí, el camino sigue el risco con algún tramo algo aéreo, sin dificultad técnica; lo que pesa es el desnivel.'
 			},
 			fonts: [RUTES_PIRINEUS, CAMINA_PIRINEUS]
 		},
@@ -97,7 +97,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "Quant es triga a pujar a Santa Fe des d'Organyà?",
 				resposta:
-					"Des de la plaça d'Organyà, 1 h 30 min de pujada i una hora de baixada segons Rutes Pirineus, amb uns 650 m de desnivell. Des de Cal Fenollet, Totnens hi compta 1 h 40 min d'anada a ritme de família."
+					"Des de la plaça d'Organyà, 1 h 30 min de pujada i una hora de baixada segons Rutes Pirineus; Camina Pirineus hi dona 4,2 km i 640 m de desnivell fins a l'ermita. Des de Cal Fenollet, Totnens hi compta 1 h 40 min d'anada a ritme de família."
 			},
 			{
 				pregunta: "Es pot pujar a Santa Fe d'Organyà amb nens?",
@@ -112,14 +112,14 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Santa Fe compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) de l'Alt Urgell. Pots consultar com es valida a la [normativa del repte](/repte-100-cims/normativa)."
+					"Sí. L'Alt Urgell té nou [cims essencials](/cims-essencials), i Santa Fe és un dels dos que no arriben als 1.300 m, amb Sant Honorat: és el que pots fer quan els de la capçalera, com el [Monturull](/cims/monturull), estan nevats."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a Santa Fe desde Organyà?',
 				resposta:
-					'Desde la plaza de Organyà, 1 h 30 min de subida y una hora de bajada según Rutes Pirineus, con unos 650 m de desnivel. Desde Cal Fenollet, Totnens calcula 1 h 40 min de ida a ritmo de familia.'
+					'Desde la plaza de Organyà, 1 h 30 min de subida y una hora de bajada según Rutes Pirineus; Camina Pirineus da 4,2 km y 640 m de desnivel hasta la ermita. Desde Cal Fenollet, Totnens calcula 1 h 40 min de ida a ritmo de familia.'
 			},
 			{
 				pregunta: '¿Se puede subir a Santa Fe de Organyà con niños?',
@@ -134,7 +134,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Santa Fe cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del Alt Urgell. Puedes consultar cómo se valida en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. El Alt Urgell tiene nueve [cimas esenciales](/cims-essencials), y Santa Fe es una de las dos que no llegan a los 1.300 m, con Sant Honorat: es la que puedes hacer cuando las de cabecera, como el [Monturull](/cims/monturull), están nevadas.'
 			}
 		]
 	},

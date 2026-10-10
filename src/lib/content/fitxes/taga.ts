@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"El Taga és el gran mirador del [Ripollès](/comarques/ripolles). S'aixeca a la serra de Conivella, entre les valls del Freser i del Ter, i el cim reparteix els termes de Ribes de Freser, Ogassa i Pardines. És una muntanya de calcàries i lutites amb una forma clara i aïllada que el fa reconeixible des de gran part de la comarca, i per això ha estat sempre un punt de referència per a la gent de la zona.",
 			"Tot i que per altitud podria ser boscós, la part alta és pelada i ocupada per prats de pastura, que són els que donen al cim el seu aspecte de gran llom herbat. A dalt hi ha una gran creu i un vèrtex geodèsic. El Taga també té història esportiva: a principis del segle XX s'hi feien curses d'esquí, i se'n conserven fotografies del 1912.",
 			'La seva posició avançada respecte del Pirineu axial el converteix en un balcó excepcional: la panoràmica va del [Puigmal](/cims/puigmal) al Canigó, amb les valls de Ribes i de Sant Joan de les Abadesses als peus i la serra Cavallera al costat. Molt a prop hi ha també el [Balandrau](/cims/balandrau), un altre cim del repte de la mateixa comarca.',
-			"Es pot pujar gairebé tot l'any. A l'hivern sol estar nevat i els prats de dalt poden estar glaçats; a l'estiu, el vessant sud és molt assolellat i la carena, sense arbres, no protegeix ni de la calor ni de les tempestes."
+			"Fora dels mesos de neu, és una pujada sense complicacions. A l'hivern sol estar nevat i els prats de dalt poden estar glaçats; a l'estiu, el vessant sud és molt assolellat i la carena, sense arbres, no protegeix ni de la calor ni de les tempestes."
 		],
 		es: [
 			'El Taga es el gran mirador del [Ripollès](/comarques/ripolles). Se alza en la sierra de Conivella, entre los valles del Freser y del Ter, y la cima reparte los municipios de Ribes de Freser, Ogassa y Pardines. Es una montaña de calizas y lutitas con una forma clara y aislada que la hace reconocible desde gran parte de la comarca, y por eso ha sido siempre un punto de referencia para la gente de la zona.',
 			'Aunque por altitud podría estar cubierta de bosque, la parte alta está pelada y ocupada por prados de pasto, que dan a la cima su aspecto de gran lomo herboso. Arriba hay una gran cruz y un vértice geodésico. El Taga tiene también historia deportiva: a principios del siglo XX se celebraban carreras de esquí, y se conservan fotografías de 1912.',
 			'Su posición adelantada respecto al Pirineo axial lo convierte en un balcón excepcional: la panorámica va del [Puigmal](/cims/puigmal) al Canigó, con los valles de Ribes y de Sant Joan de les Abadesses a los pies y la sierra Cavallera al lado. Muy cerca está también el [Balandrau](/cims/balandrau), otra cima del reto de la misma comarca.',
-			'Se puede subir casi todo el año. En invierno suele estar nevado y los prados de arriba pueden estar helados; en verano, la vertiente sur es muy soleada y la cresta, sin árboles, no protege ni del calor ni de las tormentas.'
+			'Fuera de los meses de nieve, es una subida sin complicaciones. En invierno suele estar nevado y los prados de arriba pueden estar helados; en verano, la vertiente sur es muy soleada y la cresta, sin árboles, no protege ni del calor ni de las tormentas.'
 		]
 	},
 	rutes: [
@@ -95,7 +95,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'El Taga és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí. Dels sis essencials del Ripollès és el més baix; el sostre de la comarca és el [Puigmal](/cims/puigmal). Per validar-lo has d’arribar al punt on hi ha la creu i el vèrtex geodèsic.'
 			}
 		],
 		es: [
@@ -116,7 +117,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿El Taga es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí. De las seis esenciales del Ripollès es la más baja; el techo de la comarca es el [Puigmal](/cims/puigmal). Para validarla tienes que llegar al punto donde están la cruz y el vértice geodésico.'
 			}
 		]
 	},

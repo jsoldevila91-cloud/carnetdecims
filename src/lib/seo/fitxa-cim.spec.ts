@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS, cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
 import { formatAltitude } from '$lib/ui/format';
+import { separarArticle } from '$lib/domain';
 import {
 	contingutFitxa,
 	contingutFitxaLocal,
@@ -39,8 +40,23 @@ describe('fitxa de cim · SEO', () => {
 	it('en castellà només contrau el/lo', () => {
 		expect(nomAmbA('el Pedraforca', 'es')).toBe('al Pedraforca');
 		expect(nomAmbA("la Pica d'Estats", 'es')).toBe("a la Pica d'Estats");
-		expect(nomAmbA('els Bessons', 'es')).toBe('a els Bessons');
+		expect(nomAmbA('els Bessons', 'es')).toBe('a Els Bessons');
 		expect(nomAmbA('Montcau', 'es')).toBe('a Montcau');
+	});
+
+	it('article plural: "als/dels" en català; "Els" amb majúscula i sense contraure en castellà', () => {
+		expect(nomAmbA('els Àngels', 'ca')).toBe('als Àngels');
+		expect(nomAmbDe('els Àngels', 'ca')).toBe('dels Àngels');
+		expect(nomAmbEn('els Àngels', 'ca')).toBe('als Àngels');
+		expect(nomAmbArticle('els Àngels', 'ca')).toBe('els Àngels');
+		expect(nomAmbA('els Àngels', 'es')).toBe('a Els Àngels');
+		expect(nomAmbDe('els Àngels', 'es')).toBe('de Els Àngels');
+		expect(nomAmbEn('els Àngels', 'es')).toBe('en Els Àngels');
+		expect(nomAmbArticle('els Àngels', 'es')).toBe('Els Àngels');
+		// `les` es manté com a "de les Garrigues" (docs/02 §4.2)
+		expect(nomAmbA('les Agudes', 'es')).toBe('a les Agudes');
+		expect(seo('els-angels', 'es').title).toMatch(/^Cómo subir a Els Àngels \(/);
+		expect(seo('els-angels', 'ca').title).toMatch(/^Com pujar als Àngels \(/);
 	});
 
 	it('tria el primer títol que hi cap', () => {
@@ -199,6 +215,9 @@ describe('fitxa de cim · SEO', () => {
 			expect(nomRutaCurt('des de Gósol pel coll de Jou')).toBe('des de Gósol');
 			expect(nomRutaCurt('des del Collell, per la tartera')).toBe('des del Collell');
 			expect(nomRutaCurt('des de Gósol')).toBe('des de Gósol');
+			// Si el tall deixaria una sola paraula, el nom sencer
+			expect(nomRutaCurt('Circular per les Dunes')).toBe('Circular per les Dunes');
+			expect(nomRutaCurt('Circular, per la carena')).toBe('Circular, per la carena');
 		});
 
 		it('ruta sense xifres i nom massa llarg: ruta normal amb el nom curt', () => {
@@ -236,5 +255,50 @@ describe('fitxa de cim · SEO', () => {
 				expect(descripcions.size, locale).toBe(continguts.length);
 			}
 		});
+	});
+	describe('articles i contraccions (totes les fitxes amb contingut i tots els cims)', () => {
+		/** Formes mal contretes: "a el", "de els", "a lo"… (ca) · "a els", "de el", "en lo"… (es). */
+		const MAL: Record<'ca' | 'es', RegExp> = {
+			ca: /\b(?:a|de) (?:el|els|lo)\s/,
+			es: /\b(?:a|de|en) (?:els|lo)\s|\b(?:a|de) el\s/
+		};
+		const textos = (slug: string, locale: 'ca' | 'es', ambContingut: boolean) => {
+			const cim = cimPerSlug(slug)!;
+			const c = ambContingut ? contingutFitxa(slug) : undefined;
+			const s = seoFitxaCim(
+				cim,
+				comarcaPerSlug(cim.comarca)!,
+				locale,
+				c ? contingutFitxaLocal(c, locale) : undefined
+			);
+			return [s.title, s.description, s.mapAlt, s.comarcaDe];
+		};
+
+		it.each(['ca', 'es'] as const)(
+			'%s: cap contracció incorrecta ni article plural en minúscula',
+			(locale) => {
+				const continguts = totsElsContingutsFitxa();
+				expect(continguts.length).toBeGreaterThanOrEqual(50);
+				const casos = [
+					...continguts.map((c) => [c.slug, true] as const),
+					...CIMS.map((cim) => [cim.slug, false] as const)
+				];
+				for (const [slug, ambContingut] of casos) {
+					const cim = cimPerSlug(slug)!;
+					const { article, nom } = separarArticle(cim.nom_amb_article);
+					for (const text of textos(slug, locale, ambContingut)) {
+						const id = `${locale}/${slug}: ${text}`;
+						expect(text, id).not.toMatch(MAL[locale]);
+						if (article === 'els') {
+							// ca: "als/dels Àngels"; es: "Els Àngels", mai "els" ni "los"
+							if (locale === 'es') {
+								expect(text, id).not.toContain(`els ${nom}`);
+								expect(text, id).not.toContain(`los ${nom}`);
+							}
+						}
+					}
+				}
+			}
+		);
 	});
 });

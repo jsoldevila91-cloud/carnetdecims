@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"Sant Jeroni és el punt més alt de Montserrat. El cim, també anomenat la Miranda de Sant Jeroni, és on es troben els termes del Bruc, [a l'Anoia](/comarques/anoia), i de Marganell i Monistrol de Montserrat, al Bages, dins del Parc Natural de la Muntanya de Montserrat. Com tota la muntanya, és fet de conglomerat, i el camí hi arriba entre agulles i monòlits que només es veuen en aquest massís.",
 			"El nom ve de l'antiga ermita de Sant Jeroni, una de les que els ermitans de Montserrat van escampar per la muntanya. La capella encara es manté a tocar del cim, al costat de l'antiga ermita, i per sota hi ha els miradors que fan famós el lloc, com el de Mossèn Cinto. Sant Jeroni també té història científica: a finals del segle XVIII va ser un dels vèrtexs de la triangulació del meridià que va servir per definir el metre, i el senyal es va construir davant mateix de la capella. Avui hi ha un vèrtex geodèsic i una taula d'orientació.",
 			"La vista és potser la més celebrada de la Catalunya central: segons el Patronat de la Muntanya, amb dia clar es pot identificar el relleu del Pirineu als Ports i fins i tot Mallorca. Al voltant, les agulles de Montserrat i cims del repte tan propers com el [Montgròs](/cims/montgros) o [l'Elefant](/cims/elefant-roca-de-sant-salvador).",
-			"Es pot pujar tot l'any. El Patronat demana prudència a l'estiu, per la calor, i a l'hivern, amb fred, boira o pluja. Hi ha trams amb risc de despreniments: no surtis dels camins senyalitzats."
+			"Montserrat no té època tancada, però el Patronat demana prudència a l'estiu, per la calor, i a l'hivern, amb fred, boira o pluja. Hi ha trams amb risc de despreniments: no surtis dels camins senyalitzats."
 		],
 		es: [
 			'Sant Jeroni es el punto más alto de Montserrat. La cima, también llamada la Miranda de Sant Jeroni, es donde confluyen los municipios de el Bruc, [en la Anoia](/comarques/anoia), y de Marganell y Monistrol de Montserrat, en el Bages, dentro del Parque Natural de la Montaña de Montserrat. Como toda la montaña, está hecha de conglomerado, y el camino llega entre agujas y monolitos que solo se ven en este macizo.',
 			'El nombre viene de la antigua ermita de Sant Jeroni, una de las que los ermitaños de Montserrat repartieron por la montaña. La capilla sigue en pie junto a la cima, al lado de la antigua ermita, y por debajo están los miradores que hacen famoso el lugar, como el de Mossèn Cinto. Sant Jeroni tiene también historia científica: a finales del siglo XVIII fue uno de los vértices de la triangulación del meridiano con la que se definió el metro, y la señal se construyó justo delante de la capilla. Hoy hay un vértice geodésico y una mesa de orientación.',
 			"La vista es quizá la más celebrada de la Cataluña central: según el Patronat de la Muntanya, con día claro se puede identificar el relieve del Pirineo a los Ports e incluso Mallorca. Alrededor, las agujas de Montserrat y cimas del reto tan cercanas como el [Montgròs](/cims/montgros) o [l'Elefant](/cims/elefant-roca-de-sant-salvador).",
-			'Se puede subir todo el año. El Patronat pide prudencia en verano, por el calor, y en invierno, con frío, niebla o lluvia. Hay tramos con riesgo de desprendimientos: no salgas de los caminos señalizados.'
+			'Montserrat no tiene época cerrada, pero el Patronat pide prudencia en verano, por el calor, y en invierno, con frío, niebla o lluvia. Hay tramos con riesgo de desprendimientos: no salgas de los caminos señalizados.'
 		]
 	},
 	rutes: [
@@ -100,7 +100,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Sant Jeroni és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte. A Montserrat també hi ha el [Montgròs](/cims/montgros), molt a prop.'
+					'Sí, i és el més alt dels tres essencials de l’Anoia. Al mateix massís de Montserrat, molt a prop, hi ha el [Montgròs](/cims/montgros), que també és essencial.'
 			}
 		],
 		es: [
@@ -122,7 +122,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Sant Jeroni es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto. En Montserrat también está el [Montgròs](/cims/montgros), muy cerca.'
+					'Sí, y es la más alta de las tres esenciales de la Anoia. En el mismo macizo de Montserrat, muy cerca, está el [Montgròs](/cims/montgros), que también es esencial.'
 			}
 		]
 	},

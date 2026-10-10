@@ -45,13 +45,13 @@ const fitxa: ContingutFitxa = {
 			"El Caro, o Mont Caro, és el cim més alt dels Ports i, alhora, de les Terres de l'Ebre i de la província de Tarragona. És al terme de Roquetes, [al Baix Ebre](/comarques/baix-ebre), dins del Parc Natural dels Ports, un massís calcari i dolomític de cingles, agulles i barrancs que forma part de la Reserva de la Biosfera de les Terres de l'Ebre i de la xarxa Natura 2000.",
 			"A diferència de la majoria de cims del repte, al Caro s'hi arriba per una carretera asfaltada que puja de Roquetes pel Caragol, i al cim hi ha diverses antenes de televisió, ràdio i telefonia. Això no li treu interès: el mirador, equipat amb plafons i adaptat a persones amb mobilitat reduïda, és el gran balcó dels Ports. Segons la Viquipèdia, el nom ve d'una arrel preromana que voldria dir 'roca, penyal', emparentada amb el basc (h)arri. A la zona viuen la cabra salvatge i molts rapinyaires, i els pins prenen formes torçades pel mestral, el vent de dalt.",
 			"El parc explica que, en dies clars, des del cim es veu la vall de l'Ebre fins al Delta i fins i tot l'illa de Mallorca. Cap a l'interior s'estenen les valls i les moles dels Ports, amb cims com [el Tossal d'Engrilló](/cims/tossal-d-engrillo) o, més al sud, [el Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), on es troben Catalunya, Aragó i el País Valencià.",
-			"Es pot pujar tot l'any, però és una zona de vents forts i freds, sobretot a l'hivern, quan hi pot glaçar i nevar. A l'estiu, la pujada a peu es fa més agradable a primera hora: el parc recomana portar aigua abundant, protecció solar i barret."
+			"El Caro no té temporada tancada, però el vent hi mana: el mestral bufa fort i fred, i a l'hivern hi pot glaçar i nevar. A l'estiu, la pujada a peu es fa més agradable a primera hora: el parc recomana portar aigua abundant, protecció solar i barret."
 		],
 		es: [
 			"El Caro, o Mont Caro, es la cima más alta de los Ports y, a la vez, de las Terres de l'Ebre y de la provincia de Tarragona. Está en el término de Roquetes, [en el Baix Ebre](/comarques/baix-ebre), dentro del Parque Natural dels Ports, un macizo calcáreo y dolomítico de riscos, agujas y barrancos que forma parte de la Reserva de la Biosfera de las Terres de l'Ebre y de la red Natura 2000.",
 			"A diferencia de la mayoría de cimas del reto, al Caro se llega por una carretera asfaltada que sube desde Roquetes por el Caragol, y en la cima hay varias antenas de televisión, radio y telefonía. Eso no le quita interés: el mirador, equipado con paneles y adaptado a personas con movilidad reducida, es el gran balcón de los Ports. Según la Viquipèdia, el nombre viene de una raíz prerromana que significaría 'roca, peñasco', emparentada con el vasco (h)arri. En la zona viven la cabra montés y muchas rapaces, y los pinos toman formas retorcidas por el mistral, el viento de arriba.",
 			"El parque explica que, en días claros, desde la cima se ve el valle del Ebro hasta el Delta e incluso la isla de Mallorca. Hacia el interior se extienden los valles y las muelas de los Ports, con cimas como [el Tossal d'Engrilló](/cims/tossal-d-engrillo) o, más al sur, [el Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), donde se encuentran Cataluña, Aragón y la Comunidad Valenciana.",
-			'Se puede subir todo el año, pero es una zona de vientos fuertes y fríos, sobre todo en invierno, cuando puede helar y nevar. En verano, la subida a pie es más agradable a primera hora: el parque recomienda llevar agua abundante, protección solar y sombrero.'
+			'El Caro no tiene temporada cerrada, pero aquí manda el viento: el mistral sopla fuerte y frío, y en invierno puede helar y nevar. En verano, la subida a pie es más agradable a primera hora: el parque recomienda llevar agua abundante, protección solar y sombrero.'
 		]
 	},
 	rutes: [
@@ -116,7 +116,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Caro és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i el sostre de les Terres de l’Ebre.'
+					'Sí. És el més alt dels tres [cims essencials](/cims-essencials) del Baix Ebre, amb el [Tossal d’Engrilló](/cims/tossal-d-engrillo) i la Creu de Santos, i el sostre de les Terres de l’Ebre.'
 			}
 		],
 		es: [
@@ -138,7 +138,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Caro es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el techo de las Terres de l’Ebre.'
+					'Sí. Es la más alta de las tres [cimas esenciales](/cims-essencials) del Baix Ebre, con el [Tossal d’Engrilló](/cims/tossal-d-engrillo) y la Creu de Santos, y el techo de las Terres de l’Ebre.'
 			}
 		]
 	},

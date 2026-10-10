@@ -43,4 +43,52 @@
 	{#snippet avisos()}
 		<AvisosDificultat seguretat={m.kids_safety()} />
 	{/snippet}
+	{#snippet detall(cim: CimCataleg)}
+		{@const ruta = data.rutesAmbNens[cim.slug]}
+		{#if ruta}
+			<!-- Nom curt de la ruta i, a sota, les xifres. Els espais entre blocs es conserven: el nom
+			     accessible de l'enllaç no ajunta les parts. -->
+			<span class="ruta">
+				<span class="sr-only">{m.kids_route_sr()}</span>
+				<span class="nom-ruta">{ruta.nomCurt}</span>
+				{#if ruta.desnivell || ruta.temps}
+					<span class="dades mono">
+						{#if ruta.desnivell}<span class="dada">{ruta.desnivell}</span>{/if}
+						{#if ruta.desnivell && ruta.temps}<span class="sep" aria-hidden="true">·</span>{/if}
+						{#if ruta.temps}<span class="dada">{ruta.temps}</span>{/if}
+					</span>
+				{/if}
+			</span>
+		{/if}
+	{/snippet}
 </PaginaLlistat>
+
+<style>
+	/* Segona part de cada cim (dins l'enllaç de `LlistaCims`): ocupa tota la fila */
+	.ruta {
+		display: grid;
+		flex: 1 1 100%;
+		min-width: 0;
+		margin-top: 2px;
+		font-size: var(--fs-sm);
+		color: var(--c-ink-2);
+	}
+
+	.nom-ruta {
+		overflow-wrap: anywhere;
+	}
+
+	.dades {
+		font-size: var(--fs-xs);
+	}
+
+	/* Cada xifra no es parteix ("1 h 40 min d'anada"); el salt, si cal, entre xifres */
+	.dada {
+		white-space: nowrap;
+	}
+
+	/* Separador visual entre xifres (no es llegeix) */
+	.sep {
+		color: var(--c-rule);
+	}
+</style>

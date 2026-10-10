@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Casamanya és la muntanya que ocupa el centre geogràfic d'[Andorra](/comarques/andorra), a la carena que separa les parròquies d'Ordino i de Canillo. No és un cim únic sinó una cresta amb tres puntes: la sud, la del mig i la nord, que és la més alta i la que compta per al repte. Tot el massís és de roca calcària, de to blanquinós, cosa que el fa fàcil de reconèixer des de bona part del país.",
 			"La seva posició el converteix en una divisòria d'aigües: a un costat hi ha la Valira del Nord, que baixa per la vall d'Ordino, i a l'altre la Valira d'Orient, que passa per Canillo. Per això, sense ser dels més alts del Principat, és un dels miradors més apreciats pels andorrans. El camí habitual surt del coll d'Ordino, el port de carretera que uneix les dues parròquies, i travessa el bosc d'Airola, de pi negre, abans de sortir a les pales herboses i pedregoses de la carena.",
 			"Des de dalt es domina gairebé tot Andorra: la vall d'Ordino i la Massana, la vall de la Valira d'Orient i, en dies clars, el [Comapedrosa](/cims/comapedrosa), sostre del país, i els cims de la capçalera d'Ordino com la [Tristaina](/cims/tristaina). Cap a l'est s'alça el massís de la [Serrera](/cims/pic-de-la-serrera), un altre cim essencial andorrà.",
-			"La temporada bona va de final de primavera a la tardor. A l'hivern la carena es cobreix de neu i la sortida es fa amb raquetes o esquís, en condicions que demanen experiència. A l'estiu el pendent és molt assolellat i a partir del coll no hi ha aigua: surt d'hora i vigila les tempestes de tarda."
+			"Sense neu, des de final de primavera fins a la tardor, és una pujada sense passos tècnics. A l'hivern la carena es cobreix de neu i la sortida es fa amb raquetes o esquís, en condicions que demanen experiència. A l'estiu el pendent és molt assolellat i a partir del coll no hi ha aigua: surt d'hora i vigila les tempestes de tarda."
 		],
 		es: [
 			'El Casamanya es la montaña que ocupa el centro geográfico de [Andorra](/comarques/andorra), en la cresta que separa las parroquias de Ordino y Canillo. No es una cima única sino una cresta con tres puntas: la sur, la del medio y la norte, que es la más alta y la que cuenta para el reto. Todo el macizo es de roca caliza, de tono blanquecino, lo que lo hace fácil de reconocer desde buena parte del país.',
 			"Su posición lo convierte en una divisoria de aguas: a un lado queda el Valira del Norte, que baja por el valle de Ordino, y al otro el Valira de Oriente, que pasa por Canillo. Por eso, sin ser de los más altos del Principado, es uno de los miradores favoritos de los andorranos. El camino habitual sale del coll d'Ordino, el puerto de carretera que une las dos parroquias, y cruza el bosque de Airola, de pino negro, antes de salir a las laderas herbosas y pedregosas de la cresta.",
 			'Desde arriba se domina casi toda Andorra: el valle de Ordino y La Massana, el valle del Valira de Oriente y, en días claros, el [Comapedrosa](/cims/comapedrosa), techo del país, y las cimas de la cabecera de Ordino como la [Tristaina](/cims/tristaina). Hacia el este se alza el macizo de la [Serrera](/cims/pic-de-la-serrera), otra cima esencial andorrana.',
-			'La buena temporada va de finales de primavera al otoño. En invierno la cresta se cubre de nieve y la salida se hace con raquetas o esquís, en condiciones que piden experiencia. En verano la ladera es muy soleada y a partir del collado no hay agua: sal temprano y vigila las tormentas de tarde.'
+			'Sin nieve, desde finales de primavera hasta el otoño, es una subida sin pasos técnicos. En invierno la cresta se cubre de nieve y la salida se hace con raquetas o esquís, en condiciones que piden experiencia. En verano la ladera es muy soleada y a partir del collado no hay agua: sal temprano y vigila las tormentas de tarde.'
 		]
 	},
 	rutes: [
@@ -53,8 +53,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 115,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "És la ruta normal. Del coll d'Ordino es puja per un camí ben fressat i marcat amb punts grocs fins a la collada de les Vaques i, després, per la llarga carena sud fins al Casamanya Sud, el primer dels tres cims. Segons Rutes Pirineus, s'hi arriba en 1 h 30 min i el Casamanya Nord queda 25 minuts més enllà, seguint la cresta sense entrar al vessant nord, més vertical. No hi ha passos tècnics, però el pendent és fort i l'últim tram és pedregós.",
-				es: "Es la ruta normal. Desde el coll d'Ordino se sube por un camino muy marcado, con puntos amarillos, hasta la collada de les Vaques y, después, por la larga cresta sur hasta el Casamanya Sud, la primera de las tres cimas. Según Rutes Pirineus, se llega en 1 h 30 min y el Casamanya Nord queda 25 minutos más allá, siguiendo la cresta sin meterse en la vertiente norte, más vertical. No hay pasos técnicos, pero la pendiente es fuerte y el último tramo es pedregoso."
+				ca: "És la ruta normal. Del coll d'Ordino es puja per un camí ben fressat i marcat amb punts grocs fins a la collada de les Vaques i, després, per la llarga carena sud fins al Casamanya Sud, el primer dels tres cims. Segons Rutes Pirineus, s'hi arriba en 1 h 30 min i el Casamanya Nord queda 25 minuts més enllà, seguint la cresta sense entrar al vessant nord, més vertical. Sense passos de mans, el que costa és el pendent, fort, i l'últim tram, pedregós.",
+				es: "Es la ruta normal. Desde el coll d'Ordino se sube por un camino muy marcado, con puntos amarillos, hasta la collada de les Vaques y, después, por la larga cresta sur hasta el Casamanya Sud, la primera de las tres cimas. Según Rutes Pirineus, se llega en 1 h 30 min y el Casamanya Nord queda 25 minutos más allá, siguiendo la cresta sin meterse en la vertiente norte, más vertical. Sin pasos de manos, lo que cuesta es la pendiente, fuerte, y el último tramo, pedregoso."
 			},
 			fonts: [RUTES_PIRINEUS, RUTAS_PIRINEOS, VISIT_ORDINO]
 		}
@@ -90,7 +90,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quin dels tres pics del Casamanya compta per al repte?',
 				resposta:
-					"El Casamanya Nord, que és el més alt. És un dels [cims essencials](/cims-essencials) d'Andorra. Les condicions de validació són a la [normativa del repte](/repte-100-cims/normativa)."
+					"El Casamanya Nord, el més alt dels tres. És un dels cinc [cims essencials](/cims-essencials) d'Andorra, amb el Comapedrosa, la Serrera, el Pic Negre d'Envalira i la Tristaina. Si fas cim al Sud, no compta: has de seguir la cresta fins al Nord."
 			},
 			{
 				pregunta: "Es pot pujar al Casamanya a l'hivern?",
@@ -112,7 +112,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Cuál de los tres picos del Casamanya cuenta para el reto?',
 				resposta:
-					'El Casamanya Nord, que es el más alto. Es una de las [cimas esenciales](/cims-essencials) de Andorra. Las condiciones de validación están en la [normativa del reto](/repte-100-cims/normativa).'
+					'El Casamanya Nord, el más alto de los tres. Es una de las cinco [cimas esenciales](/cims-essencials) de Andorra, con el Comapedrosa, la Serrera, el Pic Negre d’Envalira y la Tristaina. Si haces cima en el Sud, no cuenta: tienes que seguir la cresta hasta el Nord.'
 			},
 			{
 				pregunta: '¿Se puede subir al Casamanya en invierno?',

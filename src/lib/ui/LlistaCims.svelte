@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import type { CimCataleg } from '$lib/domain';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -14,6 +15,8 @@
 	 * - `amagats`: slugs que no es mostren (filtres en client); el HTML inicial els conté tots.
 	 * - `dificultats`: dificultat orientativa (ruta normal) dels cims amb contingut, per slug
 	 *   (mapa lleuger del `+page.server.ts`, `$lib/server/dificultats`).
+	 * - `detall`: línia opcional sota cada cim, dins l'enllaç (p. ex. "Des de Vidrà · +300 m"
+	 *   a `/cims-amb-nens`). La pinta qui crida (i n'hi dona l'estil); ha d'ocupar tota la fila.
 	 */
 	let {
 		cims,
@@ -21,7 +24,8 @@
 		numeros,
 		meta,
 		amagats,
-		dificultats
+		dificultats,
+		detall
 	}: {
 		cims: readonly CimCataleg[];
 		ordenada?: boolean;
@@ -29,6 +33,7 @@
 		meta?: (cim: CimCataleg) => string | null;
 		amagats?: ReadonlySet<string>;
 		dificultats?: Readonly<Record<string, DificultatResum>>;
+		detall?: Snippet<[CimCataleg]>;
 	} = $props();
 </script>
 
@@ -52,6 +57,7 @@
 		<span class="meta mono">
 			{[meta?.(cim), `${formatAltitude(cim.altitud)} m`].filter(Boolean).join(' · ')}
 		</span>
+		{@render detall?.(cim)}
 	</a>
 {/snippet}
 

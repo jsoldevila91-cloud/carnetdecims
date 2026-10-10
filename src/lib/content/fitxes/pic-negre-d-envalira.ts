@@ -25,13 +25,13 @@ const fitxa: ContingutFitxa = {
 	descripcio: {
 		ca: [
 			"El pic Negre d'Envalira és a la carena fronterera entre la parròquia d'Encamp, [a Andorra](/comarques/andorra), i França, just a sobre del Pas de la Casa. És un dels quatre pics d'Envalira, el grup de cims que envolta el port d'Envalira i les pistes de Grau Roig, i té la cara nord tallada en espadats gairebé verticals que cauen cap a Grau Roig.",
-			"El punt de partida és ja a més de 2.100 m, i per això és una de les ascensions per sobre dels 2.800 m més accessibles del repte. El camí passa per l'estany de les Abelletes i el coll dels Isards, que segons Visit Andorra deu el nom al pas freqüent d'isards, i puja a prop d'un telecadira de l'estació. Molt a prop hi ha la Portella Blanca, el punt on es troben Andorra, França i l'Estat espanyol.",
+			"El punt de partida és ja a més de 2.100 m, i per això, tot i que el cim passa dels 2.800 m, la pujada només suma uns 700 m de desnivell. El camí passa per l'estany de les Abelletes i el coll dels Isards, que segons Visit Andorra deu el nom al pas freqüent d'isards, i puja a prop d'un telecadira de l'estació. Molt a prop hi ha la Portella Blanca, el punt on es troben Andorra, França i l'Estat espanyol.",
 			"Des de dalt es dominen els circs glacials del voltant, amb el circ dels Pessons, les crestes del Pirineu oriental i, als peus, el Pas de la Casa i la vall que baixa cap a l'Arieja. Dins d'Andorra, altres cims essencials com el [Casamanya](/cims/casamanya-nord) o el [pic de la Serrera](/cims/pic-de-la-serrera) queden cap al nord-oest.",
 			"Visit Andorra recomana pujar-hi entre final de juny i final de setembre, tot i que de maig a octubre també pot ser practicable segons la neu. A la primavera hi pot quedar neu al coll. És terreny d'alta muntanya: a l'estiu, vigila les tempestes de tarda i no t'hi quedis si el cel es carrega."
 		],
 		es: [
-			"El pic Negre d'Envalira está en la cresta fronteriza entre la parroquia de Encamp, [en Andorra](/comarques/andorra), y Francia, justo encima del Pas de la Casa. Es uno de los cuatro picos de Envalira, el grupo de cimas que rodea el port d'Envalira y las pistas de Grau Roig, y tiene la cara norte cortada en cortados casi verticales que caen hacia Grau Roig.",
-			'El punto de partida está ya a más de 2.100 m, y por eso es una de las ascensiones por encima de los 2.800 m más accesibles del reto. El camino pasa por el lago de les Abelletes y el coll dels Isards, que según Visit Andorra debe su nombre al paso frecuente de sarrios, y sube cerca de un telesilla de la estación. Muy cerca está la Portella Blanca, el punto donde se encuentran Andorra, Francia y España.',
+			"El pic Negre d'Envalira está en la cresta fronteriza entre la parroquia de Encamp, [en Andorra](/comarques/andorra), y Francia, justo encima del Pas de la Casa. Es uno de los cuatro picos de Envalira, el grupo de cimas que rodea el port d'Envalira y las pistas de Grau Roig, y su cara norte son paredes casi verticales que caen hacia Grau Roig.",
+			'El punto de partida está ya a más de 2.100 m, y por eso, aunque la cima supera los 2.800 m, la subida solo suma unos 700 m de desnivel. El camino pasa por el lago de les Abelletes y el coll dels Isards, que según Visit Andorra debe su nombre al paso frecuente de sarrios, y sube cerca de un telesilla de la estación. Muy cerca está la Portella Blanca, el punto donde se encuentran Andorra, Francia y España.',
 			'Desde arriba se dominan los circos glaciares de alrededor, con el circo dels Pessons, las crestas del Pirineo oriental y, a los pies, el Pas de la Casa y el valle que baja hacia el Ariège. Dentro de Andorra, otras cimas esenciales como el [Casamanya](/cims/casamanya-nord) o el [pic de la Serrera](/cims/pic-de-la-serrera) quedan hacia el noroeste.',
 			'Visit Andorra recomienda subir entre finales de junio y finales de septiembre, aunque de mayo a octubre también puede ser practicable según la nieve. En primavera puede quedar nieve en el collado. Es terreno de alta montaña: en verano, vigila las tormentas de tarde y no te quedes si el cielo se carga.'
 		]
@@ -89,7 +89,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "El pic Negre d'Envalira compta com a cim essencial?",
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) d'Andorra. Consulta com es valida a la [normativa del repte](/repte-100-cims/normativa)."
+					"Sí. Dels cinc [cims essencials](/cims-essencials) d'Andorra, és el de l'extrem oriental, a tocar de França; els altres són el Comapedrosa, la Serrera, la Tristaina i el [Casamanya](/cims/casamanya-nord)."
 			}
 		],
 		es: [
@@ -111,7 +111,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "¿El pic Negre d'Envalira cuenta como cima esencial?",
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) de Andorra. Consulta cómo se valida en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. De las cinco [cimas esenciales](/cims-essencials) de Andorra, es la del extremo oriental, junto a Francia; las otras son el Comapedrosa, la Serrera, la Tristaina y el [Casamanya](/cims/casamanya-nord).'
 			}
 		]
 	},

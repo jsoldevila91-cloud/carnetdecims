@@ -45,13 +45,13 @@ const fitxa: ContingutFitxa = {
 			"La Mola és el sostre del massís de Sant Llorenç del Munt i un dels cims més visitats de Catalunya: segons la Viquipèdia, rep més de 100.000 visites l'any. El cim és al terme de Matadepera, [al Vallès Occidental](/comarques/valles-occidental), dins del Parc Natural de Sant Llorenç del Munt i l'Obac, i és la gran talaia de Terrassa i Sabadell. A uns 4 km al nord hi ha el [Montcau](/cims/montcau), l'altre gran cim del massís.",
 			"El que la fa única és el **monestir de Sant Llorenç del Munt**, que corona el cim. Documentat des del 947, té una església romànica construïda entre el 1045 i el 1064, i el 1931 va ser declarat monument historicoartístic; avui és un bé cultural d'interès nacional. La muntanya és feta de conglomerats, gresos i lutites dipositats per antics deltes fa uns 50 milions d'anys, i l'erosió hi ha deixat cingles, coves i agulles com el Cavall Bernat o el Morral del Drac.",
 			"Des de dalt es domina tot el Vallès, la serralada de Marina i Collserola, Montserrat a l'oest i, en dies clars, el Montseny i el Pirineu. La sortida i la posta de sol hi són molt populars.",
-			"Es pot pujar tot l'any, però a l'estiu convé fer-ho a primera hora o al vespre, perquè els camins del vessant sud són molt assolellats. Els caps de setmana hi ha moltíssima gent: si vols tranquil·litat, tria un dia feiner o l'accés pel coll d'Estenalles."
+			"A l'estiu convé fer-ho a primera hora o al vespre, perquè els camins del vessant sud són molt assolellats. Els caps de setmana hi ha moltíssima gent: si vols tranquil·litat, tria un dia feiner o l'accés pel coll d'Estenalles."
 		],
 		es: [
 			"La Mola es el techo del macizo de Sant Llorenç del Munt y una de las cimas más visitadas de Cataluña: según la Viquipèdia, recibe más de 100.000 visitas al año. La cima está en el municipio de Matadepera, [en el Vallès Occidental](/comarques/valles-occidental), dentro del Parque Natural de Sant Llorenç del Munt i l'Obac, y es la gran atalaya de Terrassa y Sabadell. Unos 4 km al norte está el [Montcau](/cims/montcau), la otra gran cima del macizo.",
 			'Lo que la hace única es el **monasterio de Sant Llorenç del Munt**, que corona la cima. Documentado desde 947, tiene una iglesia románica construida entre 1045 y 1064, y en 1931 fue declarado monumento histórico-artístico; hoy es un bien cultural de interés nacional. La montaña está hecha de conglomerados, areniscas y lutitas depositados por antiguos deltas hace unos 50 millones de años, y la erosión ha dejado riscos, cuevas y agujas como el Cavall Bernat o el Morral del Drac.',
 			'Desde arriba se domina todo el Vallès, la sierra de Marina y Collserola, Montserrat al oeste y, en días claros, el Montseny y el Pirineo. El amanecer y la puesta de sol son muy populares.',
-			"Se puede subir todo el año, pero en verano conviene hacerlo a primera hora o al atardecer, porque los caminos de la vertiente sur son muy soleados. Los fines de semana hay muchísima gente: si buscas tranquilidad, elige un día laborable o el acceso por el coll d'Estenalles."
+			"En verano conviene hacerlo a primera hora o al atardecer, porque los caminos de la vertiente sur son muy soleados. Los fines de semana hay muchísima gente: si buscas tranquilidad, elige un día laborable o el acceso por el coll d'Estenalles."
 		]
 	},
 	rutes: [
@@ -123,7 +123,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Mola és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte. Es pot combinar amb el [Montcau](/cims/montcau) en una sola sortida.'
+					'Sí, i és el més alt dels quatre essencials del Vallès Occidental, per sobre del [Castellsapera](/cims/castellsapera). Es pot combinar amb el [Montcau](/cims/montcau) en una sola sortida, tot i que aquest compta per al Bages.'
 			}
 		],
 		es: [
@@ -145,7 +145,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Mola es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto. Se puede combinar con el [Montcau](/cims/montcau) en una sola salida.'
+					'Sí, y es la más alta de las cuatro esenciales del Vallès Occidental, por encima del [Castellsapera](/cims/castellsapera). Se puede combinar con el [Montcau](/cims/montcau) en una sola salida, aunque este cuenta para el Bages.'
 			}
 		]
 	},

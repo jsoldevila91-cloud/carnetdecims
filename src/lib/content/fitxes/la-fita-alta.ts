@@ -30,16 +30,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'la-fita-alta',
 	descripcio: {
 		ca: [
-			"La Fita Alta és el punt més alt [del Pla d'Urgell](/comarques/pla-d-urgell), entre els termes de Sidamon i Torregrossa. És l'elevació principal de la Serra, un petit altiplà de graves i conreus de secà que s'aixeca uns metres sobre la plana regada pel Canal d'Urgell. Al cim hi ha un vèrtex geodèsic; no esperis cingles ni roca, sinó una carena suau d'oliveres, ametllers i marges de pedra.",
+			"La Fita Alta és el punt més alt [del Pla d'Urgell](/comarques/pla-d-urgell), entre els termes de Sidamon i Torregrossa. És l'elevació principal de la Serra, un petit altiplà de graves i conreus de secà que s'aixeca uns metres sobre la plana regada pel Canal d'Urgell. Un vèrtex geodèsic en marca el punt culminant; no esperis cingles ni roca, sinó una carena suau d'oliveres, ametllers i marges de pedra.",
 			"El seu interès és el paisatge i la història que l'envolta. La Serra la travessa una antiga carrerada, el camí per on baixaven els ramats transhumants, avui convertida en la ruta de la Serra, que uneix Bell-lloc d'Urgell i Miralcamp. A prop hi ha el poblat ibèric del Tossal de les Tenalles, l'Observatori, una fortificació de la Guerra Civil construïda per l'exèrcit republicà el 1938, i el Dipòsit Rodó de Mollerussa, del 1894, una de les primeres construccions de formigó armat de la península, projectada per l'enginyer militar Francesc Macià.",
 			"Des de dalt, en dies clars, la vista arriba al Montsec i a les serres del Pirineu central fins a les muntanyes d'Andorra, i cap al sud a les serres prelitorals. Als peus s'estén el mosaic de regadiu i secà que el Canal d'Urgell va transformar des del segle XIX. Si busques altres cims planers de la plana de Lleida, [lo Pilar d'Almenara](/cims/pilar-d-almenara) i [els Bessons](/cims/els-bessons) no queden gaire lluny.",
-			"Es pot pujar tot l'any, però a l'estiu la calor a la plana és intensa i no hi ha ombra: millor a primera hora o a la tarda. A l'hivern, la boira persistent de la Depressió Central pot amagar tota la vista. A la primavera la Serra és verda i s'hi senten alosa, piula i torlit."
+			"L'estació marca molt la sortida. A l'estiu la calor a la plana és intensa i no hi ha ombra: millor a primera hora o a la tarda. A l'hivern, la boira persistent de la Depressió Central pot amagar tota la vista. A la primavera la Serra és verda i s'hi senten alosa, piula i torlit."
 		],
 		es: [
-			"La Fita Alta es el punto más alto [del Pla d'Urgell](/comarques/pla-d-urgell), entre los términos de Sidamon y Torregrossa. Es la elevación principal de la Serra, un pequeño altiplano de gravas y cultivos de secano que se levanta unos metros sobre la llanura regada por el Canal d'Urgell. En la cima hay un vértice geodésico; no esperes riscos ni roca, sino una loma suave de olivos, almendros y márgenes de piedra.",
+			"La Fita Alta es el punto más alto [del Pla d'Urgell](/comarques/pla-d-urgell), entre los términos de Sidamon y Torregrossa. Es la elevación principal de la Serra, un pequeño altiplano de gravas y cultivos de secano que se levanta unos metros sobre la llanura regada por el Canal d'Urgell. Un vértice geodésico marca su punto culminante; no esperes riscos ni roca, sino una loma suave de olivos, almendros y márgenes de piedra.",
 			"Su interés es el paisaje y la historia que la rodea. La Serra la atraviesa una antigua cañada, el camino por donde bajaban los rebaños trashumantes, hoy convertida en la ruta de la Serra, que une Bell-lloc d'Urgell y Miralcamp. Cerca están el poblado ibérico del Tossal de les Tenalles, l'Observatori, una fortificación de la Guerra Civil construida por el ejército republicano en 1938, y el Dipòsit Rodó de Mollerussa, de 1894, una de las primeras construcciones de hormigón armado de la península, proyectada por el ingeniero militar Francesc Macià.",
 			"Desde arriba, en días claros, la vista llega al Montsec y a las sierras del Pirineo central hasta las montañas de Andorra, y hacia el sur a las sierras prelitorales. A los pies se extiende el mosaico de regadío y secano que el Canal d'Urgell transformó desde el siglo XIX. Si buscas otras cimas llanas de la llanura de Lleida, [lo Pilar d'Almenara](/cims/pilar-d-almenara) y [els Bessons](/cims/els-bessons) no quedan muy lejos.",
-			'Se puede subir todo el año, pero en verano el calor en la llanura es intenso y no hay sombra: mejor a primera hora o por la tarde. En invierno, la niebla persistente de la Depresión Central puede ocultar toda la vista. En primavera la Serra está verde y se oyen la alondra, el bisbita y el alcaraván.'
+			'La estación marca mucho la salida. En verano el calor en la llanura es intenso y no hay sombra: mejor a primera hora o por la tarde. En invierno, la niebla persistente de la Depresión Central puede ocultar toda la vista. En primavera la Serra está verde y se oyen la alondra, el bisbita y el alcaraván.'
 		]
 	},
 	rutes: [
@@ -51,8 +51,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 40,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És la pujada més curta i la que recomana el mateix poble. Des de Sidamon es creua el Canal d'Urgell i se segueixen una pista asfaltada i camins de terra entre oliveres fins a la carena, passant per la séquia de la Serra. Segons Excursions Festa Major, el cim és a 2,56 km i uns 40 minuts, i tota la volta circular fa 5,12 km i 1 h 10 min, amb només uns 60 m de desnivell. Està senyalitzada només en part.",
-				es: "Es la subida más corta y la que recomienda el propio pueblo. Desde Sidamon se cruza el Canal d'Urgell y se siguen una pista asfaltada y caminos de tierra entre olivos hasta la loma, pasando por la acequia de la Serra. Según Excursions Festa Major, la cima está a 2,56 km y unos 40 minutos, y toda la vuelta circular tiene 5,12 km y 1 h 10 min, con solo unos 60 m de desnivel. Está señalizada solo en parte."
+				ca: "És la que recomana el mateix poble, i també la més curta. Des de Sidamon es creua el Canal d'Urgell i se segueixen una pista asfaltada i camins de terra entre oliveres fins a la carena, passant per la séquia de la Serra. Segons Excursions Festa Major, el cim és a 2,56 km i uns 40 minuts, i tota la volta circular fa 5,12 km i 1 h 10 min, amb només uns 60 m de desnivell. Està senyalitzada només en part.",
+				es: "Es la que recomienda el propio pueblo, y también la más corta. Desde Sidamon se cruza el Canal d'Urgell y se siguen una pista asfaltada y caminos de tierra entre olivos hasta la loma, pasando por la acequia de la Serra. Según Excursions Festa Major, la cima está a 2,56 km y unos 40 minutos, y toda la vuelta circular tiene 5,12 km y 1 h 10 min, con solo unos 60 m de desnivel. Está señalizada solo en parte."
 			},
 			fonts: [EXCURSIONS_SIDAMON]
 		},
@@ -69,13 +69,13 @@ const fitxa: ContingutFitxa = {
 	],
 	consells: {
 		ca: [
-			'És una sortida ideal per a la canalla o per estrenar-se al repte: camins amples, poc desnivell i orientació senzilla.',
+			'Amb tan poc desnivell, és una bona primera sortida del repte per a la canalla: camins amples i orientació senzilla.',
 			"A l'estiu no hi ha gens d'ombra: porta aigua, gorra i protecció solar.",
 			'Els camins travessen finques agrícoles: no trepitgis els conreus i deixa passar la maquinària.',
 			"Amb boira, que a l'hivern pot durar dies, la sortida perd tot l'interès de les vistes: consulta la previsió."
 		],
 		es: [
-			'Es una salida ideal para los niños o para estrenarse en el reto: caminos anchos, poco desnivel y orientación sencilla.',
+			'Con tan poco desnivel, es una buena primera salida del reto para los niños: caminos anchos y orientación sencilla.',
 			'En verano no hay nada de sombra: lleva agua, gorra y protección solar.',
 			'Los caminos atraviesan fincas agrícolas: no pises los cultivos y deja pasar la maquinaria.',
 			'Con niebla, que en invierno puede durar días, la salida pierde todo el interés de las vistas: consulta la previsión.'
@@ -101,7 +101,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Fita Alta és un cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del repte i el sostre del Pla d'Urgell."
+					"Sí. És l'únic [cim essencial](/cims-essencials) del Pla d'Urgell i també el seu sostre, tot i que s'alça només uns metres sobre la plana del Canal d'Urgell."
 			}
 		],
 		es: [
@@ -123,7 +123,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Fita Alta es una cima esencial?',
 				resposta:
-					"Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el techo del Pla d'Urgell."
+					"Sí. Es la única [cima esencial](/cims-essencials) del Pla d'Urgell y también su techo, aunque solo se alza unos metros sobre la llanura del Canal d'Urgell."
 			}
 		]
 	},

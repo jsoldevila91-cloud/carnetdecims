@@ -24,16 +24,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'tossa-grossa-de-montferri',
 	descripcio: {
 		ca: [
-			"La Tossa Grossa de Montferri és un turó de dolomies i calcàries que domina el poble de Montferri, [a l'Alt Camp](/comarques/alt-camp). És el punt culminant d'una petita serra coberta de pinedes i envoltada de vinyes, oliveres i marges de pedra seca. Al cim hi ha un vèrtex geodèsic.",
+			"La Tossa Grossa de Montferri és un turó de dolomies i calcàries que domina el poble de Montferri, [a l'Alt Camp](/comarques/alt-camp). És el punt culminant d'una petita serra coberta de pinedes i envoltada de vinyes, oliveres i marges de pedra seca. El cim el marca un vèrtex geodèsic.",
 			"El que fa singular aquesta excursió és el patrimoni que hi ha pel camí. Molt a prop del cim, sobre la mateixa carena, s'alça la Torre del Moro, una torre de guaita cilíndrica d'uns 8 metres, a 376 m d'altitud segons De ruta en ruta. I a la sortida, el santuari de la Mare de Déu de Montserrat de Montferri, obra modernista de Josep Maria Jujol, deixeble de Gaudí, que amb les seves columnes i cúpules evoca la silueta de la muntanya de Montserrat. Val la pena combinar-hi la visita.",
 			"Des de dalt es veu tota la plana de l'Alt Camp, tancada per la serra del Montmell, on hi ha [la Talaia del Montmell](/cims/talaia-del-montmell), i pel massís de Bonastre, on hi ha [la Mola](/cims/la-mola-tarragones), el sostre del Tarragonès. En dies clars, cap a l'oest es distingeixen els relleus del Montsant.",
-			"Es pot pujar tot l'any. A l'estiu, la pujada es fa pesada amb la calor i convé sortir d'hora; després de pluja, el sender pedregós de la pujada rellisca. La primavera i la tardor són les millors èpoques."
+			"A l'estiu, la pujada es fa pesada amb la calor i convé sortir d'hora; després de pluja, el sender pedregós de la pujada rellisca. La primavera i la tardor són les millors èpoques."
 		],
 		es: [
-			'La Tossa Grossa de Montferri es una loma de dolomías y calizas que domina el pueblo de Montferri, [en el Alt Camp](/comarques/alt-camp). Es el punto culminante de una pequeña sierra cubierta de pinares y rodeada de viñas, olivos y márgenes de piedra seca. En la cima hay un vértice geodésico.',
+			'La Tossa Grossa de Montferri es una loma de dolomías y calizas que domina el pueblo de Montferri, [en el Alt Camp](/comarques/alt-camp). Es el punto culminante de una pequeña sierra cubierta de pinares y rodeada de viñas, olivos y márgenes de piedra seca. La cima la marca un vértice geodésico.',
 			'Lo que hace singular esta excursión es el patrimonio que hay por el camino. Muy cerca de la cima, sobre la misma cresta, se alza la Torre del Moro, una torre de vigía cilíndrica de unos 8 metros, a 376 m de altitud según De ruta en ruta. Y en la salida, el santuario de la Mare de Déu de Montserrat de Montferri, obra modernista de Josep Maria Jujol, discípulo de Gaudí, que con sus columnas y cúpulas evoca la silueta de la montaña de Montserrat. Vale la pena combinar la visita.',
 			'Desde arriba se ve toda la llanura del Alt Camp, cerrada por la sierra del Montmell, donde está [la Talaia del Montmell](/cims/talaia-del-montmell), y por el macizo de Bonastre, donde está [la Mola](/cims/la-mola-tarragones), el techo del Tarragonès. En días claros, hacia el oeste se distinguen los relieves del Montsant.',
-			'Se puede subir todo el año. En verano, la subida se hace pesada con el calor y conviene salir temprano; después de llover, el sendero pedregoso de la subida resbala. La primavera y el otoño son las mejores épocas.'
+			'En verano, la subida se hace pesada con el calor y conviene salir temprano; después de llover, el sendero pedregoso de la subida resbala. La primavera y el otoño son las mejores épocas.'
 		]
 	},
 	rutes: [
@@ -87,7 +87,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'La Tossa Grossa de Montferri és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí. L’Alt Camp en té tres, la Tossa Grossa de Montferri, el Cogulló de Cabra i el Tossal Gros, i aquest, amb 387 m, és el més modest. Al cim que compta hi ha el vèrtex geodèsic, no a la Torre del Moro.'
 			}
 		],
 		es: [
@@ -108,7 +109,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿La Tossa Grossa de Montferri es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí. El Alt Camp tiene tres, la Tossa Grossa de Montferri, el Cogulló de Cabra y el Tossal Gros, y esta, con 387 m, es la más modesta. En la cima que cuenta está el vértice geodésico, no en la Torre del Moro.'
 			}
 		]
 	},

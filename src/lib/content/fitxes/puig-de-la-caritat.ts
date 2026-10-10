@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Puig de la Caritat és el turó que domina el poble de l'Estany per l'oest, [al Moianès](/comarques/moianes). És un cim suau, de margues, calcàries i lutites, envoltat de camps i boscos, i forma part de l'espai protegit del Moianès i la riera de Muntanyola. Al cim hi ha un vèrtex geodèsic i una creu de pedra.",
 			"El nom el lliga a una història que recullen diverses ressenyes excursionistes: el 1481, quan una plaga de llagosta amenaçava les collites, l'abat del monestir de l'Estany va pujar en processó al cim a beneir el terme, i després es va repartir pa i vi entre la gent, una «caritat». La tradició de beneir el terme des del cim s'ha mantingut, el 3 de maig. A baix, el monestir de Santa Maria de l'Estany, fundat al segle XI i amb un claustre romànic de capitells molt treballats, és la gran visita del poble i el complement natural de l'excursió.",
 			"Per la poca alçada que guanya, la vista és molt àmplia: a l'est, les Guilleries i el Collsacabra; al nord, la serralada Transversal i el Prepirineu; a l'oest, Montserrat. Totnens hi destaca també el [Matagalls](/cims/matagalls), Cabrera i el Puigsacalm.",
-			"Es pot fer tot l'any. A l'hivern l'altiplà del Moianès és fred; a l'estiu, millor anar-hi a primera hora."
+			"Qualsevol època és bona per a una pujada tan curta. A l'hivern l'altiplà del Moianès és fred; a l'estiu, millor anar-hi a primera hora."
 		],
 		es: [
 			"El Puig de la Caritat es el cerro que domina el pueblo de l'Estany por el oeste, [en el Moianès](/comarques/moianes). Es una cima suave, de margas, calizas y lutitas, rodeada de campos y bosques, y forma parte del espacio protegido del Moianès i la riera de Muntanyola. En la cima hay un vértice geodésico y una cruz de piedra.",
 			'Su nombre se asocia a una historia que recogen varias reseñas excursionistas: en 1481, cuando una plaga de langosta amenazaba las cosechas, el abad del monasterio de l’Estany subió en procesión a la cima a bendecir el término, y después se repartió pan y vino entre la gente, una «caridad». La tradición de bendecir el término desde la cima se ha mantenido, el 3 de mayo. Abajo, el monasterio de Santa Maria de l’Estany, fundado en el siglo XI y con un claustro románico de capiteles muy trabajados, es la gran visita del pueblo y el complemento natural de la excursión.',
 			'Para la poca altura que gana, la vista es muy amplia: al este, las Guilleries y el Collsacabra; al norte, la cordillera Transversal y el Prepirineo; al oeste, Montserrat. Totnens destaca también el [Matagalls](/cims/matagalls), Cabrera y el Puigsacalm.',
-			'Se puede hacer todo el año. En invierno el altiplano del Moianès es frío; en verano, mejor ir a primera hora.'
+			'Cualquier época es buena para una subida tan corta. En invierno el altiplano del Moianès es frío; en verano, mejor ir a primera hora.'
 		]
 	},
 	rutes: [
@@ -105,7 +105,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Puig de la Caritat és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i l’únic del Moianès.'
+					'Sí, i el Moianès no en té cap altre: és l’únic [cim essencial](/cims-essencials) de la comarca, i dels més curts de tot el repte.'
 			}
 		],
 		es: [
@@ -127,7 +127,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Puig de la Caritat es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y la única del Moianès.'
+					'Sí, y el Moianès no tiene ninguna otra: es la única [cima esencial](/cims-essencials) de la comarca, y de las más cortas de todo el reto.'
 			}
 		]
 	},

@@ -39,13 +39,13 @@ const fitxa: ContingutFitxa = {
 			"El Montcau és el segon cim més alt del massís de Sant Llorenç del Munt, només superat per [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), que és a uns 4 km. El cim fa de límit entre Mura, [al Bages](/comarques/bages), i Sant Llorenç Savall, al Vallès Occidental, i és dins del Parc Natural de Sant Llorenç del Munt i l'Obac. Mirat des del sud té un aspecte de monòlit rocós, tot i que el cim és una carena allargada de nord a sud.",
 			"Segons la Viquipèdia, el nom vindria del llatí i voldria dir «muntanya pelada», una descripció que encaixa amb la roca nua de la part alta. Com tot el massís, és fet de conglomerats i lutites, la mateixa pedra que dona les formes arrodonides, els cingles i les coves de la zona. Al cim hi ha un vèrtex geodèsic i una taula d'orientació que ajuda a identificar el que es veu.",
 			"I es veu molt: cap al nord, el Bages i, en dies clars, la serralada del Pirineu; cap al sud, la Mola i la plana del Vallès; i a l'oest, Montserrat. Per la seva proximitat a Terrassa i a Sabadell, és un dels cims del repte més fàcils d'encaixar en una matinal, i combina molt bé amb [Castellsapera](/cims/castellsapera) o amb la mateixa Mola.",
-			"Es pot pujar tot l'any. A l'estiu, millor a primera hora perquè el camí té poca ombra a la part alta i la roca es reescalfa; després de pluges, el conglomerat pot relliscar. Els caps de setmana l'aparcament del coll d'Estenalles s'omple aviat."
+			"No té temporada tancada. A l'estiu, millor a primera hora perquè el camí té poca ombra a la part alta i la roca es reescalfa; després de pluges, el conglomerat pot relliscar. Els caps de setmana l'aparcament del coll d'Estenalles s'omple aviat."
 		],
 		es: [
 			"El Montcau es la segunda cima más alta del macizo de Sant Llorenç del Munt, solo superada por [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), que está a unos 4 km. La cima hace de límite entre Mura, [en el Bages](/comarques/bages), y Sant Llorenç Savall, en el Vallès Occidental, y está dentro del Parque Natural de Sant Llorenç del Munt i l'Obac. Visto desde el sur parece un monolito rocoso, aunque la cima es una cresta alargada de norte a sur.",
 			'Según la Viquipèdia, el nombre vendría del latín y significaría «montaña pelada», una descripción que encaja con la roca desnuda de la parte alta. Como todo el macizo, está hecho de conglomerados y lutitas, la misma piedra que da las formas redondeadas, los riscos y las cuevas de la zona. En la cima hay un vértice geodésico y una mesa de orientación que ayuda a identificar lo que se ve.',
 			'Y se ve mucho: hacia el norte, el Bages y, en días claros, la cordillera del Pirineo; hacia el sur, la Mola y la llanura del Vallès; y al oeste, Montserrat. Por su cercanía a Terrassa y Sabadell, es una de las cimas del reto más fáciles de encajar en una mañana, y combina muy bien con [Castellsapera](/cims/castellsapera) o con la propia Mola.',
-			"Se puede subir todo el año. En verano, mejor a primera hora porque el camino tiene poca sombra en la parte alta y la roca se recalienta; después de lluvias, el conglomerado puede resbalar. Los fines de semana el aparcamiento del coll d'Estenalles se llena pronto."
+			"No tiene temporada cerrada. En verano, mejor a primera hora porque el camino tiene poca sombra en la parte alta y la roca se recalienta; después de lluvias, el conglomerado puede resbalar. Los fines de semana el aparcamiento del coll d'Estenalles se llena pronto."
 		]
 	},
 	rutes: [
@@ -110,7 +110,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'El Montcau és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí. És un dels tres essencials del Bages, amb l’Elefant (Roca de Sant Salvador) i el Collbaix. Tot i compartir parc amb [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), compta per al Bages i no per al Vallès Occidental.'
 			}
 		],
 		es: [
@@ -131,7 +132,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿El Montcau es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí. Es una de las tres esenciales del Bages, con l’Elefant (Roca de Sant Salvador) y el Collbaix. Aunque comparte parque con [la Mola](/cims/la-mola-de-sant-llorenc-del-munt), cuenta para el Bages y no para el Vallès Occidental.'
 			}
 		]
 	},

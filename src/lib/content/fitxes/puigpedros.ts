@@ -31,14 +31,14 @@ const fitxa: ContingutFitxa = {
 	descripcio: {
 		ca: [
 			"El Puigpedrós és el sostre de la Baixa Cerdanya i el cim més alt de les comarques gironines. S'aixeca a la carena fronterera que separa [la Cerdanya](/comarques/cerdanya) de l'Alta Cerdanya, on es troben els termes de Meranges, Ger i Guils de Cerdanya amb el de Porta, i és dins l'espai protegit de la Tossa Plana de Lles-Puigpedrós. És una muntanya de granodiorita, ampla i de vessants suaus per la banda sud, envoltada de circs glacials i estanys.",
-			"El nom ho diu tot: un «puig» coronat de roca, perquè el cim és un caos de blocs de granit. A l'Alta Cerdanya també se li diu Puig de Campcardós, per l'altiplà que l'envolta i pels cards que creixen als prats a l'estiu. La pujada clàssica surt del refugi de Malniu, sobre Meranges, i passa pel circ glacial d'Engorgs i el refugi Joaquim Folch i Girona; per aquesta raó és una de les ascensions amb què molta gent s'estrena a l'alta muntanya a la Cerdanya.",
+			"El nom ho diu tot: un «puig» coronat de roca, perquè el cim és un caos de blocs de granit. A l'Alta Cerdanya també se li diu Puig de Campcardós, per l'altiplà que l'envolta i pels cards que creixen als prats a l'estiu. La pujada clàssica surt del refugi de Malniu, sobre Meranges, i passa pel circ glacial d'Engorgs i el refugi Joaquim Folch i Girona.",
 			"Des del cim, la vista abasta la plana de la Cerdanya, la serra del Cadí al sud, les muntanyes d'Andorra a ponent i el Canigó a llevant, a més dels estanys que queden als peus. A tocar, cap al sud-oest, s'estén la carena que porta a la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), un altre cim del repte.",
 			"La millor època va de finals de juny a principis d'octubre. Fora de temporada el cim és nevat i l'ascensió es fa amb raquetes o esquís, amb risc d'allaus. A l'estiu són habituals les tempestes de tarda, i la carena final, oberta i sense refugi, no és lloc per quedar-s'hi amb mal temps."
 		],
 		es: [
-			'El Puigpedrós es el techo de la Baixa Cerdanya y la cima más alta de las comarcas gerundenses. Se alza en la cresta fronteriza que separa [la Cerdanya](/comarques/cerdanya) de la Alta Cerdaña, donde se encuentran los municipios de Meranges, Ger y Guils de Cerdanya con el de Porta, y está dentro del espacio protegido de la Tossa Plana de Lles-Puigpedrós. Es una montaña de granodiorita, ancha y de laderas suaves por el lado sur, rodeada de circos glaciares y lagos.',
-			'El nombre lo dice todo: un «puig» coronado de roca, porque la cima es un caos de bloques de granito. En la Alta Cerdaña también se le llama Puig de Campcardós, por la altiplanicie que lo rodea y por los cardos que crecen en los prados en verano. La subida clásica sale del refugio de Malniu, sobre Meranges, y pasa por el circo glaciar de Engorgs y el refugio Joaquim Folch i Girona; por eso es una de las ascensiones con las que mucha gente se estrena en la alta montaña en la Cerdaña.',
-			'Desde la cima, la vista abarca la llanura de la Cerdaña, la sierra del Cadí al sur, las montañas de Andorra al oeste y el Canigó al este, además de los lagos que quedan a los pies. Al lado, hacia el suroeste, se extiende la cresta que lleva a la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), otra cima del reto.',
+			'El Puigpedrós es el techo de la Baixa Cerdanya y la cima más alta de las comarcas gerundenses. Se alza en la cresta fronteriza que separa [la Cerdanya](/comarques/cerdanya) de la Alta Cerdanya, donde se encuentran los municipios de Meranges, Ger y Guils de Cerdanya con el de Porta, y está dentro del espacio protegido de la Tossa Plana de Lles-Puigpedrós. Es una montaña de granodiorita, ancha y de laderas suaves por el lado sur, rodeada de circos glaciares y lagos.',
+			'El nombre lo dice todo: un «puig» coronado de roca, porque la cima es un caos de bloques de granito. En la Alta Cerdanya también se le llama Puig de Campcardós, por la altiplanicie que lo rodea y por los cardos que crecen en los prados en verano. La subida clásica sale del refugio de Malniu, sobre Meranges, y pasa por el circo glaciar de Engorgs y el refugio Joaquim Folch i Girona.',
+			'Desde la cima, la vista abarca la llanura de la Cerdanya, la sierra del Cadí al sur, las montañas de Andorra al oeste y el Canigó al este, además de los lagos que quedan a los pies. Al lado, hacia el suroeste, se extiende la cresta que lleva a la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), otra cima del reto.',
 			'La mejor época va de finales de junio a principios de octubre. Fuera de temporada la cima está nevada y la ascensión se hace con raquetas o esquís, con riesgo de aludes. En verano son habituales las tormentas de tarde, y la cresta final, abierta y sin refugio, no es lugar para quedarse con mal tiempo.'
 		]
 	},
@@ -109,7 +109,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Puigpedrós compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels [cims més alts del repte](/cims-mes-alts). Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí, i és el més alt dels quatre [cims essencials](/cims-essencials) de la Cerdanya, per sobre de la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), la Muga i la Carabassa. També surt a la llista dels [cims més alts del repte](/cims-mes-alts).'
 			}
 		],
 		es: [
@@ -131,7 +131,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Puigpedrós cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las [cimas más altas del reto](/cims-mes-alts). Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí, y es la más alta de las cuatro [cimas esenciales](/cims-essencials) de la Cerdanya, por encima de la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), la Muga y la Carabassa. También aparece en la lista de las [cimas más altas del reto](/cims-mes-alts).'
 			}
 		]
 	},

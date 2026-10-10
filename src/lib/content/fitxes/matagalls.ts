@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"El Matagalls és el cim del Montseny que mira a [Osona](/comarques/osona). La seva carena reparteix els termes del Brull i Viladrau amb el de Montseny, al Vallès Oriental, i forma part del Parc Natural del Montseny. És el tercer cim més alt del massís, després del Turó de l'Home i de [les Agudes](/cims/les-agudes), i el seu perfil arrodonit, pelat a la part alta pel vent, es reconeix des de tota la plana de Vic.",
 			"Al cim hi ha una gran creu dedicada a mossèn Cinto Verdaguer, un vèrtex geodèsic i una placa en record de Jaume Oliveras i Brossa, l'excursionista que va inspirar la travessa Matagalls-Montserrat, una caminada d'un dia que uneix les dues muntanyes. El segon diumenge de juliol s'hi celebra l'Aplec del Matagalls, amb més de setanta edicions. A finals del segle XVIII, el cim també va servir de punt de triangulació en la mesura del meridià de Dunkerque a Barcelona.",
 			'La vista és de les més completes de la Catalunya central: la plana de Vic i les Guilleries als peus, el Pirineu en dies clars, i cap al sud la resta del Montseny i les serralades del Vallès. Molt a prop hi ha també el [Tagamanent](/cims/tagamanent), un altre cim essencial del massís.',
-			"Es pot pujar tot l'any. A l'hivern la part alta pot tenir neu i gel, i a la carena hi bufa sovint un vent fort i fred; a l'estiu, en canvi, és un bon refugi de la calor de la plana. A la tardor les fagedes del vessant de Viladrau són especialment boniques."
+			"Cada estació hi té el seu caràcter. A l'hivern la part alta pot tenir neu i gel, i a la carena hi bufa sovint un vent fort i fred; a l'estiu, en canvi, és un bon refugi de la calor de la plana. A la tardor les fagedes del vessant de Viladrau són especialment boniques."
 		],
 		es: [
 			"El Matagalls es la cima del Montseny que mira a [Osona](/comarques/osona). Su cresta reparte los municipios de el Brull y Viladrau con el de Montseny, en el Vallès Oriental, y forma parte del Parque Natural del Montseny. Es la tercera cima más alta del macizo, tras el Turó de l'Home y [les Agudes](/cims/les-agudes), y su perfil redondeado, pelado en la parte alta por el viento, se reconoce desde toda la llanura de Vic.",
 			'En la cima hay una gran cruz dedicada a mosén Cinto Verdaguer, un vértice geodésico y una placa en recuerdo de Jaume Oliveras i Brossa, el excursionista que inspiró la travesía Matagalls-Montserrat, una caminata de un día que une las dos montañas. El segundo domingo de julio se celebra el Aplec del Matagalls, con más de setenta ediciones. A finales del siglo XVIII, la cima también sirvió de punto de triangulación en la medición del meridiano de Dunkerque a Barcelona.',
 			'La vista es de las más completas de la Cataluña central: la llanura de Vic y las Guilleries a los pies, el Pirineo en días claros y, hacia el sur, el resto del Montseny y las sierras del Vallès. Muy cerca está también el [Tagamanent](/cims/tagamanent), otra cima esencial del macizo.',
-			'Se puede subir todo el año. En invierno la parte alta puede tener nieve y hielo, y en la cresta sopla a menudo un viento fuerte y frío; en verano, en cambio, es un buen refugio del calor de la llanura. En otoño los hayedos de la vertiente de Viladrau son especialmente bonitos.'
+			'Cada estación le da un carácter propio. En invierno la parte alta puede tener nieve y hielo, y en la cresta sopla a menudo un viento fuerte y frío; en verano, en cambio, es un buen refugio del calor de la llanura. En otoño los hayedos de la vertiente de Viladrau son especialmente bonitos.'
 		]
 	},
 	rutes: [
@@ -98,7 +98,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'El Matagalls és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí, i és el més alt dels cinc essencials d’Osona, per sobre del Castell de Milany i de [Bellmunt](/cims/bellmunt). [Les Agudes](/cims/les-agudes), a l’altra banda del Montseny, compten per a la Selva.'
 			}
 		],
 		es: [
@@ -119,7 +120,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿El Matagalls es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí, y es la más alta de las cinco esenciales de Osona, por encima del Castell de Milany y de [Bellmunt](/cims/bellmunt). [Les Agudes](/cims/les-agudes), al otro lado del Montseny, cuentan para la Selva.'
 			}
 		]
 	},

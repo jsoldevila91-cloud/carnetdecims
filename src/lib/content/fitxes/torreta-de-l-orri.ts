@@ -31,13 +31,13 @@ const fitxa: ContingutFitxa = {
 	descripcio: {
 		ca: [
 			"La Torreta de l'Orri és el punt més alt del massís de l'Orri, la gran muntanya arrodonida que s'alça entre Sort i la Seu d'Urgell, al sud del Parc Natural de l'Alt Pirineu. El cim és al terme de Soriguera, [al Pallars Sobirà](/comarques/pallars-sobira), i limita amb el de Rialp. Pel vessant nord s'estén l'estació d'esquí de Port Ainé, i pel sud el massís baixa cap a les comes de Rubió i el Port del Cantó, a tocar [de l'Alt Urgell](/comarques/alt-urgell).",
-			"És fàcil de reconèixer de lluny per les dues grans antenes de telecomunicacions del cim, al costat d'un vèrtex geodèsic. La roca és de gres i lutites, i el relleu és de pales amples i prats d'alta muntanya, sense els esqueixos de granit dels cims veïns del Pirineu axial. La muntanya té fins i tot un lloc a la literatura: part de la novel·la «Una tempesta» (2009), d'Imma Monsó, hi passa.",
+			"És fàcil de reconèixer de lluny per les dues grans antenes de telecomunicacions del cim, al costat d'un vèrtex geodèsic. La roca és de gres i lutites, i el relleu és de pales amples i prats d'alta muntanya, sense les crestes esmolades dels cims veïns del Pirineu axial. La muntanya té fins i tot un lloc a la literatura: part de la novel·la «Una tempesta» (2009), d'Imma Monsó, hi passa.",
 			"Com que és una muntanya força aïllada, la vista és molt àmplia: cap al nord, la barrera del Pirineu axial; cap al sud, el Prepirineu, i cap a l'est, la cara nord de la serra del Cadí. És un bon mirador per aprendre a identificar els cims del Pallars i de l'Urgell, amb un esforç moderat si s'hi puja des de l'estació.",
 			"Es pot fer gairebé tot l'any. A l'estiu, la pujada des de Port Ainé és curta; a l'hivern, l'estació d'esquí ocupa el vessant i molta gent hi puja amb raquetes, però amb neu cal valorar el perill d'allaus fora de les pistes. El cim és molt exposat al vent: porta roba d'abric fins i tot a l'agost i baixa si s'acosta una tempesta."
 		],
 		es: [
 			"La Torreta de l'Orri es el punto más alto del macizo de l'Orri, la gran montaña redondeada que se alza entre Sort y La Seu d'Urgell, al sur del Parque Natural del Alt Pirineu. La cima está en el término de Soriguera, [en el Pallars Sobirà](/comarques/pallars-sobira), y limita con el de Rialp. Por la vertiente norte se extiende la estación de esquí de Port Ainé, y por el sur el macizo baja hacia las comes de Rubió y el Port del Cantó, junto [al Alt Urgell](/comarques/alt-urgell).",
-			'Se reconoce de lejos por las dos grandes antenas de telecomunicaciones de la cima, junto a un vértice geodésico. La roca es de areniscas y lutitas, y el relieve es de laderas amplias y prados de alta montaña, sin las aristas de granito de las cimas vecinas del Pirineo axial. La montaña tiene incluso un lugar en la literatura: parte de la novela «Una tempesta» (2009), de Imma Monsó, transcurre aquí.',
+			'Se reconoce de lejos por las dos grandes antenas de telecomunicaciones de la cima, junto a un vértice geodésico. La roca es de areniscas y lutitas, y el relieve es de laderas amplias y prados de alta montaña, sin las crestas afiladas de las cimas vecinas del Pirineo axial. La montaña tiene incluso un lugar en la literatura: parte de la novela «Una tempesta» (2009), de Imma Monsó, transcurre aquí.',
 			'Como es una montaña bastante aislada, la vista es muy amplia: hacia el norte, la barrera del Pirineo axial; hacia el sur, el Prepirineo, y hacia el este, la cara norte de la sierra del Cadí. Es un buen mirador para aprender a identificar las cimas del Pallars y del Urgell, con un esfuerzo moderado si se sube desde la estación.',
 			'Se puede hacer casi todo el año. En verano, la subida desde Port Ainé es corta; en invierno, la estación de esquí ocupa la ladera y mucha gente sube con raquetas, pero con nieve hay que valorar el peligro de aludes fuera de las pistas. La cima está muy expuesta al viento: lleva ropa de abrigo incluso en agosto y baja si se acerca una tormenta.'
 		]
@@ -53,8 +53,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 92,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És la pujada més curta i la més adequada per a famílies. S'arriba en cotxe per carretera asfaltada des de Rialp fins a l'estació, i es puja per les pistes d'esquí i el serrat de la Coma del Forn, amb marques grogues, fins al cim. Segons Reptes Muntanyencs, el cim és a 1 h 32 min i la major part del recorregut va per pistes, sense cap pas difícil. El desnivell entre l'estació i el cim és de menys de 500 m.",
-				es: 'Es la subida más corta y la más adecuada para familias. Se llega en coche por carretera asfaltada desde Rialp hasta la estación, y se sube por las pistas de esquí y el serrat de la Coma del Forn, con marcas amarillas, hasta la cima. Según Reptes Muntanyencs, la cima está a 1 h 32 min y la mayor parte del recorrido va por pistas, sin ningún paso difícil. El desnivel entre la estación y la cima es de menos de 500 m.'
+				ca: "És la pujada amb menys desnivell i la que té més sentit en família. S'arriba en cotxe per carretera asfaltada des de Rialp fins a l'estació, i es puja per les pistes d'esquí i el serrat de la Coma del Forn, amb marques grogues, fins al cim. Segons Reptes Muntanyencs, el cim és a 1 h 32 min i la major part del recorregut va per pistes, sense cap pas difícil. El desnivell entre l'estació i el cim és de menys de 500 m.",
+				es: 'Es la subida con menos desnivel y la que más sentido tiene en familia. Se llega en coche por carretera asfaltada desde Rialp hasta la estación, y se sube por las pistas de esquí y el serrat de la Coma del Forn, con marcas amarillas, hasta la cima. Según Reptes Muntanyencs, la cima está a 1 h 32 min y la mayor parte del recorrido va por pistas, sin ningún paso difícil. El desnivel entre la estación y la cima es de menos de 500 m.'
 			},
 			fonts: [REPTES, GOTERRIS]
 		},
@@ -107,7 +107,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "La Torreta de l'Orri compta com a cim essencial?",
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del Pallars Sobirà. Les condicions per validar-lo són a la [normativa del repte](/repte-100-cims/normativa).'
+					'Sí. El Pallars Sobirà té onze [cims essencials](/cims-essencials), de la [Pica d’Estats](/cims/pica-d-estats) avall, i la Torreta de l’Orri és el més baix de tots.'
 			}
 		],
 		es: [
@@ -129,7 +129,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "¿La Torreta de l'Orri cuenta como cima esencial?",
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del Pallars Sobirà. Las condiciones para validarla están en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. El Pallars Sobirà tiene once [cimas esenciales](/cims-essencials), de la [Pica d’Estats](/cims/pica-d-estats) hacia abajo, y la Torreta de l’Orri es la más baja de todas.'
 			}
 		]
 	},

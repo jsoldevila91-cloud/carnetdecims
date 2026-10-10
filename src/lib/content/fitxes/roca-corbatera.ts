@@ -36,16 +36,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'roca-corbatera',
 	descripcio: {
 		ca: [
-			"La Roca Corbatera és el punt més alt de la serra de Montsant i també el sostre [del Priorat](/comarques/priorat). El cim és al terme de la Morera de Montsant, dins del Parc Natural de la Serra de Montsant, i domina la Serra Major, l'altiplà calcari i pelat que corona el massís. Per sota, les cingleres de conglomerat cauen cap a Cornudella, Albarca i la vall del Montsant, i només es poden superar pels graus, els antics camins de pas que són una de les singularitats del parc.",
+			"La Roca Corbatera corona la serra de Montsant i és, alhora, el sostre [del Priorat](/comarques/priorat). El cim és al terme de la Morera de Montsant, dins del Parc Natural de la Serra de Montsant, i domina la Serra Major, l'altiplà calcari i pelat que corona el massís. Per sota, les cingleres de conglomerat cauen cap a Cornudella, Albarca i la vall del Montsant, i només es poden superar pels graus, els antics camins de pas que són una de les singularitats del parc.",
 			"Montsant és una muntanya de llarga tradició eremítica, i el camí al cim passa a prop de llocs que en són testimoni: l'ermita de la Mare de Déu de Montsant, al peu d'una cinglera, i la Cova Santa, on segons la llegenda van viure els primers ermitans. Ja a la carena hi ha el Crist de la Sang, una ofrena de la Secció Excursionista del Reus Deportiu per commemorar el centenari de l'excursionisme català (1876-1976). Al cim, al costat del vèrtex geodèsic, hi trobaràs un monòlit d'homenatge i un pessebre.",
 			"Per la seva posició aïllada, la vista és molt àmplia. Turisme Priorat explica que, amb dies clars, s'arriba a veure el Pirineu i fins i tot Mallorca. Més a prop es reconeixen la Serra Major i l'interior salvatge de Montsant, Siurana, el pantà, el Priorat de vinyes i costers i, cap al nord-est, les muntanyes de Prades, on s'alça [el Tossal de la Baltasana](/cims/tossal-de-la-baltasana).",
-			"Es pot pujar tot l'any, però a l'estiu fa molta calor i hi ha poca ombra: el parc recomana sortir a primera hora o a mitja tarda. Amb boira, la Serra Major és un altiplà sense referències i el parc desaconsella accedir-hi. A la tardor i a la primavera és quan el Montsant es gaudeix més."
+			"L'estiu és la temporada difícil: fa molta calor i hi ha poca ombra, i per això el parc recomana sortir a primera hora o a mitja tarda. Amb boira, la Serra Major és un altiplà sense referències i el parc desaconsella accedir-hi. A la tardor i a la primavera és quan el Montsant es gaudeix més."
 		],
 		es: [
-			'La Roca Corbatera es el punto más alto de la sierra de Montsant y también el techo [del Priorat](/comarques/priorat). La cima está en el término de la Morera de Montsant, dentro del Parque Natural de la Serra de Montsant, y domina la Serra Major, el altiplano calcáreo y pelado que corona el macizo. Por debajo, los riscos de conglomerado caen hacia Cornudella, Albarca y el valle del Montsant, y solo se pueden superar por los graus, los antiguos pasos de montaña que son una de las singularidades del parque.',
+			'La Roca Corbatera corona la sierra de Montsant y es, a la vez, el techo [del Priorat](/comarques/priorat). La cima está en el término de la Morera de Montsant, dentro del Parque Natural de la Serra de Montsant, y domina la Serra Major, el altiplano calcáreo y pelado que corona el macizo. Por debajo, los riscos de conglomerado caen hacia Cornudella, Albarca y el valle del Montsant, y solo se pueden superar por los graus, los antiguos pasos de montaña que son una de las singularidades del parque.',
 			'Montsant es una montaña de larga tradición eremítica, y el camino a la cima pasa cerca de lugares que lo atestiguan: la ermita de la Mare de Déu de Montsant, al pie de un risco, y la Cova Santa, donde según la leyenda vivieron los primeros ermitaños. Ya en la cresta está el Crist de la Sang, una ofrenda de la Secció Excursionista del Reus Deportiu para conmemorar el centenario del excursionismo catalán (1876-1976). En la cima, junto al vértice geodésico, encontrarás un monolito de homenaje y un belén.',
 			'Por su posición aislada, la vista es muy amplia. Turisme Priorat explica que, en días claros, se llega a ver el Pirineo e incluso Mallorca. Más cerca se reconocen la Serra Major y el interior salvaje de Montsant, Siurana y su embalse, el Priorat de viñas y laderas y, hacia el nordeste, las montañas de Prades, donde se alza [el Tossal de la Baltasana](/cims/tossal-de-la-baltasana).',
-			'Se puede subir todo el año, pero en verano hace mucho calor y hay poca sombra: el parque recomienda salir a primera hora o a media tarde. Con niebla, la Serra Major es un altiplano sin referencias y el parque desaconseja acceder a ella. En otoño y en primavera es cuando más se disfruta el Montsant.'
+			'El verano es la temporada difícil: hace mucho calor y hay poca sombra, y por eso el parque recomienda salir a primera hora o a media tarde. Con niebla, la Serra Major es un altiplano sin referencias y el parque desaconseja acceder a ella. En otoño y en primavera es cuando más se disfruta el Montsant.'
 		]
 	},
 	rutes: [
@@ -59,8 +59,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 60,
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "És l'accés més suau al cim. Des d'Albarca es va cap a l'oest pel GR, passant pels Hostalets, i es puja per bosc fins a la pista d'Ulldemolins i el Pla del Grau Gran; allà es deixa la pista i un sender marcat com a PR porta fins al cim. Segons l'Agrupació Excursionista de Catalunya, el cim és a uns 60 minuts del poble, i la part alta és de terreny pedregós i vegetació escassa. Es pot tornar pel mateix camí o baixar per l'ermita de la Mare de Déu.",
-				es: 'Es el acceso más suave a la cima. Desde Albarca se va hacia el oeste por el GR, pasando por los Hostalets, y se sube por bosque hasta la pista de Ulldemolins y el Pla del Grau Gran; allí se deja la pista y un sendero marcado como PR lleva hasta la cima. Según la Agrupació Excursionista de Catalunya, la cima está a unos 60 minutos del pueblo, y la parte alta es de terreno pedregoso y vegetación escasa. Se puede volver por el mismo camino o bajar por la ermita de la Mare de Déu.'
+				ca: "És l'accés més suau al cim. Des d'Albarca es va cap a l'oest pel GR, passant pels Hostalets, i es puja per bosc fins a la pista d'Ulldemolins i el Pla del Grau Gran; allà es deixa la pista i un sender marcat com a PR porta fins al cim. Segons l'Agrupació Excursionista de Catalunya, el cim és a uns 60 minuts del poble, i la part alta és de terreny pedregós i vegetació escassa. De tornada, o desfàs el camí o baixes per l'ermita de la Mare de Déu.",
+				es: 'Es el acceso más suave a la cima. Desde Albarca se va hacia el oeste por el GR, pasando por los Hostalets, y se sube por bosque hasta la pista de Ulldemolins y el Pla del Grau Gran; allí se deja la pista y un sendero marcado como PR lleva hasta la cima. Según la Agrupació Excursionista de Catalunya, la cima está a unos 60 minutos del pueblo, y la parte alta es de terreno pedregoso y vegetación escasa. Para volver, o deshaces el camino o bajas por la ermita de la Mare de Déu.'
 			},
 			fonts: [AEC, PARC_IT11]
 		},
@@ -122,12 +122,12 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Es pot pujar a la Roca Corbatera amb nens?',
 				resposta:
-					"Des d'Albarca pel Grau Gran és una sortida assequible per a famílies que ja caminen, amb poc més d'una hora de pujada. Evita els dies de boira i de calor, i vigila a prop de les cingleres de la Serra Major."
+					"Des d'Albarca pel Grau Gran és una sortida assequible per a famílies que ja caminen, amb una hora de pujada aproximadament. Evita els dies de boira i de calor, i vigila a prop de les cingleres de la Serra Major."
 			},
 			{
 				pregunta: 'La Roca Corbatera és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i el punt més alt del Priorat.'
+					'Sí. Al Priorat no hi ha cap altre [cim essencial](/cims-essencials), i aquest n’és a més el sostre. Si hi vols sumar l’ermita de la Mare de Déu de Montsant, l’itinerari 11 del parc hi passa.'
 			}
 		],
 		es: [
@@ -144,12 +144,12 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Se puede subir a la Roca Corbatera con niños?',
 				resposta:
-					'Desde Albarca por el Grau Gran es una salida asequible para familias que ya caminan, con poco más de una hora de subida. Evita los días de niebla y de calor, y vigila cerca de los riscos de la Serra Major.'
+					'Desde Albarca por el Grau Gran es una salida asequible para familias que ya caminan, con una hora de subida aproximadamente. Evita los días de niebla y de calor, y vigila cerca de los riscos de la Serra Major.'
 			},
 			{
 				pregunta: '¿La Roca Corbatera es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y el punto más alto del Priorat.'
+					'Sí. En el Priorat no hay ninguna otra [cima esencial](/cims-essencials), y esta es además su techo. Si quieres sumar la ermita de la Mare de Déu de Montsant, el itinerario 11 del parque pasa por ella.'
 			}
 		]
 	},

@@ -39,13 +39,13 @@ const fitxa: ContingutFitxa = {
 			"Lo Pilar d'Almenara corona la serra d'Almenara, damunt del poble d'Almenara Alta, al municipi d'Agramunt, [a l'Urgell](/comarques/urgell). És un turó modest, de gresos, lutites i margues, que s'aixeca sobre la plana agrícola i forma part de l'espai natural protegit de Bellmunt-Almenara. Tot i la poca altitud, és la gran referència visual de la comarca: la silueta de la torre es reconeix des de molts quilòmetres a la rodona.",
 			"El nom del cim ve de la torre que l'ocupa. El Pilar és una torre de guaita circular dels segles XI-XII, d'uns 14 metres d'alçada segons l'Ajuntament d'Agramunt, construïda després de la conquesta cristiana per vigilar les incursions sarraïnes, com les de Verdú o Guimerà. Està declarada bé cultural d'interès nacional. S'hi pot entrar: unes escales exteriors porten a la porta i, a dins, unes escales verticals de ferro pugen fins al terrat. Al costat hi ha les restes de l'ermita romànica de Sant Vicenç i un vèrtex geodèsic.",
 			"Des del terrat de la torre la vista és circular: la plana de l'Urgell, la vall del Sió i, segons l'Ajuntament, en dies ben clars fins i tot la Seu Vella de Lleida. També es veu el contrast entre el regadiu que va portar el Canal d'Urgell i el secà de la serra, on viuen ocells estepàris i rapinyaires. No gaire lluny hi ha altres cims planers del repte, com [la Fita Alta](/cims/la-fita-alta) o [el Tossal Gros de Vallbona](/cims/tossal-gros-de-vallbona).",
-			"Es pot visitar tot l'any. La primavera, amb els camps verds i florits, és el millor moment segons Mont Editorial; a l'estiu la plana és molt calorosa i no hi ha ombra, i a l'hivern la boira de la Depressió Central pot tapar la vista durant dies."
+			"Cada estació hi dona un paisatge diferent. La primavera, amb els camps verds i florits, és el millor moment segons Mont Editorial; a l'estiu la plana és molt calorosa i no hi ha ombra, i a l'hivern la boira de la Depressió Central pot tapar la vista durant dies."
 		],
 		es: [
 			"Lo Pilar d'Almenara corona la sierra de Almenara, sobre el pueblo de Almenara Alta, en el municipio de Agramunt, [en el Urgell](/comarques/urgell). Es una loma modesta, de areniscas, lutitas y margas, que se levanta sobre la llanura agrícola y forma parte del espacio natural protegido de Bellmunt-Almenara. Pese a la poca altitud, es la gran referencia visual de la comarca: la silueta de la torre se reconoce desde muchos kilómetros a la redonda.",
 			'El nombre de la cima viene de la torre que la ocupa. El Pilar es una torre de vigía circular de los siglos XI-XII, de unos 14 metros de altura según el Ayuntamiento de Agramunt, construida tras la conquista cristiana para vigilar las incursiones sarracenas, como las de Verdú o Guimerà. Está declarada bien cultural de interés nacional. Se puede entrar: unas escaleras exteriores llevan a la puerta y, dentro, unas escaleras verticales de hierro suben hasta la terraza. Al lado están los restos de la ermita románica de Sant Vicenç y un vértice geodésico.',
 			"Desde la terraza de la torre la vista es circular: la llanura del Urgell, el valle del Sió y, según el Ayuntamiento, en días muy claros incluso la Seu Vella de Lleida. También se ve el contraste entre el regadío que trajo el Canal d'Urgell y el secano de la sierra, donde viven aves esteparias y rapaces. No muy lejos hay otras cimas llanas del reto, como [la Fita Alta](/cims/la-fita-alta) o [el Tossal Gros de Vallbona](/cims/tossal-gros-de-vallbona).",
-			'Se puede visitar todo el año. La primavera, con los campos verdes y en flor, es el mejor momento según Mont Editorial; en verano la llanura es muy calurosa y no hay sombra, y en invierno la niebla de la Depresión Central puede tapar la vista durante días.'
+			'Cada estación le da un paisaje distinto. La primavera, con los campos verdes y en flor, es el mejor momento según Mont Editorial; en verano la llanura es muy calurosa y no hay sombra, y en invierno la niebla de la Depresión Central puede tapar la vista durante días.'
 		]
 	},
 	rutes: [
@@ -59,8 +59,8 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 7,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És l'accés més curt i el que fan moltes famílies. Es deixa el cotxe al costat del rètol de la LV-3231, poc abans del coll, i un caminet fàcil porta a la base de la torre en 5–7 minuts, gairebé sense desnivell, segons l'Ajuntament d'Agramunt i Totnens.",
-				es: 'Es el acceso más corto y el que hacen muchas familias. Se deja el coche junto al cartel de la LV-3231, poco antes del collado, y un caminito fácil lleva a la base de la torre en 5–7 minutos, casi sin desnivel, según el Ayuntamiento de Agramunt y Totnens.'
+				ca: "És la manera més ràpida d'arribar-hi, i la que trien moltes famílies. Es deixa el cotxe al costat del rètol de la LV-3231, poc abans del coll, i un caminet fàcil porta a la base de la torre en 5–7 minuts, gairebé sense desnivell, segons l'Ajuntament d'Agramunt i Totnens.",
+				es: 'Es la forma más rápida de llegar, y la que eligen muchas familias. Se deja el coche junto al cartel de la LV-3231, poco antes del collado, y un caminito fácil lleva a la base de la torre en 5–7 minutos, casi sin desnivel, según el Ayuntamiento de Agramunt y Totnens.'
 			},
 			fonts: [TOTNENS, AJUNTAMENT]
 		},
@@ -113,7 +113,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: "Lo Pilar d'Almenara és un cim essencial?",
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí, i és l’únic [cim essencial](/cims-essencials) de l’Urgell. La [normativa](/repte-100-cims/normativa) no fixa des d’on s’ha de començar a caminar, així que la pujada curta des de la LV-3231 també compta, sempre que l’últim tram el facis a peu.'
 			}
 		],
 		es: [
@@ -134,7 +135,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: "¿Lo Pilar d'Almenara es una cima esencial?",
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí, y es la única [cima esencial](/cims-essencials) del Urgell. La [normativa](/repte-100-cims/normativa) no fija desde dónde hay que empezar a caminar, así que la subida corta desde la LV-3231 también cuenta, siempre que el último tramo lo hagas a pie.'
 			}
 		]
 	},

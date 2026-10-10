@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Canigó és la muntanya símbol de la [Catalunya Nord](/comarques/catalunya-nord). S'aixeca entre el Conflent i el Vallespir, i des de la plana del Rosselló sembla molt més alt del que és perquè gairebé no té muntanyes al davant. La pica, també anomenada pic de Balaig, fa de límit entre els termes de Taurinyà i de Vernet. Des del 2012 el massís té la distinció francesa de Grand Site de France, amb el nom escrit en la grafia catalana.",
 			"Pocs cims tenen tanta càrrega simbòlica. La tradició atribueix la primera ascensió al rei Pere el Gran, el 1285, i Jacint Verdaguer en va fer el centre del seu poema «Canigó». Cada 22 de juny s'hi encén la **Flama del Canigó**, que es vetlla al cim tota la nit i baixa l'endemà per encendre les fogueres de Sant Joan a tots els Països Catalans. Al cim hi ha una creu de ferro, on sovint onegen senyeres. I té també un paper científic: a finals del segle XVIII es va fer servir com a vèrtex en la mesura del meridià que va servir per definir el metre.",
 			"Com que s'aixeca sol a l'extrem oriental del Pirineu, la vista és molt àmplia: la plana del Rosselló i la costa cap a l'est, el Conflent als peus i, cap a ponent, la carena pirinenca amb el [Puig de Tretzevents](/cims/puig-de-tretzevents) a tocar i les muntanyes del Ripollès i la Cerdanya més enllà.",
-			"La temporada bona va de juny a octubre. Al voltant de Sant Joan hi ha molta gent per la Flama. A l'hivern i a la primavera el cim és nevat i la xemeneia pot tenir gel: aleshores és una ascensió d'alta muntanya."
+			"De juny a octubre és quan la muntanya té menys neu i la xemeneia està seca. Al voltant de Sant Joan hi ha molta gent per la Flama. A l'hivern i a la primavera el cim és nevat i la xemeneia pot tenir gel: aleshores és una ascensió d'alta muntanya."
 		],
 		es: [
 			'El Canigó es la montaña símbolo de la [Cataluña Norte](/comarques/catalunya-nord). Se alza entre el Conflent y el Vallespir, y desde la llanura del Rosellón parece mucho más alto de lo que es porque apenas tiene montañas delante. La cima, también llamada pic de Balaig, hace de límite entre los municipios de Taurinyà y Vernet. Desde 2012 el macizo tiene la distinción francesa de Grand Site de France, con el nombre escrito en su grafía catalana.',
 			'Pocas cimas tienen tanta carga simbólica. La tradición atribuye la primera ascensión al rey Pedro el Grande, en 1285, y Jacint Verdaguer lo convirtió en el centro de su poema «Canigó». Cada 22 de junio se enciende allí la **Flama del Canigó**, que se vela en la cima toda la noche y baja al día siguiente para encender las hogueras de San Juan en todos los territorios de habla catalana. En la cima hay una cruz de hierro, donde a menudo ondean senyeras. Y tiene también un papel científico: a finales del siglo XVIII sirvió de vértice en la medición del meridiano con la que se definió el metro.',
 			'Como se alza solo en el extremo oriental del Pirineo, la vista es muy amplia: la llanura del Rosellón y la costa hacia el este, el Conflent a los pies y, hacia el oeste, la cresta pirenaica con el [Puig de Tretzevents](/cims/puig-de-tretzevents) al lado y las montañas del Ripollès y la Cerdaña más allá.',
-			'La buena temporada va de junio a octubre. Alrededor de San Juan hay mucha gente por la Flama. En invierno y primavera la cima está nevada y la chimenea puede tener hielo: entonces es una ascensión de alta montaña.'
+			'De junio a octubre es cuando la montaña tiene menos nieve y la chimenea está seca. Alrededor de San Juan hay mucha gente por la Flama. En invierno y primavera la cima está nevada y la chimenea puede tener hielo: entonces es una ascensión de alta montaña.'
 		]
 	},
 	rutes: [
@@ -108,7 +108,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Canigó compta com a cim essencial del repte?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) i un dels cims de la Catalunya Nord inclosos al repte. Les condicions de validació són a la [normativa](/repte-100-cims/normativa).'
+					'Sí. És un dels vuit essencials de la Catalunya Nord; no és el més alt, perquè el [Carlit](/cims/carlit) el supera, però sí la muntanya símbol del país. Val qualsevol vessant: tant per Marialles com per Cortalets.'
 			}
 		],
 		es: [
@@ -130,7 +130,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Canigó cuenta como cima esencial del reto?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) y una de las cimas de la Cataluña Norte incluidas en el reto. Las condiciones de validación están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. Es una de las ocho esenciales de la Cataluña Norte; no es la más alta, porque el [Carlit](/cims/carlit) la supera, pero sí la montaña símbolo del país. Vale cualquier vertiente: tanto por Marialles como por Cortalets.'
 			}
 		]
 	},

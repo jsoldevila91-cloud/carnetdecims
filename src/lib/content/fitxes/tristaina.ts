@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"La Tristaina és la muntanya que tanca pel nord la vall d'Arcalís, a la parròquia d'Ordino, [a Andorra](/comarques/andorra). La seva carena fa de frontera amb França i té diverses puntes; la més alta és el pic de Tristaina, el que compta per al repte. Als peus, en un circ glacial obert al sud, hi ha els tres estanys de Tristaina, un dels paisatges d'alta muntanya més visitats del país.",
 			"Tot el sector és dins del domini d'Ordino-Arcalís, i l'estació d'esquí fa que el punt de partida ja sigui a més de 2.000 m. Al començament del camí dels estanys hi ha l'escultura Arcalís 91, de l'artista Mauro Staccioli. Els estanys s'escalonen al llarg de la pujada: el Primer, el del Mig i el de Més Amunt, l'últim a uns 2.330 m segons Visit Andorra. Per sobre, el camí abandona la zona de passeig i entra en terreny de muntanya de debò.",
 			"VisitOrdino reconeix que no és dels cims més alts d'Andorra, però el recomana per les vistes. Des de la carena fronterera es dominen alhora els estanys de Tristaina, a un costat, i les valls de l'Arieja, a l'altre. A la mateixa parròquia d'Ordino hi ha un altre cim essencial ben diferent, el [Casamanya](/cims/casamanya-nord), i a l'oest s'aixeca el [Comapedrosa](/cims/comapedrosa), sostre del país.",
-			"La temporada habitual per pujar a peu va de juliol a principi d'octubre; abans hi sol haver neu a les canals i a la tartera de sota la carena. A l'estiu, la carretera d'Arcalís es talla al trànsit durant el dia, i les tempestes de tarda són freqüents: comença d'hora per poder-les evitar."
+			"A peu, el camí sol estar net de neu de juliol a principi d'octubre; abans hi sol haver neu a les canals i a la tartera de sota la carena. A l'estiu, la carretera d'Arcalís es talla al trànsit durant el dia, i les tempestes de tarda són freqüents: comença d'hora per poder-les evitar."
 		],
 		es: [
 			'La Tristaina es la montaña que cierra por el norte el valle de Arcalís, en la parroquia de Ordino, [en Andorra](/comarques/andorra). Su cresta hace de frontera con Francia y tiene varias puntas; la más alta es el pic de Tristaina, el que cuenta para el reto. A sus pies, en un circo glaciar abierto al sur, están los tres lagos de Tristaina, uno de los paisajes de alta montaña más visitados del país.',
 			'Todo el sector está dentro del dominio de Ordino-Arcalís, y la estación de esquí hace que el punto de partida ya esté a más de 2.000 m. Al principio del camino de los lagos está la escultura Arcalís 91, del artista Mauro Staccioli. Los lagos se escalonan a lo largo de la subida: el Primer, el del Mig y el de Més Amunt, el último a unos 2.330 m según Visit Andorra. Por encima, el camino deja la zona de paseo y entra en terreno de montaña de verdad.',
 			'VisitOrdino reconoce que no es de las cimas más altas de Andorra, pero la recomienda por las vistas. Desde la cresta fronteriza se dominan a la vez los lagos de Tristaina, a un lado, y los valles del Ariège, al otro. En la misma parroquia de Ordino hay otra cima esencial muy distinta, el [Casamanya](/cims/casamanya-nord), y al oeste se alza el [Comapedrosa](/cims/comapedrosa), techo del país.',
-			'La temporada habitual para subir a pie va de julio a principios de octubre; antes suele haber nieve en las canales y en la pedrera bajo la cresta. En verano, la carretera de Arcalís se corta al tráfico durante el día, y las tormentas de tarde son frecuentes: empieza temprano para poder evitarlas.'
+			'A pie, el camino suele estar libre de nieve de julio a principios de octubre; antes es habitual encontrarla en las canales y en la pedrera bajo la cresta. En verano, la carretera de Arcalís se corta al tráfico durante el día, y las tormentas de tarde son frecuentes: empieza temprano para poder evitarlas.'
 		]
 	},
 	rutes: [
@@ -87,7 +87,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Tristaina compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) d'Andorra. Pots consultar com es valida a la [normativa del repte](/repte-100-cims/normativa)."
+					'Sí. Per altitud, és el tercer dels [cims essencials](/cims-essencials) andorrans, després del Comapedrosa i la [Serrera](/cims/pic-de-la-serrera). Recorda que el que compta és el pic, no els estanys.'
 			}
 		],
 		es: [
@@ -109,7 +109,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Tristaina cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) de Andorra. Puedes consultar cómo se valida en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. Por altitud, es la tercera de las [cimas esenciales](/cims-essencials) andorranas, después del Comapedrosa y la [Serrera](/cims/pic-de-la-serrera). Recuerda que lo que cuenta es el pico, no los lagos.'
 			}
 		]
 	},

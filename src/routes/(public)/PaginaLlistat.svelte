@@ -19,6 +19,7 @@
 	 * - `noindex`: llistats amb massa pocs cims (contingut prim, `llistatIndexable`).
 	 * - `avisos`: contingut addicional de la capçalera (p. ex. "no és el MIDE" i l'enllaç a la
 	 *   metodologia als llistats de dificultat).
+	 * - `detall`: línia opcional sota cada cim (`LlistaCims`), p. ex. la ruta per anar-hi amb nens.
 	 */
 	let {
 		id,
@@ -32,7 +33,8 @@
 		dificultats,
 		nota,
 		noindex = false,
-		avisos
+		avisos,
+		detall
 	}: {
 		id: LlistatId;
 		cims: readonly CimCataleg[];
@@ -48,6 +50,7 @@
 		nota?: string;
 		noindex?: boolean;
 		avisos?: Snippet;
+		detall?: Snippet<[CimCataleg]>;
 	} = $props();
 
 	const locale = getLocale();
@@ -93,12 +96,12 @@
 					<a href={href(`/comarques/${comarca.slug}`)}>{comarca.nom}</a>
 					<span class="count mono">{delGrup.length}</span>
 				</h2>
-				<LlistaCims cims={delGrup} {dificultats} />
+				<LlistaCims cims={delGrup} {dificultats} {detall} />
 			</section>
 		{/each}
 	</div>
 {:else}
-	<LlistaCims {cims} ordenada meta={nomComarca} {dificultats} />
+	<LlistaCims {cims} ordenada meta={nomComarca} {dificultats} {detall} />
 {/if}
 
 <nav class="altres" aria-label={m.explore_label()}>

@@ -57,13 +57,13 @@ const fitxa: ContingutFitxa = {
 			"El Tagamanent és el turó que tanca per l'oest el pla de la Calma, l'altiplà de pastures del Montseny, i cau en cingleres sobre la vall del Congost. Pertany al municipi de Tagamanent, [al Vallès Oriental](/comarques/valles-oriental), dins del Parc Natural del Montseny. Segons la Viquipèdia, el turó és de calcàries i dolomies, i des de la vall del Congost es reconeix pel seu perfil de penya-segat.",
 			"Al capdamunt hi ha l'església de **Santa Maria de Tagamanent** i les restes del castell, que ja apareix documentat l'any 945 i que va dependre dels comtes de Barcelona. L'església és romànica, del segle XII, però el terratrèmol del 1448 la va malmetre i es va refer sobre les ruïnes. El conjunt és bé cultural d'interès nacional i la Diputació de Barcelona hi va acabar unes obres de consolidació el 2019. Pel camí es passa per les ruïnes de l'ermita de Sant Martí, i a la sortida hi ha la masia del Bellver, que avui fa de punt d'informació del parc i de restaurant.",
 			"És un mirador molt complet per al poc esforç que demana: a sota hi ha la vall del Congost i, al davant, els cingles de Bertí; més enllà es veuen [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) i Montserrat, i cap al nord-est el [Matagalls](/cims/matagalls) i la resta del Montseny. Segons l'Ajuntament de Figaró-Montmany, en dies clars la vista abasta del Canigó al Port del Comte.",
-			"Es pot pujar tot l'any. Per la pista que porta al Bellver hi pot haver gel o neu algun dia d'hivern, i a l'estiu el pla de la Calma és més fresc que la plana, però a ple sol. Els caps de setmana és una sortida molt concorreguda per famílies."
+			"No hi ha mala època per pujar-hi. Per la pista que porta al Bellver hi pot haver gel o neu algun dia d'hivern, i a l'estiu el pla de la Calma és més fresc que la plana, però a ple sol. Els caps de setmana és una sortida molt concorreguda per famílies."
 		],
 		es: [
 			'El Tagamanent es el cerro que cierra por el oeste el pla de la Calma, la meseta de pastos del Montseny, y cae en riscos sobre el valle del Congost. Pertenece al municipio de Tagamanent, [en el Vallès Oriental](/comarques/valles-oriental), dentro del Parque Natural del Montseny. Según la Viquipèdia, el cerro es de calizas y dolomías, y desde el valle del Congost se reconoce por su perfil de acantilado.',
 			'En lo alto está la iglesia de **Santa Maria de Tagamanent** y los restos del castillo, documentado ya en el año 945 y que dependió de los condes de Barcelona. La iglesia es románica, del siglo XII, pero el terremoto de 1448 la dañó y se rehízo sobre las ruinas. El conjunto es bien cultural de interés nacional y la Diputación de Barcelona terminó en él unas obras de consolidación en 2019. Por el camino se pasa por las ruinas de la ermita de Sant Martí, y en la salida está la masía del Bellver, que hoy es punto de información del parque y restaurante.',
 			'Es un mirador muy completo para el poco esfuerzo que pide: abajo queda el valle del Congost y, enfrente, los riscos de Bertí; más allá se ven [la Mola](/cims/la-mola-de-sant-llorenc-del-munt) y Montserrat, y hacia el nordeste el [Matagalls](/cims/matagalls) y el resto del Montseny. Según el Ayuntamiento de Figaró-Montmany, en días claros la vista abarca del Canigó al Port del Comte.',
-			'Se puede subir todo el año. En la pista que lleva al Bellver puede haber hielo o nieve algún día de invierno, y en verano el pla de la Calma es más fresco que la llanura, pero a pleno sol. Los fines de semana es una salida muy concurrida por familias.'
+			'No hay mala época para subir. En la pista que lleva al Bellver puede haber hielo o nieve algún día de invierno, y en verano el pla de la Calma es más fresco que la llanura, pero a pleno sol. Los fines de semana es una salida muy concurrida por familias.'
 		]
 	},
 	rutes: [
@@ -74,14 +74,17 @@ const fitxa: ContingutFitxa = {
 			tempsMinuts: 30,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "És l'accés més curt i el més familiar. Del punt d'informació del Bellver es baixa entre feixes fins al coll de Sant Martí i un corriol ben fressat entre alzines s'enfila, sense cap pas complicat, fins a l'església. Segons Ecologistes de Catalunya i Sarrià Petits, petits i grans hi arriben en una mitja hora.",
-				es: 'Es el acceso más corto y el más familiar. Desde el punto de información del Bellver se baja entre bancales hasta el coll de Sant Martí y un sendero muy pisado entre encinas sube, sin ningún paso complicado, hasta la iglesia. Según Ecologistas de Cataluña y Sarrià Petits, pequeños y mayores llegan en una media hora.'
+				ca: "Accés curt, pensat per anar-hi en família. Del punt d'informació del Bellver es baixa entre feixes fins al coll de Sant Martí i un corriol ben fressat entre alzines s'enfila, sense cap pas complicat, fins a l'església. Segons Ecologistes de Catalunya i Sarrià Petits, petits i grans hi arriben en una mitja hora.",
+				es: 'Acceso corto, pensado para ir en familia. Desde el punto de información del Bellver se baja entre bancales hasta el coll de Sant Martí y un sendero muy pisado entre encinas sube, sin ningún paso complicado, hasta la iglesia. Según Ecologistes de Catalunya y Sarrià Petits, pequeños y mayores llegan en una media hora.'
 			},
 			fonts: [ECOLOGISTES, SARRIAPETITS, DIBA, TOTNENS]
 		},
 		{
 			id: 'figaro',
-			nom: { ca: 'Des de Figaró pel PR-C 33', es: 'Desde Figaró por el PR-C 33' },
+			nom: {
+				ca: "Des de l'estació de Figaró per la creu de Can Coll",
+				es: 'Desde la estación de Figaró por la creu de Can Coll'
+			},
 			sortida: { nom: 'Figaró (Figaró-Montmany)' },
 			tempsMinuts: 150,
 			descripcio: {
@@ -127,14 +130,14 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Tagamanent és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte. Es pot combinar amb una passejada pel pla de la Calma o, en una altra sortida, amb el [Matagalls](/cims/matagalls).'
+					'Sí. El Vallès Oriental en té dos, el Tagamanent i el Pic del Vent, i el Tagamanent és el més alt. El [Matagalls](/cims/matagalls), al mateix massís del Montseny, ja compta per a Osona.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al Tagamanent?',
 				resposta:
-					'Desde el Bellver, una media hora por un sendero sin dificultad, según Ecologistas de Cataluña. Desde la estación de Figaró, unas 2 h 30 min de ida con una subida sostenida, según De ruta en ruta.'
+					'Desde el Bellver, una media hora por un sendero sin dificultad, según Ecologistes de Catalunya. Desde la estación de Figaró, unas 2 h 30 min de ida con una subida sostenida, según De ruta en ruta.'
 			},
 			{
 				pregunta: '¿Se puede subir al Tagamanent con niños?',
@@ -149,7 +152,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Tagamanent es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto. Se puede combinar con un paseo por el pla de la Calma o, en otra salida, con el [Matagalls](/cims/matagalls).'
+					'Sí. El Vallès Oriental tiene dos, el Tagamanent y el Pic del Vent, y el Tagamanent es la más alta. El [Matagalls](/cims/matagalls), en el mismo macizo del Montseny, ya cuenta para Osona.'
 			}
 		]
 	},

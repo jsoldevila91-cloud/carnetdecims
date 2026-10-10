@@ -39,13 +39,13 @@ const fitxa: ContingutFitxa = {
 			"El Carlit (Pic Carlit o Pica del Carlit; pic Carlit en francès) és el cim més alt de tota la Cerdanya i de la [Catalunya Nord](/comarques/catalunya-nord). És al terme d'Angostrina i Vilanova de les Escaldes, a l'Alta Cerdanya, i dona nom a un massís granític que fa de frontera natural entre la Cerdanya i el Capcir, al sud, i les terres occitanes del nord. Del seu entorn neixen tres aigües: l'Aravó a ponent, la Tet a llevant, en un circ glacial, i el riu d'Angostrina al sud.",
 			"El que fa únic el Carlit és l'altiplà d'estanys que s'estén als seus peus. L'aproximació clàssica des de les Bulloses passa per una corrua de llacs d'origen glacial (el Viver, les Dugues, els Trebens, el Sobirà…) abans d'enfilar-se pel con final de granit. També té una història curiosa: tot i que sovint es cita l'ascensió de Henry Russell el 1864, el 1611 ja hi havia pujat el clergue Joan Trigall en una expedició científica. Sobre l'origen del nom no hi ha acord: Joan Coromines el relaciona amb un «desert de cards», i altres autors li busquen un origen basc.",
 			"Com que no té cap cim més alt al voltant, la vista és immensa: el Canigó a llevant, la serra del Cadí i la Pica d'Estats al sud-oest i, en dies clars, el Mont Valier, ja a l'Arieja. Als peus queden els estanys del massís, i al nord-est el veí [Puig Peric](/cims/puig-peric), un altre cim del repte.",
-			"La temporada bona va de juny a octubre. A principis d'estiu pot quedar neu a les canals del con final i, a l'hivern, és una ascensió d'alta muntanya. Al juliol i a l'agost hi puja molta gent, i les tempestes de tarda són freqüents: cal sortir d'hora."
+			"De juny a octubre el camí dels estanys sol estar net de neu, tot i que a principis d'estiu en pot quedar a les canals del con final; a l'hivern, el Carlit passa a ser una ascensió d'alta muntanya. Al juliol i a l'agost hi puja molta gent, i les tempestes de tarda són freqüents: cal sortir d'hora."
 		],
 		es: [
-			'El Carlit (Pic Carlit o Pica del Carlit; pic Carlit en francés) es la cima más alta de toda la Cerdaña y de la [Cataluña Norte](/comarques/catalunya-nord). Está en el municipio de Angostrina i Vilanova de les Escaldes, en la Alta Cerdaña, y da nombre a un macizo granítico que hace de frontera natural entre la Cerdaña y el Capcir, al sur, y las tierras occitanas del norte. De su entorno nacen tres ríos: el Aravó al oeste, el Tet al este, en un circo glaciar, y el río de Angostrina al sur.',
+			'El Carlit (Pic Carlit o Pica del Carlit; pic Carlit en francés) es la cima más alta de toda la Cerdanya y de la [Cataluña Norte](/comarques/catalunya-nord). Está en el municipio de Angostrina i Vilanova de les Escaldes, en la Alta Cerdanya, y da nombre a un macizo granítico que hace de frontera natural entre la Cerdanya y el Capcir, al sur, y las tierras occitanas del norte. De su entorno nacen tres ríos: el Aravó al oeste, el Tet al este, en un circo glaciar, y el río de Angostrina al sur.',
 			'Lo que hace único al Carlit es la altiplanicie de lagos que se extiende a sus pies. La aproximación clásica desde les Bulloses pasa por una sucesión de lagos de origen glaciar (el Viver, les Dugues, els Trebens, el Sobirà…) antes de subir por el cono final de granito. También tiene una historia curiosa: aunque a menudo se cita la ascensión de Henry Russell en 1864, en 1611 ya había subido el clérigo Joan Trigall en una expedición científica. Sobre el origen del nombre no hay acuerdo: Joan Coromines lo relaciona con un «desierto de cardos», y otros autores le buscan un origen vasco.',
 			"Como no tiene ninguna cima más alta alrededor, la vista es inmensa: el Canigó al este, la sierra del Cadí y la Pica d'Estats al suroeste y, en días claros, el Mont Valier, ya en el Ariège. A los pies quedan los lagos del macizo, y al noreste el vecino [Puig Peric](/cims/puig-peric), otra cima del reto.",
-			'La buena temporada va de junio a octubre. A principios de verano puede quedar nieve en las canales del cono final y, en invierno, es una ascensión de alta montaña. En julio y agosto sube mucha gente, y las tormentas de tarde son frecuentes: hay que salir temprano.'
+			'De junio a octubre el camino de los lagos suele estar libre de nieve, aunque a principios de verano puede quedar en las canales del cono final; en invierno, el Carlit pasa a ser una ascensión de alta montaña. En julio y agosto sube mucha gente, y las tormentas de tarde son frecuentes: hay que salir temprano.'
 		]
 	},
 	rutes: [
@@ -99,7 +99,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Carlit compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte, el sostre de la Catalunya Nord i un dels [cims més alts del repte](/cims-mes-alts).'
+					'Sí. Entre els [cims essencials](/cims-essencials) de la Catalunya Nord, cap no el supera: queda per sobre del [Canigó](/cims/canigo). També el trobaràs a la llista dels [cims més alts del repte](/cims-mes-alts).'
 			}
 		],
 		es: [
@@ -121,7 +121,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Carlit cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto, el techo de la Cataluña Norte y una de las [cimas más altas del reto](/cims-mes-alts).'
+					'Sí. Entre las [cimas esenciales](/cims-essencials) de la Cataluña Norte, ninguna lo supera: queda por encima del [Canigó](/cims/canigo). También aparece en la lista de las [cimas más altas del reto](/cims-mes-alts).'
 			}
 		]
 	},

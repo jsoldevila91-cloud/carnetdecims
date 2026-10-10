@@ -6,7 +6,9 @@
  * excepte l'apòstrof, que no existeix en castellà: els masculins singulars (`el`, `lo` i `l'`
  * davant de masculí) es contrauen o es tradueixen ("al Pedraforca", "del Berguedà",
  * "del Alt Empordà", "en el Berguedà") i `l'` davant de femení passa a `la`
- * ("de la Alta Ribagorça", "en la Anoia").
+ * ("de la Alta Ribagorça", "en la Anoia"). L'article plural `els`, que en castellà no existeix
+ * i no es pot contraure, s'escriu amb majúscula com a part del nom ("a Els Àngels",
+ * "de Els Bessons"), com fa la Fundéu amb els topònims catalans amb article.
  */
 import { ambA, ambDe, separarArticle, type CimCataleg, type ComarcaCataleg } from '$lib/domain';
 import { m } from '$lib/paraglide/messages';
@@ -28,10 +30,13 @@ function esMasculi(article: string, nom: string): boolean {
 
 /**
  * Nom amb article en castellà per als casos no masculins: `l'` femení → `la` ("la Alta
- * Ribagorça", "la Anoia"); la resta es conserva ("la Cerdanya", "les Garrigues", "Osona").
+ * Ribagorça", "la Anoia"); `els` → `Els` ("Els Àngels": "a els" i "de els" no són castellà);
+ * la resta es conserva ("la Cerdanya", "les Garrigues", "Osona").
  */
 function nomAmbArticleFemEs(nomAmbArticle: string, article: string, nom: string): string {
-	return article === "l'" ? `la ${nom}` : nomAmbArticle;
+	if (article === "l'") return `la ${nom}`;
+	if (article === 'els') return `Els ${nom}`;
+	return nomAmbArticle;
 }
 
 /** "Com pujar al Pedraforca" · "Cómo subir a la Pica d'Estats". */
@@ -126,11 +131,14 @@ function dadesRuta(ruta: RutaAccesLocal, locale: Locale): string {
 /**
  * Nom de la ruta sense el tram "per …" / "por …" ni el que va després d'una coma:
  * "Circular desde el santuario de Montferri por la Torre del Moro" → "Circular desde el
- * santuario de Montferri". Igual que el nom si no hi ha res a escurçar.
+ * santuario de Montferri". Igual que el nom si no hi ha res a escurçar o si el tall deixaria una
+ * sola paraula ("Circular per les Dunes" no passa a "Circular"). També el fa servir la llista de
+ * `/cims-amb-nens` ("Des de Vidrà").
  */
 export function nomRutaCurt(nom: string): string {
 	const tall = /\s+(?:per|pel|pels|por)\s|,\s/.exec(nom);
-	return tall && tall.index > 0 ? nom.slice(0, tall.index).trim() : nom;
+	const curt = tall ? nom.slice(0, tall.index).trim() : '';
+	return /\s/.test(curt) ? curt : nom;
 }
 
 /**

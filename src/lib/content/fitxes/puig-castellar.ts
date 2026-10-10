@@ -51,13 +51,13 @@ const fitxa: ContingutFitxa = {
 			"El Puig Castellar és el turó que corona Santa Coloma de Gramenet, [al Barcelonès](/comarques/barcelones), i fa de límit amb Montcada i Reixac. Forma part de la serra de Marina i del Parc de la Serralada de Marina, i és un dels cims del repte més fàcils d'abastar en transport públic: el metro deixa a peu del parc. La Viquipèdia recorda que el turó, de pòrfir, servia de referència als pescadors de Badalona.",
 			"El que el fa especial és el **poblat ibèric** que ocupa el cim, el principal i més ben conservat dels voltants de Barcelona. El van fundar els laietans cap al segle VI aC i es va abandonar entre els segles III i II aC. Tenia una planta el·líptica amb tres carrers i més de trenta cases, i s'hi calcula una població d'uns tres-cents habitants. El va descobrir Ferran de Sagarra el 1904–1905; l'Institut d'Estudis Catalans hi va excavar als anys vint i el Centre Excursionista Puigcastellar als cinquanta, i encara en té cura. D'aquí surt el famós crani travessat per un clau que avui es conserva al Museu d'Arqueologia de Catalunya. La visita és lliure i gratuïta, amb plafons i una casa reconstruïda amb el seu molí.",
 			"Dalt hi ha un mirador del parc amb un plafó sobre la migració de les rapinyaires. Segons la Diputació, a mesura que puges la vista s'obre sobre el Vallès, el vessant de Collserola, el Barcelonès i el mar.",
-			"Es pot pujar tot l'any. Els mesos més agradables són de tardor a primavera; a l'estiu, millor a primera hora o al vespre, perquè els vessants del sud fan molta calor."
+			"Els mesos més agradables són de tardor a primavera; a l'estiu, millor a primera hora o al vespre, perquè els vessants del sud fan molta calor."
 		],
 		es: [
 			'El Puig Castellar es el cerro que corona Santa Coloma de Gramenet, [en el Barcelonès](/comarques/barcelones), y hace de límite con Montcada i Reixac. Forma parte de la sierra de Marina y del Parque de la Serralada de Marina, y es una de las cimas del reto más fáciles de alcanzar en transporte público: el metro deja al pie del parque. La Viquipèdia recuerda que el cerro, de pórfido, servía de referencia a los pescadores de Badalona.',
 			'Lo que lo hace especial es el **poblado ibérico** que ocupa la cima, el principal y mejor conservado de los alrededores de Barcelona. Lo fundaron los layetanos hacia el siglo VI a. C. y se abandonó entre los siglos III y II a. C. Tenía una planta elíptica con tres calles y más de treinta casas, y se calcula una población de unos trescientos habitantes. Lo descubrió Ferran de Sagarra en 1904–1905; el Institut d’Estudis Catalans excavó en él en los años veinte y el Centre Excursionista Puigcastellar en los cincuenta, y aún cuida de él. De aquí procede el famoso cráneo atravesado por un clavo que hoy se conserva en el Museu d’Arqueologia de Catalunya. La visita es libre y gratuita, con paneles y una casa reconstruida con su molino.',
 			'Arriba hay un mirador del parque con un panel sobre la migración de las rapaces. Según la Diputación, a medida que subes la vista se abre sobre el Vallès, la vertiente de Collserola, el Barcelonès y el mar.',
-			'Se puede subir todo el año. Los meses más agradables van del otoño a la primavera; en verano, mejor a primera hora o al atardecer, porque las vertientes del sur dan mucho calor.'
+			'Los meses más agradables van del otoño a la primavera; en verano, mejor a primera hora o al atardecer, porque las vertientes del sur dan mucho calor.'
 		]
 	},
 	rutes: [
@@ -95,7 +95,7 @@ const fitxa: ContingutFitxa = {
 			'Ves-hi en metro: la L9 deixa a Singuerlín i la L1 a Santa Coloma; els caps de setmana aparcar a prop del parc és complicat.',
 			"Les restes del poblat són fràgils: no t'enfilis als murs ni treguis pedres, i segueix els passos dels plafons.",
 			"A l'estiu el sol és fort i hi ha poca ombra a la part alta: porta aigua i gorra.",
-			'Si vols entendre bé el jaciment, el Museu Torre Balldovina de Santa Coloma i el Centre Excursionista Puigcastellar hi hi han organitzat visites guiades.',
+			'Si vols entendre bé el jaciment, el Museu Torre Balldovina de Santa Coloma i el Centre Excursionista Puigcastellar hi han organitzat visites guiades.',
 			"En època de migració, fixa't en el cel: el plafó del mirador explica quines rapinyaires s'hi poden veure passar."
 		],
 		es: [
@@ -126,7 +126,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Puig Castellar és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i, amb els seus 303 m, un dels més baixos de la llista.'
+					'Sí. El Barcelonès en té dos, el Puig Castellar i el turó de la Magarola, i amb 303 m és un dels [cims essencials](/cims-essencials) més baixos de tot el repte.'
 			}
 		],
 		es: [
@@ -148,7 +148,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Puig Castellar es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y, con sus 303 m, una de las más bajas de la lista.'
+					'Sí. El Barcelonès tiene dos, el Puig Castellar y el turó de la Magarola, y con 303 m es una de las [cimas esenciales](/cims-essencials) más bajas de todo el reto.'
 			}
 		]
 	},

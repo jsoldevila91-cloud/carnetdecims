@@ -21,13 +21,13 @@ const fitxa: ContingutFitxa = {
 			"El Comabona és un dels cims més alts de la serra del Cadí, a la part oriental de la serra, on el Cadí s'acosta al Moixeró. Fa de partió entre la Cerdanya, al nord, i [el Berguedà](/comarques/bergueda), al sud, i és dins del Parc Natural del Cadí-Moixeró. La cara nord cau en cingleres cap a la plana cerdana, i la sud baixa més suau cap al clot de Comabona.",
 			"El nom té història: a la Cerdanya la muntanya es coneix com a Tancalaporta, i Comabona és el nom berguedà, el que s'ha imposat entre els excursionistes. Pel camí de pujada des del nord es passa pel pas dels Gosolans, que comunica la Cerdanya amb el vessant de Gósol. Segons Turisme Cerdanya, Pablo Picasso el va travessar l'estiu del 1906, quan va acabar la seva estada a Gósol.",
 			"Turisme Cerdanya el considera un dels millors miradors de la Cerdanya, i des del Berguedà se'n destaca la vista sobre la cara nord del [Pedraforca](/cims/pedraforca-pollego-superior), la menys coneguda. Cap a l'est, la carena continua pel coll de Tancalaporta cap al Moixeró i les [Penyes Altes](/cims/penyes-altes).",
-			"La temporada bona va de final de primavera a la tardor. Fins ben entrat maig hi sol haver congestes abans del pas dels Gosolans, i amb neu el pendent d'aquest pas és fort i calen piolet i grampons. A l'estiu, compte amb les tempestes de tarda a la carena."
+			"Sense neu, de juny a octubre, la pujada des de Prat d'Aguiló no té complicacions. Fins ben entrat maig hi sol haver congestes abans del pas dels Gosolans, i amb neu el pendent d'aquest pas és fort i calen piolet i grampons. A l'estiu, compte amb les tempestes de tarda a la carena."
 		],
 		es: [
 			'El Comabona es una de las cimas más altas de la sierra del Cadí, en la parte oriental de la sierra, donde el Cadí se acerca al Moixeró. Hace de divisoria entre la Cerdanya, al norte, y [el Berguedà](/comarques/bergueda), al sur, y está dentro del Parque Natural del Cadí-Moixeró. La cara norte cae en riscos hacia la llanura ceretana, y la sur baja más suave hacia el clot de Comabona.',
 			'El nombre tiene historia: en la Cerdanya la montaña se conoce como Tancalaporta, y Comabona es el nombre bergadán, el que se ha impuesto entre los excursionistas. En el camino de subida desde el norte se pasa por el pas dels Gosolans, que comunica la Cerdanya con la vertiente de Gósol. Según Turisme Cerdanya, Pablo Picasso lo cruzó en el verano de 1906, al terminar su estancia en Gósol.',
 			'Turisme Cerdanya lo considera uno de los mejores miradores de la Cerdanya, y desde el Berguedà se destaca la vista sobre la cara norte del [Pedraforca](/cims/pedraforca-pollego-superior), la menos conocida. Hacia el este, la cresta sigue por el coll de Tancalaporta hacia el Moixeró y las [Penyes Altes](/cims/penyes-altes).',
-			'La buena temporada va de finales de primavera al otoño. Hasta bien entrado mayo suele haber neveros antes del pas dels Gosolans, y con nieve la pendiente de este paso es fuerte y hacen falta piolet y crampones. En verano, cuidado con las tormentas de tarde en la cresta.'
+			"Sin nieve, de junio a octubre, la subida desde Prat d'Aguiló no tiene complicaciones. Hasta bien entrado mayo suele haber neveros antes del pas dels Gosolans, y con nieve la pendiente de este paso es fuerte y hacen falta piolet y crampones. En verano, cuidado con las tormentas de tarde en la cresta."
 		]
 	},
 	rutes: [
@@ -95,7 +95,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Comabona compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del Berguedà. Les regles per validar-lo són a la [normativa del repte](/repte-100-cims/normativa).'
+					'Sí. Amb 2.548 m, encapçala els [cims essencials](/cims-essencials) del Berguedà, per sobre de [la Tosa](/cims/la-tosa) i del Pedraforca. El que compta és el cim, no el vessant: el pots validar pujant tant des de la Cerdanya com des de Gósol.'
 			}
 		],
 		es: [
@@ -117,7 +117,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Comabona cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del Berguedà. Las reglas para validarla están en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. Con 2.548 m, encabeza las [cimas esenciales](/cims-essencials) del Berguedà, por encima de [la Tosa](/cims/la-tosa) y del Pedraforca. Lo que cuenta es la cima, no la vertiente: puedes validarla subiendo tanto desde la Cerdanya como desde Gósol.'
 			}
 		]
 	},

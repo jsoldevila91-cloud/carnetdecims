@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Puig de l'Àliga és l'extrem sud de la serra de la Cogullada, entre els termes de Canyelles i Olèrdola, i fa de frontera entre [el Garraf](/comarques/garraf) i l'Alt Penedès. És un cim allargat, pla i ample a dalt i tallat en cingles pel costat de mar. A les ressenyes apareix tant com a Puig de l'Àliga de Canyelles com del Penedès, segons de quin costat s'hi puja.",
 			"Al cim hi ha un vèrtex geodèsic, una gran creu de ferro forjat i, al costat, una torre de guaita forestal. És un cim molt lligat a l'excursionisme local i familiar: grups com l'Agrupació Excursionista Talaia hi han fet la pujada del pessebre per Nadal. Als peus, a Olèrdola, hi ha el conjunt històric del castell d'Olèrdola, amb restes ibèriques, romanes i medievals, que és el punt de sortida de la pujada més fàcil.",
 			"La vista és molt àmplia per a l'alçada: cap al nord, la plana del Penedès amb Montserrat al fons; cap al sud, el mar i la costa de Vilanova i la Geltrú; a l'est, el massís del Garraf, i en dies clars també Sant Llorenç del Munt i el Montseny.",
-			"Es pot pujar tot l'any, però l'estiu és la pitjor època: el sol pica fort i hi ha poca ombra a la part alta. A l'hivern i a la primavera és una sortida de mig matí molt agradable."
+			"L'estiu és la pitjor època: el sol pica fort i hi ha poca ombra a la part alta. A l'hivern i a la primavera és una sortida de mig matí molt agradable."
 		],
 		es: [
 			"El Puig de l'Àliga es el extremo sur de la sierra de la Cogullada, entre los municipios de Canyelles y Olèrdola, y hace de frontera entre [el Garraf](/comarques/garraf) y el Alt Penedès. Es una cima alargada, llana y ancha arriba y cortada en riscos por el lado del mar. En las reseñas aparece tanto como Puig de l'Àliga de Canyelles como del Penedès, según desde qué lado se sube.",
 			'En la cima hay un vértice geodésico, una gran cruz de hierro forjado y, al lado, una torre de vigilancia forestal. Es una cima muy ligada al excursionismo local y familiar: grupos como la Agrupació Excursionista Talaia han hecho allí la subida del belén por Navidad. A sus pies, en Olèrdola, está el conjunto histórico del castillo de Olèrdola, con restos ibéricos, romanos y medievales, que es el punto de salida de la subida más fácil.',
 			'La vista es muy amplia para la altura: hacia el norte, la llanura del Penedès con Montserrat al fondo; hacia el sur, el mar y la costa de Vilanova i la Geltrú; al este, el macizo del Garraf y, en días claros, también Sant Llorenç del Munt y el Montseny.',
-			'Se puede subir todo el año, pero el verano es la peor época: el sol aprieta y hay poca sombra en la parte alta. En invierno y en primavera es una salida de media mañana muy agradable.'
+			'El verano es la peor época: el sol aprieta y hay poca sombra en la parte alta. En invierno y en primavera es una salida de media mañana muy agradable.'
 		]
 	},
 	rutes: [
@@ -108,7 +108,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "El Puig de l'Àliga és un cim essencial?",
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte. A prop, també a Olèrdola, hi ha [la Penya del Papiol](/cims/penya-del-papiol), un altre cim essencial.'
+					'Sí. El Garraf només en té un, de [cim essencial](/cims-essencials), i és aquest. Si vols sumar-ne un altre a prop, [la Penya del Papiol](/cims/penya-del-papiol) ja compta per a l’Alt Penedès.'
 			}
 		],
 		es: [
@@ -130,7 +130,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "¿El Puig de l'Àliga es una cima esencial?",
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto. Cerca, también en Olèrdola, está [la Penya del Papiol](/cims/penya-del-papiol), otra cima esencial.'
+					'Sí. El Garraf solo tiene una [cima esencial](/cims-essencials), y es esta. Si quieres sumar otra cerca, [la Penya del Papiol](/cims/penya-del-papiol) ya cuenta para el Alt Penedès.'
 			}
 		]
 	},

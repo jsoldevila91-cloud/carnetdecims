@@ -105,7 +105,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La torre de Madeloc compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels de la Catalunya Nord. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí, i és de lluny el més baix dels vuit [cims essencials](/cims-essencials) de la Catalunya Nord: tots els altres, com el [Canigó](/cims/canigo), passen dels 2.400 m. Per validar-lo n’hi ha prou d’arribar a l’esplanada de la torre.'
 			}
 		],
 		es: [
@@ -127,7 +127,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La torre de Madeloc cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las de la Cataluña Norte. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí, y es con diferencia la más baja de las ocho [cimas esenciales](/cims-essencials) de la Cataluña Norte: todas las demás, como el [Canigó](/cims/canigo), superan los 2.400 m. Para validarla basta con llegar a la explanada de la torre.'
 			}
 		]
 	},

@@ -34,6 +34,8 @@
 				<li><a href={href('/cims-essencials')}>{m.explore_essentials()}</a></li>
 				<li><a href={href('/tresmils')}>{m.explore_tresmils()}</a></li>
 				<li><a href={href('/cims-mes-alts')}>{m.explore_highest()}</a></li>
+				<li><a href={href('/cims-facils')}>{m.explore_easy()}</a></li>
+				<li><a href={href('/cims-amb-nens')}>{m.explore_kids()}</a></li>
 			</ul>
 		</nav>
 		<nav class="info" aria-label={m.footer_info_label()}>

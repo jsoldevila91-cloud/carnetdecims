@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El castell de Sant Salvador de Verdera, o castell Saverdera, ocupa el punt més alt de la serra de Rodes, la carena que tanca per l'oest la península del cap de Creus, [a l'Alt Empordà](/comarques/alt-emporda). És dins el terme del Port de la Selva i del Parc Natural del Cap de Creus, i forma un conjunt inseparable amb el monestir de Sant Pere de Rodes, que s'aixeca uns metres més avall al mateix vessant.",
 			"Les ruïnes que es veuen avui són el resultat de dues etapes. El castell romànic, dels comtes d'Empúries, va ser donat el 974 pel comte Gausfred I al monestir, i durant segles monjos i comtes se'n van disputar el control. El 1283 el comte Ponç Hug IV el va ocupar i en va refer les defenses davant la guerra amb França; amb la croada del 1285 les tropes franceses el van ocupar durant sis mesos. Més tard va passar als ducs de Medinaceli, i el 1708, durant la guerra de Successió, va quedar en bona part destruït. Encara s'hi reconeixen l'església de Sant Salvador, la base de la torre mestra, torres semicirculars i una cisterna coberta. És bé cultural d'interès nacional des del 1993.",
 			"És un dels millors miradors de l'Empordà. Es domina el golf de Roses i tota la plana empordanesa, el cap de Creus i el Port de la Selva als peus, i cap al nord l'Albera i el Pirineu, amb el massís del Canigó al fons.",
-			"Es pot fer tot l'any, però la tramuntana hi bufa sovint amb molta força i a l'estiu el sol és intens. Els caps de setmana i a l'estiu el monestir rep molts visitants, i és millor arribar-hi d'hora."
+			"Aquí el que mana és la tramuntana, que hi bufa sovint amb molta força; a l'estiu, a més, el sol hi pica de valent. Els caps de setmana i a l'estiu el monestir rep molts visitants, i és millor arribar-hi d'hora."
 		],
 		es: [
 			'El castell de Sant Salvador de Verdera, o castell Saverdera, ocupa el punto más alto de la sierra de Rodes, la cresta que cierra por el oeste la península del cap de Creus, [en el Alt Empordà](/comarques/alt-emporda). Está en el municipio de El Port de la Selva y dentro del Parc Natural del Cap de Creus, y forma un conjunto inseparable con el monasterio de Sant Pere de Rodes, que se alza unos metros más abajo en la misma ladera.',
 			'Las ruinas que se ven hoy son el resultado de dos etapas. El castillo románico, de los condes de Empúries, fue donado en 974 por el conde Gausfred I al monasterio, y durante siglos monjes y condes se disputaron su control. En 1283 el conde Ponç Hug IV lo ocupó y rehízo sus defensas ante la guerra con Francia; con la cruzada de 1285 las tropas francesas lo ocuparon durante seis meses. Más tarde pasó a los duques de Medinaceli, y en 1708, durante la guerra de Sucesión, quedó en buena parte destruido. Aún se reconocen la iglesia de Sant Salvador, la base de la torre del homenaje, torres semicirculares y una cisterna cubierta. Es bien cultural de interés nacional desde 1993.',
 			"Es uno de los mejores miradores del Empordà. Se domina el golfo de Roses y toda la llanura ampurdanesa, el cap de Creus y El Port de la Selva a los pies, y hacia el norte l'Albera y el Pirineo, con el macizo del Canigó al fondo.",
-			'Se puede hacer todo el año, pero la tramontana sopla a menudo con mucha fuerza y en verano el sol es intenso. Los fines de semana y en verano el monasterio recibe muchos visitantes, y es mejor llegar temprano.'
+			'Aquí manda la tramontana, que sopla a menudo con mucha fuerza; en verano, además, el sol aprieta. Los fines de semana y en verano el monasterio recibe muchos visitantes, y es mejor llegar temprano.'
 		]
 	},
 	rutes: [
@@ -110,7 +110,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El castell Saverdera compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels de l'Alt Empordà. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa)."
+					"Sí. És el més baix dels cinc [cims essencials](/cims-essencials) de l'Alt Empordà; els altres quatre, com el [Puig Neulós](/cims/puig-neulos) o el Bassegoda, passen dels 1.100 m. Aquí, en canvi, des de l'aparcament del monestir n'hi ha prou amb uns 20 minuts."
 			}
 		],
 		es: [
@@ -132,7 +132,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El castell Saverdera cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las del Alt Empordà. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. Es la más baja de las cinco [cimas esenciales](/cims-essencials) del Alt Empordà; las otras cuatro, como el [Puig Neulós](/cims/puig-neulos) o el Bassegoda, pasan de los 1.100 m. Aquí, en cambio, desde el aparcamiento del monasterio bastan unos 20 minutos.'
 			}
 		]
 	},

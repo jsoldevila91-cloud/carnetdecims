@@ -81,7 +81,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Cap de Boumort compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del Pallars Jussà. Les regles de validació són a la [normativa del repte](/repte-100-cims/normativa).'
+					'Sí. És el sostre de la serra de Boumort i un dels [cims essencials](/cims-essencials) del Pallars Jussà, com el veí Sant Corneli, també de Conca de Dalt. Quines proves valen per validar-lo, a la [normativa](/repte-100-cims/normativa).'
 			}
 		],
 		es: [
@@ -103,7 +103,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Cap de Boumort cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del Pallars Jussà. Las reglas de validación están en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí. Es el techo de la sierra de Boumort y una de las [cimas esenciales](/cims-essencials) del Pallars Jussà, como su vecina Sant Corneli, también de Conca de Dalt. Qué pruebas sirven para validarla, en la [normativa](/repte-100-cims/normativa).'
 			}
 		]
 	},

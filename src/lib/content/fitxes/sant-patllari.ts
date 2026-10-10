@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"Sant Patllari és el cim de la serra del mateix nom, al terme de Porqueres, a l'extrem sud-oest [del Pla de l'Estany](/comarques/pla-de-l-estany). És un turó boscós d'alzines, roures i pins que fa de transició entre la plana de Banyoles i el massís de Rocacorba, i és l'únic cim del repte de la comarca.",
 			"Al capdamunt hi ha una petita ermita romànica d'una sola nau i absis semicircular, documentada a principis del segle XIV, amb un petit refugi lliure al costat, i un vèrtex geodèsic. Els camins que hi pugen estan plens de llegendes: a la pujada des de Pujarnol es passa per la Pedra de la Mà de Déu, una roca amb l'empremta d'una mà que la tradició local atribueix a un origen diví, i el folklore de la zona parla de trobades entre bruixes i nois geperuts. El poblet de Pujarnol, amb l'església de Sant Cebrià i el seu petit cementiri, és el punt de sortida més habitual.",
 			"Des del cim i des del mirador de la pujada es veu la plana i l'estany de Banyoles, el massís de Rocacorba i, en dies clars, el Montgrí i el Canigó. La vegetació, però, cada vegada tapa més la vista des del mateix cim.",
-			"Es pot pujar tot l'any. És una bona sortida d'hivern i de tardor; a l'estiu el bosc fa ombra, però convé evitar les hores centrals. Els caps de setmana la carretera de Rocacorba és molt freqüentada per ciclistes."
+			"És una bona sortida d'hivern i de tardor; a l'estiu el bosc fa ombra, però convé evitar les hores centrals. Els caps de setmana la carretera de Rocacorba és molt freqüentada per ciclistes."
 		],
 		es: [
 			"Sant Patllari es la cima de la sierra del mismo nombre, en el municipio de Porqueres, en el extremo suroeste [del Pla de l'Estany](/comarques/pla-de-l-estany). Es una colina boscosa de encinas, robles y pinos que hace de transición entre la llanura de Banyoles y el macizo de Rocacorba, y es la única cima del reto de la comarca.",
 			'En lo alto hay una pequeña ermita románica de una sola nave y ábside semicircular, documentada a principios del siglo XIV, con un pequeño refugio libre al lado, y un vértice geodésico. Los caminos que suben están llenos de leyendas: en la subida desde Pujarnol se pasa por la Pedra de la Mà de Déu, una roca con la huella de una mano que la tradición local atribuye a un origen divino, y el folclore de la zona habla de encuentros entre brujas y jóvenes jorobados. El pueblecito de Pujarnol, con la iglesia de Sant Cebrià y su pequeño cementerio, es el punto de salida más habitual.',
 			'Desde la cima y desde el mirador de la subida se ve la llanura y el lago de Banyoles, el macizo de Rocacorba y, en días claros, el Montgrí y el Canigó. La vegetación, sin embargo, tapa cada vez más la vista desde la propia cima.',
-			'Se puede subir todo el año. Es una buena salida de invierno y de otoño; en verano el bosque da sombra, pero conviene evitar las horas centrales. Los fines de semana la carretera de Rocacorba está muy frecuentada por ciclistas.'
+			'Es una buena salida de invierno y de otoño; en verano el bosque da sombra, pero conviene evitar las horas centrales. Los fines de semana la carretera de Rocacorba está muy frecuentada por ciclistas.'
 		]
 	},
 	rutes: [
@@ -102,7 +102,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Sant Patllari compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del repte i l'únic del Pla de l'Estany. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa)."
+					"Sí. És l'únic cim del Pla de l'Estany a la llista de [cims essencials](/cims-essencials), i la circular de Turisme Pla de l'Estany permet fer-lo a peu des de la vora mateix de l'estany de Banyoles."
 			}
 		],
 		es: [
@@ -124,7 +124,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Sant Patllari cuenta como cima esencial?',
 				resposta:
-					"Sí, es una de las [cimas esenciales](/cims-essencials) del reto y la única del Pla de l'Estany. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa)."
+					"Sí. Es la única cima del Pla de l'Estany en la lista de [cimas esenciales](/cims-essencials), y la circular de Turisme Pla de l'Estany permite hacerla a pie desde la misma orilla del lago de Banyoles."
 			}
 		]
 	},

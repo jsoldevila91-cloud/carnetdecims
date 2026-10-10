@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El castell de Sant Miquel corona la muntanya del mateix nom, a l'extrem nord-oest del massís de les Gavarres, entre els termes de Girona i de Celrà, [al Gironès](/comarques/girones). És un turó boscós d'alzinar que s'aixeca just a llevant de la ciutat, i per això és l'excursió de proximitat per excel·lència de la gent de Girona: s'hi pot pujar a peu des del barri vell sense agafar el cotxe.",
 			"Més que un castell, el cim aplega capes d'història. Hi ha restes d'una fortificació medieval (cisternes i els fonaments d'una torre circular) i d'una ermita dedicada a Santa Maria i Sant Miquel, començada a mitjan segle XV. Durant la guerra del Francès el turó va ser un punt clau dels setges de Girona: s'hi van fer forts les tropes napoleòniques i el maig del 1809 hi va haver combats amb tropes catalanes; les espitlleres de l'absis són d'aquella època. El 1848 s'hi van aixecar dues torres de telegrafia òptica, que van quedar en desús quan va arribar el telègraf elèctric, el 1856. La torre restaurada té una escala de cargol que puja fins a dalt.",
 			"Des de dalt es domina Girona i, cap a llevant, la plana de l'Empordà, a més de les Gavarres i les valls de l'Onyar i del Ter. Al sud-est, a la mateixa serra, es veu el santuari dels [Àngels](/cims/els-angels), un altre cim essencial de la comarca.",
-			"Es pot pujar tot l'any. A l'estiu és millor anar-hi a primera hora, perquè la vall de Sant Daniel i l'alzinar són calorosos a migdia. Els caps de setmana és un camí molt freqüentat per excursionistes, corredors i ciclistes de muntanya."
+			"Com que és baix i a tocar de la ciutat, s'hi puja en qualsevol estació. A l'estiu és millor anar-hi a primera hora, perquè la vall de Sant Daniel i l'alzinar són calorosos a migdia. Els caps de setmana és un camí molt freqüentat per excursionistes, corredors i ciclistes de muntanya."
 		],
 		es: [
 			'El castell de Sant Miquel corona la montaña del mismo nombre, en el extremo noroeste del macizo de les Gavarres, entre los municipios de Girona y Celrà, [en el Gironès](/comarques/girones). Es una colina boscosa de encinar que se alza justo al este de la ciudad, y por eso es la excursión de proximidad por excelencia de los gerundenses: se puede subir a pie desde el barrio viejo sin coger el coche.',
 			'Más que un castillo, la cima reúne capas de historia. Hay restos de una fortificación medieval (cisternas y los cimientos de una torre circular) y de una ermita dedicada a Santa Maria y Sant Miquel, iniciada a mediados del siglo XV. Durante la guerra de la Independencia la colina fue un punto clave de los sitios de Girona: se hicieron fuertes las tropas napoleónicas y en mayo de 1809 hubo combates con tropas catalanas; las aspilleras del ábside son de aquella época. En 1848 se levantaron dos torres de telegrafía óptica, que quedaron en desuso cuando llegó el telégrafo eléctrico, en 1856. La torre restaurada tiene una escalera de caracol que sube hasta arriba.',
-			'Desde arriba se domina Girona y, hacia el este, la llanura del Empordà, además de las Gavarres y los valles del Onyar y del Ter. Al sureste, en la misma sierra, se ve el santuario de [els Àngels](/cims/els-angels), otra cima esencial de la comarca.',
-			'Se puede subir todo el año. En verano es mejor ir a primera hora, porque el valle de Sant Daniel y el encinar son calurosos a mediodía. Los fines de semana es un camino muy frecuentado por excursionistas, corredores y ciclistas de montaña.'
+			'Desde arriba se domina Girona y, hacia el este, la llanura del Empordà, además de las Gavarres y los valles del Onyar y del Ter. Al sureste, en la misma sierra, se ve el santuario de [Els Àngels](/cims/els-angels), otra cima esencial de la comarca.',
+			'Como es bajo y está junto a la ciudad, se sube en cualquier estación. En verano es mejor ir a primera hora, porque el valle de Sant Daniel y el encinar son calurosos a mediodía. Los fines de semana es un camino muy frecuentado por excursionistas, corredores y ciclistas de montaña.'
 		]
 	},
 	rutes: [
@@ -82,7 +82,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al castell de Sant Miquel des de Girona?',
 				resposta:
-					'Segons Rutes Pirineus, uns 1 h 25 min de pujada des de la plaça de Sant Pere de Galligants i 1 h 10 min de baixada pel mateix camí, amb uns 9,6 km i 330 m de desnivell en total. És una sortida de mig matí.'
+					'Segons Rutes Pirineus, 1 h 25 min de pujada des de la plaça de Sant Pere de Galligants i 1 h 10 min de baixada pel mateix camí, amb uns 9,6 km i 330 m de desnivell en total. És una sortida de mig matí.'
 			},
 			{
 				pregunta: 'Es pot pujar al castell de Sant Miquel amb nens?',
@@ -97,7 +97,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El castell de Sant Miquel compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i, amb [els Àngels](/cims/els-angels), un dels dos del Gironès. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí. El Gironès té dos [cims essencials](/cims-essencials), aquest i [els Àngels](/cims/els-angels), tots dos a les Gavarres: des del castell es veu el santuari dels Àngels al sud-est.'
 			}
 		],
 		es: [
@@ -119,7 +119,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El castell de Sant Miquel cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y, con [els Àngels](/cims/els-angels), una de las dos del Gironès. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. El Gironès tiene dos [cimas esenciales](/cims-essencials), esta y [Els Àngels](/cims/els-angels), ambas en las Gavarres: desde el castillo se ve el santuario de Els Àngels al sureste.'
 			}
 		]
 	},

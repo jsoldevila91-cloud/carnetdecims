@@ -21,13 +21,13 @@ const fitxa: ContingutFitxa = {
 			"El Pedraforca és la muntanya més reconeixible de Catalunya. S'aixeca aïllat entre els termes de Saldes i Gósol, a l'extrem occidental [del Berguedà](/comarques/bergueda), i forma part del Parc Natural del Cadí-Moixeró. El cim del repte és el **Pollegó Superior**, la punta més alta del massís; a migdia hi ha el Pollegó Inferior i, entre tots dos, l'Enforcadura, la collada que dona a la muntanya la seva silueta de forca.",
 			"El nom ho diu tot: «pedra en forma de forca». La forma ve de l'erosió desigual de les calcàries dures i de les margues més toves que les acompanyen, dins d'un relleu de mantells de corriment format durant l'orogènia alpina. El 1982 el massís va ser declarat paratge natural d'interès nacional i el 2004 es va integrar al parc natural. També és un lloc clau de l'escalada catalana: el 1928 Lluís Estasen i els seus companys van obrir la paret nord, i el refugi que hi ha als peus porta el seu nom. La llegenda hi fa trobar les bruixes la nit de Cap d'Any, i Verdaguer el va fer servir com a imatge de la terra.",
 			"Des del cim es veu la serra del Cadí a tocar, amb el [Comabona](/cims/comabona) i els cims veïns, la serra d'Ensija i, al fons, bona part del Pirineu i de la Catalunya central. Per la seva posició separada de les grans serres, la vista és molt oberta en totes direccions.",
-			"La millor època és de finals de primavera a la tardor. A l'estiu hi ha molta gent i tempestes a la tarda; a l'hivern les canals i l'Enforcadura poden tenir neu i gel, i aleshores l'ascensió és una activitat d'alta muntanya que demana material i experiència."
+			"Quan les canals ja no tenen neu, de finals de primavera a la tardor, és el moment de pujar-hi. A l'estiu hi ha molta gent i tempestes a la tarda; a l'hivern les canals i l'Enforcadura poden tenir neu i gel, i aleshores l'ascensió és una activitat d'alta muntanya que demana material i experiència."
 		],
 		es: [
 			'El Pedraforca es la montaña más reconocible de Cataluña. Se alza aislado entre los municipios de Saldes y Gósol, en el extremo occidental [del Berguedà](/comarques/bergueda), dentro del Parque Natural del Cadí-Moixeró. La cima del reto es el **Pollegó Superior**, la punta más alta del macizo; al sur queda el Pollegó Inferior y, entre ambos, la Enforcadura, el collado que da a la montaña su silueta de horca.',
 			'El nombre lo dice todo: en catalán, «piedra en forma de horca». Esa forma se debe a la erosión desigual de las calizas duras y las margas más blandas, en un relieve de mantos de corrimiento levantado durante la orogenia alpina. En 1982 el macizo se declaró paraje natural de interés nacional y en 2004 se integró en el parque natural. Es además un lugar clave de la escalada catalana: en 1928 Lluís Estasen y sus compañeros abrieron la pared norte, y el refugio que hay a sus pies lleva su nombre. La leyenda sitúa allí a las brujas la noche de Fin de Año, y Verdaguer lo usó como imagen de la tierra catalana.',
 			'Desde la cima se ve la sierra del Cadí muy cerca, con el [Comabona](/cims/comabona) y las cumbres vecinas, la sierra de Ensija y, al fondo, buena parte del Pirineo y de la Cataluña central. Al estar separado de las grandes sierras, la vista es muy abierta en todas direcciones.',
-			'La mejor época va de finales de primavera al otoño. En verano hay mucha gente y tormentas por la tarde; en invierno las canales y la Enforcadura pueden tener nieve y hielo, y entonces la ascensión es una actividad de alta montaña que exige material y experiencia.'
+			'Cuando las canales ya no tienen nieve, de finales de primavera al otoño, es el momento de subir. En verano hay mucha gente y tormentas por la tarde; en invierno las canales y la Enforcadura pueden tener nieve y hielo, y entonces la ascensión es una actividad de alta montaña que exige material y experiencia.'
 		]
 	},
 	rutes: [
@@ -96,7 +96,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Pedraforca és un cim essencial del repte 100 Cims?',
 				resposta:
-					'Sí. El Pollegó Superior és un dels [cims essencials](/cims-essencials) del repte. Pots consultar les normes a la [normativa del repte](/repte-100-cims/normativa).'
+					"Sí, però el que compta és el Pollegó Superior: l'Enforcadura és el coll de pas, no el cim. Al Berguedà comparteix la llista amb el [Comabona](/cims/comabona) i [la Tosa](/cims/la-tosa), tots dos una mica més alts."
 			}
 		],
 		es: [
@@ -118,7 +118,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Pedraforca es una cima esencial del reto 100 Cims?',
 				resposta:
-					'Sí. El Pollegó Superior es una de las [cimas esenciales](/cims-essencials) del reto. Puedes consultar las reglas en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí, pero lo que cuenta es el Pollegó Superior: la Enforcadura es el collado de paso, no la cima. En el Berguedà comparte la lista con el [Comabona](/cims/comabona) y [la Tosa](/cims/la-tosa), ambos algo más altos.'
 			}
 		]
 	},

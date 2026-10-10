@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"La Pica d'Estats és el sostre de Catalunya. És a la carena fronterera entre la Vall Ferrera, al terme d'Alins, [al Pallars Sobirà](/comarques/pallars-sobira), i la vall de Vicdessos, a l'Arieja. El cim queda dins del Parc Natural de l'Alt Pirineu i, pel vessant nord, del Parc Natural Regional dels Pirineus Ariejans.",
 			"No és una punta solitària sinó un petit massís de tresmils. A l'oest hi ha el pic Verdaguer i a l'est la punta de Gabarró, i a menys d'un quilòmetre s'alça el [Pic de Sotllo](/cims/pic-de-sotllo), un altre cim del repte que molta gent encadena el mateix dia. La primera ascensió coneguda és del 1864, a càrrec de Henry Russell i Jean-Jacques Denjean. El 1883 hi va pujar Jacint Verdaguer, i per això la punta occidental porta el nom del poeta. Pujar-hi és, per a molts excursionistes catalans, una mena de ritual.",
 			"Des de dalt la vista és d'alta muntanya pura: el Montcalm just al costat, els estanys de la vall de Sotllo als peus, les valls de l'Arieja cap al nord i, cap al sud i l'oest, una gran part del Pirineu, d'Andorra a l'Aran. És el cim més alt [dels cims essencials](/cims-essencials) i de [tots els tresmils del repte](/tresmils).",
-			"La temporada habitual va de juliol a setembre o principi d'octubre. Fins ben entrat l'estiu hi pot quedar neu a les pales orientades al nord, i a l'hivern i la primavera la ruta passa per terreny amb risc d'allaus. És una sortida llarga: compta-ho bé i surt molt d'hora."
+			"A peu, sense neu, el moment és de juliol a setembre o principi d'octubre. Fins ben entrat l'estiu hi pot quedar neu a les pales orientades al nord, i a l'hivern i la primavera la ruta passa per terreny amb risc d'allaus. És una sortida llarga: compta-ho bé i surt molt d'hora."
 		],
 		es: [
 			"La Pica d'Estats es el techo de Cataluña. Está en la cresta fronteriza entre la Vall Ferrera, en el municipio de Alins, [en el Pallars Sobirà](/comarques/pallars-sobira), y el valle de Vicdessos, en el Ariège. La cima queda dentro del Parque Natural del Alt Pirineu y, por la vertiente norte, del parque natural regional de los Pirineos del Ariège (Pyrénées Ariégeoises).",
 			'No es una punta aislada sino un pequeño macizo de tresmiles. Al oeste está el pico Verdaguer y al este la punta de Gabarró, y a menos de un kilómetro se alza el [Pic de Sotllo](/cims/pic-de-sotllo), otra cima del reto que mucha gente encadena el mismo día. La primera ascensión conocida es de 1864, obra de Henry Russell y Jean-Jacques Denjean. En 1883 subió Jacint Verdaguer, y por eso la punta occidental lleva el nombre del poeta. Para muchos excursionistas catalanes, subir aquí es casi un ritual.',
 			'Desde arriba la vista es de alta montaña: el Montcalm justo al lado, los lagos del valle de Sotllo a los pies, los valles del Ariège hacia el norte y, hacia el sur y el oeste, gran parte del Pirineo, de Andorra al Aran. Es la cima más alta [de las cimas esenciales](/cims-essencials) y de [todos los tresmiles del reto](/tresmils).',
-			'La temporada habitual va de julio a septiembre o principios de octubre. Hasta bien entrado el verano puede quedar nieve en las palas orientadas al norte, y en invierno y primavera la ruta pasa por terreno con riesgo de aludes. Es una salida larga: calcula bien el tiempo y sal muy temprano.'
+			'A pie y sin nieve, el momento es de julio a septiembre o principios de octubre. Hasta bien entrado el verano puede quedar nieve en las palas orientadas al norte, y en invierno y primavera la ruta pasa por terreno con riesgo de aludes. Es una salida larga: calcula bien el tiempo y sal muy temprano.'
 		]
 	},
 	rutes: [
@@ -104,7 +104,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "La Pica d'Estats compta com a cim essencial?",
 				resposta:
-					'Sí. És un dels [cims essencials](/cims-essencials) del repte i el més alt de tots. Les regles de validació són a la [normativa del repte](/repte-100-cims/normativa).'
+					'Sí, i és el més alt de tota la llista d’essencials. Al Pallars Sobirà en comparteix categoria amb deu cims més, entre ells el seu veí, el [Pic de Sotllo](/cims/pic-de-sotllo), que també passa dels 3.000 m.'
 			}
 		],
 		es: [
@@ -126,7 +126,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: "¿La Pica d'Estats cuenta como cima esencial?",
 				resposta:
-					'Sí. Es una de las [cimas esenciales](/cims-essencials) del reto y la más alta de todas. Las reglas de validación están en la [normativa del reto](/repte-100-cims/normativa).'
+					'Sí, y es la más alta de toda la lista de esenciales. En el Pallars Sobirà comparte categoría con otras diez cimas, entre ellas su vecina, el [Pic de Sotllo](/cims/pic-de-sotllo), que también supera los 3.000 m.'
 			}
 		]
 	},

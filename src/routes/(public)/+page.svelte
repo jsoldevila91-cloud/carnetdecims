@@ -21,7 +21,9 @@
 		{ path: '/mapa', text: m.explore_map },
 		{ path: '/cims-essencials', text: m.explore_essentials },
 		{ path: '/tresmils', text: m.explore_tresmils },
-		{ path: '/cims-mes-alts', text: m.explore_highest }
+		{ path: '/cims-mes-alts', text: m.explore_highest },
+		{ path: '/cims-facils', text: m.explore_easy },
+		{ path: '/cims-amb-nens', text: m.explore_kids }
 	];
 
 	const valors: {

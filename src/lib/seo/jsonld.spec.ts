@@ -206,8 +206,8 @@ describe('cimGraph (JSON-LD de la fitxa de cim)', () => {
 			for (const q of qs) {
 				expect(q.acceptedAnswer.text).not.toMatch(/\]\(|\*\*/);
 			}
-			// "[cimas esenciales](/cims-essencials)" → "cimas esenciales"
-			expect(qs.at(-1)!.acceptedAnswer.text).toContain('una de las cimas esenciales del reto');
+			// "[Comabona](/cims/comabona) y [la Tosa](/cims/la-tosa)" → "Comabona y la Tosa"
+			expect(qs.at(-1)!.acceptedAnswer.text).toContain('con el Comabona y la Tosa');
 		});
 
 		it('sense FAQPage si la fitxa no és indexable (esborrany) o no té preguntes', () => {

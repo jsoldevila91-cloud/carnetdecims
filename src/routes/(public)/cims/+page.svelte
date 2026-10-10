@@ -105,6 +105,8 @@
 		<a href={href('/cims-essencials')}>{m.explore_essentials()}</a>
 		<a href={href('/tresmils')}>{m.explore_tresmils()}</a>
 		<a href={href('/cims-mes-alts')}>{m.explore_highest()}</a>
+		<a href={href('/cims-facils')}>{m.explore_easy()}</a>
+		<a href={href('/cims-amb-nens')}>{m.explore_kids()}</a>
 	</nav>
 </header>
 

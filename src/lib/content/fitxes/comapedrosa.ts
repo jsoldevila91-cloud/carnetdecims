@@ -45,13 +45,13 @@ const fitxa: ContingutFitxa = {
 			"El Comapedrosa és la muntanya més alta d'[Andorra](/comarques/andorra). S'aixeca a l'extrem nord-oest del país, a la parròquia de la Massana, prop de la frontera amb el Pallars Sobirà i l'Arieja, i dona nom al Parc Natural Comunal de les Valls del Comapedrosa, l'espai protegit més alpí del Principat. També se l'anomena l'Alt de Comapedrosa.",
 			"El nom es llegeix sol: una «coma», una vall alta i oberta, i «pedrosa», plena de pedra. La primera ascensió documentada és del 22 de setembre de 1858, quan una comissió hispanoandorrana que fixava la frontera hi va pujar convençuda que la ratlla passava pel cim. El vessant oest cau cap a l'estany Negre, i l'est baixa en grans pales gairebé 900 m fins al pla de l'Estany, un paisatge glacial de tarteres, estanys i congestes que sovint duren fins a l'estiu.",
 			"La vista abasta bona part del Pirineu central i oriental: el veí [Monteixo](/cims/monteixo), el massís de la [Pica d'Estats](/cims/pica-d-estats) a pocs quilòmetres, les valls andorranes cap a l'est i les muntanyes del Pallars a ponent. És un dels cims de més de 2.900 metres del repte amb una aproximació relativament curta.",
-			"La temporada habitual va de juny a octubre. El parc avisa que fora d'aquests mesos el perill d'allaus pot ser elevat i demana consultar el butlletí abans d'entrar-hi. A l'estiu, compta amb les tempestes de tarda i amb neu a l'últim tram fins ben entrat juny."
+			"A peu, la pujada es fa de juny a octubre. El parc avisa que fora d'aquests mesos el perill d'allaus pot ser elevat i demana consultar el butlletí abans d'entrar-hi. A l'estiu, compta amb les tempestes de tarda i amb neu a l'últim tram fins ben entrat juny."
 		],
 		es: [
 			"El Comapedrosa es la montaña más alta de [Andorra](/comarques/andorra). Se alza en el extremo noroeste del país, en la parroquia de La Massana, cerca de la frontera con el Pallars Sobirà y el Ariège, y da nombre al Parque Natural Comunal de les Valls del Comapedrosa, el espacio protegido más alpino del Principado. También se le llama l'Alt de Comapedrosa.",
 			"El nombre se entiende solo: una «coma», un valle alto y abierto, y «pedrosa», lleno de piedra. La primera ascensión documentada es del 22 de septiembre de 1858, cuando una comisión hispanoandorrana que fijaba la frontera subió convencida de que la raya pasaba por la cima. La vertiente oeste cae hacia el estany Negre, y la este baja en grandes palas casi 900 m hasta el pla de l'Estany, un paisaje glaciar de pedreras, lagos y neveros que a menudo duran hasta el verano.",
 			"La vista abarca buena parte del Pirineo central y oriental: el vecino [Monteixo](/cims/monteixo), el macizo de la [Pica d'Estats](/cims/pica-d-estats) a pocos kilómetros, los valles andorranos hacia el este y las montañas del Pallars al oeste. Es una de las cimas de más de 2.900 metros del reto con una aproximación relativamente corta.",
-			'La temporada habitual va de junio a octubre. El parque avisa de que fuera de esos meses el peligro de aludes puede ser elevado y pide consultar el boletín antes de entrar. En verano, cuenta con tormentas de tarde y con nieve en el último tramo hasta bien entrado junio.'
+			'A pie, la subida se hace de junio a octubre. El parque avisa de que fuera de esos meses el peligro de aludes puede ser elevado y pide consultar el boletín antes de entrar. En verano, cuenta con tormentas de tarde y con nieve en el último tramo hasta bien entrado junio.'
 		]
 	},
 	rutes: [
@@ -119,7 +119,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Comapedrosa compta al repte encara que sigui a Andorra?',
 				resposta:
-					'Sí. El repte inclou cims de Catalunya, Andorra i la Catalunya Nord, i el Comapedrosa és un dels [cims essencials](/cims-essencials).'
+					'Sí. El repte inclou cims de Catalunya, Andorra i la Catalunya Nord, i el Comapedrosa és un dels [cims essencials](/cims-essencials): el més alt dels cinc d’Andorra i el sostre del Principat.'
 			}
 		],
 		es: [
@@ -141,7 +141,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Comapedrosa cuenta en el reto aunque esté en Andorra?',
 				resposta:
-					'Sí. El reto incluye cimas de Cataluña, Andorra y la Cataluña Norte, y el Comapedrosa es una de las [cimas esenciales](/cims-essencials).'
+					'Sí. El reto incluye cimas de Cataluña, Andorra y la Cataluña Norte, y el Comapedrosa es una de las [cimas esenciales](/cims-essencials): la más alta de las cinco de Andorra y el techo del Principado.'
 			}
 		]
 	},

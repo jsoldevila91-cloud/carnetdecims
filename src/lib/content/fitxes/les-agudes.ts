@@ -54,16 +54,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'les-agudes',
 	descripcio: {
 		ca: [
-			"Les Agudes són, amb el turó de l'Home, el punt més alt del Montseny. El cim és a la carena principal del massís, on es troben els termes d'Arbúcies, [a la Selva](/comarques/selva), i de Fogars de Montclús i Montseny, al Vallès Oriental, i és dins el Parc Natural del Montseny, que també és reserva de la biosfera. A diferència del turó de l'Home, coronat per l'observatori meteorològic, les Agudes conserven un aspecte salvatge: un cim de roca i pedra solta, de fil·lites i corneanes, sense cap tros pla.",
+			"Les Agudes tenen una cota gairebé idèntica a la del turó de l'Home, el sostre del Montseny, i tots dos cims s'enllacen per la mateixa carena. El cim és a la carena principal del massís, on es troben els termes d'Arbúcies, [a la Selva](/comarques/selva), i de Fogars de Montclús i Montseny, al Vallès Oriental, i és dins el Parc Natural del Montseny, que també és reserva de la biosfera. A diferència del turó de l'Home, coronat per l'observatori meteorològic, les Agudes conserven un aspecte salvatge: un cim de roca i pedra solta, de fil·lites i corneanes, sense cap tros pla.",
 			"El cim té una història trista. El 3 de juliol de 1970 un Comet 4 de la companyia Dan-Air, que volava de Manchester a Barcelona, es va estavellar enmig de la boira contra la fageda del vessant nord-est de les Agudes. Hi van morir les 113 persones que hi viatjaven, i és l'accident aeri més greu de la història de Catalunya. Arbúcies i Viladrau en recorden les víctimes amb homenatges als aniversaris de la tragèdia. Pel que fa a l'excursionisme, el cim és un dels clàssics del Montseny: el GR 5.2, que recorre els cims del massís, hi passa de camí entre Sant Marçal i el turó de l'Home.",
 			"Des del vèrtex geodèsic, la vista és molt àmplia: el Pirineu i les Guilleries al nord, la plana de Vic a ponent, Montserrat i Collserola al sud, i als peus el pantà de Santa Fe i el castell de Montsoliu. A l'altra banda de la vall de Sant Marçal s'aixeca el [Matagalls](/cims/matagalls), l'altre gran cim del massís.",
-			"Es pot pujar tot l'any, però a l'hivern sovint hi ha neu i glaç i la carena és molt exposada al vent. La boira és freqüent i, en un cim de pedra sense camí clar, desorienta molt: amb mal temps és millor ajornar la sortida. A la primavera i a la tardor, la fageda del vessant nord és el gran atractiu de la pujada."
+			"A l'hivern sovint hi ha neu i glaç, i el vent escombra la carena sense res que l'aturi. La boira és freqüent i, en un cim de pedra sense camí clar, desorienta molt: amb mal temps és millor ajornar la sortida. A la primavera i a la tardor, la fageda del vessant nord és el gran atractiu de la pujada."
 		],
 		es: [
-			"Les Agudes son, con el turó de l'Home, el punto más alto del Montseny. La cima está en la cresta principal del macizo, donde se encuentran los municipios de Arbúcies, [en la Selva](/comarques/selva), y de Fogars de Montclús y Montseny, en el Vallès Oriental, y está dentro del Parc Natural del Montseny, que también es reserva de la biosfera. A diferencia del turó de l'Home, coronado por el observatorio meteorológico, les Agudes conservan un aspecto salvaje: una cima de roca y piedra suelta, de filitas y corneanas, sin ningún trozo llano.",
+			"Les Agudes tienen una cota casi idéntica a la del turó de l'Home, el techo del Montseny, y ambas cimas se enlazan por la misma cresta. La cima está en la cresta principal del macizo, donde se encuentran los municipios de Arbúcies, [en la Selva](/comarques/selva), y de Fogars de Montclús y Montseny, en el Vallès Oriental, y está dentro del Parc Natural del Montseny, que también es reserva de la biosfera. A diferencia del turó de l'Home, coronado por el observatorio meteorológico, les Agudes conservan un aspecto salvaje: una cima de roca y piedra suelta, de filitas y corneanas, sin ningún trozo llano.",
 			"La cima tiene una historia triste. El 3 de julio de 1970 un Comet 4 de la compañía Dan-Air, que volaba de Manchester a Barcelona, se estrelló en medio de la niebla contra el hayedo de la ladera noreste de les Agudes. Murieron las 113 personas que viajaban a bordo, y es el accidente aéreo más grave de la historia de Cataluña. Arbúcies y Viladrau recuerdan a las víctimas con homenajes en los aniversarios de la tragedia. En cuanto al excursionismo, la cima es un clásico del Montseny: el GR 5.2, que recorre las cimas del macizo, pasa por ella entre Sant Marçal y el turó de l'Home.",
 			'Desde el vértice geodésico, la vista es muy amplia: el Pirineo y las Guilleries al norte, la llanura de Vic al oeste, Montserrat y Collserola al sur, y a los pies el pantano de Santa Fe y el castillo de Montsoliu. Al otro lado del valle de Sant Marçal se alza el [Matagalls](/cims/matagalls), la otra gran cima del macizo.',
-			'Se puede subir todo el año, pero en invierno a menudo hay nieve y hielo y la cresta está muy expuesta al viento. La niebla es frecuente y, en una cima de piedra sin camino claro, desorienta mucho: con mal tiempo es mejor aplazar la salida. En primavera y otoño, el hayedo de la ladera norte es el gran atractivo de la subida.'
+			'En invierno a menudo hay nieve y hielo, y el viento barre la cresta sin nada que lo frene. La niebla es frecuente y, en una cima de piedra sin camino claro, desorienta mucho: con mal tiempo es mejor aplazar la salida. En primavera y otoño, el hayedo de la ladera norte es el gran atractivo de la subida.'
 		]
 	},
 	rutes: [
@@ -124,7 +124,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quina és la ruta més fàcil per pujar a les Agudes?',
 				resposta:
-					"La més assequible és des del turó de l'Home: D'excursió per Catalunya situa les Agudes a uns 30 minuts pel camí de carena, ben marcat. Des de Passavets, la circular pels dos cims fa 9,6 km i 667 m de desnivell, sense grimpades."
+					"La circular des de Passavets, que evita la tartera de la Goitadora: puja al turó de l'Home i segueix el camí de carena, ben marcat, fins a les Agudes, a uns 30 minuts. Segons D'excursió per Catalunya, fa 9,6 km i 667 m de desnivell, sense grimpades."
 			},
 			{
 				pregunta: 'Quant es triga a pujar a les Agudes des de Sant Marçal?',
@@ -139,14 +139,14 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Les Agudes compten com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels tres de la Selva. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí. La Selva té tres [cims essencials](/cims-essencials) i les Agudes en són el més alt; els altres dos són Sant Miquel de Solterra i el turó de Montsoriu. Si hi puges des de Passavets, recorda que el que compta és arribar a les Agudes: el turó de l’Home queda de pas.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuál es la ruta más fácil para subir a les Agudes?',
 				resposta:
-					"La más asequible es desde el turó de l'Home: D'excursió per Catalunya sitúa les Agudes a unos 30 minutos por el camino de cresta, bien marcado. Desde Passavets, la circular por las dos cimas tiene 9,6 km y 667 m de desnivel, sin trepadas."
+					"La circular desde Passavets, que evita la tartera de la Goitadora: sube al turó de l'Home y sigue el camino de cresta, bien marcado, hasta les Agudes, a unos 30 minutos. Según D'excursió per Catalunya, tiene 9,6 km y 667 m de desnivel, sin trepadas."
 			},
 			{
 				pregunta: '¿Cuánto se tarda en subir a les Agudes desde Sant Marçal?',
@@ -161,7 +161,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Les Agudes cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las tres de la Selva. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. La Selva tiene tres [cimas esenciales](/cims-essencials) y les Agudes son la más alta; las otras dos son Sant Miquel de Solterra y el turó de Montsoriu. Si subes desde Passavets, recuerda que lo que cuenta es llegar a les Agudes: el turó de l’Home queda de paso.'
 			}
 		]
 	},

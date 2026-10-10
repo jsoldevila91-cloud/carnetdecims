@@ -38,14 +38,14 @@ const fitxa: ContingutFitxa = {
 		ca: [
 			"Sant Ramon és el nom popular del Montbaig, el turó de llicorella que s'alça a l'oest de la plana del Llobregat, [al Baix Llobregat](/comarques/baix-llobregat). Al cim s'hi troben els termes de Sant Boi de Llobregat, Sant Climent de Llobregat i Viladecans. A l'edat mitjana era la muntanya de Golbes, un nom que encara conserva la font que hi ha de camí. Segons la Viquipèdia, fins als anys cinquanta tota la muntanya era de vinya i cirerers; després es va abandonar i avui és coberta de pins, alzines i roures.",
 			"L'ermita de **Sant Ramon Nonat**, patró dels nadons, es va construir entre el 1885 i el 1887, quan Josep Estruch i Comella la va fer aixecar en memòria dels seus pares. Abans, al cim només hi havia una fita que marcava els termes. Cada any, l'últim cap de setmana d'agost, els tres municipis hi celebren conjuntament l'aplec de Sant Ramon. Al costat hi ha un bar restaurant i un centre d'interpretació del paisatge del Baix Llobregat.",
-			"És un dels miradors més amplis de l'àrea metropolitana: el delta i la plana del Llobregat, el Garraf, l'Ordal i Collserola, amb Montserrat i el Montseny al fons. La Viquipèdia i l'Ajuntament de Sant Climent coincideixen que, en dies molt clars, s'arriba a albirar la serra de Tramuntana de Mallorca.",
-			"Es pot pujar tot l'any. Els dies de vent, però, el cim és molt desagradable, i a l'estiu convé anar-hi a primera hora."
+			"La vista sobre l'àrea metropolitana és molt àmplia: el delta i la plana del Llobregat, el Garraf, l'Ordal i Collserola, amb Montserrat i el Montseny al fons. La Viquipèdia i l'Ajuntament de Sant Climent coincideixen que, en dies molt clars, s'arriba a albirar la serra de Tramuntana de Mallorca.",
+			"Els dies de vent, el cim és molt desagradable, i a l'estiu convé anar-hi a primera hora."
 		],
 		es: [
 			'Sant Ramon es el nombre popular del Montbaig, el cerro de pizarra que se alza al oeste del llano del Llobregat, [en el Baix Llobregat](/comarques/baix-llobregat). En la cima confluyen los municipios de Sant Boi de Llobregat, Sant Climent de Llobregat y Viladecans. En la Edad Media era la montaña de Golbes, un nombre que aún conserva la fuente que hay de camino. Según la Viquipèdia, hasta los años cincuenta toda la montaña era de viña y cerezos; después se abandonó y hoy está cubierta de pinos, encinas y robles.',
 			'La ermita de **Sant Ramon Nonat**, patrón de los recién nacidos, se construyó entre 1885 y 1887, cuando Josep Estruch i Comella la mandó levantar en memoria de sus padres. Antes, en la cima solo había un mojón que marcaba los términos. Cada año, el último fin de semana de agosto, los tres municipios celebran conjuntamente el aplec de Sant Ramon. Al lado hay un bar restaurante y un centro de interpretación del paisaje del Baix Llobregat.',
-			'Es uno de los miradores más amplios del área metropolitana: el delta y el llano del Llobregat, el Garraf, el Ordal y Collserola, con Montserrat y el Montseny al fondo. La Viquipèdia y el Ayuntamiento de Sant Climent coinciden en que, en días muy claros, se llega a divisar la sierra de Tramuntana de Mallorca.',
-			'Se puede subir todo el año. Los días de viento, sin embargo, la cima es muy desagradable, y en verano conviene ir a primera hora.'
+			'La vista sobre el área metropolitana es muy amplia: el delta y el llano del Llobregat, el Garraf, el Ordal y Collserola, con Montserrat y el Montseny al fondo. La Viquipèdia y el Ayuntamiento de Sant Climent coinciden en que, en días muy claros, se llega a divisar la sierra de Tramuntana de Mallorca.',
+			'Los días de viento, la cima es muy desagradable, y en verano conviene ir a primera hora.'
 		]
 	},
 	rutes: [
@@ -111,7 +111,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Sant Ramon és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte. No gaire lluny, a l’altra banda del Llobregat, hi ha [Sant Pere Màrtir](/cims/sant-pere-martir), i dins del Garraf, [la Morella](/cims/la-morella).'
+					'Sí, i amb 295 m cap dels quatre [cims essencials](/cims-essencials) del Baix Llobregat no és més baix. Els altres són [Sant Pere Màrtir](/cims/sant-pere-martir), a l’altra banda del riu, [la Morella](/cims/la-morella), al massís del Garraf, i Sant Salvador de les Espases.'
 			}
 		],
 		es: [
@@ -133,7 +133,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Sant Ramon es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto. No muy lejos, al otro lado del Llobregat, está [Sant Pere Màrtir](/cims/sant-pere-martir), y dentro del Garraf, [la Morella](/cims/la-morella).'
+					'Sí, y con 295 m ninguna de las cuatro [cimas esenciales](/cims-essencials) del Baix Llobregat es más baja. Las otras son [Sant Pere Màrtir](/cims/sant-pere-martir), al otro lado del río, [la Morella](/cims/la-morella), en el macizo del Garraf, y Sant Salvador de les Espases.'
 			}
 		]
 	},

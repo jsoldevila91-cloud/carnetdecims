@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El Castellot és un turó acinglerat del terme de Castellví de la Marca, [a l'Alt Penedès](/comarques/alt-penedes), que s'aboca en un penya-segat sobre la riera de Marmellar. És el conjunt historicoarqueològic més conegut del municipi i un dels grans miradors de la plana del Penedès, entre pinedes i vinyes. Uns quants quilòmetres a l'est hi ha [la Penya del Papiol](/cims/penya-del-papiol) i [el Puig de l'Àliga](/cims/puig-de-l-aliga), els altres cims essencials del Penedès i el Garraf.",
 			"El nom ve de les restes del castell de Castellvell de la Marca, que apareix per primer cop el 977 en una venda del comte Borrell de Barcelona, quan aquestes terres eren frontera. Cap al 1023 va passar als Castellvell, un dels llinatges feudals més poderosos de la Marca del Penedès. La torre mestra era rodona, d'uns 10 m d'alçada i amb murs de 165 cm de gruix, i s'hi entrava a mitja alçada per una escala de fusta que es podia retirar en cas de perill. Al costat hi ha les restes de l'església romànica de Sant Miquel, la capella del castell, on des del 1293 hi havia un capellà que deia missa cada dia.",
 			'Des del cim es domina gairebé tota la plana del Penedès, amb el mosaic de vinyes i pinedes, i les serres que la tanquen.',
-			"Es pot fer tot l'any. A l'estiu, puja a primera hora: el tram final és costerut i a ple sol. La tardor, amb les vinyes canviant de color, és un dels millors moments per anar-hi."
+			"Qualsevol època hi va bé. A l'estiu, puja a primera hora: el tram final és costerut i a ple sol. La tardor, amb les vinyes canviant de color, és un dels millors moments per anar-hi."
 		],
 		es: [
 			"El Castellot es un cerro rodeado de riscos del municipio de Castellví de la Marca, [en el Alt Penedès](/comarques/alt-penedes), que se asoma en un acantilado sobre la riera de Marmellar. Es el conjunto histórico-arqueológico más conocido del municipio y uno de los grandes miradores de la llanura del Penedès, entre pinares y viñas. Unos kilómetros al este están [la Penya del Papiol](/cims/penya-del-papiol) y [el Puig de l'Àliga](/cims/puig-de-l-aliga), las otras cimas esenciales del Penedès y el Garraf.",
 			'El nombre viene de los restos del castillo de Castellvell de la Marca, que aparece por primera vez en 977 en una venta del conde Borrell de Barcelona, cuando estas tierras eran frontera. Hacia 1023 pasó a los Castellvell, uno de los linajes feudales más poderosos de la Marca del Penedès. La torre maestra era redonda, de unos 10 m de altura y con muros de 165 cm de grosor, y se entraba a media altura por una escalera de madera que se podía retirar en caso de peligro. Al lado están los restos de la iglesia románica de Sant Miquel, la capilla del castillo, donde desde 1293 había un capellán que decía misa cada día.',
 			'Desde la cima se domina casi toda la llanura del Penedès, con el mosaico de viñas y pinares, y las sierras que la cierran.',
-			'Se puede hacer todo el año. En verano, sube a primera hora: el tramo final es empinado y a pleno sol. El otoño, con las viñas cambiando de color, es uno de los mejores momentos para ir.'
+			'Cualquier época va bien. En verano, sube a primera hora: el tramo final es empinado y a pleno sol. El otoño, con las viñas cambiando de color, es uno de los mejores momentos para ir.'
 		]
 	},
 	rutes: [
@@ -108,7 +108,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'El Castellot és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí. L’Alt Penedès en té dos, el Castellot i [la Penya del Papiol](/cims/penya-del-papiol), i el Castellot és el més alt dels dos. Per validar-lo cal arribar al cim per qualsevol camí i sense motor, tal com explica la [normativa](/repte-100-cims/normativa).'
 			}
 		],
 		es: [
@@ -129,7 +130,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿El Castellot es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí. El Alt Penedès tiene dos, el Castellot y [la Penya del Papiol](/cims/penya-del-papiol), y el Castellot es la más alta de las dos. Para validarla hay que llegar a la cima por cualquier camino y sin motor, como explica la [normativa](/repte-100-cims/normativa).'
 			}
 		]
 	},

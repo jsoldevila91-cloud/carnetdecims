@@ -42,15 +42,15 @@ const fitxa: ContingutFitxa = {
 	slug: 'mola-de-colldejou',
 	descripcio: {
 		ca: [
-			"La Mola de Colldejou és la muntanya més reconeixible del Camp de Tarragona: un gran altiplà de més d'un quilòmetre de llarg envoltat de cingles, que s'alça sobre el poble de Colldejou, [al Baix Camp](/comarques/baix-camp). Forma part de la Serralada Prelitoral, al nord de la serra de Llaberia, i és dins de l'espai protegit de la Serra de Llaberia. Des de la costa es reconeix per la silueta plana, com una taula posada damunt de les serres.",
+			"La Mola de Colldejou és una de les siluetes més fàcils de reconèixer del Camp de Tarragona: un gran altiplà de més d'un quilòmetre de llarg envoltat de cingles, que s'alça sobre el poble de Colldejou, [al Baix Camp](/comarques/baix-camp). Forma part de la Serralada Prelitoral, al nord de la serra de Llaberia, i és dins de l'espai protegit de la Serra de Llaberia. Des de la costa es reconeix per la silueta plana, com una taula posada damunt de les serres.",
 			"Al punt més alt hi ha les restes del Castell de la Mola, una torre circular de pedra seca construïda durant la tercera guerra carlina per fer de telègraf òptic, com la torre de l'Esquirol de Cambrils: amb un sistema de taulers, s'hi enviaven senyals visibles a quilòmetres. Avui està declarada bé cultural d'interès nacional. Segons la Viquipèdia, el lloc podria haver acollit un poblat ibèric, i la tradició diu que el bandoler Carrasclet s'hi va amagar al segle XVIII. El Diari de Tarragona recorda també que el 1939 s'hi va estavellar a prop un avió alemany de transport.",
-			"L'altiplà és un mirador de primer ordre. Es veuen la Costa Daurada i la plana del Camp, les muntanyes de Prades, la serra de Montsant amb [la Roca Corbatera](/cims/roca-corbatera) i, molt a prop, les crestes de la serra de Llaberia, on hi ha [el Cavall Bernat de Llaberia](/cims/cavall-bernat-de-llaberia), un altre cim essencial de la comarca.",
+			"L'altiplà és un mirador de primer ordre. Es veuen la Costa Daurada i la plana del Camp, les muntanyes de Prades, la serra de Montsant amb [la Roca Corbatera](/cims/roca-corbatera) i, molt a prop, les crestes de la serra de Llaberia, on s'alça [el Cavall Bernat de Llaberia](/cims/cavall-bernat-de-llaberia), també essencial.",
 			"La millor època és de la tardor a la primavera. A l'estiu el camí és molt exposat al sol i la pujada final, per la canal, es fa feixuga amb calor. Després de pluja, la roca de la part alta rellisca."
 		],
 		es: [
-			'La Mola de Colldejou es la montaña más reconocible del Camp de Tarragona: un gran altiplano de más de un kilómetro de largo rodeado de riscos, que se alza sobre el pueblo de Colldejou, [en el Baix Camp](/comarques/baix-camp). Forma parte de la Cordillera Prelitoral, al norte de la sierra de Llaberia, y está dentro del espacio protegido de la Serra de Llaberia. Desde la costa se reconoce por su silueta plana, como una mesa puesta sobre las sierras.',
+			'La Mola de Colldejou es una de las siluetas más fáciles de reconocer del Camp de Tarragona: un gran altiplano de más de un kilómetro de largo rodeado de riscos, que se alza sobre el pueblo de Colldejou, [en el Baix Camp](/comarques/baix-camp). Forma parte de la Cordillera Prelitoral, al norte de la sierra de Llaberia, y está dentro del espacio protegido de la Serra de Llaberia. Desde la costa se reconoce por su silueta plana, como una mesa puesta sobre las sierras.',
 			"En el punto más alto están los restos del Castell de la Mola, una torre circular de piedra seca construida durante la tercera guerra carlista como telégrafo óptico, como la torre de l'Esquirol de Cambrils: con un sistema de tableros se enviaban señales visibles a kilómetros. Hoy está declarada bien cultural de interés nacional. Según la Viquipèdia, el lugar podría haber albergado un poblado ibérico, y la tradición dice que el bandolero Carrasclet se escondió allí en el siglo XVIII. El Diari de Tarragona recuerda también que en 1939 se estrelló cerca un avión alemán de transporte.",
-			'El altiplano es un mirador de primer orden. Se ven la Costa Daurada y la llanura del Camp, las montañas de Prades, la sierra de Montsant con [la Roca Corbatera](/cims/roca-corbatera) y, muy cerca, las crestas de la sierra de Llaberia, donde está [el Cavall Bernat de Llaberia](/cims/cavall-bernat-de-llaberia), otra cima esencial de la comarca.',
+			'El altiplano es un mirador de primer orden. Se ven la Costa Daurada y la llanura del Camp, las montañas de Prades, la sierra de Montsant con [la Roca Corbatera](/cims/roca-corbatera) y, muy cerca, las crestas de la sierra de Llaberia, donde se alza [el Cavall Bernat de Llaberia](/cims/cavall-bernat-de-llaberia), también esencial.',
 			'La mejor época va del otoño a la primavera. En verano el camino está muy expuesto al sol y la subida final, por la canal, se hace pesada con calor. Después de llover, la roca de la parte alta resbala.'
 		]
 	},
@@ -118,7 +118,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'La Mola de Colldejou és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí. És un dels sis [cims essencials](/cims-essencials) del Baix Camp, amb el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana), sostre de les muntanyes de Prades, o el Cavall Bernat, a la serra de Llaberia, just al sud de la Mola.'
 			}
 		],
 		es: [
@@ -139,7 +140,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿La Mola de Colldejou es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí. Es una de las seis [cimas esenciales](/cims-essencials) del Baix Camp, con el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana), techo de las montañas de Prades, o el Cavall Bernat, en la sierra de Llaberia, justo al sur de la Mola.'
 			}
 		]
 	},

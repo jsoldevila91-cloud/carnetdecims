@@ -85,15 +85,13 @@ const fitxa: ContingutFitxa = {
 			"El santuari és arran de cingle: a l'esplanada i al mirador, vigila molt els nens.",
 			'A la tardor i a l’hivern les fulles mortes i la pedra polida del camí vell rellisquen, sobretot a la baixada.',
 			"Si vols una sortida més curta, Mirador Bellmunt proposa començar el camí vell a l'esplanada de sota la masia de la Redortra: unes 2 h 30 min en total, de dificultat baixa.",
-			"El restaurant i l'hostatgeria del santuari tenen horaris propis: consulta'ls si hi vols dinar o dormir.",
-			'A l’hivern, consulta la predicció abans de sortir: el vessant de Vidrà és obac i pot tenir gel.'
+			"El restaurant i l'hostatgeria del santuari tenen horaris propis: consulta'ls si hi vols dinar o dormir."
 		],
 		es: [
 			'El santuario está al borde del risco: en la explanada y en el mirador, vigila mucho a los niños.',
 			'En otoño e invierno las hojas secas y la piedra pulida del camí vell resbalan, sobre todo en la bajada.',
 			'Si quieres una salida más corta, Mirador Bellmunt propone empezar el camí vell en la explanada bajo la masía de la Redortra: unas 2 h 30 min en total, de dificultad baja.',
-			'El restaurante y la hospedería del santuario tienen horarios propios: consúltalos si quieres comer o dormir.',
-			'En invierno, consulta la predicción antes de salir: la vertiente de Vidrà es umbría y puede tener hielo.'
+			'El restaurante y la hospedería del santuario tienen horarios propios: consúltalos si quieres comer o dormir.'
 		]
 	},
 	faq: {
@@ -116,7 +114,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Bellmunt és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels clàssics de [les muntanyes d’Osona](/comarques/osona).'
+					"Sí. A Osona comparteix la categoria amb el [Matagalls](/cims/matagalls), el Castell de Milany, la Creu de Gurb i Rocallarga, i té una particularitat: el santuari del cim fa de restaurant i d'hostatgeria."
 			}
 		],
 		es: [
@@ -138,7 +136,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Bellmunt es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y uno de los clásicos de [las montañas de Osona](/comarques/osona).'
+					'Sí. En Osona comparte la categoría con el [Matagalls](/cims/matagalls), el Castell de Milany, la Creu de Gurb y Rocallarga, y tiene una particularidad: el santuario de la cima hace de restaurante y hospedería.'
 			}
 		]
 	},

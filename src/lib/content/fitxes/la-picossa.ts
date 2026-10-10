@@ -31,15 +31,15 @@ const fitxa: ContingutFitxa = {
 	descripcio: {
 		ca: [
 			"La Picossa és el cim emblemàtic de Móra d'Ebre, [a la Ribera d'Ebre](/comarques/ribera-d-ebre). Forma part de la serra de Cavalls i és dins de l'espai protegit de les Serres de Pàndols-Cavalls, un relleu sec i rocós de bretxes i dolomies, amb boscos de pi, antigues feixes de pedra seca i cingles on crien rapinyaires. La carena enllaça diversos turons, com la Pena-roja i el cim de l'Estel, coronat amb una estrella metàl·lica.",
-			"**Abans d'anar-hi, tingues en compte la restricció d'accés:** la FEEC no valida les ascensions fetes entre el 15 de gener i el 15 de juny, perquè l'accés hi és prohibit durant la nidificació d'espècies amenaçades. Fora d'aquest període, la pujada és lliure. La serra té també memòria de la Guerra Civil: durant la batalla de l'Ebre, segons la Viquipèdia, l'exèrcit republicà hi va tenir un observatori, que va ser bombardejat abans de l'ofensiva final. Al cim hi ha un vèrtex geodèsic.",
+			"**Abans d'anar-hi, tingues en compte la restricció d'accés:** la FEEC no valida les ascensions fetes entre el 15 de gener i el 15 de juny, perquè l'accés hi és prohibit durant la nidificació d'espècies amenaçades. Fora d'aquest període, la pujada és lliure. La serra té també memòria de la Guerra Civil: durant la batalla de l'Ebre, segons la Viquipèdia, l'exèrcit republicà hi va tenir un observatori, que va ser bombardejat abans de l'ofensiva final. El punt culminant té un vèrtex geodèsic.",
 			"Des de dalt es domina bona part de la Ribera d'Ebre, amb Móra i el riu als peus. Des de la Pena-roja es veu el vessant oest, amb els Ports, la serra de Cavalls i Corbera d'Ebre, i des del cim de l'Estel la vista és de 360 graus, amb el Montsant, Llaberia, Tivissa, Cardó i els Ports. A l'altra banda del riu hi ha [la Tossa de Tivissa](/cims/la-tossa-tivissa) i, més al nord, [lo Tormo](/cims/lo-tormo), altres cims essencials de la comarca.",
-			"La millor època, coincidint amb el període sense restricció, és de mitjan juny a mitjan gener, evitant la calor forta de l'estiu: la tardor i el principi de l'hivern són ideals. La zona és molt seca i no hi ha fonts."
+			"La millor època, coincidint amb el període sense restricció, és de mitjan juny a mitjan gener, evitant la calor forta de l'estiu: la tardor i el principi de l'hivern són els millors moments. La zona és molt seca i no hi ha fonts."
 		],
 		es: [
 			"La Picossa es la cima emblemática de Móra d'Ebre, [en la Ribera d'Ebre](/comarques/ribera-d-ebre). Forma parte de la sierra de Cavalls y está dentro del espacio protegido de las Serres de Pàndols-Cavalls, un relieve seco y rocoso de brechas y dolomías, con pinares, antiguas terrazas de piedra seca y riscos donde crían rapaces. La cresta enlaza varias lomas, como la Pena-roja y el cim de l'Estel, coronado con una estrella metálica.",
-			'**Antes de ir, ten en cuenta la restricción de acceso:** la FEEC no valida las ascensiones hechas entre el 15 de enero y el 15 de junio, porque el acceso está prohibido durante la nidificación de especies amenazadas. Fuera de ese período, la subida es libre. La sierra guarda también memoria de la Guerra Civil: durante la batalla del Ebro, según la Viquipèdia, el ejército republicano tuvo aquí un observatorio, que fue bombardeado antes de la ofensiva final. En la cima hay un vértice geodésico.',
+			'**Antes de ir, ten en cuenta la restricción de acceso:** la FEEC no valida las ascensiones hechas entre el 15 de enero y el 15 de junio, porque el acceso está prohibido durante la nidificación de especies amenazadas. Fuera de ese período, la subida es libre. La sierra guarda también memoria de la Guerra Civil: durante la batalla del Ebro, según la Viquipèdia, el ejército republicano tuvo aquí un observatorio, que fue bombardeado antes de la ofensiva final. El punto culminante tiene un vértice geodésico.',
 			"Desde arriba se domina buena parte de la Ribera d'Ebre, con Móra y el río a los pies. Desde la Pena-roja se ve la vertiente oeste, con los Ports, la sierra de Cavalls y Corbera d'Ebre, y desde el cim de l'Estel la vista es de 360 grados, con el Montsant, Llaberia, Tivissa, Cardó y los Ports. Al otro lado del río está [la Tossa de Tivissa](/cims/la-tossa-tivissa) y, más al norte, [lo Tormo](/cims/lo-tormo), otras cimas esenciales de la comarca.",
-			'La mejor época, coincidiendo con el período sin restricción, va de mediados de junio a mediados de enero, evitando el calor fuerte del verano: el otoño y el principio del invierno son ideales. La zona es muy seca y no hay fuentes.'
+			'La mejor época, coincidiendo con el período sin restricción, va de mediados de junio a mediados de enero, evitando el calor fuerte del verano: el otoño y el principio del invierno son los mejores momentos. La zona es muy seca y no hay fuentes.'
 		]
 	},
 	rutes: [
@@ -109,7 +109,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: 'La Picossa és un cim essencial?',
-				resposta: 'Sí, és un dels [cims essencials](/cims-essencials) del repte.'
+				resposta:
+					'Sí, i és un dels pocs [cims essencials](/cims-essencials) amb dates vetades: les ascensions del 15 de gener al 15 de juny no es validen. A la Ribera d’Ebre comparteix categoria amb [la Tossa de Tivissa](/cims/la-tossa-tivissa) i [lo Tormo](/cims/lo-tormo).'
 			}
 		],
 		es: [
@@ -130,7 +131,8 @@ const fitxa: ContingutFitxa = {
 			},
 			{
 				pregunta: '¿La Picossa es una cima esencial?',
-				resposta: 'Sí, es una de las [cimas esenciales](/cims-essencials) del reto.'
+				resposta:
+					'Sí, y es una de las pocas [cimas esenciales](/cims-essencials) con fechas vetadas: las ascensiones del 15 de enero al 15 de junio no se validan. En la Ribera d’Ebre comparte categoría con [la Tossa de Tivissa](/cims/la-tossa-tivissa) y [lo Tormo](/cims/lo-tormo).'
 			}
 		]
 	},

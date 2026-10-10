@@ -33,13 +33,13 @@ const fitxa: ContingutFitxa = {
 			"El castell del Montgrí corona la muntanya calcària que s'aixeca just al nord de Torroella de Montgrí, [al Baix Empordà](/comarques/baix-emporda), a pocs quilòmetres del mar. La serra, pelada i blanquinosa, és dins el Parc Natural del Montgrí, les Illes Medes i el Baix Ter, i la silueta quadrada del castell, visible des de gairebé tota la plana, n'és la imatge més coneguda. Josep Pla el va anomenar «el botó de la roda de l'Empordà», perquè tot el país sembla girar al seu voltant.",
 			"És un castell que no es va acabar mai. El rei Jaume II el va fer començar el 1294 per plantar cara als comtes d'Empúries, rivals de la corona en aquesta part de l'Empordà, però les obres es van aturar cap al 1301-1302, quan el comtat va deixar de ser una amenaça. En va quedar un recinte de planta quadrada amb quatre torres cilíndriques als angles, muralles emmerletades i un pati interior buit. És bé cultural d'interès nacional i es va restaurar a partir del 1985. Pel camí de pujada hi ha tres capelles, estacions d'un antic rosari, i la creu del coll de Santa Caterina, lligades a la llegenda d'una imatge de la santa que un pastor hauria trobat entre les roques.",
 			"Des de dalt es domina tota la plana de l'Empordà. Es veuen l'Estartit i les illes Medes, la badia de Roses, la platja de Pals i, cap al nord, el Pirineu. Des del coll de Santa Caterina, a mig camí, també hi ha una bona vista de l'ermita del mateix nom.",
-			"Es pot pujar tot l'any, però és una muntanya seca i sense ombra: a l'estiu cal anar-hi a primera hora o a última hora de la tarda. La tramuntana hi bufa amb força i, en dies de vent fort, el parc avisa del risc de caigudes. La primavera i la tardor són les millors èpoques."
+			"No hi ha època tancada, però el Montgrí és sec i no fa gens d'ombra: a l'estiu cal anar-hi a primera hora o a última hora de la tarda. La tramuntana hi bufa amb força i, en dies de vent fort, el parc avisa del risc de caigudes. La primavera i la tardor són les millors èpoques."
 		],
 		es: [
 			'El castell del Montgrí corona la montaña caliza que se alza justo al norte de Torroella de Montgrí, [en el Baix Empordà](/comarques/baix-emporda), a pocos kilómetros del mar. La sierra, pelada y blanquecina, está dentro del Parc Natural del Montgrí, les Illes Medes i el Baix Ter, y la silueta cuadrada del castillo, visible desde casi toda la llanura, es su imagen más conocida. Josep Pla lo llamó «el botón de la rueda del Empordà», porque toda la comarca parece girar a su alrededor.',
 			'Es un castillo que nunca se terminó. El rey Jaime II mandó empezarlo en 1294 para hacer frente a los condes de Empúries, rivales de la corona en esta parte del Empordà, pero las obras se detuvieron hacia 1301-1302, cuando el condado dejó de ser una amenaza. Quedó un recinto de planta cuadrada con cuatro torres cilíndricas en las esquinas, murallas almenadas y un patio interior vacío. Es bien cultural de interés nacional y se restauró a partir de 1985. En el camino de subida hay tres capillas, estaciones de un antiguo rosario, y la cruz del coll de Santa Caterina, ligadas a la leyenda de una imagen de la santa que un pastor habría encontrado entre las rocas.',
 			"Desde arriba se domina toda la llanura del Empordà. Se ven l'Estartit y las islas Medes, la bahía de Roses, la playa de Pals y, hacia el norte, el Pirineo. Desde el coll de Santa Caterina, a medio camino, también hay una buena vista de la ermita del mismo nombre.",
-			'Se puede subir todo el año, pero es una montaña seca y sin sombra: en verano hay que ir a primera hora o al final de la tarde. La tramontana sopla con fuerza y, en días de viento fuerte, el parque avisa del riesgo de caídas. La primavera y el otoño son las mejores épocas.'
+			'No hay época cerrada, pero el Montgrí es seco y no da nada de sombra: en verano hay que ir a primera hora o al final de la tarde. La tramontana sopla con fuerza y, en días de viento fuerte, el parque avisa del riesgo de caídas. La primavera y el otoño son las mejores épocas.'
 		]
 	},
 	rutes: [
@@ -106,7 +106,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El castell del Montgrí compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del repte i l'únic del Baix Empordà. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa)."
+					"Sí, i és l'únic [cim essencial](/cims-essencials) del Baix Empordà: amb aquesta pujada tens la comarca feta. Quines proves valen per validar-lo, a la [normativa](/repte-100-cims/normativa)."
 			}
 		],
 		es: [
@@ -128,7 +128,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El castell del Montgrí cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y la única del Baix Empordà. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí, y es la única [cima esencial](/cims-essencials) del Baix Empordà: con esta subida tienes la comarca hecha. Qué pruebas sirven para validarla, en la [normativa](/repte-100-cims/normativa).'
 			}
 		]
 	},

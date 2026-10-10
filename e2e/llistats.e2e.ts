@@ -156,7 +156,9 @@ test('/cims enllaça els llistats i les comarques, i tots responen 200', async (
 		'/ca/mapa',
 		'/ca/cims-essencials',
 		'/ca/tresmils',
-		'/ca/cims-mes-alts'
+		'/ca/cims-mes-alts',
+		'/ca/cims-facils',
+		'/ca/cims-amb-nens'
 	]);
 	for (const h of hrefs) expect((await request.get(h)).status(), h).toBe(200);
 });

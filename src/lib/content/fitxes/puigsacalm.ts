@@ -39,13 +39,13 @@ const fitxa: ContingutFitxa = {
 			"El Puigsacalm és el punt més alt de la serralada Transversal i un dels grans cims [de la Garrotxa](/comarques/garrotxa). És al terme de la Vall d'en Bas, sobre la vall del Ter i la plana d'en Bas, i forma part de l'espai protegit de les serres de Milany-Santa Magdalena i Puigsacalm-Bellmunt. Per la banda de la Vall d'en Bas, la muntanya cau en cingleres verticals; per la banda de Vidrà i Bracons, en canvi, mostra un llom suau de prats i fagedes.",
 			"El cim, de margues i gresos, té un vèrtex geodèsic i una història científica poc coneguda: a finals del segle XVIII s'hi van fer observacions i triangulacions per mesurar el meridià de Dunkerque a Barcelona, el treball que va permetre definir la longitud del metre. A pocs minuts al nord hi ha el Puig dels Llops, el cim bessó, que molta gent hi afegeix. La pujada des de la collada de Bracons és una de les excursions més populars de la comarca, sobretot a la tardor, quan la fageda canvia de color.",
 			'Des de dalt es veu gairebé tota la Garrotxa, el Pirineu oriental i bona part de les comarques gironines i de la Catalunya central; la ruta de Monteditorial esmenta també la Serralada Litoral i el cap de Creus. Cap al nord-oest hi ha la serra de Milany i, una mica més enllà, el [castell de Milany](/cims/castell-de-milany), i al sud, ja al Collsacabra, el cingle de [Cabrera](/cims/cabrera).',
-			"Es pot pujar tot l'any. A l'hivern hi pot haver neu i glaç al tram de fageda, i els prats oberts dels Rasos de Manter es tornen fàcilment desorientadors amb boira, que en aquesta zona és freqüent. La tardor és l'època preferida per la fageda."
+			"A l'hivern hi pot haver neu i glaç al tram de fageda, i els prats oberts dels Rasos de Manter es tornen fàcilment desorientadors amb boira, que en aquesta zona és freqüent. La tardor és l'època preferida per la fageda."
 		],
 		es: [
 			"El Puigsacalm es el punto más alto de la cordillera Transversal y una de las grandes cimas [de la Garrotxa](/comarques/garrotxa). Está en el municipio de la Vall d'en Bas, sobre el valle del Ter y la llanura de En Bas, y forma parte del espacio protegido de las sierras de Milany-Santa Magdalena y Puigsacalm-Bellmunt. Por el lado de la Vall d'en Bas, la montaña cae en riscos verticales; por el lado de Vidrà y Bracons, en cambio, muestra un lomo suave de prados y hayedos.",
 			'La cima, de margas y areniscas, tiene un vértice geodésico y una historia científica poco conocida: a finales del siglo XVIII se hicieron observaciones y triangulaciones para medir el meridiano de Dunkerque a Barcelona, el trabajo que permitió definir la longitud del metro. A pocos minutos al norte está el Puig dels Llops, la cima gemela, que mucha gente añade. La subida desde la collada de Bracons es una de las excursiones más populares de la comarca, sobre todo en otoño, cuando el hayedo cambia de color.',
 			'Desde arriba se ve casi toda la Garrotxa, el Pirineo oriental y buena parte de las comarcas gerundenses y de la Cataluña central; la ruta de Monteditorial menciona también la Cordillera Litoral y el cap de Creus. Hacia el noroeste está la sierra de Milany y, un poco más allá, el [castell de Milany](/cims/castell-de-milany), y al sur, ya en el Collsacabra, el risco de [Cabrera](/cims/cabrera).',
-			'Se puede subir todo el año. En invierno puede haber nieve y hielo en el tramo de hayedo, y los prados abiertos de los Rasos de Manter se vuelven fácilmente desorientadores con niebla, que en esta zona es frecuente. El otoño es la época preferida por el hayedo.'
+			'En invierno puede haber nieve y hielo en el tramo de hayedo, y los prados abiertos de los Rasos de Manter se vuelven fácilmente desorientadores con niebla, que en esta zona es frecuente. El otoño es la época preferida por el hayedo.'
 		]
 	},
 	rutes: [
@@ -115,7 +115,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Puigsacalm compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels quatre de la Garrotxa. Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí. És un dels quatre [cims essencials](/cims-essencials) de la Garrotxa i el segon més alt després del Comanegra. Per validar-lo has d’arribar al vèrtex del Puigsacalm: el Puig dels Llops no és a la llista.'
 			}
 		],
 		es: [
@@ -137,7 +137,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Puigsacalm cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las cuatro de la Garrotxa. Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. Es una de las cuatro [cimas esenciales](/cims-essencials) de la Garrotxa y la segunda más alta después del Comanegra. Para validarla tienes que llegar al vértice del Puigsacalm: el Puig dels Llops no está en la lista.'
 			}
 		]
 	},

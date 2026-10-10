@@ -151,7 +151,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El castell de Burriac és un cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte, i amb el [Montalt](/cims/montalt) completa els cims del Maresme.'
+					'Sí. El Maresme té dos [cims essencials](/cims-essencials), el castell de Burriac i el [Montalt](/cims/montalt), i el Burriac, amb 392 m, és el més modest.'
 			}
 		],
 		es: [
@@ -173,7 +173,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El castillo de Burriac es una cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto, y con el [Montalt](/cims/montalt) completa las cimas del Maresme.'
+					'Sí. El Maresme tiene dos [cimas esenciales](/cims-essencials), el castillo de Burriac y el [Montalt](/cims/montalt), y el Burriac, con 392 m, es el más modesto.'
 			}
 		]
 	},

@@ -31,15 +31,15 @@ const fitxa: ContingutFitxa = {
 	descripcio: {
 		ca: [
 			"Els Àngels és el nom amb què tothom coneix el Puig Alt, el cim on s'alça el santuari de la Mare de Déu dels Àngels, al massís de les Gavarres. És dins el terme de Sant Martí Vell, [al Gironès](/comarques/girones), molt a prop del límit amb el Baix Empordà, i s'hi arriba per la carretera de Girona a Madremanya, molt freqüentada per ciclistes. A diferència de molts cims, aquí trobaràs un edifici gran, una hostatgeria amb restaurant i una zona de pícnic enjardinada.",
-			"El santuari té més de sis segles d'història. La llicència per construir-hi una capella es va donar el 1409 i la primera obra es va acabar cap al 1423. Va ser saquejat el 1710, durant la guerra de Successió, i reconstruït el 1735; el 1809, amb la guerra del Francès, va tornar a quedar destruït, i es va refer a partir del 1814. La imatge actual de la Mare de Déu és del 1943. El 8 d'agost de 1958 Salvador Dalí i Gala s'hi van casar en una cerimònia íntima, un fet que encara atreu visitants. La festa del santuari és el 2 d'agost, i molts pobles de l'entorn hi tenen el seu aplec o hi pugen en pelegrinatge.",
+			"El santuari té més de sis segles d'història. La llicència per construir-hi una capella es va donar el 1409 i la primera obra es va enllestir entre el 1420 i el 1423. Va ser saquejat el 1710, durant la guerra de Successió, i reconstruït el 1735; el 1809, amb la guerra del Francès, va tornar a quedar destruït, i es va refer a partir del 1814. La imatge actual de la Mare de Déu és del 1943. El 8 d'agost de 1958 Salvador Dalí i Gala s'hi van casar en una cerimònia íntima, un fet que encara atreu visitants. La festa del santuari és el 2 d'agost, i molts pobles de l'entorn hi tenen el seu aplec o hi pugen en pelegrinatge.",
 			"El nom de mirador de les Gavarres li escau: des del pla dels Àngels es veu la plana de Girona, l'Alt i el Baix Empordà, la Selva i, en dies clars, el Pirineu i el Montseny. Al nord-oest, a la mateixa serra, hi ha el [castell de Sant Miquel](/cims/castell-de-sant-miquel), l'altre cim essencial de la comarca, i és habitual encadenar-los en una sola sortida.",
-			"Es pot pujar en qualsevol època de l'any. A l'estiu els camins de les Gavarres són calorosos i és millor anar-hi a primera hora; a la tardor, la castanyeda que es travessa des de Sant Martí Vell és un dels trams més agradables. Al voltant del 2 d'agost i els caps de setmana hi ha força gent."
+			"No hi ha mala època per pujar-hi. A l'estiu els camins de les Gavarres són calorosos i és millor anar-hi a primera hora; a la tardor, la castanyeda que es travessa des de Sant Martí Vell és un dels trams més agradables. Al voltant del 2 d'agost i els caps de setmana hi ha força gent."
 		],
 		es: [
 			'Els Àngels es el nombre con el que todo el mundo conoce el Puig Alt, la cima en la que se alza el santuario de la Mare de Déu dels Àngels, en el macizo de les Gavarres. Está en el municipio de Sant Martí Vell, [en el Gironès](/comarques/girones), muy cerca del límite con el Baix Empordà, y se llega por la carretera de Girona a Madremanya, muy frecuentada por ciclistas. A diferencia de muchas cimas, aquí encontrarás un gran edificio, una hospedería con restaurante y una zona de pícnic ajardinada.',
-			'El santuario tiene más de seis siglos de historia. La licencia para construir una capilla se concedió en 1409 y la primera obra se terminó hacia 1423. Fue saqueado en 1710, durante la guerra de Sucesión, y reconstruido en 1735; en 1809, con la guerra de la Independencia, volvió a quedar destruido, y se rehízo a partir de 1814. La imagen actual de la Virgen es de 1943. El 8 de agosto de 1958 Salvador Dalí y Gala se casaron aquí en una ceremonia íntima, un hecho que aún atrae visitantes. La fiesta del santuario es el 2 de agosto, y muchos pueblos del entorno celebran allí su aplec o suben en peregrinación.',
+			'El santuario tiene más de seis siglos de historia. La licencia para construir una capilla se concedió en 1409 y la primera obra se terminó entre 1420 y 1423. Fue saqueado en 1710, durante la guerra de Sucesión, y reconstruido en 1735; en 1809, con la guerra de la Independencia, volvió a quedar destruido, y se rehízo a partir de 1814. La imagen actual de la Virgen es de 1943. El 8 de agosto de 1958 Salvador Dalí y Gala se casaron aquí en una ceremonia íntima, un hecho que aún atrae visitantes. La fiesta del santuario es el 2 de agosto, y muchos pueblos del entorno celebran allí su aplec o suben en peregrinación.',
 			'El nombre de mirador de las Gavarres le va bien: desde el pla dels Àngels se ve la llanura de Girona, el Alt y el Baix Empordà, la Selva y, en días claros, el Pirineo y el Montseny. Al noroeste, en la misma sierra, está el [castell de Sant Miquel](/cims/castell-de-sant-miquel), la otra cima esencial de la comarca, y es habitual encadenar ambas en una sola salida.',
-			'Se puede subir en cualquier época del año. En verano los caminos de las Gavarres son calurosos y es mejor ir a primera hora; en otoño, el castañar que se cruza desde Sant Martí Vell es uno de los tramos más agradables. Alrededor del 2 de agosto y los fines de semana hay bastante gente.'
+			'No hay mala época para subir. En verano los caminos de las Gavarres son calurosos y es mejor ir a primera hora; en otoño, el castañar que se cruza desde Sant Martí Vell es uno de los tramos más agradables. Alrededor del 2 de agosto y los fines de semana hay bastante gente.'
 		]
 	},
 	rutes: [
@@ -104,29 +104,29 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Els Àngels compten com a cim essencial?',
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) del repte i un dels dos del Gironès, amb el [castell de Sant Miquel](/cims/castell-de-sant-miquel). Les condicions per validar-lo són a la [normativa](/repte-100-cims/normativa).'
+					'Sí. Dels dos [cims essencials](/cims-essencials) del Gironès, és el que té més altitud; l’altre és el [castell de Sant Miquel](/cims/castell-de-sant-miquel). Recorda que, per validar-lo, cal pujar-hi a peu o amb un altre mitjà sense motor, no amb el cotxe fins al santuari.'
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a els Àngels desde Sant Martí Vell?',
+				pregunta: '¿Cuánto se tarda en subir a Els Àngels desde Sant Martí Vell?',
 				resposta:
 					'Según el Ayuntamiento de Sant Martí Vell, el itinerario señalizado tiene 5,5 km de ida y 473 m de desnivel positivo, y se hace en aproximadamente 1 h 45 min de subida. La vuelta por el mismo camino es más rápida.'
 			},
 			{
-				pregunta: '¿Se puede subir a els Àngels con niños?',
+				pregunta: '¿Se puede subir a Els Àngels con niños?',
 				resposta:
 					'Sí, con niños acostumbrados a caminar: son pistas y caminos de bosque sin pasos técnicos, y arriba hay zona de pícnic y restaurante. La subida es sostenida, así que vale la pena hacerla con calma. También se puede llegar en coche por la carretera de Madremanya, pero así no cuenta el esfuerzo.'
 			},
 			{
-				pregunta: '¿Es verdad que Dalí se casó en el santuario de els Àngels?',
+				pregunta: '¿Es verdad que Dalí se casó en el santuario de Els Àngels?',
 				resposta:
 					'Sí. Salvador Dalí y Gala se casaron aquí el 8 de agosto de 1958, en una ceremonia íntima. El santuario actual es fruto de varias reconstrucciones tras las guerras de 1710 y de 1809.'
 			},
 			{
 				pregunta: '¿Els Àngels cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) del reto y una de las dos del Gironès, con el [castell de Sant Miquel](/cims/castell-de-sant-miquel). Las condiciones para validarla están en la [normativa](/repte-100-cims/normativa).'
+					'Sí. De las dos [cimas esenciales](/cims-essencials) del Gironès, es la de mayor altitud; la otra es el [castell de Sant Miquel](/cims/castell-de-sant-miquel). Recuerda que, para validarla, hay que subir a pie o con otro medio sin motor, no en coche hasta el santuario.'
 			}
 		]
 	},
