@@ -19,7 +19,7 @@
 	import MeteoCim from '$lib/ui/fitxa/MeteoCim.svelte';
 	import RutaAccesCard from '$lib/ui/fitxa/RutaAccesCard.svelte';
 	import WikilocRecomanada from '$lib/ui/fitxa/WikilocRecomanada.svelte';
-	import { ampleLiniesEm, ampleParaulaMesLlargaEm, saltsTitolEm } from '$lib/ui/titol-ample';
+	import { ampleLiniesEm, ampleParaulaMesLlargaEm, saltsTitolPerTram } from '$lib/ui/titol-ample';
 	import { obrirRegistre, registrarHref as registrarUrl } from '$lib/ui/fulls';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -88,11 +88,19 @@
 	const paraulesNom = $derived(cim.nom.trim().split(/\s+/));
 	const sufixAlt = $derived({ text: `(${alt} m)`, escala: ESCALA_ALT });
 	const liniesEm = $derived(ampleLiniesEm(cim.nom, 3, sufixAlt));
-	// Al mòbil, salts de línia explícits (`<br class="salt">`): el mateix nombre de línies amb la
-	// font de reserva i amb Archivo (sense CLS en arribar la woff2). Índex = paraulesNom.length
-	// → salt abans de l'altitud.
+	// Salts de línia explícits (`<br class="salt tram-N">`) per a cada tram d'amplada de la
+	// capçalera: el mateix nombre de línies amb la font de reserva i amb Archivo (sense CLS en
+	// arribar la woff2), del mòbil a l'escriptori. Índex = paraulesNom.length → salt abans de
+	// l'altitud. El CSS (`@container`) amaga els salts dels altres trams.
 	const ESPAI = ' ';
-	const salts = $derived(new Set(saltsTitolEm(cim.nom, sufixAlt, paraulaEm, liniesEm)));
+	const salts = $derived(
+		new Map(
+			[...saltsTitolPerTram(cim.nom, sufixAlt, paraulaEm, liniesEm)].map(([i, trams]) => [
+				i,
+				['salt', ...trams.map((t) => `tram-${t}`)]
+			])
+		)
+	);
 
 	const altresNoms = $derived.by(() => {
 		// Noms diferents del visible, sense repetits (sense distingir majúscules).
@@ -260,11 +268,11 @@
 				style:--linies-em={liniesEm}
 				style:--escala-alt={ESCALA_ALT}
 			>
-				{#each paraulesNom as paraula, i (i)}{#if salts.has(i)}<br class="salt" />{/if}<span
+				{#each paraulesNom as paraula, i (i)}{#if salts.has(i)}<br class={salts.get(i)} />{/if}<span
 						class={{ nowrap: paraula.includes('-') }}>{paraula}</span
-					>{ESPAI}{/each}{#if salts.has(paraulesNom.length)}<br class="salt" />{/if}<span
-					class="h1-alt">({alt} m)</span
-				>
+					>{ESPAI}{/each}{#if salts.has(paraulesNom.length)}<br
+						class={salts.get(paraulesNom.length)}
+					/>{/if}<span class="h1-alt">({alt} m)</span>
 			</h1>
 			<p class="sub mono">
 				{[comarca.nom, zona].filter(Boolean).join(' · ')}
@@ -604,16 +612,59 @@
 		overflow-wrap: anywhere;
 	}
 
-	/* Altitud dins del H1: més petita, discreta i mai partida */
 	/*
-	 * Salts calculats per al mòbil: la capacitat de línia en em és fixa mentre 11cqi < --fs-3xl
-	 * (capçalera < 436 px). Més ample, el navegador parteix sol.
+	 * Salts explícits per tram d'amplada de la capçalera (`H1_TRAMS_REM` a `titol-ample.ts`, han de
+	 * coincidir): a cada tram només compten els `<br>` amb la seva classe. Tram 0: mòbil, capacitat
+	 * de línia en em fixa mentre 11cqi < --fs-3xl; des de 27,3125rem (437 px), mida al sostre i
+	 * capacitat = amplada / 3rem, calculada a l'inici de cada tram.
 	 */
-	@container (min-width: 437px) {
-		.salt {
+	@container (width < 27.3125rem) {
+		.salt:not(.tram-0) {
 			display: none;
 		}
 	}
+	@container (27.3125rem <= width < 30rem) {
+		.salt:not(.tram-1) {
+			display: none;
+		}
+	}
+	@container (30rem <= width < 33rem) {
+		.salt:not(.tram-2) {
+			display: none;
+		}
+	}
+	@container (33rem <= width < 36rem) {
+		.salt:not(.tram-3) {
+			display: none;
+		}
+	}
+	@container (36rem <= width < 39rem) {
+		.salt:not(.tram-4) {
+			display: none;
+		}
+	}
+	@container (39rem <= width < 42rem) {
+		.salt:not(.tram-5) {
+			display: none;
+		}
+	}
+	@container (42rem <= width < 45rem) {
+		.salt:not(.tram-6) {
+			display: none;
+		}
+	}
+	@container (45rem <= width < 48rem) {
+		.salt:not(.tram-7) {
+			display: none;
+		}
+	}
+	@container (width >= 48rem) {
+		.salt:not(.tram-8) {
+			display: none;
+		}
+	}
+
+	/* Altitud dins del H1: més petita, discreta i mai partida */
 
 	.h1-alt {
 		font-size: calc(var(--escala-alt, 0.5) * 1em);

@@ -130,25 +130,55 @@ export const H1_MARGE_PARAULA = 1.04;
 export const H1_MARGE_LINIES = 1.06;
 export const H1_CQI = 11;
 
-/** Capacitat d'una línia del H1 (em) al mòbil. */
-export function capacitatLiniaEm(paraulaEm: number, liniesEm: number): number {
-	return Math.max(paraulaEm * H1_MARGE_PARAULA, liniesEm * H1_MARGE_LINIES, 100 / H1_CQI);
+/** Sostre de la mida del H1 (`--fs-3xl`), en rem. */
+export const H1_SOSTRE_REM = 3;
+
+/**
+ * Trams d'amplada de la capçalera (inici de cada tram, en rem) amb salts explícits propis. Al
+ * tram 0 (mòbil, < 27,3125rem = 437 px) 11cqi encara no arriba al sostre i la capacitat en em és
+ * fixa (`100 / H1_CQI`). Des de 27,3125rem la mida queda al sostre (3rem) i la capacitat creix
+ * amb l'amplada (amplada / 3rem): cada tram calcula els salts amb la capacitat del seu inici
+ * (la més petita del tram), de manera que les línies hi caben a tot el tram.
+ *
+ * Han de coincidir amb les `@container` del h1 a `cims/[slug]/+page.svelte` (`.tram-N`).
+ * Passos d'1 em de capacitat (48 px): la capçalera fa ~400–750 px de tauleta a escriptori.
+ */
+export const H1_TRAMS_REM = [0, 27.3125, 30, 33, 36, 39, 42, 45, 48] as const;
+
+/** Capacitat mínima d'una línia (em) a l'inici del tram `i`, abans dels mínims de paraula i línies. */
+export function capacitatTramEm(i: number): number {
+	const inici = H1_TRAMS_REM[i] ?? 0;
+	return Math.max(100 / H1_CQI, inici / H1_SOSTRE_REM);
 }
 
 /**
- * Salts de línia explícits del H1 al mòbil, perquè el nombre de línies sigui el mateix amb la
- * font de reserva i amb Archivo (si el text cau just al límit, cada font el parteix diferent i
- * la capçalera canvia d'alçada en arribar la woff2: CLS).
+ * Capacitat d'una línia del H1 (em): al mòbil (per defecte) o a l'inici d'un tram
+ * (`capacitatMinEm`, vegeu `capacitatTramEm`).
+ */
+export function capacitatLiniaEm(
+	paraulaEm: number,
+	liniesEm: number,
+	capacitatMinEm: number = 100 / H1_CQI
+): number {
+	return Math.max(paraulaEm * H1_MARGE_PARAULA, liniesEm * H1_MARGE_LINIES, capacitatMinEm);
+}
+
+/**
+ * Salts de línia explícits del H1, perquè el nombre de línies sigui el mateix amb la font de
+ * reserva i amb Archivo (si el text cau just al límit, cada font el parteix diferent i la
+ * capçalera canvia d'alçada en arribar la woff2: CLS).
  *
  * Retorna els índexs dels elements (paraules del `text` i, al final, el `sufix`) davant dels
  * quals comença una línia nova, amb el salt voraç a una amplada amb un 5 % de marge sota la
  * capacitat (mai per sota del mínim que ja garanteix `liniesEm` ni de la paraula més llarga).
+ * Per defecte, la capacitat del mòbil; `capacitatMinEm` la d'un tram més ample.
  */
 export function saltsTitolEm(
 	text: string,
 	sufix: { text: string; escala: number },
 	paraulaEm: number,
-	liniesEm: number
+	liniesEm: number,
+	capacitatMinEm: number = 100 / H1_CQI
 ): number[] {
 	const items = paraules(text).map(ampleParaula);
 	const ps = paraules(sufix.text);
@@ -157,7 +187,11 @@ export function saltsTitolEm(
 			sufix.escala * (ps.reduce((suma, p) => suma + ampleParaula(p), 0) + ESPAI * (ps.length - 1))
 		);
 	}
-	const ample = Math.max(paraulaEm, liniesEm, capacitatLiniaEm(paraulaEm, liniesEm) / 1.05);
+	const ample = Math.max(
+		paraulaEm,
+		liniesEm,
+		capacitatLiniaEm(paraulaEm, liniesEm, capacitatMinEm) / 1.05
+	);
 	const salts: number[] = [];
 	let actual = items[0] ?? 0;
 	for (let i = 1; i < items.length; i++) {
@@ -168,4 +202,26 @@ export function saltsTitolEm(
 		}
 	}
 	return salts;
+}
+
+/**
+ * Salts del H1 per a tots els trams d'amplada (`H1_TRAMS_REM`): per a cada índex d'element on
+ * algun tram fa un salt, la llista de trams que l'hi fan. La plantilla hi posa un sol `<br>` amb
+ * una classe per tram, i el CSS amaga els que no són del tram actiu.
+ */
+export function saltsTitolPerTram(
+	text: string,
+	sufix: { text: string; escala: number },
+	paraulaEm: number,
+	liniesEm: number
+): Map<number, number[]> {
+	const perIndex = new Map<number, number[]>();
+	H1_TRAMS_REM.forEach((_, tram) => {
+		for (const i of saltsTitolEm(text, sufix, paraulaEm, liniesEm, capacitatTramEm(tram))) {
+			const trams = perIndex.get(i) ?? [];
+			trams.push(tram);
+			perIndex.set(i, trams);
+		}
+	});
+	return perIndex;
 }

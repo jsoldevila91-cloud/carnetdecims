@@ -1,10 +1,14 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
+	H1_TRAMS_REM,
 	ampleLiniesEm,
 	ampleParaulaMesLlargaEm,
 	ampleTextEm,
 	capacitatLiniaEm,
-	saltsTitolEm
+	capacitatTramEm,
+	saltsTitolEm,
+	saltsTitolPerTram
 } from './titol-ample';
 
 describe('ampleParaulaMesLlargaEm', () => {
@@ -109,5 +113,77 @@ describe('saltsTitolEm (H1 de la fitxa al mòbil)', () => {
 			const cap = capacitatLiniaEm(ampleParaulaMesLlargaEm(nom), ampleLiniesEm(nom, 3, sufix));
 			expect(cap).toBeGreaterThanOrEqual(100 / 11);
 		}
+	});
+});
+
+describe('saltsTitolPerTram (H1 de la fitxa de tauleta a escriptori)', () => {
+	const perTram = (nom: string, alt: string) => {
+		const sufix = { text: `(${alt} m)`, escala: 0.5 };
+		return saltsTitolPerTram(
+			nom,
+			sufix,
+			ampleParaulaMesLlargaEm(nom),
+			ampleLiniesEm(nom, 3, sufix)
+		);
+	};
+	const saltsDelTram = (m: Map<number, number[]>, tram: number) =>
+		[...m].filter(([, trams]) => trams.includes(tram)).map(([i]) => i);
+
+	it('el tram 0 són els salts del mòbil', () => {
+		const nom = 'Puigmal';
+		const sufix = { text: '(2.910 m)', escala: 0.5 };
+		expect(saltsDelTram(perTram(nom, '2.910'), 0)).toEqual(
+			saltsTitolEm(nom, sufix, ampleParaulaMesLlargaEm(nom), ampleLiniesEm(nom, 3, sufix))
+		);
+	});
+
+	it('la capacitat creix amb el tram (mida al sostre de 3rem)', () => {
+		expect(capacitatTramEm(0)).toBeCloseTo(100 / 11, 5);
+		expect(capacitatTramEm(1)).toBeGreaterThanOrEqual(100 / 11);
+		for (let t = 1; t < H1_TRAMS_REM.length; t++)
+			expect(capacitatTramEm(t)).toBeGreaterThan(capacitatTramEm(t - 1));
+		expect(capacitatTramEm(H1_TRAMS_REM.length - 1)).toBe(16);
+	});
+
+	it('BUG QA-6b-1: "Castell de Sant Miquel (386 m)" té salts explícits a 768 px (capçalera 558 px)', () => {
+		// 558 px = 34,9rem → tram 3 (33–36rem): el text cau just al límit de la línia.
+		const tram = H1_TRAMS_REM.findLastIndex((r) => r <= 558 / 16);
+		expect(tram).toBe(3);
+		expect(saltsDelTram(perTram('Castell de Sant Miquel', '386'), tram)).toEqual([2, 4]);
+	});
+
+	it('mai més de 3 línies a cap tram i menys salts com més ample', () => {
+		for (const [nom, alt] of [
+			['Sant Salvador de les Espases', '413'],
+			['Castell de Sant Miquel', '386'],
+			['Tuc deth Pòrt de Vielha', '2.605'],
+			['Castellsapera', '1.000']
+		] as const) {
+			const m = perTram(nom, alt);
+			let abans = Infinity;
+			H1_TRAMS_REM.forEach((_, t) => {
+				const n = saltsDelTram(m, t).length;
+				expect(n, `${nom} tram ${t}`).toBeLessThanOrEqual(2);
+				expect(n, `${nom} tram ${t}`).toBeLessThanOrEqual(abans);
+				abans = n;
+			});
+		}
+	});
+
+	it('les @container del h1 de la fitxa coincideixen amb H1_TRAMS_REM', () => {
+		const svelte = readFileSync('src/routes/(public)/cims/[slug]/+page.svelte', 'utf8').replace(
+			/\r\n/g,
+			'\n'
+		);
+		H1_TRAMS_REM.forEach((inici, t) => {
+			const fi = H1_TRAMS_REM[t + 1];
+			const cond =
+				t === 0
+					? `width < ${fi}rem`
+					: fi === undefined
+						? `width >= ${inici}rem`
+						: `${inici}rem <= width < ${fi}rem`;
+			expect(svelte, `tram ${t}`).toContain(`@container (${cond}) {\n\t\t.salt:not(.tram-${t}) {`);
+		});
 	});
 });

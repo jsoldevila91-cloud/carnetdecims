@@ -198,9 +198,10 @@ export function nomCurtOracle(nom: string): string {
  * Bugs coneguts (oberts) del H1 de la fitxa a 768 px: amb Archivo el títol passa a tenir una línia
  * més que amb la font de reserva i la capçalera creix en arribar la woff2 (CLS). Els tests de CLS
  * els anoten a part i fallen si deixen de reproduir-se (per treure'ls d'aquí quan s'arreglin).
- * BUG QA-6b-1: "Castell de Sant Miquel (386 m)" passa de 2 a 3 línies (+45 px) a 768 px.
+ * BUG QA-6b-1 (corregit): "Castell de Sant Miquel (386 m)" passava de 2 a 3 línies (+45 px) a
+ * 768 px; ara el H1 té salts explícits per tram d'amplada (`saltsTitolPerTram`).
  */
-export const BUGS_H1_768 = new Set(['castell-de-sant-miquel']);
+export const BUGS_H1_768 = new Set<string>();
 
 /** Separa els problemes trobats entre nous i bugs coneguts (`slug: …`). */
 export function separaConeguts(
