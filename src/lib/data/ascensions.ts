@@ -28,6 +28,7 @@ import {
 	type EntradaOutbox,
 	type FilaAscensio
 } from './local/db';
+import { novaEpoca } from './local/epoca';
 import { ara, instantEscriptura } from './local/rellotge';
 import { esUuid, uuidv7 } from './local/uuid';
 
@@ -598,6 +599,8 @@ export async function importarDades(
  * metadades de la sync (propietari i cursor) (RGPD). Irreversible **en aquest dispositiu**: amb
  * compte, el núvol no es toca i la sync següent hi tornarà a baixar les dades (per esborrar-les
  * del núvol, `esborrarCompte`). Els stores vius emeten `[]`.
+ * Una passada de sync en curs no hi pot tornar a escriure (renova `meta.epoca`): no reapareix cap
+ * fila ni cursor; amb el cursor esborrat, la sync següent ho baixa tot de nou.
  */
 export async function esborrarTot(): Promise<void> {
 	const bd = obtenirBd();
@@ -605,6 +608,8 @@ export async function esborrarTot(): Promise<void> {
 		await bd.ascensions.clear();
 		await bd.outbox.clear();
 		await bd.meta.clear();
+		// Invalida qualsevol passada de sync en vol: no hi tornarà a escriure (vegeu `sync.ts`).
+		await bd.meta.put(novaEpoca());
 	});
 }
 

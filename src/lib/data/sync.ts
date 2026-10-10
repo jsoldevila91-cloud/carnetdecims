@@ -38,6 +38,7 @@ import {
 	type EntradaOutbox,
 	type FilaAscensio
 } from './local/db';
+import { novaEpoca } from './local/epoca';
 import { ara } from './local/rellotge';
 import { uuidv7 } from './local/uuid';
 
@@ -199,13 +200,37 @@ async function llegirMeta(clau: EntradaMeta['clau']): Promise<string | null> {
 	return (await obtenirBd().meta.get(clau))?.valor ?? null;
 }
 
-function escriureMeta(clau: EntradaMeta['clau'], valor: string | null): Promise<unknown> {
-	return obtenirBd().meta.put({ clau, valor });
-}
-
 /** Usuari a qui pertanyen les dades del dispositiu (`null` = anònimes). */
 export function propietariLocal(): Promise<string | null> {
 	return llegirMeta('propietari');
+}
+
+/**
+ * Les dades locals s'han esborrat (o han canviat de propietari) mentre la passada era en vol:
+ * la passada s'atura sense escriure res més. No és un error per a l'usuari.
+ */
+export class SyncAvortada extends Error {
+	constructor() {
+		super('Sync avortada: les dades locals han canviat (esborrat)');
+		this.name = 'SyncAvortada';
+	}
+}
+
+/** `SyncAvortada`, també si Dexie l'embolcalla (`inner`) en avortar la transacció. */
+export function esAvortada(e: unknown): boolean {
+	const err = e as { name?: unknown; inner?: unknown } | null;
+	return (
+		e instanceof SyncAvortada || err?.name === 'SyncAvortada' || err?.inner instanceof SyncAvortada
+	);
+}
+
+/**
+ * Comprova, **dins d'una transacció que inclogui `meta`**, que l'època (`local/epoca.ts`) és la
+ * mateixa que en començar la passada. Si no, llança `SyncAvortada` i la transacció no escriu res.
+ */
+async function comprovarEpoca(epoca: string | null): Promise<void> {
+	const actual = (await obtenirBd().meta.get('epoca'))?.valor ?? null;
+	if (actual !== epoca) throw new SyncAvortada();
 }
 
 // ---------------------------------------------------------------------------
@@ -230,10 +255,11 @@ export type ResultatSync =
  * Encua totes les files locals (vives i làpides) i assigna el propietari: migració local → núvol.
  * Idempotent: el servidor fa upsert per id, i el pull es fa complet (cursor a zero).
  */
-async function adoptarDadesLocals(usuariId: string): Promise<void> {
+async function adoptarDadesLocals(usuariId: string, epoca: string | null): Promise<void> {
 	const bd = obtenirBd();
 	const encuaAt = ara().toISOString();
 	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+		await comprovarEpoca(epoca);
 		const [ids, jaEncuats] = await Promise.all([
 			bd.ascensions.toCollection().primaryKeys(),
 			bd.outbox.toCollection().primaryKeys()
@@ -282,9 +308,10 @@ const esIdEnUs = (motiu: unknown): boolean =>
  * reintent puja el mateix id nou i el servidor el tracta com un upsert (no es duplica).
  * @returns l'id nou, o `null` si la fila ja no existeix (entrada òrfena: surt de la cua).
  */
-async function reassignarId(idVell: string): Promise<string | null> {
+async function reassignarId(idVell: string, epoca: string | null): Promise<string | null> {
 	const bd = obtenirBd();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+		await comprovarEpoca(epoca);
 		const fila = await bd.ascensions.get(idVell);
 		await bd.outbox.delete(idVell);
 		if (!fila) return null;
@@ -306,7 +333,8 @@ interface ResultatPujada {
 /** Puja una llista d'entrades de la cua (en blocs). Retorna també els ids nous reassignats. */
 async function pujarEntrades(
 	remot: Remot,
-	cua: EntradaOutbox[]
+	cua: EntradaOutbox[],
+	epoca: string | null
 ): Promise<ResultatPujada & { idsNous: string[] }> {
 	const bd = obtenirBd();
 	let pujades = 0;
@@ -327,7 +355,8 @@ async function pujarEntrades(
 			else altres.set(r.id, String(r.motiu));
 		}
 		if (altres.size) console.warn('[sync] files rebutjades pel servidor', [...altres]);
-		await bd.transaction('rw', bd.outbox, async () => {
+		await bd.transaction('rw', bd.outbox, bd.meta, async () => {
+			await comprovarEpoca(epoca);
 			for (const e of bloc) {
 				if (idEnUs.has(e.ascensioId)) continue; // es resol a sota (canvi d'id)
 				const actual = await bd.outbox.get(e.ascensioId);
@@ -343,7 +372,7 @@ async function pujarEntrades(
 		// L'id és d'un altre compte: cap versió d'aquesta fila no hi entrarà mai amb aquest id
 		// (encara que s'hagi editat mentre es pujava), així que es reassigna sempre.
 		for (const id of idEnUs) {
-			const nou = await reassignarId(id);
+			const nou = await reassignarId(id, epoca);
 			if (nou) idsNous.push(nou);
 		}
 		pujades += enviar.length - idEnUs.size - altres.size;
@@ -352,14 +381,14 @@ async function pujarEntrades(
 	return { pujades, rebutjades, reassignades: idsNous.length, idsNous };
 }
 
-async function pujar(remot: Remot): Promise<ResultatPujada> {
+async function pujar(remot: Remot, epoca: string | null): Promise<ResultatPujada> {
 	const bd = obtenirBd();
 	// Instantània de la cua: el que s'encui durant la sync anirà a la següent (excepte les files
 	// reassignades, que es tornen a pujar en aquesta mateixa passada).
 	let cua = await bd.outbox.orderBy('encuaAt').toArray();
 	const total: ResultatPujada = { pujades: 0, rebutjades: 0, reassignades: 0 };
 	for (let ronda = 0; ronda < MAX_RONDES_PUSH && cua.length; ronda++) {
-		const r = await pujarEntrades(remot, cua);
+		const r = await pujarEntrades(remot, cua, epoca);
 		total.pujades += r.pujades;
 		total.rebutjades += r.rebutjades;
 		total.reassignades += r.reassignades;
@@ -386,10 +415,14 @@ function comptarPendents(): Promise<number> {
 		.count();
 }
 
-/** Aplica un bloc de files remotes amb LWW. Retorna quantes han canviat la BD local. */
-async function aplicarRemotes(remotes: FilaRemota[]): Promise<number> {
+/**
+ * Aplica una pàgina de files remotes amb LWW i avança el cursor del pull, tot en una transacció
+ * (si l'època ha canviat, no s'escriu ni una cosa ni l'altra). Retorna quantes files han canviat.
+ */
+async function aplicarRemotes(remotes: FilaRemota[], epoca: string | null): Promise<number> {
 	const bd = obtenirBd();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+		await comprovarEpoca(epoca);
 		const ids = remotes.map((r) => r.fila.id);
 		const [locals, pendents] = await Promise.all([
 			bd.ascensions.bulkGet(ids),
@@ -409,6 +442,9 @@ async function aplicarRemotes(remotes: FilaRemota[]): Promise<number> {
 		});
 		if (escriure.length) await bd.ascensions.bulkPut(escriure);
 		if (descartar.length) await bd.outbox.bulkDelete(descartar);
+		const darrer = remotes[remotes.length - 1].serverUpdatedAt;
+		const cursor = (await bd.meta.get('cursorPull'))?.valor ?? null;
+		if (!cursor || darrer > cursor) await bd.meta.put({ clau: 'cursorPull', valor: darrer });
 		return escriure.length;
 	});
 }
@@ -428,7 +464,7 @@ function mateixaFila(a: FilaAscensio, b: FilaAscensio): boolean {
 /** Màxim de pàgines per pull (defensa contra bucles si el servidor es comportés malament). */
 const MAX_PAGINES_PULL = 1_000;
 
-async function baixar(remot: Remot): Promise<number> {
+async function baixar(remot: Remot, epoca: string | null): Promise<number> {
 	const cursor = await llegirMeta('cursorPull');
 	let desDe = cursor ? new Date(Date.parse(cursor) - SOLAPAMENT_PULL_MS).toISOString() : null;
 	let baixades = 0;
@@ -436,10 +472,8 @@ async function baixar(remot: Remot): Promise<number> {
 	for (let p = 0; p < MAX_PAGINES_PULL; p++) {
 		const pagina = await remot.pull(desDe, PAGINA_PULL);
 		if (!pagina.length) break;
-		baixades += await aplicarRemotes(pagina);
+		baixades += await aplicarRemotes(pagina, epoca);
 		const darrer = pagina[pagina.length - 1].serverUpdatedAt;
-		const actual = await llegirMeta('cursorPull');
-		if (!actual || darrer > actual) await escriureMeta('cursorPull', darrer);
 		// Pàgina següent: `>=` l'últim instant (pot repetir files; aplicar-les és idempotent).
 		// Si l'últim instant no avança (pàgina plena amb el mateix instant), es para.
 		if (pagina.length < PAGINA_PULL || darrer === anterior) break;
@@ -451,15 +485,25 @@ async function baixar(remot: Remot): Promise<number> {
 
 /**
  * Una passada completa de sync per a `usuariId`. Llança `ErrorSync` si falla la xarxa, la sessió
- * o el servidor (el que s'hagi aplicat fins aleshores queda aplicat; tornar-la a fer és segur).
+ * o el servidor (el que s'hagi aplicat fins aleshores queda aplicat; tornar-la a fer és segur), i
+ * `SyncAvortada` si mentrestant s'han esborrat les dades locals (`meta.epoca` ha canviat): en
+ * aquest cas no s'escriu res més (ni files, ni cua, ni cursor, ni `ultimaSync`).
  */
 export async function sincronitzar(remot: Remot, usuariId: string): Promise<ResultatSync> {
-	const propietari = await llegirMeta('propietari');
+	const bd = obtenirBd();
+	// L'època i el propietari es llegeixen junts: tot el que la passada escrigui després es
+	// comprova contra aquesta època.
+	const [entradaEpoca, entradaPropietari] = await bd.meta.bulkGet(['epoca', 'propietari']);
+	const epoca = entradaEpoca?.valor ?? null;
+	const propietari = entradaPropietari?.valor ?? null;
 	if (propietari && propietari !== usuariId) return { estat: 'conflicte' };
-	if (!propietari) await adoptarDadesLocals(usuariId);
-	const { pujades, rebutjades, reassignades } = await pujar(remot);
-	const baixades = await baixar(remot);
-	await escriureMeta('ultimaSync', ara().toISOString());
+	if (!propietari) await adoptarDadesLocals(usuariId, epoca);
+	const { pujades, rebutjades, reassignades } = await pujar(remot, epoca);
+	const baixades = await baixar(remot, epoca);
+	await bd.transaction('rw', bd.meta, async () => {
+		await comprovarEpoca(epoca);
+		await bd.meta.put({ clau: 'ultimaSync', valor: ara().toISOString() });
+	});
 	const bloquejades = await comptarBloquejades();
 	return { estat: 'fet', pujades, rebutjades, reassignades, baixades, bloquejades };
 }
@@ -584,6 +628,8 @@ async function passada(): Promise<void> {
 			});
 		}
 	} catch (e) {
+		// Dades esborrades durant la passada: res a publicar (ni error ni `ultimaSync`).
+		if (esAvortada(e)) return;
 		const err = e instanceof ErrorSync ? e : classificarError(e);
 		if (err.codi === 'servidor') console.error('[sync]', e);
 		if (context === ctx) publicar({ error: err.codi });
@@ -669,24 +715,30 @@ export async function resoldreConflicteCompte(
 	if (accio === 'fusionar') {
 		await bd.meta.bulkPut([
 			{ clau: 'propietari', valor: null },
-			{ clau: 'cursorPull', valor: null }
+			{ clau: 'cursorPull', valor: null },
+			novaEpoca()
 		]);
 	} else {
 		await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
 			await bd.ascensions.clear();
 			await bd.outbox.clear();
 			await bd.meta.clear();
+			await bd.meta.put(novaEpoca());
 		});
 	}
 	publicar({ conflicte: undefined });
 	await sincronitzarAra();
 }
 
-/** Les dades locals deixen de ser de ningú (p. ex. després d'esborrar el compte i conservar-les). */
+/**
+ * Les dades locals deixen de ser de ningú (p. ex. després d'esborrar el compte i conservar-les).
+ * Renova l'època: una passada en vol del compte anterior no hi escriu res més.
+ */
 export async function alliberarDadesLocals(): Promise<void> {
 	await obtenirBd().meta.bulkPut([
 		{ clau: 'propietari', valor: null },
-		{ clau: 'cursorPull', valor: null }
+		{ clau: 'cursorPull', valor: null },
+		novaEpoca()
 	]);
 }
 

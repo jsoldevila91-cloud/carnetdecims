@@ -36,10 +36,12 @@ export interface EntradaOutbox {
  * Metadades locals de la sync (versió 2 de l'esquema, fase 5). Claus conegudes:
  * - `propietari`: id de l'usuari a qui pertanyen les dades del dispositiu (`null`/absent = anònim);
  * - `cursorPull`: `server_updated_at` (text tal com el retorna el servidor) de l'última fila baixada;
- * - `ultimaSync`: instant ISO de l'última sync completa.
+ * - `ultimaSync`: instant ISO de l'última sync completa;
+ * - `epoca`: es renova a cada esborrat local de dades o de propietat (`novaEpoca`). Una passada
+ *   de sync que la veu canviada avorta sense escriure res (vegeu `sync.ts`).
  */
 export interface EntradaMeta {
-	clau: 'propietari' | 'cursorPull' | 'ultimaSync';
+	clau: 'propietari' | 'cursorPull' | 'ultimaSync' | 'epoca';
 	valor: string | null;
 }
 

@@ -18,7 +18,9 @@ import {
 	ErrorSync,
 	MAX_INTENTS,
 	PAGINA_PULL,
+	SyncAvortada,
 	_reiniciarSyncPerTests,
+	alliberarDadesLocals,
 	classificarError,
 	configurarSync,
 	estatSync,
@@ -74,6 +76,11 @@ class ServidorFals implements Remot {
 	duranPush: (() => Promise<void>) | null = null;
 	/** Ids que al núvol són d'un altre compte (`sync_push` els rebutja amb 'id en ús'). */
 	aliens = new Set<string>();
+	/**
+	 * Ganxo del pull: s'executa amb la resposta ja calculada i abans de tornar-la (com una
+	 * petició lenta en vol). Una vegada.
+	 */
+	duranPull: (() => Promise<void>) | null = null;
 	/** Si torna `true`, el push s'aplica però la resposta "es perd" (error de xarxa). Una vegada. */
 	perdreResposta: ((files: FilaPush[]) => boolean) | null = null;
 	/** Totes les files rebudes pel push (per comprovar què s'ha enviat). */
@@ -134,11 +141,17 @@ class ServidorFals implements Remot {
 			throw e;
 		}
 		const des = desDe ? micros(desDe) : -Infinity;
-		return [...this.files.values()]
+		const resposta = [...this.files.values()]
 			.filter((r) => r.server >= des)
 			.sort((a, b) => a.server - b.server || (a.fila.id < b.fila.id ? -1 : 1))
 			.slice(0, limit)
 			.map((r) => ({ fila: { ...r.fila }, serverUpdatedAt: textMicros(r.server) }));
+		if (this.duranPull) {
+			const g = this.duranPull;
+			this.duranPull = null;
+			await g();
+		}
+		return resposta;
 	}
 
 	viva(id: string): FilaAscensio | undefined {
@@ -621,6 +634,86 @@ describe('rebutjos permanents (no "pendents" per sempre)', () => {
 			expect(darrer).toMatchObject({ sincronitzant: false, error: 'servidor', pendents: 0 })
 		);
 		expect(servidor.viva(ok.id)).toBeDefined();
+		expect(await llistarAscensions()).toHaveLength(2);
+		desub();
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Esborrats locals durant una passada en vol (QA-6b-2)
+// ---------------------------------------------------------------------------
+
+describe('esborrat local amb una passada de sync en vol', () => {
+	async function meta(clau: 'propietari' | 'cursorPull' | 'ultimaSync') {
+		return (await obtenirBd().meta.get(clau))?.valor ?? null;
+	}
+
+	/** Dues ascensions sincronitzades: el núvol les té i el cursor ja ha avançat. */
+	async function sincronitzades() {
+		await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await afegirAscensio({ cimId: CIM_B, data: '2026-09-21', metode: 'btt' });
+		await sincronitzar(servidor, USUARI);
+		expect(await meta('cursorPull')).not.toBeNull();
+	}
+
+	it('esborrarTot mentre el pull és en vol: la passada avorta i no torna a inserir res', async () => {
+		await sincronitzades();
+		// El pull solapa 5 s: la resposta en vol porta les dues files.
+		servidor.duranPull = () => esborrarTot();
+		await expect(sincronitzar(servidor, USUARI)).rejects.toBeInstanceOf(SyncAvortada);
+
+		expect(await obtenirBd().ascensions.count()).toBe(0);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+		expect(await meta('cursorPull')).toBeNull();
+		expect(await meta('ultimaSync')).toBeNull();
+		expect(await meta('propietari')).toBeNull();
+		// El núvol no es toca i la sync següent ho torna a baixar tot (cursor a zero).
+		expect(servidor.files.size).toBe(2);
+		const espia = vi.spyOn(servidor, 'pull');
+		const r = await sincronitzar(servidor, USUARI);
+		expect(espia.mock.calls[0][0]).toBeNull();
+		expect(r).toMatchObject({ estat: 'fet', baixades: 2 });
+		expect(await llistarAscensions()).toHaveLength(2);
+		expect(await propietariLocal()).toBe(USUARI);
+	});
+
+	it('esborrarTot mentre el push és en vol: no es reescriu la cua ni el cursor', async () => {
+		await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.duranPush = () => esborrarTot();
+		await expect(sincronitzar(servidor, USUARI)).rejects.toBeInstanceOf(SyncAvortada);
+		expect(await obtenirBd().ascensions.count()).toBe(0);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+		expect(await meta('cursorPull')).toBeNull();
+		expect(servidor.crides.pull).toBe(0);
+	});
+
+	it('alliberarDadesLocals (esborrar el compte conservant les dades) també avorta la passada', async () => {
+		await sincronitzades();
+		const abans = await obtenirBd().ascensions.toArray();
+		servidor.escriure(filaRemota()); // una fila nova del compte que s'esborra
+		servidor.duranPull = () => alliberarDadesLocals();
+		await expect(sincronitzar(servidor, USUARI)).rejects.toBeInstanceOf(SyncAvortada);
+		// Les locals es conserven tal com eren; no hi entra res de la passada avortada.
+		expect(await obtenirBd().ascensions.toArray()).toEqual(abans);
+		expect(await meta('cursorPull')).toBeNull();
+		expect(await meta('propietari')).toBeNull();
+	});
+
+	it("amb l'orquestració: sense error publicat i les dades no tornen fins a la sync següent", async () => {
+		await sincronitzades();
+		let darrer: EstatSync | undefined;
+		const desub = estatSync.subscribe((e) => (darrer = e));
+		configurarSync({ remot: servidor, usuariId: USUARI });
+		await vi.waitFor(() => expect(darrer).toMatchObject({ sincronitzant: false }));
+		const ultimaAbans = darrer?.ultimaSync;
+
+		servidor.duranPull = () => esborrarTot();
+		await sincronitzarAra();
+		expect(darrer).toMatchObject({ sincronitzant: false, error: undefined });
+		expect(darrer?.ultimaSync).toBe(ultimaAbans);
+		expect(await obtenirBd().ascensions.count()).toBe(0);
+
+		await sincronitzarAra();
 		expect(await llistarAscensions()).toHaveLength(2);
 		desub();
 	});
