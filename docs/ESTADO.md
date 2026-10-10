@@ -145,7 +145,12 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
   3. Plantilla **Magic Link** de `docs/09` §2.3.
   4. Probar el registro con su propio correo; después, pasar el enlace a Inesa.
   5. Hostinger → Correos → "Comprobar estado" del DKIM en verde.
-- **QA de cuentas** (`e2e/compte.e2e.ts` con Supabase simulado en `e2e/supabase-fals.ts`; ningún correo real): en curso.
+- **QA de cuentas** (`e2e/compte.e2e.ts`, 26 tests con Supabase simulado en `e2e/supabase-fals.ts`; ningún correo real). 4 bugs corregidos y verificados (`30caf43`, publicado el 2026-10-10): ids de otra cuenta ("id en ús") reasignados al subir; email inválido; texto de "Esborra totes les dades" con sesión; banner solo en beta. E2E: 412 pasados, 1 intermitente de WebKit (`pwa.e2e.ts:400`, `import()` abortado por `page.goto`).
+- **Pendientes no bloqueantes de cuentas:**
+  - importar dos veces el JSON de **otra** cuenta duplica (el id viejo se borra al reasignar): guardar el mapeo idVell → idNou en `meta` o deduplicar por (cim, fecha, método, createdAt);
+  - si la hoja de edición o el "Desfés" está abierto justo cuando se reasigna un id, sale un error genérico (sin pérdida de datos);
+  - texto propio para entradas de sync bloqueadas (hoy, `cloud_sync_error` genérico);
+  - tolerar en `pwa.e2e.ts:400` el `import()` abortado en WebKit.
 
 ## Pendiente del bloque 6b (cortado por el límite semanal del 2026-10-05)
 
