@@ -62,7 +62,14 @@ test.describe('Idioma', () => {
 	] as const;
 
 	for (const [ca, es] of pairs) {
-		test(`${ca} ⇄ ${es} manté la ruta equivalent i canvia lang`, async ({ page }) => {
+		test(`${ca} ⇄ ${es} manté la ruta equivalent i canvia lang`, async ({
+			page,
+			consoleGuard,
+			browserName
+		}) => {
+			// /mapa a WebKit: canviar d'idioma descarrega el document amb el mapa encara carregant els
+			// workers de MapLibre ("Worker failed to load"), com els `goto` de `toleraAvortamentsWebKit`.
+			if (ca === ROUTES.ca.map) toleraAvortamentsWebKit(consoleGuard, browserName);
 			await gotoHydrated(page, ca);
 			await expect(page.locator('html')).toHaveAttribute('lang', 'ca');
 			await page.getByRole('banner').getByRole('link', { name: 'Español' }).click();

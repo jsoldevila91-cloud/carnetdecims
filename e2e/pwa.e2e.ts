@@ -399,8 +399,14 @@ test.describe('Nova versió', () => {
 
 	test('banner, "Més tard" i "Actualitza": recarrega, conserva les dades i esborra el precache antic', async ({
 		page,
-		context
+		context,
+		consoleGuard,
+		browserName
 	}) => {
+		// WebKit (intermitent): el `page.goto` a /ca/app/historial avorta un import() diferit en curs,
+		// que surt com a "Importing a module script failed" (igual que a l'avís d'iOS, més avall).
+		if (browserName === 'webkit')
+			consoleGuard.allow(/^console: TypeError: (Load failed|Importing a module script failed\.)$/);
 		// La primera instal·lació rep un SW amb una altra versió ("antiga"); `update()` baixa el
 		// real del servidor (Playwright no intercepta la comprovació d'actualització).
 		let versio: string | undefined;

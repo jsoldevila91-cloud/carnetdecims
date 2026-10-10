@@ -26,54 +26,50 @@ import {
 	dificultatOrientativa,
 	esRutaFacil,
 	rutaAmbNens,
-	type DadaDificultat,
-	type DificultatOrientativa,
-	type NivellDificultat,
-	type Tecnicitat
+	type NivellDificultat
 } from '../src/lib/domain/dificultat.ts';
 import type { ContingutFitxa, RutaAcces } from '../src/lib/content/fitxes/types.ts';
-import canigo from '../src/lib/content/fitxes/canigo.ts';
-import comapedrosa from '../src/lib/content/fitxes/comapedrosa.ts';
-import laMola from '../src/lib/content/fitxes/la-mola-de-sant-llorenc-del-munt.ts';
-import matagalls from '../src/lib/content/fitxes/matagalls.ts';
-import montcau from '../src/lib/content/fitxes/montcau.ts';
-import pedraforca from '../src/lib/content/fitxes/pedraforca-pollego-superior.ts';
-import picaDEstats from '../src/lib/content/fitxes/pica-d-estats.ts';
-import puigmal from '../src/lib/content/fitxes/puigmal.ts';
-import santJeroni from '../src/lib/content/fitxes/sant-jeroni.ts';
-import taga from '../src/lib/content/fitxes/taga.ts';
+import {
+	BUGS_H1_768,
+	FITXES,
+	FITXERS_FITXES,
+	NENS,
+	PILOTS,
+	SLUGS_FITXES,
+	SLUGS_PILOTS,
+	altitudCim,
+	dificultatRutaOracle,
+	esFacilOracle,
+	nomCurtOracle,
+	rutaAptaNensOracle,
+	rutaNensOracle,
+	separaConeguts,
+	type Dada,
+	type DificultatOracle
+} from './fitxes-contingut';
 
 /**
- * Bloc 6a-bis · "Dificultat orientativa" (estimació pròpia, no és el MIDE) i llistats
- * `/cims-facils` i `/cims-amb-nens`.
+ * Blocs 6a-bis i 6b · "Dificultat orientativa" (estimació pròpia, no és el MIDE) i llistats
+ * `/cims-facils` i `/cims-amb-nens`, sobre **totes les fitxes** amb contingut (50 al bloc 6b).
  *
- * - Els nivells esperats es deriven de les dades de les fitxes (`src/lib/content/fitxes/*.ts`) i
- *   de l'altitud del catàleg amb la mateixa funció del domini (`dificultatOrientativa`): cap nivell
- *   copiat a mà al test.
- * - Els criteris dels llistats es reimplementen aquí a partir de `CRITERIS_LLISTATS_DIFICULTAT`
- *   (oracle independent) i es contrasten amb els predicats del domini.
+ * - Les fitxes es descobreixen al disc (`e2e/fitxes-contingut.ts`): cap llista copiada a mà.
+ * - Els nivells esperats surten d'un **oracle independent** (`dificultatOracle`, fórmula de
+ *   docs/05: km-esforç = km + D+/100 o minuts/15, llindars 7/15/22, tècnica i altitud) i dels
+ *   criteris documentats dels llistats (amb nens: D+ ≤ 600, ≤ 150 min, cap/terreny irregular amb
+ *   font, nivell ≤ 2). La prova de dades (secció 0) el contrasta amb el domini de l'app.
+ * - Render al navegador: totes a `desktop-chrome`; als projectes mòbils, les 10 pilots del 6a.
  * - Els textos de la interfície surten de `messages/{ca,es}.json`.
  */
-
-const PILOTS: ContingutFitxa[] = [
-	canigo,
-	comapedrosa,
-	laMola,
-	matagalls,
-	montcau,
-	pedraforca,
-	picaDEstats,
-	puigmal,
-	santJeroni,
-	taga
-];
-const SLUGS_PILOTS = new Set(PILOTS.map((p) => p.slug));
 
 const cim = (slug: string) => {
 	const c = CIMS.find((x) => x.slug === slug);
 	if (!c) throw new Error(`${slug} no és al catàleg`);
 	return c;
 };
+
+/** Fitxes que es renderitzen en aquest projecte (totes a escriptori, les pilots als mòbils). */
+const fitxesDelProjecte = (projecte: string): ContingutFitxa[] =>
+	projecte === 'desktop-chrome' ? FITXES : PILOTS;
 
 // ── Textos (messages/*.json) ─────────────────────────────────────────────────
 
@@ -94,10 +90,10 @@ const CLAU_NOM: Record<NivellDificultat, string> = {
 	4: 'cim_difficulty_molt_exigent'
 };
 const nomNivell = (locale: Locale, n: NivellDificultat) => msg(locale, CLAU_NOM[n]);
-const nomDada = (locale: Locale, d: DadaDificultat) => msg(locale, `cim_difficulty_data_${d}`);
+const nomDada = (locale: Locale, d: Dada) => msg(locale, `cim_difficulty_data_${d}`);
 
 /** Text de "Per què és aproximada?" tal com el construeix el distintiu (Intl.ListFormat). */
-const textFalten = (locale: Locale, dades: readonly DadaDificultat[]) =>
+const textFalten = (locale: Locale, dades: readonly Dada[]) =>
 	dades.length === 0
 		? msg(locale, 'cim_difficulty_missing_generic')
 		: msg(locale, 'cim_difficulty_missing', {
@@ -118,75 +114,57 @@ const URL_LLISTAT = {
 const metodologiaUrl = (locale: Locale) => `/${locale}/metodologia`;
 const ANCLA = 'dificultat-orientativa';
 
-// ── Oracle ───────────────────────────────────────────────────────────────────
+// ── Oracle (e2e/fitxes-contingut.ts, independent del codi de l'app) ─────────
 
-const dificultatRuta = (slug: string, r: RutaAcces): DificultatOrientativa | null =>
-	dificultatOrientativa({
+const dificultatRuta = dificultatRutaOracle;
+
+/** Dificultat de la ruta normal (la primera) de cada fitxa. */
+const NORMAL = new Map(FITXES.map((p) => [p.slug, dificultatRuta(p.slug, p.rutes[0])]));
+/** Mapa esperat a les llistes: només cims amb contingut i dificultat calculable. */
+const ESPERAT_LLISTES = new Map(
+	[...NORMAL].filter((e): e is [string, DificultatOracle] => e[1] !== null)
+);
+
+/** Alguna ruta de la fitxa té dificultat calculable (hi haurà algun element `.dif`). */
+const algunaRutaAmbDificultat = (p: ContingutFitxa) =>
+	p.rutes.some((r) => dificultatRuta(p.slug, r) !== null);
+
+const rutaAptaNens = rutaAptaNensOracle;
+
+/** Criteris documentats: fàcils mira la ruta normal; amb nens, qualsevol ruta (la més fàcil). */
+function entraAlLlistat(id: 'cims-facils' | 'cims-amb-nens', p: ContingutFitxa): boolean {
+	return id === 'cims-facils' ? esFacilOracle(p) : rutaNensOracle(p) !== undefined;
+}
+const ESPERAT_LLISTAT = {
+	'cims-facils': FITXES.filter((p) => entraAlLlistat('cims-facils', p)).map((p) => p.slug),
+	'cims-amb-nens': FITXES.filter((p) => entraAlLlistat('cims-amb-nens', p)).map((p) => p.slug)
+};
+/** Ruta per anar-hi amb nens de cada cim del llistat (la de la línia "Des de …"). */
+const RUTA_NENS = new Map(
+	FITXES.flatMap((p) => {
+		const r = rutaNensOracle(p);
+		return r ? [[p.slug, r] as const] : [];
+	})
+);
+/**
+ * Distintius esperats a `/cims-amb-nens`: allà el distintiu és el de la ruta per anar-hi amb nens
+ * (la de la línia "Des de …"), no el de la ruta normal.
+ */
+const ESPERAT_BADGES_NENS = new Map(
+	[...RUTA_NENS].map(([slug, r]) => [slug, dificultatRuta(slug, r)!] as const)
+);
+
+/** Entrada del domini per a una ruta (només per contrastar l'oracle amb l'app a la secció 0). */
+const entradaDomini = (slug: string, r: RutaAcces) => {
+	const ruta = {
 		desnivellPositiuM: r.desnivellPositiuM,
 		distanciaKm: r.distanciaKm,
 		tempsMinuts: r.tempsMinuts,
 		tecnicitat: r.tecnicitat,
-		altitudCim: cim(slug).altitud
-	});
-
-/** Dificultat de la ruta normal (la primera) de cada pilot. */
-const NORMAL = new Map(PILOTS.map((p) => [p.slug, dificultatRuta(p.slug, p.rutes[0])]));
-/** Mapa esperat a les llistes: només cims amb contingut i dificultat calculable. */
-const ESPERAT_LLISTES = new Map(
-	[...NORMAL].filter((e): e is [string, DificultatOrientativa] => e[1] !== null)
-);
-
-/** Hi ha esforç calculat i tecnicitat amb font (condició comuna dels llistats). */
-const prouDades = (d: DificultatOrientativa | null): d is DificultatOrientativa =>
-	!!d && d.factors.esforc !== undefined && d.factors.tecnica !== undefined;
-
-/**
- * Ruta apta per anar-hi amb nens (reimplementació a partir de `CRITERIS_LLISTATS_DIFICULTAT`):
- * desnivell, temps i tecnicitat **amb font** i dins dels límits, i nivell ≤ nivellMax.
- */
-function rutaAptaNens(slug: string, r: RutaAcces): boolean {
-	const c = CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens'];
-	const d = dificultatRuta(slug, r);
-	if (!prouDades(d) || d.nivell > c.nivellMax) return false;
-	if (!(c.tecnicitats as readonly Tecnicitat[]).includes(r.tecnicitat as Tecnicitat)) return false;
-	if (r.desnivellPositiuM === undefined || r.desnivellPositiuM > c.desnivellMaxM) return false;
-	if (r.tempsMinuts === undefined || r.tempsMinuts > c.tempsMaxMinuts) return false;
-	return true;
-}
-
-/** Reimplementació dels criteris: fàcils mira la ruta normal; amb nens, qualsevol ruta. */
-function entraAlLlistat(id: 'cims-facils' | 'cims-amb-nens', p: ContingutFitxa): boolean {
-	if (id === 'cims-amb-nens') return p.rutes.some((r) => rutaAptaNens(p.slug, r));
-	const d = NORMAL.get(p.slug) ?? null;
-	if (!prouDades(d)) return false;
-	return d.nivell <= CRITERIS_LLISTATS_DIFICULTAT['cims-facils'].nivellMax;
-}
-const ESPERAT_LLISTAT = {
-	'cims-facils': PILOTS.filter((p) => entraAlLlistat('cims-facils', p)).map((p) => p.slug),
-	'cims-amb-nens': PILOTS.filter((p) => entraAlLlistat('cims-amb-nens', p)).map((p) => p.slug)
+		altitudCim: altitudCim(slug)
+	};
+	return { id: r.id, ruta, dificultat: dificultatOrientativa(ruta) };
 };
-/**
- * Distintius esperats a `/cims-amb-nens`: allà el distintiu és el de la ruta per anar-hi amb nens
- * (`rutaAmbNens`, la de la línia "Des de …"), no el de la ruta normal.
- */
-const ESPERAT_BADGES_NENS = new Map(
-	PILOTS.flatMap((p) => {
-		const triada = rutaAmbNens(
-			p.rutes.map((x) => ({
-				id: x.id,
-				ruta: {
-					desnivellPositiuM: x.desnivellPositiuM,
-					distanciaKm: x.distanciaKm,
-					tempsMinuts: x.tempsMinuts,
-					tecnicitat: x.tecnicitat,
-					altitudCim: cim(p.slug).altitud
-				},
-				dificultat: dificultatRuta(p.slug, x)
-			}))
-		);
-		return triada?.dificultat ? [[p.slug, triada.dificultat] as const] : [];
-	})
-);
 
 // ── Lectura del DOM ──────────────────────────────────────────────────────────
 
@@ -228,7 +206,7 @@ function badgesLlista(page: Page, selector = 'main .llista li'): Promise<BadgeLl
 	);
 }
 
-function esperatBadgeLlista(locale: Locale, d: DificultatOrientativa) {
+function esperatBadgeLlista(locale: Locale, d: DificultatOracle) {
 	const nom = nomNivell(locale, d.nivell);
 	return {
 		visible: d.aproximada ? [nom, msg(locale, 'cim_difficulty_approx')] : [nom],
@@ -247,7 +225,7 @@ async function expectBadgesLlista(
 	page: Page,
 	locale: Locale,
 	selector?: string,
-	esperat: ReadonlyMap<string, DificultatOrientativa> = ESPERAT_LLISTES
+	esperat: ReadonlyMap<string, DificultatOracle> = ESPERAT_LLISTES
 ) {
 	const files = await badgesLlista(page, selector);
 	expect(files.length, 'la llista té cims').toBeGreaterThan(0);
@@ -265,7 +243,7 @@ async function expectBadgeComplet(
 	page: Page,
 	arrel: ReturnType<Page['locator']>,
 	locale: Locale,
-	d: DificultatOrientativa,
+	d: DificultatOracle,
 	ambAbast: boolean
 ) {
 	const b = arrel.locator('.dif');
@@ -329,80 +307,99 @@ function sondes(c: ContingutFitxa): string[] {
 	return out;
 }
 
+/** Talla una llista en trossos de `n` (tests més curts i paral·lelitzables). */
+const trossos = <T>(xs: readonly T[], n: number): T[][] =>
+	Array.from({ length: Math.ceil(xs.length / n) }, (_, i) => xs.slice(i * n, i * n + n));
+
 // ═══════════════════════════════════════════════════════════════════════════
 // 0. Dades i oracle (sense navegador)
 // ═══════════════════════════════════════════════════════════════════════════
 
-test.describe('Dificultat · dades dels pilots', () => {
+test.describe('Dificultat · dades de les fitxes', () => {
 	test.beforeEach(() => test.skip(test.info().project.name !== 'desktop-chrome', 'només un cop'));
 
-	test('les 10 pilots tenen dificultat a la ruta normal; l’oracle dels llistats coincideix amb el domini', () => {
-		expect(PILOTS).toHaveLength(10);
+	test('fitxes descobertes = fitxers; l’oracle independent coincideix amb el domini a totes les rutes i als dos llistats', () => {
+		expect(FITXES.length, 'fitxes amb contingut').toBeGreaterThanOrEqual(50);
+		expect([...FITXERS_FITXES].sort(), 'nom de fitxer = slug').toEqual(
+			FITXES.map((f) => f.slug).sort()
+		);
+		expect(
+			[...SLUGS_PILOTS].every((s) => SLUGS_FITXES.has(s)),
+			'les 10 pilots hi són'
+		).toBe(true);
+		// L'oracle fa servir els llindars de la documentació: si l'app els canvia, cal saber-ho.
+		expect(ESCALA_DIFICULTAT.esforc.llindarsKmEsforc).toEqual([7, 15, 22]);
+		expect(CRITERIS_LLISTATS_DIFICULTAT['cims-amb-nens']).toMatchObject({
+			desnivellMaxM: NENS.desnivellMaxM,
+			tempsMaxMinuts: NENS.tempsMaxMinuts,
+			nivellMax: NENS.nivellMax,
+			tecnicitats: ['cap', 'terreny-irregular']
+		});
+		const errors: string[] = [];
 		const taula: string[] = [];
-		for (const p of PILOTS) {
+		for (const p of FITXES) {
+			const rutes = p.rutes.map((r) => entradaDomini(p.slug, r));
+			for (const [i, r] of p.rutes.entries()) {
+				const o = dificultatRuta(p.slug, r);
+				const a = rutes[i].dificultat;
+				const so = o && JSON.stringify([o.nivell, o.aproximada, o.dadesQueFalten, o.factors]);
+				const sa = a && JSON.stringify([a.nivell, a.aproximada, a.dadesQueFalten, a.factors]);
+				if (so !== sa) errors.push(`${p.slug}/${r.id}: oracle ${so} ≠ domini ${sa}`);
+			}
+			if (esRutaFacil(rutes[0]) !== esFacilOracle(p))
+				errors.push(`${p.slug}: fàcil domini=${esRutaFacil(rutes[0])}`);
+			const nensDomini = rutaAmbNens(rutes)?.id;
+			const nensOracle = rutaNensOracle(p)?.id;
+			if (nensDomini !== nensOracle)
+				errors.push(`${p.slug}: ruta amb nens domini=${nensDomini} oracle=${nensOracle}`);
 			const d = NORMAL.get(p.slug);
-			expect(d, `${p.slug}: dificultat de la ruta normal`).not.toBeNull();
-			const r = p.rutes[0];
-			const entrada = {
-				ruta: {
-					desnivellPositiuM: r.desnivellPositiuM,
-					distanciaKm: r.distanciaKm,
-					tempsMinuts: r.tempsMinuts,
-					tecnicitat: r.tecnicitat,
-					altitudCim: cim(p.slug).altitud
-				},
-				dificultat: d ?? null
-			};
-			expect(esRutaFacil(entrada), `${p.slug}: fàcil`).toBe(entraAlLlistat('cims-facils', p));
-			const totes = p.rutes.map((x) => ({
-				id: x.id,
-				ruta: {
-					desnivellPositiuM: x.desnivellPositiuM,
-					distanciaKm: x.distanciaKm,
-					tempsMinuts: x.tempsMinuts,
-					tecnicitat: x.tecnicitat,
-					altitudCim: cim(p.slug).altitud
-				},
-				dificultat: dificultatRuta(p.slug, x)
-			}));
-			expect(rutaAmbNens(totes) !== undefined, `${p.slug}: nens`).toBe(
-				entraAlLlistat('cims-amb-nens', p)
-			);
 			taula.push(
-				`${p.slug} (${cim(p.slug).altitud} m): nivell ${d!.nivell} ${d!.clau}` +
-					` · km-esf ${d!.kmEsforc ?? '—'} (${d!.baseEsforc ?? '—'})` +
-					` · factors ${JSON.stringify(d!.factors)}` +
-					` · aprox ${d!.aproximada ? d!.dadesQueFalten.join('+') : 'no'}` +
-					` · rutes: ${p.rutes.map((x) => `${x.id}=${dificultatRuta(p.slug, x)?.clau ?? 'null'}`).join(', ')}`
+				`${p.slug} (${altitudCim(p.slug)} m): ` +
+					(d
+						? `nivell ${d.nivell} · km-esf ${d.kmEsforc?.toFixed(1) ?? '—'} · factors ${JSON.stringify(d.factors)} · aprox ${d.aproximada ? d.dadesQueFalten.join('+') : 'no'}`
+						: 'sense dificultat a la ruta normal') +
+					` · rutes: ${p.rutes.map((x) => `${x.id}=${dificultatRuta(p.slug, x)?.nivell ?? 'null'}`).join(', ')}`
 			);
 		}
-		const informe = `${taula.join('\n')}\nfàcils: ${ESPERAT_LLISTAT['cims-facils'].join(', ') || 'cap'}\namb nens: ${ESPERAT_LLISTAT['cims-amb-nens'].join(', ') || 'cap'}`;
-		console.log(`Calibració pilots:\n${informe}`);
+		expect(errors).toEqual([]);
+		const informe = `${taula.join('\n')}\nfàcils (${ESPERAT_LLISTAT['cims-facils'].length}): ${ESPERAT_LLISTAT['cims-facils'].join(', ') || 'cap'}\namb nens (${ESPERAT_LLISTAT['cims-amb-nens'].length}): ${[...RUTA_NENS].map(([s, r]) => `${s}→${r.id}`).join(', ') || 'cap'}`;
+		console.log(`Calibració de les ${FITXES.length} fitxes:\n${informe}`);
 		test.info().annotations.push({ type: 'calibració', description: informe });
 	});
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// 1. Fitxes pilot: distintiu a la capçalera i a cada ruta
+// 1. Fitxes amb contingut: distintiu a la capçalera i a cada ruta
 // ═══════════════════════════════════════════════════════════════════════════
 
-test.describe('Dificultat · fitxes pilot', () => {
-	for (const p of PILOTS) {
+test.describe('Dificultat · fitxes amb contingut', () => {
+	for (const p of FITXES) {
 		for (const locale of LOCALES) {
 			test(`${p.slug} (${locale}): capçalera amb el nivell esperat, sota el H1, i cada ruta amb el seu`, async ({
 				page
-			}) => {
+			}, ti) => {
+				test.skip(
+					!fitxesDelProjecte(ti.project.name).includes(p),
+					'als mòbils, només les 10 pilots (les 50 a desktop-chrome)'
+				);
 				await stubMaps(page);
 				await gotoHydrated(page, fitxaUrl(p.slug, locale));
-				const d = NORMAL.get(p.slug)!;
+				const d = NORMAL.get(p.slug) ?? null;
 				const cap = page.locator('main .dif-cap');
-				await expect(cap).toHaveCount(1);
-				await expectBadgeComplet(page, cap, locale, d, true);
+				if (!d) {
+					// Ruta normal sense prou dades: cap distintiu a la capçalera
+					await expect(cap).toHaveCount(0);
+				} else {
+					await expect(cap).toHaveCount(1);
+					await expectBadgeComplet(page, cap, locale, d, true);
 
-				// Sota el H1 (no hi interfereix): comença després que acabi el H1
-				const h1 = await page.locator('main h1').boundingBox();
-				const bb = await cap.boundingBox();
-				expect(bb!.y, 'el distintiu va sota el H1').toBeGreaterThanOrEqual(h1!.y + h1!.height - 1);
+					// Sota el H1 (no hi interfereix): comença després que acabi el H1
+					const h1 = await page.locator('main h1').boundingBox();
+					const bb = await cap.boundingBox();
+					expect(bb!.y, 'el distintiu va sota el H1').toBeGreaterThanOrEqual(
+						h1!.y + h1!.height - 1
+					);
+				}
 
 				// Cada targeta de ruta: el seu distintiu si la dificultat es pot calcular, cap si no
 				const articles = page.locator('section[aria-labelledby="rutes"] article');
@@ -426,14 +423,17 @@ test.describe('Dificultat · fitxes pilot', () => {
 		browser
 	}) => {
 		test.skip(test.info().project.name !== 'desktop-chrome', 'només un cop');
+		test.setTimeout(30_000 + FITXES.length * 2_000);
 		const ctx = await browser.newContext({ javaScriptEnabled: false });
 		const page = await ctx.newPage();
-		for (const p of PILOTS) {
+		for (const p of FITXES) {
+			const d = NORMAL.get(p.slug);
 			await page.goto(fitxaUrl(p.slug, 'ca'));
-			await expect(page.locator('main .dif-cap .dif'), p.slug).toHaveCount(1);
-			await expect(page.locator('main .dif-cap strong')).toHaveText(
-				nomNivell('ca', NORMAL.get(p.slug)!.nivell)
-			);
+			await expect(page.locator('main .dif-cap .dif'), p.slug).toHaveCount(d ? 1 : 0);
+			if (d)
+				await expect(page.locator('main .dif-cap strong'), p.slug).toHaveText(
+					nomNivell('ca', d.nivell)
+				);
 		}
 		await ctx.close();
 	});
@@ -458,33 +458,46 @@ test.describe('Dificultat · fitxes pilot', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 test.describe('Dificultat · fitxes sense contingut', () => {
-	test('cap fitxa sense contingut porta distintiu; les pilots sí (HTML de les 150 × ca/es)', async ({
+	test('cap fitxa sense contingut porta distintiu; les que en tenen, segons l’oracle (HTML de les 150 × ca/es)', async ({
 		request
 	}) => {
 		test.skip(test.info().project.name !== 'desktop-chrome', 'només un cop');
 		test.setTimeout(120_000);
 		const errors: string[] = [];
 		for (const c of CIMS) {
+			const f = FITXES.find((x) => x.slug === c.slug);
 			for (const locale of LOCALES) {
 				const html = await (await request.get(fitxaUrl(c.slug, locale))).text();
 				const te = /class="dif-cap/.test(html);
-				const esperat = SLUGS_PILOTS.has(c.slug) && NORMAL.get(c.slug) !== null;
+				const esperat = !!f && (NORMAL.get(c.slug) ?? null) !== null;
 				if (te !== esperat)
 					errors.push(`${c.slug} (${locale}): distintiu=${te}, esperat=${esperat}`);
-				if (!SLUGS_PILOTS.has(c.slug) && /class="dif[ "-]/.test(html))
-					errors.push(`${c.slug} (${locale}): hi ha algun element .dif`);
+				const algun = /class="dif[ "-]/.test(html);
+				const algunEsperat = !!f && algunaRutaAmbDificultat(f);
+				if (algun !== algunEsperat)
+					errors.push(`${c.slug} (${locale}): algun .dif=${algun}, esperat=${algunEsperat}`);
 			}
 		}
 		expect(errors).toEqual([]);
 	});
 
+	/** Una fitxa amb contingut però sense cap ruta amb dades (si n'hi ha) i una sense contingut. */
+	const SENSE_DIFICULTAT = [
+		...FITXES.filter((f) => !algunaRutaAmbDificultat(f))
+			.slice(0, 1)
+			.map((f) => f.slug),
+		CIMS.find((c) => !SLUGS_FITXES.has(c.slug))!.slug
+	];
+
 	for (const locale of LOCALES) {
-		test(`la-picossa i bastiments (${locale}): sense distintiu ni enllaç a la metodologia de dificultat`, async ({
+		test(`${SENSE_DIFICULTAT.join(' i ')} (${locale}): sense distintiu ni enllaç a la metodologia de dificultat`, async ({
 			page
 		}) => {
 			await stubMaps(page);
-			for (const slug of ['la-picossa', 'bastiments']) {
-				await page.goto(fitxaUrl(slug, locale));
+			for (const slug of SENSE_DIFICULTAT) {
+				// Hidratada (i no només carregada): el distintiu tampoc no apareix al client, i el
+				// `goto` següent no avorta imports en curs (WebKit: "Importing a module script failed").
+				await gotoHydrated(page, fitxaUrl(slug, locale));
 				await expect(page.locator('main h1')).toContainText(cim(slug).nom);
 				await expect(page.locator('main .dif, main .dif-cap, main .dif-mini')).toHaveCount(0);
 				await expect(page.locator(`main a[href*="#${ANCLA}"]`)).toHaveCount(0);
@@ -499,7 +512,7 @@ test.describe('Dificultat · fitxes sense contingut', () => {
 
 test.describe('Dificultat · llistes de cims', () => {
 	for (const locale of LOCALES) {
-		test(`/cims (${locale}): distintiu compacte només a les pilots, amb el nivell esperat`, async ({
+		test(`/cims (${locale}): distintiu compacte només als cims amb dificultat, amb el nivell esperat`, async ({
 			page
 		}) => {
 			await gotoHydrated(page, URL_LLISTAT.cims[locale]);
@@ -515,7 +528,7 @@ test.describe('Dificultat · llistes de cims', () => {
 			);
 		});
 
-		test(`/cims-essencials i tresmils (${locale}): distintiu només a les pilots`, async ({
+		test(`/cims-essencials i tresmils (${locale}): distintiu només als cims amb dificultat`, async ({
 			page
 		}) => {
 			await page.goto(URL_LLISTAT.essencials[locale]);
@@ -524,22 +537,30 @@ test.describe('Dificultat · llistes de cims', () => {
 			await expectBadgesLlista(page, locale);
 		});
 
-		test(`comarques Ripollès, Bages i Vallès Occidental (${locale}): distintiu només a les pilots`, async ({
+		test(`comarques amb fitxes (${locale}): distintiu només als cims amb dificultat`, async ({
 			page
-		}) => {
+		}, ti) => {
+			// Escriptori: totes les comarques amb alguna fitxa amb contingut; mòbils: una mostra.
+			const comarques =
+				ti.project.name === 'desktop-chrome'
+					? [...new Set(FITXES.map((f) => cim(f.slug).comarca))].sort()
+					: ['ripolles', 'bages', 'valles-occidental'];
+			test.setTimeout(30_000 + comarques.length * 3_000);
 			await stubMaps(page);
-			for (const comarca of ['ripolles', 'bages', 'valles-occidental']) {
+			for (const comarca of comarques) {
 				await page.goto(comarcaUrl(comarca, locale));
 				const amb = await expectBadgesLlista(page, locale);
-				const pilotsComarca = PILOTS.filter((p) => cim(p.slug).comarca === comarca).map(
-					(p) => p.slug
+				const ambDificultat = [...ESPERAT_LLISTES.keys()].filter(
+					(slug) => cim(slug).comarca === comarca
 				);
-				expect(amb.sort(), comarca).toEqual(pilotsComarca.sort());
+				expect(amb.sort(), comarca).toEqual(ambDificultat.sort());
 			}
 		});
 	}
 
-	test('/mapa (llista, HTML sense JS): distintiu només a les pilots', async ({ browser }) => {
+	test('/mapa (llista, HTML sense JS): distintiu només als cims amb dificultat', async ({
+		browser
+	}) => {
 		test.skip(test.info().project.name !== 'desktop-chrome', 'només un cop');
 		const ctx = await browser.newContext({ javaScriptEnabled: false });
 		const page = await ctx.newPage();
@@ -584,7 +605,7 @@ test.describe('Llistats de dificultat', () => {
 				for (const slug of esperats) {
 					if (id === 'cims-facils') expect(NORMAL.get(slug)!.nivell).toBe(1);
 					else {
-						const p = PILOTS.find((x) => x.slug === slug)!;
+						const p = FITXES.find((x) => x.slug === slug)!;
 						expect(p.rutes.some((r) => rutaAptaNens(slug, r))).toBe(true);
 					}
 				}
@@ -678,17 +699,113 @@ test.describe('Llistats de dificultat', () => {
 					else expect(hrefs, `${origen} → ${desti}`).toContain(URL_LLISTAT[desti][locale]);
 				}
 			}
-			// Informatiu: altres "Explora" (portada, /cims, peu) que encara no els enllacen
-			const sense: string[] = [];
-			for (const url of [`/${locale}`, URL_LLISTAT.cims[locale]]) {
-				await page.goto(url);
-				const hrefs = await hrefsAbsoluts(page.locator('a'));
-				for (const desti of ['cims-facils', 'cims-amb-nens'] as const)
-					if (!hrefs.includes(URL_LLISTAT[desti][locale])) sense.push(`${url} ✗ ${desti}`);
+		});
+
+		test(`enllaçats des de la portada (Explora), /cims i el peu (${locale})`, async ({
+			page,
+			request
+		}) => {
+			const destins = [
+				{ id: 'cims-facils', text: msg(locale, 'explore_easy') },
+				{ id: 'cims-amb-nens', text: msg(locale, 'explore_kids') }
+			] as const;
+			/** Comprova que dins `arrel` hi ha un enllaç amb el text i la URL localitzada de cada llistat. */
+			const comprova = async (arrel: ReturnType<Page['locator']>, on: string) => {
+				for (const d of destins) {
+					const a = arrel.getByRole('link', { name: d.text, exact: true });
+					await expect(a, `${on} → ${d.id}`).toHaveCount(1);
+					await expectHref(a, URL_LLISTAT[d.id][locale], `${on} → ${d.id}`);
+				}
+			};
+			// Portada: secció "Explora els cims"
+			await page.goto(`/${locale}`);
+			await comprova(
+				page.locator('section').filter({
+					has: page.getByRole('heading', { level: 2, name: msg(locale, 'explore_label') })
+				}),
+				'portada (Explora)'
+			);
+			// Peu (a la portada, a /cims, a una fitxa i als mateixos llistats)
+			const peu = () => page.getByRole('navigation', { name: msg(locale, 'footer_explore_label') });
+			await comprova(peu(), 'peu de la portada');
+			// /cims: navegació "Explora" de la capçalera
+			await page.goto(URL_LLISTAT.cims[locale]);
+			await comprova(page.getByRole('navigation', { name: msg(locale, 'explore_label') }), '/cims');
+			await comprova(peu(), 'peu de /cims');
+			await page.goto(fitxaUrl(FITXES[0].slug, locale));
+			await comprova(peu(), 'peu d’una fitxa');
+			for (const id of ['cims-facils', 'cims-amb-nens'] as const) {
+				await page.goto(URL_LLISTAT[id][locale]);
+				await comprova(peu(), `peu de ${id}`);
+				expect((await request.get(URL_LLISTAT[id][locale])).status()).toBe(200);
 			}
-			test
-				.info()
-				.annotations.push({ type: 'sense enllaç', description: sense.join('; ') || 'cap' });
+		});
+
+		test(`cims-amb-nens (${locale}): cada cim diu "Des de …" i el desnivell i el temps d'anada de la ruta amb nens`, async ({
+			page
+		}) => {
+			await gotoHydrated(page, URL_LLISTAT['cims-amb-nens'][locale]);
+			const files = await page.locator('main .llista li').evaluateAll((lis) =>
+				lis.map((li) => {
+					const a = li.querySelector('a')!;
+					const ruta = li.querySelector('.ruta');
+					const t = (sel: string) =>
+						(ruta?.querySelector(sel)?.textContent ?? null)?.trim() ?? null;
+					return {
+						slug: new URL(a.href).pathname.split('/').pop()!,
+						rutes: li.querySelectorAll('.ruta').length,
+						sr: t('.sr-only'),
+						nom: t('.nom-ruta'),
+						dades: ruta?.querySelector('.dades')?.textContent ?? null,
+						sepOcult: ruta?.querySelector('.sep')?.getAttribute('aria-hidden') ?? null,
+						dinsEnllac: !!ruta && a.contains(ruta),
+						nomAccessible: (a.textContent ?? '').replace(/\s+/g, ' ').trim()
+					};
+				})
+			);
+			expect(files.map((f) => f.slug).sort()).toEqual([...RUTA_NENS.keys()].sort());
+			const errors: string[] = [];
+			for (const f of files) {
+				const r = RUTA_NENS.get(f.slug)!;
+				const nomCurt = nomCurtOracle(r.nom[locale]);
+				const dades = [
+					msg(locale, 'kids_route_elevation', { metres: alt(r.desnivellPositiuM!) }),
+					msg(locale, 'kids_route_time', { temps: durada(r.tempsMinuts!) })
+				].join(' · ');
+				const real = {
+					rutes: f.rutes,
+					sr: f.sr,
+					nom: f.nom,
+					dades: f.dades?.replace(/\s+/g, ' ').trim(),
+					sepOcult: f.sepOcult,
+					dinsEnllac: f.dinsEnllac
+				};
+				const esperat = {
+					rutes: 1,
+					sr: msg(locale, 'kids_route_sr'),
+					nom: nomCurt,
+					dades,
+					sepOcult: 'true',
+					dinsEnllac: true
+				};
+				if (JSON.stringify(real) !== JSON.stringify(esperat))
+					errors.push(`${f.slug}: ${JSON.stringify(real)} ≠ ${JSON.stringify(esperat)}`);
+				// "Des de …" / "Desde …": el punt de sortida, i és el començament del nom de la ruta
+				if (!/^(Des de |Des del |Des dels |Des d'|Des d’|Desde )/.test(f.nom ?? ''))
+					errors.push(`${f.slug}: «${f.nom}» no comença per "Des de"`);
+				if (f.nom === null || !r.nom[locale].startsWith(f.nom))
+					errors.push(`${f.slug}: «${f.nom}» no és el començament de «${r.nom[locale]}»`);
+				// Número i unitat sempre junts (espai fix): cap espai normal darrere d'una xifra
+				if (/\d /.test(f.dades ?? '')) errors.push(`${f.slug}: espai trencable a «${f.dades}»`);
+				// El nom accessible de l'enllaç no ajunta les parts
+				if (!f.nomAccessible.includes(`${msg(locale, 'kids_route_sr')} ${nomCurt}`))
+					errors.push(`${f.slug}: nom accessible «${f.nomAccessible}»`);
+			}
+			expect(errors).toEqual([]);
+			test.info().annotations.push({
+				type: 'rutes amb nens',
+				description: files.map((f) => `${f.slug}: ${f.nom}`).join('; ')
+			});
 		});
 
 		test(`navegació del client fins als llistats (${locale}): mateix contingut que el HTML`, async ({
@@ -704,10 +821,10 @@ test.describe('Llistats de dificultat', () => {
 				[...ESPERAT_LLISTAT['cims-amb-nens']].sort()
 			);
 			await expectBadgesLlista(page, locale, undefined, ESPERAT_BADGES_NENS);
-			await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-				'content',
-				ESPERAT_LLISTAT['cims-amb-nens'].length < 3 ? /noindex/ : /index/
-			);
+			// Amb < 3 cims, noindex; si no, cap meta robots (com al HTML del servidor)
+			if (ESPERAT_LLISTAT['cims-amb-nens'].length < 3)
+				await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+			else await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
 		});
 	}
 });
@@ -819,13 +936,14 @@ test.describe('Dificultat · metodologia', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 test.describe('Dificultat · sense text de fitxes al client', () => {
-	const SONDES = PILOTS.flatMap((p) => sondes(p).map((s) => ({ slug: p.slug, s })));
+	const SONDES = FITXES.flatMap((p) => sondes(p).map((s) => ({ slug: p.slug, s })));
 
 	test('chunks JS i __data.json de llistes i llistats: cap text de fitxa, només el mapa lleuger', async ({
 		page,
 		request
 	}) => {
-		expect(SONDES.length).toBeGreaterThan(80);
+		test.slow(); // ~1.000 sondes de les 50 fitxes contra cada chunk
+		expect(SONDES.length).toBeGreaterThan(80 * (FITXES.length / 10));
 		const chunks = new Map<string, Promise<string>>();
 		page.on('response', (r) => {
 			const u = new URL(r.url());
@@ -885,6 +1003,12 @@ const PAGINES_AXE: { nom: string; url: string; obre?: boolean }[] = [
 	{ nom: 'fitxa Puigmal (es)', url: fitxaUrl('puigmal', 'es') },
 	{ nom: 'cims-facils', url: URL_LLISTAT['cims-facils'].ca },
 	{ nom: 'cims-amb-nens (es)', url: URL_LLISTAT['cims-amb-nens'].es },
+	{ nom: 'cims-amb-nens (ca)', url: URL_LLISTAT['cims-amb-nens'].ca },
+	// Una fitxa nova del bloc 6b (no pilot) amb ruta per a nens, desplegada
+	...[...RUTA_NENS.keys()]
+		.filter((s) => !SLUGS_PILOTS.has(s))
+		.slice(0, 1)
+		.map((s) => ({ nom: `fitxa ${s} (es, desplegat)`, url: fitxaUrl(s, 'es'), obre: true })),
 	{ nom: 'comarca Ripollès', url: comarcaUrl('ripolles', 'ca') },
 	{ nom: 'metodologia', url: `${metodologiaUrl('ca')}#${ANCLA}` }
 ];
@@ -908,27 +1032,38 @@ for (const colorScheme of ['light', 'dark'] as const) {
 test.describe('Dificultat · reflow a 320 px', () => {
 	test.use({ viewport: { width: 320, height: 640 } });
 	for (const locale of LOCALES) {
-		test(`(${locale}) pilots amb els desplegables oberts, llistats i metodologia sense scroll horitzontal`, async ({
+		for (const [i, tros] of trossos(FITXES, 10).entries()) {
+			test(`(${locale}) fitxes ${i * 10 + 1}–${i * 10 + tros.length} amb els desplegables oberts sense scroll horitzontal`, async ({
+				page
+			}) => {
+				test.setTimeout(120_000);
+				await stubMaps(page);
+				const dolents: string[] = [];
+				for (const p of tros) {
+					await page.goto(fitxaUrl(p.slug, locale));
+					for (const s of await page.locator('main details.falten summary').all()) await s.click();
+					const o = await overflowX(page);
+					if (o.px > 0 || o.culprit) dolents.push(`${p.slug}: ${o.px}px ${o.culprit}`);
+					// La "pastilla" del nivell no surt del seu contenidor
+					const fora = await page.locator('main .dif .nivell').evaluateAll(
+						(els) =>
+							els.filter((el) => {
+								const pare = el.closest('.dif')!.getBoundingClientRect();
+								return el.getBoundingClientRect().right > pare.right + 0.5;
+							}).length
+					);
+					if (fora) dolents.push(`${p.slug}: ${fora} pastilles fora del distintiu`);
+				}
+				expect(dolents).toEqual([]);
+			});
+		}
+
+		test(`(${locale}) llistats i metodologia sense scroll horitzontal; la ruta amb nens dins la fila`, async ({
 			page
 		}) => {
 			test.setTimeout(120_000);
 			await stubMaps(page);
 			const dolents: string[] = [];
-			for (const p of PILOTS) {
-				await page.goto(fitxaUrl(p.slug, locale));
-				for (const s of await page.locator('main details.falten summary').all()) await s.click();
-				const o = await overflowX(page);
-				if (o.px > 0 || o.culprit) dolents.push(`${p.slug}: ${o.px}px ${o.culprit}`);
-				// La "pastilla" del nivell no surt del seu contenidor
-				const fora = await page.locator('main .dif .nivell').evaluateAll(
-					(els) =>
-						els.filter((el) => {
-							const pare = el.closest('.dif')!.getBoundingClientRect();
-							return el.getBoundingClientRect().right > pare.right + 0.5;
-						}).length
-				);
-				if (fora) dolents.push(`${p.slug}: ${fora} pastilles fora del distintiu`);
-			}
 			for (const url of [
 				URL_LLISTAT['cims-facils'][locale],
 				URL_LLISTAT['cims-amb-nens'][locale],
@@ -939,9 +1074,9 @@ test.describe('Dificultat · reflow a 320 px', () => {
 				await page.goto(url);
 				const o = await overflowX(page);
 				if (o.px > 0 || o.culprit) dolents.push(`${url}: ${o.px}px ${o.culprit}`);
-				// Distintiu compacte dins la fila
+				// Distintiu compacte i línia "Des de …" dins la fila
 				const fora = await page
-					.locator('main .llista li .dif-mini')
+					.locator('main .llista li .dif-mini, main .llista li .ruta, main .llista li .ruta .dada')
 					.evaluateAll(
 						(els) =>
 							els.filter(
@@ -950,7 +1085,7 @@ test.describe('Dificultat · reflow a 320 px', () => {
 									el.closest('a')!.getBoundingClientRect().right + 0.5
 							).length
 					);
-				if (fora) dolents.push(`${url}: ${fora} distintius fora de la fila`);
+				if (fora) dolents.push(`${url}: ${fora} elements fora de la fila`);
 			}
 			expect(dolents).toEqual([]);
 		});
@@ -1009,58 +1144,70 @@ test.describe('Dificultat · CLS del H1 (Chromium)', () => {
 	 * El CLS total de la pàgina és informatiu (La Mola a 768 px té un reflux horitzontal del H1
 	 * conegut del bloc 6a, independent del distintiu).
 	 */
+	const AMB_CAPCALERA = FITXES.filter((p) => NORMAL.get(p.slug));
 	for (const ample of [320, 375, 768]) {
-		test(`${ample} px, fonts lentes: el distintiu i la caixa del H1 no es desplacen en carregar`, async ({
-			browser
-		}, ti) => {
-			test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-			test.setTimeout(240_000);
-			const informe: string[] = [];
-			const dolents: string[] = [];
-			for (const p of PILOTS) {
-				const ctx = await browser.newContext({
-					viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
-					deviceScaleFactor: 2,
-					isMobile: ample < 768,
-					hasTouch: true,
-					serviceWorkers: 'block'
-				});
-				await ctx.addInitScript(observaClsDif);
-				const page = await ctx.newPage();
-				await stubMaps(page);
-				await page.route(/\.woff2(\?|$)/, async (r) => {
-					await new Promise((res) => setTimeout(res, 800));
-					await r.continue();
-				});
-				await page.goto(fitxaUrl(p.slug, 'ca'), { waitUntil: 'domcontentloaded' });
-				const caixa = () =>
-					page.evaluate(() => {
-						const h = document.querySelector('main h1')!.getBoundingClientRect();
-						const d = document.querySelector('main .dif-cap')!.getBoundingClientRect();
-						return { h1y: h.y + scrollY, h1h: h.height, dify: d.y + scrollY };
+		for (const [i, tros] of trossos(AMB_CAPCALERA, 17).entries()) {
+			test(`${ample} px, fonts lentes (fitxes ${i * 17 + 1}–${i * 17 + tros.length}): el distintiu i la caixa del H1 no es desplacen en carregar`, async ({
+				browser
+			}, ti) => {
+				test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
+				test.setTimeout(240_000);
+				const informe: string[] = [];
+				const dolents: string[] = [];
+				for (const p of tros) {
+					const ctx = await browser.newContext({
+						viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
+						deviceScaleFactor: 2,
+						isMobile: ample < 768,
+						hasTouch: true,
+						serviceWorkers: 'block'
 					});
-				const abans = await caixa();
-				await waitForHydration(page);
-				await page.evaluate(() => document.fonts.ready);
-				await page.waitForTimeout(1200);
-				const despres = await caixa();
-				const c = (await page.evaluate(() => window.__clsDif))!;
-				await ctx.close();
-				informe.push(
-					`${p.slug}=${Math.round(c.total * 1000) / 1000} ${c.shifts.map((s) => `${s.v}[${s.nodes.join(', ')}]`).join(' ')}`
+					await ctx.addInitScript(observaClsDif);
+					const page = await ctx.newPage();
+					await stubMaps(page);
+					await page.route(/\.woff2(\?|$)/, async (r) => {
+						await new Promise((res) => setTimeout(res, 800));
+						await r.continue();
+					});
+					await page.goto(fitxaUrl(p.slug, 'ca'), { waitUntil: 'domcontentloaded' });
+					const caixa = () =>
+						page.evaluate(() => {
+							const h = document.querySelector('main h1')!.getBoundingClientRect();
+							const d = document.querySelector('main .dif-cap')!.getBoundingClientRect();
+							return { h1y: h.y + scrollY, h1h: h.height, dify: d.y + scrollY };
+						});
+					const abans = await caixa();
+					await waitForHydration(page);
+					await page.evaluate(() => document.fonts.ready);
+					await page.waitForTimeout(1200);
+					const despres = await caixa();
+					const c = (await page.evaluate(() => window.__clsDif))!;
+					await ctx.close();
+					informe.push(
+						`${p.slug}=${Math.round(c.total * 1000) / 1000} ${c.shifts.map((s) => `${s.v}[${s.nodes.join(', ')}]`).join(' ')}`
+					);
+					for (const s of c.shifts.filter((x) => x.distintiu))
+						dolents.push(`${p.slug}: el distintiu es desplaça ${s.v} [${s.nodes.join(', ')}]`);
+					if (
+						Math.abs(despres.h1y - abans.h1y) > 1 ||
+						Math.abs(despres.h1h - abans.h1h) > 1 ||
+						Math.abs(despres.dify - abans.dify) > 1
+					)
+						dolents.push(`${p.slug}: ${JSON.stringify(abans)} → ${JSON.stringify(despres)}`);
+				}
+				ti.annotations.push({ type: `CLS ${ample}px`, description: informe.join('\n') });
+				console.log(`CLS dificultat ${ample}px (fonts lentes):\n${informe.join('\n')}`);
+				const { nous, arreglats } = separaConeguts(
+					dolents,
+					ample === 768 ? BUGS_H1_768 : new Set(),
+					tros.map((p) => p.slug)
 				);
-				for (const s of c.shifts.filter((x) => x.distintiu))
-					dolents.push(`${p.slug}: el distintiu es desplaça ${s.v} [${s.nodes.join(', ')}]`);
-				if (
-					Math.abs(despres.h1y - abans.h1y) > 1 ||
-					Math.abs(despres.h1h - abans.h1h) > 1 ||
-					Math.abs(despres.dify - abans.dify) > 1
-				)
-					dolents.push(`${p.slug}: ${JSON.stringify(abans)} → ${JSON.stringify(despres)}`);
-			}
-			ti.annotations.push({ type: `CLS ${ample}px`, description: informe.join('\n') });
-			console.log(`CLS dificultat ${ample}px (fonts lentes):\n${informe.join('\n')}`);
-			expect(dolents).toEqual([]);
-		});
+				expect(nous).toEqual([]);
+				expect(
+					arreglats,
+					'bugs coneguts que ja no es reprodueixen: treu-los de BUGS_H1_768'
+				).toEqual([]);
+			});
+		}
 	}
 });

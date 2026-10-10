@@ -66,6 +66,52 @@ test('les 300 fitxes (150 × ca/es) responen 200 amb H1 i <title> ≤ 60', async
 });
 
 /**
+ * Bloc 6b · topònims amb l'article plural `els` (Els Àngels, Els Bessons). En castellà l'article
+ * català no es contrau ni es tradueix: "Cómo subir a Els Àngels", mai "a els", "al Els" ni
+ * "a los Àngels"; en català, "Com pujar als Àngels". Es mira el <title>, l'og:title i la meta
+ * description de les 150 fitxes en castellà (i els "Els …" en català).
+ */
+test('castellà: "a Els Àngels" (mai "a els", "al Els" ni "los") als titles i descriptions de les fitxes', async ({
+	request
+}, testInfo) => {
+	test.skip(testInfo.project.name !== 'desktop-chrome', 'Una sola passada n’hi ha prou');
+	test.setTimeout(120_000);
+	const meta = (html: string, attr: string, nom: string) =>
+		decode(
+			html.match(new RegExp(`<meta[^>]*${attr}="${nom}"[^>]*content="([^"]*)"`))?.[1] ??
+				html.match(new RegExp(`<meta[^>]*content="([^"]*)"[^>]*${attr}="${nom}"`))?.[1] ??
+				''
+		);
+	const textos = async (url: string) => {
+		const html = await (await request.get(url)).text();
+		return {
+			title: decode(html.match(/<title>(.*?)<\/title>/s)?.[1] ?? ''),
+			og: meta(html, 'property', 'og:title'),
+			desc: meta(html, 'name', 'description')
+		};
+	};
+	const ambEls = CIMS.filter((c) => /^Els /.test(c.nom));
+	expect(ambEls.length, 'hi ha cims amb "Els" al catàleg').toBeGreaterThan(0);
+	const errors: string[] = [];
+	const PROHIBIT_ES = /\b(?:a|de|en|con|desde) els\b|\b(?:al|del) Els\b|\blos (?:Àngels|Bessons)\b/;
+	for (const c of CIMS) {
+		const t = await textos(`/es/cimas/${c.slug}`);
+		for (const [camp, text] of Object.entries(t))
+			if (PROHIBIT_ES.test(text)) errors.push(`es ${c.slug} ${camp}: «${text}»`);
+	}
+	for (const c of ambEls) {
+		const resta = c.nom.replace(/^Els /, '');
+		const es = await textos(`/es/cimas/${c.slug}`);
+		if (!es.title.startsWith(`Cómo subir a Els ${resta} (`))
+			errors.push(`es ${c.slug} title: «${es.title}»`);
+		const ca = await textos(`/ca/cims/${c.slug}`);
+		if (!ca.title.startsWith(`Com pujar als ${resta} (`))
+			errors.push(`ca ${c.slug} title: «${ca.title}»`);
+	}
+	expect(errors).toEqual([]);
+});
+
+/**
  * Noms llargs (una sola paraula a l'H1 en lletra ampla) poden forçar l'amplada de la targeta.
  * També: l'H1 no parteix paraules, fa com a màxim 3 línies a 320 px i no toca el segell.
  */
