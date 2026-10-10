@@ -163,6 +163,11 @@ export class SupabaseFals {
 	perdreRespostesPush = 0;
 	/** El `sync_push` respon sempre aquest status (p. ex. 500) sense aplicar res. */
 	errorPush: number | null = null;
+	/**
+	 * Status que passa a `errorPush` just després de perdre una resposta (`perdreRespostesPush`):
+	 * reté els reintents automàtics de la app perquè el test controli quan es reintenta.
+	 */
+	errorPushDespresDePerdua: number | null = null;
 	/** `esborrar_compte` respon aquest status sense esborrar res. */
 	errorEsborrar: number | null = null;
 	private rellotge = Date.parse('2026-10-01T08:00:00Z') * 1000;
@@ -322,6 +327,10 @@ export class SupabaseFals {
 			const res = this.syncPush(usuari!, (cos as { files: FilaPushRebuda[] }).files);
 			if (this.perdreRespostesPush > 0) {
 				this.perdreRespostesPush--;
+				if (this.errorPushDespresDePerdua) {
+					this.errorPush = this.errorPushDespresDePerdua;
+					this.errorPushDespresDePerdua = null;
+				}
 				return this.json(route, 500, { message: 'resposta perduda (simulada)' });
 			}
 			return this.json(route, 200, res);

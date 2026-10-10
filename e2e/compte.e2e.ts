@@ -434,8 +434,11 @@ test.describe('Sincronització', () => {
 		supa,
 		consoleGuard
 	}) => {
-		consoleGuard.allow(/\[sync\]|status of 500/);
+		consoleGuard.allow(/\[sync\]|status of 50[03]/);
 		supa.perdreRespostesPush = 1;
+		// La app reintenta sola (~2 s): fins que el test no ho permeti, els reintents fallen sense
+		// aplicar res, i l'estat d'error es pot comprovar sense curses (abans era intermitent).
+		supa.errorPushDespresDePerdua = 503;
 		const rows = await prepararAutenticat(page, INESA, [
 			...LLAVOR,
 			{ cimId: CIM.canigo.id, data: '2025-06-20' }
@@ -448,10 +451,16 @@ test.describe('Sincronització', () => {
 		expect(supa.filesDe(INESA)).toHaveLength(3);
 		expect(await llegirTaula(page, 'outbox')).toHaveLength(3);
 
-		await seccio(page).getByRole('button', { name: 'Torna-ho a provar' }).click();
+		// Deixa passar els reintents i reintenta a mà (si un d'automàtic s'hi avança, també val).
+		const reintentar = seccio(page).getByRole('button', { name: 'Torna-ho a provar' });
+		await expect(reintentar).toBeVisible();
+		supa.errorPush = null;
+		await reintentar.click({ timeout: 3_000 }).catch(() => {});
 		await esperarSincronitzat(page);
-		expect(supa.pushos).toHaveLength(2);
-		expect(supa.pushos[1].map((f) => f.id).sort()).toEqual(rows.map((r) => r.id).sort());
+		// Tots els pushos (el perdut, els retinguts i el bo) porten exactament els mateixos ids.
+		const ids = rows.map((r) => r.id).sort();
+		expect(supa.pushos.length).toBeGreaterThanOrEqual(2);
+		for (const p of supa.pushos) expect(p.map((f) => f.id).sort()).toEqual(ids);
 		expect(supa.filesDe(INESA)).toHaveLength(3);
 		expect(await llegirTaula(page, 'outbox')).toEqual([]);
 		expect(await vives(page)).toHaveLength(3);
