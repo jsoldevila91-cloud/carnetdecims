@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-09.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-10.
 
 ## Hecho
 
@@ -152,15 +152,16 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
   - texto propio para entradas de sync bloqueadas (hoy, `cloud_sync_error` genérico);
   - tolerar en `pwa.e2e.ts:400` el `import()` abortado en WebKit.
 
-## Pendiente del bloque 6b (cortado por el límite semanal del 2026-10-05)
+## Bloque 6b (terminado, 2026-10-10; publicado en carnetdecims.cat)
 
-Ya hecho: 50 fichas en borrador (`7dc6810`), criterio estricto de "amb nens" (`9531ed4`), fallback `nomRutaCurt` en `seoFitxaCim`, y las correcciones del usuario del 2026-10-05 (Caro 1.441 m, La Fita Alta 286 m, acceso regulado a la Val de Valarties en el Montardo, Burriac con SL-C 114 desde el parc de la Font Picant y SL-C 115 desde Cabrera de Mar, notas del Montgrí y Saverdera).
-
-Queda:
-
-1. **Frontend:** "des de {ruta}" en `/cims-amb-nens` (`rutesAmbNens` ya viene del servidor); enlaces a `/cims-facils` y `/cims-amb-nens` en el "Explora" de la portada, en `/cims` y en el pie.
-2. **SEO:** revisión de calidad por muestreo de las 40 fichas nuevas (frases calcadas entre fichas, guía docs/07).
-3. **QA:** ampliar `e2e/dificultat.e2e.ts` y `contingut-fitxa.e2e.ts` a las 50 fichas y hacer una pasada completa.
+- **Contenido:** 50 fichas en `esborrany` (10 pilotos + 40). Revisión SEO de las 50: FAQ "compta com a essencial" propia de cada cim, frases plantilla reescritas, errores corregidos (la Tosa en telecabina no compta, Agudes, Santa Fe, Àngels, nombres de fuentes). Sin cambios de datos numéricos.
+  - **Para que el usuario revise:** Puig de l'Àliga (`tempsMinuts: 75`, ritmo con niños de Totnens) y Pilar d'Almenara (7 min de ida); los pasos `grimpada-facil` de Castellsapera, Talaia del Montmell, Tristaina, Mola de Colldejou y Carlit.
+- **Correcciones del usuario del 2026-10-05:** aplicadas (Caro 1.441 m, La Fita Alta 286 m, Valarties en el Montardo, Burriac SL-C 114/115, notas del Montgrí y Saverdera).
+- **Listados:** `/cims-facils` (11) y `/cims-amb-nens` (8), ya indexables (≥ 3). En amb nens cada cim muestra "Des de {ruta}", desnivel y tiempo de ida, y el distintivo de la ruta con niños (Burriac y Santa Fe no usan la ruta normal). Enlaces desde portada, `/cims` y pie.
+- **SEO:** "Cómo subir a Els Àngels" (artículo plural) con test sobre todo el catálogo.
+- **Correcciones de QA:** H1 de la ficha con saltos por 9 tramos de ancho (CLS 0 al cargar Archivo en tablet); carrera borrado local ↔ sync resuelta con `meta.epoca` (las pasadas en curso abortan sin escribir).
+- **QA:** E2E ampliados a las 50 fichas con oráculo independiente (`e2e/fitxes-contingut.ts`). Pasada completa: 2806 pasados; verificación final 744/744 en los 3 proyectos; 1002 unitarios.
+- **No bloqueantes:** a 960 px la cabecera de algunas fichas crece +23 px al cargar la fuente (no es el H1; posiblemente los botones); si un push ya ha salido cuando se borran los datos locales, esas filas llegan a la nube (habrían llegado igual).
 
 ## Siguiente
 
