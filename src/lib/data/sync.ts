@@ -14,6 +14,11 @@
  * 2. **Push** de la cua amb `rpc('sync_push')` en blocs de 200. El servidor aplica LWW per
  *    `updatedAt` (empat → es queda el servidor). Una entrada només surt de la cua si no ha
  *    canviat mentre es pujava (`encuaAt` igual) i el servidor no l'ha rebutjada.
+ *    - Rebuig `id en ús` (l'id ja és d'un altre compte: dades fusionades o un JSON d'un altre
+ *      compte): la fila rep un UUIDv7 nou (sense làpida per a l'id vell) i es torna a pujar en
+ *      la mateixa passada.
+ *    - Altres rebutjos: `intents + 1`; a partir de `MAX_INTENTS` l'entrada queda bloquejada (no
+ *      compta com a pendent i l'estat mostra `error: 'servidor'`), sense perdre la fila local.
  * 3. **Pull** incremental per `server_updated_at` (solapament de 5 s; aplicar-lo és idempotent).
  *    Regla LWW local: guanya la remota si `updatedAt` remot ≥ local (empat → servidor); si la
  *    local tenia un canvi pendent que perd, el pendent es descarta (el servidor no l'acceptaria).
@@ -26,8 +31,15 @@ import type { Metode } from '$lib/domain';
 import type { ClientSupabase } from '$lib/platform/supabase';
 import type { FilaAscensioSql, Json, MetodeSql } from '$lib/platform/supabase-tipus';
 import type { StoreLectura } from './ascensions';
-import { indexedDbDisponible, obtenirBd, type EntradaMeta, type FilaAscensio } from './local/db';
+import {
+	indexedDbDisponible,
+	obtenirBd,
+	type EntradaMeta,
+	type EntradaOutbox,
+	type FilaAscensio
+} from './local/db';
 import { ara } from './local/rellotge';
+import { uuidv7 } from './local/uuid';
 
 // ---------------------------------------------------------------------------
 // Contracte amb el servidor
@@ -201,7 +213,18 @@ export function propietariLocal(): Promise<string | null> {
 // ---------------------------------------------------------------------------
 
 export type ResultatSync =
-	{ estat: 'fet'; pujades: number; rebutjades: number; baixades: number } | { estat: 'conflicte' };
+	| {
+			estat: 'fet';
+			pujades: number;
+			/** Files rebutjades en aquesta passada (per motius que no siguin `id en ús`). */
+			rebutjades: number;
+			/** Files amb un id d'un altre compte que han rebut un id nou (i s'han tornat a pujar). */
+			reassignades: number;
+			baixades: number;
+			/** Entrades de la cua bloquejades (`intents >= MAX_INTENTS`) en acabar la passada. */
+			bloquejades: number;
+	  }
+	| { estat: 'conflicte' };
 
 /**
  * Encua totes les files locals (vives i làpides) i assigna el propietari: migració local → núvol.
@@ -228,36 +251,139 @@ async function adoptarDadesLocals(usuariId: string): Promise<void> {
 	});
 }
 
-async function pujar(remot: Remot): Promise<{ pujades: number; rebutjades: number }> {
+/**
+ * Motiu amb què `sync_push` (migració 0003) rebutja una fila l'id de la qual ja és d'un altre
+ * usuari (invisible per la RLS). El client hi respon reassignant-li un id nou (`reassignarId`).
+ */
+export const MOTIU_ID_EN_US = 'id en ús';
+
+/**
+ * Rebutjos seguits (per motius que no siguin `id en ús`) a partir dels quals una entrada de la
+ * cua es considera **bloquejada**: deixa de comptar com a pendent i la sync publica
+ * `error: 'servidor'` (en lloc de "N canvis pendents" per sempre). La fila local no es toca i
+ * l'entrada es continua enviant a cada sync (si el servidor l'accepta, surt de la cua); una
+ * edició local la torna a encuar amb `intents: 0`.
+ */
+export const MAX_INTENTS = 5;
+
+/** Rondes màximes de push per passada (la 2a i següents només pugen les files reassignades). */
+const MAX_RONDES_PUSH = 3;
+
+const esIdEnUs = (motiu: unknown): boolean =>
+	typeof motiu === 'string' && motiu.trim().toLowerCase() === MOTIU_ID_EN_US;
+
+/**
+ * La fila `idVell` té un id que al núvol és d'un altre compte (p. ex. dades fusionades d'un altre
+ * compte o un JSON exportat per un altre compte). Es reemplaça localment per una còpia idèntica
+ * amb un UUIDv7 nou, i la cua passa a l'id nou. L'id vell s'esborra **sense làpida** (no és
+ * d'aquest compte: al núvol no s'hi ha de pujar res amb aquell id).
+ *
+ * Idempotència: l'id nou queda desat abans de pujar-lo; si la resposta del push es perd, el
+ * reintent puja el mateix id nou i el servidor el tracta com un upsert (no es duplica).
+ * @returns l'id nou, o `null` si la fila ja no existeix (entrada òrfena: surt de la cua).
+ */
+async function reassignarId(idVell: string): Promise<string | null> {
 	const bd = obtenirBd();
-	// Instantània de la cua: el que s'encui durant la sync anirà a la següent.
-	const cua = await bd.outbox.orderBy('encuaAt').toArray();
+	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+		const fila = await bd.ascensions.get(idVell);
+		await bd.outbox.delete(idVell);
+		if (!fila) return null;
+		const instant = Date.parse(fila.createdAt);
+		const idNou = uuidv7(Number.isNaN(instant) ? ara().getTime() : instant);
+		await bd.ascensions.delete(idVell);
+		await bd.ascensions.add({ ...fila, id: idNou });
+		await bd.outbox.put({ ascensioId: idNou, encuaAt: ara().toISOString(), intents: 0 });
+		return idNou;
+	});
+}
+
+interface ResultatPujada {
+	pujades: number;
+	rebutjades: number;
+	reassignades: number;
+}
+
+/** Puja una llista d'entrades de la cua (en blocs). Retorna també els ids nous reassignats. */
+async function pujarEntrades(
+	remot: Remot,
+	cua: EntradaOutbox[]
+): Promise<ResultatPujada & { idsNous: string[] }> {
+	const bd = obtenirBd();
 	let pujades = 0;
 	let rebutjades = 0;
+	const idsNous: string[] = [];
 	for (let i = 0; i < cua.length; i += BLOC_PUSH) {
 		const bloc = cua.slice(i, i + BLOC_PUSH);
 		const files = await bd.ascensions.bulkGet(bloc.map((e) => e.ascensioId));
 		// Entrades sense fila (orfes) no s'envien i surten de la cua com les acceptades.
 		const enviar = files.filter((f): f is FilaAscensio => !!f).map(filaPush);
 		const res = enviar.length ? await remot.push(enviar) : { acceptades: 0, rebutjades: [] };
-		const rebutjadesBloc = new Set(res.rebutjades.map((r) => r.id));
-		if (res.rebutjades.length) console.warn('[sync] files rebutjades pel servidor', res.rebutjades);
+		const enviats = new Set(enviar.map((f) => f.id));
+		const idEnUs = new Set<string>();
+		const altres = new Map<string, string>();
+		for (const r of res.rebutjades) {
+			if (!enviats.has(r.id)) continue; // defensa: només ids d'aquest bloc
+			if (esIdEnUs(r.motiu)) idEnUs.add(r.id);
+			else altres.set(r.id, String(r.motiu));
+		}
+		if (altres.size) console.warn('[sync] files rebutjades pel servidor', [...altres]);
 		await bd.transaction('rw', bd.outbox, async () => {
 			for (const e of bloc) {
+				if (idEnUs.has(e.ascensioId)) continue; // es resol a sota (canvi d'id)
 				const actual = await bd.outbox.get(e.ascensioId);
 				// S'ha tornat a encuar mentre es pujava: la versió nova surt a la sync següent.
 				if (!actual || actual.encuaAt !== e.encuaAt) continue;
-				if (rebutjadesBloc.has(e.ascensioId)) {
+				if (altres.has(e.ascensioId)) {
 					await bd.outbox.put({ ...actual, intents: actual.intents + 1 });
 				} else {
 					await bd.outbox.delete(e.ascensioId);
 				}
 			}
 		});
-		pujades += enviar.length - rebutjadesBloc.size;
-		rebutjades += rebutjadesBloc.size;
+		// L'id és d'un altre compte: cap versió d'aquesta fila no hi entrarà mai amb aquest id
+		// (encara que s'hagi editat mentre es pujava), així que es reassigna sempre.
+		for (const id of idEnUs) {
+			const nou = await reassignarId(id);
+			if (nou) idsNous.push(nou);
+		}
+		pujades += enviar.length - idEnUs.size - altres.size;
+		rebutjades += altres.size;
 	}
-	return { pujades, rebutjades };
+	return { pujades, rebutjades, reassignades: idsNous.length, idsNous };
+}
+
+async function pujar(remot: Remot): Promise<ResultatPujada> {
+	const bd = obtenirBd();
+	// Instantània de la cua: el que s'encui durant la sync anirà a la següent (excepte les files
+	// reassignades, que es tornen a pujar en aquesta mateixa passada).
+	let cua = await bd.outbox.orderBy('encuaAt').toArray();
+	const total: ResultatPujada = { pujades: 0, rebutjades: 0, reassignades: 0 };
+	for (let ronda = 0; ronda < MAX_RONDES_PUSH && cua.length; ronda++) {
+		const r = await pujarEntrades(remot, cua);
+		total.pujades += r.pujades;
+		total.rebutjades += r.rebutjades;
+		total.reassignades += r.reassignades;
+		if (!r.idsNous.length) break;
+		const reintent = await bd.outbox.bulkGet(r.idsNous);
+		cua = reintent.filter((e): e is EntradaOutbox => !!e);
+	}
+	return total;
+}
+
+/** Entrades de la cua que el servidor ha rebutjat `MAX_INTENTS` vegades o més. */
+function bloquejada(e: EntradaOutbox): boolean {
+	return e.intents >= MAX_INTENTS;
+}
+
+function comptarBloquejades(): Promise<number> {
+	return obtenirBd().outbox.filter(bloquejada).count();
+}
+
+/** Entrades pendents de pujar que no estan bloquejades (el que la UI mostra com a pendent). */
+function comptarPendents(): Promise<number> {
+	return obtenirBd()
+		.outbox.filter((e) => !bloquejada(e))
+		.count();
 }
 
 /** Aplica un bloc de files remotes amb LWW. Retorna quantes han canviat la BD local. */
@@ -331,10 +457,11 @@ export async function sincronitzar(remot: Remot, usuariId: string): Promise<Resu
 	const propietari = await llegirMeta('propietari');
 	if (propietari && propietari !== usuariId) return { estat: 'conflicte' };
 	if (!propietari) await adoptarDadesLocals(usuariId);
-	const { pujades, rebutjades } = await pujar(remot);
+	const { pujades, rebutjades, reassignades } = await pujar(remot);
 	const baixades = await baixar(remot);
 	await escriureMeta('ultimaSync', ara().toISOString());
-	return { estat: 'fet', pujades, rebutjades, baixades };
+	const bloquejades = await comptarBloquejades();
+	return { estat: 'fet', pujades, rebutjades, reassignades, baixades, bloquejades };
 }
 
 // ---------------------------------------------------------------------------
@@ -342,13 +469,19 @@ export async function sincronitzar(remot: Remot, usuariId: string): Promise<Resu
 // ---------------------------------------------------------------------------
 
 export interface EstatSync {
-	/** Canvis locals pendents de pujar (entrades de la cua). */
+	/**
+	 * Canvis locals pendents de pujar (entrades de la cua), sense les bloquejades: les que el
+	 * servidor ha rebutjat `MAX_INTENTS` vegades es reporten com a `error: 'servidor'`.
+	 */
 	pendents: number;
 	/** Instant ISO de l'última sync completa (d'aquest dispositiu), o `null`. */
 	ultimaSync: string | null;
 	/** Hi ha una sync en curs. */
 	sincronitzant: boolean;
-	/** Últim error (desapareix en la sync següent que acaba bé). */
+	/**
+	 * Últim error (desapareix en la sync següent que acaba bé). `servidor` també indica que hi ha
+	 * canvis bloquejats (rebutjats `MAX_INTENTS` vegades); es manté mentre n'hi hagi.
+	 */
 	error?: CodiErrorSync;
 	/**
 	 * El dispositiu té dades d'un altre compte: no se sincronitza fins que l'usuari triï
@@ -374,7 +507,7 @@ function engegarComptador(): void {
 		(ultimaSync) => publicar({ ultimaSync }),
 		() => {}
 	);
-	const sub = liveQuery(() => obtenirBd().outbox.count()).subscribe({
+	const sub = liveQuery(comptarPendents).subscribe({
 		next: (pendents) => {
 			const augmenta = pendents > estat.pendents;
 			publicar({ pendents });
@@ -439,7 +572,16 @@ async function passada(): Promise<void> {
 		if (r.estat === 'conflicte') {
 			publicar({ conflicte: 'altre-compte', error: undefined });
 		} else {
-			publicar({ conflicte: undefined, error: undefined, ultimaSync: ara().toISOString() });
+			if (r.bloquejades) {
+				console.warn(`[sync] ${r.bloquejades} canvis rebutjats repetidament pel servidor`);
+			}
+			publicar({
+				conflicte: undefined,
+				// Canvis que el servidor rebutja sempre: error visible (no "pendents" per sempre).
+				// Les files locals no es toquen.
+				error: r.bloquejades ? 'servidor' : undefined,
+				ultimaSync: ara().toISOString()
+			});
 		}
 	} catch (e) {
 		const err = e instanceof ErrorSync ? e : classificarError(e);
@@ -515,7 +657,8 @@ export function configurarSync(nou: { remot: Remot; usuariId: string } | null): 
 
 /**
  * Resol el conflicte "dades d'un altre compte al dispositiu":
- * - `fusionar`: les dades locals passen al compte actual i es pugen;
+ * - `fusionar`: les dades locals passen al compte actual i es pugen (les que ja eren al núvol de
+ *   l'altre compte, rebutjades com a `id en ús`, hi entren amb un id nou);
  * - `descartar-locals`: s'esborren del dispositiu (no del núvol de l'altre compte) i es baixen
  *   les del compte actual.
  */

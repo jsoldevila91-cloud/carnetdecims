@@ -231,7 +231,12 @@
 	title={m.account_delete_confirm_title()}
 	onclose={() => (confirmar = false)}
 >
-	<p class="confirm-text">{m.account_delete_confirm_text({ count: String(total) })}</p>
+	<!-- Amb compte, només s'esborra el dispositiu: el núvol les conserva i tornen en sincronitzar. -->
+	<p class="confirm-text">
+		{$sessio.estat === 'autenticat'
+			? m.account_delete_confirm_text_cloud({ count: String(total) })
+			: m.account_delete_confirm_text({ count: String(total) })}
+	</p>
 	<div class="confirm-actions">
 		<Button variant="stamp" onclick={esborrarTotConfirmat} disabled={ocupat}>
 			{m.account_delete_confirm_button()}

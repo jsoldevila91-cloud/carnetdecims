@@ -8,12 +8,18 @@
 	import { onMount, tick } from 'svelte';
 	import Icon from './Icon.svelte';
 	import { m } from '$lib/paraglide/messages';
+	import { MODE_BETA } from '$lib/seo/mode-beta';
 
 	/**
 	 * Avís discret "Versió beta privada" a totes les pàgines. Es pot amagar per a la sessió del
 	 * navegador. Surt a l'HTML prerenderitzat; si ja s'havia amagat, un script d'`app.html`
 	 * l'amaga abans del primer pintat (sense salt de disseny en hidratar).
+	 *
+	 * Només existeix en mode beta (`PUBLIC_MODE_BETA`): la mateixa constant del build que el
+	 * noindex (`$lib/seo/mode-beta`). Fora de beta no es pinta ni al servidor ni al client, així que
+	 * no hi ha cap buit ni salt de disseny. `actiu` només es passa als tests.
 	 */
+	let { actiu = MODE_BETA }: { actiu?: boolean } = $props();
 	let visible = $state(true);
 
 	onMount(() => {
@@ -37,7 +43,7 @@
 	}
 </script>
 
-{#if visible}
+{#if actiu && visible}
 	<aside class="beta" aria-label={m.beta_banner_label()}>
 		<p>
 			{m.beta_banner_text()}

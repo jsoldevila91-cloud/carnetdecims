@@ -6,6 +6,8 @@ import {
 	afegirAscensio,
 	esborrarAscensio,
 	esborrarTot,
+	exportarDades,
+	importarDades,
 	llistarAscensions,
 	pendentsDeSincronitzar
 } from './ascensions';
@@ -14,6 +16,7 @@ import { obtenirBd, tancarBd, type FilaAscensio } from './local/db';
 import { establirRellotge } from './local/rellotge';
 import {
 	ErrorSync,
+	MAX_INTENTS,
 	PAGINA_PULL,
 	_reiniciarSyncPerTests,
 	classificarError,
@@ -69,6 +72,12 @@ class ServidorFals implements Remot {
 	fallaPull: unknown = null;
 	/** Ganxo per simular canvis locals mentre la petició és en vol. */
 	duranPush: (() => Promise<void>) | null = null;
+	/** Ids que al núvol són d'un altre compte (`sync_push` els rebutja amb 'id en ús'). */
+	aliens = new Set<string>();
+	/** Si torna `true`, el push s'aplica però la resposta "es perd" (error de xarxa). Una vegada. */
+	perdreResposta: ((files: FilaPush[]) => boolean) | null = null;
+	/** Totes les files rebudes pel push (per comprovar què s'ha enviat). */
+	rebudes: FilaPush[] = [];
 
 	private tic(): number {
 		this.rellotge += 1;
@@ -92,6 +101,7 @@ class ServidorFals implements Remot {
 			this.duranPush = null;
 			await g();
 		}
+		this.rebudes.push(...files.map((f) => ({ ...f })));
 		const rebutjades: ResultatPush['rebutjades'] = [];
 		let acceptades = 0;
 		for (const f of files) {
@@ -99,11 +109,19 @@ class ServidorFals implements Remot {
 				rebutjades.push({ id: f.id, motiu: 'data fora de rang' });
 				continue;
 			}
+			if (this.aliens.has(f.id)) {
+				rebutjades.push({ id: f.id, motiu: 'id en ús' });
+				continue;
+			}
 			const actual = this.files.get(f.id);
 			if (!actual || f.updatedAt > actual.fila.updatedAt) {
 				this.files.set(f.id, { fila: { ...f }, server: this.tic() });
 			}
 			acceptades++;
+		}
+		if (this.perdreResposta?.(files)) {
+			this.perdreResposta = null;
+			throw new ErrorSync('xarxa', 'resposta perduda');
 		}
 		return { acceptades, rebutjades };
 	}
@@ -175,7 +193,14 @@ describe('primera sync: adopció de les dades locals', () => {
 
 		const r = await sincronitzar(servidor, USUARI);
 
-		expect(r).toEqual({ estat: 'fet', pujades: 2, rebutjades: 0, baixades: 0 });
+		expect(r).toEqual({
+			estat: 'fet',
+			pujades: 2,
+			rebutjades: 0,
+			reassignades: 0,
+			baixades: 0,
+			bloquejades: 0
+		});
 		expect(servidor.viva(a.id)).toMatchObject({ cimId: CIM_A, metode: 'a-peu' });
 		expect(servidor.files.get(b.id)?.fila.deletedAt).not.toBeNull();
 		expect(await propietariLocal()).toBe(USUARI);
@@ -425,6 +450,179 @@ describe("dades d'un altre compte al dispositiu", () => {
 		// Es baixa el que l'altre compte tenia al núvol (la mateixa ascensió que hi havia pujat).
 		expect(await propietariLocal()).toBe(ALTRE);
 		expect(await llistarAscensions()).toHaveLength(1);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Ids que ja són d'un altre compte ('id en ús') i rebutjos permanents
+// ---------------------------------------------------------------------------
+
+describe("ids d'un altre compte ('id en ús')", () => {
+	it('`fusionar`: la fila rebutjada rep un id nou, es puja en la mateixa passada i la cua es buida', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'n'
+		});
+		const b = await afegirAscensio({ cimId: CIM_B, data: '2026-09-21', metode: 'btt' });
+		await sincronitzar(servidor, ALTRE);
+		// Al núvol del compte nou, l'id de `a` és d'un altre compte; `b` no hi era.
+		const nou = new ServidorFals();
+		nou.aliens.add(a.id);
+		configurarSync({ remot: nou, usuariId: USUARI });
+		await sincronitzarAra();
+		await resoldreConflicteCompte('fusionar');
+
+		const locals = await llistarAscensions();
+		expect(locals).toHaveLength(2);
+		const reassignada = locals.find((f) => f.id !== b.id)!;
+		expect(reassignada.id).not.toBe(a.id);
+		expect(reassignada).toMatchObject({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'n',
+			createdAt: a.createdAt,
+			updatedAt: a.updatedAt
+		});
+		// L'id vell desapareix del dispositiu sense làpida (ni local ni enviada al núvol).
+		expect(await filaLocal(a.id)).toBeUndefined();
+		expect(nou.rebudes.filter((f) => f.id === a.id && f.deletedAt)).toEqual([]);
+		expect(nou.viva(reassignada.id)).toMatchObject({ cimId: CIM_A, nota: 'n' });
+		expect(nou.viva(b.id)).toBeDefined();
+		expect(nou.files.has(a.id)).toBe(false);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+		expect(await propietariLocal()).toBe(USUARI);
+	});
+
+	it('el resultat compta les reassignades a part (no com a rebutjades)', async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.aliens.add(a.id);
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ pujades: 1, rebutjades: 0, reassignades: 1, bloquejades: 0 });
+		expect(servidor.files.size).toBe(1);
+		// Una segona passada no torna a reassignar ni pujar res.
+		const r2 = await sincronitzar(servidor, USUARI);
+		expect(r2).toMatchObject({ pujades: 0, reassignades: 0 });
+		expect(servidor.files.size).toBe(1);
+	});
+
+	it("importar el JSON d'un altre compte: les files amb id aliè entren amb un id nou", async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		const json = await exportarDades();
+		await esborrarTot();
+		await sincronitzar(servidor, USUARI); // dispositiu ja del compte, buit
+		servidor.aliens.add(a.id);
+		await importarDades(json, 'fusionar');
+
+		await sincronitzar(servidor, USUARI);
+		const locals = await llistarAscensions();
+		expect(locals).toHaveLength(1);
+		expect(locals[0].id).not.toBe(a.id);
+		expect(servidor.viva(locals[0].id)).toMatchObject({ cimId: CIM_A, data: '2026-09-20' });
+		expect(servidor.files.size).toBe(1);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('importar el propi export (ids del compte) fusiona per LWW sense duplicar ni reassignar', async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await sincronitzar(servidor, USUARI);
+		const json = await exportarDades();
+		// Dispositiu nou (o esborrat): s'importa el fitxer i es torna a entrar.
+		await esborrarTot();
+		await importarDades(json, 'fusionar');
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ reassignades: 0, rebutjades: 0 });
+		expect((await llistarAscensions()).map((f) => f.id)).toEqual([a.id]);
+		expect(servidor.files.size).toBe(1);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it("si es perd la resposta del push amb l'id nou, el reintent no duplica", async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.aliens.add(a.id);
+		// El push de l'id nou s'aplica al servidor, però el client no rep la resposta.
+		servidor.perdreResposta = (files) => files.some((f) => f.id !== a.id);
+		await expect(sincronitzar(servidor, USUARI)).rejects.toMatchObject({ codi: 'xarxa' });
+		const [local] = await llistarAscensions();
+		expect(local.id).not.toBe(a.id);
+		expect(await pendentsDeSincronitzar()).toEqual([
+			expect.objectContaining({ ascensioId: local.id })
+		]);
+
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ reassignades: 0 });
+		expect([...servidor.files.keys()]).toEqual([local.id]);
+		expect((await llistarAscensions()).map((f) => f.id)).toEqual([local.id]);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it("una edició mentre es pujava es conserva a la fila amb l'id nou", async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.aliens.add(a.id);
+		servidor.duranPush = async () => {
+			fixar('2026-09-29T11:00:00.000Z');
+			await actualitzarAscensio(a.id, { nota: 'editada' });
+		};
+		await sincronitzar(servidor, USUARI);
+		const [local] = await llistarAscensions();
+		expect(local).toMatchObject({ nota: 'editada' });
+		expect(local.id).not.toBe(a.id);
+		expect(servidor.viva(local.id)?.nota).toBe('editada');
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+});
+
+describe('rebutjos permanents (no "pendents" per sempre)', () => {
+	async function filaInvalida(): Promise<string> {
+		const id = '01920000-0000-7000-8000-0000000000cc';
+		const ts = '2026-09-29T10:00:00.000Z';
+		await obtenirBd().ascensions.put({
+			id,
+			cimId: CIM_A,
+			data: '2001-01-01',
+			metode: 'a-peu',
+			nota: null,
+			createdAt: ts,
+			updatedAt: ts,
+			deletedAt: null
+		});
+		return id;
+	}
+
+	it(`després de ${MAX_INTENTS} rebutjos l'entrada queda bloquejada; la fila local es conserva`, async () => {
+		const id = await filaInvalida();
+		let r = await sincronitzar(servidor, USUARI);
+		for (let i = 1; i < MAX_INTENTS; i++) {
+			expect(r).toMatchObject({ rebutjades: 1, bloquejades: 0 });
+			r = await sincronitzar(servidor, USUARI);
+		}
+		expect(r).toMatchObject({ rebutjades: 1, bloquejades: 1 });
+		expect(await filaLocal(id)).toMatchObject({ data: '2001-01-01' });
+		expect(await pendentsDeSincronitzar()).toEqual([
+			expect.objectContaining({ ascensioId: id, intents: MAX_INTENTS })
+		]);
+	});
+
+	it("l'estat publica error 'servidor' i no la compta com a pendent", async () => {
+		const id = await filaInvalida();
+		const ok = await afegirAscensio({ cimId: CIM_B, data: '2026-09-20', metode: 'a-peu' });
+		// Ja rebutjada MAX_INTENTS - 1 vegades: la sync següent la bloqueja.
+		await obtenirBd().outbox.put({
+			ascensioId: id,
+			encuaAt: '2026-09-29T09:00:00.000Z',
+			intents: MAX_INTENTS - 1
+		});
+		let darrer: EstatSync | undefined;
+		const desub = estatSync.subscribe((e) => (darrer = e));
+		configurarSync({ remot: servidor, usuariId: USUARI });
+		await vi.waitFor(() =>
+			expect(darrer).toMatchObject({ sincronitzant: false, error: 'servidor', pendents: 0 })
+		);
+		expect(servidor.viva(ok.id)).toBeDefined();
+		expect(await llistarAscensions()).toHaveLength(2);
+		desub();
 	});
 });
 

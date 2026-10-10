@@ -490,6 +490,7 @@
 	"account_delete_all": "Esborra totes les dades",
 	"account_delete_confirm_title": "Esborrar totes les dades",
 	"account_delete_confirm_text": "S'esborraran totes les ascensions d'aquest dispositiu ({count}). No es pot desfer: si les vols conservar, exporta'n abans una còpia.",
+	"account_delete_confirm_text_cloud": "S'esborraran només les ascensions d'aquest dispositiu ({count}). El teu compte les conserva al núvol i tornaran a aparèixer en la propera sincronització. Per esborrar-les també del núvol, fes servir «Esborra el compte».",
 	"account_delete_confirm_button": "Sí, esborra-ho tot",
 	"account_delete_cancel": "Cancel·la",
 	"account_deleted": "S'han esborrat totes les dades d'aquest dispositiu.",

@@ -151,20 +151,31 @@ export function iniciarCompte(): void {
 
 const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function errorAuth(
+/**
+ * Tradueix un error de Supabase Auth a `ErrorCompte`. Primer es mira `error_code` (estable) i
+ * només si no és conegut es recorre al text del missatge: p. ex. un 400 `email_address_invalid`
+ * ("Email address … is invalid") és `email:invalid`, no `codi:invalid`. Exportat per als tests.
+ */
+export function errorAuth(
 	error: { message?: string; status?: number; code?: string } | null
 ): ErrorCompte {
 	const codi = error?.code ?? '';
 	const status = error?.status ?? 0;
 	const missatge = error?.message ?? '';
+	const es4xx = status >= 400 && status < 500;
 	if (status === 429 || /rate_limit|over_.*limit/.test(codi))
 		return new ErrorCompte('limit', missatge);
-	if (codi === 'otp_expired' || codi === 'otp_disabled' || /expired|invalid/i.test(missatge)) {
-		if (status >= 400 && status < 500) return new ErrorCompte('codi:invalid', missatge);
-	}
 	if (codi === 'email_address_invalid' || codi === 'validation_failed') {
 		return new ErrorCompte('email:invalid', missatge);
 	}
+	if (codi === 'otp_expired' || codi === 'otp_disabled') {
+		if (es4xx) return new ErrorCompte('codi:invalid', missatge);
+	}
+	// Sense `error_code` conegut (versions antigues de GoTrue): pel text del missatge.
+	if (es4xx && /\bemail\b.*\binvalid\b/i.test(missatge)) {
+		return new ErrorCompte('email:invalid', missatge);
+	}
+	if (es4xx && /expired|invalid/i.test(missatge)) return new ErrorCompte('codi:invalid', missatge);
 	const sync = classificarError(error, status || undefined);
 	if (sync.codi === 'xarxa') return new ErrorCompte('xarxa', missatge);
 	return new ErrorCompte('servidor', missatge);

@@ -226,11 +226,6 @@ test.describe('Entrar sense contrasenya', () => {
 		page,
 		supa
 	}) => {
-		test.fail(
-			true,
-			'BUG: compte.ts errorAuth() classifica qualsevol 4xx amb "invalid" al missatge com a ' +
-				'codi:invalid abans de mirar error_code=email_address_invalid → la UI diu "El codi no és correcte".'
-		);
 		await gotoHydrated(page, COMPTE);
 		supa.errorOtp = {
 			status: 400,
@@ -637,11 +632,6 @@ test.describe('Dades d’un altre compte al dispositiu', () => {
 		page,
 		supa
 	}) => {
-		test.fail(
-			true,
-			'BUG: resoldreConflicteCompte("fusionar") reenvia els mateixos ids; sync_push els rebutja ' +
-				'("id en ús", 0003) i es queden a la cua per sempre: mai arriben al compte nou.'
-		);
 		const rows = LLAVOR.map((f, i) => completar(f, i));
 		supa.sembrar(ALTRE, rows); // l'altre compte ja les havia sincronitzat
 		await prepararAutenticat(
@@ -655,6 +645,11 @@ test.describe('Dades d’un altre compte al dispositiu', () => {
 		await seccio(page).getByRole('button', { name: 'Afegeix-les a aquest compte' }).click();
 		await expect(seccio(page).getByText(/Tot desat al núvol/)).toBeVisible({ timeout: 8_000 });
 		expect(supa.filesDe(INESA)).toHaveLength(2);
+		// Entren amb ids nous; les de l'altre compte no es toquen (ni làpides).
+		const idsAltre = rows.map((r) => r.id);
+		expect(supa.filesDe(INESA).filter((f) => idsAltre.includes(f.id))).toEqual([]);
+		expect(supa.filesDe(ALTRE).filter((f) => !f.deleted_at)).toHaveLength(2);
+		expect((await vives(page)).map((f) => f.id).filter((id) => idsAltre.includes(id))).toEqual([]);
 	});
 });
 
@@ -791,17 +786,26 @@ test.describe('Tancar la sessió i esborrar', () => {
 	test('"Esborra totes les dades" amb compte: el text explica que el núvol no s’esborra', async ({
 		page
 	}) => {
-		test.fail(
-			true,
-			'BUG (text): amb sessió, account_delete_confirm_text diu "No es pot desfer… exporta’n abans una còpia" ' +
-				'i no menciona que el núvol les conserva (i que tornaran en sincronitzar).'
-		);
 		await prepararAutenticat(page, INESA, LLAVOR);
 		await esperarSincronitzat(page);
 		await page.getByRole('button', { name: 'Esborra totes les dades' }).click();
 		const full = page.getByRole('dialog', { name: 'Esborrar totes les dades' });
 		await expect(full).toBeVisible();
-		await expect(full.getByText(/núvol/)).toBeVisible({ timeout: 2_000 });
+		await expect(full.getByText(/només les ascensions d'aquest dispositiu \(2\)/)).toBeVisible();
+		await expect(full.getByText(/El teu compte les conserva al núvol/)).toBeVisible();
+		await expect(full.getByText(/«Esborra el compte»/)).toBeVisible();
+		await expect(full.getByText(/No es pot desfer/)).toHaveCount(0);
+	});
+
+	test('"Esborra totes les dades" sense compte: el text avisa que no es pot desfer', async ({
+		page
+	}) => {
+		await sembrar(page, LLAVOR, COMPTE);
+		await page.getByRole('button', { name: 'Esborra totes les dades' }).click();
+		const full = page.getByRole('dialog', { name: 'Esborrar totes les dades' });
+		await expect(full).toBeVisible();
+		await expect(full.getByText(/No es pot desfer/)).toBeVisible();
+		await expect(full.getByText(/núvol/)).toHaveCount(0);
 	});
 });
 
@@ -857,27 +861,20 @@ test.describe('Indicadors i avisos', () => {
 		await expect(franja).toHaveCount(0);
 	});
 
-	test('avís de beta descartable durant la sessió del navegador', async ({
+	test('avís de beta: fora del mode beta no surt enlloc (ni a l’HTML prerenderitzat)', async ({
 		page,
-		consoleGuard
+		request
 	}) => {
-		// WebKit: un import() diferit en curs que avorta la navegació completa (`page.goto`) surt com
-		// a error de consola (artefacte; vegeu pwa.e2e.ts).
-		consoleGuard.allow(/^console: TypeError: (Load failed|Importing a module script failed\.)$/);
+		// Els E2E es construeixen amb PUBLIC_MODE_BETA=false (playwright.config.ts). L'avís en
+		// mode beta (visible, correu, amagar-lo per a la sessió) el proven BannerBeta.svelte.spec.ts.
+		const html = await (await request.get('/ca/cims')).text();
+		expect(html).not.toContain('Avís de versió beta');
 		await gotoHydrated(page, '/ca/app');
 		await expect(page.getByRole('link', { name: /Estat del núvol/ })).toBeVisible();
-		await expect(page.getByRole('link', { name: /Crea un compte · desa/ })).toBeVisible();
-		const avis = page.getByRole('complementary', { name: 'Avís de versió beta' });
-		await expect(avis).toBeVisible();
-		await expect(avis.getByRole('link', { name: 'hola@carnetdecims.cat' })).toHaveAttribute(
-			'href',
-			'mailto:hola@carnetdecims.cat'
-		);
-		await avis.getByRole('button', { name: "Amaga l'avís de la versió beta" }).click();
-		await expect(avis).toBeHidden();
-		await expect(page.locator('#contingut')).toBeFocused();
-		await page.goto('/ca/cims'); // navegació completa
-		await expect(page.getByRole('complementary', { name: 'Avís de versió beta' })).toBeHidden();
+		await expect(page.getByRole('complementary', { name: 'Avís de versió beta' })).toHaveCount(0);
+		await gotoHydrated(page, '/ca/cims');
+		await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+		await expect(page.getByRole('complementary', { name: 'Avís de versió beta' })).toHaveCount(0);
 	});
 });
 

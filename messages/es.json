@@ -490,6 +490,7 @@
 	"account_delete_all": "Borrar todos los datos",
 	"account_delete_confirm_title": "Borrar todos los datos",
 	"account_delete_confirm_text": "Se borrarán todas las ascensiones de este dispositivo ({count}). No se puede deshacer: si quieres conservarlas, exporta antes una copia.",
+	"account_delete_confirm_text_cloud": "Se borrarán solo las ascensiones de este dispositivo ({count}). Tu cuenta las conserva en la nube y volverán a aparecer en la próxima sincronización. Para borrarlas también de la nube, usa «Borrar la cuenta».",
 	"account_delete_confirm_button": "Sí, borrarlo todo",
 	"account_delete_cancel": "Cancelar",
 	"account_deleted": "Se han borrado todos los datos de este dispositivo.",
