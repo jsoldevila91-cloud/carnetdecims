@@ -24,13 +24,13 @@ const fitxa: ContingutFitxa = {
 	slug: 'balandrau',
 	descripcio: {
 		ca: [
-			"El Balandrau és una muntanya de 2.585 m de la serra que separa les valls de Ribes i de Camprodon, entre Queralbs i Vilallonga de Ter, al [Ripollès](/comarques/ripolles). Pertany al Parc Natural de les Capçaleres del Ter i del Freser. És de roques metamòrfiques (esquist, gneis i marbre) i al cim hi ha un vèrtex geodèsic de l'ICGC.",
+			"El Balandrau és una muntanya de 2.585 m de la serra que separa les valls de Ribes i de Camprodon, entre Queralbs i Vilallonga de Ter, al [Ripollès](/comarques/ripolles). Pertany al Parc Natural de les Capçaleres del Ter i del Freser. És de roques metamòrfiques (esquist, gneis i marbre) i el punt més alt el marca un vèrtex geodèsic de l'ICGC.",
 			"El nom del Balandrau va lligat al 30 de desembre del 2000. Aquell dia, un temporal sobtat, amb ratxes de vent de més de 150 km/h i temperatures extremes, hi va causar set morts; en la mateixa jornada n'hi va haver dos més a la Coma de l'Orri i un a Port Ainé. La Viquipèdia en parla com la tragèdia de muntanya més greu viscuda al Pirineu català, i TV3 la va repassar el 2021 al documental «Balandrau, infern glaçat». La lliçó és clara: a l'hivern, un cim de pendents suaus i ruta coneguda pot ser mortal si el temps es gira.",
 			"Des del cim es veuen el Taga al sud i la coma del Freser al nord, amb la Jaça de les Eugues i el Bastiments, segons Engarrista. La ressenya de 2010 de Rutes pels cims dels Països Catalans hi afegeix, al sud, la vall de Ribes, la Cavallera, el Bassegoda, el Puigsacalm, el Montseny i Montserrat; a l'oest, el Cadí, i a l'est, el Canigó. Cap al nord, la mateixa ressenya hi situa la línia de cims del [Puigmal](/cims/puigmal) al [Bastiments](/cims/bastiments).",
 			"Segons la Viquipèdia, hi ha una ruta pel nord, des del refugi de Coma de Vaca, i una altra pel sud, des de la collada de Fontlletera. La ressenya de Tregurà recomana la primavera o la tardor, perquè a l'estiu la calor apreta, i per a l'hivern aconsella esquís o raquetes."
 		],
 		es: [
-			'El Balandrau es una montaña de 2.585 m de la sierra que separa los valles de Ribes y de Camprodon, entre Queralbs y Vilallonga de Ter, en el [Ripollès](/comarques/ripolles). Pertenece al Parque Natural de las Capçaleres del Ter i del Freser. Es de rocas metamórficas (esquisto, gneis y mármol) y en la cima hay un vértice geodésico del ICGC.',
+			'El Balandrau es una montaña de 2.585 m de la sierra que separa los valles de Ribes y de Camprodon, entre Queralbs y Vilallonga de Ter, en el [Ripollès](/comarques/ripolles). Pertenece al Parque Natural de las Capçaleres del Ter i del Freser. Es de rocas metamórficas (esquisto, gneis y mármol) y el punto más alto lo marca un vértice geodésico del ICGC.',
 			'El nombre del Balandrau va unido al 30 de diciembre de 2000. Aquel día, un temporal repentino, con rachas de viento de más de 150 km/h y temperaturas extremas, causó siete muertes en esta montaña; en la misma jornada hubo dos más en la Coma de l’Orri y una en Port Ainé. La Viquipèdia lo describe como la tragedia de montaña más grave vivida en el Pirineo catalán, y TV3 la repasó en 2021 en el documental «Balandrau, infern glaçat». La lección es clara: en invierno, una cima de pendientes suaves y ruta conocida puede ser mortal si el tiempo se tuerce.',
 			'Desde la cima se ven el Taga al sur y la coma del Freser al norte, con la Jaça de les Eugues y el Bastiments, según Engarrista. La reseña de 2010 de Rutes pels cims dels Països Catalans añade, al sur, el valle de Ribes, la Cavallera, el Bassegoda, el Puigsacalm, el Montseny y Montserrat; al oeste, el Cadí, y al este, el Canigó. Hacia el norte, la misma reseña sitúa la línea de cimas del [Puigmal](/cims/puigmal) al [Bastiments](/cims/bastiments).',
 			'Según la Viquipèdia, hay una ruta por el norte, desde el refugio de Coma de Vaca, y otra por el sur, desde el collado de Fontlletera. La reseña de Tregurà recomienda la primavera o el otoño, porque en verano el calor aprieta, y para el invierno aconseja esquís o raquetas.'
@@ -101,7 +101,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Balandrau compta com a cim essencial?',
 				resposta:
-					'Sí. És el tercer dels sis essencials del Ripollès per altitud, per sota del [Puigmal](/cims/puigmal) i del [Bastiments](/cims/bastiments).'
+					'Sí. Al Ripollès només el [Puigmal](/cims/puigmal) i el [Bastiments](/cims/bastiments) són essencials més alts, i tots dos es veuen des del cim.'
 			}
 		],
 		es: [
@@ -123,7 +123,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Balandrau cuenta como cima esencial?',
 				resposta:
-					'Sí. Es la tercera de las seis esenciales del Ripollès por altitud, por debajo del [Puigmal](/cims/puigmal) y del [Bastiments](/cims/bastiments).'
+					'Sí. En el Ripollès solo el [Puigmal](/cims/puigmal) y el [Bastiments](/cims/bastiments) son esenciales más altas, y ambas se ven desde la cima.'
 			}
 		]
 	},

@@ -108,7 +108,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Bony de la Pica compta com a cim essencial?',
 				resposta:
-					"Sí. Dels nou essencials de l'Alt Urgell, és el quart per altitud, per sota del [Vulturó](/cims/vulturo) i per sobre del Cap del Verd. Des de la serra es veu el [Pic de Salòria](/cims/pic-de-saloria), el més alt de la comarca."
+					"Sí. Per altitud queda entre el [Vulturó](/cims/vulturo) i el Cap del Verd, al mig de la llista d'essencials de l'Alt Urgell, i comparteix amb el Monturull la condició de cim fronterer amb Andorra."
 			}
 		],
 		es: [
@@ -130,7 +130,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Bony de la Pica cuenta como cima esencial?',
 				resposta:
-					'Sí. De las nueve esenciales del Alt Urgell, es la cuarta por altitud, por debajo del [Vulturó](/cims/vulturo) y por encima del Cap del Verd. Desde la sierra se ve el [Pic de Salòria](/cims/pic-de-saloria), el más alto de la comarca.'
+					'Sí. Por altitud queda entre el [Vulturó](/cims/vulturo) y el Cap del Verd, en mitad de la lista de esenciales del Alt Urgell, y comparte con el Monturull la condición de cima fronteriza con Andorra.'
 			}
 		]
 	},

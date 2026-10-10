@@ -27,13 +27,13 @@ const fitxa: ContingutFitxa = {
 			"La Muga és un cim del municipi de Lles de Cerdanya, a [la Cerdanya](/comarques/cerdanya), dins de l'espai protegit de la Tossa Plana de Lles-Puigpedrós. La roca és una granodiorita. Amb una prominència de només 143 m, és més aviat un punt alt d'una carena que un cim aïllat: per la banda oest enllaça amb la Mugueta, la Tosseta de Vallcivera i la Tossa Plana de Lles.",
 			"Als seus peus hi ha els estanys de la Muga, per on passa la pujada des del Cap del Rec. Al vessant est, la vall de la Llosa, que arrenca a Cal Jan de la Llosa, és el camí del GR-107 o Camí dels Bons Homes fins a la Portella Blanca, i hi queden les restes del castell de la Llosa, que controlava el pas cap a Andorra i l'Arieja.",
 			"Engarrista, que hi va pujar per la vall de la Llosa, destaca des de la carena els cims del nord-est d'Andorra i el cim i els llacs de Montmalús, i, des de la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), el Cadí. A l'est, a l'altra banda de la vall de la Llosa, s'alça el [Puigpedrós](/cims/puigpedros), el sostre de la comarca.",
-			"La temporada bona va de finals de primavera a la tardor; quan Engarrista hi va pujar, el 22 de maig, els estanys encara tenien gel. A l'hivern la pujada demana grampons i piolet, i un lector de la mateixa ressenya hi va trobar, per Setmana Santa del 2015, tanta neu inestable que no va arribar al cim."
+			"És una sortida d'estiu i de tardor: quan Engarrista hi va pujar, un 22 de maig, els estanys encara tenien gel. A l'hivern la pujada demana grampons i piolet, i un lector de la mateixa ressenya hi va trobar, per Setmana Santa del 2015, tanta neu inestable que no va arribar al cim."
 		],
 		es: [
 			'La Muga es una cima del municipio de Lles de Cerdanya, en [la Cerdanya](/comarques/cerdanya), dentro del espacio protegido de la Tossa Plana de Lles-Puigpedrós. La roca es una granodiorita. Con una prominencia de solo 143 m, es más bien un punto alto de una cresta que una cima aislada: por el oeste enlaza con la Mugueta, la Tosseta de Vallcivera y la Tossa Plana de Lles.',
 			'A sus pies están los estanys de la Muga, por donde pasa la subida desde el Cap del Rec. En la vertiente este, la vall de la Llosa, que arranca en Cal Jan de la Llosa, es el camino del GR-107 o Camí dels Bons Homes hasta la Portella Blanca, y en ella quedan los restos del castillo de la Llosa, que controlaba el paso hacia Andorra y el Ariège.',
 			'Engarrista, que subió por la vall de la Llosa, destaca desde la cresta las cimas del noreste de Andorra y la cima y los lagos de Montmalús, y, desde la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), el Cadí. Al este, al otro lado de la vall de la Llosa, se alza el [Puigpedrós](/cims/puigpedros), el techo de la comarca.',
-			'La temporada buena va de finales de primavera al otoño; cuando Engarrista subió, el 22 de mayo, los lagos aún tenían hielo. En invierno la subida pide crampones y piolet, y un lector de la misma reseña encontró, en Semana Santa de 2015, tanta nieve inestable que no llegó a la cima.'
+			'Es una salida de verano y de otoño: cuando Engarrista subió, un 22 de mayo, los lagos aún tenían hielo. En invierno la subida pide crampones y piolet, y un lector de la misma reseña encontró, en Semana Santa de 2015, tanta nieve inestable que no llegó a la cima.'
 		]
 	},
 	rutes: [
@@ -123,7 +123,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Muga cuenta como cima esencial?',
 				resposta:
-					'Sí. Entre las cuatro esenciales de la Cerdaña, es la tercera en altitud, por debajo del [Puigpedrós](/cims/puigpedros) y de la Tossa Plana de Lles, y por encima de la [Carabassa](/cims/la-carabassa).'
+					'Sí. Entre las cuatro esenciales de la Cerdanya, es la tercera en altitud, por debajo del [Puigpedrós](/cims/puigpedros) y de la Tossa Plana de Lles, y por encima de la [Carabassa](/cims/la-carabassa).'
 			}
 		]
 	},

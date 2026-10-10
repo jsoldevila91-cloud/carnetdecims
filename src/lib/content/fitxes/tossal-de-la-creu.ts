@@ -30,16 +30,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'tossal-de-la-creu',
 	descripcio: {
 		ca: [
-			"El Tossal de la Creu, també conegut com a Tossal de Puig-redon, és un turó de 658 m que s'aixeca entre els termes de Biosca i Torà, al nord de la serra de l'Aguda. L'ICGC situa Torà i Biosca al [Solsonès](/comarques/solsones), tot i que la FEEC i alguns blogs el posen a la Segarra. És el més baix dels tres cims essencials del Solsonès.",
-			"És un turó baix, entre camps de conreu. Segons la Viquipèdia, és de margues, calcàries i gresos. Al cim hi ha un vèrtex geodèsic, una bandera i una creu de metall; De cim en cim explica que la creu és la que van triar per a la foto oficial del cim, tot i que el punt més alt és el vèrtex. El camí, sense senyalització oficial, es guia amb fites de pedra que l'autor demana de mantenir i engrandir.",
-			"Les vistes són sobre la plana i el Soler; durant la pujada es veu el Tossal Sud, un altre cim proper. Un altre blog diu que el tossal es veu clarament en acostar-se a les Freixes. Els dies de boira, com el de l'ascensió d'agost de 2014, no es veu res. Si vols aprofitar la sortida, els blogs proposen combinar-lo amb altres cims del repte de la zona, i el poble de Torà mereix una parada.",
-			"Els 100 cims valora la dificultat com a molt baixa (esforç 1 sobre 5) i la orientació com a fàcil, però ressalta que l'accés en cotxe per pistes és confús i que la baixada és poc clara."
+			"El Tossal de la Creu, també conegut com a Tossal de Puig-redon, és un turó que s'aixeca entre els termes de Biosca i Torà, al nord de la serra de l'Aguda. L'ICGC situa Torà i Biosca al [Solsonès](/comarques/solsones), tot i que la FEEC i alguns blogs el posen a la Segarra. És el més baix dels tres cims essencials del Solsonès.",
+			'És un turó baix, de margues, calcàries i gresos segons la Viquipèdia, voltat de camps de secà. Dalt hi ha un vèrtex geodèsic, una bandera gastada i una creu sobre una columna de pedra; De cim en cim explica que es van fer la foto a la creu, tot i que el punt més alt és el vèrtex. No hi ha senyalització: la pujada segueix un camí tènue amb fites.',
+			"Durant la pujada, segons De cim en cim, es veuen el Soler, la plana i el Tossal Sud; Els nostres cent cims afegeix que el tossal es distingeix bé en acostar-se a les Freixes. No és un cim de grans panoràmiques, i amb boira, com la que va trobar l'autor d'El repte dels 100 cims l'agost de 2014, no es veu res. Aquest mateix blog proposa combinar-lo amb altres cims propers, com la serra de Pinós o el castell de Boixadors.",
+			"Es pot fer tot l'any; a l'estiu, millor a primera hora per evitar la calor. El repte dels 100 cims en valora la dificultat com a molt baixa (esforç 1 sobre 5) i l'orientació com a fàcil, però avisa que l'accés en cotxe per pistes és confús i que la baixada no està marcada."
 		],
 		es: [
-			'El Tossal de la Creu, también conocido como Tossal de Puig-redon, es un cerro de 658 m que se alza entre los términos de Biosca y Torà, al norte de la serra de l’Aguda. El ICGC sitúa Torà y Biosca en el [Solsonès](/comarques/solsones), aunque la FEEC y algunos blogs lo ponen en la Segarra. Es el más bajo de las tres cimas esenciales del Solsonès.',
-			'Es un cerro bajo, entre campos de cultivo. Según la Viquipèdia, es de margas, calizas y areniscas. En la cima hay un vértice geodésico, una bandera y una cruz de metal; De cim en cim explica que la cruz es la que eligieron para la foto oficial de la cima, aunque el punto más alto es el vértice. El camino, sin señalización oficial, se guía con hitos de piedra que el autor pide mantener y ampliar.',
-			'Las vistas son sobre la llanura y el Soler; durante la subida se ve el Tossal Sud, otra cima cercana. Otro blog dice que el cerro se ve claramente al acercarse a les Freixes. En días de niebla, como el de la ascensión de agosto de 2014, no se ve nada. Si quieres aprovechar la salida, los blogs proponen combinarlo con otras cimas del reto de la zona, y el pueblo de Torà merece una parada.',
-			'Els 100 cims valora la dificultad como muy baja (esfuerzo 1 sobre 5) y la orientación como fácil, pero resalta que el acceso en coche por pistas es confuso y que la bajada es poco clara.'
+			'El Tossal de la Creu, también conocido como Tossal de Puig-redon, es un cerro que se alza entre los términos de Biosca y Torà, al norte de la serra de l’Aguda. El ICGC sitúa Torà y Biosca en el [Solsonès](/comarques/solsones), aunque la FEEC y algunos blogs lo ponen en la Segarra. Es el más bajo de las tres cimas esenciales del Solsonès.',
+			'Es un cerro bajo, de margas, calizas y areniscas según la Viquipèdia, rodeado de campos de secano. Arriba hay un vértice geodésico, una bandera gastada y una cruz sobre una columna de piedra; De cim en cim explica que se hicieron la foto en la cruz, aunque el punto más alto es el vértice. No hay señalización: la subida sigue un camino tenue con hitos.',
+			'Durante la subida, según De cim en cim, se ven el Soler, la llanura y el Tossal Sud; Els nostres cent cims añade que el cerro se distingue bien al acercarse a les Freixes. No es una cima de grandes panorámicas, y con niebla, como la que encontró el autor de El repte dels 100 cims en agosto de 2014, no se ve nada. Ese mismo blog propone combinarlo con otras cimas cercanas, como la serra de Pinós o el castillo de Boixadors.',
+			'Se puede hacer todo el año; en verano, mejor a primera hora para evitar el calor. El repte dels 100 cims valora la dificultad como muy baja (esfuerzo 1 sobre 5) y la orientación como fácil, pero avisa de que el acceso en coche por pistas es confuso y de que la bajada no está marcada.'
 		]
 	},
 	rutes: [
@@ -52,8 +52,8 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: 'Presa del Duc (Torà)' },
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "De cim en cim proposa una circular d'11 km i 540 m de desnivell acumulat, fàcil, de 3 h 2 min en total (2 h 28 min en moviment). Surt per un camí marcat que s'enfila amb petites grimpades de roca durant el primer quilòmetre, segueix pistes i, prop del Soler, deixa la pista per un camí de fites difícils de trobar fins al cim. La baixada és el tram més empinat i menys clar: l'autor es va guiar amb fites i GPS.",
-				es: 'De cim en cim propone una circular de 11 km y 540 m de desnivel acumulado, fácil, de 3 h 2 min en total (2 h 28 min en movimiento). Sale por un camino marcado que sube con pequeñas trepadas de roca durante el primer kilómetro, sigue pistas y, cerca del Soler, deja la pista por un camino de hitos difíciles de encontrar hasta la cima. La bajada es el tramo más empinado y menos claro: el autor se guió con hitos y GPS.'
+				ca: "De cim en cim proposa una circular d'11 km i 540 m de desnivell acumulat, fàcil, de 3 h 2 min en total (2 h 28 min en moviment). Surt per un sender marcat que, abans del primer quilòmetre, s'enfila amb petites grimpades en trams rocosos, que els autors superen sense problemes; després segueix pistes i, prop del Soler, puja al cim per un camí de fites que no sempre es troben. La baixada és més dreta i menys clara que la pujada: els autors la van improvisar en part seguint el track.",
+				es: 'De cim en cim propone una circular de 11 km y 540 m de desnivel acumulado, fácil, de 3 h 2 min en total (2 h 28 min en movimiento). Sale por un sendero marcado que, antes del primer kilómetro, sube con pequeñas trepadas en tramos rocosos, que los autores superan sin problemas; después sigue pistas y, cerca del Soler, sube a la cima por un camino de hitos que no siempre se encuentran. La bajada es más empinada y menos clara que la subida: los autores la improvisaron en parte siguiendo el track.'
 			},
 			fonts: [DECIMENCIM]
 		},
@@ -66,8 +66,8 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: 'Mas el Soler (Torà)' },
 			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "Els 100 cims fa una circular de 2,8 km i uns 74 m de pujada acumulada (48 min caminant, 1 h 45 min amb parades), pel Soler, la carena, el tossal, les Freixes, els Plans i el Tros dels Cirerers. S'hi arriba amb cotxe per pistes que despisten, de manera que l'autor ofereix un track. La pujada segueix un camí tènue amb fites; la baixada té poca senyalització i convé tenir una mica d'experiència.",
-				es: 'Els 100 cims hace una circular de 2,8 km y unos 74 m de subida acumulada (48 min caminando, 1 h 45 min con paradas), por el Soler, la cresta, el tossal, les Freixes, els Plans y el Tros dels Cirerers. Se llega en coche por pistas que despistan, de modo que el autor ofrece un track. La subida sigue un camino tenue con hitos; la bajada tiene poca señalización y conviene tener algo de experiencia.'
+				ca: "El repte dels 100 cims fa una circular de 2,8 km i uns 74 m de pujada acumulada (48 min caminant, 1 h 45 min amb parades), pel Soler, la carena, el tossal, les Freixes, els Plans i el Tros dels Cirerers. S'hi arriba amb cotxe per pistes que despisten, de manera que l'autor ofereix un track. La pujada segueix un camí tènue amb fites; la baixada té poca senyalització i convé tenir una mica d'experiència.",
+				es: 'El repte dels 100 cims hace una circular de 2,8 km y unos 74 m de subida acumulada (48 min caminando, 1 h 45 min con paradas), por el Soler, la cresta, el tossal, les Freixes, els Plans y el Tros dels Cirerers. Se llega en coche por pistas que despistan, de modo que el autor ofrece un track. La subida sigue un camino tenue con hitos; la bajada tiene poca señalización y conviene tener algo de experiencia.'
 			},
 			fonts: [ELS_100_CIMS, ELS_NOSTRES_CENT_CIMS]
 		}
@@ -75,17 +75,17 @@ const fitxa: ContingutFitxa = {
 	consells: {
 		ca: [
 			"Descarrega el track abans de sortir: l'accés per pistes i el camí de pujada amb fites despisten, i la baixada del cim no està gens clara.",
-			'De cim en cim recomana evitar els camps de conreu que es creuen: segueix els camins.',
-			'Un blog avisa que, prop de Cal Verdaguer, hi ha gossos que borden però no són agressius; fes-hi pas sense córrer.',
-			'No hi ha fonts a la ruta, segons Els 100 cims: porta aigua.',
-			"Una ressenya del 2021 va haver de girar cua prop del molí del Fontanet per un camí cobert de vegetació: comprova l'estat del tram abans d'afegir-lo a la ruta."
+			'De cim en cim recomana vorejar els camps de conreu per no trepitjar el sembrat.',
+			'A Cal Verdaguer, De cim en cim hi va trobar tres gossos sorollosos i deslligats: passa-hi amb calma.',
+			'No hi ha fonts a la ruta, segons El repte dels 100 cims: porta aigua.',
+			'A la circular de la presa del Duc, un dels trencalls té un senyal de camí tancat i un pas amb cadena que costa de veure: segueix el track.'
 		],
 		es: [
 			'Descarga el track antes de salir: el acceso por pistas y el camino de subida con hitos despistan, y la bajada de la cima no está nada clara.',
-			'De cim en cim recomienda evitar los campos de cultivo que se cruzan: sigue los caminos.',
-			'Un blog avisa de que, cerca de Cal Verdaguer, hay perros que ladran pero no son agresivos; pasa sin correr.',
-			'No hay fuentes en la ruta, según Els 100 cims: lleva agua.',
-			'Una reseña de 2021 tuvo que dar la vuelta cerca del molino del Fontanet por un camino cubierto de vegetación: comprueba el estado del tramo antes de añadirlo a la ruta.'
+			'De cim en cim recomienda bordear los campos de cultivo para no pisar el sembrado.',
+			'En Cal Verdaguer, De cim en cim encontró tres perros ruidosos y sueltos: pasa con calma.',
+			'No hay fuentes en la ruta, según El repte dels 100 cims: lleva agua.',
+			'En la circular de la presa del Duc, uno de los desvíos tiene una señal de camino cerrado y un paso con cadena que cuesta ver: sigue el track.'
 		]
 	},
 	faq: {
@@ -93,7 +93,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al Tossal de la Creu?',
 				resposta:
-					"Depèn de la sortida: Els 100 cims fa una circular de 2,8 km i 74 m de pujada en 48 min caminant; De cim en cim, una de més llarga d'11 km i 540 m des de la presa del Duc en 2 h 28 min en moviment."
+					"Depèn de la sortida: El repte dels 100 cims fa una circular de 2,8 km i 74 m de pujada en 48 min caminant; De cim en cim, una de més llarga d'11 km i 540 m des de la presa del Duc en 2 h 28 min en moviment."
 			},
 			{
 				pregunta: 'És a la Segarra o al Solsonès?',
@@ -103,7 +103,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'És una ruta senyalitzada?',
 				resposta:
-					'No. Els 100 cims indica que no hi ha cap senyalització oficial i que el camí de pujada és tènue amb fites; la baixada és poc clara. Convé portar un track.'
+					'No. El repte dels 100 cims indica que no hi ha cap senyalització i que el camí de pujada és tènue, amb fites; la baixada tampoc està marcada. Convé portar un track.'
 			},
 			{
 				pregunta: 'El Tossal de la Creu compta com a cim essencial?',
@@ -115,7 +115,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Cuánto se tarda en subir al Tossal de la Creu?',
 				resposta:
-					'Depende de la salida: Els 100 cims hace una circular de 2,8 km y 74 m de subida en 48 min caminando; De cim en cim, una más larga de 11 km y 540 m desde la presa del Duc en 2 h 28 min en movimiento.'
+					'Depende de la salida: El repte dels 100 cims hace una circular de 2,8 km y 74 m de subida en 48 min caminando; De cim en cim, una más larga de 11 km y 540 m desde la presa del Duc en 2 h 28 min en movimiento.'
 			},
 			{
 				pregunta: '¿Está en la Segarra o en el Solsonès?',
@@ -125,7 +125,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Es una ruta señalizada?',
 				resposta:
-					'No. Els 100 cims indica que no hay ninguna señalización oficial y que el camino de subida es tenue con hitos; la bajada es poco clara. Conviene llevar un track.'
+					'No. El repte dels 100 cims indica que no hay ninguna señalización y que el camino de subida es tenue, con hitos; la bajada tampoco está marcada. Conviene llevar un track.'
 			},
 			{
 				pregunta: '¿El Tossal de la Creu cuenta como cima esencial?',

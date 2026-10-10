@@ -106,7 +106,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'El Coscollet compta com a cim essencial?',
 				resposta:
-					"Sí. És un dels nou essencials de l'Alt Urgell i el tercer més baix, per sobre de [Sant Honorat](/cims/sant-honorat) i de Santa Fe, però només 11 metres per sota del [Cogulló de Turp](/cims/cogullo-de-turp), amb qui comparteix la zona."
+					"Sí. A l'Alt Urgell només [Sant Honorat](/cims/sant-honorat), que té just al sud, i Santa Fe són essencials més baixos; el [Cogulló de Turp](/cims/cogullo-de-turp), a l'altra banda del Segre, el supera per 11 metres."
 			}
 		],
 		es: [
@@ -128,7 +128,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Coscollet cuenta como cima esencial?',
 				resposta:
-					'Sí. Es una de las nueve esenciales del Alt Urgell y la tercera más baja, por encima de [Sant Honorat](/cims/sant-honorat) y de Santa Fe, pero solo 11 metros por debajo del [Cogulló de Turp](/cims/cogullo-de-turp), con quien comparte zona.'
+					'Sí. En el Alt Urgell solo [Sant Honorat](/cims/sant-honorat), que tiene justo al sur, y Santa Fe son esenciales más bajas; el [Cogulló de Turp](/cims/cogullo-de-turp), al otro lado del Segre, la supera por 11 metros.'
 			}
 		]
 	},

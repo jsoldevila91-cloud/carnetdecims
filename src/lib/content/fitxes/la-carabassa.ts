@@ -32,7 +32,7 @@ const fitxa: ContingutFitxa = {
 		es: [
 			'La Carabassa, que en los mapas y en muchas reseñas aparece como la Carbassa, es una cima ancha y poco definida en lo alto de la serra de Comaermada, en el término de Bellver de Cerdanya, en [la Cerdanya](/comarques/cerdanya). No tiene paredes ni agujas: es un lomo herboso donde el punto más alto se reconoce por un gran hito y un vértice geodésico.',
 			'Desde el sur, la ruta sale de Talltendre, un pequeño núcleo agregado de Bellver con la iglesia de Sant Iscle i Santa Victòria y el refugio Cal Pere Sidro, que ofrece alojamiento y comidas; desde allí, la cresta sube de manera progresiva y sin señalización. Al otro lado, el pla de Campllong, sobre Meranges, enlaza con el refugio Joaquim Folch i Girona, los estanys d’Engorgs y el Bony del Manyer (2.809 m), donde Rafa Yanes vio marmotas y caballos pastando.',
-			'La vista, según Engarrista, abarca la llanura de la Cerdaña con el macizo del [Puigmal](/cims/puigmal) al fondo, la [Cambra d’Ase](/cims/cambra-d-ase), la [Tossa Plana de Lles](/cims/tossa-plana-de-lles) y la [Tosa](/cims/la-tosa), las estaciones de Molina y Masella y el Cadí al sur. Es la menos alta de las cuatro esenciales de la Cerdaña: queda por debajo del [Puigpedrós](/cims/puigpedros), de la Tossa Plana y de la [Muga](/cims/la-muga).',
+			'La vista, según Engarrista, abarca la llanura de la Cerdanya con el macizo del [Puigmal](/cims/puigmal) al fondo, la [Cambra d’Ase](/cims/cambra-d-ase), la [Tossa Plana de Lles](/cims/tossa-plana-de-lles) y la [Tosa](/cims/la-tosa), las estaciones de Molina y Masella y el Cadí al sur. Es la menos alta de las cuatro esenciales de la Cerdanya: queda por debajo del [Puigpedrós](/cims/puigpedros), de la Tossa Plana y de la [Muga](/cims/la-muga).',
 			'La mejor época va de finales de primavera al otoño. La cresta mira al sur y la nieve dura poco en ella, pero Engarrista encontró nieve dura y venteada por encima de los 2.300 m y se puso crampones; añade que el riesgo de aludes en la cresta es bajo, pero no en las laderas laterales. Como es ancha y sin señales, con niebla cuesta saber por dónde bajar.'
 		]
 	},
@@ -114,12 +114,12 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿Se ve el Puigmal desde la cima?',
 				resposta:
-					'Según Engarrista, sí: el macizo del Puigmal hace de telón de fondo de la llanura de la Cerdaña, y también se ven la Cambra d’Ase, la Tossa Plana de Lles, la Tosa, Molina, Masella y el Cadí.'
+					'Según Engarrista, sí: el macizo del Puigmal hace de telón de fondo de la llanura de la Cerdanya, y también se ven la Cambra d’Ase, la Tossa Plana de Lles, la Tosa, Molina, Masella y el Cadí.'
 			},
 			{
 				pregunta: '¿La Carabassa cuenta como cima esencial?',
 				resposta:
-					'Sí, es la más baja de las cuatro esenciales de la Cerdaña, con el [Puigpedrós](/cims/puigpedros), la [Tossa Plana de Lles](/cims/tossa-plana-de-lles) y la [Muga](/cims/la-muga).'
+					'Sí, es la más baja de las cuatro esenciales de la Cerdanya, con el [Puigpedrós](/cims/puigpedros), la [Tossa Plana de Lles](/cims/tossa-plana-de-lles) y la [Muga](/cims/la-muga).'
 			}
 		]
 	},

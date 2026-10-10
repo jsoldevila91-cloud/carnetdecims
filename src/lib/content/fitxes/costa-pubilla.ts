@@ -30,13 +30,13 @@ const fitxa: ContingutFitxa = {
 	slug: 'costa-pubilla',
 	descripcio: {
 		ca: [
-			"La Costa Pubilla, també anomenada cim del Pla de Pujalts, és el punt més alt de la serra de Montgrony, al [Ripollès](/comarques/ripolles). El cim queda entre els termes de Gombrèn, Planoles i Toses, i és de calcàries i pissarres. Al cim hi ha un vèrtex geodèsic. L'Ajuntament de Planoles indica que tota la ruta de pujada és dins l'Espai d'Interès Natural de la Serra de Montgrony.",
+			"La Costa Pubilla, també anomenada cim del Pla de Pujalts, és el punt més alt de la serra de Montgrony, al [Ripollès](/comarques/ripolles). El cim queda entre els termes de Gombrèn, Planoles i Toses, i és de calcàries i pissarres. L'Ajuntament de Planoles indica que tota la ruta de pujada és dins l'Espai d'Interès Natural de la Serra de Montgrony.",
 			"La sortida clàssica és el santuari de la Mare de Déu de Montgrony, on unes escales de 72 graons tallades a la roca pugen a l'església de Santa Maria; la tradició les atribueix al comte Arnau. A tocar hi ha l'església romànica de Sant Pere de Montgrony. El camí travessa l'estret del Malpàs, un pas estret protegit amb barana sobre el cingle, i passa pel refugi de les Planelles. A la carena de baixada, el búnquer del Roc dels Llamps és un observatori de la línia P, la línia de fortificacions franquista del Pirineu, construït entre el 1950 i el 1952.",
 			'Rutes Pirineus descriu una panoràmica de 360 graus: al nord, la vall de Planoles i el [Puigmal](/cims/puigmal); a llevant, la Covil i el [Taga](/cims/taga); al sud, el Baix Ripollès, Osona, el Montseny i Montserrat, i a ponent, la carena de Montgrony, el Cadí oriental i el Pedraforca.',
 			"Rutes Pirineus la recomana de primavera a tardor; a l'hivern, un comentari de la ressenya hi esmenta neu a partir dels 1.600 m ja al novembre. La senyalització és escassa i barreja marques de diversos colors, fites i senyals, de manera que convé portar un track."
 		],
 		es: [
-			'La Costa Pubilla, también llamada cima del Pla de Pujalts, es el punto más alto de la serra de Montgrony, en el [Ripollès](/comarques/ripolles). La cima queda entre los términos de Gombrèn, Planoles y Toses, y es de calizas y pizarras. En la cima hay un vértice geodésico. El Ayuntamiento de Planoles indica que toda la ruta de subida está dentro del Espai d’Interès Natural de la Serra de Montgrony.',
+			'La Costa Pubilla, también llamada cima del Pla de Pujalts, es el punto más alto de la serra de Montgrony, en el [Ripollès](/comarques/ripolles). La cima queda entre los términos de Gombrèn, Planoles y Toses, y es de calizas y pizarras. El Ayuntamiento de Planoles indica que toda la ruta de subida está dentro del Espai d’Interès Natural de la Serra de Montgrony.',
 			'La salida clásica es el santuario de la Mare de Déu de Montgrony, donde una escalera de 72 peldaños tallados en la roca sube a la iglesia de Santa Maria; la tradición la atribuye al conde Arnau. Al lado está la iglesia románica de Sant Pere de Montgrony. El camino cruza el estret del Malpàs, un paso estrecho protegido con barandilla sobre el cantil, y pasa por el refugio de las Planelles. En la cresta de bajada, el búnker del Roc dels Llamps es un observatorio de la línea P, la línea de fortificaciones franquista del Pirineo, construido entre 1950 y 1952.',
 			'Rutes Pirineus describe una panorámica de 360 grados: al norte, el valle de Planoles y el [Puigmal](/cims/puigmal); al este, la Covil y el [Taga](/cims/taga); al sur, el Baix Ripollès, Osona, el Montseny y Montserrat, y al oeste, la cresta de Montgrony, el Cadí oriental y el Pedraforca.',
 			'Rutes Pirineus la recomienda de primavera a otoño; en invierno, un comentario de la reseña menciona nieve a partir de los 1.600 m ya en noviembre. La señalización es escasa y mezcla marcas de varios colores, hitos y señales, así que conviene llevar un track.'
@@ -109,7 +109,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'La Costa Pubilla compta com a cim essencial?',
 				resposta:
-					'Sí. És el cinquè dels sis essencials del Ripollès per altitud, només per sobre del [Taga](/cims/taga), i el més alt de la serra de Montgrony.'
+					'Sí. És el sostre de la serra de Montgrony i, amb 2.056 m, supera per poc el [Taga](/cims/taga), el més baix dels essencials del Ripollès.'
 			}
 		],
 		es: [
@@ -131,7 +131,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Costa Pubilla cuenta como cima esencial?',
 				resposta:
-					'Sí. Es la quinta de las seis esenciales del Ripollès por altitud, solo por encima del [Taga](/cims/taga), y la más alta de la serra de Montgrony.'
+					'Sí. Es el techo de la serra de Montgrony y, con 2.056 m, supera por poco al [Taga](/cims/taga), la más baja de las esenciales del Ripollès.'
 			}
 		]
 	},

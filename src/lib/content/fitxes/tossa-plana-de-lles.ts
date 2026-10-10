@@ -122,7 +122,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿La Tossa Plana de Lles cuenta como cima esencial?',
 				resposta:
-					'Sí. De las cuatro esenciales de la Cerdaña, solo el [Puigpedrós](/cims/puigpedros) es más alto. La [Muga](/cims/la-muga) y la [Carabassa](/cims/la-carabassa) quedan por debajo.'
+					'Sí. De las cuatro esenciales de la Cerdanya, solo el [Puigpedrós](/cims/puigpedros) es más alto. La [Muga](/cims/la-muga) y la [Carabassa](/cims/la-carabassa) quedan por debajo.'
 			}
 		]
 	},

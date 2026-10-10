@@ -30,7 +30,7 @@ const fitxa: ContingutFitxa = {
 			"La temporada és l'estiu i la tardor, quan la pista de terra de les Pollineres és oberta. Segons Rutes Pirineus, l'accés amb cotxe privat a les pistes de Lles i d'Aransa és restringit; fora de la temporada de la llançadora, la sortida es fa des del Fornell i la caminada s'allarga considerablement. És alta muntanya: a l'estiu, surt d'hora per evitar les tempestes de tarda."
 		],
 		es: [
-			'El Monturull, también conocido como la Torre dels Soldats o la Torreta del Soldat, es una cima fronteriza donde se encuentran tres términos: las Valls de Valira, en [el Alt Urgell](/comarques/alt-urgell); Lles de Cerdanya, en la Cerdaña, y la parroquia de Escaldes-Engordany, en Andorra. La Viquipèdia lo sitúa dentro de dos espacios protegidos, el de la Tossa Plana de Lles y el Puigpedrós y el del valle del Madriu-Perafita-Claror, y lo describe de roca metamórfica.',
+			'El Monturull, también conocido como la Torre dels Soldats o la Torreta del Soldat, es una cima fronteriza donde se encuentran tres términos: las Valls de Valira, en [el Alt Urgell](/comarques/alt-urgell); Lles de Cerdanya, en la Cerdanya, y la parroquia de Escaldes-Engordany, en Andorra. La Viquipèdia lo sitúa dentro de dos espacios protegidos, el de la Tossa Plana de Lles y el Puigpedrós y el del valle del Madriu-Perafita-Claror, y lo describe de roca metamórfica.',
 			'La aproximación habitual es por el lado cerdano. Se sale de las Pollineres y se sube a los estanys de la Pera, dos lagos de origen glaciar (el grande, a unos 2.350 m, y el pequeño, a 2.310 m) en un circo a los pies del Pic de Perafita. Cerca está el refugio de los Estanys de la Pera (2.357 m), de la FEEC, donde se puede tomar un café o un refresco. Desde el refugio, el GR 11 sube hacia el portell de Sant Vicenç y el Pic de Perafita; siguiendo la cresta hacia el suroeste aparece el Monturull.',
 			'Rutes Pirineus lo cuenta entre las cimas más frecuentadas de la cresta fronteriza entre la Cerdanya y Andorra. La gracia de la subida es el tramo de cresta entre el portell de Sant Vicenç, el Pic de Perafita y el coll de Claró, con la vertiente andorrana del Madriu-Perafita-Claror a un lado y los estanys de la Pera al otro. En la misma cresta hay otras esenciales, como la [Tossa Plana de Lles](/cims/tossa-plana-de-lles) y el [Puigpedrós](/cims/puigpedros).',
 			'La temporada es el verano y el otoño, cuando la pista de tierra de las Pollineres está abierta. Según Rutes Pirineus, el acceso en coche privado a las pistas de Lles y de Aransa está restringido; fuera de la temporada de la lanzadera, la salida se hace desde el Fornell y la caminata se alarga considerablemente. Es alta montaña: en verano, sal temprano para evitar las tormentas de tarde.'
@@ -110,7 +110,7 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: '¿El Monturull cuenta como cima esencial?',
 				resposta:
-					'Sí. Es la segunda esencial del Alt Urgell por altitud, por debajo del Pic de Salòria. Cerca, en la Cerdaña, también está la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), otra esencial de la misma zona.'
+					'Sí. Es la segunda esencial del Alt Urgell por altitud, por debajo del Pic de Salòria. Cerca, en la Cerdanya, también está la [Tossa Plana de Lles](/cims/tossa-plana-de-lles), otra esencial de la misma zona.'
 			}
 		]
 	},
