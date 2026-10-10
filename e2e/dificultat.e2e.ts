@@ -165,6 +165,28 @@ const ESPERAT_LLISTAT = {
 	'cims-facils': PILOTS.filter((p) => entraAlLlistat('cims-facils', p)).map((p) => p.slug),
 	'cims-amb-nens': PILOTS.filter((p) => entraAlLlistat('cims-amb-nens', p)).map((p) => p.slug)
 };
+/**
+ * Distintius esperats a `/cims-amb-nens`: allà el distintiu és el de la ruta per anar-hi amb nens
+ * (`rutaAmbNens`, la de la línia "Des de …"), no el de la ruta normal.
+ */
+const ESPERAT_BADGES_NENS = new Map(
+	PILOTS.flatMap((p) => {
+		const triada = rutaAmbNens(
+			p.rutes.map((x) => ({
+				id: x.id,
+				ruta: {
+					desnivellPositiuM: x.desnivellPositiuM,
+					distanciaKm: x.distanciaKm,
+					tempsMinuts: x.tempsMinuts,
+					tecnicitat: x.tecnicitat,
+					altitudCim: cim(p.slug).altitud
+				},
+				dificultat: dificultatRuta(p.slug, x)
+			}))
+		);
+		return triada?.dificultat ? [[p.slug, triada.dificultat] as const] : [];
+	})
+);
 
 // ── Lectura del DOM ──────────────────────────────────────────────────────────
 
@@ -221,12 +243,17 @@ function esperatBadgeLlista(locale: Locale, d: DificultatOrientativa) {
 }
 
 /** Comprova els distintius d'una llista: només als cims amb contingut i amb el nivell esperat. */
-async function expectBadgesLlista(page: Page, locale: Locale, selector?: string) {
+async function expectBadgesLlista(
+	page: Page,
+	locale: Locale,
+	selector?: string,
+	esperat: ReadonlyMap<string, DificultatOrientativa> = ESPERAT_LLISTES
+) {
 	const files = await badgesLlista(page, selector);
 	expect(files.length, 'la llista té cims').toBeGreaterThan(0);
 	const reals = files.map((f) => ({ slug: f.slug, badge: f.badge }));
 	const esperats = files.map((f) => {
-		const d = ESPERAT_LLISTES.get(f.slug);
+		const d = esperat.get(f.slug);
 		return { slug: f.slug, badge: d ? esperatBadgeLlista(locale, d) : null };
 	});
 	expect(reals).toEqual(esperats);
@@ -548,7 +575,12 @@ test.describe('Llistats de dificultat', () => {
 				// Cims: exactament els que compleixen els criteris, cadascun amb el seu distintiu
 				const files = await badgesLlista(page);
 				expect(files.map((f) => f.slug).sort()).toEqual([...esperats].sort());
-				await expectBadgesLlista(page, locale);
+				await expectBadgesLlista(
+					page,
+					locale,
+					undefined,
+					id === 'cims-amb-nens' ? ESPERAT_BADGES_NENS : ESPERAT_LLISTES
+				);
 				for (const slug of esperats) {
 					if (id === 'cims-facils') expect(NORMAL.get(slug)!.nivell).toBe(1);
 					else {
@@ -671,7 +703,7 @@ test.describe('Llistats de dificultat', () => {
 			expect((await badgesLlista(page)).map((f) => f.slug).sort()).toEqual(
 				[...ESPERAT_LLISTAT['cims-amb-nens']].sort()
 			);
-			await expectBadgesLlista(page, locale);
+			await expectBadgesLlista(page, locale, undefined, ESPERAT_BADGES_NENS);
 			await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
 				'content',
 				ESPERAT_LLISTAT['cims-amb-nens'].length < 3 ? /noindex/ : /index/

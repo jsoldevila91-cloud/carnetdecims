@@ -4,7 +4,7 @@ import { rutaAmbNens } from '$lib/domain';
 import { m } from '$lib/paraglide/messages';
 import { llistatIndexable } from '$lib/seo/indexabilitat';
 import { nomRutaCurt } from '$lib/seo/fitxa-cim';
-import { mapaDificultats, resumDificultat } from '$lib/server/dificultats';
+import { mapaDificultats, type MapaDificultats } from '$lib/server/dificultats';
 import { formatAltitude, formatDurada } from '$lib/ui/format';
 import type { PageServerLoad } from './$types';
 
@@ -25,17 +25,21 @@ export const load: PageServerLoad = ({ url }) => {
 	);
 	/**
 	 * Ruta per anar-hi amb nens de cada cim (la més fàcil que compleix els criteris; pot no ser la
-	 * normal), amb la seva dificultat: per dir "des de …" a la llista (`nomCurt`, sense el tram
-	 * "per …") i, si tenen font, el desnivell i el temps d'anada (`desnivell` i `temps`, ja com a
-	 * text de l'idioma: al client no hi van els camps de la ruta). `dificultats` continua sent la
-	 * de la ruta normal (la de la fitxa).
+	 * normal): per dir "des de …" a la llista (`nomCurt`, sense el tram "per …") i, si tenen font,
+	 * el desnivell i el temps d'anada (`desnivell` i `temps`, ja com a text de l'idioma: al client
+	 * no hi van els camps de la ruta).
+	 * A diferència de la resta de llistes, el distintiu de cada cim (`dificultatsNens`) és el
+	 * d'aquesta ruta, la de la línia "Des de …", i no el de la ruta normal de la fitxa.
 	 */
+	const dificultatsNens: MapaDificultats = {};
 	const rutesAmbNens = Object.fromEntries(
 		slugs.flatMap((slug) => {
 			const c = contingutFitxa(slug);
 			const triada = c && rutaAmbNens(rutesAmbDificultat(c));
 			const r = triada && c.rutes.find((x) => x.id === triada.id);
 			if (!c || !triada?.dificultat || !r) return [];
+			const { nivell, clau, aproximada } = triada.dificultat;
+			dificultatsNens[slug] = { nivell, clau, aproximada };
 			const opts = { locale };
 			return [
 				[
@@ -54,8 +58,7 @@ export const load: PageServerLoad = ({ url }) => {
 							r.tempsMinuts === undefined
 								? null
 								: ambEspaisFixos(m.kids_route_time({ temps: formatDurada(r.tempsMinuts) }, opts)),
-						normal: r.id === c.rutes[0]?.id,
-						dificultat: resumDificultat(triada.dificultat)
+						normal: r.id === c.rutes[0]?.id
 					}
 				]
 			];
@@ -63,7 +66,8 @@ export const load: PageServerLoad = ({ url }) => {
 	);
 	return {
 		slugs,
-		dificultats: mapaDificultats(slugs),
+		// Ruta normal només com a reserva (tots els cims del llistat tenen ruta amb nens).
+		dificultats: { ...mapaDificultats(slugs), ...dificultatsNens },
 		rutesAmbNens,
 		/** Amb menys de 3 cims, contingut prim: `noindex` i fora del sitemap (docs/02 §4.2). */
 		indexable: llistatIndexable(slugs.length)
