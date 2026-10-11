@@ -163,58 +163,31 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **QA:** E2E ampliados a las 50 fichas con oráculo independiente (`e2e/fitxes-contingut.ts`). Pasada completa: 2806 pasados; verificación final 744/744 en los 3 proyectos; 1002 unitarios.
 - **No bloqueantes:** a 960 px la cabecera de algunas fichas crece +23 px al cargar la fuente (no es el H1; posiblemente los botones); si un push ya ha salido cuando se borran los datos locales, esas filas llegan a la nube (habrían llegado igual).
 
-## Bloque 6c (en curso, 2026-10-11)
+## Bloque 6c (terminado, 2026-10-11; publicado en carnetdecims.cat) — FASE 6 TERMINADA, pendiente de aprobación del usuario
 
-**Modelo por encargo (decisión del usuario, 2026-10-10):** Sonnet redacta, Opus revisa (revisión completa, abriendo las fuentes), QA de suites con Sonnet. Encargo estricto de redacción ("cita literal o no se escribe" + archivo de notas por tanda): `scratchpad/encargo-6c.md` de la sesión; sus reglas están resumidas en el commit `e4abc78` y en la memoria del proyecto.
+- **Contenido:** las **150 esenciales tienen ficha** (`src/lib/content/fitxes/`, todas en `esborrany`; solo el usuario marca `revisat`). 100 fichas nuevas en 4 tandas, redactadas con Sonnet y **revisadas enteras con Opus abriendo las fuentes** (`e4abc78`, `6f623c0`, `084d02e`).
+- **Listados:** Cims fàcils 14, Cims amb nens 9.
+- **Catálogo:** `el-tossal-gros` era el homónimo equivocado (Mont-ral, 844 m) → **Tossal Gros de la serra de Miramar** (867 m; `595f64d`). Auditoría: los 150 cims quedan a ≤ 119 m de un elemento de Wikidata etiquetado en la lista de la FEEC. Pendiente bajo: 46 búsquedas ICGC llegan al tope de 25 resultados sin aviso (añadir una alerta al informe del build).
+- **QA (`ec171b7`):** pasada completa de 4866 E2E: 3457 pasados, 1398 saltados por diseño, 11 fallidos que eran del test (sondas que coincidían con nombres del catálogo, un grupo de CLS demasiado grande, un timeout) y ya pasan; ningún bug de la app. 1205 unitarios. La batería por ficha corre entera en desktop-chrome y con las 10 pilotos en móviles.
+- **Publicación:** se compila con `PUBLIC_MODE_BETA=true` en un worktree aparte y `npx wrangler deploy`. En producción está `084d02e` (los commits posteriores son solo tests y docs).
 
-| Tanda | Zona                                                                                                              | Fichas | Estado                                                                                          |
-| ----- | ----------------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- |
-| 1     | Val d'Aran, Alta Ribagorça, Pallars Sobirà y Jussà                                                                | 26     | redactada y **revisada** (`e4abc78`), **publicada**                                             |
-| 2     | Alt Urgell, Cerdanya, Berguedà, Ripollès, Catalunya Nord, Solsonès                                                | 26     | redactada y **revisada** (`e4abc78`), **publicada**                                             |
-| 3     | Alt Empordà, Garrotxa, Osona, Selva, Maresme, Vallès, Barcelonès, Baix Llobregat, Bages, Anoia, Alt Penedès       | 24     | borrador en `a37eadf`; **revisión de Opus en curso**; sin publicar                              |
-| 4     | Noguera, Alt Camp, Baix Camp, Baix Ebre, Conca, Garrigues, Montsià, Ribera d'Ebre, Segrià, Tarragonès, Terra Alta | 23 + 1 | borrador en `2e9f525`; **revisión de Opus en curso** (y redacta `el-tossal-gros`); sin publicar |
+**Lección sobre modelos (2026-10-11):** los borradores de Sonnet tuvieron 1,0–1,5 errores de hecho por ficha (8–12 serios por tanda) incluso con el encargo estricto ("cita literal o no se escribe", archivo de notas, comillas dobles); la revisión completa de Opus costó tanto o más que redactar. **Para fichas futuras: redactar con Opus y con el encargo estricto; Sonnet solo para QA de suites y tareas mecánicas.** Reglas del encargo que funcionaron: cita literal por cada cifra; campos numéricos solo de ida y con fuente no-blog; `tecnicitat` solo con la frase de la fuente sobre la ruta de subida; no comentar las fuentes en el texto público; altitud y comarca del catálogo; regulaciones con año y "consulta la regulació vigent"; no usar la versión `/en/` de las fuentes; leer el itinerario cronometrado entero; buscar "tancat / obres" en la web municipal.
 
-- **Publicado en carnetdecims.cat (2026-10-11):** `e4abc78` + la corrección de catálogo `595f64d` (102 fichas revisadas por SEO; las tandas 3 y 4 no se publican hasta que Opus las revise). Se despliega desde un worktree aparte (`git cherry-pick -n` del catálogo sobre `e4abc78`).
-- **Calidad de los borradores de Sonnet (tandas 1 y 2):** 6/10; ≈ 1,5 errores de hecho por ficha (atribuciones falsas, datos de la cima o variante vecina), 10–12 serios por tanda. Tras Opus: 8/10. Pendiente el dato de las tandas 3 y 4 (encargo estricto) para decidir si Sonnet sigue redactando.
-- **Catálogo:** `el-tossal-gros` era el homónimo equivocado (Mont-ral, 844 m) → **Tossal Gros de la serra de Miramar** (867 m, Figuerola del Camp–Montblanc; `595f64d`). Auditoría: los 150 cims quedan a ≤ 119 m de un elemento de Wikidata etiquetado en la lista de la FEEC. Riesgo de fondo: 46 búsquedas ICGC llegan al tope de 25 resultados sin aviso (añadir una alerta al informe del build).
-- **Al cerrar el 6c falta:**
-  1. guardar las tandas 3 y 4 revisadas (`git add -u src/lib/content/fitxes` + la ficha nueva `el-tossal-gros.ts`);
-  2. QA (Sonnet): `src/routes/(public)/cims/[slug]/page.server.spec.ts` usa `balandrau` como "cim sense contingut" (con 150 fichas no quedará ninguno: rediseñar con un doble); E2E: `SENSE_CONTINGUT` quedará vacío; pasada completa;
-  3. publicar y actualizar este documento.
-- **Para la revisión humana (JSR):** Pic de Certascan (`grimpada-facil` dudosa), Mont-roig (ruta apoyada en blogs; refugio Enric Pujol de emergencia), Tuc de la Llança (solo reseña invernal), Pic de Sotllo y Comaloforno (grimpada), fichas del Pirineu oriental con fuentes de blog (Monturull, Vulturó, Cogulló de Turp, Cap del Verd, Puig Peric, Tretzevents, Salòria), Elefant (sin fuente de ruta normal a la cima), Sant Salvador de les Espases (obras), Pic del Vent (¿2 km / 35 min son de ida?).
-- **Uso:** el 2026-10-11 el límite semanal del plan Pro estaba al 83 % (se restablece el 2026-10-16). Conviene abrir una sesión nueva para el bloque siguiente (R1).
+**Para la revisión humana (JSR), antes de marcar `revisat`:**
+
+- **Técnica dudosa:** Pic de Certascan, Montgròs, Bassegoda (¿grapas y cadenas?), Elefant (¿II y cuerda fija?), Cavall Bernat de Llaberia (II; estado del equipamiento), Roques de Benet, Pic de Sotllo, Comaloforno.
+- **Fuentes solo de blog:** Mont-roig, Tuc de la Llança (solo reseña invernal), Monturull, Vulturó, Cogulló de Turp, Cap del Verd, Puig Peric, Tretzevents, Salòria, y 13 rutas del sur (Reptes Muntanyencs); 22 de las 24 fichas del sur muestran la dificultad "aproximada".
+- **Datos a confirmar:** Rocallarga (70 min, suma de dos tramos), Pic del Vent (¿2 km / 35 min son de ida?), Puig de l'Àliga (75 min), Pilar d'Almenara (7 min), Sant Salvador de les Espases (camino cerrado en 2024; sin cifras a propósito), lo Tormo (¿dentro del Parc de Montsant?), Sant Mamet (estado de la ermita), Balandrau (mención del temporal del 30-12-2000).
+- **Comarca del catálogo discutible** (limítrofes; prevalece el ICGC): Cap del Verd, Monturull, Penyes Altes, Pic de Peguera, Tuc de la Cometa, Tuc de Ratera, Gran Tuc de Colomèrs, Castell de Milany, Turó de la Magarola, Tossal d'Engrilló, Mola de Genessies, Mola d'Estat, la Mola (Tarragonès), Creu de Santos, Cabrera.
+- `wikiloc` vacío en las 100 fichas nuevas.
+
+**Uso:** el 2026-10-11 el límite semanal del plan Pro estaba al 83 % (se restablece el 2026-10-16). El bloque siguiente se empieza en una **sesión nueva**.
 
 ## Siguiente
 
-**Fase 6 · Contenido** (en curso; el usuario eligió adelantarla a la 5, el 2026-10-03, porque la 5 requiere acciones suyas).
+**Bloque R1 · Estadístiques i diari** (docs/08 §3 y §6; antes del lanzamiento): municipio de origen (opcional, solo en el dispositivo), "el cim que més has fet", "el cim més llunyà", % por comarca, por reto y del catálogo, y **diari de muntanya** (compañeros y notas). Después: R2 (retos, medallas y "El teu proper cim"), R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
-- **Bloque 6a (terminado, 2026-10-04; QA: 882 E2E pasados, 0 fallidos en los 3 proyectos):** contrato `src/lib/content/fitxes/types.ts` (descripció, rutes d'accés con MIDE y fuentes, consells, FAQ, Wikiloc, `estat`); guía `docs/07-guia-contingut.md`; **10 fichas piloto** (Pedraforca, Pica d'Estats, Puigmal, Canigó, Matagalls, Montcau, Sant Jeroni, Comapedrosa, La Mola, Taga); meteo con Open-Meteo vía `/api/meteo/{slug}` (caché de 3 h en el Worker); Wikiloc click-to-load.
-- **Decisiones de Claude, pendientes de que el usuario las confirme:**
-  1. Todo el contenido redactado por agentes queda en `estat: 'esborrany'`. **Solo el usuario puede marcar `revisat`**, que es lo que hace indexable la ficha.
-  2. Primero un piloto de 10 fichas; si la calidad es buena, el 6b y el 6c escalan a las 150.
-  3. Ningún dato sin fuente: MIDE, desnivel y tiempos vacíos si no hay fuente fiable.
-- **Revisión del usuario (2026-10-03):**
-  - Pedraforca: la tartera de Saldes **no está prohibida**, solo desaconsejada por el parque y los servicios de emergencia;
-  - Canigó y La Mola: correctos;
-  - la grafía es **"Mas Malet"**.
-- **Dificultad (propuesta de Claude, aceptada por defecto):** escala propia **"Dificultat orientativa"** de 4 niveles (Fàcil · Moderada · Exigent · Molt exigent), calculada a partir de la ruta normal (desnivel, distancia, tiempo, altitud) y de los pasos técnicos con fuente (grimpada…).
-  - Se etiqueta como estimación de Carnet de Cims y enlaza a Metodología.
-  - El MIDE solo se muestra cuando una fuente lo publica.
-  - Desbloquea los listados "Cims fàcils" y "Cims amb nens".
-  - Pendiente de implementar tras el QA del 6a.
-- **Resultado del 6a:**
-  - **Contenido:** 10 pilotos (583–734 palabras por idioma, 2 rutas, 5 consells, 4 FAQ y 2–3 rutas de Wikiloc cada una; MIDE vacío por falta de fuente). Cada ficha solo envía su idioma (`contingutFitxaLocal`).
-  - **Meteo:** `/api/meteo/{slug}` (Open-Meteo, caché de 3 h + 24 h de respaldo; en el SW, network-first con la última previsión ≤ 3 días). UI `MeteoCim` sin CLS en ningún estado.
-  - **SEO:** FAQPage solo en fichas indexables; description con la ruta normal; privacitat con el widget de Wikiloc.
-  - **H1:** saltos de línea calculados (CLS 0 a 320/375/768 px).
-  - **Pendiente bajo:** a 768 px La Mola tiene CLS 0,126 con fuentes lentas (reflujo lateral); salto puntual no reproducible en Bastiments.
-- **Bloque 6a-bis (terminado, 2026-10-04): dificultad orientativa.**
-  - **Fórmula** en `domain/dificultat.ts`: km-esfuerzo = km + D+/100 (o el tiempo); técnica según `tecnicitat`; altitud; el nivel es el factor más alto; "aproximada" si faltan datos.
-  - **Datos:** `tecnicitat` con fuente en las pilotos; La Mola con distancia (pasa a Moderada).
-  - **UI:** `DificultatBadge` en la ficha, en las rutas y en las listas; metodología `#dificultat-orientativa`; listados `/cims-facils` (hoy 0) y `/cims-amb-nens` (hoy 2), `noindex` hasta tener 3 cims.
-  - **QA:** `e2e/dificultat.e2e.ts`; 1305 E2E pasados.
-  - **Decisiones del usuario (2026-10-05):** "amb nens" se mantiene en **≤ 2 h 30** de ida; el tramo "Moderada" **no cambia**.
-- Después: 6b (+ fichas), 6c (resto + revisión). La **fase 5** se hará cuando el usuario haga las acciones previas.
+Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
 ## Pendiente o decisiones abiertas
 
