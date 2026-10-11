@@ -1,7 +1,19 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { LOCALES, localizeCimPath, type AppLocale } from '$lib/i18n/routes';
+import { CIMS } from '$lib/data/catalog';
+import * as fitxes from '$lib/content/fitxes';
 import { totsElsContingutsFitxa, type ContingutFitxa } from '$lib/content/fitxes';
 import { load } from './+page.server';
+
+// Doble del mòdul de contingut: per defecte és el real (passa tot a l'original); el test de
+// "cim sense contingut" fa que `contingutFitxa` torni `undefined`, de manera que no depèn de quins
+// cims tenen fitxa avui (amb les 150 fitxes publicades ja no n'hi ha cap sense).
+vi.mock('$lib/content/fitxes', async (importOriginal) => {
+	const original = await importOriginal<typeof import('$lib/content/fitxes')>();
+	return { ...original, contingutFitxa: vi.fn(original.contingutFitxa) };
+});
+const { contingutFitxa: realContingutFitxa } =
+	await vi.importActual<typeof import('$lib/content/fitxes')>('$lib/content/fitxes');
 
 /** Textos propis d'un idioma (els que el `__data.json` de l'altre idioma no pot portar). */
 function textos(c: ContingutFitxa, l: AppLocale): string[] {
@@ -44,13 +56,35 @@ describe('load de la fitxa: contingut només en l’idioma de la pàgina', () =>
 		}
 	});
 
-	it('cim sense contingut editorial → contingut null i no indexable', () => {
-		const json = dadesSerialitzades('balandrau', 'ca');
-		expect(JSON.parse(json)).toEqual({
-			contingut: null,
-			dificultat: null,
-			dificultatRutes: {},
-			indexable: false
+	describe('cim sense contingut editorial (doble de `contingutFitxa`)', () => {
+		afterEach(() => vi.mocked(fitxes.contingutFitxa).mockImplementation(realContingutFitxa));
+
+		it.each(LOCALES)('(%s) → contingut null, sense dificultat i no indexable', (locale) => {
+			// Un cim qualsevol del catàleg: el doble el fa passar per "encara sense fitxa".
+			const slug = CIMS[0]!.slug;
+			vi.mocked(fitxes.contingutFitxa).mockImplementation(() => undefined);
+			expect(JSON.parse(dadesSerialitzades(slug, locale))).toEqual({
+				contingut: null,
+				dificultat: null,
+				dificultatRutes: {},
+				indexable: false
+			});
+			expect(fitxes.contingutFitxa).toHaveBeenCalledWith(slug);
+		});
+
+		it('el doble no filtra als altres tests: amb el mòdul real, el mateix cim torna a tenir contingut', () => {
+			const slug = CIMS[0]!.slug;
+			const dades = JSON.parse(dadesSerialitzades(slug, 'ca')) as { contingut: unknown };
+			expect(dades.contingut).not.toBeNull();
+		});
+
+		it('slug que no és al catàleg ni té fitxa → contingut null i no indexable', () => {
+			expect(JSON.parse(dadesSerialitzades('cim-que-no-existeix', 'ca'))).toEqual({
+				contingut: null,
+				dificultat: null,
+				dificultatRutes: {},
+				indexable: false
+			});
 		});
 	});
 });

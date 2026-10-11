@@ -288,6 +288,13 @@ async function expectBadgeComplet(
 
 // ── Text de les fitxes (sondes per buscar-lo dins del JS / __data.json) ──────
 
+/**
+ * Noms del catàleg: el JS del client porta el catàleg lleuger (noms de tots els cims), així que
+ * una sonda que és un nom de cim (p. ex. el text d'un enllaç `[Tossal de les Roies de Cardet](…)`)
+ * no discrimina: es descarta i es prova el tros següent del paràgraf.
+ */
+const NOMS_CATALEG = CIMS.flatMap((c) => [c.nom, c.nom_oficial]).join('\n');
+
 function sondes(c: ContingutFitxa): string[] {
 	const out: string[] = [];
 	for (const locale of LOCALES) {
@@ -300,6 +307,7 @@ function sondes(c: ContingutFitxa): string[] {
 			const millor = t
 				.split(/[^A-Za-z0-9 ,.]+/)
 				.map((s) => s.trim())
+				.filter((s) => !NOMS_CATALEG.includes(s))
 				.sort((a, b) => b.length - a.length)[0];
 			if (millor && millor.length >= 25) out.push(millor);
 		}
@@ -481,18 +489,25 @@ test.describe('Dificultat · fitxes sense contingut', () => {
 		expect(errors).toEqual([]);
 	});
 
-	/** Una fitxa amb contingut però sense cap ruta amb dades (si n'hi ha) i una sense contingut. */
+	/**
+	 * Una fitxa amb contingut però sense cap ruta amb dades (si n'hi ha) i una sense contingut (si
+	 * encara en queda cap: amb les 150 fitxes publicades el catàleg en queda sense, i el cas es
+	 * prova a l'escombrat de dalt, que no en troba cap amb distintiu).
+	 */
 	const SENSE_DIFICULTAT = [
 		...FITXES.filter((f) => !algunaRutaAmbDificultat(f))
 			.slice(0, 1)
 			.map((f) => f.slug),
-		CIMS.find((c) => !SLUGS_FITXES.has(c.slug))!.slug
+		...CIMS.filter((c) => !SLUGS_FITXES.has(c.slug))
+			.slice(0, 1)
+			.map((c) => c.slug)
 	];
 
 	for (const locale of LOCALES) {
-		test(`${SENSE_DIFICULTAT.join(' i ')} (${locale}): sense distintiu ni enllaç a la metodologia de dificultat`, async ({
+		test(`${SENSE_DIFICULTAT.join(' i ') || '(cap)'} (${locale}): sense distintiu ni enllaç a la metodologia de dificultat`, async ({
 			page
 		}) => {
+			test.skip(SENSE_DIFICULTAT.length === 0, 'totes les fitxes tenen ruta amb dades i contingut');
 			await stubMaps(page);
 			for (const slug of SENSE_DIFICULTAT) {
 				// Hidratada (i no només carregada): el distintiu tampoc no apareix al client, i el

@@ -176,9 +176,13 @@ function sondes(c: ContingutFitxa, locales: readonly ('ca' | 'es')[] = LOCALES):
 		for (const t of textos) {
 			// Sobre el text cru: `[`, `]`, `(`, `)`, `*` i `/` tallen, i així la sonda no travessa
 			// cap marca d'enllaç (és present tal qual a les dades i al text visible).
+			// Es descarten els trossos que són (part d')un nom del catàleg: el JS del client porta el
+			// catàleg lleuger, i p. ex. el text d'un enllaç `[Tossal de les Roies de Cardet](…)` hi és
+			// legítimament; llavors es prova el tros següent del paràgraf.
 			const millor = t
 				.split(/[^A-Za-z0-9 ,.]+/)
 				.map((s) => s.trim())
+				.filter((s) => !NOMS_CATALEG.includes(s))
 				.sort((a, b) => b.length - a.length)[0];
 			if (millor && millor.length >= 25) out.push(millor);
 		}
@@ -407,6 +411,20 @@ test.describe('Fitxes amb contingut · HTML sense JavaScript', () => {
 				await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
 			});
 		}
+	}
+
+	// Amb les 150 fitxes publicades (bloc 6c) cap cim del catàleg queda sense contingut: la
+	// plantilla "sense fitxa" només es continua cobrint amb el test unitari de
+	// `cims/[slug]/page.server.spec.ts` (doble de `contingutFitxa`). Aquest test deixa constància
+	// (saltat) que la branca E2E no té cim real per provar; si torna a haver-hi cims sense fitxa,
+	// els tests de sota es generen sols.
+	if (SENSE_CONTINGUT.length === 0) {
+		test('fitxes sense contingut (plantilla): cap cim del catàleg en queda sense fitxa', () => {
+			test.skip(
+				true,
+				'les 150 fitxes tenen contingut: cap cim sense fitxa per provar al navegador'
+			);
+		});
 	}
 
 	for (const slug of SENSE_CONTINGUT) {
@@ -1168,76 +1186,87 @@ test.describe('CLS de les fitxes pilot', () => {
 			...['la-muga', 'mollo-puntaire', 'torre-de-madeloc', 'tossa-plana-de-lles']
 		])
 	].map(cim);
+	// Amb les 150 fitxes, una sola prova seqüencial (2 càrregues per cim) passava dels 8 min sota
+	// càrrega: es talla en grups de 20 cims, que corren en paral·lel (cada grup, els seus contexts).
+	const GRUP_CAPCALERA = 20;
+	const GRUPS_CAPCALERA = Array.from(
+		{ length: Math.ceil(CAPCALERA.length / GRUP_CAPCALERA) },
+		(_, i) => CAPCALERA.slice(i * GRUP_CAPCALERA, (i + 1) * GRUP_CAPCALERA)
+	);
 	for (const ample of [320, 375, 768]) {
-		test(`${ample} px · fitxes amb contingut i noms curts: la capçalera no canvia d'alçada en carregar Archivo`, async ({
-			browser
-		}, ti) => {
-			test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
-			test.setTimeout(480_000);
-			const nouContext = async (bloquejaFonts: boolean) => {
-				const ctx = await browser.newContext({
-					viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
-					deviceScaleFactor: 2,
-					isMobile: ample < 768,
-					hasTouch: true,
-					serviceWorkers: 'block'
-				});
-				const page = await ctx.newPage();
-				await stubMaps(page);
-				await mockMeteo(page, {});
-				if (bloquejaFonts) await page.route(/\.woff2(\?|$)/, (r) => r.abort());
-				return { ctx, page };
-			};
-			const reserva = await nouContext(true);
-			const archivo = await nouContext(false);
-			const mida = async (page: Page, slug: string) => {
-				await page.goto(fitxaUrl(slug, 'ca'));
-				await page.evaluate(() => document.fonts.ready);
-				return page.evaluate(() => {
-					const h1 = document.querySelector('main h1')!;
-					const r = h1.getBoundingClientRect();
-					const lh = parseFloat(getComputedStyle(h1).fontSize) * 0.95;
-					return {
-						h1: Math.round(r.height),
-						linies: Math.round(r.height / lh),
-						cap: Math.round(document.querySelector('main header')!.getBoundingClientRect().height),
-						// `fonts.check` torna `true` si cap cara cal carregar: es mira l'estat real.
-						font: [...document.fonts].some(
-							(f) => /^["']?Archivo Variable/.test(f.family) && f.status === 'loaded'
-						)
-					};
-				});
-			};
-			const dolents: string[] = [];
-			let ambArchivo = 0;
-			let reservaAmbArchivo = 0;
-			for (const c of CAPCALERA) {
-				const r = await mida(reserva.page, c.slug);
-				const a = await mida(archivo.page, c.slug);
-				if (a.font) ambArchivo++;
-				if (r.font) reservaAmbArchivo++;
-				if (Math.abs(a.cap - r.cap) > 2)
-					dolents.push(
-						`${c.slug}: reserva ${r.linies} línies/${r.cap} px → Archivo ${a.linies} línies/${a.cap} px`
-					);
-			}
-			await reserva.ctx.close();
-			await archivo.ctx.close();
-			const informe = dolents.join('\n') || 'cap';
-			console.log(`Capçalera ${ample}px (reserva vs Archivo):\n${informe}`);
-			ti.annotations.push({ type: `H1 ${ample}px`, description: informe });
-			expect(ambArchivo, 'Archivo s’ha carregat al context normal').toBe(CAPCALERA.length);
-			expect(reservaAmbArchivo, 'el context de reserva no té Archivo').toBe(0);
-			const { nous, arreglats } = separaConeguts(
-				dolents,
-				ample === 768 ? BUGS_H1_768 : new Set(),
-				CAPCALERA.map((c) => c.slug)
-			);
-			expect(nous, informe).toEqual([]);
-			expect(arreglats, 'bugs coneguts que ja no es reprodueixen: treu-los de BUGS_H1_768').toEqual(
-				[]
-			);
-		});
+		for (const [g, GRUP] of GRUPS_CAPCALERA.entries())
+			test(`${ample} px · fitxes amb contingut i noms curts (grup ${g + 1}/${GRUPS_CAPCALERA.length}): la capçalera no canvia d'alçada en carregar Archivo`, async ({
+				browser
+			}, ti) => {
+				test.skip(ti.project.name !== 'mobile-chrome', 'un sol projecte Chromium mòbil');
+				test.setTimeout(180_000);
+				const nouContext = async (bloquejaFonts: boolean) => {
+					const ctx = await browser.newContext({
+						viewport: { width: ample, height: ample >= 768 ? 1024 : 740 },
+						deviceScaleFactor: 2,
+						isMobile: ample < 768,
+						hasTouch: true,
+						serviceWorkers: 'block'
+					});
+					const page = await ctx.newPage();
+					await stubMaps(page);
+					await mockMeteo(page, {});
+					if (bloquejaFonts) await page.route(/\.woff2(\?|$)/, (r) => r.abort());
+					return { ctx, page };
+				};
+				const reserva = await nouContext(true);
+				const archivo = await nouContext(false);
+				const mida = async (page: Page, slug: string) => {
+					await page.goto(fitxaUrl(slug, 'ca'));
+					await page.evaluate(() => document.fonts.ready);
+					return page.evaluate(() => {
+						const h1 = document.querySelector('main h1')!;
+						const r = h1.getBoundingClientRect();
+						const lh = parseFloat(getComputedStyle(h1).fontSize) * 0.95;
+						return {
+							h1: Math.round(r.height),
+							linies: Math.round(r.height / lh),
+							cap: Math.round(
+								document.querySelector('main header')!.getBoundingClientRect().height
+							),
+							// `fonts.check` torna `true` si cap cara cal carregar: es mira l'estat real.
+							font: [...document.fonts].some(
+								(f) => /^["']?Archivo Variable/.test(f.family) && f.status === 'loaded'
+							)
+						};
+					});
+				};
+				const dolents: string[] = [];
+				let ambArchivo = 0;
+				let reservaAmbArchivo = 0;
+				for (const c of GRUP) {
+					const r = await mida(reserva.page, c.slug);
+					const a = await mida(archivo.page, c.slug);
+					if (a.font) ambArchivo++;
+					if (r.font) reservaAmbArchivo++;
+					if (Math.abs(a.cap - r.cap) > 2)
+						dolents.push(
+							`${c.slug}: reserva ${r.linies} línies/${r.cap} px → Archivo ${a.linies} línies/${a.cap} px`
+						);
+				}
+				await reserva.ctx.close();
+				await archivo.ctx.close();
+				const informe = dolents.join('\n') || 'cap';
+				console.log(`Capçalera ${ample}px (reserva vs Archivo):\n${informe}`);
+				ti.annotations.push({ type: `H1 ${ample}px`, description: informe });
+				expect(ambArchivo, 'Archivo s’ha carregat al context normal').toBe(GRUP.length);
+				expect(reservaAmbArchivo, 'el context de reserva no té Archivo').toBe(0);
+				const { nous, arreglats } = separaConeguts(
+					dolents,
+					ample === 768 ? BUGS_H1_768 : new Set(),
+					GRUP.map((c) => c.slug)
+				);
+				expect(nous, informe).toEqual([]);
+				expect(
+					arreglats,
+					'bugs coneguts que ja no es reprodueixen: treu-los de BUGS_H1_768'
+				).toEqual([]);
+			});
 	}
 
 	for (const cas of ['ok', 'error', 'offline'] as const) {
