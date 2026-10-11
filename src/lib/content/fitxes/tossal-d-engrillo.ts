@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: "Viquipèdia: Tossal d'Engrilló",
@@ -8,9 +8,15 @@ const VIQUIPEDIA = {
 	consultat: CONSULTAT
 };
 
-const VIQUIPEDIA_PARC = {
-	nom: 'Viquipèdia: Parc Natural dels Ports',
-	url: 'https://ca.wikipedia.org/wiki/Parc_Natural_dels_Ports',
+const PARC_REFOIA = {
+	nom: "Parc Natural dels Ports: el Molí i la Refoia (itinerari del Teix i el Tossal d'Engrilló)",
+	url: 'https://parcsnaturals.gencat.cat/ca/xarxa-de-parcs/ports/gaudeix-del-parc/equipaments-i-itineraris/itineraris-arees-lleure/moli-refoia-prat-de-comte/',
+	consultat: CONSULTAT
+};
+
+const PARC_REGULACIO = {
+	nom: "Parc Natural dels Ports: regulació d'activitats",
+	url: 'https://parcsnaturals.gencat.cat/ca/xarxa-de-parcs/ports/gaudeix-del-parc/consells/regulacio-dactivitats/',
 	consultat: CONSULTAT
 };
 
@@ -30,19 +36,32 @@ const fitxa: ContingutFitxa = {
 	slug: 'tossal-d-engrillo',
 	descripcio: {
 		ca: [
-			"El Tossal d'Engrilló és una muntanya dels Ports de Tortosa-Beseit, [al Baix Ebre](/comarques/baix-ebre), al límit amb la Terra Alta: la Viquipèdia el situa entre els termes de Paüls, d'Horta de Sant Joan i de Prat de Comte. Queda dins el Parc Natural dels Ports i té un vèrtex geodèsic al cim. Les roques són calcàries, dolomies i margues.",
-			"El Parc Natural dels Ports es va declarar el 12 de juny del 2001 pel Decret 160/2001 i fa 35.050 ha. Segons la Viquipèdia, hi predominen les roques carbonatades, d'on surten gorges, coves i surgències, i el punt més alt és el [Caro](/cims/caro), de 1.441 m. Una altra cim essencial de la serralada, ja a la banda meridional, és el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis); i a Horta de Sant Joan hi ha les [Roques de Benet](/cims/roques-de-benet) i [Santa Bàrbara](/cims/santa-barbara).",
-			"Hiking Iberia, que inclou el tossal en una circular per l'oest del parc, el presenta com un segon cim, després de la Punta de l'Aigua, i en destaca les parets rocoses escarpades. Reptes Muntanyencs hi afegeix que els camins passen a tocar de coves i avencs, que va trobar «un petit avenc que ens dificultava el pas» i que l'itinerari passa per tota mena de terreny: pistes, camins, senders i alguns trams fora de camí. Al cim, segons aquest bloc, les vistes panoràmiques són molt bones.",
-			"Les dues ressenyes són circulars llargues que surten de Paüls, de manera que es tracta d'una jornada completa de muntanya i no d'una passejada. Convé conèixer bé l'orientació, perquè segons el bloc la senyalització al començament és escassa i només millora a partir d'un coll."
+			"El Tossal d'Engrilló és al sector nord del Parc Natural dels Ports, [al Baix Ebre](/comarques/baix-ebre) i al límit amb la Terra Alta: hi conflueixen els termes de Paüls, Prat de Comte i Horta de Sant Joan. El parc el presenta, amb la Refoia i els Montsagres, com un dels conjunts paisatgístics més significatius de l'espai. És el punt més alt de la serra del Montsagre d'Horta i té un vèrtex geodèsic al cim.",
+			"Al peu del tossal, la Refoia és un replà més frescal que el vessant de Paüls, amb pastures, pinedes de pi negral i una bassa al coll Roig. A la pista que hi puja hi ha el teix d'Engrilló, un arbre monumental que dona nom a l'itinerari senyalitzat del parc. La muntanya acaba en parets escarpades i el cim s'aboca a un precipici.",
+			"Des de dalt es veuen les valls interiors dels Ports, la Terra Alta i el Matarranya, amb Horta de Sant Joan i les [Roques de Benet](/cims/roques-de-benet) en primer terme, i fins a la desembocadura de l'Ebre. El vent que sol bufar en aquestes serres neteja l'aire, però també fa incòmoda l'estona al cim.",
+			"Hi ha dues maneres ben diferents de pujar-hi: la volta curta des de la Refoia, si s'hi arriba amb vehicle alt o a peu pel GR 171, o una circular llarga des de Paüls que encadena la Punta de l'Aigua i el tossal. Els altres cims essencials dels Ports són el [Caro](/cims/caro) i el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis)."
 		],
 		es: [
-			"El Tossal d'Engrilló es una montaña de los Ports de Tortosa-Beseit, [en el Baix Ebre](/comarques/baix-ebre), en el límite con la Terra Alta: la Viquipèdia lo sitúa entre los términos de Paüls, de Horta de Sant Joan y de Prat de Comte. Queda dentro del Parc Natural dels Ports y tiene un vértice geodésico en la cima. Las rocas son calizas, dolomías y margas.",
-			'El Parc Natural dels Ports se declaró el 12 de junio de 2001 por el Decreto 160/2001 y tiene 35.050 ha. Según la Viquipèdia, predominan las rocas carbonatadas, de las que salen gargantas, cuevas y surgencias, y el punto más alto es el [Caro](/cims/caro), de 1.441 m. Otra cima esencial de la sierra, ya en la parte meridional, es el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis); y en Horta de Sant Joan están las [Roques de Benet](/cims/roques-de-benet) y [Santa Bàrbara](/cims/santa-barbara).',
-			"Hiking Iberia, que incluye el tossal en una circular por el oeste del parque, lo presenta como un segundo pico, después de la Punta de l'Aigua, y destaca sus paredes rocosas escarpadas. Reptes Muntanyencs añade que los caminos pasan junto a cuevas y simas, que encontró «un pequeño pozo que le dificultaba el paso» y que el itinerario pasa por todo tipo de terreno: pistas, caminos, senderos y algunos tramos fuera de camino. En la cima, según este blog, las vistas panorámicas son muy buenas.",
-			'Las dos reseñas son circulares largas que salen de Paüls, de modo que se trata de una jornada completa de montaña y no de un paseo. Conviene conocer bien la orientación, porque según el blog la señalización al principio es escasa y solo mejora a partir de un collado.'
+			"El Tossal d'Engrilló está en el sector norte del Parc Natural dels Ports, [en el Baix Ebre](/comarques/baix-ebre) y en el límite con la Terra Alta: confluyen en él los términos de Paüls, Prat de Comte y Horta de Sant Joan. El parque lo presenta, con la Refoia y los Montsagres, como uno de los conjuntos paisajísticos más significativos del espacio. Es el punto más alto de la sierra del Montsagre d'Horta y tiene un vértice geodésico en la cima.",
+			'Al pie del tossal, la Refoia es un rellano más fresco que la vertiente de Paüls, con pastos, pinares de pino laricio y una balsa en el coll Roig. En la pista que sube está el tejo de Engrilló, un árbol monumental que da nombre al itinerario señalizado del parque. La montaña termina en paredes escarpadas y la cima se asoma a un precipicio.',
+			'Desde arriba se ven los valles interiores de los Ports, la Terra Alta y el Matarranya, con Horta de Sant Joan y las [Roques de Benet](/cims/roques-de-benet) en primer término, y hasta la desembocadura del Ebro. El viento que suele soplar en estas sierras limpia el aire, pero también hace incómodo el rato en la cima.',
+			"Hay dos maneras muy distintas de subir: la vuelta corta desde la Refoia, si se llega con vehículo alto o a pie por el GR 171, o una circular larga desde Paüls que encadena la Punta de l'Aigua y el tossal. Las otras cimas esenciales de los Ports son el [Caro](/cims/caro) y el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis)."
 		]
 	},
 	rutes: [
+		{
+			id: 'refoia-teix',
+			nom: {
+				ca: "Itinerari del Teix i el Tossal d'Engrilló, des de la Refoia",
+				es: "Itinerario del Teix y el Tossal d'Engrilló, desde la Refoia"
+			},
+			sortida: { nom: 'Aparcament de la Refoia (Paüls)' },
+			descripcio: {
+				ca: "És l'itinerari senyalitzat del Parc Natural dels Ports: una circular de 6,3 km, 240 m de desnivell i 1 h 30 min sense parades, de dificultat baixa segons el parc, que surt de l'aparcament de la Refoia, passa pel teix d'Engrilló i puja al tossal. La dificultat és arribar a la Refoia: el parc recomana vehicle tot terreny (uns 20 minuts des de Prat de Comte o des de Paüls). A peu pel GR 171 són 4,1 km, 541 m de desnivell i 1 h 30 min des de Paüls fins a la bassa del coll Roig, o 7,3 km, 520 m i 2 h des de l'àrea del Molí, a Prat de Comte.",
+				es: 'Es el itinerario señalizado del Parc Natural dels Ports: una circular de 6,3 km, 240 m de desnivel y 1 h 30 min sin paradas, de dificultad baja según el parque, que sale del aparcamiento de la Refoia, pasa por el tejo de Engrilló y sube al tossal. La dificultad es llegar a la Refoia: el parque recomienda vehículo todoterreno (unos 20 minutos desde Prat de Comte o desde Paüls). A pie por el GR 171 son 4,1 km, 541 m de desnivel y 1 h 30 min desde Paüls hasta la balsa del coll Roig, o 7,3 km, 520 m y 2 h desde el área del Molí, en Prat de Comte.'
+			},
+			fonts: [PARC_REFOIA]
+		},
 		{
 			id: 'pauls-punta-de-l-aigua',
 			nom: {
@@ -51,90 +70,77 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: 'Cementiri de Paüls' },
 			descripcio: {
-				ca: "Hiking Iberia proposa una circular que surt del costat del cementiri de Paüls i la qualifica de dificultat mitjana (5/15): 15,9 km, 6 h i 1.093 m de desnivell total, per pistes sense asfaltar i senders, amb senyalització blanquivermella parcial, fites i senyals. Passa pel coll de la Gilaberta, puja a la Punta de l'Aigua, continua cap al Montsagre d'Horta, arriba al Tossal d'Engrilló, baixa al coll de la Refoia i torna pel barranc del Montsagre. Les xifres són del circuit complet, que inclou la Punta de l'Aigua, no només de la pujada al tossal.",
-				es: "Hiking Iberia propone una circular que sale junto al cementerio de Paüls y la califica de dificultad media (5/15): 15,9 km, 6 h y 1.093 m de desnivel total, por pistas sin asfaltar y senderos, con señalización blanquirroja parcial, hitos y señales. Pasa por el coll de la Gilaberta, sube a la Punta de l'Aigua, continúa hacia el Montsagre d'Horta, llega al Tossal d'Engrilló, baja al coll de la Refoia y regresa por el barranc del Montsagre. Las cifras son del circuito completo, que incluye la Punta de l'Aigua, no solo de la subida al tossal."
+				ca: "La guia Hiking Iberia proposa una circular de 15,9 km, 6 h i 1.093 m de desnivell total, de dificultat mitjana, que surt del cementiri de Paüls per pistes i senders, amb senyals blancs i vermells en una part, fites i pals. Puja primer a la Punta de l'Aigua, continua pel coll de la Gilaberta i el Montsagre d'Horta fins al tossal i torna a Paüls per la Refoia. Aquestes xifres són de tota la volta amb els dos cims. El bloc Reptes Muntanyencs, que va fer un recorregut semblant el 2010, hi trobava poca senyalització fins al coll de l'Avenc i algun tram sense camí definit.",
+				es: "La guía Hiking Iberia propone una circular de 15,9 km, 6 h y 1.093 m de desnivel total, de dificultad media, que sale del cementerio de Paüls por pistas y senderos, con señales blancas y rojas en una parte, hitos y postes. Sube primero a la Punta de l'Aigua, continúa por el coll de la Gilaberta y el Montsagre d'Horta hasta el tossal y vuelve a Paüls por la Refoia. Estas cifras son de toda la vuelta con las dos cimas. El blog Reptes Muntanyencs, que hizo un recorrido parecido en 2010, encontraba poca señalización hasta el coll de l'Avenc y algún tramo sin camino definido."
 			},
-			fonts: [HIKINGIBERIA]
-		},
-		{
-			id: 'pauls-circular-bloc',
-			nom: {
-				ca: 'Circular des de Paüls en sentit horari',
-				es: 'Circular desde Paüls en sentido horario'
-			},
-			sortida: { nom: 'Paüls' },
-			descripcio: {
-				ca: "Reptes Muntanyencs documenta una altra circular de Paüls, en sentit horari: 14,7 km, uns 1.087 m de desnivell positiu i 4 h 15 min de marxa efectiva; el cim arriba als 8,9 km de la sortida i a 3 h 12 min. També passa per la Punta de l'Aigua. Hi ha senyals de PR, pintura vermella i fites; al començament, però, hi ha poca senyalització, i millora a partir del coll.",
-				es: "Reptes Muntanyencs documenta otra circular de Paüls, en sentido horario: 14,7 km, unos 1.087 m de desnivel positivo y 4 h 15 min de marcha efectiva; la cima llega a los 8,9 km de la salida y a 3 h 12 min. También pasa por la Punta de l'Aigua. Hay señales de PR, pintura roja e hitos; al comienzo, sin embargo, hay poca señalización, y mejora a partir del collado."
-			},
-			fonts: [REPTES]
+			fonts: [HIKINGIBERIA, REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"Els dos recorreguts documentats són circulars llargues, de més de 14 km i prop de 1.100 m de desnivell: planifica una jornada sencera i surt d'hora.",
-			'Segons el bloc, al començament hi ha poca senyalització i millora a partir del coll. Porta un track i un mapa.',
-			"Els camins passen a prop de coves i avencs: no te n'apropis a les boques.",
-			'Hiking Iberia indica senyalització blanquivermella parcial, fites i senyals; atenció als encreuaments dels camins.',
-			'Consulta la normativa vigent del Parc Natural dels Ports abans de sortir.'
+			"Decideix abans per on hi vas: des de la Refoia és una volta d'una hora i mitja; des de Paüls, una jornada sencera amb més de mil metres de desnivell.",
+			'Per pujar a la Refoia amb cotxe el parc recomana tot terreny. Amb un turisme, compta de fer a peu el tram del GR 171.',
+			"El cim s'acaba en un precipici: no t'acostis a la vora, sobretot amb vent.",
+			"Una part del parc coincideix amb la Reserva Nacional de Caça dels Ports de Tortosa i Beseit, que programa batudes de porc senglar entre setembre i març (web del parc, consulta del 2026). Mira'n el calendari abans de sortir i consulta la regulació vigent.",
+			"A la volta llarga, el bloc situava aigua a les fonts del Montsagre d'Horta i del Montsagre de Paüls, sense garanties de potabilitat: porta la teva."
 		],
 		es: [
-			'Los dos recorridos documentados son circulares largas, de más de 14 km y cerca de 1.100 m de desnivel: planifica una jornada entera y sal temprano.',
-			'Según el blog, al comienzo hay poca señalización y mejora a partir del collado. Lleva un track y un mapa.',
-			'Los caminos pasan cerca de cuevas y simas: no te acerques a las bocas.',
-			'Hiking Iberia indica señalización blanquirroja parcial, hitos y señales; atención a los cruces de caminos.',
-			'Consulta la normativa vigente del Parc Natural dels Ports antes de salir.'
+			'Decide antes por dónde vas: desde la Refoia es una vuelta de hora y media; desde Paüls, una jornada entera con más de mil metros de desnivel.',
+			'Para subir a la Refoia en coche el parque recomienda todoterreno. Con un turismo, cuenta con hacer a pie el tramo del GR 171.',
+			'La cima termina en un precipicio: no te acerques al borde, sobre todo con viento.',
+			'Una parte del parque coincide con la Reserva Nacional de Caça dels Ports de Tortosa i Beseit, que programa batidas de jabalí entre septiembre y marzo (web del parque, consulta de 2026). Mira el calendario antes de salir y consulta la regulación vigente.',
+			"En la vuelta larga, el blog situaba agua en las fuentes del Montsagre d'Horta y del Montsagre de Paüls, sin garantías de potabilidad: lleva la tuya."
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: "Quant es triga a pujar al Tossal d'Engrilló?",
+				pregunta: "Quina és la manera més curta de pujar al Tossal d'Engrilló?",
 				resposta:
-					"Hiking Iberia calcula 6 h per a la circular de 15,9 km des de Paüls, que també puja a la Punta de l'Aigua. Reptes Muntanyencs hi dedica 4 h 15 min de marxa efectiva en 14,7 km, amb el cim a 3 h 12 min de la sortida."
+					"L'itinerari del Teix i el Tossal d'Engrilló, del Parc Natural dels Ports: una circular de 6,3 km, 240 m de desnivell i 1 h 30 min des de l'aparcament de la Refoia, on el parc recomana arribar amb tot terreny."
 			},
 			{
-				pregunta: 'Hi ha un camí senyalitzat?',
+				pregunta: 'Quant es triga des de Paüls?',
 				resposta:
-					"Parcialment. Hiking Iberia parla de senyalització blanquivermella parcial, fites i senyals; el bloc diu que al començament n'hi ha poca i que millora a partir del coll."
+					"Pel GR 171 hi ha 1 h 30 min, 4,1 km i 541 m de desnivell fins a la bassa del coll Roig, a la Refoia, on comença l'itinerari del tossal. La circular llarga per la Punta de l'Aigua que descriu Hiking Iberia demana unes 6 h."
 			},
 			{
-				pregunta: 'Hi ha perills al camí?',
+				pregunta: 'Està senyalitzat?',
 				resposta:
-					'Reptes Muntanyencs anota que els camins passen a tocar de coves i avencs i que va trobar un petit avenc que li dificultava el pas; a més, part del recorregut és fora de camí.'
+					"L'itinerari de la Refoia és un dels senyalitzats pel parc, i el GR 171 uneix Paüls, la Refoia i Prat de Comte. A la circular per la Punta de l'Aigua la senyalització és parcial i hi ha trams de fites."
 			},
 			{
 				pregunta: "El Tossal d'Engrilló compta com a cim essencial?",
 				resposta:
-					'Sí, és un dels cims essencials dels Ports, amb el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), el [Caro](/cims/caro), les [Roques de Benet](/cims/roques-de-benet) i [Santa Bàrbara](/cims/santa-barbara). Consulta la [llista de cims essencials](/cims-essencials).'
+					'Sí, és un dels tres [cims essencials](/cims-essencials) del Baix Ebre, amb el [Caro](/cims/caro) i la [Creu de Santos](/cims/creu-de-santos).'
 			}
 		],
 		es: [
 			{
-				pregunta: "¿Cuánto se tarda en subir al Tossal d'Engrilló?",
+				pregunta: "¿Cuál es la manera más corta de subir al Tossal d'Engrilló?",
 				resposta:
-					"Hiking Iberia calcula 6 h para la circular de 15,9 km desde Paüls, que también sube a la Punta de l'Aigua. Reptes Muntanyencs dedica 4 h 15 min de marcha efectiva en 14,7 km, con la cima a 3 h 12 min de la salida."
+					"El itinerario del Teix y el Tossal d'Engrilló, del Parc Natural dels Ports: una circular de 6,3 km, 240 m de desnivel y 1 h 30 min desde el aparcamiento de la Refoia, adonde el parque recomienda llegar con todoterreno."
 			},
 			{
-				pregunta: '¿Hay un camino señalizado?',
+				pregunta: '¿Cuánto se tarda desde Paüls?',
 				resposta:
-					'Parcialmente. Hiking Iberia habla de señalización blanquirroja parcial, hitos y señales; el blog dice que al comienzo hay poca y que mejora a partir del collado.'
+					"Por el GR 171 hay 1 h 30 min, 4,1 km y 541 m de desnivel hasta la balsa del coll Roig, en la Refoia, donde empieza el itinerario del tossal. La circular larga por la Punta de l'Aigua que describe Hiking Iberia pide unas 6 h."
 			},
 			{
-				pregunta: '¿Hay peligros en el camino?',
+				pregunta: '¿Está señalizado?',
 				resposta:
-					'Reptes Muntanyencs anota que los caminos pasan junto a cuevas y simas y que encontró un pequeño pozo que le dificultaba el paso; además, parte del recorrido es fuera de camino.'
+					"El itinerario de la Refoia es uno de los señalizados por el parque, y el GR 171 une Paüls, la Refoia y Prat de Comte. En la circular por la Punta de l'Aigua la señalización es parcial y hay tramos de hitos."
 			},
 			{
 				pregunta: "¿El Tossal d'Engrilló cuenta como cima esencial?",
 				resposta:
-					'Sí, es una de las cimas esenciales de los Ports, con el [Tossal dels Tres Reis](/cims/tossal-dels-tres-reis), el [Caro](/cims/caro), las [Roques de Benet](/cims/roques-de-benet) y [Santa Bàrbara](/cims/santa-barbara). Consulta la [lista de cimas esenciales](/cims-essencials).'
+					'Sí, es una de las tres [cimas esenciales](/cims-essencials) del Baix Ebre, con el [Caro](/cims/caro) y la [Creu de Santos](/cims/creu-de-santos).'
 			}
 		]
 	},
-	fonts: [VIQUIPEDIA, VIQUIPEDIA_PARC, HIKINGIBERIA, REPTES],
+	fonts: [VIQUIPEDIA, PARC_REFOIA, PARC_REGULACIO, HIKINGIBERIA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

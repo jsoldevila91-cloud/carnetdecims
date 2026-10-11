@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: "Viquipèdia: Mola d'Estat",
@@ -18,97 +18,96 @@ const fitxa: ContingutFitxa = {
 	slug: 'mola-d-estat',
 	descripcio: {
 		ca: [
-			"La Mola d'Estat és un cim de les Muntanyes de Prades, a [la Conca de Barberà](/comarques/conca-de-barbera), al límit entre els termes de Vimbodí i Poblet i de Prades, ja al Baix Camp. La Viquipèdia en descriu la roca com a gres i argila, parla dels seus cingles i recorda que el GR-171 passa pel cim. Dins les mateixes muntanyes hi ha el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana) i la [Punta del Curull](/cims/punta-del-curull).",
-			"La tradició local, recollida per la Viquipèdia, parla dels quatre batlles: quan s'havien de tallar pins, els batlles dels pobles veïns es reunien a la Taula dels Quatre Batlles, a uns 400 m al llarg de la carena, per acordar els límits de la tala, ja que alguns boscos eren compartits. A la vora de la roca hi ha tres creus metàl·liques, les Tres Creus. La Viquipèdia afegeix que el cim és a uns 2,7 km per pistes forestals del refugi dels Cogullons.",
-			"Reptes Muntanyencs descriu la mola com un mirador sobre la vall de Capafons i de Farena, per l'oest i el sud, i sobre la vall de Poblet, per la banda nord. També diu que el camí que s'hi enfila va ser molt important i encara conserva restes del seu antic empedrat. La ressenya té trams sense camí, i el bloc no va saber trobar un pas que permetés desgrimpar pel cingle: no hi tallis camí.",
-			"El recorregut s'enllaça amb diverses marques: el PR-20 (pintura groga i blanca), el GR-171 (blanca i vermella) i un sender local verd i blanc, mentre que un tram sense pintura es guia només amb algunes fites."
+			"La Mola d'Estat és un tossal de les Muntanyes de Prades, a [la Conca de Barberà](/comarques/conca-de-barbera) i al límit amb el Baix Camp: fa de partió entre els termes de Vimbodí i Poblet i de Prades. És una mola de cim pla i vores tallades en cingle, com tantes d'aquest massís, a la carena que tanca pel sud la vall de Poblet.",
+			"El tret que la identifica són les Tres Creus, tres creus metàl·liques clavades a la roca arran del cingle. Seguint la carena cap a llevant, a uns 400 m, hi ha la Taula dels Quatre Batlles, on s'ajunten també els termes de Montblanc i de Mont-ral. La tradició explica que, quan calia fer una tallada de pins, els quatre batlles s'hi reunien per pactar-ne les condicions, perquè alguns boscos eren compartits. Una mica més enllà hi ha el vèrtex geodèsic i la mola dels Quatre Termes.",
+			"Des de les creus es domina la vall del Brugent, amb Capafons i Farena, i bona part de les Muntanyes de Prades; pel costat nord s'obre la vall de Poblet. A la mateixa serralada hi ha el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana) i, més a ponent, la [Punta del Curull](/cims/punta-del-curull).",
+			'El GR 171 passa a tocar del cim i el refugi dels Cogullons queda a uns 2,7 km per pistes forestals, de manera que la mola es pot fer com a passeig llarg des de dalt o com a ascensió sencera des de Farena, al fons de la vall del Brugent.'
 		],
 		es: [
-			"La Mola d'Estat es una cima de las Muntanyes de Prades, en [la Conca de Barberà](/comarques/conca-de-barbera), en el límite entre los términos de Vimbodí i Poblet y de Prades, ya en el Baix Camp. La Viquipèdia describe su roca como arenisca y arcilla, habla de sus riscos y recuerda que el GR-171 pasa por la cima. Dentro de las mismas montañas están el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana) y la [Punta del Curull](/cims/punta-del-curull).",
-			'La tradición local, recogida por la Viquipèdia, habla de los cuatro alcaldes: cuando se tenían que talar pinos, los alcaldes de los pueblos vecinos se reunían en la Taula dels Quatre Batlles, a unos 400 m a lo largo de la cresta, para acordar los límites de la tala, ya que algunos bosques eran compartidos. En el borde de la roca hay tres cruces metálicas, las Tres Creus. La Viquipèdia añade que la cima está a unos 2,7 km por pistas forestales del refugio de los Cogullons.',
-			'Reptes Muntanyencs describe la mola como un mirador sobre el valle de Capafons y de Farena, por el oeste y el sur, y sobre el valle de Poblet, por el lado norte. También dice que el camino que sube fue muy importante y todavía conserva restos de su antiguo empedrado. La reseña tiene tramos sin camino, y el blog no supo encontrar un paso que permitiera destrepar el risco: no cortes camino por ahí.',
-			'El recorrido se enlaza con varias marcas: el PR-20 (pintura amarilla y blanca), el GR-171 (blanca y roja) y un sendero local verde y blanco, mientras que un tramo sin pintura se guía solo con algunos hitos.'
+			"La Mola d'Estat es un cerro de las Muntanyes de Prades, en [la Conca de Barberà](/comarques/conca-de-barbera) y en el límite con el Baix Camp: hace de linde entre los términos de Vimbodí i Poblet y de Prades. Es una muela de cima llana y bordes cortados en risco, como tantas de este macizo, en la cresta que cierra por el sur el valle de Poblet.",
+			'El rasgo que la identifica son las Tres Creus, tres cruces metálicas clavadas en la roca al borde del risco. Siguiendo la cresta hacia levante, a unos 400 m, está la Taula dels Quatre Batlles, donde se juntan también los términos de Montblanc y de Mont-ral. La tradición cuenta que, cuando había que hacer una tala de pinos, los cuatro alcaldes se reunían allí para pactar las condiciones, porque algunos bosques eran compartidos. Algo más allá están el vértice geodésico y la mola dels Quatre Termes.',
+			'Desde las cruces se domina el valle del Brugent, con Capafons y Farena, y buena parte de las Muntanyes de Prades; por el lado norte se abre el valle de Poblet. En la misma sierra están el [Tossal de la Baltasana](/cims/tossal-de-la-baltasana) y, más a poniente, la [Punta del Curull](/cims/punta-del-curull).',
+			'El GR 171 pasa junto a la cima y el refugio de los Cogullons queda a unos 2,7 km por pistas forestales, de modo que la mola se puede hacer como paseo largo desde arriba o como ascensión entera desde Farena, en el fondo del valle del Brugent.'
 		]
 	},
 	rutes: [
 		{
 			id: 'farena',
 			nom: {
-				ca: 'Circular des de Farena per la Roquerola',
-				es: 'Circular desde Farena por la Roquerola'
+				ca: 'Des de Farena pel refugi dels Cogullons',
+				es: 'Desde Farena por el refugio de los Cogullons'
 			},
 			sortida: { nom: 'Farena (Mont-ral)' },
-			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt de Farena: 13,9 km, uns 676 m de desnivell positiu i 3 h 51 min de marxa efectiva. Segons el seu track, la Mola d'Estat s'assoleix a 2 h 56 min i 8,3 km de la sortida, i la Mola de la Roquerola, a 3 h 39 min i 10 km. La progressió s'anota com «trams sense camí» i només alguns punts tenen marques de PR i GR; hi ha un sender sense pintura però amb algunes fites.",
-				es: "Reptes Muntanyencs documenta una circular que sale de Farena: 13,9 km, unos 676 m de desnivel positivo y 3 h 51 min de marcha efectiva. Según su track, la Mola d'Estat se alcanza a 2 h 56 min y 8,3 km de la salida, y la Mola de la Roquerola, a 3 h 39 min y 10 km. La progresión se anota como «tramos sin camino» y solo algunos puntos tienen marcas de PR y GR; hay un sendero sin pintura pero con algunos hitos."
+				ca: "La ressenya del bloc Reptes Muntanyencs (2012) surt de Farena pel PR-C 20, l'antic camí de la Bartra i els Cogullons, que encara conserva trossos d'empedrat. Passada la Bartra pren la pista de la Baridana i un camí senyalitzat que puja per la font Freda i la font del Grèvol fins al GR 171 i el refugi dels Cogullons (5,6 km). D'allà se segueix sempre el GR cap a ponent pel colletó d'en Serra, el clot del Llop, la mola dels Quatre Termes i la Taula dels Quatre Batlles fins a les Tres Creus: 8,3 km des de Farena i poc menys de tres hores amb les aturades. El bloc tancava una circular de 13,9 km i 676 m de desnivell positiu per la mola de la Roquerola, amb trams sense camí; tornar pel camí de pujada és més llarg, però no té pèrdua.",
+				es: "La reseña del blog Reptes Muntanyencs (2012) sale de Farena por el PR-C 20, el antiguo camino de la Bartra y los Cogullons, que aún conserva trozos de empedrado. Pasada la Bartra toma la pista de la Baridana y un camino señalizado que sube por la font Freda y la font del Grèvol hasta el GR 171 y el refugio de los Cogullons (5,6 km). Desde allí se sigue siempre el GR hacia poniente por el colletó d'en Serra, el clot del Llop, la mola dels Quatre Termes y la Taula dels Quatre Batlles hasta las Tres Creus: 8,3 km desde Farena y algo menos de tres horas con las paradas. El blog cerraba una circular de 13,9 km y 676 m de desnivel positivo por la mola de la Roquerola, con tramos sin camino; volver por el camino de subida es más largo, pero no tiene pérdida."
 			},
-			fonts: [REPTES]
+			fonts: [REPTES, VIQUIPEDIA]
 		}
 	],
 	consells: {
 		ca: [
-			'Segons el bloc, hi ha trams sense camí i un sender sense pintura que només té algunes fites: porta el track i un mapa.',
-			"La circular continua fins a la Mola de la Roquerola, que és un segon cim del recorregut: no confonguis els temps de l'un i de l'altre.",
-			'No intentis baixar pels cingles: el bloc no va trobar cap pas per desgrimpar.',
-			'El GR-171 passa pel cim; pots fer-lo servir de referència.',
-			"Telèfon d'emergències: 112."
+			"Les creus són arran del cingle: no t'hi enfilis ni t'acostis a la vora per fer-te la foto.",
+			'Si tanques la circular per la mola de la Roquerola, tingues present que el bloc hi va trobar camins del mapa que ja no existeixen i cap pas per baixar el cingle: no hi improvisis.',
+			'Entre el coll de la Cova Fumada i el coll de Viladecabres el camí no té pintura, només algunes fites.',
+			'No hi ha fonts segures al recorregut; les que surten al mapa poden no rajar.'
 		],
 		es: [
-			'Según el blog, hay tramos sin camino y un sendero sin pintura que solo tiene algunos hitos: lleva el track y un mapa.',
-			'La circular continúa hasta la Mola de la Roquerola, que es una segunda cima del recorrido: no confundas los tiempos de una y otra.',
-			'No intentes bajar por los riscos: el blog no encontró ningún paso para destrepar.',
-			'El GR-171 pasa por la cima; puedes usarlo de referencia.',
-			'Teléfono de emergencias: 112.'
+			'Las cruces están al borde del risco: no te subas a ellas ni te acerques al borde para hacerte la foto.',
+			'Si cierras la circular por la mola de la Roquerola, ten presente que el blog encontró caminos del mapa que ya no existen y ningún paso para bajar el risco: no improvises.',
+			'Entre el coll de la Cova Fumada y el coll de Viladecabres el camino no tiene pintura, solo algunos hitos.',
+			'No hay fuentes seguras en el recorrido; las que salen en el mapa pueden no manar.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: "Quant es triga a pujar a la Mola d'Estat?",
+				pregunta: "Quant es triga a pujar a la Mola d'Estat des de Farena?",
 				resposta:
-					"Reptes Muntanyencs documenta una circular de 13,9 km des de Farena amb 3 h 51 min de marxa efectiva; segons el seu track, la Mola d'Estat queda a 2 h 56 min i 8,3 km de la sortida."
+					'El bloc Reptes Muntanyencs hi va arribar en poc menys de tres hores, aturades incloses, després de 8,3 km pel PR-C 20 i el GR 171. Tota la seva circular, de 13,9 km, li va demanar 3 h 51 min de marxa.'
 			},
 			{
-				pregunta: 'Per on passa el GR-171?',
-				resposta: "La Viquipèdia indica que el GR-171 passa pel mateix cim de la Mola d'Estat."
+				pregunta: "Hi ha una manera més curta d'arribar-hi?",
+				resposta:
+					'El cim és a uns 2,7 km del refugi dels Cogullons per pistes forestals i pel GR 171, amb poc desnivell.'
 			},
 			{
 				pregunta: 'Què són les Tres Creus?',
 				resposta:
-					'Tres creus metàl·liques fixades a la vora de la roca, segons la Viquipèdia, a prop de la Taula dels Quatre Batlles, on la tradició diu que es reunien els batlles.'
+					'Tres creus metàl·liques clavades a la roca, a la vora del cingle, que identifiquen el cim. A uns 400 m hi ha la Taula dels Quatre Batlles, on la tradició diu que es reunien els batlles dels quatre termes.'
 			},
 			{
 				pregunta: "La Mola d'Estat compta com a cim essencial?",
 				resposta:
-					'Sí, és un dels [cims essencials](/cims-essencials) de la Conca de Barberà, amb la [Punta del Curull](/cims/punta-del-curull).'
+					'Sí. La llista la situa a la Conca de Barberà, on és un dels quatre [cims essencials](/cims-essencials), tot i que fa partió amb el Baix Camp.'
 			}
 		],
 		es: [
 			{
-				pregunta: "¿Cuánto se tarda en subir a la Mola d'Estat?",
+				pregunta: "¿Cuánto se tarda en subir a la Mola d'Estat desde Farena?",
 				resposta:
-					"Reptes Muntanyencs documenta una circular de 13,9 km desde Farena con 3 h 51 min de marcha efectiva; según su track, la Mola d'Estat queda a 2 h 56 min y 8,3 km de la salida."
+					'El blog Reptes Muntanyencs llegó en algo menos de tres horas, paradas incluidas, tras 8,3 km por el PR-C 20 y el GR 171. Toda su circular, de 13,9 km, le pidió 3 h 51 min de marcha.'
 			},
 			{
-				pregunta: '¿Por dónde pasa el GR-171?',
-				resposta: "La Viquipèdia indica que el GR-171 pasa por la propia cima de la Mola d'Estat."
+				pregunta: '¿Hay una manera más corta de llegar?',
+				resposta:
+					'La cima está a unos 2,7 km del refugio de los Cogullons por pistas forestales y por el GR 171, con poco desnivel.'
 			},
 			{
 				pregunta: '¿Qué son las Tres Creus?',
 				resposta:
-					'Tres cruces metálicas fijadas en el borde de la roca, según la Viquipèdia, cerca de la Taula dels Quatre Batlles, donde la tradición dice que se reunían los alcaldes.'
+					'Tres cruces metálicas clavadas en la roca, al borde del risco, que identifican la cima. A unos 400 m está la Taula dels Quatre Batlles, donde la tradición dice que se reunían los alcaldes de los cuatro términos.'
 			},
 			{
 				pregunta: "¿La Mola d'Estat cuenta como cima esencial?",
 				resposta:
-					'Sí, es una de las [cimas esenciales](/cims-essencials) de la Conca de Barberà, con la [Punta del Curull](/cims/punta-del-curull).'
+					'Sí. La lista la sitúa en la Conca de Barberà, donde es una de las cuatro [cimas esenciales](/cims-essencials), aunque hace de linde con el Baix Camp.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

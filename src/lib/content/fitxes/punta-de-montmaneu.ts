@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Punta de Montmaneu',
@@ -8,14 +8,8 @@ const VIQUIPEDIA = {
 	consultat: CONSULTAT
 };
 
-const WIKIPEDIA = {
-	nom: 'Wikipedia: Montmeneu',
-	url: 'https://en.wikipedia.org/wiki/Montmeneu',
-	consultat: CONSULTAT
-};
-
 const REPTES = {
-	nom: 'Reptes Muntanyencs: Punta de Montmeneu',
+	nom: 'Reptes Muntanyencs: Montmeneu',
 	url: 'https://reptesmuntanyencs.cat/montmeneu/',
 	consultat: CONSULTAT
 };
@@ -24,45 +18,45 @@ const fitxa: ContingutFitxa = {
 	slug: 'punta-de-montmaneu',
 	descripcio: {
 		ca: [
-			"La Punta de Montmaneu és un turó solitari del terme de Seròs, al [Segrià](/comarques/segria). Segons la Viquipèdia, és una muntanya aïllada de la part occidental de la Depressió Central i, com que els voltants són força plans, es veu des de lluny. La roca és de gres, argila i guix, hi ha un vèrtex geodèsic al cim, i la Viquipèdia el situa dins l'espai protegit de Seròs-Tossals de Montmaneu.",
-			"La Punta de Montmaneu és l'únic cim essencial del Segrià a la llista del repte. Segons el bloc Reptes Muntanyencs, si es tria el dia correcte les vistes seran molt bones: aquí conflueixen els rius Segre i Cinca i creen un espai aquàtic i vegetal especial.",
-			"El bloc hi puja des del Mas de l'Hereu en una circular de pistes, alguns corriols i un sender final fins al cim. Al començament la pista és en bon estat, però ràpidament es torna deficient. El cim s'indica amb un pal indicador que marca la direcció a seguir, i el camí es reconeix per una fita amb una marca de pintura que sembla de GR."
+			"La Punta de Montmaneu és una muntanya aïllada de l'extrem occidental de la Depressió Central, al terme de Seròs, [al Segrià](/comarques/segria). Com que tot el que l'envolta és relativament pla, es veu des de molt lluny i, de dalt estant, la vista sobre la plana és molt àmplia els dies clars. És de gres, argila i guix, té un vèrtex geodèsic al cim i dona nom a l'espai natural dels tossals de Montmaneu.",
+			"És el cim emblemàtic de la comarca i molta gent el té pel sostre del Segrià, tot i que el puntal dels Escambrons, a Almatret, és uns metres més alt. El nom s'ha escrit sovint Montmeneu, i així consta a la llista del repte; la forma que recull la toponímia és Montmaneu, com el poble de l'Anoia.",
+			"A pocs quilòmetres hi ha la Granja d'Escarp i l'aiguabarreig del Segre i el Cinca, un espai fluvial que val la pena lligar amb la pujada. El cim és l'únic essencial del Segrià; a la comarca veïna de les Garrigues hi ha [els Bessons](/cims/els-bessons).",
+			'És una excursió curta de mig matí, per pistes entre camps i masades. Convé triar un dia net: amb boira o calitja el cim perd tota la gràcia.'
 		],
 		es: [
-			'La Punta de Montmaneu es un cerro solitario del término de Seròs, en el [Segrià](/comarques/segria). Según la Viquipèdia, es una montaña aislada de la parte occidental de la Depressió Central y, como los alrededores son bastante llanos, se ve desde lejos. La roca es de arenisca, arcilla y yeso, hay un vértice geodésico en la cima, y la Viquipèdia la sitúa dentro del espacio protegido de Seròs-Tossals de Montmaneu.',
-			'La Punta de Montmaneu es la única cima esencial del Segrià en la lista del reto. Según el blog Reptes Muntanyencs, si se elige el día correcto las vistas serán muy buenas: aquí confluyen los ríos Segre y Cinca y crean un espacio acuático y vegetal especial.',
-			"El blog sube desde el Mas de l'Hereu en una circular de pistas, algunas sendas y un sendero final hasta la cima. Al comienzo la pista está en buen estado, pero rápidamente se vuelve deficiente. La cima se indica con un poste indicador que marca la dirección a seguir, y el camino se reconoce por un hito con una marca de pintura que parece de GR."
+			'La Punta de Montmaneu es una montaña aislada del extremo occidental de la Depresión Central, en el término de Seròs, [en el Segrià](/comarques/segria). Como todo lo que la rodea es relativamente llano, se ve desde muy lejos y, desde arriba, la vista sobre el llano es muy amplia en los días claros. Es de arenisca, arcilla y yeso, tiene un vértice geodésico en la cima y da nombre al espacio natural de los tossals de Montmaneu.',
+			'Es la cima emblemática de la comarca y mucha gente la tiene por el techo del Segrià, aunque el puntal dels Escambrons, en Almatret, es unos metros más alto. El nombre se ha escrito a menudo Montmeneu, y así consta en la lista del reto; la forma que recoge la toponimia es Montmaneu, como el pueblo de la Anoia.',
+			"A pocos kilómetros están la Granja d'Escarp y el aiguabarreig del Segre y el Cinca, un espacio fluvial que merece la pena enlazar con la subida. La cima es la única esencial del Segrià; en la comarca vecina de las Garrigues están [els Bessons](/cims/els-bessons).",
+			'Es una excursión corta de media mañana, por pistas entre campos y masadas. Conviene elegir un día limpio: con niebla o calima la cima pierde toda su gracia.'
 		]
 	},
 	rutes: [
 		{
 			id: 'mas-de-l-hereu',
 			nom: {
-				ca: "Circular des del Mas de l'Hereu",
-				es: "Circular desde el Mas de l'Hereu"
+				ca: "Circular des del mas de l'Hereu",
+				es: "Circular desde el mas de l'Hereu"
 			},
 			sortida: { nom: "Mas de l'Hereu (Seròs)" },
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt del Mas de l'Hereu, majoritàriament per pistes i amb alguns corriols i un sender fins al cim: 8 km, uns 248 m de desnivell positiu i 2 h 28 min de marxa efectiva. Segons el seu track, el cim queda als 4,9 km de la sortida. La pista comença en bon estat i s'empitjora de pressa; hi ha una fita amb una marca de pintura que sembla de GR i un pal indicador cap al cim.",
-				es: "Reptes Muntanyencs documenta una circular que sale del Mas de l'Hereu, mayoritariamente por pistas y con algunas sendas y un sendero hasta la cima: 8 km, unos 248 m de desnivel positivo y 2 h 28 min de marcha efectiva. Según su track, la cima queda a los 4,9 km de la salida. La pista empieza en buen estado y empeora deprisa; hay un hito con una marca de pintura que parece de GR y un poste indicador hacia la cima."
+				ca: "La ressenya del bloc Reptes Muntanyencs (2013) fa una circular de 8 km i 248 m de desnivell positiu en 2 h 28 min de marxa, amb el cim a 4,9 km de la sortida. Del mas se segueixen pistes cap al sud-oest, entre camps i masades, fins a un pal indicador del Montmeneu; d'allà una pista porta a una antena i, poc després, un sender curt i molt dret puja al cim. Es baixa pel mateix sender i es torna per la carena cap al nord-oest i per la pista de la vall de Dana, que comença bé i de seguida es fa dolenta. Per arribar al mas hi ha 600 m de pista de terra que poden demanar un vehicle alt.",
+				es: 'La reseña del blog Reptes Muntanyencs (2013) hace una circular de 8 km y 248 m de desnivel positivo en 2 h 28 min de marcha, con la cima a 4,9 km de la salida. Desde el mas se siguen pistas hacia el suroeste, entre campos y masadas, hasta un poste indicador del Montmeneu; desde allí una pista lleva a una antena y, poco después, un sendero corto y muy empinado sube a la cima. Se baja por el mismo sendero y se vuelve por la cresta hacia el noroeste y por la pista de la vall de Dana, que empieza bien y enseguida empeora. Para llegar al mas hay 600 m de pista de tierra que pueden pedir un vehículo alto.'
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			'La pista empitjora de pressa després del començament, segons el bloc: compta amb més temps del previst.',
-			'Tria un dia clar: el bloc destaca que, amb dia correcte, les vistes seran molt bones.',
-			'Segueix la fita amb pintura de GR i el pal indicador cap al cim.',
-			"Porta tota l'aigua des de la sortida.",
-			"Telèfon d'emergències: 112."
+			'No hi ha aigua en tot el recorregut: porta-la tota des de la sortida.',
+			'Les pistes es bifurquen sovint i la senyalització és parcial: porta el track.',
+			"Per aquestes pistes hi circulen motos de trial; para l'orella als revolts.",
+			'Si vols fer també el puntal dels Escambrons, és a Almatret, a una vintena de quilòmetres per carretera.'
 		],
 		es: [
-			'La pista empeora deprisa tras el comienzo, según el blog: cuenta con más tiempo del previsto.',
-			'Elige un día claro: el blog destaca que, con un día correcto, las vistas serán muy buenas.',
-			'Sigue el hito con pintura de GR y el poste indicador hacia la cima.',
-			'Lleva toda el agua desde la salida.',
-			'Teléfono de emergencias: 112.'
+			'No hay agua en todo el recorrido: llévala toda desde la salida.',
+			'Las pistas se bifurcan a menudo y la señalización es parcial: lleva el track.',
+			'Por estas pistas circulan motos de trial; atento en las curvas.',
+			'Si quieres hacer también el puntal dels Escambrons, está en Almatret, a una veintena de kilómetros por carretera.'
 		]
 	},
 	faq: {
@@ -70,48 +64,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Punta de Montmaneu?',
 				resposta:
-					"Reptes Muntanyencs documenta una circular de 8 km des del Mas de l'Hereu amb 2 h 28 min de marxa efectiva; segons el seu track, el cim queda als 4,9 km de la sortida."
+					"El bloc Reptes Muntanyencs hi va arribar en una hora i mitja, aturades incloses, després de 4,9 km des del mas de l'Hereu. La circular sencera fa 8 km i 248 m de desnivell."
 			},
 			{
-				pregunta: 'És una ruta difícil?',
+				pregunta: 'És el sostre del Segrià?',
 				resposta:
-					'El bloc la fa majoritàriament per pistes, algunes en mal estat, amb corriols i un sender fins al cim; la dificultat de progressió que anota és baixa.'
+					"És el cim més conegut de la comarca i sovint se'l presenta així, però el puntal dels Escambrons, a Almatret, és uns metres més alt."
 			},
 			{
-				pregunta: 'Què es veu des del cim?',
+				pregunta: "S'escriu Montmaneu o Montmeneu?",
 				resposta:
-					'El bloc diu que, si el dia acompanya, les vistes són molt bones, amb la confluència dels rius Segre i Cinca.'
+					'La toponímia recull Montmaneu; la forma Montmeneu, molt estesa i present a la llista del repte, es considera una hipercorrecció.'
 			},
 			{
 				pregunta: 'Compta com a cim essencial?',
-				resposta: "Sí, és l'únic [cim essencial](/cims-essencials) del Segrià."
+				resposta:
+					"Sí, és l'únic [cim essencial](/cims-essencials) del Segrià a la llista del repte."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Punta de Montmaneu?',
 				resposta:
-					"Reptes Muntanyencs documenta una circular de 8 km desde el Mas de l'Hereu con 2 h 28 min de marcha efectiva; según su track, la cima queda a los 4,9 km de la salida."
+					"El blog Reptes Muntanyencs llegó en una hora y media, paradas incluidas, tras 4,9 km desde el mas de l'Hereu. La circular entera tiene 8 km y 248 m de desnivel."
 			},
 			{
-				pregunta: '¿Es una ruta difícil?',
+				pregunta: '¿Es el techo del Segrià?',
 				resposta:
-					'El blog la hace mayoritariamente por pistas, algunas en mal estado, con sendas y un sendero hasta la cima; la dificultad de progresión que anota es baja.'
+					'Es la cima más conocida de la comarca y a menudo se la presenta así, pero el puntal dels Escambrons, en Almatret, es unos metros más alto.'
 			},
 			{
-				pregunta: '¿Qué se ve desde la cima?',
+				pregunta: '¿Se escribe Montmaneu o Montmeneu?',
 				resposta:
-					'El blog dice que, si el día acompaña, las vistas son muy buenas, con la confluencia de los ríos Segre y Cinca.'
+					'La toponimia recoge Montmaneu; la forma Montmeneu, muy extendida y presente en la lista del reto, se considera una hipercorrección.'
 			},
 			{
 				pregunta: '¿Cuenta como cima esencial?',
-				resposta: 'Sí, es la única [cima esencial](/cims-essencials) del Segrià.'
+				resposta:
+					'Sí, es la única [cima esencial](/cims-essencials) del Segrià en la lista del reto.'
 			}
 		]
 	},
-	fonts: [VIQUIPEDIA, WIKIPEDIA, REPTES],
+	fonts: [VIQUIPEDIA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

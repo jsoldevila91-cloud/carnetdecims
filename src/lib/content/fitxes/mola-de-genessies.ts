@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Mola de Genessies',
@@ -30,16 +30,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'mola-de-genessies',
 	descripcio: {
 		ca: [
-			"La Mola de Genessies és un cim de pedra calcària i dolomia a cavall dels termes de Vandellòs i l'Hospitalet de l'Infant, [al Baix Camp](/comarques/baix-camp), i de Tivissa, ja a la Ribera d'Ebre. La Viquipèdia la situa dins l'espai protegit de les Muntanyes de Tivissa-Vandellòs i hi anota un vèrtex geodèsic al cim. La Gran Enciclopèdia Catalana l'esmenta entre els relleus que voregen la vall del riu de Llastres.",
-			"La mateixa Viquipèdia descriu les Muntanyes de Tivissa-Vandellòs com a «seques, esquerpes i gairebé despoblades»: una serralada calcària de costers solans coberts de màquia i garriga, amb alzinars a les obagues, on viu l'àguila daurada. El conjunt va entrar al PEIN pel Decret 328/1992, va ser declarat LIC el 1997 i ZEPA el 2005 i forma part de la xarxa Natura 2000. A prop teniu el [Molló Puntaire](/cims/mollo-puntaire), el cim més alt d'aquestes muntanyes, i [la Tossa de Tivissa](/cims/la-tossa-tivissa).",
-			"La Gran Enciclopèdia Catalana ensenya també el patrimoni humà de la muntanya. Al vessant sud-oriental de la mola, per sobre del barranc Fondo, hi ha Gavadà, un nucli despoblat que conserva les restes de la torre circular més antiga del terme; i la masia de Genessies té una torre defensiva del segle XVI. El bloc Reptes Muntanyencs, que recorre la zona, diu que el Mas de Genessies sembla deshabitat però que va tenir la seva importància, i que a prop del cim, on es parla d'un possible poblat ibèric, només hi ha un munt de pedres que fan pensar en tancats de ramats.",
-			"El bloc afirma que les vistes des del cim són molt bones. L'autor recomana pantalons llargs per la brossa que hi ha als senders."
+			"La Mola de Genessies és una de les moles calcàries de les Muntanyes de Tivissa-Vandellòs, [al Baix Camp](/comarques/baix-camp) i al límit amb la Ribera d'Ebre: fa de partió entre el terme de Vandellòs i l'Hospitalet de l'Infant i el de Tivissa. Tanca per ponent la vall del riu de Llastres i té un vèrtex geodèsic al cim. L'espai és protegit, dins el PEIN des del 1992 i la xarxa Natura 2000.",
+			'Pren el nom del mas de Genessies, un dels més vells del massís, avui aparentment deshabitat. Al vessant sud-oriental, damunt el barranc Fondo, el veïnat de Gavadà conserva les restes de la torre més antiga del terme, de planta circular; el 1606 hi va haver una baralla entre colles de bandolers. A prop del cim els mapes situen un poblat ibèric, del qual sobre el terreny no es veu més que un munt de pedres.',
+			"Dalt de la mola, envoltada de cingles, la vista és de les àmplies d'aquest tros de costa: Tarragona i el cap de Salou, el delta de l'Ebre, la serra de Cardó i la de Llaberia. A la mateixa serralada hi ha el [Molló Puntaire](/cims/mollo-puntaire), que n'és el punt més alt, i [la Tossa de Tivissa](/cims/la-tossa-tivissa).",
+			'Són muntanyes seques i poc trepitjades. Els senders, sovint simples passos de senglar entre la brolla, obliguen a anar amb les cames tapades i a no refiar-se de trobar marques.'
 		],
 		es: [
-			"La Mola de Genessies es una cima de piedra caliza y dolomía a caballo de los términos de Vandellòs i l'Hospitalet de l'Infant, [en el Baix Camp](/comarques/baix-camp), y de Tivissa, ya en la Ribera d'Ebre. La Viquipèdia la sitúa dentro del espacio protegido de las Muntanyes de Tivissa-Vandellòs y anota un vértice geodésico en la cima. La Gran Enciclopèdia Catalana la menciona entre los relieves que bordean el valle del río de Llastres.",
-			'La misma Viquipèdia describe las Muntanyes de Tivissa-Vandellòs como «secas, escarpadas y casi despobladas»: una sierra caliza de laderas solanas cubiertas de maquia y garriga, con encinares en las umbrías, donde vive el águila real. El conjunto entró en el PEIN por el Decreto 328/1992, fue declarado LIC en 1997 y ZEPA en 2005 y forma parte de la red Natura 2000. Cerca tienes el [Molló Puntaire](/cims/mollo-puntaire), la cima más alta de estas montañas, y [la Tossa de Tivissa](/cims/la-tossa-tivissa).',
-			'La Gran Enciclopèdia Catalana enseña también el patrimonio humano de la montaña. En la vertiente sudoriental de la mola, por encima del barranc Fondo, está Gavadà, un núcleo despoblado que conserva los restos de la torre circular más antigua del término; y la masía de Genessies tiene una torre defensiva del siglo XVI. El blog Reptes Muntanyencs, que recorre la zona, dice que el Mas de Genessies parece deshabitado pero que tuvo su importancia, y que cerca de la cima, donde se habla de un posible poblado ibérico, solo hay un montón de piedras que hacen pensar en rediles de ganado.',
-			'El blog afirma que las vistas desde la cima son muy buenas. El autor recomienda pantalones largos por la maleza que hay en los senderos.'
+			"La Mola de Genessies es una de las muelas calizas de las Muntanyes de Tivissa-Vandellòs, [en el Baix Camp](/comarques/baix-camp) y en el límite con la Ribera d'Ebre: hace de linde entre el término de Vandellòs i l'Hospitalet de l'Infant y el de Tivissa. Cierra por poniente el valle del río de Llastres y tiene un vértice geodésico en la cima. El espacio está protegido, dentro del PEIN desde 1992 y de la red Natura 2000.",
+			'Toma el nombre del mas de Genessies, uno de los más viejos del macizo, hoy aparentemente deshabitado. En la vertiente sudoriental, sobre el barranc Fondo, el caserío de Gavadà conserva los restos de la torre más antigua del término, de planta circular; en 1606 hubo allí una pelea entre cuadrillas de bandoleros. Cerca de la cima los mapas sitúan un poblado ibérico, del que sobre el terreno no se ve más que un montón de piedras.',
+			'En lo alto de la muela, rodeada de riscos, la vista es de las amplias de este tramo de costa: Tarragona y el cabo de Salou, el delta del Ebro, la sierra de Cardó y la de Llaberia. En la misma sierra están el [Molló Puntaire](/cims/mollo-puntaire), que es su punto más alto, y [la Tossa de Tivissa](/cims/la-tossa-tivissa).',
+			'Son montañas secas y poco pisadas. Los senderos, a menudo simples pasos de jabalí entre el matorral, obligan a ir con las piernas tapadas y a no fiarse de encontrar marcas.'
 		]
 	},
 	rutes: [
@@ -47,30 +47,31 @@ const fitxa: ContingutFitxa = {
 			id: 'cami-de-gavada',
 			nom: {
 				ca: 'Circular des del camí de Gavadà pel portell de Jovara',
-				es: 'Circular desde el camí de Gavadà por el portell de Jovara'
+				es: 'Circular desde el camino de Gavadà por el portell de Jovara'
 			},
-			sortida: { nom: 'Camí de Gavadà (carretera asfaltada)' },
+			sortida: { nom: "Camí de Gavadà (Vandellòs i l'Hospitalet de l'Infant)" },
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular, en sentit antihorari, que surt del camí de Gavadà i fa 9,1 km, uns 458 m de desnivell positiu i 2 h 37 min de marxa efectiva. Passa pel camí de Sant Jaume, el portell de Jovara i el portell d'en Gardell, i segons el seu track el cim arriba als 4,9 km de la sortida; la baixada passa pel coll del Rourar, el barranc Fondo i el Mas de Genessies. Barreja pistes, senders i alguns trams de traça tènue que cal intuir, i uns 1.500 m d'asfalt, sobretot al final. El bloc adverteix que el sender cap al cim no té cap senyalització ni fites.",
-				es: "Reptes Muntanyencs documenta una circular, en sentido antihorario, que sale del camí de Gavadà y tiene 9,1 km, unos 458 m de desnivel positivo y 2 h 37 min de marcha efectiva. Pasa por el camí de Sant Jaume, el portell de Jovara y el portell d'en Gardell, y según su track la cima llega a los 4,9 km de la salida; la bajada pasa por el coll del Rourar, el barranc Fondo y el Mas de Genessies. Mezcla pistas, senderos y algunos tramos de traza tenue que hay que intuir, y unos 1.500 m de asfalto, sobre todo al final. El blog advierte de que el sendero a la cima no tiene ninguna señalización ni hitos."
+				ca: "La ressenya del bloc Reptes Muntanyencs (2015) fa una circular de 9,1 km i 458 m de desnivell positiu en 2 h 37 min de marxa; el cim hi queda a 4,9 km de la sortida. Puja per una pista, sota una línia elèctrica, fins al portell de Jovara, baixa cap a la font de Jovara i pren un sender sense marques ni fites, mig tapat per la vegetació, fins a la moleta i el portell d'en Gardell. D'allà baixa un tros pel barranc Fondo fins a una gran fita, on comença el sender, ara sí fitat, que puja a la mola. Es baixa per un grau fàcil del costat de ponent fins al coll del Rourar i per un sender atorrentat fins al barranc Fondo i el mas de Genessies; l'últim quilòmetre i mig és d'asfalt.",
+				es: "La reseña del blog Reptes Muntanyencs (2015) hace una circular de 9,1 km y 458 m de desnivel positivo en 2 h 37 min de marcha; la cima queda a 4,9 km de la salida. Sube por una pista, bajo una línea eléctrica, hasta el portell de Jovara, baja hacia la font de Jovara y toma un sendero sin marcas ni hitos, medio tapado por la vegetación, hasta la moleta y el portell d'en Gardell. Desde allí baja un trecho por el barranc Fondo hasta un gran hito, donde empieza el sendero, ahora sí con hitos, que sube a la muela. Se baja por un paso fácil del lado de poniente hasta el coll del Rourar y por un sendero muy erosionado hasta el barranc Fondo y el mas de Genessies; el último kilómetro y medio es de asfalto."
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"El sender cap al cim no té senyalització ni fites, segons el bloc: porta el track i un mapa de l'ICGC, i no hi vagis amb boira.",
-			"La ressenya és de novembre del 2015. Comprova l'estat del recorregut abans de sortir.",
-			"Hi ha uns 1.500 m d'asfalt, sobretot al final de la circular, segons el bloc.",
-			"Porta pantalons llargs: el bloc ho recomana per la brossa dels senders. El bloc anota que no hi ha fonts d'aigua: surt amb tota l'aigua.",
-			"Si surts amb calor o vent, recorda que és un recorregut llarg per senders sense marques: val més girar cua que perdre's."
+			"El tram entre la font de Jovara i el portell d'en Gardell no té cap senyal: cal saber orientar-se i portar el track. Amb boira no és un lloc per improvisar.",
+			'Pantalons llargs, encara que faci calor: la brolla esgarrinxa.',
+			'No hi ha cap font en tot el recorregut.',
+			'Al punt de sortida només hi caben dos o tres cotxes.',
+			"La ressenya és del 2015 i l'estat dels senders pot haver canviat."
 		],
 		es: [
-			'El sendero a la cima no tiene señalización ni hitos, según el blog: lleva el track y un mapa del ICGC, y no vayas con niebla.',
-			'La reseña es de noviembre de 2015. Comprueba el estado del recorrido antes de salir.',
-			'Hay unos 1.500 m de asfalto, sobre todo al final de la circular, según el blog.',
-			'Lleva pantalones largos: el blog lo recomienda por la maleza de los senderos. El blog anota que no hay fuentes de agua: sal con toda el agua.',
-			'Si sales con calor o viento, recuerda que es un recorrido largo por senderos sin marcas: vale más dar la vuelta que perderse.'
+			"El tramo entre la font de Jovara y el portell d'en Gardell no tiene ninguna señal: hay que saber orientarse y llevar el track. Con niebla no es un sitio para improvisar.",
+			'Pantalones largos, aunque haga calor: el matorral araña.',
+			'No hay ninguna fuente en todo el recorrido.',
+			'En el punto de salida solo caben dos o tres coches.',
+			'La reseña es de 2015 y el estado de los senderos puede haber cambiado.'
 		]
 	},
 	faq: {
@@ -78,50 +79,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Mola de Genessies?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 9,1 km amb 2 h 37 min de marxa efectiva; segons el seu track, el cim és als 4,9 km de la sortida.'
+					"La circular del bloc Reptes Muntanyencs fa 9,1 km i 458 m de desnivell, amb 2 h 37 min de marxa; l'autor va arribar al cim en gairebé dues hores comptant-hi les aturades."
 			},
 			{
-				pregunta: 'Està senyalitzat el camí fins al cim?',
+				pregunta: 'Està senyalitzat el camí?',
 				resposta:
-					'No. El bloc diu que el sender no té cap senyalització ni fites, de manera que cal portar el track i saber orientar-se.'
+					"Només en part. Hi ha pistes clares i algun tram de PR, però el sender que s'acosta a la mola no té marques ni fites en un bon tros."
 			},
 			{
 				pregunta: 'Hi ha un poblat ibèric al cim?',
 				resposta:
-					"Es parla d'un possible poblat ibèric, però el bloc només hi va trobar un munt de pedres que fan pensar més en tancats de ramats que en un poblat."
+					'Els mapes en situen un a prop del cim. Sobre el terreny només hi ha un munt de pedres, que fan pensar més aviat en tancats de bestiar.'
 			},
 			{
 				pregunta: 'La Mola de Genessies compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels sis [cims essencials](/cims-essencials) del Baix Camp, amb el [Molló Puntaire](/cims/mollo-puntaire).'
+					"Sí. Dels sis [cims essencials](/cims-essencials) del Baix Camp, és el que toca la Ribera d'Ebre."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Mola de Genessies?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 9,1 km con 2 h 37 min de marcha efectiva; según su track, la cima está a 4,9 km de la salida.'
+					'La circular del blog Reptes Muntanyencs tiene 9,1 km y 458 m de desnivel, con 2 h 37 min de marcha; el autor llegó a la cima en casi dos horas contando las paradas.'
 			},
 			{
-				pregunta: '¿Está señalizado el camino hasta la cima?',
+				pregunta: '¿Está señalizado el camino?',
 				resposta:
-					'No. El blog dice que el sendero no tiene ninguna señalización ni hitos, de modo que hay que llevar el track y saber orientarse.'
+					'Solo en parte. Hay pistas claras y algún tramo de PR, pero el sendero que se acerca a la muela no tiene marcas ni hitos en un buen trecho.'
 			},
 			{
 				pregunta: '¿Hay un poblado ibérico en la cima?',
 				resposta:
-					'Se habla de un posible poblado ibérico, pero el blog solo encontró allí un montón de piedras que hacen pensar más en rediles de ganado que en un poblado.'
+					'Los mapas sitúan uno cerca de la cima. Sobre el terreno solo hay un montón de piedras, que hacen pensar más bien en cercados de ganado.'
 			},
 			{
 				pregunta: '¿La Mola de Genessies cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las seis [cimas esenciales](/cims-essencials) del Baix Camp, con el [Molló Puntaire](/cims/mollo-puntaire).'
+					"Sí. De las seis [cimas esenciales](/cims-essencials) del Baix Camp, es la que linda con la Ribera d'Ebre."
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, VIQUIPEDIA_MUNTANYES, GEC, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

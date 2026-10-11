@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Muntanya de Sant Mamet',
@@ -24,47 +24,47 @@ const fitxa: ContingutFitxa = {
 	slug: 'sant-mamet',
 	descripcio: {
 		ca: [
-			"Sant Mamet és el cim de la muntanya del mateix nom, una serra prepirinenca de [la Noguera](/comarques/noguera) que s'estén entre els termes d'Alòs de Balaguer, Artesa de Segre, Vilanova de Meià i Camarasa. Segons la Viquipèdia, la roca dominant és la calcària, i al cim hi ha uns rasos aplanats per l'erosió. A la zona hi va haver antigues mines de bauxita.",
-			"El nom del cim ve de la capella de Sant Mamet que Catalunya Romànica situa al capdamunt de la serra. L'obra de l'Enciclopèdia Catalana apunta que podria ser una capella d'ermità, pel lloc apartat on és, i que la dedicació a sant Mamet es considera antiga. La primera referència documental és de 1231: aquell any Jaume de Cervera, senyor de Meià, la seva muller Miracle d'Urgell i altres persones van donar al monestir de Santa Maria de Meià la plana de Malagostar, al costat de la serra de Sant Mamet. Les restes que s'hi veuen, diu la mateixa font, no corresponen a cap edifici romànic.",
-			"El bloc Reptes Muntanyencs situa al cim l'ermita i explica que el dia de Sant Mamet hi pugen diverses romeries a venerar el sant. També hi destaca que és un bon mirador, i que en dies clars les vistes han de ser molt amples. El mateix bloc considera que els desnivells a superar són poc forts, fins i tot fàcils.",
-			"El sender, segons el bloc, és molt estret i empipador si és humit, de manera que després de pluja la pujada es fa més incòmoda. A partir d'un punt concret del recorregut, el camí s'aclareix i ja no es perd fins al cim. Convé portar el track, perquè la ressenya és del 2015 i les marques poden haver canviat."
+			"Sant Mamet és el punt culminant de la muntanya del mateix nom, una serra prepirinenca de [la Noguera](/comarques/noguera) repartida entre els termes d'Alòs de Balaguer, Artesa de Segre, Vilanova de Meià i Camarasa. Queda aïllada entre el Montsec de Rúbies, al nord, i la serra Carbonera, al sud, i és una muntanya calcària de lloms arrodonits, amb uns rasos aplanats per l'erosió al capdamunt i poca vegetació. Als vessants hi havia hagut mines de bauxita.",
+			"El nom li ve de la capella de Sant Mamet, al capdamunt de la serra. Catalunya Romànica la considera una possible capella eremítica, pel lloc apartat on és, i recorda que l'advocació és de les antigues: ja surt en un document del 1231, quan Jaume de Cervera, senyor de Meià, i la seva muller Miracle d'Urgell van donar al monestir de Santa Maria de Meià la plana de Malagostar, al costat de la serra de Sant Mamet. Les restes conservades, segons la mateixa obra, no corresponen a cap edifici romànic. L'ermita és encara avui destí de romeries el dia del sant.",
+			"La posició entre serres en fa un mirador ampli: es veuen de cara els cingles del Montsec de Rúbies, on hi ha el [Tossal de Mirapallars](/cims/tossal-de-mirapallars), tot el Montsec d'Ares i bona part del Pirineu. El cel d'aquesta part de la Noguera és fosc i net, i el cim és un lloc habitual d'observació astronòmica.",
+			'Fa de mal pujar-hi amb calor: gairebé no hi ha ombra ni aigua. La carena, en canvi, és llarga i suau, i un cop a dalt es camina sense esforç amb el cim sempre a la vista.'
 		],
 		es: [
-			'Sant Mamet es la cima de la montaña del mismo nombre, una sierra prepirenaica de [la Noguera](/comarques/noguera) que se extiende entre los términos de Alòs de Balaguer, Artesa de Segre, Vilanova de Meià y Camarasa. Según la Viquipèdia, la roca dominante es la caliza, y en la cima hay unos rasos aplanados por la erosión. En la zona hubo antiguas minas de bauxita.',
-			"El nombre de la cima viene de la capilla de Sant Mamet que Catalunya Romànica sitúa en lo alto de la sierra. La obra de la Enciclopèdia Catalana apunta que podría ser una capilla de ermitaño, por el lugar apartado en que está, y que la dedicación a san Mamet se considera antigua. La primera referencia documental es de 1231: aquel año Jaume de Cervera, señor de Meià, su mujer Miracle d'Urgell y otras personas donaron al monasterio de Santa Maria de Meià la llanura de Malagostar, junto a la sierra de Sant Mamet. Los restos que se ven, dice la misma fuente, no corresponden a ningún edificio románico.",
-			'El blog Reptes Muntanyencs sitúa en la cima la ermita y explica que el día de Sant Mamet suben varias romerías a venerar al santo. Destaca también que es un buen mirador, y que en días claros las vistas deben de ser muy amplias. El mismo blog considera que los desniveles a superar son poco fuertes, incluso fáciles.',
-			'El sendero, según el blog, es muy estrecho y molesto si está húmedo, de modo que después de lluvia la subida resulta más incómoda. A partir de un punto concreto del recorrido, el camino se aclara y ya no se pierde hasta la cima. Conviene llevar el track, porque la reseña es de 2015 y las marcas pueden haber cambiado.'
+			'Sant Mamet es el punto culminante de la montaña del mismo nombre, una sierra prepirenaica de [la Noguera](/comarques/noguera) repartida entre los términos de Alòs de Balaguer, Artesa de Segre, Vilanova de Meià y Camarasa. Queda aislada entre el Montsec de Rúbies, al norte, y la sierra Carbonera, al sur, y es una montaña caliza de lomas redondeadas, con unos rasos aplanados por la erosión en lo alto y poca vegetación. En sus laderas hubo minas de bauxita.',
+			"El nombre le viene de la capilla de Sant Mamet, en lo alto de la sierra. Catalunya Romànica la considera una posible capilla eremítica, por el lugar apartado en que está, y recuerda que la advocación es de las antiguas: ya aparece en un documento de 1231, cuando Jaume de Cervera, señor de Meià, y su mujer Miracle d'Urgell donaron al monasterio de Santa Maria de Meià la llanura de Malagostar, junto a la sierra de Sant Mamet. Los restos conservados, según la misma obra, no corresponden a ningún edificio románico. La ermita es todavía hoy destino de romerías el día del santo.",
+			"La posición entre sierras la convierte en un mirador amplio: se ven de frente los riscos del Montsec de Rúbies, donde está el [Tossal de Mirapallars](/cims/tossal-de-mirapallars), todo el Montsec d'Ares y buena parte del Pirineo. El cielo de esta parte de la Noguera es oscuro y limpio, y la cima es un lugar habitual de observación astronómica.",
+			'Cuesta subir con calor: apenas hay sombra ni agua. La cresta, en cambio, es larga y suave, y una vez arriba se camina sin esfuerzo con la cima siempre a la vista.'
 		]
 	},
 	rutes: [
 		{
 			id: 'la-granolla',
 			nom: {
-				ca: 'Circular des de la Granolla',
-				es: 'Circular desde la Granolla'
+				ca: 'Circular des de la Granolla (Alòs de Balaguer)',
+				es: 'Circular desde la Granolla (Alòs de Balaguer)'
 			},
-			sortida: { nom: 'La Granolla' },
+			sortida: { nom: 'La Granolla (Alòs de Balaguer)' },
 			descripcio: {
-				ca: "El bloc Reptes Muntanyencs documenta una circular que surt de la Granolla, amb pistes i senders. Fa 14,1 km, uns 755 m de desnivell positiu i 3 h 41 min de marxa efectiva; segons el seu track, el cim s'assoleix a 2 h 02 min i 7,4 km de la sortida, de manera que la baixada ocupa la resta del circuit. Hi ha senyals de pintura taronja i verda, pals indicadors i una gran fita de pedra que cal localitzar. Al cim hi ha l'ermita i el vèrtex.",
-				es: 'El blog Reptes Muntanyencs documenta una circular que sale de la Granolla, con pistas y senderos. Tiene 14,1 km, unos 755 m de desnivel positivo y 3 h 41 min de marcha efectiva; según su track, la cima se alcanza a 2 h 02 min y 7,4 km de la salida, de modo que la bajada ocupa el resto del circuito. Hay señales de pintura naranja y verde, postes indicadores y un gran hito de piedra que hay que localizar. En la cima están la ermita y el vértice.'
+				ca: "La ressenya del bloc Reptes Muntanyencs, del 2015, puja pel vessant d'Alòs: una circular de 14,1 km i 755 m de desnivell positiu en 3 h 41 min de marxa, amb el cim a 7,4 km i unes dues hores de la sortida. Surt per un sender estret amb pintura verda, travessa el barranc del Torrent, on cal trobar una gran fita, i s'enfila sense treva fins al ras de Sant Mamet; des d'allà segueix la carena, amb el cim a la vista durant una hora. Es baixa per la pista de la Malagosta i el coll de Ferrús. A la Granolla s'hi arriba per pista de terra, amb vehicle alt. Els altres accessos habituals surten de Santa Maria de Meià, pel coll d'Orenga, i de la vall d'Ariet.",
+				es: "La reseña del blog Reptes Muntanyencs, de 2015, sube por la vertiente de Alòs: una circular de 14,1 km y 755 m de desnivel positivo en 3 h 41 min de marcha, con la cima a 7,4 km y unas dos horas de la salida. Sale por un sendero estrecho con pintura verde, cruza el barranc del Torrent, donde hay que encontrar un gran hito, y sube sin tregua hasta el ras de Sant Mamet; desde allí sigue la cresta, con la cima a la vista durante una hora. Se baja por la pista de la Malagosta y el coll de Ferrús. A la Granolla se llega por pista de tierra, con vehículo alto. Los otros accesos habituales salen de Santa Maria de Meià, por el coll d'Orenga, y del valle de Ariet."
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			'El sender és molt estret i empipador si és humit, segons el bloc: després de pluja, calcula més temps a la pujada i més atenció a la baixada.',
-			"La ressenya del bloc és del 2015. Les marques de pintura taronja i verda i els pals indicadors poden haver canviat; porta un track i un mapa de l'ICGC.",
-			"El dia de Sant Mamet pugen romeries a l'ermita, segons el bloc: si hi vas aquell dia, compta amb gent.",
-			"La circular combina senders i pistes: porta tota l'aigua que necessitis des de la sortida.",
-			"En cas d'emergència, truca al 112."
+			'Evita els dies de calor forta: la pujada té molt poc arbrat i el bloc no va trobar aigua enlloc, ni tan sols a la font del cim, que no rajava.',
+			'El recinte del cim està envoltat per una tanca; no la saltis per fer drecera i entra-hi per la pista.',
+			'El primer sender és estret i fa de mal passar quan és moll. Al barranc del Torrent el camí es desdibuixa fins que es troba la fita.',
+			"Des d'Alòs de Balaguer puja una pista fins al cim. L'Ajuntament la recomanava per a tot terreny, segons el bloc: no t'hi aventuris amb un turisme sense informar-te'n al poble.",
+			"El dia de l'aplec l'ermita s'omple de gent."
 		],
 		es: [
-			'El sendero es muy estrecho y molesto si está húmedo, según el blog: después de lluvia, calcula más tiempo en la subida y más atención en la bajada.',
-			'La reseña del blog es de 2015. Las marcas de pintura naranja y verde y los postes indicadores pueden haber cambiado; lleva un track y un mapa del ICGC.',
-			'El día de Sant Mamet suben romerías a la ermita, según el blog: si vas ese día, cuenta con gente.',
-			'La circular combina senderos y pistas: lleva toda el agua que necesites desde la salida.',
-			'En caso de emergencia, llama al 112.'
+			'Evita los días de calor fuerte: la subida tiene muy poco arbolado y el blog no encontró agua en ningún sitio, ni siquiera en la fuente de la cima, que no manaba.',
+			'El recinto de la cima está rodeado por una valla; no la saltes para atajar y entra por la pista.',
+			'El primer sendero es estrecho y se pasa mal cuando está mojado. En el barranc del Torrent el camino se desdibuja hasta que se encuentra el hito.',
+			'Desde Alòs de Balaguer sube una pista hasta la cima. El Ayuntamiento la recomendaba para todoterreno, según el blog: no te aventures con un turismo sin informarte en el pueblo.',
+			'El día de la romería la ermita se llena de gente.'
 		]
 	},
 	faq: {
@@ -72,50 +72,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a Sant Mamet?',
 				resposta:
-					'El bloc Reptes Muntanyencs, en una circular de 14,1 km que surt de la Granolla, situa el cim a 2 h 02 min de la sortida i la marxa efectiva total en 3 h 41 min.'
+					'Per la volta de la Granolla, el bloc Reptes Muntanyencs va arribar al cim en unes dues hores (7,4 km) i va fer tota la circular, de 14,1 km i 755 m de desnivell, en 3 h 41 min de marxa.'
 			},
 			{
 				pregunta: 'És una ascensió difícil?',
 				resposta:
-					'El bloc afirma que els desnivells a superar són poc forts, fins i tot fàcils. La circular que documenta, però, fa 14,1 km, i el sender és estret i empipador si és humit.'
+					"La ressenya no hi descriu cap pas tècnic: són senders i pistes. El que pesa és la llargada, el desnivell i la manca d'ombra i d'aigua."
 			},
 			{
-				pregunta: 'Què hi ha al cim de Sant Mamet?',
+				pregunta: "D'on ve el nom?",
 				resposta:
-					"Segons el bloc, l'ermita de Sant Mamet i un vèrtex geodèsic. Catalunya Romànica recull la primera referència documental de la serra, del 1231."
+					'De la capella de Sant Mamet que hi ha al capdamunt de la serra, una advocació antiga que ja apareix en un document del 1231.'
 			},
 			{
 				pregunta: 'Sant Mamet compta com a cim essencial?',
 				resposta:
-					'Sí, és un dels quatre [cims essencials](/cims-essencials) de la Noguera, amb la [Pala Alta](/cims/pala-alta), la Penya Sant Alís i el Tossal de Mirapallars.'
+					'Sí, és un dels quatre [cims essencials](/cims-essencials) de la Noguera, amb la [Pala Alta](/cims/pala-alta), la [Penya Sant Alís](/cims/penya-sant-alis) i el Tossal de Mirapallars.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a Sant Mamet?',
 				resposta:
-					'El blog Reptes Muntanyencs, en una circular de 14,1 km que sale de la Granolla, sitúa la cima a 2 h 02 min de la salida y la marcha efectiva total en 3 h 41 min.'
+					'Por la vuelta de la Granolla, el blog Reptes Muntanyencs llegó a la cima en unas dos horas (7,4 km) e hizo toda la circular, de 14,1 km y 755 m de desnivel, en 3 h 41 min de marcha.'
 			},
 			{
 				pregunta: '¿Es una ascensión difícil?',
 				resposta:
-					'El blog afirma que los desniveles a superar son poco fuertes, incluso fáciles. La circular que documenta, sin embargo, tiene 14,1 km, y el sendero es estrecho y molesto si está húmedo.'
+					'La reseña no describe ningún paso técnico: son senderos y pistas. Lo que pesa es la longitud, el desnivel y la falta de sombra y de agua.'
 			},
 			{
-				pregunta: '¿Qué hay en la cima de Sant Mamet?',
+				pregunta: '¿De dónde viene el nombre?',
 				resposta:
-					'Según el blog, la ermita de Sant Mamet y un vértice geodésico. Catalunya Romànica recoge la primera referencia documental de la sierra, de 1231.'
+					'De la capilla de Sant Mamet que hay en lo alto de la sierra, una advocación antigua que ya aparece en un documento de 1231.'
 			},
 			{
 				pregunta: '¿Sant Mamet cuenta como cima esencial?',
 				resposta:
-					'Sí, es una de las cuatro [cimas esenciales](/cims-essencials) de la Noguera, con la [Pala Alta](/cims/pala-alta), la Penya Sant Alís y el Tossal de Mirapallars.'
+					'Sí, es una de las cuatro [cimas esenciales](/cims-essencials) de la Noguera, con la [Pala Alta](/cims/pala-alta), la [Penya Sant Alís](/cims/penya-sant-alis) y el Tossal de Mirapallars.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, CATALUNYA_ROMANICA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

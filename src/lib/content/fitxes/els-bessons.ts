@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Els Bessons (les Borges Blanques)',
@@ -24,47 +24,45 @@ const fitxa: ContingutFitxa = {
 	slug: 'els-bessons',
 	descripcio: {
 		ca: [
-			"Els Bessons són el punt més alt de l'espai natural i agroforestal del mateix nom, al terme de les Borges Blanques, a [les Garrigues](/comarques/garrigues). La Viquipèdia els descriu com un bon mirador sobre el Pla de Lleida i els Prepirineus i en dona la roca com a lutita i gres. L'ascens es pot començar a les Borges Blanques o des de la pista del Pla del Meno.",
-			"L'espai d'interès natural dels Bessons fa uns 426 ha i toca els termes de Juneda, les Borges Blanques, Cervià de les Garrigues i Castelldans. Segons la Viquipèdia, és una zona de transició entre la plana esteparia del Segrià i l'Urgell i les àrees boscoses més altes de la serra de la Llena; són turons suaus que només arriben als 400–600 m, amb capes de calcària consolidada entre estrats argilosos. El paisatge és un mosaic de conreus de secà (olivera, vinya, ametller) entre turons coberts de vegetació natural contínua. Hi dominen el romaní i la maleïda, amb petits pinars de pi blanc.",
-			'La fauna destaca per les rapinyaires: àguila cuabarrada, àguila daurada i duc, que cacen als matollars gràcies al conill; i per les aus estèpiques, com el gaig blau i el torlit. Per la proximitat, la [Punta del Curull](/cims/punta-del-curull), a la serra de la Llena, toca també el terme del Vilosell, a les Garrigues.',
-			"Reptes Muntanyencs, que hi puja des del coll dels Marquesos, recorda que gairebé el 80 % del recorregut es fa per pistes, que no hi ha gens d'aigua i que el camí es fa a cel obert, amb pocs arbres i el sol de ple. Al cim hi ha un vèrtex geodèsic, un pessebre i, una mica darrere, un panell fotogràfic."
+			"Els Bessons són un cim emblemàtic de [les Garrigues](/comarques/garrigues), al terme de les Borges Blanques. El nom ve de la forma: són dues elevacions contigües i d'alçada semblant. A la del nord, la principal, hi ha el vèrtex geodèsic, uns bancs i un plafó que ajuda a identificar el que es veu; i el que es veu és la plana de Lleida i, al fons, el Prepirineu.",
+			"El cim dona nom a un espai d'interès natural, inclòs al PEIN el 1992, que s'estén també pels termes de Juneda, Cervià de les Garrigues i Castelldans. És terra de transició entre la plana estepària del Segrià i l'Urgell i els boscos de la serra de la Llena: turons suaus, amb conreus de secà d'olivera, ametller i vinya entre vessants de romaní i pinedes petites de pi blanc. S'hi veuen rapinyaires com l'àguila cuabarrada, l'àguila daurada i el duc.",
+			"Dins el mateix espai hi ha turons una mica més alts, com la punta dels Marquesos, el tossal del Xivete o la punta del Pouet, però els Bessons són el cim emblemàtic i el que fa de mirador. Des de dalt criden l'atenció les grans basses de reg que alimenten els arbres en una comarca on l'aigua és escassa.",
+			"És un passeig curt per pistes i camps, sense ombra ni fonts. La tardor i l'hivern són el bon moment; a l'estiu el sol hi cau de ple."
 		],
 		es: [
-			'Els Bessons son el punto más alto del espacio natural y agroforestal del mismo nombre, en el término de les Borges Blanques, en [les Garrigues](/comarques/garrigues). La Viquipèdia los describe como un buen mirador sobre el Pla de Lleida y los Prepirineos y da la roca como lutita y arenisca. El ascenso se puede empezar en les Borges Blanques o desde la pista del Pla del Meno.',
-			'El espacio de interés natural de Els Bessons tiene unas 426 ha y toca los términos de Juneda, les Borges Blanques, Cervià de les Garrigues y Castelldans. Según la Viquipèdia, es una zona de transición entre la llanura esteparia del Segrià y el Urgell y las áreas boscosas más altas de la serra de la Llena; son cerros suaves que solo llegan a los 400–600 m, con capas de caliza consolidada entre estratos arcillosos. El paisaje es un mosaico de cultivos de secano (olivo, viña, almendro) entre cerros cubiertos de vegetación natural continua. Dominan el romero y la aliaga, con pequeños pinares de pino carrasco.',
-			'La fauna destaca por las rapaces: águila perdicera, águila real y búho real, que cazan en los matorrales gracias al conejo; y por las aves esteparias, como la carraca y el alcaraván. Por la proximidad, la [Punta del Curull](/cims/punta-del-curull), en la serra de la Llena, toca también el término del Vilosell, en las Garrigues.',
-			'Reptes Muntanyencs, que sube desde el coll dels Marquesos, recuerda que casi el 80 % del recorrido se hace por pistas, que no hay nada de agua y que el camino se hace a cielo abierto, con pocos árboles y el sol de lleno. En la cima hay un vértice geodésico, un belén y, algo detrás, un panel fotográfico.'
+			'Els Bessons son una cima emblemática de [las Garrigues](/comarques/garrigues), en el término de les Borges Blanques. El nombre viene de la forma: son dos elevaciones contiguas y de altura parecida. En la del norte, la principal, están el vértice geodésico, unos bancos y un panel que ayuda a identificar lo que se ve; y lo que se ve es el llano de Lleida y, al fondo, el Prepirineo.',
+			'La cima da nombre a un espacio de interés natural, incluido en el PEIN en 1992, que se extiende también por los términos de Juneda, Cervià de les Garrigues y Castelldans. Es tierra de transición entre la llanura esteparia del Segrià y el Urgell y los bosques de la sierra de la Llena: cerros suaves, con cultivos de secano de olivo, almendro y vid entre laderas de romero y pequeños pinares de pino carrasco. Se ven rapaces como el águila perdicera, el águila real y el búho real.',
+			'Dentro del mismo espacio hay cerros algo más altos, como la punta dels Marquesos, el tossal del Xivete o la punta del Pouet, pero els Bessons son la cima emblemática y la que hace de mirador. Desde arriba llaman la atención las grandes balsas de riego que alimentan los árboles en una comarca donde el agua es escasa.',
+			'Es un paseo corto por pistas y campos, sin sombra ni fuentes. El otoño y el invierno son el buen momento; en verano el sol cae de lleno.'
 		]
 	},
 	rutes: [
 		{
 			id: 'coll-dels-marquesos',
 			nom: {
-				ca: 'Circular des del coll dels Marquesos',
-				es: 'Circular desde el coll dels Marquesos'
+				ca: 'Des del camí de les Borges Blanques (lo Benifet)',
+				es: 'Desde el camino de les Borges Blanques (lo Benifet)'
 			},
-			sortida: { nom: 'Coll dels Marquesos (les Borges Blanques)' },
+			sortida: { nom: 'Lo Benifet, coll dels Marquesos (les Borges Blanques)' },
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt del coll dels Marquesos, amb pistes i senders: 10,9 km, uns 319 m de desnivell positiu i 2 h 17 min de marxa efectiva. Segons el seu track, el cim queda a uns 9,2 km de la sortida. Gairebé el 80 % del recorregut és per pistes, en millor o pitjor estat; no hi ha aigua i l'itinerari no està senyalitzat, tret d'un encreuament amb un pal i un cartell de prohibició de circulació motoritzada.",
-				es: 'Reptes Muntanyencs documenta una circular que sale del coll dels Marquesos, con pistas y senderos: 10,9 km, unos 319 m de desnivel positivo y 2 h 17 min de marcha efectiva. Según su track, la cima queda a unos 9,2 km de la salida. Casi el 80 % del recorrido es por pistas, en mejor o peor estado; no hay agua y el itinerario no está señalizado, salvo un cruce con un poste y un cartel de prohibición de circulación motorizada.'
+				ca: "Segons la Viquipèdia, s'hi puja des de les Borges Blanques o des de la pista forestal del pla del Meno. El bloc Reptes Muntanyencs (2015) va deixar el cotxe a lo Benifet, al peu mateix del cim, on s'arriba amb turisme per pista de terra: pel camí de les Borges Blanques, que és per on ell va tornar, els Bessons queden a poc més d'un quilòmetre i mig i a uns 100 m de desnivell. La seva volta va ser molt més llarga, per encadenar abans la punta dels Marquesos, la punta del Pouet i el tossal del Xivete: 10,9 km, 319 m de desnivell positiu i 2 h 17 min de marxa, gairebé sempre per pistes i sense cap senyal.",
+				es: 'Según la Viquipèdia, se sube desde les Borges Blanques o desde la pista forestal del pla del Meno. El blog Reptes Muntanyencs (2015) dejó el coche en lo Benifet, al pie mismo de la cima, adonde se llega en turismo por pista de tierra: por el camino de les Borges Blanques, que es por donde él volvió, els Bessons quedan a poco más de un kilómetro y medio y a unos 100 m de desnivel. Su vuelta fue mucho más larga, para encadenar antes la punta dels Marquesos, la punta del Pouet y el tossal del Xivete: 10,9 km, 319 m de desnivel positivo y 2 h 17 min de marcha, casi siempre por pistas y sin ninguna señal.'
 			},
-			fonts: [REPTES]
+			fonts: [VIQUIPEDIA, REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"Segons el bloc, tot el camí es fa a cel obert, amb pocs arbres i el sol de ple: evita les hores centrals a l'estiu i porta gorra i crema.",
-			"No hi ha gens d'aigua en tot el recorregut, segons el bloc: porta-la des de baix.",
-			"L'itinerari no està senyalitzat, tret d'un encreuament amb un pal: porta el track.",
-			"Un cartell prohibeix la circulació motoritzada a la pista: respecta'l.",
-			"Telèfon d'emergències: 112."
+			'No hi ha ni una font ni una ombra en tot el recorregut: porta aigua i gorra, encara que sigui hivern.',
+			"Tot l'espai és un vedat de caça. En temporada, vesteix colors vius i informa't dels dies de batuda.",
+			"Hi ha moltes pistes i cap marca: amb el cim a la vista és difícil perdre's, però un mapa estalvia voltes.",
+			'Passaràs vora camps treballats i cabanes, alguna amb gossos: no travessis els conreus.'
 		],
 		es: [
-			'Según el blog, todo el camino se hace a cielo abierto, con pocos árboles y el sol de lleno: evita las horas centrales en verano y lleva gorra y crema.',
-			'No hay nada de agua en todo el recorrido, según el blog: llévala desde abajo.',
-			'El itinerario no está señalizado, salvo un cruce con un poste: lleva el track.',
-			'Un cartel prohíbe la circulación motorizada en la pista: respétalo.',
-			'Teléfono de emergencias: 112.'
+			'No hay ni una fuente ni una sombra en todo el recorrido: lleva agua y gorra, aunque sea invierno.',
+			'Todo el espacio es un coto de caza. En temporada, viste colores vivos e infórmate de los días de batida.',
+			'Hay muchas pistas y ninguna marca: con la cima a la vista es difícil perderse, pero un mapa ahorra vueltas.',
+			'Pasarás junto a campos trabajados y cabañas, alguna con perros: no cruces los cultivos.'
 		]
 	},
 	faq: {
@@ -72,46 +70,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar als Bessons?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 10,9 km des del coll dels Marquesos amb 2 h 17 min de marxa efectiva; segons el seu track, el cim queda als 9,2 km de la sortida.'
+					"Des de lo Benifet, al peu del cim, són poc més d'un quilòmetre i mig i uns 100 m de desnivell, segons el track del bloc Reptes Muntanyencs. La seva volta pels quatre turons de l'espai, de 10,9 km, va demanar 2 h 17 min de marxa."
 			},
 			{
-				pregunta: 'Per on es pot començar?',
+				pregunta: 'Per què es diuen els Bessons?',
 				resposta:
-					"Segons la Viquipèdia, l'ascens es pot començar a les Borges Blanques o des de la pista del Pla del Meno; el bloc surt del coll dels Marquesos."
+					"Perquè el cim el formen dues elevacions contigües i d'alçada semblant. La principal és la del nord, on hi ha el vèrtex geodèsic."
 			},
 			{
-				pregunta: 'Hi ha aigua pel camí?',
-				resposta: "El bloc diu que no hi ha gens d'aigua en tot el recorregut; porta-la de casa."
+				pregunta: 'Són el punt més alt de les Garrigues?',
+				resposta:
+					'No. Dins el mateix espai natural hi ha turons més alts, i la comarca arriba més amunt a la serra de la Llena, on hi ha la [Punta del Curull](/cims/punta-del-curull). Els Bessons en són el cim més conegut.'
 			},
 			{
-				pregunta: 'Els Bessons compten com a cim essencial?',
-				resposta: "Sí, és l'únic [cim essencial](/cims-essencials) de les Garrigues."
+				pregunta: 'Compten com a cim essencial?',
+				resposta:
+					"Sí, són l'únic [cim essencial](/cims-essencials) de les Garrigues a la llista del repte."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a Els Bessons?',
+				pregunta: '¿Cuánto se tarda en subir a els Bessons?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 10,9 km desde el coll dels Marquesos con 2 h 17 min de marcha efectiva; según su track, la cima queda a los 9,2 km de la salida.'
+					'Desde lo Benifet, al pie de la cima, son poco más de un kilómetro y medio y unos 100 m de desnivel, según el track del blog Reptes Muntanyencs. Su vuelta por los cuatro cerros del espacio, de 10,9 km, pidió 2 h 17 min de marcha.'
 			},
 			{
-				pregunta: '¿Por dónde se puede empezar?',
+				pregunta: '¿Por qué se llaman els Bessons?',
 				resposta:
-					'Según la Viquipèdia, el ascenso se puede empezar en les Borges Blanques o desde la pista del Pla del Meno; el blog sale del coll dels Marquesos.'
+					'Porque la cima la forman dos elevaciones contiguas y de altura parecida. La principal es la del norte, donde está el vértice geodésico.'
 			},
 			{
-				pregunta: '¿Hay agua en el camino?',
-				resposta: 'El blog dice que no hay nada de agua en todo el recorrido; llévala de casa.'
+				pregunta: '¿Son el punto más alto de las Garrigues?',
+				resposta:
+					'No. Dentro del mismo espacio natural hay cerros más altos, y la comarca llega más arriba en la sierra de la Llena, donde está la [Punta del Curull](/cims/punta-del-curull). Els Bessons son su cima más conocida.'
 			},
 			{
-				pregunta: '¿Els Bessons cuentan como cima esencial?',
-				resposta: 'Sí, es la única [cima esencial](/cims-essencials) de las Garrigues.'
+				pregunta: '¿Cuentan como cima esencial?',
+				resposta:
+					'Sí, son la única [cima esencial](/cims-essencials) de las Garrigues en la lista del reto.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, VIQUIPEDIA_EIN, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

@@ -1,9 +1,9 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
-	nom: 'Viquipèdia: La Mola (Bonastre)',
+	nom: "Viquipèdia: La Mola (Bonastre), amb els itineraris senyalitzats de l'Ajuntament de Bonastre i del Club Excursionista Salouenc",
 	url: 'https://ca.wikipedia.org/wiki/La_Mola_(Bonastre)',
 	consultat: CONSULTAT
 };
@@ -18,109 +18,110 @@ const fitxa: ContingutFitxa = {
 	slug: 'la-mola-tarragones',
 	descripcio: {
 		ca: [
-			'La Mola és el cim més alt de la comarca del [Tarragonès](/comarques/tarragones), segons la Viquipèdia. Es troba a la divisòria dels termes de Bonastre, al Baix Penedès, i de la Pobla de Montornès i Creixell, ja al Tarragonès, i la Viquipèdia la situa a la Serra Llarga. La roca és dolomia i calcària, i al cim hi ha un vèrtex geodèsic.',
-			"Des de la rodalia hi arriben diversos itineraris senyalitzats, de 3,4 a 8,6 km segons el punt de partida; el detall és a la ruta corresponent d'aquesta fitxa.",
-			"Reptes Muntanyencs la va fer des del Mas Gibert en una circular curta per senders i pistes, i diu que no presenta dificultats especials. Pel camí es troba un bon catàleg de cabanes de pedra seca i unes barres de ferro que en el seu moment degueren fer de suport d'alguna porta. El cim, segons el bloc, no ofereix vistes, però en un mirador proper hi ha unes estupendes vistes del territori.",
-			'El bloc adverteix que la senyalització és parcial: hi ha algun pal, però el senyal no indica la direcció a seguir per arribar a la Mola, i la tornada es fa pel GR-92.'
+			"La Mola és el cim més alt [del Tarragonès](/comarques/tarragones), tot i que amb prou feines passa dels tres-cents metres. És al límit amb el Baix Penedès, a la divisòria dels termes de la Pobla de Montornès i Creixell, d'una banda, i de Bonastre, de l'altra. És un turó calcari i dolomític amb un vèrtex geodèsic al capdamunt.",
+			'És un cim modest i de proximitat, a pocs quilòmetres de la costa, al qual es puja des de tots els pobles del voltant: hi ha itineraris senyalitzats des de Bonastre, la Pobla de Montornès, Creixell, Roda de Berà i el castell de Montornès. El GR 92, el sender del Mediterrani, passa pel peu.',
+			"Els camins del vessant de la Pobla travessen un paisatge de pedra seca, amb un bon grapat de barraques, un pou —el de Missenguet— i una antiga mina, la de can Gibert. El cim mateix no ofereix vistes; la panoràmica s'obté des d'un mirador natural que hi ha uns metres abans d'arribar-hi.",
+			"És una sortida de mig matí. Al Baix Penedès, a tocar, l'altre cim essencial és la [Talaia del Montmell](/cims/talaia-del-montmell)."
 		],
 		es: [
-			'La Mola es la cima más alta de la comarca del [Tarragonès](/comarques/tarragones), según la Viquipèdia. Se encuentra en la divisoria de los términos de Bonastre, en el Baix Penedès, y de la Pobla de Montornès y Creixell, ya en el Tarragonès, y la Viquipèdia la sitúa en la Serra Llarga. La roca es dolomía y caliza, y en la cima hay un vértice geodésico.',
-			'Desde los alrededores llegan varios itinerarios señalizados, de 3,4 a 8,6 km según el punto de partida; el detalle está en la ruta correspondiente de esta ficha.',
-			'Reptes Muntanyencs la hizo desde el Mas Gibert en una circular corta por senderos y pistas, y dice que no presenta dificultades especiales. Por el camino se encuentra un buen catálogo de cabañas de piedra seca y unas barras de hierro que en su momento debieron de ser el soporte de alguna puerta. La cima, según el blog, no ofrece vistas, pero en un mirador cercano hay unas estupendas vistas del territorio.',
-			'El blog advierte de que la señalización es parcial: hay algún poste, pero la señal no indica la dirección a seguir para llegar a la Mola, y la vuelta se hace por el GR-92.'
+			'La Mola es la cima más alta [del Tarragonès](/comarques/tarragones), aunque apenas pasa de los trescientos metros. Está en el límite con el Baix Penedès, en la divisoria de los términos de la Pobla de Montornès y Creixell, por un lado, y de Bonastre, por el otro. Es un cerro calizo y dolomítico con un vértice geodésico en lo alto.',
+			'Es una cima modesta y de proximidad, a pocos kilómetros de la costa, a la que se sube desde todos los pueblos de alrededor: hay itinerarios señalizados desde Bonastre, la Pobla de Montornès, Creixell, Roda de Berà y el castillo de Montornès. El GR 92, el sendero del Mediterráneo, pasa por el pie.',
+			'Los caminos de la vertiente de la Pobla cruzan un paisaje de piedra seca, con un buen puñado de barracas, un pozo —el de Missenguet— y una antigua mina, la de can Gibert. La cima misma no ofrece vistas; la panorámica se obtiene desde un mirador natural que hay unos metros antes de llegar.',
+			'Es una salida de media mañana. En el Baix Penedès, al lado, la otra cima esencial es la [Talaia del Montmell](/cims/talaia-del-montmell).'
 		]
 	},
 	rutes: [
 		{
-			id: 'mas-gibert',
+			id: 'bonastre',
 			nom: {
-				ca: 'Circular des del Mas Gibert',
-				es: 'Circular desde el Mas Gibert'
+				ca: 'Des de Bonastre per la ruta blava',
+				es: 'Desde Bonastre por la ruta azul'
 			},
-			sortida: { nom: 'Mas Gibert' },
+			sortida: { nom: 'Plaça Major de Bonastre' },
+			distanciaKm: 3.4,
 			descripcio: {
-				ca: 'Reptes Muntanyencs documenta una circular que surt del Mas Gibert, per senders i pistes: 6,5 km, uns 224 m de desnivell positiu i 1 h 27 min de marxa efectiva. Segons el seu track, el cim queda a uns 2,3 km de la sortida. Diu que no presenta dificultats especials; la senyalització és parcial i la tornada va pel GR-92.',
-				es: 'Reptes Muntanyencs documenta una circular que sale del Mas Gibert, por senderos y pistas: 6,5 km, unos 224 m de desnivel positivo y 1 h 27 min de marcha efectiva. Según su track, la cima queda a unos 2,3 km de la salida. Dice que no presenta dificultades especiales; la señalización es parcial y la vuelta va por el GR-92.'
-			},
-			fonts: [REPTES]
-		},
-		{
-			id: 'itineraris-senyalitzats',
-			nom: {
-				ca: 'Itineraris senyalitzats des de Bonastre, la Pobla de Montornès i Creixell',
-				es: 'Itinerarios señalizados desde Bonastre, la Pobla de Montornès y Creixell'
-			},
-			sortida: { nom: 'Bonastre' },
-			descripcio: {
-				ca: 'Segons la Viquipèdia, hi ha rutes senyalitzades des de Bonastre (uns 3,4 km), la Pobla de Montornès (uns 4,8 km), Creixell (uns 8,1 km, per camí asfaltat), Roda de Berà (uns 8,6 km, per pista asfaltada) i el castell de Montornès (uns 3,5 km). Són distàncies fins al cim; la font no hi dona ni desnivells ni temps.',
-				es: 'Según la Viquipèdia, hay rutas señalizadas desde Bonastre (unos 3,4 km), la Pobla de Montornès (unos 4,8 km), Creixell (unos 8,1 km, por camino asfaltado), Roda de Berà (unos 8,6 km, por pista asfaltada) y el castell de Montornès (unos 3,5 km). Son distancias hasta la cima; la fuente no da desniveles ni tiempos.'
+				ca: "És l'itinerari senyalitzat per l'Ajuntament de Bonastre, de 3,4 km fins al cim: surt de la plaça Major, segueix el torrent de l'Aguilera i l'obaga del Maià, enllaça amb la ruta del Bonastresc i puja pel Mallol fins a la Mola.",
+				es: "Es el itinerario señalizado por el Ayuntamiento de Bonastre, de 3,4 km hasta la cima: sale de la plaza Mayor, sigue el torrent de l'Aguilera y la obaga del Maià, enlaza con la ruta del Bonastresc y sube por el Mallol hasta la Mola."
 			},
 			fonts: [VIQUIPEDIA]
+		},
+		{
+			id: 'la-pobla-de-montornes',
+			nom: {
+				ca: 'Des de la Pobla de Montornès pel mas Gibert',
+				es: 'Desde la Pobla de Montornès por el mas Gibert'
+			},
+			sortida: { nom: 'La Pobla de Montornès' },
+			descripcio: {
+				ca: "És la pujada més coneguda, de 4,8 km: se surt en direcció al castell de Montornès, es pren el GR 92 i es passa pel mas Mercader, el mas Gibert i el pou de Missenguet. El bloc Reptes Muntanyencs en va fer el tram final, des de la pista del mas Gibert, amb una volta de 6,5 km i 224 m de desnivell positiu en 1 h 27 min de marxa i el cim a 2,3 km; fins allà, però, hi ha un quilòmetre i mig de pista en molt mal estat, només per a tot terreny. La pujada no té dificultats; l'únic punt delicat és un pal indicador, passat el trencall de la mina de can Gibert, que no assenyala la Mola: cal deixar la pista i girar a la dreta.",
+				es: 'Es la subida más conocida, de 4,8 km: se sale en dirección al castillo de Montornès, se toma el GR 92 y se pasa por el mas Mercader, el mas Gibert y el pou de Missenguet. El blog Reptes Muntanyencs hizo el tramo final, desde la pista del mas Gibert, con una vuelta de 6,5 km y 224 m de desnivel positivo en 1 h 27 min de marcha y la cima a 2,3 km; hasta allí, sin embargo, hay un kilómetro y medio de pista en muy mal estado, solo para todoterreno. La subida no tiene dificultades; el único punto delicado es un poste indicador, pasado el desvío de la mina de can Gibert, que no señala la Mola: hay que dejar la pista y girar a la derecha.'
+			},
+			fonts: [VIQUIPEDIA, REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			'El bloc nota que la senyalització és parcial i que algun senyal no indica la direcció per arribar a la Mola: porta un track.',
-			'El cim no té vistes, segons el bloc, però hi ha un mirador proper amb bones vistes del territori.',
-			'A la tornada pots fer servir el GR-92, que el bloc va seguir.',
-			"Telèfon d'emergències: 112."
+			'No pugis amb un turisme per la pista del mas Gibert: surt a peu de la Pobla o de Bonastre.',
+			'Els pals indicadors ajuden, però no tots porten el nom de la Mola; porta un mapa o el track.',
+			'No hi ha fonts al camí.',
+			"Les barraques de pedra seca són patrimoni: mira-les sense enfilar-t'hi ni moure'n pedres."
 		],
 		es: [
-			'El blog anota que la señalización es parcial y que alguna señal no indica la dirección para llegar a la Mola: lleva un track.',
-			'La cima no tiene vistas, según el blog, pero hay un mirador cercano con buenas vistas del territorio.',
-			'A la vuelta puedes usar el GR-92, que el blog siguió.',
-			'Teléfono de emergencias: 112.'
+			'No subas con un turismo por la pista del mas Gibert: sal a pie de la Pobla o de Bonastre.',
+			'Los postes indicadores ayudan, pero no todos llevan el nombre de la Mola; lleva un mapa o el track.',
+			'No hay fuentes en el camino.',
+			'Las barracas de piedra seca son patrimonio: míralas sin subirte a ellas ni mover piedras.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar a la Mola?',
+				pregunta: "Des d'on es puja a la Mola?",
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 6,5 km des del Mas Gibert amb 1 h 27 min de marxa efectiva; segons el seu track, el cim queda a uns 2,3 km de la sortida.'
+					'Des de Bonastre hi ha un itinerari senyalitzat de 3,4 km, i des de la Pobla de Montornès un altre de 4,8 km pel GR 92 i el mas Gibert. També hi ha camins marcats des de Creixell (8,1 km), Roda de Berà (8,6 km) i el castell de Montornès (3,5 km).'
 			},
 			{
-				pregunta: 'Des d’on és més curt?',
+				pregunta: 'Quant es triga?',
 				resposta:
-					'Segons la Viquipèdia, les rutes senyalitzades més curtes són des de Bonastre (uns 3,4 km) i des del castell de Montornès (uns 3,5 km).'
+					'El bloc Reptes Muntanyencs va fer en 52 minuts, aturades incloses, els 2,3 km finals des del mas Gibert, i en 1 h 27 min de marxa una volta de 6,5 km. Des de Bonastre són 3,4 km de pujada.'
 			},
 			{
 				pregunta: 'Hi ha vistes des del cim?',
 				resposta:
-					"El bloc diu que el cim no ofereix vistes, però que en un mirador proper n'hi ha unes d'estupendes del territori."
+					"Des del vèrtex, no gaires. Uns metres abans d'arribar-hi, venint del pou de Missenguet, hi ha un mirador natural amb bona panoràmica."
 			},
 			{
-				pregunta: 'La Mola compta com a cim essencial?',
+				pregunta: 'Compta com a cim essencial?',
 				resposta:
-					'Sí, és el [cim essencial](/cims-essencials) del Tarragonès i el més alt de la comarca.'
+					"Sí, és l'únic [cim essencial](/cims-essencials) del Tarragonès i el sostre de la comarca."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a la Mola?',
+				pregunta: '¿Desde dónde se sube a la Mola?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 6,5 km desde el Mas Gibert con 1 h 27 min de marcha efectiva; según su track, la cima queda a unos 2,3 km de la salida.'
+					'Desde Bonastre hay un itinerario señalizado de 3,4 km, y desde la Pobla de Montornès otro de 4,8 km por el GR 92 y el mas Gibert. También hay caminos marcados desde Creixell (8,1 km), Roda de Berà (8,6 km) y el castillo de Montornès (3,5 km).'
 			},
 			{
-				pregunta: '¿Desde dónde es más corto?',
+				pregunta: '¿Cuánto se tarda?',
 				resposta:
-					'Según la Viquipèdia, las rutas señalizadas más cortas son desde Bonastre (unos 3,4 km) y desde el castell de Montornès (unos 3,5 km).'
+					'El blog Reptes Muntanyencs hizo en 52 minutos, paradas incluidas, los 2,3 km finales desde el mas Gibert, y en 1 h 27 min de marcha una vuelta de 6,5 km. Desde Bonastre son 3,4 km de subida.'
 			},
 			{
 				pregunta: '¿Hay vistas desde la cima?',
 				resposta:
-					'El blog dice que la cima no ofrece vistas, pero que en un mirador cercano hay unas estupendas del territorio.'
+					'Desde el vértice, no muchas. Unos metros antes de llegar, viniendo del pou de Missenguet, hay un mirador natural con buena panorámica.'
 			},
 			{
-				pregunta: '¿La Mola cuenta como cima esencial?',
+				pregunta: '¿Cuenta como cima esencial?',
 				resposta:
-					'Sí, es la [cima esencial](/cims-essencials) del Tarragonès y la más alta de la comarca.'
+					'Sí, es la única [cima esencial](/cims-essencials) del Tarragonès y el techo de la comarca.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

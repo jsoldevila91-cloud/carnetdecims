@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Molló Puntaire',
@@ -30,47 +30,45 @@ const fitxa: ContingutFitxa = {
 	slug: 'mollo-puntaire',
 	descripcio: {
 		ca: [
-			"El Molló Puntaire és el cim més alt de les Muntanyes de Tivissa-Vandellòs, a la Serralada Prelitoral, dins el terme de Vandellòs i l'Hospitalet de l'Infant, [al Baix Camp](/comarques/baix-camp). La Viquipèdia en descriu la roca com a dolomita, hi anota un vèrtex geodèsic al cim i el relaciona amb els Dedalts de Vandellòs, nom amb què la Gran Enciclopèdia Catalana agrupa el Puntaire i la mola del Grèvol.",
-			"L'espai és protegit i amb un caràcter molt marcat: la Viquipèdia parla de muntanyes seques, esquerpes i gairebé despoblades, de calcàries amb cingles i barrancs, amb màquia i garriga als costers solans i alzinars a les obagues. El conjunt va entrar al PEIN pel Decret 328/1992 i forma part de la xarxa Natura 2000. A prop hi ha la [Mola de Genessies](/cims/mola-de-genessies), també essencial, i a la serra veïna de Tivissa [la Tossa](/cims/la-tossa-tivissa).",
-			"El bloc Reptes Muntanyencs, que hi va pujar el març del 2016 des de la masia de Castelló, a Masboquera, parla de la serralada com del conjunt de les serres de Mestral. Pel camí esmenta les restes del mas de Navaies, el forat del Vent o collet de la Creu, i una pedra d'erosió que anomena el Bolet. Quant a les vistes, les descriu com a molt bones i diu que abasten des del Pirineu fins al Delta, tot i que el dia que hi va anar la boira les va limitar.",
-			"Una part de la ruta segueix el GR 192, i la resta combina pistes i senders. No hi ha cap font d'aigua al recorregut segons el bloc, de manera que convé sortir amb tota l'aigua."
+			"El Molló Puntaire és, segons la Viquipèdia, el cim més alt de les Muntanyes de Tivissa-Vandellòs. És al terme de Vandellòs i l'Hospitalet de l'Infant, [al Baix Camp](/comarques/baix-camp). Forma part dels Dedalts de Vandellòs, la filera de moles que separa la vall del riu de Llastres de la mar, amb les Moles, la tossa de l'Alzina i la mola del Grèvol. Al cim hi ha un vèrtex geodèsic.",
+			"És una d'aquelles muntanyes que es veuen des de la carretera de la costa, travessada per línies elèctriques, i que poca gent s'atura a pujar. Amb la serra de Llaberia, les muntanyes de Tivissa-Vandellòs formen les anomenades serres de Mestral: un relleu calcari de cingles i barrancs, sec i molt ventat, protegit dins el PEIN des del 1992. A les pistes de pujada és fàcil trobar fòssils entre les pedres.",
+			"Els cims arriben gairebé a tocar del mar, i per això la vista abasta des del delta de l'Ebre fins al Pirineu quan el mestral ha netejat l'aire. A ponent queden la [Mola de Genessies](/cims/mola-de-genessies) i [la Tossa de Tivissa](/cims/la-tossa-tivissa), els altres dos cims essencials d'aquestes muntanyes.",
+			"El mestral hi bufa sovint amb força i no hi ha fonts al recorregut: són dos factors que pesen més que el desnivell a l'hora de triar el dia."
 		],
 		es: [
-			"El Molló Puntaire es la cima más alta de las Muntanyes de Tivissa-Vandellòs, en la Serralada Prelitoral, dentro del término de Vandellòs i l'Hospitalet de l'Infant, [en el Baix Camp](/comarques/baix-camp). La Viquipèdia describe su roca como dolomita, anota un vértice geodésico en la cima y lo relaciona con los Dedalts de Vandellòs, nombre con el que la Gran Enciclopèdia Catalana agrupa el Puntaire y la mola del Grèvol.",
-			'El espacio es protegido y de carácter muy marcado: la Viquipèdia habla de montañas secas, escarpadas y casi despobladas, de calizas con riscos y barrancos, con maquia y garriga en las laderas solanas y encinares en las umbrías. El conjunto entró en el PEIN por el Decreto 328/1992 y forma parte de la red Natura 2000. Cerca está la [Mola de Genessies](/cims/mola-de-genessies), también esencial, y en la sierra vecina de Tivissa [la Tossa](/cims/la-tossa-tivissa).',
-			'El blog Reptes Muntanyencs, que subió en marzo de 2016 desde la masía de Castelló, en Masboquera, habla de la cordillera como del conjunto de las serres de Mestral. En el camino menciona los restos del mas de Navaies, el forat del Vent o collet de la Creu, y una piedra de erosión que llama el Bolet. En cuanto a las vistas, las describe como muy buenas y dice que abarcan desde el Pirineo hasta el Delta, aunque el día que fue la niebla las limitó.',
-			'Una parte de la ruta sigue el GR 192, y el resto combina pistas y senderos. No hay ninguna fuente de agua en el recorrido según el blog, de modo que conviene salir con toda el agua.'
+			"El Molló Puntaire es, según la Viquipèdia, la cima más alta de las Muntanyes de Tivissa-Vandellòs. Está en el término de Vandellòs i l'Hospitalet de l'Infant, [en el Baix Camp](/comarques/baix-camp). Forma parte de los Dedalts de Vandellòs, la hilera de muelas que separa el valle del río de Llastres del mar, con las Moles, la tossa de l'Alzina y la mola del Grèvol. En la cima hay un vértice geodésico.",
+			'Es una de esas montañas que se ven desde la carretera de la costa, cruzada por líneas eléctricas, y que poca gente se detiene a subir. Con la sierra de Llaberia, las montañas de Tivissa-Vandellòs forman las llamadas serres de Mestral: un relieve calizo de riscos y barrancos, seco y muy ventoso, protegido dentro del PEIN desde 1992. En las pistas de subida es fácil encontrar fósiles entre las piedras.',
+			'Las cimas llegan casi a tocar el mar, y por eso la vista abarca desde el delta del Ebro hasta el Pirineo cuando el mistral ha limpiado el aire. A poniente quedan la [Mola de Genessies](/cims/mola-de-genessies) y [la Tossa de Tivissa](/cims/la-tossa-tivissa), las otras dos cimas esenciales de estas montañas.',
+			'El mistral sopla a menudo con fuerza y no hay fuentes en el recorrido: son dos factores que pesan más que el desnivel a la hora de elegir el día.'
 		]
 	},
 	rutes: [
 		{
 			id: 'castello-circular',
 			nom: {
-				ca: 'Circular des de la masia de Castelló pel GR 192',
-				es: 'Circular desde la masía de Castelló por el GR 192'
+				ca: 'Circular des de Castelló pel GR 192',
+				es: 'Circular desde Castelló por el GR 192'
 			},
-			sortida: { nom: 'Masia de Castelló (Masboquera, Vandellòs i l’Hospitalet de l’Infant)' },
+			sortida: { nom: "Masia de Castelló (Masboquera, Vandellòs i l'Hospitalet de l'Infant)" },
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular en sentit horari que surt de la masia de Castelló, accessible per carretera asfaltada. Fa 12,7 km, uns 589 m de desnivell positiu i 4 h 25 min de marxa efectiva; segons el seu track, el cim s'assoleix als 6 km de la sortida, passant pel coll de la Creu, la caseta de Pere Bou, la portella del Xato i la portella de les Llongues. La baixada passa per la font de Navaies i enllaça amb el GR 192 fins al punt de partida. El bloc la qualifica de «pistes i senders», amb senyalització parcial amb pintura de GR i PR.",
-				es: 'Reptes Muntanyencs documenta una circular en sentido horario que sale de la masía de Castelló, accesible por carretera asfaltada. Tiene 12,7 km, unos 589 m de desnivel positivo y 4 h 25 min de marcha efectiva; según su track, la cima se alcanza a los 6 km de la salida, pasando por el coll de la Creu, la caseta de Pere Bou, la portella del Xato y la portella de les Llongues. La bajada pasa por la font de Navaies y enlaza con el GR 192 hasta el punto de partida. El blog la califica de «pistas y senderos», con señalización parcial de pintura de GR y PR.'
+				ca: "La ressenya del bloc Reptes Muntanyencs (2016) surt del veïnat de Castelló, on s'arriba per carretera, i fa una circular de 12,7 km i 589 m de desnivell positiu en 4 h 25 min de marxa. Puja pel GR 192, una pista de terra i ciment que supera els graus de Castelló fins al coll de la Creu, i continua per pistes cap a la caseta de Pere Bou i la portella del Xato. Passada la portella de les Llongues, el camí es desdibuixa entre la vegetació els darrers metres abans del cim, a uns 6 km de la sortida. Es baixa per la font i el coll de Navaies i pel PR fins a retrobar el GR 192 i el coll de la Creu.",
+				es: 'La reseña del blog Reptes Muntanyencs (2016) sale del caserío de Castelló, adonde se llega por carretera, y hace una circular de 12,7 km y 589 m de desnivel positivo en 4 h 25 min de marcha. Sube por el GR 192, una pista de tierra y cemento que supera los graus de Castelló hasta el coll de la Creu, y continúa por pistas hacia la caseta de Pere Bou y la portella del Xato. Pasada la portella de les Llongues, el camino se desdibuja entre la vegetación en los últimos metros antes de la cima, a unos 6 km de la salida. Se baja por la fuente y el coll de Navaies y por el PR hasta recuperar el GR 192 y el coll de la Creu.'
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			'El recorregut combina pistes i senders i la senyalització és parcial: porta un track i un mapa, sobretot amb boira.',
-			"El bloc anota que no hi ha fonts d'aigua al recorregut: surt amb tota l'aigua que necessitis.",
-			"La ressenya és del 2016; comprova l'estat dels camins i les marques abans de sortir.",
-			"El bloc comença la pujada pel GR 192 des de l'aparcament de la masia; tingues-lo com a referència per orientar-te.",
-			"En cas d'emergència, 112."
+			'A prop del cim hi ha diverses traces que confonen, sobretot amb boira: tingues el track a mà.',
+			"Des de Castelló també surt el PR-C 92 cap al coll de les Moles, amb passos equipats (canal Llarga, pas de la Cadireta) i una cresta. No és la ruta normal: demana experiència i roca seca, i no s'ha de fer amb vent fort.",
+			'No hi ha aigua de confiança en tot el recorregut.',
+			'El vent de mestral hi bufa amb força; mira la previsió abans de sortir.'
 		],
 		es: [
-			'El recorrido combina pistas y senderos y la señalización es parcial: lleva un track y un mapa, sobre todo con niebla.',
-			'El blog anota que no hay fuentes de agua en el recorrido: sal con toda el agua que necesites.',
-			'La reseña es de 2016; comprueba el estado de los caminos y las marcas antes de salir.',
-			'El blog empieza la subida por el GR 192 desde el aparcamiento de la masía; tenlo como referencia para orientarte.',
-			'En caso de emergencia, 112.'
+			'Cerca de la cima hay varias trazas que confunden, sobre todo con niebla: ten el track a mano.',
+			'Desde Castelló sale también el PR-C 92 hacia el coll de les Moles, con pasos equipados (canal Llarga, pas de la Cadireta) y una cresta. No es la ruta normal: pide experiencia y roca seca, y no debe hacerse con viento fuerte.',
+			'No hay agua de confianza en todo el recorrido.',
+			'El mistral sopla con fuerza; mira la previsión antes de salir.'
 		]
 	},
 	faq: {
@@ -78,50 +76,46 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al Molló Puntaire?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 12,7 km des de la masia de Castelló amb 4 h 25 min de marxa efectiva; segons el seu track, el cim és als 6 km de la sortida.'
+					"Per la circular de Castelló, el bloc Reptes Muntanyencs va arribar al cim després d'uns 6 km i 2 h 20 min, aturades incloses. Tota la volta, de 12,7 km, són 4 h 25 min de marxa."
 			},
 			{
-				pregunta: 'Quin és el punt de sortida més habitual?',
+				pregunta: 'És difícil?',
 				resposta:
-					'El bloc surt de la masia de Castelló, a Masboquera, accessible per carretera asfaltada, i segueix el GR 192.'
+					'Per la pista del GR 192 la ressenya no descriu cap pas tècnic: és una excursió llarga per pistes i senders, amb senyalització parcial. La variant pel PR-C 92 i el pas de la Cadireta és una altra cosa: té passos equipats.'
 			},
 			{
 				pregunta: 'Què es veu des del cim?',
-				resposta:
-					"El bloc parla d'unes vistes molt bones que abasten des del Pirineu fins al Delta, tot i que el dia de la seva ascensió la boira les limitava."
+				resposta: "La costa, el delta de l'Ebre i, amb l'aire net, fins al Pirineu."
 			},
 			{
 				pregunta: 'El Molló Puntaire compta com a cim essencial?',
-				resposta:
-					'Sí, és un dels sis [cims essencials](/cims-essencials) del Baix Camp, i és el punt més alt de les Muntanyes de Tivissa-Vandellòs.'
+				resposta: 'Sí, és un dels sis [cims essencials](/cims-essencials) del Baix Camp.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al Molló Puntaire?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 12,7 km desde la masía de Castelló con 4 h 25 min de marcha efectiva; según su track, la cima está a 6 km de la salida.'
+					'Por la circular de Castelló, el blog Reptes Muntanyencs llegó a la cima tras unos 6 km y 2 h 20 min, paradas incluidas. Toda la vuelta, de 12,7 km, son 4 h 25 min de marcha.'
 			},
 			{
-				pregunta: '¿Cuál es el punto de salida más habitual?',
+				pregunta: '¿Es difícil?',
 				resposta:
-					'El blog sale de la masía de Castelló, en Masboquera, accesible por carretera asfaltada, y sigue el GR 192.'
+					'Por la pista del GR 192 la reseña no describe ningún paso técnico: es una excursión larga por pistas y senderos, con señalización parcial. La variante por el PR-C 92 y el pas de la Cadireta es otra cosa: tiene pasos equipados.'
 			},
 			{
 				pregunta: '¿Qué se ve desde la cima?',
-				resposta:
-					'El blog habla de unas vistas muy buenas que abarcan desde el Pirineo hasta el Delta, aunque el día de su ascensión la niebla las limitaba.'
+				resposta: 'La costa, el delta del Ebro y, con el aire limpio, hasta el Pirineo.'
 			},
 			{
 				pregunta: '¿El Molló Puntaire cuenta como cima esencial?',
-				resposta:
-					'Sí, es una de las seis [cimas esenciales](/cims-essencials) del Baix Camp, y es el punto más alto de las Muntanyes de Tivissa-Vandellòs.'
+				resposta: 'Sí, es una de las seis [cimas esenciales](/cims-essencials) del Baix Camp.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, VIQUIPEDIA_MUNTANYES, GEC, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: La Tossa (Tivissa)',
@@ -15,7 +15,7 @@ const VIQUIPEDIA_MUNTANYES = {
 };
 
 const REPTES = {
-	nom: 'Reptes Muntanyencs: La Tossa (Tivissa)',
+	nom: 'Reptes Muntanyencs: La Tossa',
 	url: 'https://reptesmuntanyencs.cat/la-tossa/',
 	consultat: CONSULTAT
 };
@@ -24,47 +24,45 @@ const fitxa: ContingutFitxa = {
 	slug: 'la-tossa-tivissa',
 	descripcio: {
 		ca: [
-			"La Tossa és un cim de la serra de Tivissa, al terme de Tivissa, a [la Ribera d'Ebre](/comarques/ribera-d-ebre). Segons la Viquipèdia, és de dolomia, té un vèrtex geodèsic al cim i queda dins l'espai protegit de les Muntanyes de Tivissa-Vandellòs.",
-			"Les Muntanyes de Tivissa-Vandellòs són, segons la Viquipèdia, un conjunt de serres de la Serralada Prelitoral amb dos sectors, el de Tivissa, més endins, i el de Vandellòs, a la costa, que sumen uns 25 km de llarg. Són muntanyes seques, esquerpes i gairebé despoblades, amb màquia als costers solans i alzinars a les obagues, on viu l'àguila daurada. El conjunt va entrar al PEIN el 1992. A prop hi ha dos cims essencials més: la [Mola de Genessies](/cims/mola-de-genessies) i el [Molló Puntaire](/cims/mollo-puntaire), el punt més alt d'aquestes muntanyes.",
-			'Reptes Muntanyencs hi puja des del Mas de la Marca de Dalt, per una circular de pistes i senders que descriu com a «molt fressats i evidents». Prop del cim hi ha dues agulles singulars, el Gegant i la Geganta, i un panell fotogràfic amb informació dels cims dels voltants. El bloc destaca les vistes de Tivissa des del cim de la roca Verdura i les vistes àmplies en totes direccions.',
-			"A l'estiu, segons el bloc, la calor endureix les condicions, perquè la vegetació escasseja i l'aigua també."
+			"La Tossa és un cim de la serra de Tivissa, a [la Ribera d'Ebre](/comarques/ribera-d-ebre), sobre el poble que li dona nom. És una muntanya de dolomia amb un vèrtex geodèsic al capdamunt, dins l'espai protegit de les Muntanyes de Tivissa-Vandellòs, i ocupa l'extrem de mestral del massís; a l'altre cap, tocant a la costa, hi ha el [Molló Puntaire](/cims/mollo-puntaire).",
+			"El camí hi puja per davant de dues agulles de roca conegudes com el Gegant i la Geganta. Una mica abans es passa per la roca Verdura, un mirador sobre el poble, i per un plafó fotogràfic que ajuda a posar nom als cims de l'entorn. La xarxa de camins és densa: hi passa el GR 7 i hi ha senders de petit recorregut, pals indicadors i fites.",
+			"Des del vèrtex la vista és oberta a tots els vents. La muntanya, com totes les d'aquest massís, és seca i de vegetació escassa; a prop hi ha la [Mola de Genessies](/cims/mola-de-genessies), amb la qual alguns excursionistes la combinen en una jornada molt llarga.",
+			"L'estiu no és bona època: la calor hi pica fort i només hi ha una font, la de Sant Blai, al peu de la muntanya."
 		],
 		es: [
-			"La Tossa es una cima de la serra de Tivissa, en el término de Tivissa, en [la Ribera d'Ebre](/comarques/ribera-d-ebre). Según la Viquipèdia, es de dolomía, tiene un vértice geodésico en la cima y queda dentro del espacio protegido de las Muntanyes de Tivissa-Vandellòs.",
-			'Las Muntanyes de Tivissa-Vandellòs son, según la Viquipèdia, un conjunto de sierras de la Serralada Prelitoral con dos sectores, el de Tivissa, más al interior, y el de Vandellòs, en la costa, que suman unos 25 km de largo. Son montañas secas, escarpadas y casi despobladas, con maquia en las laderas solanas y encinares en las umbrías, donde vive el águila real. El conjunto entró en el PEIN en 1992. Cerca hay otras dos cimas esenciales: la [Mola de Genessies](/cims/mola-de-genessies) y el [Molló Puntaire](/cims/mollo-puntaire), el punto más alto de estas montañas.',
-			'Reptes Muntanyencs sube desde el Mas de la Marca de Dalt, por una circular de pistas y senderos que describe como «muy trillados y evidentes». Cerca de la cima hay dos agujas singulares, el Gegant y la Geganta, y un panel fotográfico con información de las cimas de los alrededores. El blog destaca las vistas de Tivissa desde la cima de la roca Verdura y las vistas amplias en todas direcciones.',
-			'En verano, según el blog, el calor endurece las condiciones, porque la vegetación escasea y el agua también.'
+			"La Tossa es una cima de la sierra de Tivissa, en [la Ribera d'Ebre](/comarques/ribera-d-ebre), sobre el pueblo que le da nombre. Es una montaña de dolomía con un vértice geodésico en lo alto, dentro del espacio protegido de las Muntanyes de Tivissa-Vandellòs, y ocupa el extremo noroeste del macizo; en el otro extremo, junto a la costa, está el [Molló Puntaire](/cims/mollo-puntaire).",
+			'El camino sube por delante de dos agujas de roca conocidas como el Gegant y la Geganta. Un poco antes se pasa por la roca Verdura, un mirador sobre el pueblo, y por un panel fotográfico que ayuda a poner nombre a las cimas del entorno. La red de caminos es densa: pasa el GR 7 y hay senderos de pequeño recorrido, postes indicadores e hitos.',
+			'Desde el vértice la vista está abierta a todos los vientos. La montaña, como todas las de este macizo, es seca y de vegetación escasa; cerca está la [Mola de Genessies](/cims/mola-de-genessies), con la que algunos excursionistas la combinan en una jornada muy larga.',
+			'El verano no es buena época: el calor aprieta y solo hay una fuente, la de Sant Blai, al pie de la montaña.'
 		]
 	},
 	rutes: [
 		{
-			id: 'mas-de-la-marca-de-dalt',
+			id: 'mas-de-la-marca',
 			nom: {
-				ca: 'Circular des del Mas de la Marca de Dalt',
-				es: 'Circular desde el Mas de la Marca de Dalt'
+				ca: 'Circular des de Tivissa per la roca Verdura',
+				es: 'Circular desde Tivissa por la roca Verdura'
 			},
 			sortida: { nom: 'Mas de la Marca de Dalt (Tivissa)' },
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt del Mas de la Marca de Dalt i va per pistes i senders: 7,1 km, uns 460 m de desnivell positiu i 2 h 7 min de marxa efectiva. Segons el seu track, el cim s'assoleix a 1 h 23 min i uns 3,5 km de la sortida. Hi ha pals de fusta, pintura de GR i PR i fites. Pel camí cal superar «un curt i fàcil grau» que porta a un planell a la vista del cim.",
-				es: 'Reptes Muntanyencs documenta una circular que sale del Mas de la Marca de Dalt y va por pistas y senderos: 7,1 km, unos 460 m de desnivel positivo y 2 h 7 min de marcha efectiva. Según su track, la cima se alcanza a 1 h 23 min y unos 3,5 km de la salida. Hay postes de madera, pintura de GR y PR e hitos. Por el camino hay que superar «un corto y fácil escalón» que lleva a una explanada a la vista de la cima.'
+				ca: "La ressenya del bloc Reptes Muntanyencs (2016) fa una circular de 7,1 km i 460 m de desnivell positiu en 2 h 7 min de marxa, amb el cim a 3,5 km de la sortida. Surt pel GR 7 cap al sud-oest i el deixa per un corriol que puja al pas de lo Grau i a la carena, fins a la roca Verdura. D'allà una pista porta al collet de la Llena, on un pal indica la Tossa; un flanqueig amb fites escadusseres arriba al peu del Gegant i la Geganta, i un graó curt i fàcil dona pas al planell del cim. Es baixa pel coll de Montnegret i la font de Sant Blai, on es retroba el GR 7. Es pot escurçar sortint de Sant Blai, on s'arriba amb cotxe per una pista de ciment.",
+				es: 'La reseña del blog Reptes Muntanyencs (2016) hace una circular de 7,1 km y 460 m de desnivel positivo en 2 h 7 min de marcha, con la cima a 3,5 km de la salida. Sale por el GR 7 hacia el suroeste y lo deja por una senda que sube al pas de lo Grau y a la cresta, hasta la roca Verdura. Desde allí una pista lleva al collet de la Llena, donde un poste indica la Tossa; un flanqueo con hitos escasos llega al pie del Gegant y la Geganta, y un escalón corto y fácil da paso al rellano de la cima. Se baja por el coll de Montnegret y la font de Sant Blai, donde se recupera el GR 7. Se puede acortar saliendo de Sant Blai, adonde se llega en coche por una pista de cemento.'
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"El bloc avisa que a l'estiu la calor endureix les condicions, perquè la vegetació escasseja i també l'aigua.",
-			'Hi ha un curt i fàcil grau abans del planell del cim: no tindràs gaire problema, però vigila amb la roca humida.',
-			'El recorregut està senyalitzat amb pals de fusta, pintura de GR i PR i fites; revisa-ho als punts més conflictius.',
-			"Porta tota l'aigua des de la sortida.",
-			"Telèfon d'emergències: 112."
+			'Omple la cantimplora a Tivissa o a la font de Sant Blai: no hi ha més aigua.',
+			'El primer tros de la baixada cap al coll de Montnegret és un corriol poc marcat; busca la fita que assenyala el sender bo.',
+			'A la baixada, el sender més fressat no és sempre el pintat: fes cas dels pals indicadors de la font de Sant Blai.',
+			'Si vols enllaçar amb la Mola de Genessies, tingues en compte que és una travessa només per a gent molt entrenada.'
 		],
 		es: [
-			'El blog avisa de que en verano el calor endurece las condiciones, porque la vegetación escasea y también el agua.',
-			'Hay un corto y fácil escalón antes de la explanada de la cima: no tendrás mucho problema, pero vigila con la roca húmeda.',
-			'El recorrido está señalizado con postes de madera, pintura de GR y PR e hitos; revísalo en los puntos más conflictivos.',
-			'Lleva toda el agua desde la salida.',
-			'Teléfono de emergencias: 112.'
+			'Llena la cantimplora en Tivissa o en la font de Sant Blai: no hay más agua.',
+			'El primer tramo de la bajada hacia el coll de Montnegret es una senda poco marcada; busca el hito que señala el sendero bueno.',
+			'En la bajada, el sendero más pisado no siempre es el pintado: haz caso de los postes indicadores de la font de Sant Blai.',
+			'Si quieres enlazar con la Mola de Genessies, ten en cuenta que es una travesía solo para gente muy entrenada.'
 		]
 	},
 	faq: {
@@ -72,50 +70,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Tossa de Tivissa?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 7,1 km des del Mas de la Marca de Dalt amb 2 h 7 min de marxa efectiva; segons el seu track, el cim queda a 1 h 23 min de la sortida.'
+					'El bloc Reptes Muntanyencs hi va arribar en 1 h 23 min, aturades incloses, després de 3,5 km, i va fer tota la circular de 7,1 km en poc més de dues hores de marxa.'
 			},
 			{
-				pregunta: 'És una ruta senyalitzada?',
+				pregunta: 'Està ben senyalitzada?',
 				resposta:
-					'Sí. El bloc diu que tot el trajecte és perfectament senyalitzat, amb pals de fusta, pintura de GR i PR i fites.'
+					"Sí: hi ha pals de fusta, pintura de GR i de PR i fites, i els camins són fressats. Els punts on cal més atenció són el flanqueig cap al Gegant i l'inici de la baixada."
 			},
 			{
-				pregunta: 'Quines són les agulles que es veuen?',
+				pregunta: 'Què són el Gegant i la Geganta?',
 				resposta:
-					'El bloc esmenta dues agulles singulars, el Gegant i la Geganta, als peus de les quals passa el camí.'
+					"Dues agulles de roca al peu del cim. El camí hi passa per sota abans d'enfilar-se al planell del vèrtex."
 			},
 			{
-				pregunta: 'La Tossa de Tivissa compta com a cim essencial?',
+				pregunta: 'La Tossa compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels tres [cims essencials](/cims-essencials) de la Ribera d'Ebre, amb [la Picossa](/cims/la-picossa) i [Lo Tormo](/cims/lo-tormo)."
+					"Sí, és un dels tres [cims essencials](/cims-essencials) de la Ribera d'Ebre, amb [la Picossa](/cims/la-picossa) i [lo Tormo](/cims/lo-tormo)."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Tossa de Tivissa?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de 7,1 km desde el Mas de la Marca de Dalt con 2 h 7 min de marcha efectiva; según su track, la cima queda a 1 h 23 min de la salida.'
+					'El blog Reptes Muntanyencs llegó en 1 h 23 min, paradas incluidas, tras 3,5 km, e hizo toda la circular de 7,1 km en poco más de dos horas de marcha.'
 			},
 			{
-				pregunta: '¿Es una ruta señalizada?',
+				pregunta: '¿Está bien señalizada?',
 				resposta:
-					'Sí. El blog dice que todo el trayecto está perfectamente señalizado, con postes de madera, pintura de GR y PR e hitos.'
+					'Sí: hay postes de madera, pintura de GR y de PR e hitos, y los caminos están trillados. Los puntos donde hace falta más atención son el flanqueo hacia el Gegant y el inicio de la bajada.'
 			},
 			{
-				pregunta: '¿Qué son las agujas que se ven?',
+				pregunta: '¿Qué son el Gegant y la Geganta?',
 				resposta:
-					'El blog menciona dos agujas singulares, el Gegant y la Geganta, a cuyos pies pasa el camino.'
+					'Dos agujas de roca al pie de la cima. El camino pasa por debajo antes de subir al rellano del vértice.'
 			},
 			{
-				pregunta: '¿La Tossa de Tivissa cuenta como cima esencial?',
+				pregunta: '¿La Tossa cuenta como cima esencial?',
 				resposta:
-					"Sí, es una de las tres [cimas esenciales](/cims-essencials) de la Ribera d'Ebre, con [la Picossa](/cims/la-picossa) y [Lo Tormo](/cims/lo-tormo)."
+					"Sí, es una de las tres [cimas esenciales](/cims-essencials) de la Ribera d'Ebre, con [la Picossa](/cims/la-picossa) y [lo Tormo](/cims/lo-tormo)."
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, VIQUIPEDIA_MUNTANYES, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

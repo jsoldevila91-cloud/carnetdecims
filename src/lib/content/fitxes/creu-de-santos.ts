@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Creu de Santos',
@@ -30,47 +30,46 @@ const fitxa: ContingutFitxa = {
 	slug: 'creu-de-santos',
 	descripcio: {
 		ca: [
-			"La Creu de Santos, també coneguda com la Xàquera o el Tossal de Santos, és el cim culminant de la serra de Cardó, [al Baix Ebre](/comarques/baix-ebre). La Gran Enciclopèdia Catalana la descriu com a termenal dels municipis de Tivenys i Benifallet, i la Viquipèdia hi afegeix Rasquera, a la Ribera d'Ebre. Domina el portell de Xàquera i, segons la Viquipèdia, és de dolomia i queda dins l'espai protegit de les Serres de Cardó-el Boix.",
-			"La serra de Cardó és, segons l'Enciclopèdia, un massís de la Serralada Prelitoral de calcàries del Triàsic i el Juràssic carstificades: l'aigua de pluja circula pel subsòl i alimenta uns brolladors medicinals a la cinglera del Sallent, on hi ha el Balneari de Cardó, instal·lat en un antic convent de carmelites. La carena també divideix les aigües que van a l'Ebre de les que van a la mar; els camins vells que la creuen, com el portell de Xàquera, comuniquen amb Tivenys, Tortosa, Rasquera i Móra d'Ebre.",
-			"A la serra, l'obaga té alzines, pins, alguns roures, moixeres i teixos, exposats al mestral, i la solana, un matollar degradat de llentiscle, romaní i bruc amb pins blancs i alzines. L'Enciclopèdia anota que els nuclis medievals de Sallent, Cardó i Costumà, i els de la Fullola, la Bassa de Cascall, els Mallorquins, l'Alzina i l'Alentar, han desaparegut del tot.",
-			"El cim té dues cimeres properes: la de l'est, amb una gran creu, i la de ponent, amb vèrtex geodèsic, una creu metàl·lica, un pessebre i una caixa de registre, segons la Viquipèdia. El bloc Reptes Muntanyencs hi destaca les vistes amples, amb el delta de l'Ebre, i apunta que l'ascensió no és per fer a l'estiu ni en dies de pluja."
+			"La Creu de Santos, també coneguda com a Xàquera o tossal de Santos, és el punt culminant de la serra de Cardó, [al Baix Ebre](/comarques/baix-ebre) i al límit amb la Ribera d'Ebre: hi termenegen Tivenys i Benifallet, d'una banda, i Rasquera, de l'altra. El cim té dues puntes molt juntes: l'oriental, amb una gran creu, i l'occidental, amb el vèrtex geodèsic, una creu metàl·lica, un pessebre i una bústia amb el llibre de signatures.",
+			"La serra de Cardó és un massís de la Serralada Prelitoral, de calcàries del Triàsic i el Juràssic molt carstificades. L'aigua de pluja s'hi infiltra i reapareix en les fonts medicinals de la cinglera del Sallent, on es va instal·lar el balneari de Cardó aprofitant un antic convent de carmelites. La carena reparteix les aigües entre l'Ebre i la mar, i la travessaven els camins vells de Tivenys, Tortosa, Rasquera i Móra d'Ebre, com el del portell de Xàquera, al peu mateix del cim.",
+			"Els dos vessants no s'assemblen. El de Cardó, obac, és de pendents forts i cobert d'alzines i pins, amb roures, moixeres i teixos; el de Tivenys, solell, gairebé no té arbres fora dels barrancs, i hi toca el sol i el vent de ple. A canvi, de la carena estant la vista s'obre fins al delta de l'Ebre.",
+			"La majoria d'excursionistes hi pugen pel nord, des del balneari de Cardó, pel camí que enllaça amb la carena prop del cim. Els altres cims essencials de la comarca, el [Caro](/cims/caro) i el [Tossal d'Engrilló](/cims/tossal-d-engrillo), són als Ports, a l'altra banda de l'Ebre."
 		],
 		es: [
-			"La Creu de Santos, también conocida como la Xàquera o el Tossal de Santos, es la cima culminante de la sierra de Cardó, [en el Baix Ebre](/comarques/baix-ebre). La Gran Enciclopèdia Catalana la describe como límite de los municipios de Tivenys y Benifallet, y la Viquipèdia añade Rasquera, en la Ribera d'Ebre. Domina el portell de Xàquera y, según la Viquipèdia, es de dolomía y queda dentro del espacio protegido de las Serres de Cardó-el Boix.",
-			"La sierra de Cardó es, según la Enciclopèdia, un macizo de la Serralada Prelitoral de calizas del Triásico y el Jurásico karstificadas: el agua de lluvia circula por el subsuelo y alimenta unos manantiales medicinales en el acantilado del Sallent, donde está el Balneari de Cardó, instalado en un antiguo convento de carmelitas. La cresta también divide las aguas que van al Ebro de las que van al mar; los caminos viejos que la cruzan, como el portell de Xàquera, comunican con Tivenys, Tortosa, Rasquera y Móra d'Ebre.",
-			"En la sierra, la umbría tiene encinas, pinos, algunos robles, mostajos y tejos, expuestos al mistral, y la solana, un matorral degradado de lentisco, romero y brezo con pinos blancos y encinas. La Enciclopèdia anota que los núcleos medievales de Sallent, Cardó y Costumà, y los de la Fullola, la Bassa de Cascall, els Mallorquins, l'Alzina y l'Alentar, han desaparecido por completo.",
-			'La cima tiene dos cumbres próximas: la del este, con una gran cruz, y la de poniente, con vértice geodésico, una cruz metálica, un nacimiento y un buzón de registro, según la Viquipèdia. El blog Reptes Muntanyencs destaca las vistas amplias, con el delta del Ebro, y apunta que la ascensión no es para hacer en verano ni en días de lluvia.'
+			"La Creu de Santos, también conocida como Xàquera o tossal de Santos, es el punto culminante de la sierra de Cardó, [en el Baix Ebre](/comarques/baix-ebre) y en el límite con la Ribera d'Ebre: confluyen Tivenys y Benifallet, por un lado, y Rasquera, por el otro. La cima tiene dos puntas muy juntas: la oriental, con una gran cruz, y la occidental, con el vértice geodésico, una cruz metálica, un belén y un buzón con el libro de firmas.",
+			"La sierra de Cardó es un macizo de la Serralada Prelitoral, de calizas del Triásico y el Jurásico muy karstificadas. El agua de lluvia se infiltra y reaparece en las fuentes medicinales del farallón del Sallent, donde se instaló el balneario de Cardó aprovechando un antiguo convento de carmelitas. La cresta reparte las aguas entre el Ebro y el mar, y la cruzaban los caminos viejos de Tivenys, Tortosa, Rasquera y Móra d'Ebre, como el del portell de Xàquera, al pie mismo de la cima.",
+			'Las dos vertientes no se parecen. La de Cardó, umbría, es de pendientes fuertes y está cubierta de encinas y pinos, con robles, mostajos y tejos; la de Tivenys, solana, casi no tiene árboles fuera de los barrancos, y le dan de lleno el sol y el viento. A cambio, desde la cresta la vista se abre hasta el delta del Ebro.',
+			"La mayoría de excursionistas suben por el norte, desde el balneario de Cardó, por el camino que enlaza con la cresta cerca de la cima. Las otras cimas esenciales de la comarca, el [Caro](/cims/caro) y el [Tossal d'Engrilló](/cims/tossal-d-engrillo), están en los Ports, al otro lado del Ebro."
 		]
 	},
 	rutes: [
 		{
-			id: 'tivenys-carretera-de-cardo',
+			id: 'tivenys-coll-de-murtero',
 			nom: {
-				ca: 'Circular des de Tivenys per la carretera de Cardó',
-				es: 'Circular desde Tivenys por la carretera de Cardó'
+				ca: 'Circular des de Tivenys pel coll de Murtero',
+				es: 'Circular desde Tivenys por el coll de Murtero'
 			},
-			sortida: { nom: 'Tivenys (carretera de Cardó)' },
+			sortida: { nom: 'Pista de la carretera de Cardó (Tivenys)' },
+			tecnicitat: 'terreny-irregular',
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt de Tivenys per la carretera de Cardó, amb pistes i senders: uns 13 km, uns 834 m de desnivell positiu i 4 h 7 min de marxa efectiva. Segons el seu track, la Creu de Xàquera s'assoleix a 1 h 34 min i la Creu de Santos a 1 h 40 min, a uns 4,7 km de la sortida. El bloc recorda que no és una proposta per fer a l'estiu ni en dies de pluja, que no s'hi troba aigua enlloc, que el recorregut no és gaire complicat i que cal no perdre els senyals de pintura (grogues i vermelles) ni les fites de pedra; també esmenta les restes del corral o casa del Moreno.",
-				es: 'Reptes Muntanyencs documenta una circular que sale de Tivenys por la carretera de Cardó, con pistas y senderos: unos 13 km, unos 834 m de desnivel positivo y 4 h 7 min de marcha efectiva. Según su track, la Creu de Xàquera se alcanza a 1 h 34 min y la Creu de Santos a 1 h 40 min, a unos 4,7 km de la salida. El blog recuerda que no es una propuesta para hacer en verano ni en días de lluvia, que no se encuentra agua en ningún sitio, que el recorrido no es muy complicado y que hay que no perder las señales de pintura (amarillas y rojas) ni los hitos de piedra; también menciona los restos del corral o casa del Moreno.'
+				ca: "La ressenya del bloc Reptes Muntanyencs (2012) puja pel vessant sud: una circular de 13 km i 834 m de desnivell positiu en 4 h 7 min de marxa, amb el cim a 4,7 km i 1 h 40 min de la sortida. Es puja per pista fins al coll de Murtero i d'allà se segueix la carena per una senda fitada, sense gaire camí clar, fins a trobar el camí que ve de Cardó i el vèrtex. La baixada, cap al sud-est, segueix senyals de pintura groga, alguns difícils de veure, fins al corral del Moreno, i després senyals vermells pel barranc de Carlos i el coll de Serra Mala. Al punt de sortida s'hi arriba per una pista de terra amb pedra solta, millor amb vehicle alt, i hi caben dos o tres cotxes.",
+				es: 'La reseña del blog Reptes Muntanyencs (2012) sube por la vertiente sur: una circular de 13 km y 834 m de desnivel positivo en 4 h 7 min de marcha, con la cima a 4,7 km y 1 h 40 min de la salida. Se sube por pista hasta el coll de Murtero y desde allí se sigue la cresta por una senda con hitos, sin mucho camino claro, hasta encontrar el camino que viene de Cardó y el vértice. La bajada, hacia el sureste, sigue señales de pintura amarilla, algunas difíciles de ver, hasta el corral del Moreno, y después señales rojas por el barranc de Carlos y el coll de Serra Mala. Al punto de salida se llega por una pista de tierra con piedra suelta, mejor con vehículo alto, y caben dos o tres coches.'
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"Segons el bloc, aquesta ruta no és per fer a l'estiu ni en dies de pluja. Tria un dia sec i de temperatura moderada.",
-			"El bloc indica que no es troba aigua enlloc: porta tota l'aigua des de la sortida.",
-			'Hi ha trams on cal no perdre els senyals de pintura i les fites de pedra; amb boira, no improvisis.',
-			'Del cim al corral del Moreno les senyals de pintura grogues són difícils de veure, segons el bloc: tingues el track a punt.',
-			"Telèfon d'emergències: 112."
+			"Pel vessant de Tivenys no és una sortida d'estiu ni de dia de pluja: no hi ha ombra ni aigua, i amb el terra moll rellisca.",
+			"Si puges des del balneari de Cardó, pel vessant obac, porta el mapa de la serra: els pendents són forts i hi ha més d'un camí.",
+			'A la baixada pel corral del Moreno, no perdis els senyals de pintura: hi ha un pas una mica complicat sortint del cim i trams tapats per la vegetació al barranc de Carlos.',
+			'Si no vols complicacions, baixa del cim pel mateix camí de la carena fins al coll de Murtero.'
 		],
 		es: [
-			'Según el blog, esta ruta no es para hacer en verano ni en días de lluvia. Elige un día seco y de temperatura moderada.',
-			'El blog indica que no se encuentra agua en ningún sitio: lleva toda el agua desde la salida.',
-			'Hay tramos donde no hay que perder las señales de pintura y los hitos de piedra; con niebla, no improvises.',
-			'De la cima al corral del Moreno las señales de pintura amarillas son difíciles de ver, según el blog: ten el track a punto.',
-			'Teléfono de emergencias: 112.'
+			'Por la vertiente de Tivenys no es una salida de verano ni de día de lluvia: no hay sombra ni agua, y con el suelo mojado resbala.',
+			'Si subes desde el balneario de Cardó, por la vertiente umbría, lleva el mapa de la sierra: las pendientes son fuertes y hay más de un camino.',
+			'En la bajada por el corral del Moreno, no pierdas las señales de pintura: hay un paso algo complicado al salir de la cima y tramos tapados por la vegetación en el barranc de Carlos.',
+			'Si no quieres complicaciones, baja de la cima por el mismo camino de la cresta hasta el coll de Murtero.'
 		]
 	},
 	faq: {
@@ -78,49 +77,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Creu de Santos?',
 				resposta:
-					"Reptes Muntanyencs documenta una circular d'uns 13 km des de Tivenys amb 4 h 7 min de marxa efectiva; segons el seu track, la Creu de Santos s'assoleix a 1 h 40 min de la sortida."
+					'Des de la pista de Tivenys, el bloc Reptes Muntanyencs hi va arribar en 1 h 40 min, aturades incloses, després de 4,7 km. Tota la seva circular, de 13 km i 834 m de desnivell, són 4 h 7 min de marxa.'
 			},
 			{
-				pregunta: 'És difícil?',
+				pregunta: "Per on s'hi puja normalment?",
 				resposta:
-					"El bloc diu que el recorregut no és gaire complicat, però que cal seguir bé les senyals de pintura i les fites i que no és una ruta per a l'estiu ni per a dies de pluja."
+					'La majoria de ressenyes surten del balneari de Cardó, pel vessant nord, que és obac i boscós. El vessant de Tivenys és més solitari i pelat, però permet fer la carena.'
 			},
 			{
-				pregunta: 'Hi ha aigua pel camí?',
-				resposta: 'El bloc indica que no es troba aigua enlloc; porta tota la que necessitis.'
+				pregunta: 'Quina de les dues creus és el cim?',
+				resposta:
+					"Les dues puntes són a tocar i gairebé a la mateixa alçada: l'occidental té el vèrtex geodèsic i la bústia, i l'oriental, la creu gran. Passa per totes dues."
 			},
 			{
 				pregunta: 'La Creu de Santos compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels [cims essencials](/cims-essencials) del Baix Ebre, amb el [Tossal d'Engrilló](/cims/tossal-d-engrillo) i el [Caro](/cims/caro)."
+					'Sí, és un dels tres [cims essencials](/cims-essencials) del Baix Ebre, i ho és des de la primera llista del repte, del 2005.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Creu de Santos?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de unos 13 km desde Tivenys con 4 h 7 min de marcha efectiva; según su track, la Creu de Santos se alcanza a 1 h 40 min de la salida.'
+					'Desde la pista de Tivenys, el blog Reptes Muntanyencs llegó en 1 h 40 min, paradas incluidas, tras 4,7 km. Toda su circular, de 13 km y 834 m de desnivel, son 4 h 7 min de marcha.'
 			},
 			{
-				pregunta: '¿Es difícil?',
+				pregunta: '¿Por dónde se sube normalmente?',
 				resposta:
-					'El blog dice que el recorrido no es muy complicado, pero que hay que seguir bien las señales de pintura y los hitos y que no es una ruta para el verano ni para días de lluvia.'
+					'La mayoría de reseñas salen del balneario de Cardó, por la vertiente norte, que es umbría y boscosa. La vertiente de Tivenys es más solitaria y pelada, pero permite recorrer la cresta.'
 			},
 			{
-				pregunta: '¿Hay agua en el camino?',
+				pregunta: '¿Cuál de las dos cruces es la cima?',
 				resposta:
-					'El blog indica que no se encuentra agua en ningún sitio; lleva toda la que necesites.'
+					'Las dos puntas están pegadas y casi a la misma altura: la occidental tiene el vértice geodésico y el buzón, y la oriental, la cruz grande. Pasa por las dos.'
 			},
 			{
 				pregunta: '¿La Creu de Santos cuenta como cima esencial?',
 				resposta:
-					"Sí, es una de las [cimas esenciales](/cims-essencials) del Baix Ebre, con el [Tossal d'Engrilló](/cims/tossal-d-engrillo) y el [Caro](/cims/caro)."
+					'Sí, es una de las tres [cimas esenciales](/cims-essencials) del Baix Ebre, y lo es desde la primera lista del reto, de 2005.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, GEC_CIM, GEC_SERRA, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

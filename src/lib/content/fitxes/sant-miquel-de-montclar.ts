@@ -1,10 +1,22 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Montclar (Pontils)',
 	url: 'https://ca.wikipedia.org/wiki/Montclar_(Pontils)',
+	consultat: CONSULTAT
+};
+
+const CATROM_ESGLESIA = {
+	nom: 'Enciclopèdia Catalana, Catalunya Romànica: Sant Miquel de Montclar (Pontils)',
+	url: 'https://www.enciclopedia.cat/catalunya-romanica/sant-miquel-de-montclar-pontils',
+	consultat: CONSULTAT
+};
+
+const CATROM_CASTELL = {
+	nom: 'Enciclopèdia Catalana, Catalunya Romànica: Castell de Montclar (Pontils)',
+	url: 'https://www.enciclopedia.cat/catalunya-romanica/castell-de-montclar-pontils',
 	consultat: CONSULTAT
 };
 
@@ -18,96 +30,109 @@ const fitxa: ContingutFitxa = {
 	slug: 'sant-miquel-de-montclar',
 	descripcio: {
 		ca: [
-			"Sant Miquel de Montclar és el nom amb què la FEEC recull el cim de Montclar, al terme de Pontils, a [la Conca de Barberà](/comarques/conca-de-barbera). El cim del repte és el de Montclar; l'ermita de Sant Miquel i les restes del castell són a prop. Segons la Viquipèdia, és un massís abrupte, de conglomerat, gres i marga, que es distingeix dels cims veïns pel color clar de les seves roques; la vegetació és més aviat arbustiva i baixa, i al cim hi ha un vèrtex geodèsic. Forma part de la Serralada Prelitoral Catalana.",
-			"La Viquipèdia anota que a la muntanya hi ha unes restes d'un castell, amb un article propi, i una ermita dedicada a Sant Miquel. Reptes Muntanyencs, que hi puja des del km 1,6 de la carretera TV-2015, parla de «l'ermita i el castell de Sant Miquel del Montclar» com a punts d'interès de la zona.",
-			"La ressenya del bloc descriu una circular curta però amb pendent: el cim és «envoltat de cingles de conglomerat d'impossible superació»; per enllaçar amb noves pistes, a més, «s'han de travessar camps de cultiu», i en un tram el sender és «molt difús i gairebé imperceptible». L'itinerari no està senyalitzat, tret d'un pal indicador de diferents destinacions en un encreuament.",
-			'Per això, tot i que la distància és curta, cal portar el track i saber orientar-se: el recorregut va per camps, pistes i un sender poc visible.'
+			"Sant Miquel de Montclar és el nom amb què el repte recull el cim de Montclar, al terme de Pontils, a [la Conca de Barberà](/comarques/conca-de-barbera). És un massís abrupte que destaca entre les muntanyes del voltant per l'alçada i pel color clar de la roca, amb una vegetació baixa i arbustiva. El punt que compta és el del vèrtex geodèsic; l'ermita de Sant Miquel i la torre del castell són uns centenars de metres més enllà, a la mateixa carena.",
+			"La muntanya té una història llarga. El lloc de Montclar ja es documenta l'any 1013, quan el castell era de Sal·la de Santa Perpètua, que el va vendre al seu nebot Borrell, bisbe de Vic. Era una fortalesa de frontera, amb el terme entre els comtats de Barcelona i d'Osona-Manresa, i el 1072 va passar al comte Ramon Berenguer I. Avui en queda una torre al capdamunt. L'església de Sant Miquel, antiga parròquia, apareix per primera vegada el 1154 en una butlla del papa Anastasi IV.",
+			'Des de la torre i des del cim hi ha una bona panoràmica sobre la conca alta del Gaià i sobre la plana de la Conca de Barberà. Vist des de la carretera de Vallespinosa, el Montclar sembla tancat per cingles de conglomerat, però el bloc Reptes Muntanyencs explica que és accessible per tots quatre costats.',
+			"És una sortida curta, de mig matí, per fer amb temps fresc: no hi ha aigua ni gaire ombra. Els altres cims essencials de la comarca són la [Mola d'Estat](/cims/mola-d-estat), la [Punta del Curull](/cims/punta-del-curull) i el [Tossal Gros de Vallbona](/cims/tossal-gros-de-vallbona)."
 		],
 		es: [
-			'Sant Miquel de Montclar es el nombre con el que la FEEC recoge la cima de Montclar, en el término de Pontils, en [la Conca de Barberà](/comarques/conca-de-barbera). La cima del reto es la de Montclar; la ermita de Sant Miquel y los restos del castillo están cerca. Según la Viquipèdia, es un macizo abrupto, de conglomerado, arenisca y marga, que se distingue de las cimas vecinas por el color claro de sus rocas; la vegetación es más bien arbustiva y baja, y en la cima hay un vértice geodésico. Forma parte de la Serralada Prelitoral Catalana.',
-			'La Viquipèdia anota que en la montaña hay unos restos de un castillo, con artículo propio, y una ermita dedicada a Sant Miquel. Reptes Muntanyencs, que sube desde el km 1,6 de la carretera TV-2015, habla de «la ermita y el castillo de Sant Miquel del Montclar» como puntos de interés de la zona.',
-			'La reseña del blog describe una circular corta pero con pendiente: la cima está «rodeada de riscos de conglomerado de imposible superación»; para enlazar con nuevas pistas, además, «hay que atravesar campos de cultivo», y en un tramo el sendero es «muy difuso y casi imperceptible». El itinerario no está señalizado, salvo un poste indicador de diferentes destinos en un cruce.',
-			'Por eso, aunque la distancia es corta, hay que llevar el track y saber orientarse: el recorrido va por campos, pistas y un sendero poco visible.'
+			'Sant Miquel de Montclar es el nombre con el que el reto recoge la cima de Montclar, en el término de Pontils, en [la Conca de Barberà](/comarques/conca-de-barbera). Es un macizo abrupto que destaca entre las montañas de alrededor por su altura y por el color claro de la roca, con una vegetación baja y arbustiva. El punto que cuenta es el del vértice geodésico; la ermita de Sant Miquel y la torre del castillo están unos cientos de metros más allá, en la misma cresta.',
+			'La montaña tiene una historia larga. El lugar de Montclar ya se documenta en el año 1013, cuando el castillo era de Sal·la de Santa Perpètua, que lo vendió a su sobrino Borrell, obispo de Vic. Era una fortaleza de frontera, con el término entre los condados de Barcelona y de Osona-Manresa, y en 1072 pasó al conde Ramon Berenguer I. Hoy queda una torre en lo alto. La iglesia de Sant Miquel, antigua parroquia, aparece por primera vez en 1154 en una bula del papa Anastasio IV.',
+			'Desde la torre y desde la cima hay una buena panorámica sobre la cuenca alta del Gaià y sobre el llano de la Conca de Barberà. Visto desde la carretera de Vallespinosa, el Montclar parece cerrado por riscos de conglomerado, pero el blog Reptes Muntanyencs explica que es accesible por sus cuatro lados.',
+			"Es una salida corta, de media mañana, para hacer con tiempo fresco: no hay agua ni mucha sombra. Las otras cimas esenciales de la comarca son la [Mola d'Estat](/cims/mola-d-estat), la [Punta del Curull](/cims/punta-del-curull) y el [Tossal Gros de Vallbona](/cims/tossal-gros-de-vallbona)."
 		]
 	},
 	rutes: [
 		{
+			id: 'biure',
+			nom: {
+				ca: 'Des de Biure per la pista de Sant Miquel',
+				es: 'Desde Biure por la pista de Sant Miquel'
+			},
+			sortida: { nom: 'Biure' },
+			descripcio: {
+				ca: "És l'accés que descriu Catalunya Romànica per arribar al castell: des del poble de Biure s'agafa la pista que mena a Sant Miquel, a la dreta; al primer trencall es va a la dreta, al segon a l'esquerra i al tercer, sota una línia d'alta tensió, també a l'esquerra. Una part de la pista es pot fer amb cotxe. Al final, un corriol s'enfila fins al capdamunt del puig, on hi ha la torre i l'ermita. El vèrtex del cim és a la mateixa carena, cap al sud, per camí evident.",
+				es: 'Es el acceso que describe Catalunya Romànica para llegar al castillo: desde el pueblo de Biure se toma la pista que lleva a Sant Miquel, a la derecha; en el primer desvío se va a la derecha, en el segundo a la izquierda y en el tercero, bajo una línea de alta tensión, también a la izquierda. Una parte de la pista se puede hacer en coche. Al final, una senda sube hasta lo alto del cerro, donde están la torre y la ermita. El vértice de la cima está en la misma cresta, hacia el sur, por camino evidente.'
+			},
+			fonts: [CATROM_CASTELL, REPTES]
+		},
+		{
 			id: 'tv-2015',
 			nom: {
-				ca: 'Circular des de la carretera TV-2015',
-				es: 'Circular desde la carretera TV-2015'
+				ca: 'Circular des de la carretera de Vallespinosa',
+				es: 'Circular desde la carretera de Vallespinosa'
 			},
-			sortida: { nom: 'Km 1,6 de la carretera TV-2015 (Pontils)' },
+			sortida: { nom: 'Clot de Comadevaques, km 1,6 de la TV-2015 (Pontils)' },
 			descripcio: {
-				ca: "Reptes Muntanyencs documenta una circular que surt del km 1,6 de la TV-2015, amb senders i pistes: uns 5,8 km i uns 509 m de desnivell positiu. Segons el seu track, el cim de Montclar s'assoleix als 2,1 km i a 35 min de la sortida. L'itinerari no està senyalitzat, hi ha camps de conreu per travessar i un sender gairebé imperceptible.",
-				es: 'Reptes Muntanyencs documenta una circular que sale del km 1,6 de la TV-2015, con senderos y pistas: unos 5,8 km y unos 509 m de desnivel positivo. Según su track, la cima de Montclar se alcanza a los 2,1 km y a 35 min de la salida. El itinerario no está señalizado, hay campos de cultivo que atravesar y un sendero casi imperceptible.'
+				ca: "El bloc Reptes Muntanyencs (2012) hi va pujar pel sud: surt de la carretera per una pista cap al nord, deixa el llit de la riera i guanya la carena amb un flanqueig sense camí; seguint-la arriba al vèrtex en 2,1 km i uns 35 minuts, i tot seguit a l'ermita i el castell. Va baixar per un sender i una pista cap al clot de Sant Miquel i va tancar la volta travessant camps de conreu, amb 5,8 km en total. No hi ha cap senyalització.",
+				es: 'El blog Reptes Muntanyencs (2012) subió por el sur: sale de la carretera por una pista hacia el norte, deja el cauce de la riera y gana la cresta con un flanqueo sin camino; siguiéndola llega al vértice en 2,1 km y unos 35 minutos, y a continuación a la ermita y el castillo. Bajó por un sendero y una pista hacia el clot de Sant Miquel y cerró la vuelta cruzando campos de cultivo, con 5,8 km en total. No hay ninguna señalización.'
 			},
 			fonts: [REPTES]
 		}
 	],
 	consells: {
 		ca: [
-			"El bloc no hi troba senyalització, tret d'un pal indicador en un encreuament: porta el track i un mapa de l'ICGC.",
-			'Hi ha camps de conreu per travessar: respecta els cultius i els límits de les finques.',
-			"Evita els cingles de conglomerat que envolten el cim; el bloc els considera d'impossible superació.",
-			"Si el sender és difús, torna enrere abans d'inventar un pas.",
-			"Telèfon d'emergències: 112."
+			"No et quedis a l'ermita: el cim del repte és el vèrtex geodèsic de Montclar, a l'altre cap de la carena.",
+			"Cap dels dos accessos està senyalitzat. Porta el mapa de l'ICGC o un track, sobretot per trobar els trencalls de la pista de Biure.",
+			'Pel costat de Vallespinosa cal travessar camps de vinya i de cereal per tancar la volta: passa per les vores i no trepitgis el sembrat.',
+			"La torre del castell és una ruïna: no t'hi enfilis."
 		],
 		es: [
-			'El blog no encuentra señalización, salvo un poste indicador en un cruce: lleva el track y un mapa del ICGC.',
-			'Hay campos de cultivo que atravesar: respeta los cultivos y los límites de las fincas.',
-			'Evita los riscos de conglomerado que rodean la cima; el blog los considera de imposible superación.',
-			'Si el sendero es difuso, da la vuelta antes de inventar un paso.',
-			'Teléfono de emergencias: 112.'
+			'No te quedes en la ermita: la cima del reto es el vértice geodésico de Montclar, en el otro extremo de la cresta.',
+			'Ninguno de los dos accesos está señalizado. Lleva el mapa del ICGC o un track, sobre todo para dar con los desvíos de la pista de Biure.',
+			'Por el lado de Vallespinosa hay que cruzar campos de viña y de cereal para cerrar la vuelta: pasa por los bordes y no pises el sembrado.',
+			'La torre del castillo es una ruina: no te subas a ella.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar a Montclar?',
+				pregunta: 'On és exactament el cim de Sant Miquel de Montclar?',
 				resposta:
-					"Reptes Muntanyencs documenta una circular d'uns 5,8 km des de la TV-2015; segons el seu track, el cim de Montclar queda a 35 min i uns 2,1 km de la sortida."
+					"És el cim de Montclar, on hi ha el vèrtex geodèsic. L'ermita de Sant Miquel i la torre del castell queden uns centenars de metres més enllà, seguint la carena."
 			},
 			{
-				pregunta: "És l'ermita de Sant Miquel?",
+				pregunta: 'Quant es triga a pujar-hi?',
 				resposta:
-					"No. El cim del repte és el cim de Montclar; l'ermita de Sant Miquel i les restes del castell són a prop, segons la Viquipèdia."
+					'Des de la carretera de Vallespinosa, el bloc Reptes Muntanyencs va arribar al vèrtex en uns 35 minuts i 2,1 km, i va fer una circular de 5,8 km en 1 h 47 min de marxa.'
 			},
 			{
-				pregunta: 'Està senyalitzat?',
-				resposta: "El bloc diu que no està senyalitzat, tret d'un pal indicador en un encreuament."
+				pregunta: 'Què en queda, del castell de Montclar?',
+				resposta:
+					'Una torre al capdamunt de la muntanya. El castell es documenta des del 1013 i el 1072 va ser venut al comte de Barcelona Ramon Berenguer I.'
 			},
 			{
 				pregunta: 'Compta com a cim essencial?',
 				resposta:
-					"Sí, és un dels quatre [cims essencials](/cims-essencials) de la Conca de Barberà, amb la [Mola d'Estat](/cims/mola-d-estat) i la [Punta del Curull](/cims/punta-del-curull)."
+					'Sí, amb el nom de Sant Miquel de Montclar, i és un dels quatre [cims essencials](/cims-essencials) de la Conca de Barberà.'
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a Montclar?',
+				pregunta: '¿Dónde está exactamente la cima de Sant Miquel de Montclar?',
 				resposta:
-					'Reptes Muntanyencs documenta una circular de unos 5,8 km desde la TV-2015; según su track, la cima de Montclar queda a 35 min y unos 2,1 km de la salida.'
+					'Es la cima de Montclar, donde está el vértice geodésico. La ermita de Sant Miquel y la torre del castillo quedan unos cientos de metros más allá, siguiendo la cresta.'
 			},
 			{
-				pregunta: '¿Es la ermita de Sant Miquel?',
+				pregunta: '¿Cuánto se tarda en subir?',
 				resposta:
-					'No. La cima del reto es la cima de Montclar; la ermita de Sant Miquel y los restos del castillo están cerca, según la Viquipèdia.'
+					'Desde la carretera de Vallespinosa, el blog Reptes Muntanyencs llegó al vértice en unos 35 minutos y 2,1 km, e hizo una circular de 5,8 km en 1 h 47 min de marcha.'
 			},
 			{
-				pregunta: '¿Está señalizado?',
-				resposta: 'El blog dice que no está señalizado, salvo un poste indicador en un cruce.'
+				pregunta: '¿Qué queda del castillo de Montclar?',
+				resposta:
+					'Una torre en lo alto de la montaña. El castillo se documenta desde 1013 y en 1072 fue vendido al conde de Barcelona Ramon Berenguer I.'
 			},
 			{
 				pregunta: '¿Cuenta como cima esencial?',
 				resposta:
-					"Sí, es una de las cuatro [cimas esenciales](/cims-essencials) de la Conca de Barberà, con la [Mola d'Estat](/cims/mola-d-estat) y la [Punta del Curull](/cims/punta-del-curull)."
+					'Sí, con el nombre de Sant Miquel de Montclar, y es una de las cuatro [cimas esenciales](/cims-essencials) de la Conca de Barberà.'
 			}
 		]
 	},
-	fonts: [VIQUIPEDIA, REPTES],
+	fonts: [VIQUIPEDIA, CATROM_ESGLESIA, CATROM_CASTELL, REPTES],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;
