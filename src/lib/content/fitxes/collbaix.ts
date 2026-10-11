@@ -24,58 +24,60 @@ const fitxa: ContingutFitxa = {
 	slug: 'collbaix',
 	descripcio: {
 		ca: [
-			"El Collbaix és un turó del Pla de Bages, que el catàleg situa a Sant Joan de Vilatorrada, al [Bages](/comarques/bages). Segons la Viquipèdia, és el punt més alt del terme de Manresa i es reparteix entre els termes de Manresa, Sant Joan de Vilatorrada i Fonollosa. A la comarca, l'altre cim essencial és [l'Elefant](/cims/elefant-roca-de-sant-salvador), a Montserrat.",
-			"La Viquipèdia explica que un estrat de conglomerat resistent protegeix de l'erosió el cim pla, i l'Ajuntament de Manresa el considera un bon exemple de relleu tabular. L'Ajuntament el defineix com un clar referent geogràfic per als manresans i com a destí habitual d'excursions matinals.",
-			'Totnens, que el proposa com a ruta per a famílies, el descriu com una ruta fàcil i senyalitzada, per senders ben marcats i corriols, amb sortida al final del carrer Collbaix, a Sant Joan de Vilatorrada. El cim és una gran esplanada, amb vistes panoràmiques sobre el Pla de Bages i la muntanya de Montserrat.',
-			'Atenció a dalt: Totnens avisa que cal vigilar perquè el cim acaba en un penya-segat. A la baixada hi ha trams pedregosos i alguns trams del camí, molt erosionats, semblen un torrent.'
+			"El Collbaix és un turó de cim pla que tanca el pla de Bages per ponent, entre les rieres de Rajadell i de Fonollosa. Hi toquen diversos termes del [Bages](/comarques/bages): segons la Viquipèdia, el vessant de llevant és de Sant Joan de Vilatorrada, el del sud de Manresa, que hi té el punt més alt del municipi, i bona part del cim, de Fonollosa. És el més baix dels tres cims essencials de la comarca; els altres dos són [el Montcau](/cims/montcau) i [l'Elefant](/cims/elefant-roca-de-sant-salvador).",
+			"La forma té explicació. La Viquipèdia diu que el turó ha quedat en relleu perquè un estrat de conglomerat resistent protegeix el cim de l'erosió que s'ha endut els terrenys del voltant; l'Ajuntament de Manresa en diu un bon exemple de relleu tabular. El mateix Ajuntament el presenta com un referent geogràfic per als manresans i el destí de moltes excursions, i l'ha inclòs als itineraris de l'Anella Verda.",
+			"El cim és una esplanada amb una bandera, una taula d'orientació i un plafó informatiu. Des d'allà, Totnens descriu el pla de Bages als peus i Montserrat al fons. A la pujada es passa per cabanes de pedra seca, entre els camps, i per unes tines de pedra dins del bosc.",
+			"És una sortida curta per a tot l'any. L'esplanada del cim és oberta i acaba en un cingle: no és lloc per córrer."
 		],
 		es: [
-			'El Collbaix es un cerro del Pla de Bages, que el catálogo sitúa en Sant Joan de Vilatorrada, en el [Bages](/comarques/bages). Según la Viquipèdia, es el punto más alto del término de Manresa y se reparte entre los términos de Manresa, Sant Joan de Vilatorrada y Fonollosa. En la comarca, la otra cima esencial es [el Elefant](/cims/elefant-roca-de-sant-salvador), en Montserrat.',
-			'La Viquipèdia explica que un estrato de conglomerado resistente protege de la erosión la cima plana, y el Ayuntamiento de Manresa lo considera un buen ejemplo de relieve tabular. El Ayuntamiento lo define como un claro referente geográfico para los manresanos y como destino habitual de excursiones matinales.',
-			'Totnens, que lo propone como ruta para familias, lo describe como una ruta fácil y señalizada, por sendas bien marcadas y senderos, con salida al final de la calle Collbaix, en Sant Joan de Vilatorrada. La cima es una gran explanada, con vistas panorámicas sobre el Pla de Bages y la montaña de Montserrat.',
-			'Atención arriba: Totnens avisa de que hay que vigilar porque la cima acaba en un acantilado. En la bajada hay tramos pedregosos y algunos tramos del camino, muy erosionados, parecen un torrente.'
+			'El Collbaix es un cerro de cima plana que cierra el pla de Bages por poniente, entre las rieras de Rajadell y de Fonollosa. Lo tocan varios términos del [Bages](/comarques/bages): según la Viquipèdia, la vertiente de levante es de Sant Joan de Vilatorrada, la del sur de Manresa, que tiene allí el punto más alto del municipio, y buena parte de la cima, de Fonollosa. Es la más baja de las tres cimas esenciales de la comarca; las otras dos son [el Montcau](/cims/montcau) y [el Elefant](/cims/elefant-roca-de-sant-salvador).',
+			'La forma tiene explicación. La Viquipèdia dice que el cerro ha quedado en relieve porque un estrato de conglomerado resistente protege la cima de la erosión que se ha llevado los terrenos de alrededor; el Ayuntamiento de Manresa lo llama un buen ejemplo de relieve tabular. El mismo Ayuntamiento lo presenta como un referente geográfico para los manresanos y el destino de muchas excursiones, y lo ha incluido en los itinerarios del Anillo Verde.',
+			'La cima es una explanada con una bandera, una mesa de orientación y un panel informativo. Desde allí, Totnens describe el pla de Bages a los pies y Montserrat al fondo. En la subida se pasa por cabañas de piedra seca, entre los campos, y por unas tinas de piedra dentro del bosque.',
+			'Es una salida corta para todo el año. La explanada de la cima es abierta y acaba en un cingle: no es sitio para correr.'
 		]
 	},
 	rutes: [
 		{
 			id: 'sant-joan',
 			nom: {
-				ca: 'Des del carrer Collbaix, a Sant Joan de Vilatorrada',
-				es: 'Desde la calle Collbaix, en Sant Joan de Vilatorrada'
+				ca: 'Des de Sant Joan de Vilatorrada pel GR 3 i les tines',
+				es: 'Desde Sant Joan de Vilatorrada por el GR 3 y las tinas'
 			},
 			sortida: { nom: 'Final del carrer Collbaix (Sant Joan de Vilatorrada)' },
 			descripcio: {
-				ca: 'Totnens la descriu com una ruta fàcil i senyalitzada, per senders ben marcats, corriols i pistes, amb algun tram de pujada una mica més costerut que es pot fer a poc a poc. El web dona 6,5 km i 3 hores amb parades; a la baixada hi ha trams pedregosos.',
-				es: 'Totnens la describe como una ruta fácil y señalizada, por sendas bien marcadas, senderos y pistas, con algún tramo de subida algo más empinado que se puede hacer despacio. La web da 6,5 km y 3 horas con paradas; en la bajada hay tramos pedregosos.'
+				ca: "Totnens la descriu com una ruta fàcil i senyalitzada, de 6,5 km i unes 3 hores amb parades, que fa en circular. Del final del carrer Collbaix segueix una pista, voreja camps i cabanes de pedra seca i enllaça amb el GR 3, de marques blanques i vermelles. Passada una pista asfaltada, un sender s'endinsa al bosc i puja per les tines: és el tram més costerut, amb trossos tan erosionats que semblen una torrentera, però es fa a poc a poc. De baixada, el web tria el camí del Congost, amb trams pedregosos, tot i que també es pot tornar per on s'ha pujat.",
+				es: 'Totnens la describe como una ruta fácil y señalizada, de 6,5 km y unas 3 horas con paradas, que hace en circular. Desde el final de la calle Collbaix sigue una pista, bordea campos y cabañas de piedra seca y enlaza con el GR 3, de marcas blancas y rojas. Pasada una pista asfaltada, un sendero se adentra en el bosque y sube por las tinas: es el tramo más empinado, con trozos tan erosionados que parecen una torrentera, pero se hace poco a poco. De bajada, la web elige el camino del Congost, con tramos pedregosos, aunque también se puede volver por donde se ha subido.'
 			},
 			fonts: [TOTNENS]
 		},
 		{
 			id: 'manresa-anella-verda',
 			nom: {
-				ca: "Itinerari M1 de l'Anella Verda des del Congost, a Manresa",
-				es: 'Itinerario M1 del Anillo Verde desde el Congost, en Manresa'
+				ca: "Itinerari M1 de l'Anella Verda, des de Manresa",
+				es: 'Itinerario M1 del Anillo Verde, desde Manresa'
 			},
-			sortida: { nom: 'El Congost, al costat del camp de futbol (Manresa)' },
+			sortida: { nom: 'El Congost (Manresa)' },
 			descripcio: {
-				ca: "L'Ajuntament de Manresa recull l'itinerari El Collbaix (M1) de l'Anella Verda, de dificultat mitjana, amb 11,75 km, 3 hores i 421 m de desnivell, i sortida al Congost, al costat del camp de futbol.",
-				es: 'El Ayuntamiento de Manresa recoge el itinerario El Collbaix (M1) del Anillo Verde, de dificultad media, con 11,75 km, 3 horas y 421 m de desnivel, y salida en el Congost, junto al campo de fútbol.'
+				ca: "L'Ajuntament de Manresa el proposa per pujar-hi des de la ciutat: 11,75 km, 3 hores i 421 m de desnivell, de dificultat mitjana. Són xifres de tot l'itinerari.",
+				es: 'El Ayuntamiento de Manresa lo propone para subir desde la ciudad: 11,75 km, 3 horas y 421 m de desnivel, de dificultad media. Son cifras de todo el itinerario.'
 			},
 			fonts: [MANRESA]
 		}
 	],
 	consells: {
 		ca: [
-			'El cim acaba en un penya-segat: vigila-hi, sobretot amb nens, segons Totnens.',
-			'A la baixada hi ha trams pedregosos i alguns trams molt erosionats que semblen un torrent: baixa amb calma i no hi vagis amb pluja.',
-			"Si vols una sortida més llarga, l'itinerari M1 de l'Anella Verda de Manresa fa 11,75 km i 421 m de desnivell, segons l'Ajuntament.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"L'esplanada del cim acaba en un penya-segat, avisa Totnens: amb canalla, marca'ls fins on poden arribar abans de deixar-los córrer.",
+			'El tram de les tines té el terra molt erosionat, com una torrentera: després de pluges demana més atenció.',
+			'El cotxe es deixa al final del carrer Collbaix, on comença la pista.',
+			"Les cabanes de pedra seca i les tines són patrimoni: mira-les sense enfilar-t'hi.",
+			'Des de Manresa la volta és força més llarga: si tens poc temps, surt de Sant Joan.'
 		],
 		es: [
-			'La cima acaba en un acantilado: vigila, sobre todo con niños, según Totnens.',
-			'En la bajada hay tramos pedregosos y algunos tramos muy erosionados que parecen un torrente: baja con calma y no vayas con lluvia.',
-			'Si quieres una salida más larga, el itinerario M1 del Anillo Verde de Manresa tiene 11,75 km y 421 m de desnivel, según el Ayuntamiento.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'La explanada de la cima acaba en un acantilado, avisa Totnens: con niños, márcales hasta dónde pueden llegar antes de dejarlos correr.',
+			'El tramo de las tinas tiene el suelo muy erosionado, como una torrentera: después de lluvias pide más atención.',
+			'El coche se deja al final de la calle Collbaix, donde empieza la pista.',
+			'Las cabañas de piedra seca y las tinas son patrimonio: míralas sin subirte a ellas.',
+			'Desde Manresa la vuelta es bastante más larga: si tienes poco tiempo, sal de Sant Joan.'
 		]
 	},
 	faq: {
@@ -83,44 +85,44 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al Collbaix?',
 				resposta:
-					"Totnens compta 3 hores amb parades per a la ruta de 6,5 km des del carrer Collbaix. L'Ajuntament de Manresa dona 3 hores per a la circular M1 de 11,75 km."
+					"Des de Sant Joan de Vilatorrada, Totnens compta unes 3 hores amb nens i parades per a una circular de 6,5 km. Des de Manresa, l'itinerari M1 de l'Anella Verda fa 11,75 km i 421 m de desnivell, també en 3 hores."
 			},
 			{
 				pregunta: 'Es pot pujar al Collbaix amb nens?',
 				resposta:
-					'Totnens el proposa com a ruta per a famílies, fàcil i senyalitzada. Al cim, que acaba en un penya-segat, cal vigilar els nens.'
+					"Sí: Totnens la proposa com a excursió apta per a famílies, malgrat algun tram costerut. El punt on cal estar a sobre de la canalla és el cim, perquè l'esplanada acaba en un penya-segat."
 			},
 			{
-				pregunta: 'Per què es diu relleu tabular?',
+				pregunta: 'Per què el Collbaix té el cim pla?',
 				resposta:
-					"Perquè un estrat de conglomerat resistent protegeix de l'erosió el cim pla, segons la Viquipèdia; l'Ajuntament de Manresa el posa com a bon exemple."
+					"Perquè el corona un estrat de conglomerat més resistent que els terrenys del voltant, que l'erosió s'ha anat enduent. Per això l'Ajuntament de Manresa el posa com a exemple de relleu tabular."
 			},
 			{
-				pregunta: 'El Collbaix és un cim essencial?',
+				pregunta: 'El Collbaix és de Manresa o de Sant Joan de Vilatorrada?',
 				resposta:
-					"Sí. Al [Bages](/comarques/bages) l'acompanya [l'Elefant](/cims/elefant-roca-de-sant-salvador), a Montserrat."
+					"De tots dos, i també de Fonollosa. El punt més alt del terme de Manresa és aquí, però el repte situa el cim a Sant Joan de Vilatorrada, que és d'on surt la ruta més curta."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al Collbaix?',
 				resposta:
-					'Totnens cuenta 3 horas con paradas para la ruta de 6,5 km desde la calle Collbaix. El Ayuntamiento de Manresa da 3 horas para la circular M1 de 11,75 km.'
+					'Desde Sant Joan de Vilatorrada, Totnens cuenta unas 3 horas con niños y paradas para una circular de 6,5 km. Desde Manresa, el itinerario M1 del Anillo Verde tiene 11,75 km y 421 m de desnivel, también en 3 horas.'
 			},
 			{
 				pregunta: '¿Se puede subir al Collbaix con niños?',
 				resposta:
-					'Totnens lo propone como ruta para familias, fácil y señalizada. En la cima, que acaba en un acantilado, hay que vigilar a los niños.'
+					'Sí: Totnens la propone como excursión apta para familias, pese a algún tramo empinado. El punto donde hay que estar encima de los niños es la cima, porque la explanada acaba en un acantilado.'
 			},
 			{
-				pregunta: '¿Por qué se habla de relieve tabular?',
+				pregunta: '¿Por qué el Collbaix tiene la cima plana?',
 				resposta:
-					'Porque un estrato de conglomerado resistente protege de la erosión la cima plana, según la Viquipèdia; el Ayuntamiento de Manresa lo pone como buen ejemplo.'
+					'Porque lo corona un estrato de conglomerado más resistente que los terrenos de alrededor, que la erosión se ha ido llevando. Por eso el Ayuntamiento de Manresa lo pone como ejemplo de relieve tabular.'
 			},
 			{
-				pregunta: '¿El Collbaix es una cima esencial?',
+				pregunta: '¿El Collbaix es de Manresa o de Sant Joan de Vilatorrada?',
 				resposta:
-					'Sí. En el [Bages](/comarques/bages) lo acompaña [el Elefant](/cims/elefant-roca-de-sant-salvador), en Montserrat.'
+					'De los dos, y también de Fonollosa. El punto más alto del término de Manresa está aquí, pero el reto sitúa la cima en Sant Joan de Vilatorrada, que es de donde sale la ruta más corta.'
 			}
 		]
 	},

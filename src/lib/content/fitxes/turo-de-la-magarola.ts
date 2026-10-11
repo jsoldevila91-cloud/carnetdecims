@@ -9,13 +9,13 @@ const VIQUIPEDIA = {
 };
 
 const DIBA_RAPINYAIRES = {
-	nom: 'Diputació de Barcelona, parcs: Collserola, observació de la migració de les aus rapinyaires',
+	nom: 'Diputació de Barcelona, Xarxa de Parcs Naturals: Collserola, observació de la migració de les aus rapinyaires (2024)',
 	url: 'https://parcs.diba.cat/en/web/agenda/-/collserola-observacio-de-la-migracio-de-les-aus-rapinyaires',
 	consultat: CONSULTAT
 };
 
 const XIRUCA = {
-	nom: 'Xiruca: ruta circular al Turó de Magarola',
+	nom: 'Xiruca: ruta circular al Turó de Magarola (fitxa de ruta en PDF)',
 	url: 'https://www.xiruca.com/sites/default/files/track/Tur%C3%B3%20de%20Magarola.pdf',
 	consultat: CONSULTAT
 };
@@ -24,94 +24,94 @@ const fitxa: ContingutFitxa = {
 	slug: 'turo-de-la-magarola',
 	descripcio: {
 		ca: [
-			'El turó de la Magarola és un cim del Parc Natural de Collserola, a la serra de Collserola, on conflueixen els termes de Barcelona, Cerdanyola del Vallès i Sant Cugat del Vallès. El catàleg el situa a Sant Cugat, i a la comarca del [Barcelonès](/comarques/barcelones). A Collserola hi ha també un altre cim essencial, [Sant Pere Màrtir](/cims/sant-pere-martir).',
-			"Segons la Viquipèdia, al cim hi ha un vèrtex geodèsic, i per aquest turó passa el GR 92. Des del 1988 s'hi fa el seguiment de la migració de les aus rapinyaires: la Viquipèdia explica que hi ha una plataforma de fusta amb plafons informatius al cim, i que l'espècie més observada és l'aligot vesper. Diputació de Barcelona hi organitza cada any l'observació, amb l'accés a peu fins a dalt del turó i la recomanació de portar prismàtics; el 2024 va ser entre el 7 de setembre i el 6 d'octubre, de 10 a 13 h. Consulta la regulació vigent.",
-			"Xiruca el descriu com un dels millors miradors de la serra de Collserola, amb bancs i vèrtex geodèsic al cim. Segons aquesta guia, des d'allà es veuen la ciutat de Barcelona, Sant Llorenç del Munt i part del Vallès, Montserrat i el Maresme.",
-			"És una sortida accessible en transport públic, perquè la ruta de Xiruca surt de l'estació de metro de Canyelles. Té trams de sender amb molta ombra i trams del passeig de les Aigües."
+			'El turó de la Magarola és un cim de la serra de Collserola situat just on es troben els termes de Barcelona, Cerdanyola del Vallès i Sant Cugat del Vallès. És un dels dos cims essencials del [Barcelonès](/comarques/barcelones), amb el [Puig Castellar](/cims/puig-castellar); també a Collserola hi ha [Sant Pere Màrtir](/cims/sant-pere-martir). Segons la Viquipèdia, hi passa el GR 92 i, a pocs metres, el GR 6.',
+			"El que el distingeix dels altres turons de la serra són els ocells. Des del 1988, cada setembre i octubre s'hi fa el seguiment de la migració de les aus rapinyaires cap a l'Àfrica, i al cim hi ha una plataforma de fusta amb plafons per als observadors. L'espècie que més s'hi veu és l'aligot vesper, seguida del xoriguer i l'arpella. La Diputació de Barcelona hi organitza una campanya oberta i gratuïta, amb ornitòlegs: la del 2024, la trenta-sisena, va anar del 7 de setembre al 6 d'octubre, de 10 a 13 h. Consulta la regulació vigent i les dates de cada any.",
+			'Xiruca en diu un dels millors miradors de Collserola. Des dels bancs del cim descriu la ciutat de Barcelona, Sant Llorenç del Munt i part del Vallès, Montserrat i el Maresme. El nom ve de lluny: la Viquipèdia explica que Magarola ja surt escrit el 985, referit a un altre indret proper a Sant Cugat, i que més tard el va adoptar una família barcelonina, la del palau Magarola del carrer de la Portaferrissa.',
+			"És un cim de ciutat, a l'abast del metro i per a tot l'any. A la tardor coincideix amb la campanya d'observació d'ocells; a l'estiu, la ruta té trams de sender amb molta ombra i d'altres, com el turó de Valldaura, on gairebé no n'hi ha."
 		],
 		es: [
-			'El turó de la Magarola es una cima del Parque Natural de Collserola, en la sierra de Collserola, donde confluyen los términos de Barcelona, Cerdanyola del Vallès y Sant Cugat del Vallès. El catálogo lo sitúa en Sant Cugat, y en la comarca del [Barcelonès](/comarques/barcelones). En Collserola hay también otra cima esencial, [Sant Pere Màrtir](/cims/sant-pere-martir).',
-			'Según la Viquipèdia, en la cima hay un vértice geodésico, y por este cerro pasa el GR 92. Desde 1988 se hace allí el seguimiento de la migración de las aves rapaces: la Viquipèdia explica que hay una plataforma de madera con paneles informativos en la cima, y que la especie más observada es el halcón abejero. La Diputació de Barcelona organiza cada año la observación, con el acceso a pie hasta lo alto del cerro y la recomendación de llevar prismáticos; en 2024 fue entre el 7 de septiembre y el 6 de octubre, de 10 a 13 h. Consulta la regulación vigente.',
-			'Xiruca lo describe como uno de los mejores miradores de la sierra de Collserola, con bancos y vértice geodésico en la cima. Según esta guía, desde allí se ven la ciudad de Barcelona, Sant Llorenç del Munt y parte del Vallès, Montserrat y el Maresme.',
-			'Es una salida accesible en transporte público, porque la ruta de Xiruca sale de la estación de metro de Canyelles. Tiene tramos de sendero con mucha sombra y tramos del passeig de les Aigües.'
+			'El turó de la Magarola es una cima de la sierra de Collserola situada justo donde se encuentran los términos de Barcelona, Cerdanyola del Vallès y Sant Cugat del Vallès. Es una de las dos cimas esenciales del [Barcelonès](/comarques/barcelones), con el [Puig Castellar](/cims/puig-castellar); también en Collserola está [Sant Pere Màrtir](/cims/sant-pere-martir). Según la Viquipèdia, por ella pasa el GR 92 y, a pocos metros, el GR 6.',
+			'Lo que la distingue de los demás cerros de la sierra son las aves. Desde 1988, cada septiembre y octubre se hace allí el seguimiento de la migración de las rapaces hacia África, y en la cima hay una plataforma de madera con paneles para los observadores. La especie que más se ve es el abejero europeo, seguido del cernícalo y el aguilucho lagunero. La Diputació de Barcelona organiza una campaña abierta y gratuita, con ornitólogos: la de 2024, la trigésima sexta, fue del 7 de septiembre al 6 de octubre, de 10 a 13 h. Consulta la regulación vigente y las fechas de cada año.',
+			'Xiruca la considera uno de los mejores miradores de Collserola. Desde los bancos de la cima describe la ciudad de Barcelona, Sant Llorenç del Munt y parte del Vallès, Montserrat y el Maresme. El nombre viene de lejos: la Viquipèdia explica que Magarola ya aparece escrito en 985, referido a otro lugar cercano a Sant Cugat, y que más tarde lo adoptó una familia barcelonesa, la del palacio Magarola de la calle Portaferrissa.',
+			'Es una cima de ciudad, al alcance del metro y para todo el año. En otoño coincide con la campaña de observación de aves; en verano, la ruta tiene tramos de sendero con mucha sombra y otros, como el turó de Valldaura, donde casi no la hay.'
 		]
 	},
 	rutes: [
 		{
 			id: 'canyelles',
 			nom: {
-				ca: 'Circular des del metro de Canyelles',
-				es: 'Circular desde el metro de Canyelles'
+				ca: 'Des del metro de Canyelles pel coll de la Ventosa i el turó de Valldaura',
+				es: 'Desde el metro de Canyelles por el coll de la Ventosa y el turó de Valldaura'
 			},
 			sortida: { nom: 'Estació de metro de Canyelles (L3, Barcelona)' },
 			tempsMinuts: 105,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "Xiruca la presenta com una sencilla ruta circular de 10 km i +450 m en 3 h sense parades, de dificultat baixa. Surt de l'estació de Canyelles, passa per la font de Santa Eulàlia, el coll de la Ventosa i el turó de Valldaura, i arriba al turó de la Magarola a l'1 h 45 min de marxa; la tornada passa pel pas del Rei i el parc del Laberint fins al velòdrom d'Horta. Les xifres de distància i desnivell són de la circular sencera; el temps fins al cim és el de la ruta.",
-				es: 'Xiruca la presenta como una sencilla ruta circular de 10 km y +450 m en 3 h sin paradas, de dificultad baja. Sale de la estación de Canyelles, pasa por la fuente de Santa Eulàlia, el coll de la Ventosa y el turó de Valldaura, y llega al turó de la Magarola a la 1 h 45 min de marcha; la vuelta pasa por el pas del Rei y el parque del Laberint hasta el velódromo de Horta. Las cifras de distancia y desnivel son de la circular entera; el tiempo hasta la cima es el de la ruta.'
+				ca: "La fitxa de Xiruca la presenta com una ruta circular senzilla, de dificultat baixa: uns 10 km, +450 m i 3 h sense parades, amb el cim a l'1 h 45 min. De Canyelles va a la plaça de Karl Marx, on agafa el GR; puja per la font de Santa Eulàlia (20 min) al coll de la Ventosa (35 min) i, per pista i sender, al portell de Valldaura (1 h 10 min) i al turó de Valldaura (1 h 25 min). Baixa al pas del Rei i segueix les marques del GR en la pujada final. La tornada desfà el camí fins al pas del Rei i baixa pel parc del Laberint i el velòdrom d'Horta.",
+				es: 'La ficha de Xiruca la presenta como una ruta circular sencilla, de dificultad baja: unos 10 km, +450 m y 3 h sin paradas, con la cima a la 1 h 45 min. Desde Canyelles va a la plaza de Karl Marx, donde toma el GR; sube por la fuente de Santa Eulàlia (20 min) al coll de la Ventosa (35 min) y, por pista y sendero, al portell de Valldaura (1 h 10 min) y al turó de Valldaura (1 h 25 min). Baja al pas del Rei y sigue las marcas del GR en la subida final. La vuelta deshace el camino hasta el pas del Rei y baja por el parque del Laberint y el velódromo de Horta.'
 			},
 			fonts: [XIRUCA]
 		}
 	],
 	consells: {
 		ca: [
-			"Si hi vas durant la campanya d'observació de rapinyaires, porta prismàtics: la Diputació de Barcelona ho recomana, i l'accés fins dalt del turó és a peu.",
-			"Pots fer la ruta en transport públic: Xiruca indica l'accés per la línia 3 del metro, estació de Canyelles.",
-			"Xiruca recomana el mapa de la serra de Collserola d'Editorial Alpina, a 1:25.000.",
-			'Al turó de Valldaura, que Xiruca descriu amb una torre de vigilància i antenes, les vistes són tapades per la vegetació: no hi paris gaire, segons la guia.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Si hi vas per veure rapinyaires, porta prismàtics i comprova abans les dates: la Diputació de Barcelona recorda que fins a dalt del turó només s'hi arriba a peu.",
+			"Durant la campanya d'observació, la Diputació indica l'aproximació en cotxe per la carretera de la Rabassada; la resta de l'any, el metro de Canyelles estalvia buscar aparcament.",
+			'Abans del coll de la Ventosa la ruta segueix alguns trams curts de carretera: camina per la vora. Al coll i al portell de Valldaura es creua per ponts.',
+			"El desviament del GR cap al cim, passat el pas del Rei, surt a l'esquerra i està ben senyalitzat, segons Xiruca.",
+			"Xiruca recomana el mapa de la serra de Collserola d'Editorial Alpina, a 1:25.000: a Collserola hi ha moltes pistes i senders que s'assemblen."
 		],
 		es: [
-			'Si vas durante la campaña de observación de rapaces, lleva prismáticos: la Diputació de Barcelona lo recomienda, y el acceso hasta lo alto del cerro es a pie.',
-			'Puedes hacer la ruta en transporte público: Xiruca indica el acceso por la línea 3 del metro, estación de Canyelles.',
-			'Xiruca recomienda el mapa de la sierra de Collserola de Editorial Alpina, a 1:25.000.',
-			'En el turó de Valldaura, que Xiruca describe con una torre de vigilancia y antenas, las vistas están tapadas por la vegetación: no pares mucho, según la guía.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Si vas a ver rapaces, lleva prismáticos y comprueba antes las fechas: la Diputació de Barcelona recuerda que hasta lo alto del cerro solo se llega a pie.',
+			'Durante la campaña de observación, la Diputació indica la aproximación en coche por la carretera de la Rabassada; el resto del año, el metro de Canyelles ahorra buscar aparcamiento.',
+			'Antes del coll de la Ventosa la ruta sigue algunos tramos cortos de carretera: camina por el borde. En el collado y en el portell de Valldaura se cruza por puentes.',
+			'El desvío del GR hacia la cima, pasado el pas del Rei, sale a la izquierda y está bien señalizado, según Xiruca.',
+			'Xiruca recomienda el mapa de la sierra de Collserola de Editorial Alpina, a 1:25.000: en Collserola hay muchas pistas y senderos que se parecen.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar a la Magarola?',
+				pregunta: 'Quant es triga a pujar al turó de la Magarola?',
 				resposta:
-					"Xiruca compta 1 h 45 min fins al turó de la Magarola des del metro de Canyelles, dins d'una circular de 10 km i 3 h sense parades."
+					'Des del metro de Canyelles, la fitxa de Xiruca hi arriba en 1 h 45 min, passant pel turó de Valldaura. Tota la circular són uns 10 km, +450 m i 3 h sense parades.'
 			},
 			{
-				pregunta: 'Es pot anar a la Magarola amb nens?',
+				pregunta: 'Es pot anar al turó de la Magarola en transport públic?',
 				resposta:
-					"Xiruca classifica la ruta de dificultat baixa i la presenta com a sencilla, però són 10 km i +450 m en total: valora-ho segons l'edat i la resistència dels nens."
+					"Sí: la ruta que descrivim comença i acaba a l'estació de Canyelles, de la línia 3 del metro de Barcelona."
 			},
 			{
-				pregunta: "Què és l'observació de rapinyaires?",
+				pregunta: 'Quan es veuen les rapinyaires a la Magarola?',
 				resposta:
-					"Un seguiment de la migració de les aus rapinyaires que es fa des de la Magarola a la tardor. El 2024 va ser del 7 de setembre al 6 d'octubre, de 10 a 13 h; consulta la regulació vigent."
+					"Al setembre i a l'octubre, quan migren cap al sud. La campanya de la Diputació de Barcelona del 2024 va anar del 7 de setembre al 6 d'octubre, al matí; consulta les dates vigents. L'espècie més vista és l'aligot vesper."
 			},
 			{
-				pregunta: 'La Magarola és un cim essencial?',
+				pregunta: 'És una ruta per fer amb nens?',
 				resposta:
-					"Sí. Al [Barcelonès](/comarques/barcelones) és un dels cims essencials del repte, i a Collserola l'acompanya [Sant Pere Màrtir](/cims/sant-pere-martir)."
+					'El terreny és fàcil, de pista i sender, i Xiruca la valora de dificultat baixa, però la volta sencera fa uns 10 km i +450 m: amb canalla petita es fa llarga.'
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a la Magarola?',
+				pregunta: '¿Cuánto se tarda en subir al turó de la Magarola?',
 				resposta:
-					'Xiruca cuenta 1 h 45 min hasta el turó de la Magarola desde el metro de Canyelles, dentro de una circular de 10 km y 3 h sin paradas.'
+					'Desde el metro de Canyelles, la ficha de Xiruca llega en 1 h 45 min, pasando por el turó de Valldaura. Toda la circular son unos 10 km, +450 m y 3 h sin paradas.'
 			},
 			{
-				pregunta: '¿Se puede ir a la Magarola con niños?',
+				pregunta: '¿Se puede ir al turó de la Magarola en transporte público?',
 				resposta:
-					'Xiruca clasifica la ruta de dificultad baja y la presenta como sencilla, pero son 10 km y +450 m en total: valóralo según la edad y la resistencia de los niños.'
+					'Sí: la ruta que describimos empieza y acaba en la estación de Canyelles, de la línea 3 del metro de Barcelona.'
 			},
 			{
-				pregunta: '¿Qué es la observación de rapaces?',
+				pregunta: '¿Cuándo se ven las rapaces en la Magarola?',
 				resposta:
-					'Un seguimiento de la migración de las aves rapaces que se hace desde la Magarola en otoño. En 2024 fue del 7 de septiembre al 6 de octubre, de 10 a 13 h; consulta la regulación vigente.'
+					'En septiembre y octubre, cuando migran hacia el sur. La campaña de la Diputació de Barcelona de 2024 fue del 7 de septiembre al 6 de octubre, por la mañana; consulta las fechas vigentes. La especie más vista es el abejero europeo.'
 			},
 			{
-				pregunta: '¿La Magarola es una cima esencial?',
+				pregunta: '¿Es una ruta para hacer con niños?',
 				resposta:
-					'Sí. En el [Barcelonès](/comarques/barcelones) es una de las cimas esenciales del reto, y en Collserola la acompaña [Sant Pere Màrtir](/cims/sant-pere-martir).'
+					'El terreno es fácil, de pista y sendero, y Xiruca la valora de dificultad baja, pero la vuelta entera tiene unos 10 km y +450 m: con niños pequeños se hace larga.'
 			}
 		]
 	},

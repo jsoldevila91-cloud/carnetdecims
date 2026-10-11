@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const DEXCURSIO = {
 	nom: "D'excursió per Catalunya: Sant Miquel de Solterra, el sostre de les Guilleries",
@@ -24,45 +24,49 @@ const fitxa: ContingutFitxa = {
 	slug: 'sant-miquel-de-solterra',
 	descripcio: {
 		ca: [
-			"Sant Miquel de Solterra, o Sant Miquel de les Formigues, és la muntanya que Totnens situa entre Sant Hilari Sacalm i Osor, a la [Selva](/comarques/selva). L'Ajuntament de Sant Hilari Sacalm l'anomena el cim més alt de les Guilleries en presentar-ne l'excursió guiada. A la mateixa comarca hi ha un altre cim essencial, [el Turó de Montsoriu](/cims/turo-de-montsoriu), molt més baix.",
-			"Dalt del cim hi ha les restes del castell de Solterra, amb una torre circular, una petita capella dedicada a Sant Miquel i una creu de ferro decorada amb tres formigues, d'on ve el nom popular. D'excursió per Catalunya explica que aquestes formigues donen nom al lloc; Totnens recull la llegenda: segons ella, les formigues entraven a l'església i una va picar la cama de la imatge de Sant Miquel; en sortir-ne sang, l'arcàngel es va enfadar i les va maleir. Per això, al peu de la creu hi ha formigues de ferro blanques i vermelles.",
-			"D'excursió per Catalunya descriu l'excursió com a fàcil i adequada per a tots els públics, per una pista forestal amb castanyers que es converteix en sender cap al final; Totnens, que parla de la pista com a ampla i còmoda, avisa que l'últim quilòmetre, pel sender, no és accessible amb cotxet.",
-			"Al peu del penyal final hi ha dues opcions, segons D'excursió per Catalunya: una grimpada curta, sense dificultat tècnica, fins a la creu, o un camí més planer que voreja el penyal. Qui no vulgui posar les mans a la roca pot optar per la segona."
+			"Sant Miquel de Solterra, també conegut com Sant Miquel de les Formigues, és el cim més alt de les Guilleries. Queda entre Sant Hilari Sacalm i Osor, a la [Selva](/comarques/selva), tot envoltat de bosc. L'Ajuntament de Sant Hilari hi organitza sortides guiades. A la mateixa comarca hi ha [les Agudes](/cims/les-agudes), al Montseny, i [el Turó de Montsoriu](/cims/turo-de-montsoriu).",
+			"El nom popular ve d'una llegenda que recull Totnens. La muntanya era plena de formigues, que entraven fins i tot a l'església; un dia van enfilar-se per l'espasa de la imatge de sant Miquel i una li va pessigar la cama. En sortir-ne una gota de sang, l'arcàngel va cobrar vida i les va maleir, a elles i a totes les que hi pugessin després. Per això la creu de ferro del cim porta formigues: tres, segons D'excursió per Catalunya, plantades damunt la torre circular que queda del castell de Solterra. Al costat hi ha la capella de Sant Miquel i un vèrtex geodèsic.",
+			"La pujada és un passeig de bosc: castanyers, roures i faigs a la pista, i una fageda espessa al sender final. Des de dalt, D'excursió per Catalunya hi descriu el Montseny, els Pirineus i la plana de la Selva, i Totnens hi afegeix el Cadí i el Collsacabra.",
+			"La sortida és curta i es pot fer en qualsevol època de l'any. Amb el terra moll, val més voltar el penyal del cim pel sender que no pas grimpar-hi."
 		],
 		es: [
-			'Sant Miquel de Solterra, o Sant Miquel de les Formigues, es la montaña que Totnens sitúa entre Sant Hilari Sacalm y Osor, en la [Selva](/comarques/selva). El Ayuntamiento de Sant Hilari Sacalm la llama la cima más alta de las Guilleries al presentar la excursión guiada. En la misma comarca hay otra cima esencial, [el Turó de Montsoriu](/cims/turo-de-montsoriu), mucho más bajo.',
-			"En lo alto hay los restos del castillo de Solterra, con una torre circular, una pequeña capilla dedicada a Sant Miquel y una cruz de hierro decorada con tres hormigas, de donde viene el nombre popular. D'excursió per Catalunya explica que esas hormigas dan nombre al lugar; Totnens recoge la leyenda: según ella, las hormigas entraban en la iglesia y una picó la pierna de la imagen de Sant Miquel; al salir sangre, el arcángel se enfadó y las maldijo. Por eso, al pie de la cruz hay hormigas de hierro blancas y rojas.",
-			"D'excursió per Catalunya describe la excursión como fácil y apta para todos los públicos, por una pista forestal con castaños que se convierte en sendero hacia el final; Totnens, que habla de la pista como ancha y cómoda, avisa de que el último kilómetro, por el sendero, no es accesible con cochecito.",
-			"Al pie del peñasco final hay dos opciones, según D'excursió per Catalunya: una trepada corta, sin dificultad técnica, hasta la cruz, o un camino más llano que rodea el peñasco. Quien no quiera poner las manos en la roca puede optar por la segunda."
+			'Sant Miquel de Solterra, también conocido como Sant Miquel de les Formigues, es la cima más alta de las Guilleries. Queda entre Sant Hilari Sacalm y Osor, en la [Selva](/comarques/selva), rodeada de bosque. El Ayuntamiento de Sant Hilari organiza salidas guiadas. En la misma comarca están [les Agudes](/cims/les-agudes), en el Montseny, y [el Turó de Montsoriu](/cims/turo-de-montsoriu).',
+			"El nombre popular viene de una leyenda que recoge Totnens. La montaña estaba llena de hormigas, que entraban incluso en la iglesia; un día treparon por la espada de la imagen de san Miguel y una le pellizcó la pierna. Al salir una gota de sangre, el arcángel cobró vida y las maldijo, a ellas y a todas las que subieran después. Por eso la cruz de hierro de la cima lleva hormigas: tres, según D'excursió per Catalunya, plantadas sobre la torre circular que queda del castillo de Solterra. Al lado están la capilla de Sant Miquel y un vértice geodésico.",
+			"La subida es un paseo de bosque: castaños, robles y hayas en la pista, y un hayedo espeso en el sendero final. Desde arriba, D'excursió per Catalunya describe el Montseny, los Pirineos y la llanura de la Selva, y Totnens añade el Cadí y el Collsacabra.",
+			'La salida es corta y se puede hacer en cualquier época del año. Con el suelo mojado, es mejor rodear el peñasco de la cima por el sendero que trepar por él.'
 		]
 	},
 	rutes: [
 		{
 			id: 'abeuradors',
 			nom: {
-				ca: 'Des de la font dels Abeuradors, a Sant Hilari Sacalm',
-				es: 'Desde la font dels Abeuradors, en Sant Hilari Sacalm'
+				ca: 'Des de la font dels Abeuradors',
+				es: 'Desde la font dels Abeuradors'
 			},
 			sortida: { nom: 'Font dels Abeuradors (Sant Hilari Sacalm)' },
+			distanciaKm: 4,
+			tecnicitat: 'cap',
 			descripcio: {
-				ca: "D'excursió per Catalunya la proposa com a ruta lineal, d'anada i tornada pel mateix camí: 8 km i +265 m en 2 h 30 min en total, de dificultat fàcil. Es puja per una pista forestal amb castanyers que acaba en sender; Totnens posa la distància en 4 km. Al final hi ha l'opció de la grimpada curta o del camí que voreja el penyal. L'Ajuntament de Sant Hilari Sacalm hi organitza una ruta guiada lineal de 8 km d'anada i tornada.",
-				es: "D'excursió per Catalunya la propone como ruta lineal, de ida y vuelta por el mismo camino: 8 km y +265 m en 2 h 30 min en total, de dificultad fácil. Se sube por una pista forestal con castaños que acaba en sendero; Totnens pone la distancia en 4 km. Al final está la opción de la trepada corta o del camino que rodea el peñasco. El Ayuntamiento de Sant Hilari Sacalm organiza allí una ruta guiada lineal de 8 km de ida y vuelta."
+				ca: "És una ruta lineal de 4 km fins al cim: 8 km entre anada i tornada segons D'excursió per Catalunya, que hi compta +265 m i 2 h 30 min en total i la valora de fàcil. Els tres primers quilòmetres van per una pista ampla que puja suaument, amb un tram compartit amb el GR 83, fins a la font Sa Guarda. Allà un senyal indica el sender, més dret i estret, que s'enfila per la fageda amb pals i marques blaves. Al peu del penyal del cim es pot triar: una grimpada curta fins a la creu o un camí planer que el volta per l'esquerra i arriba a dalt sense posar les mans.",
+				es: "Es una ruta lineal de 4 km hasta la cima: 8 km entre ida y vuelta según D'excursió per Catalunya, que cuenta +265 m y 2 h 30 min en total y la valora de fácil. Los tres primeros kilómetros van por una pista ancha que sube suavemente, con un tramo compartido con el GR 83, hasta la font Sa Guarda. Allí una señal indica el sendero, más empinado y estrecho, que sube por el hayedo con postes y marcas azules. Al pie del peñasco de la cima se puede elegir: una trepada corta hasta la cruz o un camino llano que lo rodea por la izquierda y llega arriba sin poner las manos."
 			},
 			fonts: [DEXCURSIO, TOTNENS, SANTHILARI]
 		}
 	],
 	consells: {
 		ca: [
-			"Si no vols posar les mans a la roca, pren el camí que voreja el penyal: D'excursió per Catalunya el recull com a alternativa a la grimpada final.",
-			"Amb cotxet o amb nens molt petits, compte amb l'últim quilòmetre: Totnens avisa que, pel sender, no és accessible amb cotxet.",
-			"D'excursió per Catalunya recomana calçat de muntanya, aigua, protecció solar a l'estiu, jaqueta tallavents i mòbil carregat.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"A la font dels Abeuradors s'hi arriba en cotxe per uns 7 km de pista des de Sant Hilari, segons Totnens, i hi ha poc lloc per aparcar: val la pena matinar.",
+			"No comptis amb la font per omplir: D'excursió per Catalunya avisa que acostuma a rajar molt poc.",
+			"L'últim quilòmetre, pel sender de la fageda, no es pot fer amb cotxet; fins a la font Sa Guarda, la pista és ampla i compacta.",
+			'Al sender final el camí es desdibuixa en algun punt: Totnens diu que cal arribar fins a una marca blava en un tronc i girar en rodó per encarar el cim.',
+			"L'Ajuntament de Sant Hilari programa rutes guiades al cim, amb inscripció prèvia a l'Oficina de Turisme."
 		],
 		es: [
-			"Si no quieres poner las manos en la roca, toma el camino que rodea el peñasco: D'excursió per Catalunya lo recoge como alternativa a la trepada final.",
-			'Con cochecito o con niños muy pequeños, cuidado con el último kilómetro: Totnens avisa de que, por el sendero, no es accesible con cochecito.',
-			"D'excursió per Catalunya recomienda calzado de montaña, agua, protección solar en verano, chaqueta cortavientos y móvil cargado.",
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'A la font dels Abeuradors se llega en coche por unos 7 km de pista desde Sant Hilari, según Totnens, y hay poco sitio para aparcar: vale la pena madrugar.',
+			"No cuentes con la fuente para llenar: D'excursió per Catalunya avisa de que suele manar muy poco.",
+			'El último kilómetro, por el sendero del hayedo, no se puede hacer con cochecito; hasta la font Sa Guarda, la pista es ancha y compacta.',
+			'En el sendero final el camino se desdibuja en algún punto: Totnens dice que hay que llegar hasta una marca azul en un tronco y dar media vuelta para encarar la cima.',
+			'El Ayuntamiento de Sant Hilari programa rutas guiadas a la cima, con inscripción previa en la Oficina de Turismo.'
 		]
 	},
 	faq: {
@@ -70,50 +74,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a Sant Miquel de Solterra?',
 				resposta:
-					"D'excursió per Catalunya compta 2 h 30 min en total, anada i tornada, per a 8 km i +265 m des de la font dels Abeuradors. Totnens situa la distància en 4 km, sense indicar la durada."
+					"D'excursió per Catalunya compta 2 h 30 min entre anada i tornada des de la font dels Abeuradors, per a 8 km i +265 m. L'Ajuntament de Sant Hilari Sacalm també parla d'una ruta lineal de 8 km en total."
 			},
 			{
-				pregunta: 'Es pot pujar a Sant Miquel de Solterra amb nens?',
+				pregunta: 'Es pot pujar a Sant Miquel de les Formigues amb nens?',
 				resposta:
-					"Totnens el proposa com a excursió familiar i D'excursió per Catalunya el qualifica de fàcil, adequat per a tots els públics. L'últim quilòmetre, pel sender, no és accessible amb cotxet."
+					"Sí: Totnens la proposa com a sortida familiar i D'excursió per Catalunya la veu adequada per a tots els públics. Només el darrer quilòmetre, pel sender, té una mica més de pendent, i no és apte per a cotxets."
 			},
 			{
-				pregunta: 'Cal grimpar al final?',
+				pregunta: 'Cal grimpar per arribar a la creu?',
 				resposta:
-					"Segons D'excursió per Catalunya, hi ha dues opcions al peu del penyal: una grimpada curta i sense dificultat tècnica, o un camí més planer que el voreja."
+					'No és obligatori. Al peu del penyal hi ha una grimpada curta i, com a alternativa, un camí més planer que el volta i porta igualment al cim.'
 			},
 			{
 				pregunta: 'Per què es diu Sant Miquel de les Formigues?',
 				resposta:
-					'Per la llegenda que recull Totnens i per la creu del cim, amb formigues de ferro. La [Selva](/comarques/selva) té un altre cim essencial, [el Turó de Montsoriu](/cims/turo-de-montsoriu).'
+					'Per la llegenda de les formigues que van pessigar la imatge de sant Miquel i van ser maleïdes. La creu de ferro del cim, amb formigues de ferro al peu, la recorda.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a Sant Miquel de Solterra?',
 				resposta:
-					"D'excursió per Catalunya cuenta 2 h 30 min en total, ida y vuelta, para 8 km y +265 m desde la font dels Abeuradors. Totnens sitúa la distancia en 4 km, sin indicar la duración."
+					"D'excursió per Catalunya cuenta 2 h 30 min entre ida y vuelta desde la font dels Abeuradors, para 8 km y +265 m. El Ayuntamiento de Sant Hilari Sacalm también habla de una ruta lineal de 8 km en total."
 			},
 			{
-				pregunta: '¿Se puede subir a Sant Miquel de Solterra con niños?',
+				pregunta: '¿Se puede subir a Sant Miquel de les Formigues con niños?',
 				resposta:
-					"Totnens lo propone como excursión familiar y D'excursió per Catalunya lo califica de fácil, apto para todos los públicos. El último kilómetro, por el sendero, no es accesible con cochecito."
+					"Sí: Totnens la propone como salida familiar y D'excursió per Catalunya la ve adecuada para todos los públicos. Solo el último kilómetro, por el sendero, tiene algo más de pendiente, y no es apto para cochecitos."
 			},
 			{
-				pregunta: '¿Hay que trepar al final?',
+				pregunta: '¿Hay que trepar para llegar a la cruz?',
 				resposta:
-					"Según D'excursió per Catalunya, hay dos opciones al pie del peñasco: una trepada corta y sin dificultad técnica, o un camino más llano que lo rodea."
+					'No es obligatorio. Al pie del peñasco hay una trepada corta y, como alternativa, un camino más llano que lo rodea y lleva igualmente a la cima.'
 			},
 			{
 				pregunta: '¿Por qué se llama Sant Miquel de les Formigues?',
 				resposta:
-					'Por la leyenda que recoge Totnens y por la cruz de la cima, con hormigas de hierro. La [Selva](/comarques/selva) tiene otra cima esencial, [el Turó de Montsoriu](/cims/turo-de-montsoriu).'
+					'Por la leyenda de las hormigas que pellizcaron la imagen de san Miguel y fueron maldecidas. La cruz de hierro de la cima, con hormigas de hierro al pie, la recuerda.'
 			}
 		]
 	},
 	fonts: [DEXCURSIO, TOTNENS, SANTHILARI],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Puig Neulós',
@@ -24,96 +24,100 @@ const fitxa: ContingutFitxa = {
 	slug: 'puig-neulos',
 	descripcio: {
 		ca: [
-			"El Puig Neulós és el cim més alt de la serra de l'Albera, a la frontera entre Catalunya i França. Segons la Viquipèdia, el comparteixen els termes de la Jonquera, la Roca d'Albera i Sureda, i separa l'[Alt Empordà](/comarques/alt-emporda) del Rosselló. El catàleg el situa a la Jonquera; a l'Alt Empordà hi ha també [el Roc del Comptador](/cims/roc-del-comptador) i [el Mont](/cims/el-mont).",
-			"La carena de l'Albera ha estat límit des de molt abans de la frontera actual: la Viquipèdia recorda que separava els comtats d'Empúries i de Rosselló i que, des del Tractat dels Pirineus, el 1659, divideix Espanya i França. El cim, però, no és un lloc de silenci: hi ha una estació repetidora de senyals de televisió i de ràdio, i la Viquipèdia explica que la Torre d'en Manel, que hi havia des de finals del segle XIX, va ser derruïda per instal·lar-hi una estació de comunicacions i després restituïda.",
-			"El nom ve de puig, un cim arrodonit, i de neulós, que la Viquipèdia relaciona amb el francès nébuleux, 'cobert de núvols'. Les dues rutes que recull aquesta fitxa surten del castell de Requesens, a la zona de Cantallops, i fan una circular llarga.",
-			"D'excursió per Catalunya situa la sortida a l'aparcament proper al castell de Requesens i parla d'una panoràmica excepcional entre l'Empordà i el Rosselló des del cim. És una ruta de dia sencer: la web dona 5 h 15 min de marxa i recomana aigua abundant, mapa o GPS."
+			"El Puig Neulós és el punt culminant de la serra de l'Albera, l'últim tram dels Pirineus abans del mar. El cim el comparteixen la Jonquera, a l'[Alt Empordà](/comarques/alt-emporda), i dos municipis del Rosselló, la Roca d'Albera i Sureda. Segons la Viquipèdia, la carena ja separava els comtats d'Empúries i de Rosselló i, des del tractat dels Pirineus del 1659, fa de frontera entre els estats espanyol i francès. Més a ponent, la mateixa ratlla passa pel [Roc del Comptador](/cims/roc-del-comptador).",
+			"El nom vol dir puig ennuvolat: la Viquipèdia en cita la forma llatina Podio Nebuloso en un document del 1322. A dalt hi ha una estació repetidora de televisió i ràdio, que es veu des de bona part del Rosselló i de l'Empordà, i la torre d'en Manel, una piràmide de pedra que Manel Costa va aixecar a finals del segle XIX, que es va enderrocar per instal·lar-hi l'estació i que després s'ha refet.",
+			"El vessant sud, el de Requesens, forma part del Paratge Natural d'Interès Nacional de l'Albera. La Viquipèdia en destaca les suredes, els prats pentinats per la tramuntana i la vaca de l'Albera, que hi pastura en llibertat i explica la tanca que ressegueix la carena. Prop del cim hi ha un pou de glaç, que D'excursió per Catalunya troba perfectament conservat. Des de dalt, Itinerànnia descriu la plana de l'Empordà, el Rosselló i el Canigó.",
+			"El Neulós fa honor al nom: és una carena de boires i de tramuntana. Amb mal temps, la part alta és molt exposada; al camí de baixada d'Itinerànnia hi ha el refugi de la Tanyareda."
 		],
 		es: [
-			"El Puig Neulós es la cima más alta de la sierra de l'Albera, en la frontera entre Catalunya y Francia. Según la Viquipèdia, lo comparten los términos de la Jonquera, la Roca d'Albera y Sureda, y separa el [Alt Empordà](/comarques/alt-emporda) del Rosselló. El catálogo lo sitúa en la Jonquera; en el Alt Empordà están también [el Roc del Comptador](/cims/roc-del-comptador) y [el Mont](/cims/el-mont).",
-			"La cresta de l'Albera ha sido límite desde mucho antes de la frontera actual: la Viquipèdia recuerda que separaba los condados de Empúries y de Rosselló y que, desde el Tratado de los Pirineos, en 1659, divide España y Francia. La cima, sin embargo, no es un lugar de silencio: hay una estación repetidora de señales de televisión y radio, y la Viquipèdia explica que la Torre d'en Manel, que existía desde finales del siglo XIX, fue derribada para instalar una estación de comunicaciones y después restituida.",
-			"El nombre viene de puig, una cima redondeada, y de neulós, que la Viquipèdia relaciona con el francés nébuleux, 'cubierto de nubes'. Las dos rutas que recoge esta ficha salen del castillo de Requesens, en la zona de Cantallops, y hacen una circular larga.",
-			"D'excursió per Catalunya sitúa la salida en el aparcamiento cercano al castillo de Requesens y habla de una panorámica excepcional entre el Empordà y el Rosselló desde la cima. Es una ruta de día entero: la web da 5 h 15 min de marcha y recomienda agua abundante, mapa o GPS."
+			"El Puig Neulós es el punto culminante de la sierra de l'Albera, el último tramo de los Pirineos antes del mar. La cima la comparten la Jonquera, en el [Alt Empordà](/comarques/alt-emporda), y dos municipios del Rosselló, la Roca d'Albera y Sureda. Según la Viquipèdia, la cresta ya separaba los condados de Empúries y de Rosselló y, desde el tratado de los Pirineos de 1659, hace de frontera entre los estados español y francés. Más a poniente, la misma raya pasa por el [Roc del Comptador](/cims/roc-del-comptador).",
+			"El nombre significa monte nublado: la Viquipèdia cita la forma latina Podio Nebuloso en un documento de 1322. Arriba hay una estación repetidora de televisión y radio, que se ve desde buena parte del Rosselló y del Empordà, y la torre d'en Manel, una pirámide de piedra que Manel Costa levantó a finales del siglo XIX, que se derribó para instalar la estación y que después se ha rehecho.",
+			"La vertiente sur, la de Requesens, forma parte del Paraje Natural de Interés Nacional de l'Albera. La Viquipèdia destaca sus alcornocales, los prados peinados por la tramontana y la vaca de l'Albera, que pasta en libertad y explica la cerca que recorre la cresta. Cerca de la cima hay un pozo de hielo, que D'excursió per Catalunya encuentra perfectamente conservado. Desde arriba, Itinerànnia describe la llanura del Empordà, el Rosselló y el Canigó.",
+			'El Neulós hace honor a su nombre: es una cresta de nieblas y de tramontana. Con mal tiempo, la parte alta está muy expuesta; en el camino de bajada de Itinerànnia está el refugio de la Tanyareda.'
 		]
 	},
 	rutes: [
 		{
 			id: 'requesens',
 			nom: {
-				ca: 'Circular des del castell de Requesens',
-				es: 'Circular desde el castillo de Requesens'
+				ca: 'Circular des de Requesens pel coll del Pou',
+				es: 'Circular desde Requesens por el coll del Pou'
 			},
-			sortida: { nom: 'Aparcament proper al castell de Requesens (Cantallops)' },
+			sortida: {
+				nom: 'Aparcament prop del castell de Requesens (la Jonquera), per la pista de Cantallops'
+			},
 			descripcio: {
-				ca: "D'excursió per Catalunya descriu una circular de 16,85 km i 872 m de desnivell positiu, 5 h 15 min en total: pista forestal en bon estat fins al coll del Pou i, des d'allà, l'ascensió final al cim; el descens és un corriol amb marques grogues, poc senyalitzat i una mica amagat. Itinerànnia dona una versió de 16,26 km, 971 m de pujada i 6 h 20 min, amb dificultat alta, que passa per la Mare de Déu de Requesens i baixa per Tanyareda i el coll del Faig. En tots dos casos les xifres són de la circular sencera, no només de la pujada.",
-				es: "D'excursió per Catalunya describe una circular de 16,85 km y 872 m de desnivel positivo, 5 h 15 min en total: pista forestal en buen estado hasta el coll del Pou y, desde allí, la ascensión final a la cima; el descenso es un sendero con marcas amarillas, poco señalizado y algo escondido. Itinerànnia da una versión de 16,26 km, 971 m de subida y 6 h 20 min, con dificultad alta, que pasa por la Mare de Déu de Requesens y baja por Tanyareda y el coll del Faig. En ambos casos las cifras son de la circular entera, no solo de la subida."
+				ca: "D'excursió per Catalunya descriu una circular de 16,85 km, 872 m de desnivell positiu i 5 h 15 min, de dificultat moderada: de l'encreuament del castell se segueix la pista principal fins al coll del Pou i, d'allà, es pot acabar per la carretera asfaltada que ve del vessant nord o pel camí que ressegueix la tanca de la frontera. Baixa pel coll Pregon, per un corriol de marques grogues escasses. Itinerànnia proposa una volta semblant de 16,26 km, 971 m de pujada i 6 h 20 min, de dificultat alta, que puja per la Mare de Déu de Requesens, el coll Forcat i el roc dels Tres Termes, i torna per la font de la Tanyareda i el coll del Faig.",
+				es: "D'excursió per Catalunya describe una circular de 16,85 km, 872 m de desnivel positivo y 5 h 15 min, de dificultad moderada: desde el cruce del castillo se sigue la pista principal hasta el coll del Pou y, desde allí, se puede acabar por la carretera asfaltada que viene de la vertiente norte o por el camino que sigue la cerca de la frontera. Baja por el coll Pregon, por un sendero de marcas amarillas escasas. Itinerànnia propone una vuelta parecida de 16,26 km, 971 m de subida y 6 h 20 min, de dificultad alta, que sube por la Mare de Déu de Requesens, el coll Forcat y el roc dels Tres Termes, y vuelve por la fuente de la Tanyareda y el coll del Faig."
 			},
 			fonts: [DEXCURSIO, ITINERANNIA]
 		}
 	],
 	consells: {
 		ca: [
-			"Segons Itinerànnia, l'accés en cotxe per la pista fins a Requesens no està prohibit, però la porta metàl·lica del camí s'ha de tornar a tancar un cop passada.",
-			"D'excursió per Catalunya recomana almenys 1,5 litres d'aigua i un mapa o GPS, sobretot per a la baixada, que està poc senyalitzada.",
-			'La circular és llarga i el descens està poc marcat: calcula les hores de llum abans de sortir.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"A la pista de Cantallops a Requesens hi ha una porta metàl·lica: segons Itinerànnia, el pas en cotxe no està prohibit, però s'ha de deixar tancada.",
+			"L'inici del corriol de baixada al coll Pregon queda mig amagat i les marques grogues són escasses: D'excursió per Catalunya recomana portar mapa o el track.",
+			"Porta l'aigua de tot el dia: la mateixa ressenya en recomana un litre i mig com a mínim.",
+			'Amb tramuntana forta, la carena és molt incòmoda: mira la predicció de vent abans de sortir, no només la de pluja.',
+			"Pel vessant francès la carretera puja fins a l'estació repetidora, però la Viquipèdia avisa que des del coll de l'Ullat és d'ús restringit i s'ha de continuar a peu."
 		],
 		es: [
-			'Según Itinerànnia, el acceso en coche por la pista hasta Requesens no está prohibido, pero la puerta metálica del camino hay que volver a cerrarla una vez pasada.',
-			"D'excursió per Catalunya recomienda al menos 1,5 litros de agua y un mapa o GPS, sobre todo para la bajada, que está poco señalizada.",
-			'La circular es larga y el descenso está poco marcado: calcula las horas de luz antes de salir.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'En la pista de Cantallops a Requesens hay una puerta metálica: según Itinerànnia, el paso en coche no está prohibido, pero hay que dejarla cerrada.',
+			"El inicio del sendero de bajada en el coll Pregon queda medio escondido y las marcas amarillas son escasas: D'excursió per Catalunya recomienda llevar mapa o el track.",
+			'Lleva el agua de todo el día: la misma reseña recomienda un litro y medio como mínimo.',
+			'Con tramontana fuerte, la cresta es muy incómoda: mira la predicción de viento antes de salir, no solo la de lluvia.',
+			"Por la vertiente francesa la carretera sube hasta la estación repetidora, pero la Viquipèdia avisa de que desde el coll de l'Ullat es de uso restringido y hay que continuar a pie."
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar al Puig Neulós?',
+				pregunta: 'Quant es triga a pujar al Puig Neulós des de Requesens?',
 				resposta:
-					"La circular des del castell de Requesens té 5 h 15 min segons D'excursió per Catalunya (16,85 km, 872 m de desnivell positiu) i 6 h 20 min segons Itinerànnia (16,26 km, 971 m). Són xifres de tota la volta."
+					"Les dues voltes publicades són de dia sencer: 5 h 15 min per a 16,85 km i 872 m de desnivell positiu segons D'excursió per Catalunya, i 6 h 20 min per a 16,26 km i 971 m segons Itinerànnia. Cap de les dues dona l'horari només de pujada."
 			},
 			{
-				pregunta: 'Es pot pujar al Puig Neulós amb cotxe?',
+				pregunta: 'Es pot arribar al cim en cotxe?',
 				resposta:
-					"Segons la Viquipèdia, des del vessant francès hi ha una carretera asfaltada fins a l'estació repetidora, però a partir del coll de l'Ullat és d'ús restringit. Des de Requesens, la pista no està prohibida segons Itinerànnia, amb la porta que cal tancar."
+					"No fins a dalt. Pel vessant nord hi ha una carretera asfaltada des de la Roca d'Albera, però segons la Viquipèdia a partir del coll de l'Ullat és d'ús restringit. Pel sud, les pistes arriben a Requesens i la resta es fa a peu."
 			},
 			{
-				pregunta: 'Què hi ha al cim del Puig Neulós?',
+				pregunta: "Què és la torre d'en Manel?",
 				resposta:
-					"Hi ha una estació repetidora de televisió i de ràdio, segons la Viquipèdia, que també explica la història de la Torre d'en Manel."
+					"Un monument piramidal de pedra que hi ha al cim. Segons la Viquipèdia, el va construir Manel Costa a finals del segle XIX, es va enderrocar quan es va instal·lar l'estació de comunicacions i més tard es va restituir."
 			},
 			{
-				pregunta: 'El Puig Neulós és un cim essencial?',
+				pregunta: 'Per què hi ha una tanca a la carena?',
 				resposta:
-					"Sí. Dins l'[Alt Empordà](/comarques/alt-emporda) tens també [el Roc del Comptador](/cims/roc-del-comptador) i [el Mont](/cims/el-mont)."
+					"Pel bestiar: la Viquipèdia explica que la vaca de l'Albera pastura en llibertat per aquesta muntanya. La tanca coincideix amb la frontera i una de les variants de pujada la ressegueix des del coll del Pou."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir al Puig Neulós?',
+				pregunta: '¿Cuánto se tarda en subir al Puig Neulós desde Requesens?',
 				resposta:
-					"La circular desde el castillo de Requesens tiene 5 h 15 min según D'excursió per Catalunya (16,85 km, 872 m de desnivel positivo) y 6 h 20 min según Itinerànnia (16,26 km, 971 m). Son cifras de toda la vuelta."
+					"Las dos vueltas publicadas son de día entero: 5 h 15 min para 16,85 km y 872 m de desnivel positivo según D'excursió per Catalunya, y 6 h 20 min para 16,26 km y 971 m según Itinerànnia. Ninguna de las dos da el horario solo de subida."
 			},
 			{
-				pregunta: '¿Se puede subir al Puig Neulós en coche?',
+				pregunta: '¿Se puede llegar a la cima en coche?',
 				resposta:
-					"Según la Viquipèdia, desde la vertiente francesa hay una carretera asfaltada hasta la estación repetidora, pero a partir del coll de l'Ullat es de uso restringido. Desde Requesens, la pista no está prohibida según Itinerànnia, con la puerta que hay que cerrar."
+					"No hasta arriba. Por la vertiente norte hay una carretera asfaltada desde la Roca d'Albera, pero según la Viquipèdia a partir del coll de l'Ullat es de uso restringido. Por el sur, las pistas llegan a Requesens y el resto se hace a pie."
 			},
 			{
-				pregunta: '¿Qué hay en la cima del Puig Neulós?',
+				pregunta: "¿Qué es la torre d'en Manel?",
 				resposta:
-					"Hay una estación repetidora de televisión y radio, según la Viquipèdia, que también explica la historia de la Torre d'en Manel."
+					'Un monumento piramidal de piedra que hay en la cima. Según la Viquipèdia, lo construyó Manel Costa a finales del siglo XIX, se derribó cuando se instaló la estación de comunicaciones y más tarde se restituyó.'
 			},
 			{
-				pregunta: '¿El Puig Neulós es una cima esencial?',
+				pregunta: '¿Por qué hay una cerca en la cresta?',
 				resposta:
-					'Sí. Dentro del [Alt Empordà](/comarques/alt-emporda) tienes también [el Roc del Comptador](/cims/roc-del-comptador) y [el Mont](/cims/el-mont).'
+					"Por el ganado: la Viquipèdia explica que la vaca de l'Albera pasta en libertad por esta montaña. La cerca coincide con la frontera y una de las variantes de subida la sigue desde el coll del Pou."
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, DEXCURSIO, ITINERANNIA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

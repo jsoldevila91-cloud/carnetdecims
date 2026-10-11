@@ -3,7 +3,7 @@ import type { ContingutFitxa } from './types';
 const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
-	nom: "Viquipèdia: L'Elefant (Montserrat)",
+	nom: "Viquipèdia: L'Elefant (Montserrat), a partir de D. Balcells, «Montserrat: 50 indrets amb encant» (Cossetània, 2014)",
 	url: "https://ca.wikipedia.org/wiki/L'Elefant_(Montserrat)",
 	consultat: CONSULTAT
 };
@@ -15,7 +15,7 @@ const CATALUNYA_ROMANICA = {
 };
 
 const TRAVESIA_PIRENAICA = {
-	nom: "Travesía Pirenaica: circular a l'Elefant des de Monistrol de Montserrat",
+	nom: 'Travesía Pirenaica: circular des de Monistrol pel monestir de Montserrat, per canals i ermites',
 	url: 'https://travesiapirenaica.com/en/?p=36961',
 	consultat: CONSULTAT
 };
@@ -24,106 +24,106 @@ const fitxa: ContingutFitxa = {
 	slug: 'elefant-roca-de-sant-salvador',
 	descripcio: {
 		ca: [
-			"L'Elefant, o roca de Sant Salvador, és una roca del massís de Montserrat, a la zona de la Tebaida, que el catàleg situa al terme de Monistrol de Montserrat, al [Bages](/comarques/bages). Segons la Viquipèdia, és de conglomerat, i el nom ve de la semblança amb un elefant que es veu des de la banda del monestir. Un altre cim essencial de Montserrat és [el Montgròs](/cims/montgros), ja a l'Anoia.",
-			"Sota la roca hi ha l'ermita de Sant Salvador, resguardada en una balma. Catalunya Romànica recull que el 1217 ja hi havia una ermita dedicada a Sant Salvador habitada per eremites, que depenia del monestir de Montserrat, i que es va reconstruir el 1817 després de les destrosses de la guerra del Francès; el 1820 tornava a fer-se servir com a eremitori.",
-			"La Viquipèdia explica que l'accés a peu al cim passa pel Camí de l'Arrel des de Santa Cecília fins al pla de la Trinitat, després per pendents costeruts i pedregosos fins al coll de Sant Salvador, i que al final cal grimpar un pas estret entre dues parets de roca. És, per tant, una ascensió amb un pas de grimpada, no una excursió de camí fàcil.",
-			"La mateixa roca és també una paret d'escalada: la Viquipèdia hi recull la via Boy Roca, oberta el 1960. Aquesta fitxa tracta només l'ascensió a peu."
+			"L'Elefant és el nom popular de la roca de Sant Salvador, una de les agulles de conglomerat de la Tebaida, la regió de Montserrat que queda just damunt del monestir, al terme de Monistrol de Montserrat ([Bages](/comarques/bages)). Segons la Viquipèdia, és la roca més alta d'aquest sector, veïna de la Mòmia, la Prenyada i la Panxa del Bisbe. Dins del mateix massís, [Sant Jeroni](/cims/sant-jeroni) i [el Montgròs](/cims/montgros) són els altres cims essencials.",
+			"El nom li ve de la silueta que es veu des de la banda del monestir, amb una gran trompa de roca que penja pel vessant de llevant. La Viquipèdia precisa un detall que convé saber abans d'anar-hi: el punt més alt no és el cap de l'elefant, sinó una roca que queda al darrere i separada. Per la trompa puja la Boy-Roca, una via d'escalada clàssica oberta el 1960.",
+			"A la balma de la mateixa roca s'arrecera l'ermita de Sant Salvador. Catalunya Romànica recull que el 1217 ja hi havia una ermita amb aquesta advocació, habitada per eremites i dependent del monestir de Montserrat, que va quedar malmesa durant la guerra del Francès, es va reconstruir el 1817 i el 1820 tornava a fer d'eremitori.",
+			"**No és una excursió de camí.** La descripció de la pujada a peu que recull la Viquipèdia, a partir d'una guia de Cossetània, parla de pendents rocallosos molt inclinats amb alguna grimpada fàcil i d'un pas estret final entre dues parets de roca, curt i poc aeri. Cal saber grimpar i desgrimpar amb seguretat sobre conglomerat: si no en tens experiència, queda't al coll o a l'ermita, que ja són un bon objectiu."
 		],
 		es: [
-			'El Elefant, o roca de Sant Salvador, es una roca del macizo de Montserrat, en la zona de la Tebaida, que el catálogo sitúa en el término de Monistrol de Montserrat, en el [Bages](/comarques/bages). Según la Viquipèdia, es de conglomerado, y el nombre viene del parecido con un elefante que se ve desde el lado del monasterio. Otra cima esencial de Montserrat es [el Montgròs](/cims/montgros), ya en la Anoia.',
-			'Bajo la roca está la ermita de Sant Salvador, resguardada en una balma. Catalunya Romànica recoge que en 1217 ya había una ermita dedicada a Sant Salvador habitada por eremitas, que dependía del monasterio de Montserrat, y que se reconstruyó en 1817 tras los destrozos de la guerra del Francés; en 1820 volvía a usarse como eremitorio.',
-			"La Viquipèdia explica que el acceso a pie a la cima pasa por el Camí de l'Arrel desde Santa Cecília hasta el pla de la Trinitat, después por pendientes empinadas y pedregosas hasta el coll de Sant Salvador, y que al final hay que trepar un paso estrecho entre dos paredes de roca. Es, por tanto, una ascensión con un paso de trepada, no una excursión de camino fácil.",
-			'La misma roca es también una pared de escalada: la Viquipèdia recoge la vía Boy Roca, abierta en 1960. Esta ficha trata solo la ascensión a pie.'
+			'El Elefant es el nombre popular de la roca de Sant Salvador, una de las agujas de conglomerado de la Tebaida, la región de Montserrat que queda justo encima del monasterio, en el término de Monistrol de Montserrat ([Bages](/comarques/bages)). Según la Viquipèdia, es la roca más alta de este sector, vecina de la Mòmia, la Prenyada y la Panxa del Bisbe. En el mismo macizo, [Sant Jeroni](/cims/sant-jeroni) y [el Montgròs](/cims/montgros) son las otras cimas esenciales.',
+			'El nombre le viene de la silueta que se ve desde el lado del monasterio, con una gran trompa de roca que cuelga por la vertiente este. La Viquipèdia precisa un detalle que conviene saber antes de ir: el punto más alto no es la cabeza del elefante, sino una roca que queda detrás y separada. Por la trompa sube la Boy-Roca, una vía de escalada clásica abierta en 1960.',
+			'En la balma de la misma roca se resguarda la ermita de Sant Salvador. Catalunya Romànica recoge que en 1217 ya había una ermita con esta advocación, habitada por eremitas y dependiente del monasterio de Montserrat, que quedó dañada durante la guerra de la Independencia, se reconstruyó en 1817 y en 1820 volvía a servir de eremitorio.',
+			'**No es una excursión de camino.** La descripción de la subida a pie que recoge la Viquipèdia, a partir de una guía de Cossetània, habla de pendientes rocosas muy inclinadas con alguna trepada fácil y de un paso estrecho final entre dos paredes de roca, corto y poco aéreo. Hay que saber trepar y destrepar con seguridad sobre conglomerado: si no tienes experiencia, quédate en el collado o en la ermita, que ya son un buen objetivo.'
 		]
 	},
 	rutes: [
 		{
 			id: 'santa-cecilia',
 			nom: {
-				ca: "Des de Santa Cecília pel Camí de l'Arrel i el coll de Sant Salvador",
-				es: "Desde Santa Cecília por el Camí de l'Arrel y el coll de Sant Salvador"
+				ca: "Des de Santa Cecília pel camí de l'Arrel i el coll de Sant Salvador",
+				es: "Desde Santa Cecília por el camí de l'Arrel y el coll de Sant Salvador"
 			},
-			sortida: { nom: 'Monestir de Santa Cecília de Montserrat' },
+			sortida: { nom: 'Monestir de Santa Cecília de Montserrat (Marganell)' },
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "La Viquipèdia descriu l'accés a peu des de Santa Cecília: s'agafa el Camí de l'Arrel fins al pla de la Trinitat i es puja per pendents costeruts i pedregosos fins al coll de Sant Salvador. Al final, cal grimpar un pas estret entre dues parets de roca.",
-				es: "La Viquipèdia describe el acceso a pie desde Santa Cecília: se toma el Camí de l'Arrel hasta el pla de la Trinitat y se sube por pendientes empinadas y pedregosas hasta el coll de Sant Salvador. Al final, hay que trepar un paso estrecho entre dos paredes de roca."
+				ca: "Segons l'itinerari que recull la Viquipèdia, es deixa el cotxe a Santa Cecília i se segueix el camí de l'Arrel fins al pla de la Trinitat. Passada l'ermita de la Trinitat, un trencall indicat cap a l'ermita de Sant Salvador puja per pendents forts i pedregosos fins al coll de Sant Salvador. Més enllà, un corriol discret, marcat amb una fita, surt a la dreta cap al cim: s'hi puja amb precaució per roca molt inclinada, amb alguna grimpada fàcil, i al final cal grimpar un pas estret entre dues parets. La font no dona distància, desnivell ni horari.",
+				es: "Según el itinerario que recoge la Viquipèdia, se deja el coche en Santa Cecília y se sigue el camí de l'Arrel hasta el pla de la Trinitat. Pasada la ermita de la Trinitat, un desvío indicado hacia la ermita de Sant Salvador sube por pendientes fuertes y pedregosas hasta el coll de Sant Salvador. Más allá, un sendero discreto, marcado con un hito, sale a la derecha hacia la cima: se sube con precaución por roca muy inclinada, con alguna trepada fácil, y al final hay que trepar un paso estrecho entre dos paredes. La fuente no da distancia, desnivel ni horario."
 			},
 			fonts: [VIQUIPEDIA]
 		},
 		{
-			id: 'monistrol-circular',
+			id: 'monistrol-ermita',
 			nom: {
-				ca: "Circular des de Monistrol de Montserrat pel camí de l'Àngel (passa per la base de l'Elefant)",
-				es: "Circular desde Monistrol de Montserrat por el camí de l'Àngel (pasa por la base del Elefant)"
+				ca: "Aproximació des de Monistrol fins a l'ermita de Sant Salvador (no puja al cim)",
+				es: 'Aproximación desde Monistrol hasta la ermita de Sant Salvador (no sube a la cima)'
 			},
-			sortida: { nom: 'Monistrol de Montserrat' },
+			sortida: { nom: "Estació d'FGC de Monistrol de Montserrat" },
 			descripcio: {
-				ca: "Travesía Pirenaica proposa una circular de 16,1 km, +977 m i -985 m, unes 7 hores amb parades i 5 h 30 min de marxa sense parades, de dificultat alta. Passa per la base de l'Elefant i després per les ermites de Sant Salvador i Sant Benet; el web no la dona com a ruta al cim. La canal del Pou del Gat posa a prova la coordinació de mans i peus per salvar algun pas rocós, i el web parla de terreny inestable i erosionat i recomana bastons. Les xifres són de la circular sencera.",
-				es: 'Travesía Pirenaica propone una circular de 16,1 km, +977 m y -985 m, unas 7 horas con paradas y 5 h 30 min de marcha sin paradas, de dificultad alta. Pasa por la base del Elefant y después por las ermitas de Sant Salvador y Sant Benet; la web no la da como ruta a la cima. La canal del Pou del Gat pone a prueba la coordinación de manos y pies para salvar algún paso rocoso, y la web habla de terreno inestable y erosionado y recomienda bastones. Las cifras son de la circular entera.'
+				ca: "Travesía Pirenaica descriu una circular de 16,1 km i +977 m (5 h 30 min sense parades) que puja pel camí de l'Àngel, la canal del Pou del Gat i la canal Plana, passa per la base de l'Elefant i arriba a l'ermita de Sant Salvador a les 3 h 05 min, abans de baixar al monestir. La revista la valora de dificultat alta pel desnivell i pel terreny inestable i erosionat, i avisa que a la canal del Pou del Gat cal ajudar-se de les mans en algun tram. No inclou la grimpada al cim.",
+				es: "Travesía Pirenaica describe una circular de 16,1 km y +977 m (5 h 30 min sin paradas) que sube por el camí de l'Àngel, la canal del Pou del Gat y la canal Plana, pasa por la base del Elefant y llega a la ermita de Sant Salvador a las 3 h 05 min, antes de bajar al monasterio. La revista la valora de dificultad alta por el desnivel y por el terreno inestable y erosionado, y avisa de que en la canal del Pou del Gat hay que ayudarse de las manos en algún tramo. No incluye la trepada a la cima."
 			},
 			fonts: [TRAVESIA_PIRENAICA]
 		}
 	],
 	consells: {
 		ca: [
-			'El tram final exigeix grimpar un pas estret entre dues parets de roca: no el facis amb la roca mullada ni amb pressa.',
-			'Travesía Pirenaica parla de terreny inestable i erosionat i recomana bastons per a la pujada i la baixada de la circular de Monistrol.',
-			"Aquesta fitxa tracta l'ascensió a peu; no confonguis la via d'escalada Boy Roca amb la ruta del repte.",
-			"Montserrat és un parc natural: consulta'n la regulació vigent abans de sortir.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			'El conglomerat mullat rellisca molt: amb pluja, rosada o boira, deixa la grimpada final per a un altre dia.',
+			"Recorda que s'ha de baixar per on s'ha pujat: no t'enfilis a cap pas que no et vegis capaç de desgrimpar.",
+			'El corriol del cim surt del camí de manera discreta i només el marca una fita: porta mapa de Montserrat a escala 1:25.000 o un track fiable.',
+			"No confonguis la pujada a peu amb les vies d'escalada de la trompa, com la Boy-Roca, que demanen corda i material.",
+			'Tota la zona és dins del Parc Natural de la Muntanya de Montserrat: abans de sortir, consulta la regulació vigent del Patronat de la Muntanya.'
 		],
 		es: [
-			'El tramo final exige trepar un paso estrecho entre dos paredes de roca: no lo hagas con la roca mojada ni con prisa.',
-			'Travesía Pirenaica habla de terreno inestable y erosionado y recomienda bastones para la subida y la bajada de la circular de Monistrol.',
-			'Esta ficha trata la ascensión a pie; no confundas la vía de escalada Boy Roca con la ruta del reto.',
-			'Montserrat es un parque natural: consulta su regulación vigente antes de salir.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'El conglomerado mojado resbala mucho: con lluvia, rocío o niebla, deja la trepada final para otro día.',
+			'Recuerda que hay que bajar por donde se ha subido: no te encarames a ningún paso que no te veas capaz de destrepar.',
+			'El sendero de la cima sale del camino de forma discreta y solo lo marca un hito: lleva mapa de Montserrat a escala 1:25.000 o un track fiable.',
+			'No confundas la subida a pie con las vías de escalada de la trompa, como la Boy-Roca, que piden cuerda y material.',
+			'Toda la zona está dentro del Parque Natural de la Montaña de Montserrat: antes de salir, consulta la regulación vigente del Patronat de la Muntanya.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: "Cal grimpar per arribar a l'Elefant?",
+				pregunta: "Cal grimpar per fer el cim de l'Elefant?",
 				resposta:
-					"Segons la Viquipèdia, sí: al final de l'ascensió a peu cal grimpar un pas estret entre dues parets de roca. La resta és un camí per pendents costeruts i pedregosos."
+					"Sí. La descripció que recull la Viquipèdia parla de pendents rocallosos molt inclinats amb alguna grimpada fàcil i d'un pas estret final entre dues parets de roca, curt i poc aeri. No hi ha cap camí que arribi a dalt caminant."
 			},
 			{
-				pregunta: "Quant es triga a pujar a l'Elefant?",
+				pregunta: "Es pot pujar a l'Elefant amb nens o sense experiència?",
 				resposta:
-					"La circular de Monistrol que proposa Travesía Pirenaica fa 16,1 km, 5 h 30 min sense parades i unes 7 hores amb parades, però passa per la base de l'Elefant."
+					"No ho recomanem. El tram final és de grimpada sobre conglomerat i s'ha de desfer de baixada. Sense experiència en aquest terreny, el coll de Sant Salvador i l'ermita són un final d'excursió més raonable."
+			},
+			{
+				pregunta: "Quin és exactament el cim de l'Elefant?",
+				resposta:
+					"Segons la Viquipèdia, no és el cap de l'elefant que es veu des del monestir, sinó una roca que queda al darrere i separada, la més alta de la Tebaida."
 			},
 			{
 				pregunta: "Què és l'ermita de Sant Salvador?",
 				resposta:
-					'Una ermita sota la roca, resguardada en una balma. Catalunya Romànica la documenta el 1217, habitada per eremites i dependent del monestir de Montserrat.'
-			},
-			{
-				pregunta: "L'Elefant és un cim essencial?",
-				resposta:
-					"Sí. A Montserrat l'acompanya [el Montgròs](/cims/montgros), i al [Bages](/comarques/bages) hi ha també [el Collbaix](/cims/collbaix)."
+					'Un antic eremitori arrecerat en una balma de la mateixa roca. Catalunya Romànica el documenta el 1217 i explica que es va reconstruir el 1817, després de la guerra del Francès.'
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Hay que trepar para llegar al Elefant?',
+				pregunta: '¿Hay que trepar para hacer la cima del Elefant?',
 				resposta:
-					'Según la Viquipèdia, sí: al final de la ascensión a pie hay que trepar un paso estrecho entre dos paredes de roca. El resto es un camino por pendientes empinadas y pedregosas.'
+					'Sí. La descripción que recoge la Viquipèdia habla de pendientes rocosas muy inclinadas con alguna trepada fácil y de un paso estrecho final entre dos paredes de roca, corto y poco aéreo. No hay ningún camino que llegue arriba andando.'
 			},
 			{
-				pregunta: '¿Cuánto se tarda en subir al Elefant?',
+				pregunta: '¿Se puede subir al Elefant con niños o sin experiencia?',
 				resposta:
-					'La circular de Monistrol que propone Travesía Pirenaica hace 16,1 km, 5 h 30 min sin paradas y unas 7 horas con paradas, pero pasa por la base del Elefant.'
+					'No lo recomendamos. El tramo final es de trepada sobre conglomerado y hay que deshacerlo de bajada. Sin experiencia en este terreno, el coll de Sant Salvador y la ermita son un final de excursión más razonable.'
+			},
+			{
+				pregunta: '¿Cuál es exactamente la cima del Elefant?',
+				resposta:
+					'Según la Viquipèdia, no es la cabeza del elefante que se ve desde el monasterio, sino una roca que queda detrás y separada, la más alta de la Tebaida.'
 			},
 			{
 				pregunta: '¿Qué es la ermita de Sant Salvador?',
 				resposta:
-					'Una ermita bajo la roca, resguardada en una balma. Catalunya Romànica la documenta en 1217, habitada por eremitas y dependiente del monasterio de Montserrat.'
-			},
-			{
-				pregunta: '¿El Elefant es una cima esencial?',
-				resposta:
-					'Sí. En Montserrat lo acompaña [el Montgròs](/cims/montgros), y en el [Bages](/comarques/bages) está también [el Collbaix](/cims/collbaix).'
+					'Un antiguo eremitorio resguardado en una balma de la misma roca. Catalunya Romànica lo documenta en 1217 y explica que se reconstruyó en 1817, tras la guerra de la Independencia.'
 			}
 		]
 	},

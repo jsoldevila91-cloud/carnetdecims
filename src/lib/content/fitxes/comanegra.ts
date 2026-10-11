@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Comanegra',
@@ -18,98 +18,98 @@ const fitxa: ContingutFitxa = {
 	slug: 'comanegra',
 	descripcio: {
 		ca: [
-			"El Comanegra és el punt més alt de la [Garrotxa](/comarques/garrotxa), segons la Viquipèdia, i queda al municipi de Montagut i Oix, dins l'àrea protegida de l'Alta Garrotxa. La mateixa font el situa al lloc on es troben tres termes: Montagut i Oix, la Menera, al Vallespir, i Camprodon, al Ripollès. A la zona hi ha també [el Bassegoda](/cims/bassegoda) i [el Puig Ou](/cims/puig-ou), cims essencials de l'Alta Garrotxa.",
-			"Al cim hi ha un vèrtex geodèsic i, segons D'excursió per Catalunya, una torre de vigilància. El web parla de vistes de 360 graus sobre el Pirineu, el Canigó, el golf de Roses i les valls garrotxines, i el recomana a la primavera per a la fageda que s'hi puja, un bosc humit i ombrívol.",
-			"La pujada més descrita és la circular des de Beget. D'excursió per Catalunya comença a l'aparcament habilitat a l'entrada del poble, puja per un camí que s'enfila de manera decidida pel bosc i torna per un descens que descriu com a molt pronunciat i directe; recomana pals de tresc. El descens inicial del Comanegra, segons el mateix web, no és gaire definit: cal seguir les marques grogues i, per evitar l'últim tram per carretera, estar atent.",
-			"Es tracta d'una jornada llarga, amb molt desnivell acumulat. Fora de l'estiu pot haver-hi neu i glaç a la part alta; consulta la predicció i les condicions abans de sortir i no t'hi aventuris amb boira."
+			"El Comanegra és el sostre de la [Garrotxa](/comarques/garrotxa). El cim és de Montagut i Oix, a l'Alta Garrotxa, i fa de trifini: segons la Viquipèdia, hi conflueixen aquest terme, el de Camprodon, al Ripollès, i el de la Menera, al Vallespir. Més al sud, dins de la mateixa Alta Garrotxa, hi ha [el Puig Ou](/cims/puig-ou) i [el Bassegoda](/cims/bassegoda).",
+			'Té una curiositat geogràfica que pocs cims poden dir: la Viquipèdia el recull com el punt més meridional de la França continental. La ratlla de frontera puja fins aquí des del coll de Malrem i, a la carena, una tanca per al bestiar la fa ben visible.',
+			"Al cim hi ha un vèrtex geodèsic i una torre de vigilància. D'excursió per Catalunya hi descriu una vista de 360 graus sobre el Pirineu, el Canigó, el golf de Roses i les valls de la Garrotxa. Pel camí, la pujada des de Beget travessa un bosc humit i ombrívol i una fageda que, segons el mateix web, a la primavera és el millor del recorregut.",
+			"És una sortida de tot el dia i de molt desnivell. A l'hivern, la part alta pot tenir neu i glaç, i la baixada per la bassa de Monars, poc marcada al principi, es complica amb boira."
 		],
 		es: [
-			'El Comanegra es el punto más alto de la [Garrotxa](/comarques/garrotxa), según la Viquipèdia, y queda en el municipio de Montagut i Oix, dentro del área protegida de la Alta Garrotxa. La misma fuente lo sitúa donde se encuentran tres términos: Montagut i Oix, la Menera, en el Vallespir, y Camprodon, en el Ripollès. En la zona están también [el Bassegoda](/cims/bassegoda) y [el Puig Ou](/cims/puig-ou), cimas esenciales de la Alta Garrotxa.',
-			"En la cima hay un vértice geodésico y, según D'excursió per Catalunya, una torre de vigilancia. La web habla de vistas de 360 grados sobre el Pirineo, el Canigó, el golfo de Roses y los valles de la Garrotxa, y lo recomienda en primavera por el hayedo por el que se sube, un bosque húmedo y sombrío.",
-			"La subida más descrita es la circular desde Beget. D'excursió per Catalunya empieza en el aparcamiento habilitado a la entrada del pueblo, sube por un camino que se encarama con decisión por el bosque y vuelve por un descenso que describe como muy pronunciado y directo; recomienda bastones. El descenso inicial del Comanegra, según la misma web, no está muy definido: hay que seguir las marcas amarillas y, para evitar el último tramo por carretera, estar atento.",
-			'Es una jornada larga, con mucho desnivel acumulado. Fuera del verano puede haber nieve y hielo en la parte alta; consulta la predicción y las condiciones antes de salir y no te aventures con niebla.'
+			'El Comanegra es el techo de la [Garrotxa](/comarques/garrotxa). La cima es de Montagut i Oix, en la Alta Garrotxa, y hace de trifinio: según la Viquipèdia, allí confluyen ese término, el de Camprodon, en el Ripollès, y el de la Menera, en el Vallespir. Más al sur, dentro de la misma Alta Garrotxa, están [el Puig Ou](/cims/puig-ou) y [el Bassegoda](/cims/bassegoda).',
+			'Tiene una curiosidad geográfica que pocas cimas pueden contar: la Viquipèdia lo recoge como el punto más meridional de la Francia continental. La raya de frontera sube hasta aquí desde el coll de Malrem y, en la cresta, una cerca para el ganado la hace bien visible.',
+			"En la cima hay un vértice geodésico y una torre de vigilancia. D'excursió per Catalunya describe una vista de 360 grados sobre el Pirineo, el Canigó, el golfo de Roses y los valles de la Garrotxa. Por el camino, la subida desde Beget atraviesa un bosque húmedo y sombrío y un hayedo que, según la misma web, en primavera es lo mejor del recorrido.",
+			'Es una salida de todo el día y de mucho desnivel. En invierno, la parte alta puede tener nieve y hielo, y la bajada por la bassa de Monars, poco marcada al principio, se complica con niebla.'
 		]
 	},
 	rutes: [
 		{
 			id: 'beget',
 			nom: {
-				ca: 'Circular des de Beget',
-				es: 'Circular desde Beget'
+				ca: 'Circular des de Beget pel coll de Malrem i la bassa de Monars',
+				es: 'Circular desde Beget por el coll de Malrem y la bassa de Monars'
 			},
-			sortida: { nom: "Aparcament habilitat a l'entrada de Beget (Beget)" },
+			sortida: { nom: "Aparcament de l'entrada de Beget (Camprodon)" },
 			descripcio: {
-				ca: "D'excursió per Catalunya descriu una circular de 18,6 km, +1.415 m i 6 h 30 min en total, que surt i acaba a Beget. El camí s'enfila de manera decidida per un bosc humit i ombrívol; al cim hi ha un vèrtex geodèsic i una torre de vigilància, i el descens inicial no és gaire definit. La baixada és molt pronunciada i directa, i convé seguir les marques grogues. Les xifres són de la circular sencera.",
-				es: "D'excursió per Catalunya describe una circular de 18,6 km, +1.415 m y 6 h 30 min en total, que sale y acaba en Beget. El camino se encarama con decisión por un bosque húmedo y sombrío; en la cima hay un vértice geodésico y una torre de vigilancia, y el descenso inicial no está muy definido. La bajada es muy pronunciada y directa, y conviene seguir las marcas amarillas. Las cifras son de la circular entera."
+				ca: "D'excursió per Catalunya descriu una circular de 18,6 km, +1.415 m i 6 h 30 min, que valora de difícil. Es travessa Beget i, després de l'última casa, un sender de marques grogues s'enfila pel bosc fins a l'oratori de Sant Antoni de Can França, a una hora, i continua fins al coll de Malrem (1.189 m). Allà gira a la dreta, seguint la tanca de la frontera, i guanya la serra Llarga de Monars, una carena aèria que acaba amb una rampa dura fins al cim. La baixada busca la bassa de Monars, cau de dret fins a les ruïnes del mas de la Figuera i torna per pista.",
+				es: "D'excursió per Catalunya describe una circular de 18,6 km, +1.415 m y 6 h 30 min, que valora de difícil. Se cruza Beget y, tras la última casa, un sendero de marcas amarillas se encarama por el bosque hasta el oratorio de Sant Antoni de Can França, a una hora, y continúa hasta el coll de Malrem (1.189 m). Allí gira a la derecha, siguiendo la cerca de la frontera, y gana la serra Llarga de Monars, una cresta aérea que acaba con una rampa dura hasta la cima. La bajada busca la bassa de Monars, cae en picado hasta las ruinas del mas de la Figuera y vuelve por pista."
 			},
 			fonts: [DEXCURSIO]
 		}
 	],
 	consells: {
 		ca: [
-			"La circular fa 18,6 km i +1.415 m segons D'excursió per Catalunya: planifica-la com una jornada sencera i calcula les hores de llum.",
-			'El descens és molt pronunciat i directe: els pals de tresc, que el web recomana, protegeixen els genolls.',
-			'El descens inicial no és gaire definit: segueix les marques grogues i, amb boira, no improvisis.',
-			"Al final, el web avisa de no perdre l'atenció si vols evitar l'últim tram per carretera.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			'Del cim a la bassa de Monars el camí no és gaire definit: cal anar buscant fites i alguna marca groga, amb la bassa com a referència. Amb boira, val més tornar pel camí de pujada.',
+			"La baixada de la bassa cap al mas de la Figuera és molt dreta: D'excursió per Catalunya recomana pals, tant per a les pujades fortes com per protegir els genolls.",
+			"Porta dos litres d'aigua com a mínim, que és el que aconsella la ressenya.",
+			"A la pista de tornada, passada una última pujada, surt una drecera a la dreta en un revolt molt tancat a l'esquerra: estalvia el tram final de carretera fins a Beget.",
+			'La pista de tornada encara reserva una pujada al final: no ho donis tot a la baixada.'
 		],
 		es: [
-			"La circular tiene 18,6 km y +1.415 m según D'excursió per Catalunya: planifícala como una jornada entera y calcula las horas de luz.",
-			'El descenso es muy pronunciado y directo: los bastones, que la web recomienda, protegen las rodillas.',
-			'El descenso inicial no está muy definido: sigue las marcas amarillas y, con niebla, no improvises.',
-			'Al final, la web avisa de no perder la atención si quieres evitar el último tramo por carretera.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'De la cima a la bassa de Monars el camino no está muy definido: hay que ir buscando hitos y alguna marca amarilla, con la balsa como referencia. Con niebla, es mejor volver por el camino de subida.',
+			"La bajada de la balsa hacia el mas de la Figuera es muy empinada: D'excursió per Catalunya recomienda bastones, tanto para las subidas fuertes como para proteger las rodillas.",
+			'Lleva dos litros de agua como mínimo, que es lo que aconseja la reseña.',
+			'En la pista de vuelta, pasada una última subida, sale un atajo a la derecha en una curva muy cerrada a la izquierda: ahorra el tramo final de carretera hasta Beget.',
+			'La pista de vuelta aún reserva una subida al final: no lo des todo en la bajada.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar al Comanegra?',
+				pregunta: 'Quant es triga a pujar al Comanegra des de Beget?',
 				resposta:
-					"D'excursió per Catalunya compta 6 h 30 min per a la circular de 18,6 km des de Beget, amb +1.415 m. Són xifres de la volta sencera."
+					"D'excursió per Catalunya compta 6 h 30 min per a tota la circular, de 18,6 km i +1.415 m. De Beget a l'oratori de Sant Antoni de Can França hi ha, segons la mateixa ressenya, una hora de pujada constant."
 			},
 			{
-				pregunta: 'És el punt més alt de la Garrotxa?',
+				pregunta: 'El Comanegra és el cim més alt de la Garrotxa?',
 				resposta:
-					"Sí, segons la Viquipèdia. Queda al municipi de Montagut i Oix, a l'Alta Garrotxa."
+					'Sí. La Viquipèdia el descriu com la muntanya més alta de la comarca i, alhora, com el punt més meridional de la França continental.'
 			},
 			{
-				pregunta: 'Calen pals de tresc?',
+				pregunta: 'És una ruta difícil?',
 				resposta:
-					"D'excursió per Catalunya els recomana pel descens, que descriu com a molt pronunciat i directe."
+					"És llarga i dura: D'excursió per Catalunya la valora de difícil pel desnivell i avisa que la carena és aèria i que el primer tram de la baixada és poc definit. No hi descriu passos de grimpada."
 			},
 			{
-				pregunta: 'El Comanegra és un cim essencial?',
+				pregunta: 'Hi ha cap altra manera de pujar-hi?',
 				resposta:
-					"Sí. A la [Garrotxa](/comarques/garrotxa) l'acompanyen [Cabrera](/cims/cabrera) i [el Puig Ou](/cims/puig-ou)."
+					"El camí de Beget creua, a Sant Antoni de Can França, una pista forestal que ve de Rocabruna, i el mateix web té una altra ressenya des d'aquest poble. Aquí només detallem la de Beget."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir al Comanegra?',
+				pregunta: '¿Cuánto se tarda en subir al Comanegra desde Beget?',
 				resposta:
-					"D'excursió per Catalunya cuenta 6 h 30 min para la circular de 18,6 km desde Beget, con +1.415 m. Son cifras de la vuelta entera."
+					"D'excursió per Catalunya cuenta 6 h 30 min para toda la circular, de 18,6 km y +1.415 m. De Beget al oratorio de Sant Antoni de Can França hay, según la misma reseña, una hora de subida constante."
 			},
 			{
-				pregunta: '¿Es el punto más alto de la Garrotxa?',
+				pregunta: '¿El Comanegra es la cima más alta de la Garrotxa?',
 				resposta:
-					'Sí, según la Viquipèdia. Queda en el municipio de Montagut i Oix, en la Alta Garrotxa.'
+					'Sí. La Viquipèdia lo describe como la montaña más alta de la comarca y, a la vez, como el punto más meridional de la Francia continental.'
 			},
 			{
-				pregunta: '¿Hacen falta bastones?',
+				pregunta: '¿Es una ruta difícil?',
 				resposta:
-					"D'excursió per Catalunya los recomienda para el descenso, que describe como muy pronunciado y directo."
+					"Es larga y dura: D'excursió per Catalunya la valora de difícil por el desnivel y avisa de que la cresta es aérea y de que el primer tramo de la bajada está poco definido. No describe pasos de trepada."
 			},
 			{
-				pregunta: '¿El Comanegra es una cima esencial?',
+				pregunta: '¿Hay alguna otra forma de subir?',
 				resposta:
-					'Sí. En la [Garrotxa](/comarques/garrotxa) lo acompañan [Cabrera](/cims/cabrera) y [el Puig Ou](/cims/puig-ou).'
+					'El camino de Beget cruza, en Sant Antoni de Can França, una pista forestal que viene de Rocabruna, y la misma web tiene otra reseña desde ese pueblo. Aquí solo detallamos la de Beget.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, DEXCURSIO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Castell de Milany',
@@ -30,109 +30,99 @@ const fitxa: ContingutFitxa = {
 	slug: 'castell-de-milany',
 	descripcio: {
 		ca: [
-			"El castell de Milany corona el turó de Milany, que el catàleg situa a Vallfogona de Ripollès, a l'[Osona](/comarques/osona), al límit amb el Ripollès. Segons la Viquipèdia, el turó queda a la ratlla dels termes de Vallfogona i Vidrà, dins de l'espai protegit de les serres de Milany-Santa Magdalena i Puigsacalm-Bellmunt, i el castell és el de Catalunya construït a més altitud. A la comarca, [la Creu de Gurb](/cims/creu-de-gurb) i [la Rocallarga](/cims/rocallarga) són altres cims essencials.",
-			"La Viquipèdia recull que el nom de Milany apareix el 918 i la primera menció del castell és del 962. Va ser el centre de la baronia de Milany, va passar per diversos senyors, entre els quals els comtes d'Osona i de Besalú i la casa comtal de Barcelona, i a finals del segle XIII Dalmau de Palau el va reconstruir i fortificar. Els remences el van prendre el 1462 i, després de la guerra, va quedar abandonat. L'Ajuntament de Vallfogona data la fortificació al segle X i explica que, més tard, va passar als comtes de Barcelona, als vescomtes de Bas i, el 1600, als comtes de Vallfogona.",
-			"Avui n'hi ha poca cosa, i l'Ajuntament parla de restes escasses. Les excavacions de la Diputació de Girona, entre el 2011 i el 2014, van deixar al descobert la planta quadrada de la torre principal, de parets d'1,6 m de gruix, i s'hi veuen també una cambra rectangular i una cisterna. Femturisme explica que el castell estava en obres de restauració l'any 2019.",
-			"La sortida més coneguda és una circular des de Vallfogona de Ripollès, una gran excursió per fer a la tardor segons Femturisme. El camí és ben marcat amb senyals de GR i PR; la dificultat principal és l'orientació quan cauen les fulles."
+			"El castell de Milany corona el puig de Milany, al límit entre Vidrà, a [Osona](/comarques/osona), i Vallfogona de Ripollès, que ja és al Ripollès. El turó domina la vall que comunica Vallfogona amb la plana de Vic i forma part de l'espai d'interès natural de les serres de Milany-Santa Magdalena i Puigsacalm-Bellmunt, el mateix que protegeix [Bellmunt](/cims/bellmunt) i [el Puigsacalm](/cims/puigsacalm). Segons la Viquipèdia, és el castell català bastit a més altitud.",
+			"El topònim surt per primera vegada el 918 i el castell, el 962. Va ser el centre de la baronia de Milany i, segons la Viquipèdia, va dependre successivament dels comtats d'Osona i de Besalú i del casal de Barcelona; a finals del segle XIII, Dalmau de Palau el va fer reconstruir. Els remences el van prendre el 1462, potser perquè els terratrèmols d'aquell segle ja l'havien malmès, i sembla que es va abandonar en acabar la guerra. L'Ajuntament de Vallfogona recorda que el van ocupar les forces de Verntallat i que a la darreria del segle XVII pertanyia als comtes de Vallfogona.",
+			"Avui és una ruïna declarada bé cultural d'interès nacional. Queden les restes de la torre de l'homenatge, d'una sala rectangular que podria haver estat la capella i d'una cisterna. Les excavacions del 2012 al 2014 van deixar al descobert la planta quadrada de la torre, amb parets d'1,6 m de gruix. Femturisme explica que el 2019 hi havia obres de restauració i que es pot pujar al mirador de la torre, amb vistes del Prepirineu, de la Garrotxa al Pedraforca, i del Montseny i Bellmunt cap al sud.",
+			"Tota la serra és fageda, i per això Femturisme la recomana a la tardor. És també quan costa més de seguir el camí, perquè la fullaraca el tapa. A l'hivern, a més de 1.500 m, hi pot haver neu i glaç."
 		],
 		es: [
-			'El castell de Milany corona el cerro de Milany, que el catálogo sitúa en Vallfogona de Ripollès, en [Osona](/comarques/osona), en el límite con el Ripollès. Según la Viquipèdia, el cerro queda en la raya de los términos de Vallfogona y Vidrà, dentro del espacio protegido de las sierras de Milany-Santa Magdalena y Puigsacalm-Bellmunt, y el castillo es el de Catalunya construido a mayor altitud. En la comarca, [la Creu de Gurb](/cims/creu-de-gurb) y [la Rocallarga](/cims/rocallarga) son otras cimas esenciales.',
-			'La Viquipèdia recoge que el nombre de Milany aparece en 918 y la primera mención del castillo es de 962. Fue el centro de la baronía de Milany, pasó por varios señores, entre ellos los condes de Osona y de Besalú y la casa condal de Barcelona, y a finales del siglo XIII Dalmau de Palau lo reconstruyó y fortificó. Los remensas lo tomaron en 1462 y, tras la guerra, quedó abandonado. El Ayuntamiento de Vallfogona data la fortificación en el siglo X y explica que, más tarde, pasó a los condes de Barcelona, a los vizcondes de Bas y, en 1600, a los condes de Vallfogona.',
-			'Hoy queda poca cosa, y el Ayuntamiento habla de restos escasos. Las excavaciones de la Diputació de Girona, entre 2011 y 2014, dejaron al descubierto la planta cuadrada de la torre principal, de muros de 1,6 m de grosor, y se ven también una cámara rectangular y una cisterna. Femturisme explica que el castillo estaba en obras de restauración en 2019.',
-			'La salida más conocida es una circular desde Vallfogona de Ripollès, una gran excursión para hacer en otoño según Femturisme. El camino está bien marcado con señales de GR y PR; la dificultad principal es la orientación cuando caen las hojas.'
+			'El castell de Milany corona el puig de Milany, en el límite entre Vidrà, en [Osona](/comarques/osona), y Vallfogona de Ripollès, que ya es del Ripollès. El cerro domina el valle que comunica Vallfogona con la plana de Vic y forma parte del espacio de interés natural de las sierras de Milany-Santa Magdalena y Puigsacalm-Bellmunt, el mismo que protege [Bellmunt](/cims/bellmunt) y [el Puigsacalm](/cims/puigsacalm). Según la Viquipèdia, es el castillo catalán construido a mayor altitud.',
+			'El topónimo aparece por primera vez en 918 y el castillo, en 962. Fue el centro de la baronía de Milany y, según la Viquipèdia, dependió sucesivamente de los condados de Osona y de Besalú y de la casa de Barcelona; a finales del siglo XIII, Dalmau de Palau lo hizo reconstruir. Los remensas lo tomaron en 1462, quizá porque los terremotos de aquel siglo ya lo habían dañado, y parece que se abandonó al acabar la guerra. El Ayuntamiento de Vallfogona recuerda que lo ocuparon las fuerzas de Verntallat y que a finales del siglo XVII pertenecía a los condes de Vallfogona.',
+			'Hoy es una ruina declarada bien cultural de interés nacional. Quedan los restos de la torre del homenaje, de una sala rectangular que podría haber sido la capilla y de una cisterna. Las excavaciones de 2012 a 2014 dejaron al descubierto la planta cuadrada de la torre, con muros de 1,6 m de grosor. Femturisme explica que en 2019 había obras de restauración y que se puede subir al mirador de la torre, con vistas del Prepirineo, de la Garrotxa al Pedraforca, y del Montseny y Bellmunt hacia el sur.',
+			'Toda la sierra es hayedo, y por eso Femturisme la recomienda en otoño. Es también cuando más cuesta seguir el camino, porque la hojarasca lo tapa. En invierno, a más de 1.500 m, puede haber nieve y hielo.'
 		]
 	},
 	rutes: [
 		{
 			id: 'vallfogona',
 			nom: {
-				ca: 'Circular des de Vallfogona de Ripollès',
-				es: 'Circular desde Vallfogona de Ripollès'
+				ca: 'Circular des de Vallfogona de Ripollès per Santa Magdalena de Cambrils',
+				es: 'Circular desde Vallfogona de Ripollès por Santa Magdalena de Cambrils'
 			},
 			sortida: { nom: 'Nucli de Vallfogona de Ripollès' },
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "Femturisme descriu una circular de 16,8 km, 544 m de desnivell i entre 5 i 6 h segons ritme i parades, de dificultat moderada. Es deixa el cotxe al nucli de Vallfogona, tot el camí està ben marcat amb senyals de GR i PR i la dificultat principal és l'orientació quan cauen les fulles; cal no desviar-se per alguns viaranys que hi ha a prop d'una casa. Les xifres són de la circular sencera.",
-				es: 'Femturisme describe una circular de 16,8 km, 544 m de desnivel y entre 5 y 6 h según ritmo y paradas, de dificultad moderada. Se deja el coche en el núcleo de Vallfogona, todo el camino está bien marcado con señales de GR y PR y la dificultad principal es la orientación cuando caen las hojas; hay que no desviarse por algunas sendas que hay cerca de una casa. Las cifras son de la circular entera.'
+				ca: "Femturisme descriu una circular de 16,8 km, 544 m de desnivell i entre 5 i 6 h, de dificultat moderada. Del poble baixa al pont medieval, on un pal indica el castell a 6 km, i puja amb les marques del GR 3 i el GR 151.1, un dels Camins de l'Abat Oliba: primer per corriol, després mitja hora llarga per la pista del bac de la Portella i finalment per la fageda. L'últim tram fins al castell és una petita grimpada, amb un parell de passadors per agafar-s'hi. La tornada segueix la carena pel PR-C 59 fins a Santa Magdalena de Cambrils (1 h 15 min) i baixa a Vallfogona.",
+				es: "Femturisme describe una circular de 16,8 km, 544 m de desnivel y entre 5 y 6 h, de dificultad moderada. Desde el pueblo baja al puente medieval, donde un poste indica el castillo a 6 km, y sube con las marcas del GR 3 y el GR 151.1, uno de los Camins de l'Abat Oliba: primero por sendero, después media hora larga por la pista del bac de la Portella y finalmente por el hayedo. El último tramo hasta el castillo es una pequeña trepada, con un par de pasadores a los que agarrarse. La vuelta sigue la cresta por el PR-C 59 hasta Santa Magdalena de Cambrils (1 h 15 min) y baja a Vallfogona."
 			},
-			fonts: [FEMTURISME]
-		},
-		{
-			id: 'pr-c-59',
-			nom: {
-				ca: 'Pel PR-C 59 des de Santa Magdalena de Cambrils',
-				es: 'Por el PR-C 59 desde Santa Magdalena de Cambrils'
-			},
-			sortida: { nom: 'Església de la Salut (Vallfogona de Ripollès)' },
-			descripcio: {
-				ca: "L'Ajuntament de Vallfogona recull la ruta de Vallfogona a Santa Magdalena de Cambrils: 12 km i de 4 a 5 hores, amb sortida davant de l'església de la Salut. Des de Santa Magdalena, el PR-C 59 continua fins al castell de Milany. Les xifres són de la ruta de Vallfogona a Santa Magdalena i tornada, que no arriba al castell.",
-				es: 'El Ayuntamiento de Vallfogona recoge la ruta de Vallfogona a Santa Magdalena de Cambrils: 12 km y de 4 a 5 horas, con salida frente a la iglesia de la Salut. Desde Santa Magdalena, el PR-C 59 continúa hasta el castell de Milany. Las cifras son de la ruta de Vallfogona a Santa Magdalena y vuelta, que no llega al castillo.'
-			},
-			fonts: [VALLFOGONA_RUTES]
+			fonts: [FEMTURISME, VALLFOGONA_RUTES]
 		}
 	],
 	consells: {
 		ca: [
-			"Segons Femturisme, la dificultat és l'orientació quan cauen les fulles: porta mapa o GPS i vigila els viaranys que surten prop de les cases.",
-			"Són restes: no t'enfilis als murs.",
-			'Femturisme calcula entre 5 i 6 hores per a la circular: compta les hores de llum, sobretot a la tardor.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Porta el track o el mapa encara que hi hagi marques: Femturisme diu que la dificultat principal és l'orientació quan cauen les fulles, sobretot a la carena cap a Santa Magdalena.",
+			'A la baixada de Santa Magdalena, vora una casa, surten diversos viaranys: allà cal seguir les marques del PR i uns punts liles.',
+			'Si no vols fer tota la volta, pots tornar del castell pel camí de pujada; Femturisme també esmenta una baixada més curta per la font de la Tosca i el torrent de la Masica.',
+			"El castell s'ha excavat i consolidat fa pocs anys: no t'enfilis als murs ni moguis pedres.",
+			"Pel vessant sud s'hi pot pujar des de Vidrà o des de Llaés, segons la mateixa ressenya, que no en dona detalls."
 		],
 		es: [
-			'Según Femturisme, la dificultad es la orientación cuando caen las hojas: lleva mapa o GPS y vigila las sendas que salen cerca de las casas.',
-			'Son restos: no te subas a los muros.',
-			'Femturisme calcula entre 5 y 6 horas para la circular: cuenta las horas de luz, sobre todo en otoño.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Lleva el track o el mapa aunque haya marcas: Femturisme dice que la dificultad principal es la orientación cuando caen las hojas, sobre todo en la cresta hacia Santa Magdalena.',
+			'En la bajada de Santa Magdalena, junto a una casa, salen varias sendas: allí hay que seguir las marcas del PR y unos puntos lilas.',
+			'Si no quieres hacer toda la vuelta, puedes volver del castillo por el camino de subida; Femturisme menciona también una bajada más corta por la font de la Tosca y el torrente de la Masica.',
+			'El castillo se ha excavado y consolidado hace pocos años: no te subas a los muros ni muevas piedras.',
+			'Por la vertiente sur se puede subir desde Vidrà o desde Llaés, según la misma reseña, que no da detalles.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar al castell de Milany?',
+				pregunta: 'Quant es triga a pujar al castell de Milany des de Vallfogona?',
 				resposta:
-					'Femturisme compta entre 5 i 6 hores per a la circular de 16,8 km i 544 m de desnivell des de Vallfogona de Ripollès.'
+					'Femturisme compta entre 5 i 6 hores, segons el ritme i les parades, per a la circular de 16,8 km que hi puja pel GR 3 i torna per Santa Magdalena de Cambrils. Al pont medieval de Vallfogona, un pal indica el castell a 6 km.'
 			},
 			{
-				pregunta: 'Quina història té el castell?',
+				pregunta: 'Hi ha cap pas difícil per arribar al castell?',
 				resposta:
-					"Segons la Viquipèdia, el castell consta des del 962, va ser el centre de la baronia de Milany i va quedar abandonat després de la guerra remença. L'Ajuntament de Vallfogona el data al segle X."
+					'Només el final: segons Femturisme, per coronar el cim cal fer una petita grimpada, on un parell de passadors ajuden a posar les mans. La resta va per corriol, pista i fageda.'
 			},
 			{
-				pregunta: 'Hi ha res per veure al cim?',
+				pregunta: 'Què queda del castell de Milany?',
 				resposta:
-					"Només restes: la planta de la torre principal, una cambra i una cisterna segons la Viquipèdia, i un tros de mur i una cambra de volta apuntada segons l'Ajuntament."
+					"Restes de la torre de l'homenatge, d'una sala rectangular i d'una cisterna, segons la Viquipèdia. L'Ajuntament de Vallfogona parla de restes escasses d'un conjunt que havia tingut església i cementiri."
 			},
 			{
-				pregunta: 'El castell de Milany és un cim essencial?',
+				pregunta: 'El castell de Milany és a Osona o al Ripollès?',
 				resposta:
-					"Sí. A l'[Osona](/comarques/osona) l'acompanyen [la Creu de Gurb](/cims/creu-de-gurb) i [la Rocallarga](/cims/rocallarga)."
+					"Fa de partió entre Vidrà, a [Osona](/comarques/osona), i Vallfogona de Ripollès. A la llista del repte figura com a cim d'Osona, encara que la ruta més descrita surt de Vallfogona."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir al castillo de Milany?',
+				pregunta: '¿Cuánto se tarda en subir al castell de Milany desde Vallfogona?',
 				resposta:
-					'Femturisme cuenta entre 5 y 6 horas para la circular de 16,8 km y 544 m de desnivel desde Vallfogona de Ripollès.'
+					'Femturisme cuenta entre 5 y 6 horas, según el ritmo y las paradas, para la circular de 16,8 km que sube por el GR 3 y vuelve por Santa Magdalena de Cambrils. En el puente medieval de Vallfogona, un poste indica el castillo a 6 km.'
 			},
 			{
-				pregunta: '¿Qué historia tiene el castillo?',
+				pregunta: '¿Hay algún paso difícil para llegar al castillo?',
 				resposta:
-					'Según la Viquipèdia, el castillo consta desde 962, fue el centro de la baronía de Milany y quedó abandonado tras la guerra remensa. El Ayuntamiento de Vallfogona lo data en el siglo X.'
+					'Solo el final: según Femturisme, para coronar la cima hay que hacer una pequeña trepada, donde un par de pasadores ayudan a poner las manos. El resto va por sendero, pista y hayedo.'
 			},
 			{
-				pregunta: '¿Hay algo que ver en la cima?',
+				pregunta: '¿Qué queda del castell de Milany?',
 				resposta:
-					'Solo restos: la planta de la torre principal, una cámara y una cisterna según la Viquipèdia, y un trozo de muro y una cámara de bóveda apuntada según el Ayuntamiento.'
+					'Restos de la torre del homenaje, de una sala rectangular y de una cisterna, según la Viquipèdia. El Ayuntamiento de Vallfogona habla de restos escasos de un conjunto que había tenido iglesia y cementerio.'
 			},
 			{
-				pregunta: '¿El castell de Milany es una cima esencial?',
+				pregunta: '¿El castell de Milany está en Osona o en el Ripollès?',
 				resposta:
-					'Sí. En [Osona](/comarques/osona) lo acompañan [la Creu de Gurb](/cims/creu-de-gurb) y [la Rocallarga](/cims/rocallarga).'
+					'Hace de linde entre Vidrà, en [Osona](/comarques/osona), y Vallfogona de Ripollès. En la lista del reto figura como cima de Osona, aunque la ruta más descrita sale de Vallfogona.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, VALLFOGONA, VALLFOGONA_RUTES, FEMTURISME],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

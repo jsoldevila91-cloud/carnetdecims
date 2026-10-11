@@ -9,7 +9,7 @@ const VIQUIPEDIA = {
 };
 
 const TRAVESIA_PIRENAICA = {
-	nom: 'Travesía Pirenaica: Montgròs desde El Bruc',
+	nom: 'Travesía Pirenaica: Montserrat, subida al Montgròs (1.133 m) desde El Bruc',
 	url: 'https://travesiapirenaica.com/en/?p=36852',
 	consultat: CONSULTAT
 };
@@ -18,94 +18,96 @@ const fitxa: ContingutFitxa = {
 	slug: 'montgros',
 	descripcio: {
 		ca: [
-			"El Montgròs és una muntanya de la serra de Montserrat, dins del Parc Natural de la Muntanya de Montserrat, al terme del Bruc, a l'[Anoia](/comarques/anoia). Segons la Viquipèdia és de conglomerat, amb una forma arrodonida de cúpula, i no és entre els més alts del massís. Un altre cim essencial de Montserrat és [l'Elefant](/cims/elefant-roca-de-sant-salvador), ja al Bages.",
-			"La Viquipèdia recull que la primera descripció coneguda de la seva ascensió és d'una excursió del 1880 de Cèsar August Torras, publicada a La Renaixensa, i que Josep Fatjó, a la seva història del 2005, qualifica la pujada de tan penosa com difícil. Al Montgròs també hi ha més de dues desenes de vies d'escalada, que aquesta fitxa no tracta.",
-			"Per a qui el vulgui pujar a peu, Travesía Pirenaica en proposa la sortida des del Bruc: un recorregut d'anada i tornada pel mateix camí que, des de la base del massís, passa per la bretxa que parteix Montserrat en dues meitats, amb els Plecs del Llibre, i acaba amb un darrer repetjó cap a l'esquerra. La mateixa fitxa en qualifica la dificultat d'alta: el desnivell és molt marcat en gairebé tot el recorregut.",
-			'El web demana tenir en compte algun pas aeri, el dur desnivell de pujada i el gran pendent de baixada, i aconsella baixar amb molta cura. És una ascensió per a gent amb experiència de muntanya, no una passejada; amb humitat o boira convé no insistir.'
+			"El Montgròs és una gran mola de conglomerat en forma de cúpula, al bell mig de la serra de Montserrat i dins del parc natural, al terme del Bruc ([Anoia](/comarques/anoia)). La Viquipèdia remarca que no és dels cims més alts del massís, però sí un dels miradors més ben situats, justament perquè queda al centre: a ponent, les Agulles i els Frares Encantats; a llevant, la canal del Migdia i [Sant Jeroni](/cims/sant-jeroni). Més enllà, a la Tebaida, hi ha [l'Elefant](/cims/elefant-roca-de-sant-salvador).",
+			"Va ser un dels primers racons de la part central de Montserrat que es van explicar per escrit. El 1880, Cèsar August Torras va publicar a La Renaixensa el relat d'una ascensió al Montgròs, que la Viquipèdia cita a través de la història de l'escalada a Montserrat de Josep Fatjó (2005). Torras hi escrivia que la pujada era tan penosa com difícil i que la mola només era accessible per un sol indret, la font de la Cadireta. Avui hi ha camí, però l'itinerari continua sent el mateix.",
+			"Des del Bruc, la pujada travessa primer un paisatge d'oliveres i pi blanc, remunta el torrent del Bassal dels Gats fins al coll de l'Ajaguda i entra a la canal del Migdia, la bretxa que parteix Montserrat en dues meitats. Travesía Pirenaica hi destaca l'ombra d'alzines i boixos i els peus de grèvol, auró i teix que hi han quedat com a relictes. Al capdamunt, el panorama abasta bona part de les agulles del massís.",
+			"El tram final és el que demana més atenció: dues canals rocoses de pendent fort, una de les quals és la de la Salamandra, i algun pas aeri. No hi ha aigua en tot el recorregut i la calor s'hi nota: és una sortida per fer amb temps fresc i roca seca."
 		],
 		es: [
-			'El Montgròs es una montaña de la sierra de Montserrat, dentro del Parque Natural de la Montaña de Montserrat, en el término del Bruc, en la [Anoia](/comarques/anoia). Según la Viquipèdia es de conglomerado, con una forma redondeada de cúpula, y no está entre los más altos del macizo. Otra cima esencial de Montserrat es [el Elefant](/cims/elefant-roca-de-sant-salvador), ya en el Bages.',
-			'La Viquipèdia recoge que la primera descripción conocida de su ascensión es de una excursión de 1880 de Cèsar August Torras, publicada en La Renaixensa, y que Josep Fatjó, en su historia de 2005, califica la subida de tan penosa como difícil. En el Montgròs también hay más de dos decenas de vías de escalada, que esta ficha no trata.',
-			'Para quien quiera subirlo a pie, Travesía Pirenaica propone la salida desde el Bruc: un recorrido de ida y vuelta por el mismo camino que, desde la base del macizo, pasa por la brecha que parte Montserrat en dos mitades, con los Plecs del Llibre, y acaba con un último repecho hacia la izquierda. La misma ficha califica su dificultad de alta: el desnivel es muy marcado en casi todo el recorrido.',
-			'La web pide tener en cuenta algún paso aéreo, el duro desnivel de subida y la gran pendiente de bajada, y aconseja bajar con mucho cuidado. Es una ascensión para gente con experiencia de montaña, no un paseo; con humedad o niebla conviene no insistir.'
+			'El Montgròs es una gran mole de conglomerado en forma de cúpula, en pleno centro de la sierra de Montserrat y dentro del parque natural, en el término del Bruc ([Anoia](/comarques/anoia)). La Viquipèdia subraya que no es de las cimas más altas del macizo, pero sí uno de los miradores mejor situados, precisamente porque queda en el centro: a poniente, las Agulles y los Frares Encantats; a levante, la canal del Migdia y [Sant Jeroni](/cims/sant-jeroni). Más allá, en la Tebaida, está [el Elefant](/cims/elefant-roca-de-sant-salvador).',
+			'Fue uno de los primeros rincones de la parte central de Montserrat que se contaron por escrito. En 1880, Cèsar August Torras publicó en La Renaixensa el relato de una ascensión al Montgròs, que la Viquipèdia cita a través de la historia de la escalada en Montserrat de Josep Fatjó (2005). Torras escribía que la subida era tan penosa como difícil y que la mole solo era accesible por un único lugar, la fuente de la Cadireta. Hoy hay camino, pero el itinerario sigue siendo el mismo.',
+			"Desde el Bruc, la subida atraviesa primero un paisaje de olivos y pino carrasco, remonta el torrente del Bassal dels Gats hasta el coll de l'Ajaguda y entra en la canal del Migdia, la brecha que parte Montserrat en dos mitades. Travesía Pirenaica destaca allí la sombra de encinas y bojes y los pies de acebo, arce y tejo que han quedado como relictos. Arriba, el panorama abarca buena parte de las agujas del macizo.",
+			'El tramo final es el que pide más atención: dos canales rocosas de fuerte pendiente, una de ellas la de la Salamandra, y algún paso aéreo. No hay agua en todo el recorrido y el calor se nota: es una salida para hacer con tiempo fresco y roca seca.'
 		]
 	},
 	rutes: [
 		{
 			id: 'el-bruc',
 			nom: {
-				ca: 'Des del Bruc pels Plecs del Llibre, anada i tornada',
-				es: 'Desde el Bruc por los Plecs del Llibre, ida y vuelta'
+				ca: 'Des del Bruc per la canal del Migdia i la font de la Cadireta',
+				es: 'Desde el Bruc por la canal del Migdia y la fuente de la Cadireta'
 			},
-			sortida: { nom: 'El Bruc' },
+			sortida: { nom: 'El Bruc Residencial, avinguda de la Moreneta (el Bruc, 405 m)' },
 			desnivellPositiuM: 833,
 			distanciaKm: 5.5,
 			tempsMinuts: 150,
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "Travesía Pirenaica dona 11 km d'anada i tornada, 833 m de desnivell acumulat (+/-833 m), 2 h 30 min de pujada i 1 h 45 min de baixada, sense parades, i una dificultat alta. L'itinerari passa per la bretxa que parteix Montserrat en dues meitats i pels Plecs del Llibre i acaba amb un darrer repetjó a l'esquerra. El mateix web avisa que cal tenir en compte algun pas aeri, el dur desnivell de pujada i el gran pendent de baixada.",
-				es: 'Travesía Pirenaica da 11 km de ida y vuelta, 833 m de desnivel acumulado (+/-833 m), 2 h 30 min de subida y 1 h 45 min de bajada, sin paradas, y una dificultad alta. El itinerario pasa por la brecha que parte Montserrat en dos mitades y por los Plecs del Llibre y acaba con un último repecho a la izquierda. La misma web avisa de que hay que tener en cuenta algún paso aéreo, el duro desnivel de subida y la gran pendiente de bajada.'
+				ca: "Travesía Pirenaica la descriu com una ruta lineal d'11 km entre anada i tornada i 833 m de desnivell acumulat: 2 h 30 min de pujada (5,5 km) i 1 h 45 min de baixada, sense parades, amb dificultat alta. Surt del Bruc Residencial (405 m), puja pel camí del Bassal dels Gats fins al coll de l'Ajaguda (829 m, 1 h 25 min), baixa una mica fins a la canal del Migdia i la remunta fins al desviament del Montgròs (952 m, 2 h). D'allà, passada la font de la Cadireta, s'enfila per dues canals rocoses de pendent pronunciat, amb marques de PR, fins a un collet, i un últim repetjó a l'esquerra porta al cim. La revista avisa d'algun pas aeri i recomana baixar amb molta cura.",
+				es: "Travesía Pirenaica la describe como una ruta lineal de 11 km entre ida y vuelta y 833 m de desnivel acumulado: 2 h 30 min de subida (5,5 km) y 1 h 45 min de bajada, sin paradas, con dificultad alta. Sale del Bruc Residencial (405 m), sube por el camí del Bassal dels Gats hasta el coll de l'Ajaguda (829 m, 1 h 25 min), baja un poco hasta la canal del Migdia y la remonta hasta el desvío del Montgròs (952 m, 2 h). Desde allí, pasada la fuente de la Cadireta, se encarama por dos canales rocosas de pendiente pronunciada, con marcas de PR, hasta un collado, y un último repecho a la izquierda lleva a la cima. La revista avisa de algún paso aéreo y recomienda bajar con mucho cuidado."
 			},
 			fonts: [TRAVESIA_PIRENAICA]
 		}
 	],
 	consells: {
 		ca: [
-			"Travesía Pirenaica avisa d'algun pas aeri i d'una baixada de molt pendent: baixa amb molta cura i no ho facis amb la roca mullada.",
-			"La pujada és de 2 h 30 min i la baixada d'1 h 45 min sense parades, segons la mateixa font: compta les hores de llum.",
-			'Porta aigua de casa i botes de bona sola: el desnivell és molt marcat en gairebé tot el recorregut.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Carrega tota l'aigua des de casa: Travesía Pirenaica avisa que no n'hi ha en tot el recorregut, que al Bruc Residencial no hi ha comerços i que la de la font de la Cadireta no és accessible.",
+			'Les canals finals són de roca, molt dretes, i es baixen pel mateix lloc: plega els bastons per tenir les mans lliures, reserva forces per a la baixada i evita-les amb el conglomerat moll.',
+			"Poc abans del coll de l'Ajaguda cal deixar el camí del torrent per un sender marcat amb fites que surt a l'esquerra: para-hi atenció.",
+			"S'hi pot arribar en autobús: segons la mateixa ressenya, la línia Barcelona-Igualada pel Bruc té parada al Bruc Residencial.",
+			"Les parets del Montgròs tenen vies d'escalada llargues; res a veure amb la pujada a peu, que és la que expliquem aquí."
 		],
 		es: [
-			'Travesía Pirenaica avisa de algún paso aéreo y de una bajada de mucha pendiente: baja con mucho cuidado y no lo hagas con la roca mojada.',
-			'La subida es de 2 h 30 min y la bajada de 1 h 45 min sin paradas, según la misma fuente: cuenta las horas de luz.',
-			'Lleva agua de casa y botas de buena suela: el desnivel es muy marcado en casi todo el recorrido.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Carga toda el agua desde casa: Travesía Pirenaica avisa de que no la hay en todo el recorrido, de que en el Bruc Residencial no hay comercios y de que la de la fuente de la Cadireta no es accesible.',
+			'Las canales finales son de roca, muy empinadas, y se bajan por el mismo sitio: pliega los bastones para tener las manos libres, reserva fuerzas para la bajada y evítalas con el conglomerado mojado.',
+			"Poco antes del coll de l'Ajaguda hay que dejar el camino del torrente por un sendero marcado con hitos que sale a la izquierda: presta atención.",
+			'Se puede llegar en autobús: según la misma reseña, la línea Barcelona-Igualada por el Bruc tiene parada en el Bruc Residencial.',
+			'Las paredes del Montgròs tienen vías de escalada largas; nada que ver con la subida a pie, que es la que explicamos aquí.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar al Montgròs?',
+				pregunta: 'Quant es triga a pujar al Montgròs des del Bruc?',
 				resposta:
-					"Travesía Pirenaica compta 2 h 30 min de pujada i 1 h 45 min de baixada, sense parades, per a 11 km d'anada i tornada des del Bruc, amb 833 m de desnivell."
+					'Travesía Pirenaica compta 2 h 30 min de pujada i 1 h 45 min de baixada, sense parades, per a 11 km entre anada i tornada i 833 m de desnivell acumulat. Amb parades, calcula unes 5 hores.'
 			},
 			{
 				pregunta: 'El Montgròs és difícil?',
 				resposta:
-					"La mateixa font en qualifica la dificultat d'alta, pel desnivell molt marcat, i avisa d'algun pas aeri i d'una baixada de gran pendent."
+					"És una pujada exigent: la ressenya la valora de dificultat alta pel desnivell, molt marcat en gairebé tot el recorregut, i avisa de dues canals rocoses de pendent fort i d'algun pas aeri al tram final. No és una ruta per estrenar-se a Montserrat."
 			},
 			{
-				pregunta: 'Es pot escalar al Montgròs?',
+				pregunta: 'Hi ha cap altra manera de pujar-hi?',
 				resposta:
-					"Sí, la Viquipèdia en recull més de dues desenes de vies, però aquesta fitxa tracta només l'ascensió a peu, que no és de rutina: cal experiència de muntanya."
+					"Sí. La Viquipèdia explica que la font de la Cadireta també s'assoleix des de Santa Cecília, baixant per la canal del Migdia, i que pel vessant oest s'hi arriba des del coll del Montgròs, pel camí que ve d'Agulles."
 			},
 			{
-				pregunta: 'El Montgròs és un cim essencial?',
+				pregunta: 'Què es veu des del cim del Montgròs?',
 				resposta:
-					"Sí. A Montserrat l'acompanya [l'Elefant](/cims/elefant-roca-de-sant-salvador), al Bages, i l'[Anoia](/comarques/anoia) té [el Puig de Sant Miquel](/cims/puig-de-sant-miquel)."
+					"Segons la Viquipèdia, les Agulles i els Frares Encantats a ponent, el Bruc al sud i la canal del Migdia i Sant Jeroni a llevant. Travesía Pirenaica hi afegeix el Moro i l'Albarda Castellana."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir al Montgròs?',
+				pregunta: '¿Cuánto se tarda en subir al Montgròs desde el Bruc?',
 				resposta:
-					'Travesía Pirenaica cuenta 2 h 30 min de subida y 1 h 45 min de bajada, sin paradas, para 11 km de ida y vuelta desde el Bruc, con 833 m de desnivel.'
+					'Travesía Pirenaica cuenta 2 h 30 min de subida y 1 h 45 min de bajada, sin paradas, para 11 km entre ida y vuelta y 833 m de desnivel acumulado. Con paradas, calcula unas 5 horas.'
 			},
 			{
 				pregunta: '¿El Montgròs es difícil?',
 				resposta:
-					'La misma fuente califica su dificultad de alta, por el desnivel muy marcado, y avisa de algún paso aéreo y de una bajada de gran pendiente.'
+					'Es una subida exigente: la reseña la valora de dificultad alta por el desnivel, muy marcado en casi todo el recorrido, y avisa de dos canales rocosas de fuerte pendiente y de algún paso aéreo en el tramo final. No es una ruta para estrenarse en Montserrat.'
 			},
 			{
-				pregunta: '¿Se puede escalar en el Montgròs?',
+				pregunta: '¿Hay alguna otra forma de subir?',
 				resposta:
-					'Sí, la Viquipèdia recoge más de dos decenas de vías, pero esta ficha trata solo la ascensión a pie, que no es de rutina: hace falta experiencia de montaña.'
+					'Sí. La Viquipèdia explica que a la fuente de la Cadireta también se llega desde Santa Cecília, bajando por la canal del Migdia, y que por la vertiente oeste se llega desde el coll del Montgròs, por el camino que viene de Agulles.'
 			},
 			{
-				pregunta: '¿El Montgròs es una cima esencial?',
+				pregunta: '¿Qué se ve desde la cima del Montgròs?',
 				resposta:
-					'Sí. En Montserrat lo acompaña [el Elefant](/cims/elefant-roca-de-sant-salvador), en el Bages, y la [Anoia](/comarques/anoia) tiene [el Puig de Sant Miquel](/cims/puig-de-sant-miquel).'
+					'Según la Viquipèdia, las Agulles y los Frares Encantats a poniente, el Bruc al sur y la canal del Migdia y Sant Jeroni a levante. Travesía Pirenaica añade el Moro y la Albarda Castellana.'
 			}
 		]
 	},

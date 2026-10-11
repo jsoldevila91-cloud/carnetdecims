@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Puig de Bassegoda',
@@ -24,61 +24,61 @@ const fitxa: ContingutFitxa = {
 	slug: 'bassegoda',
 	descripcio: {
 		ca: [
-			"El Bassegoda és un cim rocós de l'Alta Garrotxa, al límit entre el terme d'Albanyà, a l'[Alt Empordà](/comarques/alt-emporda), i el de Montagut i Oix, a la [Garrotxa](/comarques/garrotxa). Segons la Viquipèdia, és dins l'espai protegit de l'Alta Garrotxa i el formen sobretot calcàries i dolomies. A la vora hi ha altres cims essencials del repte, com [el Mont](/cims/el-mont) i [el Comanegra](/cims/comanegra).",
-			"La Viquipèdia el descriu com una talaia de roca nua. Al seu peu passa la ruta del GR 11, la travessia dels Pirineus, que a la sisena etapa surt d'Albanyà cap a Sant Aniol d'Aguja i, segons Rutes Pirineus, convida a deixar un moment el camí marcat per pujar fins al cim.",
-			'Des de dalt, la mateixa Viquipèdia situa el panorama entre el golf de Roses i el Canigó. És una vista de dia clar: amb calitja o amb núvols baixos, no cal esperar-ne res.',
-			"El darrer tram no és un simple caminar. D'excursió per Catalunya explica que els últims metres abans del cim són de grimpada, de manera que no és una sortida per anar-hi amb sabatilles de passeig ni amb nens petits. Amb la roca mullada o amb boira convé no insistir."
+			"El Bassegoda, o puig de Bassegoda, és una punta de roca calcària que sobresurt, aïllada, per damunt dels boscos de l'Alta Garrotxa. És al terme d'Albanyà, a l'[Alt Empordà](/comarques/alt-emporda), just al límit amb Montagut i Oix, que ja és a la Garrotxa. La Viquipèdia en destaca la forma punxeguda i l'aïllament, que el fan fàcil de reconèixer de lluny. A la mateixa Alta Garrotxa hi ha [el Mont](/cims/el-mont) i [el Comanegra](/cims/comanegra).",
+			"El cim té un lloc a la literatura catalana: Marià Vayreda hi va situar l'inici de La punyalada, i una placa del Centre Excursionista d'Olot, col·locada el 1971 i restaurada el 1980, ho recorda a dalt. Als seus peus hi ha el veïnat de Bassegoda, que va ser municipi fins al 1969, quan es va annexar a Albanyà; segons Rutes Pirineus, avui hi viuen set persones. Hi queden l'església romànica de Sant Miquel, el refugi de Can Galan i el mas de Can Nou.",
+			"La Viquipèdia descriu el cim com una talaia absolutament rocosa, amb vistes del golf de Roses al Canigó. Rutes Pirineus, que hi passa a tocar amb el GR 11, hi afegeix l'Empordà, les Guilleries i el Montseny, i recomana deixar un moment el sender per pujar-hi.",
+			"S'hi pot anar tot l'any, però no amb qualsevol temps: els darrers metres són de grimpada sobre roca, i amb pluja, gebre o boira val més quedar-se al coll. L'aproximació és llarga, gairebé tota per pista, de manera que a l'estiu convé matinar."
 		],
 		es: [
-			'El Bassegoda es una cima rocosa de la Alta Garrotxa, en el límite entre el término de Albanyà, en el [Alt Empordà](/comarques/alt-emporda), y el de Montagut i Oix, en la [Garrotxa](/comarques/garrotxa). Según la Viquipèdia, está dentro del espacio protegido de la Alta Garrotxa y lo forman sobre todo calizas y dolomías. Cerca hay otras cimas esenciales del reto, como [el Mont](/cims/el-mont) y [el Comanegra](/cims/comanegra).',
-			"La Viquipèdia lo describe como una atalaya de roca desnuda. A sus pies pasa el GR 11, la travesía de los Pirineos, que en su sexta etapa sale de Albanyà hacia Sant Aniol d'Aguja y, según Rutes Pirineus, invita a dejar un momento el camino marcado para subir hasta la cima.",
-			'Desde arriba, la misma Viquipèdia sitúa el panorama entre el golfo de Roses y el Canigó. Es una vista de día claro: con calima o con nubes bajas, no hay que esperar nada.',
-			"El último tramo no es un simple paseo. D'excursió per Catalunya cuenta que los últimos metros antes de la cima son de trepada, así que no es una salida para ir con zapatillas de paseo ni con niños pequeños. Con la roca mojada o con niebla conviene no insistir."
+			'El Bassegoda, o puig de Bassegoda, es una punta de roca caliza que sobresale, aislada, por encima de los bosques de la Alta Garrotxa. Está en el término de Albanyà, en el [Alt Empordà](/comarques/alt-emporda), justo en el límite con Montagut i Oix, que ya es de la Garrotxa. La Viquipèdia destaca su forma puntiaguda y su aislamiento, que lo hacen fácil de reconocer de lejos. En la misma Alta Garrotxa están [el Mont](/cims/el-mont) y [el Comanegra](/cims/comanegra).',
+			"La cima tiene un lugar en la literatura catalana: Marià Vayreda situó en ella el inicio de La punyalada, y una placa del Centre Excursionista d'Olot, colocada en 1971 y restaurada en 1980, lo recuerda arriba. A sus pies está el vecindario de Bassegoda, que fue municipio hasta 1969, cuando se anexionó a Albanyà; según Rutes Pirineus, hoy viven allí siete personas. Quedan la iglesia románica de Sant Miquel, el refugio de Can Galan y la masía de Can Nou.",
+			'La Viquipèdia describe la cima como una atalaya absolutamente rocosa, con vistas del golfo de Roses al Canigó. Rutes Pirineus, que pasa al lado con el GR 11, añade el Empordà, las Guilleries y el Montseny, y recomienda dejar un momento el sendero para subir.',
+			'Se puede ir todo el año, pero no con cualquier tiempo: los últimos metros son de trepada sobre roca, y con lluvia, escarcha o niebla es mejor quedarse en el collado. La aproximación es larga, casi toda por pista, así que en verano conviene madrugar.'
 		]
 	},
 	rutes: [
 		{
 			id: 'can-nou',
 			nom: {
-				ca: 'Des de Can Nou de Bassegoda pel coll de Bassegoda',
-				es: 'Desde Can Nou de Bassegoda por el coll de Bassegoda'
+				ca: 'Per la pista de Can Nou i el coll de Bassegoda',
+				es: 'Por la pista de Can Nou y el coll de Bassegoda'
 			},
-			sortida: { nom: 'Can Nou de Bassegoda (Albanyà)' },
+			sortida: { nom: 'Pista de Can Nou de Bassegoda, a 4,5 km del càmping Bassegoda (Albanyà)' },
 			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "D'excursió per Catalunya la proposa sortint de Can Nou de Bassegoda, a uns 4,5 km del càmping d'Albanyà per una pista que, segons el mateix web, es pot fer amb turisme anant amb compte en algun punt. Des de la masia surt un corriol darrere la casa que passa pel refugi i puja al coll de Bassegoda; després, per una pista, s'arriba al pla de la Bateria, d'on un corriol surt cap al cim. Els últims metres abans del cim són de grimpada. El web dona 16 km i 886 m de desnivell positiu amb 7 h 10 min, tot anada i tornada des d'on va deixar el cotxe. A la baixada, el corriol queda tapat i és fàcil de passar de llarg.",
-				es: "D'excursió per Catalunya la propone saliendo de Can Nou de Bassegoda, a unos 4,5 km del camping de Albanyà por una pista que, según la misma web, se puede hacer con turismo yendo con cuidado en algún punto. Desde la masía sale un sendero detrás de la casa que pasa por el refugio y sube al coll de Bassegoda; después, por una pista, se llega al pla de la Bateria, de donde un sendero sale hacia la cima. Los últimos metros antes de la cima son de trepada. La web da 16 km y 886 m de desnivel positivo con 7 h 10 min, todo ida y vuelta desde donde dejó el coche. En la bajada, el sendero queda tapado y es fácil pasarlo de largo."
+				ca: "D'excursió per Catalunya la fa deixant el cotxe a la pista de Can Nou, 4,5 km més amunt del càmping Bassegoda, a 478 m; diu que la pista es pot fer amb turisme, amb compte en algun punt. Se segueix la pista fins a Can Nou, es puja pel corriol que surt darrere del mas, passa pel refugi i arriba prop del coll de Bassegoda; d'allà, un trencall senyalitzat porta al pla de la Bateria i al caminet del cim. Els últims metres són de grimpada. El web compta 16 km i 886 m de desnivell entre anada i tornada, amb 7 h 10 min de durada total.",
+				es: "D'excursió per Catalunya la hace dejando el coche en la pista de Can Nou, 4,5 km más arriba del camping Bassegoda, a 478 m; dice que la pista se puede hacer con turismo, con cuidado en algún punto. Se sigue la pista hasta Can Nou, se sube por el sendero que sale detrás de la masía, pasa por el refugio y llega cerca del coll de Bassegoda; desde allí, un desvío señalizado lleva al pla de la Bateria y al caminito de la cima. Los últimos metros son de trepada. La web cuenta 16 km y 886 m de desnivel entre ida y vuelta, con 7 h 10 min de duración total."
 			},
 			fonts: [DEXCURSIO]
 		},
 		{
 			id: 'gr11-albanya',
 			nom: {
-				ca: "Des d'Albanyà pel GR 11 i desviament al cim",
-				es: 'Desde Albanyà por el GR 11 y desvío a la cima'
+				ca: "Des d'Albanyà pel GR 11 fins al coll de Principi",
+				es: 'Desde Albanyà por el GR 11 hasta el coll de Principi'
 			},
-			sortida: { nom: 'Albanyà' },
+			sortida: { nom: 'Albanyà (237 m)' },
 			descripcio: {
-				ca: "Rutes Pirineus recull la sisena etapa del GR 11, d'Albanyà a Sant Aniol d'Aguja: 16,8 km i +975 m amb 5 h 30 min efectives sense parades, la xifra de tota l'etapa i no pas de la pujada al cim. Segons l'entitat, la pujada fins al coll de Bassegoda és una llarga ascensió per pista de terra amb llaçades (3 h 15 min), i el cim queda a un desviament des del coll de Principi. La mateixa fitxa diu que l'etapa no té dificultat tècnica, però això no inclou el desviament al cim, que no descriu. Hi ha aigua a Albanyà i a Can Nou.",
-				es: "Rutes Pirineus recoge la sexta etapa del GR 11, de Albanyà a Sant Aniol d'Aguja: 16,8 km y +975 m con 5 h 30 min efectivas sin paradas, la cifra de toda la etapa y no de la subida a la cima. Según la entidad, la subida hasta el coll de Bassegoda es una larga ascensión por pista de tierra con lazadas (3 h 15 min), y la cima queda en un desvío desde el coll de Principi. La misma ficha dice que la etapa no tiene dificultad técnica, pero eso no incluye el desvío a la cima, que no describe. Hay agua en Albanyà y en Can Nou."
+				ca: "És la sisena etapa del GR 11, que Rutes Pirineus descriu fins a Sant Aniol d'Aguja (16,8 km, +975 m i 5 h 30 min en total). Des d'Albanyà puja per pistes asfaltades i de terra, amb més de 800 m de desnivell, fins a Can Nou (2 h 40 min, 769 m) i, per un corriol, al coll de Bassegoda (3 h 15 min, 1.105 m). La pista volta el cim fins al coll de Principi, d'on surt el camí que hi puja. La guia diu que l'etapa no té dificultat tècnica, però no detalla el tram del cim ni el seu horari.",
+				es: "Es la sexta etapa del GR 11, que Rutes Pirineus describe hasta Sant Aniol d'Aguja (16,8 km, +975 m y 5 h 30 min en total). Desde Albanyà sube por pistas asfaltadas y de tierra, con más de 800 m de desnivel, hasta Can Nou (2 h 40 min, 769 m) y, por un sendero, al coll de Bassegoda (3 h 15 min, 1.105 m). La pista rodea la cima hasta el coll de Principi, de donde sale el camino que sube. La guía dice que la etapa no tiene dificultad técnica, pero no detalla el tramo de la cima ni su horario."
 			},
 			fonts: [RUTES_PIRINEUS]
 		}
 	],
 	consells: {
 		ca: [
-			'Els últims metres són de grimpada: puja amb les mans lliures, sense motxilla pesada i, si la roca és mullada o hi ha boira, renuncia-hi.',
-			'A la baixada, el corriol que torna al coll queda tapat i és fàcil passar-lo de llarg; baixa sense pressa i, si dubtes, torna al punt on el vas veure per última vegada.',
-			"Si hi vas amb cotxe fins a Can Nou, la pista és practicable amb turisme segons D'excursió per Catalunya, però demana atenció en algun punt.",
-			'Porta aigua de casa: Rutes Pirineus només en dona a Albanyà i a Can Nou.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Arriba al peu del cim amb les mans lliures i els bastons plegats: el final és de grimpada i s'ha de desgrimpar a la baixada.",
+			"De tornada, el corriol que baixa del coll cap al refugi queda mig tapat i és fàcil passar-lo de llarg, segons D'excursió per Catalunya: fixa't on surt quan puges.",
+			'Hi ha aigua a Albanyà i a Can Nou, que també fa de bar, segons Rutes Pirineus; més amunt, no en trobaràs.',
+			'Si vols partir la pujada en dos dies, el refugi de Can Galan és a deu minuts de Can Nou; segons Rutes Pirineus el gestiona el Centre Excursionista Empordanès i cal reservar-hi.',
+			'Si surts del càmping en lloc de pujar amb cotxe per la pista, la mateixa ressenya parla de més de 12 km de pujada i uns 1.000 m de desnivell.'
 		],
 		es: [
-			'Los últimos metros son de trepada: sube con las manos libres, sin mochila pesada y, si la roca está mojada o hay niebla, renuncia.',
-			'En la bajada, el sendero que vuelve al coll queda tapado y es fácil pasarlo de largo; baja sin prisa y, si dudas, vuelve al punto donde lo viste por última vez.',
-			"Si vas en coche hasta Can Nou, la pista es practicable con turismo según D'excursió per Catalunya, pero pide atención en algún punto.",
-			'Lleva agua de casa: Rutes Pirineus solo da agua en Albanyà y en Can Nou.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Llega al pie de la cima con las manos libres y los bastones plegados: el final es de trepada y hay que destreparlo a la bajada.',
+			"A la vuelta, el sendero que baja del collado hacia el refugio queda medio tapado y es fácil pasarlo de largo, según D'excursió per Catalunya: fíjate dónde sale cuando subes.",
+			'Hay agua en Albanyà y en Can Nou, que también hace de bar, según Rutes Pirineus; más arriba no encontrarás.',
+			'Si quieres partir la subida en dos días, el refugio de Can Galan está a diez minutos de Can Nou; según Rutes Pirineus lo gestiona el Centre Excursionista Empordanès y hay que reservar.',
+			'Si sales del camping en lugar de subir en coche por la pista, la misma reseña habla de más de 12 km de subida y unos 1.000 m de desnivel.'
 		]
 	},
 	faq: {
@@ -86,50 +86,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al Bassegoda?',
 				resposta:
-					"D'excursió per Catalunya dona 7 h 10 min per a 16 km, anada i tornada, sortint de Can Nou de Bassegoda. La part del GR 11 d'Albanyà al coll de Bassegoda és de 3 h 15 min segons Rutes Pirineus, però això no inclou el cim."
+					"Des de la pista de Can Nou, D'excursió per Catalunya compta 7 h 10 min de durada total per a 16 km i 886 m de desnivell, anada i tornada. Pel GR 11, Rutes Pirineus dona 3 h 15 min d'Albanyà al coll de Bassegoda, sense comptar la pujada final al cim."
 			},
 			{
 				pregunta: 'Cal grimpar per arribar al cim del Bassegoda?',
 				resposta:
-					"Sí, als últims metres. D'excursió per Catalunya els qualifica de grimpada; Rutes Pirineus no descriu aquest tram. Si no t'hi veus, el coll de Bassegoda ja és un bon objectiu."
+					"Sí: els últims metres abans del cim són de grimpada, segons D'excursió per Catalunya. La resta de l'itinerari va per pistes i corriols."
 			},
 			{
-				pregunta: 'Quina és la comarca del Bassegoda?',
+				pregunta: "El Bassegoda és de l'Alt Empordà o de la Garrotxa?",
 				resposta:
-					"El catàleg el situa a l'[Alt Empordà](/comarques/alt-emporda), amb Albanyà de terme, però el cim és al límit amb Montagut i Oix, a la [Garrotxa](/comarques/garrotxa)."
+					"El cim fa de límit entre Albanyà, a l'[Alt Empordà](/comarques/alt-emporda), i Montagut i Oix, a la [Garrotxa](/comarques/garrotxa). El repte el compta entre els cims de l'Alt Empordà."
 			},
 			{
-				pregunta: 'El Bassegoda és un cim essencial del repte?',
+				pregunta: 'Què té a veure el Bassegoda amb La punyalada?',
 				resposta:
-					"Sí. Dins de l'Alta Garrotxa, a prop hi ha [el Mont](/cims/el-mont) i [el Comanegra](/cims/comanegra), també essencials."
+					"Marià Vayreda va situar dalt del cim el començament de la novel·la. Segons la Viquipèdia, una placa del Centre Excursionista d'Olot del 1971, restaurada el 1980, ho recorda."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al Bassegoda?',
 				resposta:
-					"D'excursió per Catalunya da 7 h 10 min para 16 km, ida y vuelta, saliendo de Can Nou de Bassegoda. El tramo del GR 11 de Albanyà al coll de Bassegoda es de 3 h 15 min según Rutes Pirineus, pero eso no incluye la cima."
+					"Desde la pista de Can Nou, D'excursió per Catalunya cuenta 7 h 10 min de duración total para 16 km y 886 m de desnivel, ida y vuelta. Por el GR 11, Rutes Pirineus da 3 h 15 min de Albanyà al coll de Bassegoda, sin contar la subida final a la cima."
 			},
 			{
 				pregunta: '¿Hay que trepar para llegar a la cima del Bassegoda?',
 				resposta:
-					"Sí, en los últimos metros. D'excursió per Catalunya los califica de trepada; Rutes Pirineus no describe ese tramo. Si no te ves capaz, el coll de Bassegoda ya es un buen objetivo."
+					"Sí: los últimos metros antes de la cima son de trepada, según D'excursió per Catalunya. El resto del itinerario va por pistas y senderos."
 			},
 			{
-				pregunta: '¿Cuál es la comarca del Bassegoda?',
+				pregunta: '¿El Bassegoda es del Alt Empordà o de la Garrotxa?',
 				resposta:
-					'El catálogo lo sitúa en el [Alt Empordà](/comarques/alt-emporda), con Albanyà de término, pero la cima está en el límite con Montagut i Oix, en la [Garrotxa](/comarques/garrotxa).'
+					'La cima hace de límite entre Albanyà, en el [Alt Empordà](/comarques/alt-emporda), y Montagut i Oix, en la [Garrotxa](/comarques/garrotxa). El reto la cuenta entre las cimas del Alt Empordà.'
 			},
 			{
-				pregunta: '¿El Bassegoda es una cima esencial del reto?',
+				pregunta: '¿Qué tiene que ver el Bassegoda con La punyalada?',
 				resposta:
-					'Sí. Dentro de la Alta Garrotxa, cerca están [el Mont](/cims/el-mont) y [el Comanegra](/cims/comanegra), también esenciales.'
+					"Marià Vayreda situó en lo alto de la cima el comienzo de la novela. Según la Viquipèdia, una placa del Centre Excursionista d'Olot de 1971, restaurada en 1980, lo recuerda."
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, DEXCURSIO, RUTES_PIRINEUS],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

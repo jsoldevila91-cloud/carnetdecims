@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Castell de Montsoriu',
@@ -9,7 +9,7 @@ const VIQUIPEDIA = {
 };
 
 const TOTNENS = {
-	nom: "Totnens: castell de Montsoriu d'Arbúcies (excursió i visita)",
+	nom: 'Totnens: castell de Montsoriu (excursió i visita)',
 	url: 'https://totnens.cat/que-fem/castell-de-montsoriu/',
 	consultat: CONSULTAT
 };
@@ -18,46 +18,48 @@ const fitxa: ContingutFitxa = {
 	slug: 'turo-de-montsoriu',
 	descripcio: {
 		ca: [
-			'El turó de Montsoriu és la muntanya que corona el castell del mateix nom, a la [Selva](/comarques/selva). El catàleg el situa a Sant Feliu de Buixalleu, i la Viquipèdia precisa que el turó queda entre Arbúcies, Sant Feliu de Buixalleu i Breda, dins del Parc Natural del Montseny. A la mateixa comarca hi ha el cim més alt de les Guilleries, [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra).',
-			"El que fa singular aquest cim és el castell. La Viquipèdia el presenta com una de les fortaleses gòtiques més imponents del Principat de Catalunya: el nom de Montsoriu apareix ja el 1002 i el castell és mencionat explícitament el 1053. Al segle XIV, els vescomtes de Cabrera el van convertir en un palau residencial, i les seves defenses van resistir un setge reial de Pere III entre el 1365 i el 1371. Va decaure a partir del segle XV i els excursionistes el van redescobrir a començaments del XX. Té tres recintes emmurallats, amb una torre de l'homenatge del segle X, una capella preromànica, una de romànica i una gran cisterna central.",
-			"Des del 1998 el castell és del Consell Comarcal de la Selva, que l'està restaurant des del 1995; es pot visitar des del 2011. Des del 2015 es pot fer la visita guiada o passejar-hi pel compte amb una guia adquirida amb l'entrada. Totnens avisa que cal reservar la visita per Internet a la web del castell, i que els infants menors de 13 anys, acompanyats d'adults, entren gratis.",
-			'Per això convé comprovar els horaris i les condicions de visita abans de sortir, i no donar-los per fixos: consulta la regulació vigent a la web del castell. La visita es pot combinar amb una excursió curta per pista forestal des del coll de Castellar.'
+			"El turó de Montsoriu és un turó boscós del Parc Natural del Montseny, amb un castell que n'ocupa el capdamunt. És al terme de Sant Feliu de Buixalleu, a la [Selva](/comarques/selva), tocant al d'Arbúcies i a prop de Breda. A la mateixa comarca, els altres dos cims essencials són molt més alts: [les Agudes](/cims/les-agudes) i [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra).",
+			"Aquí el cim és el castell, que la Viquipèdia considera una de les fortaleses gòtiques més imponents de Catalunya. El topònim surt escrit el 1002 i el castell, el 1053. Va ser la casa dels vescomtes de Cabrera, que al segle XIV el van convertir en palau. Entre el 1365 i el 1371, Pere el Cerimoniós el va fer assetjar amb 1.200 homes i no el va poder prendre. Té tres recintes de muralla, una torre de l'homenatge de la segona meitat del segle X, una capella preromànica i una gran cisterna central.",
+			'El setge va fracassar, en part, per la mateixa raó que avui fa atractiva la pujada: des de dalt es domina tot. La Viquipèdia hi enumera Arbúcies, Breda, Sant Celoni i Hostalric, i fins i tot Blanes i Palafolls, a la costa, a més del corredor entre el Montseny i el Montnegre.',
+			"Després de segles d'abandó, el castell s'ha restaurat sota un patronat que presideix el Consell Comarcal de la Selva, i des del març del 2015 es pot visitar amb guia o per lliure. Com que el castell ocupa el cim, convé mirar-ne els horaris abans de sortir: consulta la regulació vigent al web del castell."
 		],
 		es: [
-			'El turó de Montsoriu es la montaña que corona el castillo del mismo nombre, en la [Selva](/comarques/selva). El catálogo lo sitúa en Sant Feliu de Buixalleu, y la Viquipèdia precisa que el cerro queda entre Arbúcies, Sant Feliu de Buixalleu y Breda, dentro del Parque Natural del Montseny. En la misma comarca está la cima más alta de las Guilleries, [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra).',
-			'Lo que hace singular esta cima es el castillo. La Viquipèdia lo presenta como una de las fortalezas góticas más imponentes del Principado de Catalunya: el nombre de Montsoriu aparece ya en 1002 y el castillo se menciona explícitamente en 1053. En el siglo XIV, los vizcondes de Cabrera lo convirtieron en un palacio residencial, y sus defensas resistieron un asedio real de Pere III entre 1365 y 1371. Decayó a partir del siglo XV y los excursionistas lo redescubrieron a comienzos del XX. Tiene tres recintos amurallados, con una torre del homenaje del siglo X, una capilla prerrománica, una románica y una gran cisterna central.',
-			'Desde 1998 el castillo es del Consell Comarcal de la Selva, que lo restaura desde 1995; se puede visitar desde 2011. Desde 2015 se puede hacer la visita guiada o pasear por cuenta propia con una guía adquirida con la entrada. Totnens avisa de que hay que reservar la visita por Internet en la web del castillo, y de que los niños menores de 13 años, acompañados de adultos, entran gratis.',
-			'Por eso conviene comprobar los horarios y las condiciones de visita antes de salir, y no darlos por fijos: consulta la regulación vigente en la web del castillo. La visita se puede combinar con una excursión corta por pista forestal desde el coll de Castellar.'
+			'El turó de Montsoriu es un cerro boscoso del Parque Natural del Montseny, con un castillo que ocupa su parte alta. Está en el término de Sant Feliu de Buixalleu, en la [Selva](/comarques/selva), tocando al de Arbúcies y cerca de Breda. En la misma comarca, las otras dos cimas esenciales son mucho más altas: [les Agudes](/cims/les-agudes) y [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra).',
+			'Aquí la cima es el castillo, que la Viquipèdia considera una de las fortalezas góticas más imponentes de Catalunya. El topónimo aparece escrito en 1002 y el castillo, en 1053. Fue la casa de los vizcondes de Cabrera, que en el siglo XIV lo convirtieron en palacio. Entre 1365 y 1371, Pedro el Ceremonioso lo hizo sitiar con 1.200 hombres y no pudo tomarlo. Tiene tres recintos de muralla, una torre del homenaje de la segunda mitad del siglo X, una capilla prerrománica y una gran cisterna central.',
+			'El asedio fracasó, en parte, por la misma razón que hoy hace atractiva la subida: desde arriba se domina todo. La Viquipèdia enumera Arbúcies, Breda, Sant Celoni y Hostalric, e incluso Blanes y Palafolls, en la costa, además del corredor entre el Montseny y el Montnegre.',
+			'Tras siglos de abandono, el castillo se ha restaurado bajo un patronato que preside el Consell Comarcal de la Selva, y desde marzo de 2015 se puede visitar con guía o por libre. Como el castillo ocupa la cima, conviene mirar los horarios antes de salir: consulta la regulación vigente en la web del castillo.'
 		]
 	},
 	rutes: [
 		{
 			id: 'coll-de-castellar',
 			nom: {
-				ca: 'Des del coll de Castellar per la pista forestal',
-				es: 'Desde el coll de Castellar por la pista forestal'
+				ca: 'Des del coll de Castellar per la pista del castell',
+				es: 'Desde el coll de Castellar por la pista del castillo'
 			},
 			sortida: { nom: 'Coll de Castellar (aparcament senyalitzat)' },
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "Totnens la descriu com a fàcil: una pujada a peu per una pista forestal ampla i fàcil de seguir, pel mig d'un bosc on predominen les alzines sureres. El web dona 5,6 km anada i tornada i unes 3 hores comptant pujada, baixada i visita al castell. Un cop a dalt, es pot fer la visita guiada, amb cita prèvia, o seguir l'itinerari marcat. Si tens problemes de mobilitat, Totnens indica que es pot sol·licitar de pujar amb cotxe fins al peu del castell.",
-				es: 'Totnens la describe como fácil: una subida a pie por una pista forestal ancha y fácil de seguir, por el medio de un bosque donde predominan los alcornoques. La web da 5,6 km ida y vuelta y unas 3 horas contando subida, bajada y visita al castillo. Una vez arriba, se puede hacer la visita guiada, con cita previa, o seguir el itinerario marcado. Si tienes problemas de movilidad, Totnens indica que se puede solicitar subir en coche hasta el pie del castillo.'
+				ca: "Totnens la descriu com una pujada a peu per una pista forestal ampla i fàcil de seguir, entre alzines sureres, des de l'aparcament del coll de Castellar fins al peu del castell. Hi compta 5,6 km entre anada i tornada i unes 3 hores sumant-hi la visita. Diu que s'hi pot pujar amb cotxet, tot i que l'interior del castell no hi és accessible. A dalt, la visita lliure segueix un itinerari marcat en groc amb vint punts.",
+				es: 'Totnens la describe como una subida a pie por una pista forestal ancha y fácil de seguir, entre alcornoques, desde el aparcamiento del coll de Castellar hasta el pie del castillo. Cuenta 5,6 km entre ida y vuelta y unas 3 horas sumando la visita. Dice que se puede subir con cochecito, aunque el interior del castillo no es accesible con él. Arriba, la visita libre sigue un itinerario marcado en amarillo con veinte puntos.'
 			},
 			fonts: [TOTNENS]
 		}
 	],
 	consells: {
 		ca: [
-			"Reserva la visita al castell per Internet, a la web del castell, abans de sortir; consulta la regulació vigent d'horaris i entrades.",
-			'Si no vols pujar a peu, Totnens indica que, amb problemes de mobilitat, es pot sol·licitar pujar en cotxe fins al peu del castell.',
-			'Calcula unes 3 hores si inclous la visita, segons Totnens, i no baixis en horari ajustat.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Reserva l'entrada abans d'anar-hi: Totnens indica que la visita es reserva per Internet al web del castell.",
+			'Si hi vas amb canalla, la visita guiada dura entre 1 h i 1 h 30 min, segons el mateix web, i els menors de 13 anys acompanyats no paguen; consulta la regulació vigent.',
+			"La mateixa entrada serveix per al Museu Etnològic del Montseny, la Gabella, a Arbúcies, on s'exposen les troballes del castell.",
+			'Amb problemes de mobilitat es pot demanar de pujar en cotxe fins al peu del castell, segons Totnens.',
+			"Durant la visita es pot pujar als murs i a la torre de l'homenatge, que és on hi ha la millor vista."
 		],
 		es: [
-			'Reserva la visita al castillo por Internet, en la web del castillo, antes de salir; consulta la regulación vigente de horarios y entradas.',
-			'Si no quieres subir a pie, Totnens indica que, con problemas de movilidad, se puede solicitar subir en coche hasta el pie del castillo.',
-			'Calcula unas 3 horas si incluyes la visita, según Totnens, y no bajes con el horario justo.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Reserva la entrada antes de ir: Totnens indica que la visita se reserva por Internet en la web del castillo.',
+			'Si vas con niños, la visita guiada dura entre 1 h y 1 h 30 min, según la misma web, y los menores de 13 años acompañados no pagan; consulta la regulación vigente.',
+			'La misma entrada sirve para el Museu Etnològic del Montseny, la Gabella, en Arbúcies, donde se exponen los hallazgos del castillo.',
+			'Con problemas de movilidad se puede pedir subir en coche hasta el pie del castillo, según Totnens.',
+			'Durante la visita se puede subir a los muros y a la torre del homenaje, que es donde está la mejor vista.'
 		]
 	},
 	faq: {
@@ -65,50 +67,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al castell de Montsoriu?',
 				resposta:
-					'Totnens compta unes 3 hores en total, comptant pujada, baixada i visita al castell, per a 5,6 km anada i tornada des del coll de Castellar.'
+					"Totnens compta 5,6 km entre anada i tornada des del coll de Castellar i unes 3 hores en total, incloent-hi la visita al castell. La pujada sola, per pista ampla, n'és la part curta."
 			},
 			{
-				pregunta: 'Es pot visitar el castell de Montsoriu?',
+				pregunta: 'Cal pagar entrada per fer el cim?',
 				resposta:
-					"Sí. Segons la Viquipèdia, es pot visitar des del 2011, i des del 2015 amb visita guiada o amb una guia adquirida amb l'entrada. Totnens indica que cal reservar per Internet; consulta la regulació vigent."
+					'El castell ocupa el capdamunt del turó i la visita és de pagament, amb reserva prèvia segons Totnens. Abans de sortir, comprova al web del castell els horaris i les condicions vigents.'
 			},
 			{
-				pregunta: 'Es pot anar-hi amb nens?',
+				pregunta: 'És una bona sortida amb nens?',
 				resposta:
-					'Totnens el classifica com a excursió fàcil per una pista forestal ampla, i els menors de 13 anys acompanyats entren gratis. Consulta les condicions vigents a la web del castell.'
+					"Sí: la pista és ampla i fàcil, s'hi pot pujar amb cotxet fins al castell i la visita guiada, segons Totnens, inclou llegendes de bruixes i cavallers. Dins del castell hi ha escales i murs, on cal vigilar-los."
 			},
 			{
-				pregunta: 'El turó de Montsoriu és un cim essencial?',
+				pregunta: 'Per què és important el castell de Montsoriu?',
 				resposta:
-					"Sí. A la [Selva](/comarques/selva) l'acompanya [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra), de les Guilleries."
+					'Va ser la residència dels vescomtes de Cabrera i, segons la Viquipèdia, és una de les fortaleses gòtiques més imponents de Catalunya. Va resistir un setge reial de sis anys, del 1365 al 1371.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al castillo de Montsoriu?',
 				resposta:
-					'Totnens cuenta unas 3 horas en total, contando subida, bajada y visita al castillo, para 5,6 km ida y vuelta desde el coll de Castellar.'
+					'Totnens cuenta 5,6 km entre ida y vuelta desde el coll de Castellar y unas 3 horas en total, incluyendo la visita al castillo. La subida sola, por pista ancha, es la parte corta.'
 			},
 			{
-				pregunta: '¿Se puede visitar el castillo de Montsoriu?',
+				pregunta: '¿Hay que pagar entrada para hacer la cima?',
 				resposta:
-					'Sí. Según la Viquipèdia, se puede visitar desde 2011, y desde 2015 con visita guiada o con una guía adquirida con la entrada. Totnens indica que hay que reservar por Internet; consulta la regulación vigente.'
+					'El castillo ocupa la parte alta del cerro y la visita es de pago, con reserva previa según Totnens. Antes de salir, comprueba en la web del castillo los horarios y las condiciones vigentes.'
 			},
 			{
-				pregunta: '¿Se puede ir con niños?',
+				pregunta: '¿Es una buena salida con niños?',
 				resposta:
-					'Totnens lo clasifica como excursión fácil por una pista forestal ancha, y los menores de 13 años acompañados entran gratis. Consulta las condiciones vigentes en la web del castillo.'
+					'Sí: la pista es ancha y fácil, se puede subir con cochecito hasta el castillo y la visita guiada, según Totnens, incluye leyendas de brujas y caballeros. Dentro del castillo hay escaleras y muros, donde hay que vigilarlos.'
 			},
 			{
-				pregunta: '¿El turó de Montsoriu es una cima esencial?',
+				pregunta: '¿Por qué es importante el castillo de Montsoriu?',
 				resposta:
-					'Sí. En la [Selva](/comarques/selva) lo acompaña [Sant Miquel de Solterra](/cims/sant-miquel-de-solterra), de las Guilleries.'
+					'Fue la residencia de los vizcondes de Cabrera y, según la Viquipèdia, es una de las fortalezas góticas más imponentes de Catalunya. Resistió un asedio real de seis años, de 1365 a 1371.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, TOTNENS],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

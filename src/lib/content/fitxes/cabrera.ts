@@ -1,15 +1,15 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const DIBA_PATRIMONI = {
-	nom: "Diputació de Barcelona, Patrimoni cultural: Mare de Déu de Cabrera (l'Esquirol)",
+	nom: "Diputació de Barcelona, Mapes de patrimoni cultural: Mare de Déu de Cabrera (l'Esquirol)",
 	url: 'https://patrimonicultural.diba.cat/print/pdf/node/65562',
 	consultat: CONSULTAT
 };
 
 const TOTNENS = {
-	nom: 'Totnens: santuari de Cabrera al Collsacabra',
+	nom: 'Totnens: santuari de Cabrera al Collsacabra amb nens',
 	url: 'https://totnens.cat/que-fem/santuari-de-cabrera-al-collsacabra/',
 	consultat: CONSULTAT
 };
@@ -18,98 +18,98 @@ const fitxa: ContingutFitxa = {
 	slug: 'cabrera',
 	descripcio: {
 		ca: [
-			"Cabrera és la muntanya del Collsacabra que corona el santuari de la Mare de Déu de Cabrera. El catàleg la situa a la Vall d'en Bas, a la [Garrotxa](/comarques/garrotxa); l'inventari de patrimoni de la Diputació de Barcelona ubica el santuari a Sant Julià de Cabrera, a l'Esquirol, a l'[Osona](/comarques/osona), de manera que el cim és a cavall de les dues comarques. Un altre cim essencial del Collsacabra és [la Rocallarga](/cims/rocallarga).",
-			"El santuari és el que dona sentit al cim. Segons l'inventari, el seu origen cal buscar-lo al castell de Cabrera, entre finals del segle IX o començaments del següent; als segles XII i XIII era la capella dels castlans de Cabrera i, a la vegada, un lloc de devoció de tota la contrada. Després de la destrucció dels terratrèmols del segle XV i de la restauració posterior, va deixar de ser capella del castell per convertir-se en el santuari popular. L'edifici actual es va aixecar entre el 1611 i el 1641, i el portal porta datat el 1611. El santuari custodiava una imatge de marbre del segle XIII, que es va perdre durant la Guerra Civil.",
-			"Per pujar-hi, Totnens proposa sortir de Sant Julià de Cabrera, on cal deixar el cotxe a la parròquia. La ruta comença per pista asfaltada que després es converteix en un camí de terra, amb trams de bosc i prats, i s'acosta a la cinglera: Totnens la marca com a Xtreme pels trams de cingle i demana extremar la precaució si s'hi va amb nens. Hi ha escales amb barana, que segons el web no tenen perill.",
-			"El web avisa també que cal vigilar amb els nens al pas del Pla de Cabrera, i que al pas de l'Osca el tram equipat pot ser una mica complicat per fer-lo amb nens petits. El santuari acostuma a estar força concorregut i, segons Totnens, té un restaurant."
+			"Cabrera és una mola allargada i voltada de cingles, al cor del Collsacabra, amb un santuari a dalt. El cim és a la Vall d'en Bas, a la [Garrotxa](/comarques/garrotxa), just al límit amb l'Esquirol, a [Osona](/comarques/osona): l'inventari de patrimoni de la Diputació de Barcelona situa el santuari de la Mare de Déu de Cabrera a Sant Julià de Cabrera, i de fet s'hi puja des d'aquest costat. A l'altre extrem del Collsacabra hi ha [la Rocallarga](/cims/rocallarga).",
+			"Segons aquest inventari, l'origen del santuari és el castell de Cabrera, de finals del segle IX o inicis del X. Als segles XII i XIII era la capella dels castlans i, alhora, un lloc de devoció de tota la contrada. Els terratrèmols del segle XV la van destruir i, un cop refeta, va deixar de ser capella del castell per convertir-se en santuari popular. L'edifici actual es va aixecar entre el 1611 i el 1641, i el portal conserva la data de 1611. Guardava una imatge de marbre del segle XIII que es va destruir durant la Guerra Civil.",
+			"El pla del cim és estret i voltat de cingles. Totnens parla d'una talaia sobre la plana de Vic i situa el punt més alt una mica més enllà de l'església, on hi ha una bandera, després d'un estret rocós que passa arran dels penya-segats.",
+			'Al santuari hi ha un restaurant i, segons Totnens, sol haver-hi força gent. Amb boira, pluja o glaç, els graons i el pla del cim demanen molta més prudència.'
 		],
 		es: [
-			"Cabrera es la montaña del Collsacabra que corona el santuario de la Mare de Déu de Cabrera. El catálogo la sitúa en la Vall d'en Bas, en la [Garrotxa](/comarques/garrotxa); el inventario de patrimonio de la Diputació de Barcelona ubica el santuario en Sant Julià de Cabrera, en l'Esquirol, en [Osona](/comarques/osona), de modo que la cima está a caballo de las dos comarcas. Otra cima esencial del Collsacabra es [la Rocallarga](/cims/rocallarga).",
-			'El santuario es lo que da sentido a la cima. Según el inventario, su origen hay que buscarlo en el castillo de Cabrera, entre finales del siglo IX o comienzos del siguiente; en los siglos XII y XIII era la capilla de los castellanos de Cabrera y, a la vez, un lugar de devoción de toda la comarca. Tras la destrucción de los terremotos del siglo XV y la restauración posterior, dejó de ser capilla del castillo para convertirse en el santuario popular. El edificio actual se levantó entre 1611 y 1641, y el portal lleva fechado 1611. El santuario custodiaba una imagen de mármol del siglo XIII, que se perdió durante la Guerra Civil.',
-			'Para subir, Totnens propone salir de Sant Julià de Cabrera, donde hay que dejar el coche en la parroquia. La ruta empieza por pista asfaltada que luego se convierte en un camino de tierra, con tramos de bosque y prados, y se acerca a la cinglera: Totnens la marca como Xtreme por los tramos de cingle y pide extremar la precaución si se va con niños. Hay escaleras con barandilla, que según la web no tienen peligro.',
-			"La web avisa también de que hay que vigilar a los niños en el paso del Pla de Cabrera, y de que en el paso de l'Osca el tramo equipado puede ser algo complicado para hacerlo con niños pequeños. El santuario suele estar bastante concurrido y, según Totnens, tiene un restaurante."
+			"Cabrera es una mole alargada y rodeada de cingles, en el corazón del Collsacabra, con un santuario en lo alto. La cima está en la Vall d'en Bas, en la [Garrotxa](/comarques/garrotxa), justo en el límite con l'Esquirol, en [Osona](/comarques/osona): el inventario de patrimonio de la Diputació de Barcelona sitúa el santuario de la Mare de Déu de Cabrera en Sant Julià de Cabrera, y de hecho se sube desde ese lado. En el otro extremo del Collsacabra está [la Rocallarga](/cims/rocallarga).",
+			'Según ese inventario, el origen del santuario es el castillo de Cabrera, de finales del siglo IX o inicios del X. En los siglos XII y XIII era la capilla de los castellanos del castillo y, a la vez, un lugar de devoción de toda la zona. Los terremotos del siglo XV la destruyeron y, una vez rehecha, dejó de ser capilla del castillo para convertirse en santuario popular. El edificio actual se levantó entre 1611 y 1641, y el portal conserva la fecha de 1611. Guardaba una imagen de mármol del siglo XIII que se destruyó durante la Guerra Civil.',
+			'El llano de la cima es estrecho y está rodeado de cingles. Totnens habla de una atalaya sobre la plana de Vic y sitúa el punto más alto un poco más allá de la iglesia, donde hay una bandera, tras un estrecho rocoso que pasa al borde de los acantilados.',
+			'En el santuario hay un restaurante y, según Totnens, suele haber bastante gente. Con niebla, lluvia o hielo, los escalones y el llano de la cima piden mucha más prudencia.'
 		]
 	},
 	rutes: [
 		{
 			id: 'sant-julia',
 			nom: {
-				ca: 'Des de Sant Julià de Cabrera',
-				es: 'Desde Sant Julià de Cabrera'
+				ca: 'Des de Sant Julià de Cabrera pel coll de Bram i les escales',
+				es: 'Desde Sant Julià de Cabrera por el coll de Bram y las escaleras'
 			},
 			sortida: { nom: "Parròquia de Sant Julià de Cabrera (l'Esquirol)" },
 			descripcio: {
-				ca: 'Totnens la descriu amb sortida a Sant Julià de Cabrera, on es deixa el cotxe a la parròquia. Puja per pista asfaltada que esdevé camí de terra, amb trams de bosc i prats; les escales no tenen perill i tenen barana. El web dona 7 km i, per a un adult sense parades, unes 2 h 15 min; amb parades, 4 h. Són xifres de la sortida sencera, i la ruta té trams de cingle que Totnens marca com a Xtreme.',
-				es: 'Totnens la describe con salida en Sant Julià de Cabrera, donde se deja el coche en la parroquia. Sube por pista asfaltada que se convierte en camino de tierra, con tramos de bosque y prados; las escaleras no tienen peligro y tienen barandilla. La web da 7 km y, para un adulto sin paradas, unas 2 h 15 min; con paradas, 4 h. Son cifras de la salida entera, y la ruta tiene tramos de cingle que Totnens marca como Xtreme.'
+				ca: "Totnens surt de la parròquia de Sant Julià de Cabrera, a uns 4 km de la carretera de Vic a Olot. Segueix la pista asfaltada cap al collet de Cabrera, que més amunt es torna camí de terra i entra a la Vall d'en Bas, i puja suaument fins al coll de Bram, al peu de la cinglera. D'allà s'hi pot pujar pel camí de les Marrades o per les escales del Grau Nou, obertes el 1952, que segons el web no tenen perill i porten barana. Compta 7 km en total, 2 h 15 min per a un adult sense parades i 4 h amb nens i parades, i marca la ruta com a Xtreme pels trams de cinglera.",
+				es: "Totnens sale de la parroquia de Sant Julià de Cabrera, a unos 4 km de la carretera de Vic a Olot. Sigue la pista asfaltada hacia el collet de Cabrera, que más arriba se vuelve camino de tierra y entra en la Vall d'en Bas, y sube suavemente hasta el coll de Bram, al pie del cingle. Desde allí se puede subir por el camí de les Marrades o por las escaleras del Grau Nou, abiertas en 1952, que según la web no tienen peligro y llevan barandilla. Cuenta 7 km en total, 2 h 15 min para un adulto sin paradas y 4 h con niños y paradas, y marca la ruta como Xtreme por los tramos de cingle."
 			},
 			fonts: [TOTNENS]
 		}
 	],
 	consells: {
 		ca: [
-			"Els trams de cingle són delicats: vigila els nens, sobretot al pas del Pla de Cabrera i al pas de l'Osca, segons Totnens.",
-			"Totnens recomana anar-hi d'hora perquè no hi ha gaire lloc per aparcar.",
-			"No t'acostis a la vora dels cingles per fer fotos i evita aquests trams amb pluja o boira.",
-			"Amb nens petits, valora abans de sortir el tram equipat del pas de l'Osca: segons Totnens pot ser complicat per a ells.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Ves-hi d'hora: Totnens avisa que a Sant Julià de Cabrera hi ha poc lloc per aparcar.",
+			"Per trepitjar el punt més alt cal passar l'estret rocós del pla de Cabrera, arran de timba: amb nens, de la mà i sense córrer.",
+			"El pas de l'Osca, que baixa del cim cap a Sant Julià, té un tram equipat que Totnens considera complicat per a nens petits; les escales del coll de Bram són l'alternativa.",
+			'El camí de les Marrades, marcat amb números grocs, permet baixar per un lloc diferent de les escales i tancar la volta.',
+			"No t'acostis a la vora dels cingles per fer fotos, i menys amb vent o amb el terra moll."
 		],
 		es: [
-			"Los tramos de cingle son delicados: vigila a los niños, sobre todo en el paso del Pla de Cabrera y en el paso de l'Osca, según Totnens.",
-			'Totnens recomienda ir temprano porque no hay mucho sitio para aparcar.',
-			'No te acerques al borde de los cingles para hacer fotos y evita esos tramos con lluvia o niebla.',
-			"Con niños pequeños, valora antes de salir el tramo equipado del paso de l'Osca: según Totnens puede ser complicado para ellos.",
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Ve temprano: Totnens avisa de que en Sant Julià de Cabrera hay poco sitio para aparcar.',
+			'Para pisar el punto más alto hay que pasar el estrecho rocoso del pla de Cabrera, al borde del precipicio: con niños, de la mano y sin correr.',
+			"El paso de l'Osca, que baja de la cima hacia Sant Julià, tiene un tramo equipado que Totnens considera complicado para niños pequeños; las escaleras del coll de Bram son la alternativa.",
+			'El camí de les Marrades, marcado con números amarillos, permite bajar por un sitio distinto de las escaleras y cerrar la vuelta.',
+			'No te acerques al borde de los cingles para hacer fotos, y menos con viento o con el suelo mojado.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar a Cabrera?',
+				pregunta: 'Quant es triga a pujar a Cabrera des de Sant Julià?',
 				resposta:
-					'Totnens compta uns 7 km i unes 2 h 15 min per a un adult sense parades, i 4 h amb parades, des de Sant Julià de Cabrera.'
+					"Totnens compta 7 km per a tota la volta, amb 2 h 15 min per a un adult sense parades i unes 4 h si s'hi va amb nens i es fan parades."
 			},
 			{
 				pregunta: 'Es pot pujar a Cabrera amb nens?',
 				resposta:
-					"Totnens el proposa com a excursió amb nens, però avisa que cal extremar la precaució als trams de cingle, al pas del Pla de Cabrera i al tram equipat del pas de l'Osca, que pot ser complicat per a nens petits."
+					"Totnens la proposa com a sortida familiar, però la marca com a Xtreme pels trams de cinglera. Les escales tenen barana; on cal vigilar de debò és al pla del cim, que passa arran dels penya-segats, i al pas de l'Osca, que val més evitar amb nens petits."
 			},
 			{
-				pregunta: 'Què és el santuari de Cabrera?',
+				pregunta: 'De quan és el santuari de Cabrera?',
 				resposta:
-					"L'edifici actual és del 1611–1641, segons l'inventari de la Diputació de Barcelona, i substitueix una capella més antiga lligada al castell de Cabrera."
+					"L'edifici actual es va construir entre el 1611 i el 1641, segons l'inventari de patrimoni de la Diputació de Barcelona, en substitució d'una capella anterior lligada al castell de Cabrera."
 			},
 			{
-				pregunta: 'Cabrera és un cim essencial?',
+				pregunta: 'Cabrera és a la Garrotxa o a Osona?',
 				resposta:
-					"Sí. És a cavall de la [Garrotxa](/comarques/garrotxa) i l'[Osona](/comarques/osona), i al Collsacabra l'acompanya [la Rocallarga](/cims/rocallarga)."
+					"El cim és a la Vall d'en Bas, a la [Garrotxa](/comarques/garrotxa), i el repte el compta en aquesta comarca. El santuari i l'accés habitual, per Sant Julià de Cabrera, són de l'Esquirol, a [Osona](/comarques/osona)."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir a Cabrera?',
+				pregunta: '¿Cuánto se tarda en subir a Cabrera desde Sant Julià?',
 				resposta:
-					'Totnens cuenta unos 7 km y unas 2 h 15 min para un adulto sin paradas, y 4 h con paradas, desde Sant Julià de Cabrera.'
+					'Totnens cuenta 7 km para toda la vuelta, con 2 h 15 min para un adulto sin paradas y unas 4 h si se va con niños y se hacen paradas.'
 			},
 			{
 				pregunta: '¿Se puede subir a Cabrera con niños?',
 				resposta:
-					"Totnens lo propone como excursión con niños, pero avisa de que hay que extremar la precaución en los tramos de cingle, en el paso del Pla de Cabrera y en el tramo equipado del paso de l'Osca, que puede ser complicado para niños pequeños."
+					"Totnens la propone como salida familiar, pero la marca como Xtreme por los tramos de cingle. Las escaleras tienen barandilla; donde hay que vigilar de verdad es en el llano de la cima, que pasa al borde de los acantilados, y en el paso de l'Osca, que es mejor evitar con niños pequeños."
 			},
 			{
-				pregunta: '¿Qué es el santuario de Cabrera?',
+				pregunta: '¿De cuándo es el santuario de Cabrera?',
 				resposta:
-					'El edificio actual es de 1611–1641, según el inventario de la Diputació de Barcelona, y sustituye a una capilla más antigua ligada al castillo de Cabrera.'
+					'El edificio actual se construyó entre 1611 y 1641, según el inventario de patrimonio de la Diputació de Barcelona, en sustitución de una capilla anterior ligada al castillo de Cabrera.'
 			},
 			{
-				pregunta: '¿Cabrera es una cima esencial?',
+				pregunta: '¿Cabrera está en la Garrotxa o en Osona?',
 				resposta:
-					'Sí. Está a caballo de la [Garrotxa](/comarques/garrotxa) y [Osona](/comarques/osona), y en el Collsacabra la acompaña [la Rocallarga](/cims/rocallarga).'
+					"La cima está en la Vall d'en Bas, en la [Garrotxa](/comarques/garrotxa), y el reto la cuenta en esa comarca. El santuario y el acceso habitual, por Sant Julià de Cabrera, son de l'Esquirol, en [Osona](/comarques/osona)."
 			}
 		]
 	},
 	fonts: [DIBA_PATRIMONI, TOTNENS],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

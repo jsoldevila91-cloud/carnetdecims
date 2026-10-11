@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const RUTES_PIRINEUS = {
 	nom: 'Rutes Pirineus: Ruta a la Rocallarga als cingles de Tavertet, Collsacabra',
@@ -18,49 +18,49 @@ const fitxa: ContingutFitxa = {
 	slug: 'rocallarga',
 	descripcio: {
 		ca: [
-			"La Rocallarga és un cim dels cingles de Tavertet, al Collsacabra, al terme de Tavertet, a l'[Osona](/comarques/osona). Segons la Viquipèdia, és de conglomerat, gres i argila. Dins del mateix Collsacabra, [Cabrera](/cims/cabrera) és l'altre cim essencial de la zona.",
-			"Rutes Pirineus en situa la pujada en una circular que surt de l'Apartotel l'Avenc de Tavertet i recorre els cingles. Abans de la Rocallarga es passa per la masia de Rajols, pel collet de Rajols i per l'ermita romànica de Sant Corneli, amb un dolmen al costat de l'ermita; més endavant, per la masia de Monteis i per la balma de Cortils.",
-			"El web diu que des de la Rocallarga hi ha una de les millors vistes panoràmiques de la contrada. Per baixar, cal seguir fins a trobar la gran fita que marca la baixada, primer per un corriol i després per una pista de desembosc que torna a l'Avenc.",
-			"Rutes Pirineus qualifica la sortida de notable per la llargada i el desnivell, però hi puntualitza que no presenta cap dificultat tècnica. No hi ha aigua en tota l'excursió: a l'estiu, la calor es nota. El mapa que recomana és el Collsacabra, vall de Sau, a 1:25.000."
+			"La Rocallarga és el punt culminant dels altiplans de Tavertet, al Collsacabra, dins del terme de Tavertet ([Osona](/comarques/osona)). No és un cim punxegut, sinó el capdamunt d'una carena ampla, de conglomerat, gres i argila segons la Viquipèdia, a tocar dels cingles de Tavertet. L'altre cim essencial del Collsacabra és [Cabrera](/cims/cabrera); a la mateixa comarca hi ha també [Bellmunt](/cims/bellmunt).",
+			"El que la fa especial és el que es veu pel camí. La volta que proposa Rutes Pirineus passa per l'ermita romànica de Sant Corneli, que té un dolmen al costat nord, per masies com Rajols i Monteis i, ja a prop del cim, per la balma de Cortils, una gran roca plana que fa de sostre, amb un faig enorme a tocar. Al cim hi ha un vèrtex geodèsic.",
+			'Tot i la poca alçada, Rutes Pirineus en diu una de les millors panoràmiques de la contrada: del Mediterrani a Montserrat, passant pel Montseny i les Guilleries.',
+			"Es pot fer tot l'any. A l'estiu la calor pot ser sufocant, segons la mateixa guia, i no hi ha cap font en tota la volta; amb boira, en uns altiplans de prats sense senyals, és fàcil desorientar-se."
 		],
 		es: [
-			'La Rocallarga es una cima de los cingles de Tavertet, en el Collsacabra, en el término de Tavertet, en [Osona](/comarques/osona). Según la Viquipèdia, es de conglomerado, arenisca y arcilla. Dentro del mismo Collsacabra, [Cabrera](/cims/cabrera) es la otra cima esencial de la zona.',
-			"Rutes Pirineus sitúa la subida en una circular que sale del Apartotel l'Avenc de Tavertet y recorre los cingles. Antes de la Rocallarga se pasa por la masía de Rajols, por el collet de Rajols y por la ermita románica de Sant Corneli, con un dolmen junto a la ermita; más adelante, por la masía de Monteis y por la balma de Cortils.",
-			"La web dice que desde la Rocallarga hay una de las mejores vistas panorámicas de la comarca. Para bajar hay que seguir hasta encontrar el gran hito que marca la bajada, primero por un sendero y después por una pista de saca que vuelve a l'Avenc.",
-			'Rutes Pirineus califica la salida de notable por la longitud y el desnivel, pero puntualiza que no presenta ninguna dificultad técnica. No hay agua en toda la excursión: en verano, el calor se nota. El mapa que recomienda es el Collsacabra, vall de Sau, a 1:25.000.'
+			'La Rocallarga es el punto culminante de los altiplanos de Tavertet, en el Collsacabra, dentro del término de Tavertet ([Osona](/comarques/osona)). No es una cima puntiaguda, sino lo alto de una loma ancha, de conglomerado, arenisca y arcilla según la Viquipèdia, junto a los cingles de Tavertet. La otra cima esencial del Collsacabra es [Cabrera](/cims/cabrera); en la misma comarca está también [Bellmunt](/cims/bellmunt).',
+			'Lo que la hace especial es lo que se ve por el camino. La vuelta que propone Rutes Pirineus pasa por la ermita románica de Sant Corneli, que tiene un dolmen en el lado norte, por masías como Rajols y Monteis y, ya cerca de la cima, por la balma de Cortils, una gran roca plana que hace de techo, con un haya enorme al lado. En la cima hay un vértice geodésico.',
+			'Pese a la poca altura, Rutes Pirineus la considera una de las mejores panorámicas de la zona: del Mediterráneo a Montserrat, pasando por el Montseny y las Guilleries.',
+			'Se puede hacer todo el año. En verano el calor puede ser sofocante, según la misma guía, y no hay ninguna fuente en toda la vuelta; con niebla, en unos altiplanos de prados sin señales, es fácil desorientarse.'
 		]
 	},
 	rutes: [
 		{
 			id: 'avenc',
 			nom: {
-				ca: "Circular des de l'Avenc de Tavertet per Sant Corneli",
-				es: "Circular desde l'Avenc de Tavertet por Sant Corneli"
+				ca: "Des de l'Avenc de Tavertet pel collet de Rajols",
+				es: "Desde l'Avenc de Tavertet por el collet de Rajols"
 			},
-			sortida: { nom: "Apartotel l'Avenc de Tavertet (Tavertet)" },
-			tempsMinuts: 285,
+			sortida: { nom: "Apartotel l'Avenc de Tavertet (Tavertet, 1.033 m)" },
+			tempsMinuts: 70,
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "Rutes Pirineus descriu una caminada circular de 14,7 km que surt i acaba a l'Apartotel l'Avenc de Tavertet. Primer segueix la pista asfaltada que travessa el pla Boixer i enllaça Tavertet amb la carretera de Rupit; passa per la masia de Rajols, el collet de Rajols i l'ermita de Sant Corneli (2 h 15 min des de la sortida), i arriba a la Rocallarga a les 4 h 45 min de marxa efectiva. Tota la circular fa 14,7 km i 550 m de desnivell acumulat. L'entitat afirma que la ruta no presenta cap dificultat tècnica; tot i això, només està parcialment senyalitzada, i cal vigilar l'orientació.",
-				es: "Rutes Pirineus describe una caminata circular de 14,7 km que sale y acaba en el Apartotel l'Avenc de Tavertet. Primero sigue la pista asfaltada que cruza el pla Boixer y enlaza Tavertet con la carretera de Rupit; pasa por la masía de Rajols, el collet de Rajols y la ermita de Sant Corneli (2 h 15 min desde la salida), y llega a la Rocallarga a las 4 h 45 min de marcha efectiva. Toda la circular hace 14,7 km y 550 m de desnivel acumulado. La entidad afirma que la ruta no presenta ninguna dificultad técnica; aun así, solo está parcialmente señalizada, y hay que vigilar la orientación."
+				ca: "Rutes Pirineus la inclou dins d'una circular de 14,7 km, 550 m de desnivell acumulat i 5 h 30 min que fa una gran volta per Sant Corneli abans de pujar al cim, on arriba a les 4 h 45 min. Qui només vulgui fer la Rocallarga pot enllaçar-ne dos trams: de l'Avenc al collet de Rajols per la pista i la masia de Rajols (50 min) i del collet al cim per la carena, passant per la balma de Cortils (20 min). La baixada directa a l'Avenc, per un corriol que arrenca d'una gran fita i una pista de desembosc, són 45 min. La guia diu que la ruta no té cap dificultat tècnica, però que només està senyalitzada en part.",
+				es: "Rutes Pirineus la incluye dentro de una circular de 14,7 km, 550 m de desnivel acumulado y 5 h 30 min que da una gran vuelta por Sant Corneli antes de subir a la cima, adonde llega a las 4 h 45 min. Quien solo quiera hacer la Rocallarga puede enlazar dos tramos: de l'Avenc al collet de Rajols por la pista y la masía de Rajols (50 min) y del collado a la cima por la loma, pasando por la balma de Cortils (20 min). La bajada directa a l'Avenc, por un sendero que arranca de un gran hito y una pista de saca, son 45 min. La guía dice que la ruta no tiene ninguna dificultad técnica, pero que solo está señalizada en parte."
 			},
 			fonts: [RUTES_PIRINEUS]
 		}
 	],
 	consells: {
 		ca: [
-			"No hi ha aigua en tota l'excursió, segons Rutes Pirineus: porta-la de casa, sobretot a l'estiu, quan la calor pot ser molt intensa.",
-			'El camí només està senyalitzat en part: baixa de la Rocallarga cap a la gran fita que marca la baixada i no segueixis altres traces.',
-			"Caminaràs a prop de cingles: no t'acostis a la vora per fer fotos i vigila els nens.",
-			'El recorregut és llarg (14,7 km): compta les hores de llum abans de sortir.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			'No trobaràs aigua en tot el recorregut, segons Rutes Pirineus: surt de Tavertet amb la que necessitis.',
+			'La senyalització és parcial i hi ha trams de prat sense fites: porta el mapa del Collsacabra i la vall de Sau a 1:25.000, que és el que recomana la guia, o un track.',
+			"Per baixar del cim, busca la gran fita que marca l'inici del corriol cap a l'Avenc; si no la veus, no tiris pel dret cap als cingles.",
+			'El camí travessa pastures amb tanques per al bestiar: tanca-les darrere teu.',
+			"Si fas la volta sencera per Sant Corneli, compta-hi cinc hores i mitja de marxa efectiva i surt d'hora els dies curts."
 		],
 		es: [
-			'No hay agua en toda la excursión, según Rutes Pirineus: llévala de casa, sobre todo en verano, cuando el calor puede ser muy intenso.',
-			'El camino solo está señalizado en parte: baja de la Rocallarga hacia el gran hito que marca la bajada y no sigas otras trazas.',
-			'Caminarás cerca de cingles: no te acerques al borde para hacer fotos y vigila a los niños.',
-			'El recorrido es largo (14,7 km): cuenta las horas de luz antes de salir.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'No encontrarás agua en todo el recorrido, según Rutes Pirineus: sal de Tavertet con la que necesites.',
+			'La señalización es parcial y hay tramos de prado sin hitos: lleva el mapa del Collsacabra y la vall de Sau a 1:25.000, que es el que recomienda la guía, o un track.',
+			"Para bajar de la cima, busca el gran hito que marca el inicio del sendero hacia l'Avenc; si no lo ves, no atajes hacia los cingles.",
+			'El camino atraviesa pastos con cercas para el ganado: ciérralas detrás de ti.',
+			'Si haces la vuelta entera por Sant Corneli, cuenta cinco horas y media de marcha efectiva y sal temprano en los días cortos.'
 		]
 	},
 	faq: {
@@ -68,50 +68,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Rocallarga?',
 				resposta:
-					"Segons Rutes Pirineus, a la circular de 14,7 km des de l'Avenc de Tavertet hi arribes a les 4 h 45 min de marxa efectiva, i la volta sencera en compta 5 h 30 min."
+					"Pel camí més directe des de l'Avenc de Tavertet, els horaris de Rutes Pirineus sumen 1 h 10 min de pujada (50 min fins al collet de Rajols i 20 min més fins al cim) i 45 min de baixada. La volta completa per Sant Corneli són 14,7 km i 5 h 30 min."
 			},
 			{
 				pregunta: 'La Rocallarga és difícil?',
 				resposta:
-					'Rutes Pirineus la valora com a notable per la llargada i el desnivell, però diu que no presenta cap dificultat tècnica. Només hi ha senyalització parcial.'
+					"No té cap dificultat tècnica, segons Rutes Pirineus, que valora de notable la volta sencera només per la llargada i el desnivell. El que demana atenció és l'orientació, perquè la senyalització és parcial."
 			},
 			{
-				pregunta: 'Hi ha aigua pel camí a la Rocallarga?',
+				pregunta: 'Hi ha aigua pel camí?',
 				resposta:
-					"No: Rutes Pirineus adverteix que no es troba aigua en tota l'excursió, i que a l'estiu la calor pot ser molt intensa. Cal sortir amb l'aigua de casa."
+					"No. Rutes Pirineus avisa que no se'n troba en tota l'excursió i que a l'estiu la calor pot ser sufocant."
 			},
 			{
-				pregunta: 'La Rocallarga és un cim essencial?',
+				pregunta: 'Què és la balma de Cortils?',
 				resposta:
-					"Sí. A l'[Osona](/comarques/osona) l'acompanyen altres cims essencials del repte, i [Cabrera](/cims/cabrera) és el més proper, també al Collsacabra."
+					'Una cavitat sota una gran roca plana, a dos minuts escassos del cim venint del collet de Rajols. Rutes Pirineus hi destaca un faig de grans dimensions al costat.'
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Rocallarga?',
 				resposta:
-					"Según Rutes Pirineus, en la circular de 14,7 km desde l'Avenc de Tavertet llegas a las 4 h 45 min de marcha efectiva, y la vuelta entera cuenta 5 h 30 min."
+					"Por el camino más directo desde l'Avenc de Tavertet, los horarios de Rutes Pirineus suman 1 h 10 min de subida (50 min hasta el collet de Rajols y 20 min más hasta la cima) y 45 min de bajada. La vuelta completa por Sant Corneli son 14,7 km y 5 h 30 min."
 			},
 			{
 				pregunta: '¿La Rocallarga es difícil?',
 				resposta:
-					'Rutes Pirineus la valora como notable por la longitud y el desnivel, pero dice que no presenta ninguna dificultad técnica. Solo hay señalización parcial.'
+					'No tiene ninguna dificultad técnica, según Rutes Pirineus, que valora de notable la vuelta entera solo por la longitud y el desnivel. Lo que pide atención es la orientación, porque la señalización es parcial.'
 			},
 			{
-				pregunta: '¿Hay agua en el camino a la Rocallarga?',
+				pregunta: '¿Hay agua por el camino?',
 				resposta:
-					'No: Rutes Pirineus advierte de que no se encuentra agua en toda la excursión, y de que en verano el calor puede ser muy intenso. Hay que salir con el agua de casa.'
+					'No. Rutes Pirineus avisa de que no se encuentra en toda la excursión y de que en verano el calor puede ser sofocante.'
 			},
 			{
-				pregunta: '¿La Rocallarga es una cima esencial?',
+				pregunta: '¿Qué es la balma de Cortils?',
 				resposta:
-					'Sí. En [Osona](/comarques/osona) la acompañan otras cimas esenciales del reto, y [Cabrera](/cims/cabrera) es la más cercana, también en el Collsacabra.'
+					'Una cavidad bajo una gran roca plana, a dos minutos escasos de la cima viniendo del collet de Rajols. Rutes Pirineus destaca un haya de grandes dimensiones a su lado.'
 			}
 		]
 	},
 	fonts: [RUTES_PIRINEUS, VIQUIPEDIA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

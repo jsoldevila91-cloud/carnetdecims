@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: El Mont (Albanyà)',
@@ -21,7 +21,7 @@ const ITINERANNIA = {
 };
 
 const DEXCURSIO = {
-	nom: "D'excursió per Catalunya: Mare de Déu del Mont",
+	nom: "D'excursió per Catalunya: Mare de Déu del Mont des de Beuda",
 	url: 'https://dexcursio.net/mare-de-deu-del-mont/',
 	consultat: CONSULTAT
 };
@@ -30,31 +30,30 @@ const fitxa: ContingutFitxa = {
 	slug: 'el-mont',
 	descripcio: {
 		ca: [
-			"El Mont, o serra del Mont, és un massís del Prepirineu que fa de frontera entre l'[Alt Empordà](/comarques/alt-emporda) i la [Garrotxa](/comarques/garrotxa). Segons la Viquipèdia, queda a l'antic municipi de Bassegoda, avui agregat a Albanyà, a prop de Beuda, i separa la conca de la Muga de la del Fluvià. Dins de l'Alta Garrotxa té com a veí el [Bassegoda](/cims/bassegoda).",
-			"La muntanya es coneix sobretot pel santuari que la corona, el de la Mare de Déu del Mont: la Viquipèdia explica que a l'edat mitjana s'anomenava muntanya de Sant Llorenç, que hi va néixer un monestir benedictí, Sant Llorenç del Mont (o de Sous), i que al segle XIV d'aquell monestir va sorgir el santuari. També la recull com la Porta del Pirineu. Segons la mateixa font, a finals del segle XVIII el cim va ser un dels punts de triangulació de l'arc de meridià entre Dunkerque i Barcelona, que va servir per fixar la longitud del metre.",
-			"Pujar-hi és una sortida llarga per a un cim d'aquesta alçada, perquè el desnivell s'acumula des del poble de Beuda. D'excursió per Catalunya parla de vistes panoràmiques de 360 graus des de dalt, i recomana roba d'abric fins i tot a l'estiu perquè al cim pot bufar el vent.",
-			'Els camins són de pista i de corriols de bosc, sense passos de grimpada descrits per cap de les fonts consultades. El terreny demana cura als trams de més pendent, especialment a la baixada, per evitar relliscades.'
+			"El Mont, o la Mare de Déu del Mont pel santuari que té al capdamunt, és el punt més alt de la serra del Mont, el vèrtex sud-oriental de l'Alta Garrotxa. Administrativament, el cim pertany a Albanyà ([Alt Empordà](/comarques/alt-emporda)), dins de l'antic municipi de Bassegoda, i queda just al nord de Beuda, que ja és de la Garrotxa. Segons la Viquipèdia, la serra separa la conca de la Muga de la del Fluvià. El cim essencial més proper és [el Bassegoda](/cims/bassegoda).",
+			"A l'edat mitjana se'n deia muntanya de Sant Llorenç, pel monestir benedictí de Sant Llorenç del Mont, o de Sous, les ruïnes del qual encara es troben a mitja pujada. D'aquell monestir en va sortir, al segle XIV, el santuari; l'Ajuntament de Beuda en data l'església, de romànic tardà, a principis d'aquell segle. Jacint Verdaguer hi va fer estada el 1884 i, segons la mateixa font, s'hi conserva la cambra on va acabar el Canigó. La Viquipèdia recull també que, a finals del segle XVIII, el cim va ser un dels vèrtexs de la triangulació del meridià de Dunkerque a Barcelona, la que va servir per definir el metre.",
+			"El panorama és el d'un cim avançat sobre la plana. La Viquipèdia hi enumera la Garrotxa, la plana de l'Alt Empordà, el Pla de l'Estany i el Gironès fins a la ciutat de Girona, les Guilleries, el Montseny i el Pirineu oriental, amb el Canigó en primer terme.",
+			"Fins al santuari hi arriba una carretera, amb aparcament a dalt, de manera que no és un cim solitari. Qui hi puja a peu des de Beuda fa més de 800 m de desnivell i creua aquesta carretera diverses vegades. S'hi pot anar tot l'any; D'excursió per Catalunya recomana portar roba d'abric fins i tot a l'estiu, pel vent del cim."
 		],
 		es: [
-			'El Mont, o sierra del Mont, es un macizo del Prepirineo que hace de frontera entre el [Alt Empordà](/comarques/alt-emporda) y la [Garrotxa](/comarques/garrotxa). Según la Viquipèdia, queda en el antiguo municipio de Bassegoda, hoy agregado a Albanyà, cerca de Beuda, y separa la cuenca de la Muga de la del Fluvià. Dentro de la Alta Garrotxa tiene como vecino el [Bassegoda](/cims/bassegoda).',
-			'La montaña se conoce sobre todo por el santuario que la corona, el de la Mare de Déu del Mont: la Viquipèdia explica que en la Edad Media se llamaba montaña de Sant Llorenç, que allí nació un monasterio benedictino, Sant Llorenç del Mont (o de Sous), y que en el siglo XIV de aquel monasterio surgió el santuario. También la recoge como la Porta del Pirineu. Según la misma fuente, a finales del siglo XVIII la cima fue uno de los puntos de triangulación del arco de meridiano entre Dunkerque y Barcelona, que sirvió para fijar la longitud del metro.',
-			"Subir es una salida larga para una cima de esta altura, porque el desnivel se acumula desde el pueblo de Beuda. D'excursió per Catalunya habla de vistas panorámicas de 360 grados desde arriba, y recomienda ropa de abrigo incluso en verano porque en la cima puede soplar el viento.",
-			'Los caminos son de pista y de senderos de bosque, sin pasos de trepada descritos por ninguna de las fuentes consultadas. El terreno pide cuidado en los tramos de más pendiente, sobre todo en la bajada, para evitar resbalones.'
+			'El Mont, o la Mare de Déu del Mont por el santuario que tiene en lo alto, es el punto culminante de la sierra del Mont, el vértice suroriental de la Alta Garrotxa. Administrativamente, la cima pertenece a Albanyà ([Alt Empordà](/comarques/alt-emporda)), dentro del antiguo municipio de Bassegoda, y queda justo al norte de Beuda, que ya es de la Garrotxa. Según la Viquipèdia, la sierra separa la cuenca de la Muga de la del Fluvià. La cima esencial más cercana es [el Bassegoda](/cims/bassegoda).',
+			'En la Edad Media se llamaba montaña de Sant Llorenç, por el monasterio benedictino de Sant Llorenç del Mont, o de Sous, cuyas ruinas aún se encuentran a media subida. De aquel monasterio salió, en el siglo XIV, el santuario; el Ayuntamiento de Beuda data su iglesia, de románico tardío, a principios de ese siglo. Jacint Verdaguer se alojó allí en 1884 y, según la misma fuente, se conserva la habitación donde acabó el Canigó. La Viquipèdia recoge también que, a finales del siglo XVIII, la cima fue uno de los vértices de la triangulación del meridiano de Dunkerque a Barcelona, la que sirvió para definir el metro.',
+			"El panorama es el de una cima adelantada sobre la llanura. La Viquipèdia enumera la Garrotxa, la llanura del Alt Empordà, el Pla de l'Estany y el Gironès hasta la ciudad de Girona, las Guilleries, el Montseny y el Pirineo oriental, con el Canigó en primer término.",
+			"Hasta el santuario llega una carretera, con aparcamiento arriba, así que no es una cima solitaria. Quien sube a pie desde Beuda hace más de 800 m de desnivel y cruza esa carretera varias veces. Se puede ir todo el año; D'excursió per Catalunya recomienda llevar ropa de abrigo incluso en verano, por el viento de la cima."
 		]
 	},
 	rutes: [
 		{
 			id: 'beuda-circular',
 			nom: {
-				ca: 'Circular des de Beuda pel monestir de Sant Llorenç de Sous',
-				es: 'Circular desde Beuda por el monasterio de Sant Llorenç de Sous'
+				ca: 'Des de Beuda pel monestir de Sant Llorenç de Sous',
+				es: 'Desde Beuda por el monasterio de Sant Llorenç de Sous'
 			},
-			sortida: {
-				nom: "Beuda (carretera asfaltada darrere l'església, encreuament G155 d'Itinerànnia)"
-			},
+			sortida: { nom: "Beuda, encreuament G155 d'Itinerànnia" },
+			desnivellPositiuM: 805,
 			descripcio: {
-				ca: "És la ruta que recull l'Ajuntament de Beuda: surt del poble, per la carretera asfaltada que passa darrere l'església, i puja per un camí marcat fins a la carretera. Passa per la font de Roca Pastora i pel monestir de Sant Llorenç de Sous, continua per carretera i corriol fins a l'aparcament i, finalment, al santuari. La tornada és per un recorregut diferent, pel cingle de Rocapastora, el turó de les Grives, el Castellot i la Font Fresca. Les xifres són de tota la circular: 10,5 km, 805 m de desnivell acumulat de pujada i 4 h 25 min, amb dificultat alta segons l'Ajuntament i Itinerànnia.",
-				es: 'Es la ruta que recoge el Ayuntamiento de Beuda: sale del pueblo, por la carretera asfaltada que pasa detrás de la iglesia, y sube por un camino marcado hasta la carretera. Pasa por la fuente de Roca Pastora y por el monasterio de Sant Llorenç de Sous, continúa por carretera y sendero hasta el aparcamiento y, finalmente, al santuario. La vuelta es por un recorrido distinto, por el cingle de Rocapastora, el turó de les Grives, el Castellot y la Font Fresca. Las cifras son de toda la circular: 10,5 km, 805 m de desnivel acumulado de subida y 4 h 25 min, con dificultad alta según el Ayuntamiento e Itinerànnia.'
+				ca: "És l'itinerari que publiquen l'Ajuntament de Beuda i Itinerànnia: una circular de 10,5 km, 805 m de desnivell acumulat de pujada i 4 h 25 min, de dificultat alta. Surt per la carretera que passa darrere l'església, agafa el camí de la Salve Regina fins a la font de Roca Pastora i el monestir de Sant Llorenç de Sous, i continua amunt, seguint marques grogues i alternant corriol i carretera, fins a l'aparcament i el santuari. La tornada va pel cingle de Rocapastora, el turó de les Grives, el Castellot i la Font Fresca.",
+				es: 'Es el itinerario que publican el Ayuntamiento de Beuda e Itinerànnia: una circular de 10,5 km, 805 m de desnivel acumulado de subida y 4 h 25 min, de dificultad alta. Sale por la carretera que pasa detrás de la iglesia, toma el camino de la Salve Regina hasta la fuente de Roca Pastora y el monasterio de Sant Llorenç de Sous, y continúa hacia arriba, siguiendo marcas amarillas y alternando sendero y carretera, hasta el aparcamiento y el santuario. La vuelta va por el cingle de Rocapastora, el turó de les Grives, el Castellot y la Font Fresca.'
 			},
 			fonts: [BEUDA, ITINERANNIA]
 		},
@@ -66,26 +65,26 @@ const fitxa: ContingutFitxa = {
 			},
 			sortida: { nom: "Plaça Major de Beuda, al costat de l'església de Sant Feliu" },
 			descripcio: {
-				ca: "D'excursió per Catalunya la proposa sortint de la plaça Major, amb trams de pista i corriols boscosos fins al santuari. El web dona 11,67 km, 4 h 32 min i +816 m, tot anada i tornada. Aconsella anar amb precaució als trams de més pendent per evitar relliscades.",
-				es: "D'excursió per Catalunya la propone saliendo de la plaza Mayor, con tramos de pista y senderos boscosos hasta el santuario. La web da 11,67 km, 4 h 32 min y +816 m, todo ida y vuelta. Aconseja ir con precaución en los tramos de más pendiente para evitar resbalones."
+				ca: "D'excursió per Catalunya fa la mateixa pujada però torna per on ha vingut: 11,67 km, +816 m i 4 h 32 min en total, de dificultat moderada. Explica que es pot estalviar el primer tram de carretera aparcant al pla del Bosc, que passat Can Oliveres el corriol va marcat com a PR, amb pintura blanca i groga, i que a la baixada cal precaució als trams de més pendent.",
+				es: "D'excursió per Catalunya hace la misma subida pero vuelve por donde ha venido: 11,67 km, +816 m y 4 h 32 min en total, de dificultad moderada. Explica que se puede ahorrar el primer tramo de carretera aparcando en el pla del Bosc, que pasado Can Oliveres el sendero va marcado como PR, con pintura blanca y amarilla, y que en la bajada hace falta precaución en los tramos de más pendiente."
 			},
 			fonts: [DEXCURSIO]
 		}
 	],
 	consells: {
 		ca: [
-			"El desnivell es fa quasi tot de pujada des del poble: reparteix l'esforç i porta aigua de casa.",
-			"Al cim pot bufar el vent, segons D'excursió per Catalunya: porta una peça d'abric, fins i tot a l'estiu.",
-			'Vigila a la baixada els trams de més pendent: el terreny pot fer relliscar.',
-			"Si prefereixes una circular, la tornada pel cingle de Rocapastora i el Castellot de l'Ajuntament de Beuda és un recorregut diferent del de pujada; tria'l amb llum de sobres.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"El camí i la carretera del santuari es creuen diverses vegades, i en algun tram comparteixen l'asfalt: camina per la vora i mira bé abans de travessar.",
+			'Les ruïnes de Sant Llorenç de Sous són a peu de camí i trenquen la pujada pel mig: un bon lloc per fer la parada.',
+			"La tornada pel Castellot és un camí diferent del de pujada, amb diversos encreuaments d'Itinerànnia: porta'n el mapa o el track.",
+			"A dalt bufa vent sovint, segons D'excursió per Catalunya: una capa tallavent no fa nosa ni a l'estiu.",
+			'Baixa sense pressa els trams drets del corriol, on és fàcil relliscar.'
 		],
 		es: [
-			'El desnivel se hace casi todo de subida desde el pueblo: reparte el esfuerzo y lleva agua de casa.',
-			"En la cima puede soplar el viento, según D'excursió per Catalunya: lleva una prenda de abrigo, incluso en verano.",
-			'Vigila en la bajada los tramos de más pendiente: el terreno puede hacer resbalar.',
-			'Si prefieres una circular, la vuelta por el cingle de Rocapastora y el Castellot del Ayuntamiento de Beuda es un recorrido distinto al de subida; elígela con luz de sobra.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'El camino y la carretera del santuario se cruzan varias veces, y en algún tramo comparten el asfalto: camina por el borde y mira bien antes de cruzar.',
+			'Las ruinas de Sant Llorenç de Sous están a pie de camino y parten la subida por la mitad: un buen sitio para hacer la parada.',
+			'La vuelta por el Castellot es un camino distinto del de subida, con varios cruces de Itinerànnia: lleva el mapa o el track.',
+			"Arriba sopla viento a menudo, según D'excursió per Catalunya: un cortavientos no estorba ni en verano.",
+			'Baja sin prisa los tramos empinados del sendero, donde es fácil resbalar.'
 		]
 	},
 	faq: {
@@ -93,50 +92,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar al Mont des de Beuda?',
 				resposta:
-					"La circular de l'Ajuntament de Beuda i d'Itinerànnia fa 10,5 km i 4 h 25 min en total, amb 805 m de desnivell de pujada. D'excursió per Catalunya compta 4 h 32 min per a 11,67 km, anada i tornada pel mateix camí."
+					"La circular de l'Ajuntament de Beuda fa 10,5 km i 4 h 25 min en total, amb 805 m de desnivell de pujada. Anant i tornant pel mateix camí, D'excursió per Catalunya compta 11,67 km i 4 h 32 min."
 			},
 			{
-				pregunta: 'El Mont té santuari?',
+				pregunta: 'Es pot pujar al Mont amb cotxe?',
 				resposta:
-					'Sí, el de la Mare de Déu del Mont, al cim. Segons la Viquipèdia va néixer al segle XIV a partir del monestir benedictí de Sant Llorenç del Mont.'
+					"Sí: una carretera asfaltada arriba fins a l'aparcament del santuari, i l'itinerari a peu la creua. Si el que vols és fer el cim caminant, la sortida habitual és Beuda."
 			},
 			{
-				pregunta: 'La ruta del Mont és difícil?',
+				pregunta: 'La pujada al Mont és difícil?',
 				resposta:
-					"L'Ajuntament de Beuda i Itinerànnia la classifiquen amb dificultat alta, per la llargada i el desnivell. Cap de les fonts descriu passos de grimpada, però sí trams amb pendent a vigilar."
+					"És llarga més que no pas complicada: l'Ajuntament de Beuda i Itinerànnia la valoren de dificultat alta, i D'excursió per Catalunya, de moderada. Va per carretera, pista i corriols marcats."
 			},
 			{
-				pregunta: 'El Mont és un cim essencial?',
+				pregunta: 'Què hi va fer Verdaguer, al Mont?',
 				resposta:
-					"Sí. A l'[Alt Empordà](/comarques/alt-emporda) comparteix la zona amb el [Bassegoda](/cims/bassegoda), també essencial."
+					"Hi va passar una temporada el 1884, segons la Viquipèdia, i va comparar la serra amb un camell geperut que baixa del Pirineu. L'Ajuntament de Beuda explica que al santuari es conserva la cambra on va acabar el Canigó."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir al Mont desde Beuda?',
 				resposta:
-					"La circular del Ayuntamiento de Beuda y de Itinerànnia tiene 10,5 km y 4 h 25 min en total, con 805 m de desnivel de subida. D'excursió per Catalunya cuenta 4 h 32 min para 11,67 km, ida y vuelta por el mismo camino."
+					"La circular del Ayuntamiento de Beuda tiene 10,5 km y 4 h 25 min en total, con 805 m de desnivel de subida. Yendo y volviendo por el mismo camino, D'excursió per Catalunya cuenta 11,67 km y 4 h 32 min."
 			},
 			{
-				pregunta: '¿El Mont tiene santuario?',
+				pregunta: '¿Se puede subir al Mont en coche?',
 				resposta:
-					'Sí, el de la Mare de Déu del Mont, en la cima. Según la Viquipèdia nació en el siglo XIV a partir del monasterio benedictino de Sant Llorenç del Mont.'
+					'Sí: una carretera asfaltada llega hasta el aparcamiento del santuario, y el itinerario a pie la cruza. Si lo que quieres es hacer la cima caminando, la salida habitual es Beuda.'
 			},
 			{
-				pregunta: '¿La ruta del Mont es difícil?',
+				pregunta: '¿La subida al Mont es difícil?',
 				resposta:
-					'El Ayuntamiento de Beuda e Itinerànnia la clasifican con dificultad alta, por la longitud y el desnivel. Ninguna de las fuentes describe pasos de trepada, pero sí tramos con pendiente que vigilar.'
+					"Es más larga que complicada: el Ayuntamiento de Beuda e Itinerànnia la valoran de dificultad alta, y D'excursió per Catalunya, de moderada. Va por carretera, pista y senderos marcados."
 			},
 			{
-				pregunta: '¿El Mont es una cima esencial?',
+				pregunta: '¿Qué hizo Verdaguer en el Mont?',
 				resposta:
-					'Sí. En el [Alt Empordà](/comarques/alt-emporda) comparte la zona con el [Bassegoda](/cims/bassegoda), también esencial.'
+					'Pasó allí una temporada en 1884, según la Viquipèdia, y comparó la sierra con un camello jorobado que baja del Pirineo. El Ayuntamiento de Beuda explica que en el santuario se conserva la habitación donde acabó el Canigó.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, BEUDA, ITINERANNIA, DEXCURSIO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Puig Ou',
@@ -9,19 +9,19 @@ const VIQUIPEDIA = {
 };
 
 const MUNTANYA_NATURA = {
-	nom: "Muntanya i Natura: Ascensió al Talló i el Puig d'Ou (Alta Garrotxa)",
+	nom: "Muntanya i Natura: Ascensió al Talló i el puig d'Ou (Alta Garrotxa)",
 	url: 'https://www.muntanyainatura.org/rutes/guiades/ascensio-tallo-puig-dou-alta-garrotxa',
 	consultat: CONSULTAT
 };
 
 const BLOG = {
-	nom: "A la una a casa: Puig d'Ou i Talló per la vall del Bac",
+	nom: "A la una a casa: Puig d'Ou i Talló per la vall del Bac (2013)",
 	url: 'https://alaunaacasa.blogspot.com/2013/04/puig-dou-i-tallo-per-la-vall-del-bac.html',
 	consultat: CONSULTAT
 };
 
 const ITINERANNIA = {
-	nom: "Itinerànnia: De l'hostal de la Vall del Bac a Sant Andreu de Porreres, ruta 2 Vall dels Sentits",
+	nom: "Itinerànnia: De l'hostal de la Vall del Bac a Sant Andreu de Porreres, ruta 2 de la Vall dels Sentits",
 	url: 'https://www.itinerannia.net/en/routes/from-l-hostal-de-la-vall-del-bac-to-sant-andreu-de-porreres-by-la-torre-ruta-2-vall-dels-sentits/',
 	consultat: CONSULTAT
 };
@@ -30,112 +30,99 @@ const fitxa: ContingutFitxa = {
 	slug: 'puig-ou',
 	descripcio: {
 		ca: [
-			"El Puig Ou és una muntanya del municipi de la Vall de Bianya, a la [Garrotxa](/comarques/garrotxa), dins l'àrea protegida de l'Alta Garrotxa. Segons la Viquipèdia, separa la vall del Bac de la vall de Bolòs i Salarsa. A l'Alta Garrotxa hi ha també [el Comanegra](/cims/comanegra) i [el Bassegoda](/cims/bassegoda), també cims essencials del repte.",
-			"La manera habitual d'apropar-s'hi és per la vall del Bac. Muntanya i Natura, una entitat muntanyenca, el proposa en una ruta guiada circular amb el Talló, a l'Alta Garrotxa, i la descriu com un itinerari per corriols pedregosos, terreny irregular i pendents pronunciats, amb algun pas aeri, en què cal tenir en compte el notable desnivell a superar en poca distància. L'entitat recomana fer-lo a l'hivern, a la primavera o a la tardor.",
-			"D'altra banda, Itinerànnia, la xarxa d'itineraris senyalitzats, recull la ruta 2 de la Vall dels Sentits, que surt de l'antic hostal de la Vall del Bac i va a Sant Andreu de Porreres, una ermita que queda entre els cims del Puig Ou i del Talló. És una ruta de mitja dificultat que no puja al Puig Ou, però serveix per conèixer la zona i les seves ermites.",
-			'Porta mapa o GPS: segons el blog consultat, el camí marcat és difícil de veure i les marques poden estar esborrades.'
+			"El Puig Ou, que molts escriuen puig d'Ou, és una muntanya de la Vall de Bianya, a la [Garrotxa](/comarques/garrotxa). Segons la Viquipèdia, separa la vall del Bac, al sud, de la de Bolòs i Salarsa, al nord. És un racó de l'Alta Garrotxa poc trepitjat, a mig camí entre Sant Pau de Segúries i Oix. A la mateixa comarca hi ha [el Comanegra](/cims/comanegra) i [el Puigsacalm](/cims/puigsacalm).",
+			"Sol fer-se juntament amb el Talló, el cim veí. Entre tots dos queda Sant Andreu de Porreres, l'antiga parròquia de la vall del Bac, que Itinerànnia documenta des del 946; més avall hi ha la torre de la vall del Bac i l'església de Sant Miquel de la Torre. Muntanya i Natura, una empresa de guies que hi organitza sortides, parla d'alzinars, fagedes i boixedes i del congost de Bodelquer.",
+			'A dalt hi ha una creu i, uns metres més enllà, un vèrtex geodèsic. Muntanya i Natura en diu un cim modest però agraït per les vistes i per la solitud.',
+			"Aquests guies el recomanen a l'hivern, la primavera i la tardor, i no a l'estiu. Amb neu o amb la roca molla, la cresta del final i les baixades, llargues i pronunciades, demanen més prudència."
 		],
 		es: [
-			'El Puig Ou es una montaña del municipio de la Vall de Bianya, en la [Garrotxa](/comarques/garrotxa), dentro del área protegida de la Alta Garrotxa. Según la Viquipèdia, separa el valle del Bac del valle de Bolòs y Salarsa. En la Alta Garrotxa están también [el Comanegra](/cims/comanegra) y [el Bassegoda](/cims/bassegoda), también cimas esenciales del reto.',
-			'La manera habitual de acercarse es por el valle del Bac. Muntanya i Natura, una entidad montañera, lo propone en una ruta guiada circular con el Talló, en la Alta Garrotxa, y lo describe como un itinerario por senderos pedregosos, terreno irregular y pendientes pronunciadas, con algún paso aéreo, en el que hay que tener en cuenta el notable desnivel a superar en poca distancia. La entidad recomienda hacerlo en invierno, primavera u otoño.',
-			'Por otro lado, Itinerànnia, la red de itinerarios señalizados, recoge la ruta 2 de la Vall dels Sentits, que sale del antiguo hostal de la Vall del Bac y va a Sant Andreu de Porreres, una ermita que queda entre las cimas del Puig Ou y del Talló. Es una ruta de dificultad media que no sube al Puig Ou, pero sirve para conocer la zona y sus ermitas.',
-			'Lleva mapa o GPS: según el blog consultado, el camino marcado es difícil de ver y las marcas pueden estar borradas.'
+			"El Puig Ou, que muchos escriben puig d'Ou, es una montaña de la Vall de Bianya, en la [Garrotxa](/comarques/garrotxa). Según la Viquipèdia, separa el valle del Bac, al sur, del de Bolòs y Salarsa, al norte. Es un rincón de la Alta Garrotxa poco pisado, a medio camino entre Sant Pau de Segúries y Oix. En la misma comarca están [el Comanegra](/cims/comanegra) y [el Puigsacalm](/cims/puigsacalm).",
+			'Suele hacerse junto con el Talló, la cima vecina. Entre ambos queda Sant Andreu de Porreres, la antigua parroquia del valle del Bac, que Itinerànnia documenta desde 946; más abajo están la torre del valle del Bac y la iglesia de Sant Miquel de la Torre. Muntanya i Natura, una empresa de guías que organiza salidas allí, habla de encinares, hayedos y bojedales y del desfiladero de Bodelquer.',
+			'Arriba hay una cruz y, unos metros más allá, un vértice geodésico. Muntanya i Natura lo llama una cima modesta pero agradecida por las vistas y por la soledad.',
+			'Estos guías lo recomiendan en invierno, primavera y otoño, y no en verano. Con nieve o con la roca mojada, la cresta del final y las bajadas, largas y pronunciadas, piden más prudencia.'
 		]
 	},
 	rutes: [
 		{
 			id: 'vall-del-bac',
 			nom: {
-				ca: 'Circular pel Puig Ou i el Talló des de la vall del Bac',
-				es: 'Circular por el Puig Ou y el Talló desde la vall del Bac'
-			},
-			sortida: { nom: 'Hostal de la Vall del Bac (la Vall de Bianya)' },
-			tecnicitat: 'grimpada-facil',
-			descripcio: {
-				ca: "El blog A la una a casa fa la circular des de la vall del Bac passant per Sant Miquel de la Torre, el coll de Triadú i Sant Andreu de Porreres, i després el Puig d'Ou, el Talló i la tornada per Cal Ferrer: 14,2 km, 1.055 m de desnivell acumulat i 4 h 25 min caminant, 4 h 55 min amb parades, i inclou tots dos cims. El mateix autor assenyala que al Puig d'Ou hi ha un pas on cal posar les mans, i després el terreny és més suau, amb herba; i que el camí marcat (PR) és mal marcat i costa de veure. Muntanya i Natura parla d'algun pas aeri a la circular amb el Talló.",
-				es: "El blog A la una a casa hace la circular desde la vall del Bac pasando por Sant Miquel de la Torre, el coll de Triadú y Sant Andreu de Porreres, y después el Puig d'Ou, el Talló y la vuelta por Cal Ferrer: 14,2 km, 1.055 m de desnivel acumulado y 4 h 25 min caminando, 4 h 55 min con paradas, e incluye las dos cimas. El mismo autor señala que en el Puig d'Ou hay un paso donde hay que poner las manos, y después el terreno es más suave, con hierba; y que el camino marcado (PR) está mal marcado y cuesta verlo. Muntanya i Natura habla de algún paso aéreo en la circular con el Talló."
-			},
-			fonts: [BLOG, MUNTANYA_NATURA]
-		},
-		{
-			id: 'porreres',
-			nom: {
-				ca: 'Ruta 2 de la Vall dels Sentits fins a Sant Andreu de Porreres (no arriba al cim)',
-				es: 'Ruta 2 de la Vall dels Sentits hasta Sant Andreu de Porreres (no llega a la cima)'
+				ca: "Des de l'hostal de la Vall del Bac per la carena de la Coma",
+				es: 'Desde el hostal de la Vall del Bac por la loma de la Coma'
 			},
 			sortida: { nom: 'Antic hostal de la Vall del Bac (la Vall de Bianya)' },
+			tecnicitat: 'grimpada-facil',
 			descripcio: {
-				ca: "Itinerànnia la presenta com una ruta de 8,2 km, 341 m de desnivell i unes 3 hores, de dificultat mitjana, que comença a l'antic hostal de la Vall del Bac. L'ermita de Sant Andreu de Porreres queda entre els cims del Puig Ou i del Talló, i l'última part cap a l'ermita és la més dura. Els números són de la ruta, no del Puig Ou.",
-				es: 'Itinerànnia la presenta como una ruta de 8,2 km, 341 m de desnivel y unas 3 horas, de dificultad media, que empieza en el antiguo hostal de la Vall del Bac. La ermita de Sant Andreu de Porreres queda entre las cimas del Puig Ou y del Talló, y la última parte hacia la ermita es la más dura. Los números son de la ruta, no del Puig Ou.'
+				ca: "El blog A la una a casa la va ressenyar el 2013. Surt de l'hostal de la Vall del Bac (578 m) i segueix un PR de marques velles i mig esborrades per Sant Miquel de la Torre i Sant Andreu de Porreres fins a una carena damunt de la Coma (860 m, 1 h 27 min). Allà deixa el camí i puja carena amunt, sense traça clara i amb molt pendent, entre herba, rocs i boixos; poc abans del cim passa una petita cresta de rocs on cal posar les mans. Arriba a dalt a les 2 h 15 min. La volta sencera amb el Talló fa 14,2 km, 1.055 m de desnivell acumulat i 4 h 25 min de marxa.",
+				es: 'El blog A la una a casa la reseñó en 2013. Sale del hostal de la Vall del Bac (578 m) y sigue un PR de marcas viejas y medio borradas por Sant Miquel de la Torre y Sant Andreu de Porreres hasta una loma por encima de la Coma (860 m, 1 h 27 min). Allí deja el camino y sube loma arriba, sin traza clara y con mucha pendiente, entre hierba, rocas y bojes; poco antes de la cima pasa una pequeña cresta de rocas donde hay que poner las manos. Llega arriba a las 2 h 15 min. La vuelta entera con el Talló tiene 14,2 km, 1.055 m de desnivel acumulado y 4 h 25 min de marcha.'
 			},
-			fonts: [ITINERANNIA]
+			fonts: [BLOG, MUNTANYA_NATURA]
 		}
 	],
 	consells: {
 		ca: [
-			"Segons el blog consultat, el camí marcat és mal marcat i costa de veure: porta un track de GPS o un mapa de l'Alta Garrotxa i no segueixis només les marques.",
-			"Al Puig d'Ou hi ha un pas on cal posar les mans: no el facis amb la roca mullada ni amb boira.",
-			"Muntanya i Natura recomana la zona a l'hivern, a la primavera i a la tardor",
-			'Itinerànnia recomana, amb pluges fortes, passar pel pont de Cal Ferrer.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"No comptis amb les marques: la ressenya parla d'un PR molt mal marcat i d'un tram de carena sense camí. Porta el mapa de l'Alta Garrotxa a 1:25.000 i un track.",
+			'Muntanya i Natura hi descriu corriols pedregosos, pendents pronunciats i algun pas aeri, i recomana bastons i botes de canya mitjana o calçat amb bona adherència.',
+			"A l'antic hostal hi ha lloc per aparcar i una font, segons Itinerànnia: omple-hi les ampolles abans de sortir.",
+			'Si la riera baixa crescuda, Itinerànnia aconsella passar pel pont de Cal Ferrer en lloc de travessar-la a gual.',
+			"Si només vols conèixer la vall, la ruta 2 de la Vall dels Sentits d'Itinerànnia arriba fins a Sant Andreu de Porreres (8,2 km, 341 m i unes 3 h), sense pujar al cim."
 		],
 		es: [
-			'Según el blog consultado, el camino marcado está mal marcado y cuesta verlo: lleva un track de GPS o un mapa de la Alta Garrotxa y no sigas solo las marcas.',
-			"En el Puig d'Ou hay un paso donde hay que poner las manos: no lo hagas con la roca mojada ni con niebla.",
-			'Muntanya i Natura recomienda la zona en invierno, primavera y otoño',
-			'Itinerànnia recomienda, con lluvias fuertes, pasar por el puente de Cal Ferrer.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'No cuentes con las marcas: la reseña habla de un PR muy mal marcado y de un tramo de loma sin camino. Lleva el mapa de la Alta Garrotxa a 1:25.000 y un track.',
+			'Muntanya i Natura describe senderos pedregosos, pendientes pronunciadas y algún paso aéreo, y recomienda bastones y botas de caña media o calzado con buena adherencia.',
+			'En el antiguo hostal hay sitio para aparcar y una fuente, según Itinerànnia: llena allí las botellas antes de salir.',
+			'Si la riera baja crecida, Itinerànnia aconseja pasar por el puente de Cal Ferrer en lugar de vadearla.',
+			'Si solo quieres conocer el valle, la ruta 2 de la Vall dels Sentits de Itinerànnia llega hasta Sant Andreu de Porreres (8,2 km, 341 m y unas 3 h), sin subir a la cima.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quant es triga a pujar al Puig Ou?',
+				pregunta: 'Quant es triga a pujar al Puig Ou des de la vall del Bac?',
 				resposta:
-					'El blog A la una a casa fa la circular amb el Talló en 4 h 25 min caminant (4 h 55 min amb parades), per a 14,2 km i 1.055 m de desnivell acumulat. Les xifres inclouen els dos cims.'
+					"El blog A la una a casa hi va trigar 2 h 15 min des de l'hostal de la Vall del Bac, i 4 h 25 min de marxa per a tota la volta amb el Talló (14,2 km i 1.055 m de desnivell acumulat). És l'horari d'una sortida concreta, del 2013, no un temps oficial."
 			},
 			{
-				pregunta: 'Cal posar les mans al Puig Ou?',
+				pregunta: 'Cal posar les mans per fer el cim?',
 				resposta:
-					"Segons aquest blog, sí: al Puig d'Ou hi ha un pas on cal posar les mans, i després el terreny és més suau. Muntanya i Natura parla d'algun pas aeri a la circular amb el Talló."
+					"Segons aquesta ressenya, sí: poc abans del cim hi ha una petita cresta de rocs on cal ajudar-se de les mans. Muntanya i Natura, que el considera de poca dificultat tècnica, parla d'algun pas aeri."
 			},
 			{
-				pregunta: 'Quina època és millor?',
+				pregunta: 'Es pot pujar al Puig Ou amb nens?',
 				resposta:
-					"Muntanya i Natura recomana l'hivern, la primavera i la tardor per a aquesta circular; consulta la predicció i l'estat de la neu abans de sortir."
+					"No és el cim més indicat: la pujada és molt dreta, té un tram sense camí i un pas de mans. Per a una sortida familiar a la mateixa vall, la ruta d'Itinerànnia fins a Sant Andreu de Porreres és més adequada."
 			},
 			{
-				pregunta: 'El Puig Ou és un cim essencial?',
+				pregunta: 'Què és el Talló?',
 				resposta:
-					'Sí. La [Garrotxa](/comarques/garrotxa) té també [el Comanegra](/cims/comanegra) i [Cabrera](/cims/cabrera) com a cims essencials.'
+					"El cim veí, una mica més baix, a l'altra banda de Sant Andreu de Porreres. Les dues fonts que descriuen la pujada al Puig Ou hi enllacen el Talló en una mateixa circular."
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Cuánto se tarda en subir al Puig Ou?',
+				pregunta: '¿Cuánto se tarda en subir al Puig Ou desde el valle del Bac?',
 				resposta:
-					'El blog A la una a casa hace la circular con el Talló en 4 h 25 min caminando (4 h 55 min con paradas), para 14,2 km y 1.055 m de desnivel acumulado. Las cifras incluyen las dos cimas.'
+					'El blog A la una a casa tardó 2 h 15 min desde el hostal de la Vall del Bac, y 4 h 25 min de marcha para toda la vuelta con el Talló (14,2 km y 1.055 m de desnivel acumulado). Es el horario de una salida concreta, de 2013, no un tiempo oficial.'
 			},
 			{
-				pregunta: '¿Hay que poner las manos en el Puig Ou?',
+				pregunta: '¿Hay que poner las manos para hacer la cima?',
 				resposta:
-					"Según este blog, sí: en el Puig d'Ou hay un paso donde hay que poner las manos, y después el terreno es más suave. Muntanya i Natura habla de algún paso aéreo en la circular con el Talló."
+					'Según esa reseña, sí: poco antes de la cima hay una pequeña cresta de rocas donde hay que ayudarse de las manos. Muntanya i Natura, que lo considera de poca dificultad técnica, habla de algún paso aéreo.'
 			},
 			{
-				pregunta: '¿Qué época es mejor?',
+				pregunta: '¿Se puede subir al Puig Ou con niños?',
 				resposta:
-					'Muntanya i Natura recomienda el invierno, la primavera y el otoño para esta circular; consulta la predicción y el estado de la nieve antes de salir.'
+					'No es la cima más indicada: la subida es muy empinada, tiene un tramo sin camino y un paso de manos. Para una salida familiar en el mismo valle, la ruta de Itinerànnia hasta Sant Andreu de Porreres es más adecuada.'
 			},
 			{
-				pregunta: '¿El Puig Ou es una cima esencial?',
+				pregunta: '¿Qué es el Talló?',
 				resposta:
-					'Sí. La [Garrotxa](/comarques/garrotxa) tiene también [el Comanegra](/cims/comanegra) y [Cabrera](/cims/cabrera) como cimas esenciales.'
+					'La cima vecina, algo más baja, al otro lado de Sant Andreu de Porreres. Las dos fuentes que describen la subida al Puig Ou enlazan el Talló en una misma circular.'
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, MUNTANYA_NATURA, BLOG, ITINERANNIA],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

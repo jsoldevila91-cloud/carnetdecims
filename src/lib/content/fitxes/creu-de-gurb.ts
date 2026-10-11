@@ -1,6 +1,6 @@
 import type { ContingutFitxa } from './types';
 
-const CONSULTAT = '2026-10-10';
+const CONSULTAT = '2026-10-11';
 
 const VIQUIPEDIA = {
 	nom: 'Viquipèdia: Castell de Gurb',
@@ -36,16 +36,16 @@ const fitxa: ContingutFitxa = {
 	slug: 'creu-de-gurb',
 	descripcio: {
 		ca: [
-			"La Creu de Gurb és el turó que corona el terme de Gurb, a l'[Osona](/comarques/osona), a prop de Vic. Porta dos noms: el de la creu de ferro que el corona des de fa més d'un segle, segons D'excursió per Catalunya, i el de Turó del Castell de Gurb, que és el que fa servir l'Ajuntament en les rutes de pujada. Dins de la comarca hi ha més cims essencials, com [el Castell de Milany](/cims/castell-de-milany) i [la Rocallarga](/cims/rocallarga).",
-			"La Viquipèdia explica que el castell s'alça darrere mateix de la vella església parroquial de Sant Andreu: la primera menció és de l'any 886, com a castrum Gorbi, i el 1273 s'hi documenta una capella dedicada a Sant Esteve. Avui només en queden les bases dels murs, una torre i una cisterna; una excavació del 1968 va deixar al descobert la base d'una gran torre circular. El conjunt és bé cultural d'interès nacional.",
-			"El turó és una sortida curta des del poble. L'Ajuntament de Gurb recull dues rutes de pujada al turó del castell: una de 3,5 km des de la Zona Esportiva, i una de 3,6 km des de l'Ausoneta, amb un camí en ziga-zaga que arriba al castell des de la masia del Romeu. Totnens en proposa dues més, des del Bosc Encantat i des de l'església de Sant Andreu, totes dues d'anada i tornada pel mateix camí.",
-			"D'excursió per Catalunya avisa que alguns trams són costeruts, amb girs pronunciats i arrels que sobresurten. Als nens petits que no estan acostumats a caminar, Totnens adverteix que la ruta els pot resultar dura."
+			"La Creu de Gurb és un turó que s'alça damunt de la plana de Vic, al centre del terme de Gurb ([Osona](/comarques/osona)). La Viquipèdia calcula que queda uns 300 m per sobre de la Plana, i per això es veu de lluny. L'Ajuntament en diu turó del Castell de Gurb; el nom popular li ve de la gran creu de ferro que, segons D'excursió per Catalunya, el corona des de fa més d'un segle. A la mateixa comarca, [Bellmunt](/cims/bellmunt) i [la Rocallarga](/cims/rocallarga) són altres cims essencials.",
+			"El castell és l'origen del poble. La documentació de Vic esmenta el castrum Gorbi a partir del 886, i el 1273 hi consta una capella dedicada a sant Esteve. Segons la Viquipèdia, cap al segle XV ja devia estar abandonat com a habitatge; el 1968, un grup de veïns de Gurb hi va excavar i en va treure a la llum la base d'una gran torre circular, fragments de muralla, l'arrencada d'un arc i la cisterna. El conjunt és bé cultural d'interès nacional.",
+			"El camí també té coses a veure. Al peu del turó hi ha l'església vella de Sant Andreu de Gurb, que D'excursió per Catalunya documenta des del 942, amb campanar preromànic; el Bosc Encantat, pensat per a la canalla; l'ermita de Sant Roc, del 1886, i els Terrassos Blancs, unes margues grises d'aspecte lunar. A dalt hi ha una senyera i una taula d'orientació circular instal·lada l'any 2000.",
+			"És una sortida de mig dia, que D'excursió per Catalunya recomana com a matinal. Després de pluges, el corriol final, costerut i amb arrels, demana més atenció."
 		],
 		es: [
-			"La Creu de Gurb es el cerro que corona el término de Gurb, en [Osona](/comarques/osona), cerca de Vic. Tiene dos nombres: el de la cruz de hierro que lo corona desde hace más de un siglo, según D'excursió per Catalunya, y el de Turó del Castell de Gurb, que es el que usa el Ayuntamiento en las rutas de subida. Dentro de la comarca hay más cimas esenciales, como [el Castell de Milany](/cims/castell-de-milany) y [la Rocallarga](/cims/rocallarga).",
-			'La Viquipèdia explica que el castillo se alza justo detrás de la vieja iglesia parroquial de Sant Andreu: la primera mención es del año 886, como castrum Gorbi, y en 1273 se documenta una capilla dedicada a Sant Esteve. Hoy solo quedan las bases de los muros, una torre y una cisterna; una excavación de 1968 dejó al descubierto la base de una gran torre circular. El conjunto es bien cultural de interés nacional.',
-			"El cerro es una salida corta desde el pueblo. El Ayuntamiento de Gurb recoge dos rutas de subida al cerro del castillo: una de 3,5 km desde la Zona Esportiva, y una de 3,6 km desde l'Ausoneta, con un camino en zigzag que llega al castillo desde la masía del Romeu. Totnens propone dos más, desde el Bosc Encantat y desde la iglesia de Sant Andreu, ambas de ida y vuelta por el mismo camino.",
-			"D'excursió per Catalunya avisa de que algunos tramos son empinados, con giros pronunciados y raíces que sobresalen. A los niños pequeños que no están acostumbrados a caminar, Totnens advierte que la ruta les puede resultar dura."
+			"La Creu de Gurb es un cerro que se levanta sobre la plana de Vic, en el centro del término de Gurb ([Osona](/comarques/osona)). La Viquipèdia calcula que queda unos 300 m por encima de la Plana, y por eso se ve de lejos. El Ayuntamiento lo llama turó del Castell de Gurb; el nombre popular le viene de la gran cruz de hierro que, según D'excursió per Catalunya, lo corona desde hace más de un siglo. En la misma comarca, [Bellmunt](/cims/bellmunt) y [la Rocallarga](/cims/rocallarga) son otras cimas esenciales.",
+			'El castillo es el origen del pueblo. La documentación de Vic menciona el castrum Gorbi a partir de 886, y en 1273 consta una capilla dedicada a san Esteban. Según la Viquipèdia, hacia el siglo XV ya debía de estar abandonado como vivienda; en 1968, un grupo de vecinos de Gurb lo excavó y sacó a la luz la base de una gran torre circular, fragmentos de muralla, el arranque de un arco y la cisterna. El conjunto es bien cultural de interés nacional.',
+			"El camino también tiene cosas que ver. Al pie del cerro está la iglesia vieja de Sant Andreu de Gurb, que D'excursió per Catalunya documenta desde 942, con campanario prerrománico; el Bosc Encantat, pensado para los niños; la ermita de Sant Roc, de 1886, y los Terrassos Blancs, unas margas grises de aspecto lunar. Arriba hay una senyera y una mesa de orientación circular instalada en el año 2000.",
+			"Es una salida de medio día, que D'excursió per Catalunya recomienda como matinal. Después de lluvias, el sendero final, empinado y con raíces, pide más atención."
 		]
 	},
 	rutes: [
@@ -58,8 +58,8 @@ const fitxa: ContingutFitxa = {
 			sortida: { nom: 'Zona Esportiva de Gurb' },
 			distanciaKm: 3.5,
 			descripcio: {
-				ca: "Ruta de pujada de l'Ajuntament de Gurb: surt de la Zona Esportiva per un camí asfaltat que va a la masia de Cal Corbo i després per un camí poc marcat entre camps de conreu, i continua per un sender i un bosc de ribera. Enfila el turó del castell. Dona 3,5 km.",
-				es: 'Ruta de subida del Ayuntamiento de Gurb: sale de la Zona Esportiva por un camino asfaltado que va a la masía de Cal Corbo y después por un camino poco marcado entre campos de cultivo, y continúa por un sendero y un bosque de ribera. Sube al cerro del castillo. Da 3,5 km.'
+				ca: "És una de les dues pujades que publica l'Ajuntament de Gurb, de 3,5 km. Surt de la Zona Esportiva cap a ponent pel camí asfaltat de Cal Corbo, continua per un camí poc marcat entre camps fins a Can Jupeta i arriba a Sant Andreu de Gurb. Després de creuar el torrent del Sitjar i un bosc de ribera, s'enfila per una zona de margues blaves i agafa el sender que puja fins al turó. La fitxa municipal no en dona el desnivell ni l'horari.",
+				es: 'Es una de las dos subidas que publica el Ayuntamiento de Gurb, de 3,5 km. Sale de la Zona Esportiva hacia poniente por el camino asfaltado de Cal Corbo, continúa por un camino poco marcado entre campos hasta Can Jupeta y llega a Sant Andreu de Gurb. Tras cruzar el torrente del Sitjar y un bosque de ribera, se encarama por una zona de margas azules y toma el sendero que sube hasta el cerro. La ficha municipal no da el desnivel ni el horario.'
 			},
 			fonts: [GURB_ZONA_ESPORTIVA]
 		},
@@ -69,39 +69,42 @@ const fitxa: ContingutFitxa = {
 				ca: "Des de l'Ausoneta per la masia del Romeu",
 				es: "Desde l'Ausoneta por la masía del Romeu"
 			},
-			sortida: { nom: "l'Ausoneta (Gurb)" },
+			sortida: { nom: "L'Ausoneta (Gurb)" },
+			distanciaKm: 3.6,
 			descripcio: {
-				ca: "Altra ruta de pujada de l'Ajuntament: surt de l'Ausoneta, travessa conreus i el torrent de l'Esperança i, a la masia del Romeu, un camí en ziga-zaga puja fins al castell de Gurb. Són 3,6 km.",
-				es: "Otra ruta de subida del Ayuntamiento: sale de l'Ausoneta, atraviesa cultivos y el torrent de l'Esperança y, en la masía del Romeu, un camino en zigzag sube hasta el castillo de Gurb. Son 3,6 km."
+				ca: "L'altra pujada municipal fa 3,6 km. De l'Ausoneta passa pel pont de la C-17 i per sota de la C-25, travessa el torrent de l'Esperança i segueix el camí asfaltat fins a la masia del Romeu, on comença el sender que puja fent ziga-zagues fins al castell. Per aquest vessant baixa també el camí dels Sis Pins, que D'excursió per Catalunya descriu fins a la masia del Romeu: costerut, amb girs tancats i arrels que sobresurten.",
+				es: "La otra subida municipal tiene 3,6 km. Desde l'Ausoneta pasa por el puente de la C-17 y por debajo de la C-25, cruza el torrente de l'Esperança y sigue el camino asfaltado hasta la masía del Romeu, donde empieza el sendero que sube en zigzag hasta el castillo. Por esta vertiente baja también el camí dels Sis Pins, que D'excursió per Catalunya describe hasta la masía del Romeu: empinado, con giros cerrados y raíces que sobresalen."
 			},
-			fonts: [GURB_AUSONETA]
+			fonts: [GURB_AUSONETA, DEXCURSIO]
 		},
 		{
 			id: 'vic-circular',
 			nom: {
-				ca: 'Circular des de Vic pel camí dels Sis Pins',
-				es: 'Circular desde Vic por el camí dels Sis Pins'
+				ca: 'Circular des de Vic pel Bosc Encantat i els Terrassos Blancs',
+				es: 'Circular desde Vic por el Bosc Encantat y los Terrassos Blancs'
 			},
 			sortida: { nom: 'Aparcament del Col·legi Andersen (Vic)' },
 			descripcio: {
-				ca: "D'excursió per Catalunya la proposa com a circular que surt de l'aparcament del Col·legi Andersen, a Vic: 9,92 km, +374 m i 2 h 07 min, de dificultat moderada. L'últim tram passa pels Terrassos Blancs, i la baixada més directa és pel camí dels Sis Pins. Les xifres són de la circular sencera.",
-				es: "D'excursió per Catalunya la propone como circular que sale del aparcamiento del Col·legi Andersen, en Vic: 9,92 km, +374 m y 2 h 07 min, de dificultad moderada. El último tramo pasa por los Terrassos Blancs, y la bajada más directa es por el camí dels Sis Pins. Las cifras son de la circular entera."
+				ca: "D'excursió per Catalunya proposa una circular de 9,92 km, +374 m i 2 h 07 min. De Vic va per carretera estreta fins a Sant Andreu de Gurb (uns 45 min), passa pel Bosc Encantat i l'ermita de Sant Roc i puja pels Terrassos Blancs fins a un cartell on arrenca el corriol final, estret i en ziga-zaga, d'uns 20 minuts. Baixa pel camí dels Sis Pins fins a la masia del Romeu, en 20 o 25 minuts.",
+				es: "D'excursió per Catalunya propone una circular de 9,92 km, +374 m y 2 h 07 min. Desde Vic va por carretera estrecha hasta Sant Andreu de Gurb (unos 45 min), pasa por el Bosc Encantat y la ermita de Sant Roc y sube por los Terrassos Blancs hasta un cartel donde arranca el sendero final, estrecho y en zigzag, de unos 20 minutos. Baja por el camí dels Sis Pins hasta la masía del Romeu, en 20 o 25 minutos."
 			},
 			fonts: [DEXCURSIO]
 		}
 	],
 	consells: {
 		ca: [
-			"Alguns trams són costeruts, amb girs pronunciats i arrels que sobresurten, segons D'excursió per Catalunya: vigila els peus, sobretot a la baixada.",
-			"Si surts de la Zona Esportiva, el camí entre camps és poc marcat, segons l'Ajuntament: segueix la descripció.",
-			'Amb nens que no estan acostumats a caminar, Totnens avisa que la ruta pot resultar-los dura; ves-hi amb calma.',
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Amb nens, la sortida curta és des del Bosc Encantat: Totnens hi compta 3,8 km de ruta lineal, fàcil tret d'un tram de bosc amb força desnivell, estret i amb arrels.",
+			"Si surts de la Zona Esportiva, el tram entre camps fins a Can Jupeta és poc marcat, segons l'Ajuntament: porta la descripció municipal o un mapa.",
+			'El camí dels Sis Pins és la baixada més directa, però també la més dreta: si has pujat cansat, torna per on has vingut.',
+			"D'excursió per Catalunya explica que es pot evitar l'última pujada forta per un sender més planer que passa pel mirador dels Terrassos.",
+			"Les restes del castell són poques i baixes: mira-les sense enfilar-t'hi."
 		],
 		es: [
-			"Algunos tramos son empinados, con giros pronunciados y raíces que sobresalen, según D'excursió per Catalunya: vigila los pies, sobre todo en la bajada.",
-			'Si sales de la Zona Esportiva, el camino entre campos está poco marcado, según el Ayuntamiento: sigue la descripción.',
-			'Con niños que no están acostumbrados a caminar, Totnens avisa de que la ruta puede resultarles dura; ve con calma.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Con niños, la salida corta es desde el Bosc Encantat: Totnens cuenta 3,8 km de ruta lineal, fácil salvo un tramo de bosque con bastante desnivel, estrecho y con raíces.',
+			'Si sales de la Zona Esportiva, el tramo entre campos hasta Can Jupeta está poco marcado, según el Ayuntamiento: lleva la descripción municipal o un mapa.',
+			'El camí dels Sis Pins es la bajada más directa, pero también la más empinada: si has subido cansado, vuelve por donde has venido.',
+			"D'excursió per Catalunya explica que se puede evitar la última subida fuerte por un sendero más llano que pasa por el mirador dels Terrassos.",
+			'Los restos del castillo son pocos y bajos: míralos sin subirte a ellos.'
 		]
 	},
 	faq: {
@@ -109,50 +112,50 @@ const fitxa: ContingutFitxa = {
 			{
 				pregunta: 'Quant es triga a pujar a la Creu de Gurb?',
 				resposta:
-					"L'Ajuntament de Gurb dona 3,5 km de pujada des de la Zona Esportiva i 3,6 km des de l'Ausoneta, sense indicar-ne el temps. D'excursió per Catalunya compta 2 h 07 min per a la circular de 9,92 km des de Vic."
+					"L'Ajuntament de Gurb publica dues pujades de 3,5 km (des de la Zona Esportiva) i 3,6 km (des de l'Ausoneta), sense horari. D'excursió per Catalunya compta 2 h 07 min per a una circular de 9,92 km i +374 m des de Vic."
 			},
 			{
 				pregunta: 'Es pot pujar a la Creu de Gurb amb nens?',
 				resposta:
-					'Totnens el proposa com una ruta majoritàriament fàcil per a famílies, amb un tram de pujada forta, i avisa que pot ser dura per als més petits que no estan acostumats a caminar.'
+					"Sí, amb calma. Totnens la considera fàcil tret d'un tram de bosc amb força desnivell, i avisa que als més petits, si no estan acostumats a caminar, se'ls pot fer costa amunt."
 			},
 			{
-				pregunta: 'Què hi ha al cim?',
+				pregunta: 'Què hi ha dalt de la Creu de Gurb?',
 				resposta:
-					'Les restes del castell de Gurb, amb les bases dels murs, una torre i una cisterna, i la gran creu de ferro que corona el turó, segons la Viquipèdia.'
+					"La creu de ferro, una senyera, una taula d'orientació i les restes del castell de Gurb: bases de murs, d'una torre circular i una cisterna, segons la Viquipèdia."
 			},
 			{
-				pregunta: 'La Creu de Gurb és un cim essencial?',
+				pregunta: 'Què són els Terrassos Blancs?',
 				resposta:
-					"Sí. A l'[Osona](/comarques/osona) l'acompanyen [el Castell de Milany](/cims/castell-de-milany) i [la Rocallarga](/cims/rocallarga)."
+					"Unes formacions de margues de tons grisos que hi ha al vessant del turó. D'excursió per Catalunya en diu que creen una atmosfera gairebé lunar; l'Ajuntament en parla com de margues blaves."
 			}
 		],
 		es: [
 			{
 				pregunta: '¿Cuánto se tarda en subir a la Creu de Gurb?',
 				resposta:
-					"El Ayuntamiento de Gurb da 3,5 km de subida desde la Zona Esportiva y 3,6 km desde l'Ausoneta, sin indicar el tiempo. D'excursió per Catalunya cuenta 2 h 07 min para la circular de 9,92 km desde Vic."
+					"El Ayuntamiento de Gurb publica dos subidas de 3,5 km (desde la Zona Esportiva) y 3,6 km (desde l'Ausoneta), sin horario. D'excursió per Catalunya cuenta 2 h 07 min para una circular de 9,92 km y +374 m desde Vic."
 			},
 			{
 				pregunta: '¿Se puede subir a la Creu de Gurb con niños?',
 				resposta:
-					'Totnens lo propone como una ruta mayoritariamente fácil para familias, con un tramo de subida fuerte, y avisa de que puede ser dura para los más pequeños que no están acostumbrados a caminar.'
+					'Sí, con calma. Totnens la considera fácil salvo un tramo de bosque con bastante desnivel, y avisa de que a los más pequeños, si no están acostumbrados a caminar, se les puede hacer cuesta arriba.'
 			},
 			{
-				pregunta: '¿Qué hay en la cima?',
+				pregunta: '¿Qué hay en lo alto de la Creu de Gurb?',
 				resposta:
-					'Los restos del castillo de Gurb, con las bases de los muros, una torre y una cisterna, y la gran cruz de hierro que corona el cerro, según la Viquipèdia.'
+					'La cruz de hierro, una senyera, una mesa de orientación y los restos del castillo de Gurb: bases de muros, de una torre circular y una cisterna, según la Viquipèdia.'
 			},
 			{
-				pregunta: '¿La Creu de Gurb es una cima esencial?',
+				pregunta: '¿Qué son los Terrassos Blancs?',
 				resposta:
-					'Sí. En [Osona](/comarques/osona) la acompañan [el Castell de Milany](/cims/castell-de-milany) y [la Rocallarga](/cims/rocallarga).'
+					"Unas formaciones de margas de tonos grises que hay en la ladera del cerro. D'excursió per Catalunya dice que crean una atmósfera casi lunar; el Ayuntamiento habla de margas azules."
 			}
 		]
 	},
 	fonts: [VIQUIPEDIA, GURB_ZONA_ESPORTIVA, GURB_AUSONETA, TOTNENS, DEXCURSIO],
 	estat: 'esborrany',
-	actualitzat: '2026-10-10'
+	actualitzat: '2026-10-11'
 };
 
 export default fitxa;

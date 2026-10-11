@@ -21,7 +21,7 @@ const CASTELLAR_PUIG = {
 };
 
 const CASTELLAR_RUTES = {
-	nom: "Ajuntament de Castellar del Vallès: Descobreix l'entorn natural, rutes de natura (2020)",
+	nom: "Ajuntament de Castellar del Vallès: Descobreix l'entorn natural de Castellar del Vallès (2020), ruta 1",
 	url: 'https://www.castellarvalles.cat/arxius/document/7493/arxiu/rutesactual574.pdf',
 	consultat: CONSULTAT
 };
@@ -30,104 +30,106 @@ const fitxa: ContingutFitxa = {
 	slug: 'puig-de-la-creu',
 	descripcio: {
 		ca: [
-			"El Puig de la Creu és la muntanya que domina Castellar del Vallès, al [Vallès Occidental](/comarques/valles-occidental). L'Ajuntament el defineix com el cim més alt de Castellar i com a límit divisori entre els termes de Castellar i Sentmenat. Al cim hi ha l'església de Santa Maria, una de les capelles rurals del segle XII sense ornamentació, segons el consistori, restaurada i modificada en diverses ocasions. A la comarca hi ha també [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt) i [Castellsapera](/cims/castellsapera).",
-			'La Viquipèdia recull una llegenda local: segons ella, aquí va morir el drac de Sant Llorenç del Munt. També hi ha un vèrtex geodèsic al cim.',
-			"L'Ajuntament proposa dos itineraris per pujar-hi. El primer, anomenat Itinerari pel Puig de la Creu, surt de la font de la plaça Major, passa per les fonts dels Casots, dels Gossos i del Gurri, arriba al Puig de la Creu i torna al nucli per Can Padró i la font del Cosidor. L'Ajuntament el classifica de fàcil i avisa que no està senyalitzat: cal seguir la descripció. Recomana, a dalt, donar la volta a l'ermita per veure la panoràmica.",
-			"El segon és una de les rutes de natura de l'Ajuntament: una circular de 5,5 km i 360 m de desnivell que passa per les barraques de pedra seca i torna per un corriol de carena. Gairebé tot el recorregut va per corriols, tret d'alguns trams curts de pista. L'Ajuntament avisa de tenir cura quan es passa per sobre de la pedrera del Sot de Goleres, perquè hi ha trams de baixada pronunciada i pedra, i demana no apropar-se al límit pel perill de caiguda."
+			"El Puig de la Creu és la muntanya que Castellar del Vallès té al damunt, al [Vallès Occidental](/comarques/valles-occidental). L'Ajuntament el descriu com el cim més alt del terme, una bona talaia i el límit amb Sentmenat. Des del poble s'hi puja a peu, sense agafar el cotxe. Els seus veïns de comarca són [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt) i [Sant Sadurní de Gallifa](/cims/sant-sadurni-de-gallifa).",
+			"Dalt hi ha l'església de Santa Maria del Puig de la Creu. Segons l'Ajuntament, s'ha restaurat i modificat diverses vegades, però pertany al grup de capelles rurals del segle XII sense ornamentació. Hi ha també un vèrtex geodèsic, i una llegenda que recull la Viquipèdia: aquí hauria vingut a morir el drac de Sant Llorenç del Munt.",
+			"L'Ajuntament recomana fer la volta a l'ermita per veure tota la panoràmica; la guia municipal de rutes de natura ho resumeix dient que s'hi arriba tenint Castellar a vista d'ocell. Pel vessant del poble, la pujada passa per barraques de pedra seca i per un seguit de fonts.",
+			"És un cim de proximitat, que es pot fer en qualsevol estació; a l'estiu, millor d'hora."
 		],
 		es: [
-			'El Puig de la Creu es la montaña que domina Castellar del Vallès, en el [Vallès Occidental](/comarques/valles-occidental). El Ayuntamiento lo define como la cima más alta de Castellar y como límite divisorio entre los términos de Castellar y Sentmenat. En la cima está la iglesia de Santa Maria, una de las capillas rurales del siglo XII sin ornamentación, según el consistorio, restaurada y modificada en varias ocasiones. En la comarca están también [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt) y [Castellsapera](/cims/castellsapera).',
-			'La Viquipèdia recoge una leyenda local: según ella, aquí murió el dragón de Sant Llorenç del Munt. También hay un vértice geodésico en la cima.',
-			'El Ayuntamiento propone dos itinerarios para subir. El primero, llamado Itinerari pel Puig de la Creu, sale de la fuente de la plaça Major, pasa por las fuentes dels Casots, dels Gossos y del Gurri, llega al Puig de la Creu y vuelve al núcleo por Can Padró y la font del Cosidor. El Ayuntamiento lo clasifica de fácil y avisa de que no está señalizado: hay que seguir la descripción. Recomienda, arriba, dar la vuelta a la ermita para ver la panorámica.',
-			'El segundo es una de las rutas de naturaleza del Ayuntamiento: una circular de 5,5 km y 360 m de desnivel que pasa por las barracas de piedra seca y vuelve por un sendero de cresta. Casi todo el recorrido va por senderos, salvo algunos tramos cortos de pista. El Ayuntamiento avisa de tener cuidado al pasar por encima de la cantera del Sot de Goleres, porque hay tramos de bajada pronunciada y piedra, y pide no acercarse al borde por el peligro de caída.'
+			'El Puig de la Creu es la montaña que Castellar del Vallès tiene encima, en el [Vallès Occidental](/comarques/valles-occidental). El Ayuntamiento lo describe como la cima más alta del término, una buena atalaya y el límite con Sentmenat. Desde el pueblo se sube a pie, sin coger el coche. Sus vecinas de comarca son [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt) y [Sant Sadurní de Gallifa](/cims/sant-sadurni-de-gallifa).',
+			'Arriba está la iglesia de Santa Maria del Puig de la Creu. Según el Ayuntamiento, se ha restaurado y modificado varias veces, pero pertenece al grupo de capillas rurales del siglo XII sin ornamentación. Hay también un vértice geodésico, y una leyenda que recoge la Viquipèdia: aquí habría venido a morir el dragón de Sant Llorenç del Munt.',
+			'El Ayuntamiento recomienda dar la vuelta a la ermita para ver toda la panorámica; la guía municipal de rutas de naturaleza lo resume diciendo que se llega con Castellar a vista de pájaro. Por la vertiente del pueblo, la subida pasa por barracas de piedra seca y por una serie de fuentes.',
+			'Es una cima de proximidad, que se puede hacer en cualquier estación; en verano, mejor temprano.'
 		]
 	},
 	rutes: [
 		{
 			id: 'placa-major',
 			nom: {
-				ca: 'Itinerari municipal des de la plaça Major de Castellar',
-				es: 'Itinerario municipal desde la plaça Major de Castellar'
+				ca: 'Des de la plaça Major de Castellar per la font dels Casots',
+				es: 'Desde la plaza Mayor de Castellar por la font dels Casots'
 			},
 			sortida: { nom: 'Font de la plaça Major (Castellar del Vallès)' },
 			tecnicitat: 'cap',
 			descripcio: {
-				ca: "Itinerari municipal de 9,3 km, classificat de fàcil, que combina carrers i escales urbanes amb pistes forestals, corriols i senders. Surt de la font de la plaça Major, passa per les fonts dels Casots, dels Gossos i del Gurri fins al Puig de la Creu i torna per Can Padró i la font del Cosidor, acabant a la plaça Major. No està senyalitzat; l'Ajuntament recomana donar la volta a l'ermita del cim per veure la panoràmica. La distància és de la circular sencera.",
-				es: 'Itinerario municipal de 9,3 km, clasificado de fácil, que combina calles y escaleras urbanas con pistas forestales, senderos y sendas. Sale de la fuente de la plaça Major, pasa por las fuentes dels Casots, dels Gossos y del Gurri hasta el Puig de la Creu y vuelve por Can Padró y la font del Cosidor, acabando en la plaça Major. No está señalizado; el Ayuntamiento recomienda dar la vuelta a la ermita de la cima para ver la panorámica. La distancia es de la circular entera.'
+				ca: "L'Ajuntament el publica com un itinerari circular de 9,3 km, de dificultat fàcil i sense senyalitzar. De la plaça Major surt pels carrers General Boadella i Sant Llorenç, travessa uns horts i agafa una pista forestal fins a la font dels Casots i la font dels Gossos. D'allà puja per corriols fins a retrobar la pista que porta al Puig de la Creu. La tornada baixa per un corriol amb senyals grocs fins a la font del Gurri i continua per Can Padró i la font del Cosidor fins a l'Era d'en Petasques i el centre del poble.",
+				es: "El Ayuntamiento lo publica como un itinerario circular de 9,3 km, de dificultad fácil y sin señalizar. Desde la plaza Mayor sale por las calles General Boadella y Sant Llorenç, atraviesa unos huertos y toma una pista forestal hasta la font dels Casots y la font dels Gossos. Desde allí sube por senderos hasta reencontrar la pista que lleva al Puig de la Creu. La vuelta baja por un sendero con señales amarillas hasta la font del Gurri y continúa por Can Padró y la font del Cosidor hasta la Era d'en Petasques y el centro del pueblo."
 			},
 			fonts: [CASTELLAR_ITINERARI, CASTELLAR_PUIG]
 		},
 		{
 			id: 'barraques',
 			nom: {
-				ca: 'Ruta de natura per les barraques de pedra seca',
-				es: 'Ruta de naturaleza por las barracas de piedra seca'
+				ca: 'Ruta de natura per les barraques de pedra seca i la carena',
+				es: 'Ruta de naturaleza por las barracas de piedra seca y la loma'
 			},
 			sortida: { nom: "Era d'en Petasques (Castellar del Vallès)" },
 			descripcio: {
-				ca: "Circular de 5,5 km i 360 m de desnivell de la guia de rutes de natura de l'Ajuntament (2020), que es pot fer en els dos sentits. Passa per la drecera del Puig, per sobre de la pedrera del Sot de Goleres, per la pista dels bombers i pel camí de les barraques de pedra seca, arriba al Puig de la Creu i torna pel corriol de la carena en direcció a l'Alzina Balladora i les Fonts Altes. Gairebé tot va per corriols. Cal tenir cura a la pedrera del Sot de Goleres pel perill de caiguda.",
-				es: 'Circular de 5,5 km y 360 m de desnivel de la guía de rutas de naturaleza del Ayuntamiento (2020), que se puede hacer en los dos sentidos. Pasa por el atajo del Puig, por encima de la cantera del Sot de Goleres, por la pista de los bomberos y por el camino de las barracas de piedra seca, llega al Puig de la Creu y vuelve por el sendero de la cresta en dirección a la Alzina Balladora y las Fonts Altes. Casi todo va por senderos. Hay que tener cuidado en la cantera del Sot de Goleres por el peligro de caída.'
+				ca: "És la ruta 1 de la guia municipal del 2020: una circular de 5,5 km i 360 m de desnivell, de dificultat moderada, que es pot fer en tots dos sentits. De l'Era d'en Petasques puja pel Bosc de Pedres i la drecera del Puig, passa per sobre de la pedrera del Sot de Goleres, segueix la pista dels bombers i el camí de les barraques de pedra seca fins al cim, i torna pel corriol de la carena cap a l'Alzina Balladora i les Fonts Altes. Gairebé tota va per corriols.",
+				es: "Es la ruta 1 de la guía municipal de 2020: una circular de 5,5 km y 360 m de desnivel, de dificultad moderada, que se puede hacer en ambos sentidos. Desde la Era d'en Petasques sube por el Bosc de Pedres y la drecera del Puig, pasa por encima de la cantera del Sot de Goleres, sigue la pista de los bomberos y el camino de las barracas de piedra seca hasta la cima, y vuelve por el sendero de la loma hacia la Alzina Balladora y las Fonts Altes. Casi toda va por senderos."
 			},
 			fonts: [CASTELLAR_RUTES]
 		}
 	],
 	consells: {
 		ca: [
-			"Prop de la pedrera del Sot de Goleres hi ha trams de baixada pronunciada i pedra: l'Ajuntament demana no apropar-se al límit pel perill de caiguda.",
-			"L'itinerari de la plaça Major no està senyalitzat, segons l'Ajuntament: porta el track o la descripció municipal.",
-			"A dalt, dona la volta a l'ermita de Santa Maria per veure la panoràmica, com recomana l'Ajuntament.",
-			'Aquesta fitxa orienta, no substitueix un mapa topogràfic ni la valoració de les condicions del dia.'
+			"Damunt de la pedrera del Sot de Goleres hi ha trams de baixada pronunciada i pedra: l'Ajuntament demana no acostar-se al límit, perquè hi ha perill de caiguda.",
+			"L'itinerari de la plaça Major no està senyalitzat, tret d'un tram de baixada amb senyals grocs: porta'n la descripció municipal o un track.",
+			'Si busques la versió curta, la ruta de les barraques fa 5,5 km, gairebé tota per corriol i amb 360 m de desnivell.',
+			"A dalt, fes el tomb a l'ermita per veure tota la panoràmica, com recomana l'Ajuntament.",
+			'Les fonts donen nom a mig itinerari, però no donis per fet que ragin: porta aigua.'
 		],
 		es: [
-			'Cerca de la cantera del Sot de Goleres hay tramos de bajada pronunciada y piedra: el Ayuntamiento pide no acercarse al borde por el peligro de caída.',
-			'El itinerario de la plaça Major no está señalizado, según el Ayuntamiento: lleva el track o la descripción municipal.',
-			'Arriba, da la vuelta a la ermita de Santa Maria para ver la panorámica, como recomienda el Ayuntamiento.',
-			'Esta ficha orienta, no sustituye un mapa topográfico ni la valoración de las condiciones del día.'
+			'Encima de la cantera del Sot de Goleres hay tramos de bajada pronunciada y piedra: el Ayuntamiento pide no acercarse al borde, porque hay peligro de caída.',
+			'El itinerario de la plaza Mayor no está señalizado, salvo un tramo de bajada con señales amarillas: lleva la descripción municipal o un track.',
+			'Si buscas la versión corta, la ruta de las barracas tiene 5,5 km, casi toda por sendero y con 360 m de desnivel.',
+			'Arriba, da la vuelta a la ermita para ver toda la panorámica, como recomienda el Ayuntamiento.',
+			'Las fuentes dan nombre a medio itinerario, pero no des por hecho que manen: lleva agua.'
 		]
 	},
 	faq: {
 		ca: [
 			{
-				pregunta: 'Quins itineraris hi ha per pujar al Puig de la Creu?',
+				pregunta: 'Quant es triga a pujar al Puig de la Creu?',
 				resposta:
-					"L'itinerari municipal des de la plaça Major fa 9,3 km, circular, i la ruta de natura de les barraques, 5,5 km i 360 m de desnivell."
+					"L'Ajuntament de Castellar publica dues circulars, de 9,3 km des de la plaça Major i de 5,5 km i 360 m de desnivell per les barraques de pedra seca, però no en dona l'horari."
 			},
 			{
-				pregunta: "L'itinerari és difícil?",
+				pregunta: 'És una excursió difícil?',
 				resposta:
-					"L'Ajuntament classifica de fàcil l'itinerari de la plaça Major. A la ruta de natura, gairebé tot va per corriols i cal tenir cura a la pedrera del Sot de Goleres."
+					"No. L'Ajuntament classifica de fàcil l'itinerari de la plaça Major i de moderada la ruta de les barraques, que és més curta però va gairebé tota per corriol. L'únic punt on cal anar amb compte és el pas per sobre de la pedrera del Sot de Goleres."
 			},
 			{
-				pregunta: 'Què hi ha al cim?',
+				pregunta: 'Què hi ha al cim del Puig de la Creu?',
 				resposta:
-					"L'església de Santa Maria, una capella rural del segle XII, segons l'Ajuntament, i un vèrtex geodèsic. La Viquipèdia recull la llegenda que hi va morir el drac de Sant Llorenç del Munt."
+					"L'església de Santa Maria, una capella rural que l'Ajuntament inclou entre les del segle XII sense ornamentació, i un vèrtex geodèsic."
 			},
 			{
-				pregunta: 'El Puig de la Creu és un cim essencial?',
+				pregunta: 'Es pot fer amb nens?',
 				resposta:
-					"Sí. Al [Vallès Occidental](/comarques/valles-occidental) l'acompanyen [Castellsapera](/cims/castellsapera) i [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt)."
+					'La guia municipal marca la ruta de les barraques com una sortida per anar-hi amb la família. Amb canalla, cal tenir-los a prop al tram de damunt de la pedrera.'
 			}
 		],
 		es: [
 			{
-				pregunta: '¿Qué itinerarios hay para subir al Puig de la Creu?',
+				pregunta: '¿Cuánto se tarda en subir al Puig de la Creu?',
 				resposta:
-					'El itinerario municipal desde la plaça Major tiene 9,3 km, circular, y la ruta de naturaleza de las barracas, 5,5 km y 360 m de desnivel.'
+					'El Ayuntamiento de Castellar publica dos circulares, de 9,3 km desde la plaza Mayor y de 5,5 km y 360 m de desnivel por las barracas de piedra seca, pero no da el horario.'
 			},
 			{
-				pregunta: '¿El itinerario es difícil?',
+				pregunta: '¿Es una excursión difícil?',
 				resposta:
-					'El Ayuntamiento clasifica de fácil el itinerario de la plaça Major. En la ruta de naturaleza, casi todo va por senderos y hay que tener cuidado en la cantera del Sot de Goleres.'
+					'No. El Ayuntamiento clasifica de fácil el itinerario de la plaza Mayor y de moderada la ruta de las barracas, que es más corta pero va casi toda por sendero. El único punto donde hay que ir con cuidado es el paso por encima de la cantera del Sot de Goleres.'
 			},
 			{
-				pregunta: '¿Qué hay en la cima?',
+				pregunta: '¿Qué hay en la cima del Puig de la Creu?',
 				resposta:
-					'La iglesia de Santa Maria, una capilla rural del siglo XII, según el Ayuntamiento, y un vértice geodésico. La Viquipèdia recoge la leyenda de que allí murió el dragón de Sant Llorenç del Munt.'
+					'La iglesia de Santa Maria, una capilla rural que el Ayuntamiento incluye entre las del siglo XII sin ornamentación, y un vértice geodésico.'
 			},
 			{
-				pregunta: '¿El Puig de la Creu es una cima esencial?',
+				pregunta: '¿Se puede hacer con niños?',
 				resposta:
-					'Sí. En el [Vallès Occidental](/comarques/valles-occidental) lo acompañan [Castellsapera](/cims/castellsapera) y [la Mola de Sant Llorenç del Munt](/cims/la-mola-de-sant-llorenc-del-munt).'
+					'La guía municipal marca la ruta de las barracas como una salida para ir con la familia. Con niños, hay que tenerlos cerca en el tramo de encima de la cantera.'
 			}
 		]
 	},
