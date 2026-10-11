@@ -102,7 +102,12 @@
 		'data:futura': m.register_error_date_future,
 		'metode:invalid': m.register_error_method,
 		'nota:format': m.register_error_note,
-		'nota:massa-llarga': m.register_error_note
+		'nota:massa-llarga': m.register_error_note,
+		// Bloc R1 (pendent del frontend): el formulari encara no té el camp de companys; quan el
+		// tingui, cal un text propi per a cada codi.
+		'companys:format': m.register_error_generic,
+		'companys:massa': m.register_error_generic,
+		'companys:massa-llarg': m.register_error_generic
 	};
 	const textError = (camp: CampAscensio) => {
 		const e = errorDe(camp);

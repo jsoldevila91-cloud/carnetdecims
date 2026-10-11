@@ -16,8 +16,17 @@ export { NOM_BD };
  * Fila de `ascensions`: la mateixa forma que `Ascensio`, amb `deletedAt` sempre present
  * (`null` = viva). IndexedDB no indexa `null`, així que l'índex `deletedAt` només conté
  * les làpides (tombstones).
+ *
+ * `companys` (bloc R1) és **opcional a la fila**: una fila sense la clau és una fila que aquest
+ * dispositiu no ha desat mai amb companys (creada per una versió anterior de l'app, o baixada
+ * abans de R1). Es llegeix com a `[]`, però **no es puja**: `sync_push` conserva els companys
+ * que hi hagi al núvol quan la fila arriba sense la clau (igual que amb el client antic). La clau
+ * apareix quan l'usuari desa els companys o quan la fila baixa del núvol.
  */
-export type FilaAscensio = Ascensio & { deletedAt: InstantISO | null };
+export type FilaAscensio = Omit<Ascensio, 'companys' | 'deletedAt'> & {
+	companys?: string[];
+	deletedAt: InstantISO | null;
+};
 
 /**
  * Entrada de la cua de sincronització. Una per ascensió (clau = `ascensioId`): diverses
@@ -46,6 +55,20 @@ export interface EntradaMeta {
 }
 
 /**
+ * Preferències de l'usuari (versió 3 de l'esquema, bloc R1). Local sense sessió; amb sessió, se
+ * sincronitzen amb el compte (`public.perfils`) amb LWW per `updatedAt`. Claus conegudes:
+ * - `origen`: codi del municipi d'origen (`Municipi.codi`), o `null` si l'usuari l'ha tret.
+ */
+export interface EntradaPreferencia {
+	clau: 'origen';
+	valor: string | null;
+	/** Instant (rellotge del client) de l'últim canvi: el que compara la regla LWW. */
+	updatedAt: InstantISO;
+	/** `1` = canvi local que encara no s'ha pujat al compte (sense sessió, s'hi queda). */
+	pendent: 0 | 1;
+}
+
+/**
  * Esquemes versionats. **Mai no s'edita una versió publicada**: per canviar l'esquema, s'hi
  * afegeix una versió nova amb només les taules que canvien i, si cal, una funció `upgrade`
  * que migri les dades (Dexie les aplica en ordre en obrir la BD).
@@ -70,6 +93,18 @@ export const ESQUEMES: readonly {
 		// Fase 5 (sync): metadades (propietari de les dades, cursor del pull, última sync).
 		versio: 2,
 		stores: { meta: 'clau' }
+	},
+	{
+		// Bloc R1: preferències (municipi d'origen). Les ascensions no canvien d'esquema: `companys`
+		// no s'indexa i les files antigues es llegeixen sense la clau (vegeu `FilaAscensio`).
+		// El cursor del pull es posa a zero perquè la sync següent ho torni a baixar tot: així
+		// arriben els companys que un altre dispositiu ja hagi desat en files que aquest dispositiu
+		// va baixar amb la versió anterior (que no demanava la columna).
+		versio: 3,
+		stores: { preferencies: 'clau' },
+		upgrade: async (tx) => {
+			await tx.table('meta').where('clau').equals('cursorPull').modify({ valor: null });
+		}
 	}
 ];
 
@@ -77,6 +112,7 @@ export class CarnetDb extends Dexie {
 	ascensions!: EntityTable<FilaAscensio, 'id'>;
 	outbox!: EntityTable<EntradaOutbox, 'ascensioId'>;
 	meta!: EntityTable<EntradaMeta, 'clau'>;
+	preferencies!: EntityTable<EntradaPreferencia, 'clau'>;
 
 	constructor(nom = NOM_BD) {
 		super(nom);

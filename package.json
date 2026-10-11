@@ -18,6 +18,8 @@
 		"gen": "wrangler types",
 		"catalog:build": "node --experimental-strip-types scripts/catalog/build.ts",
 		"catalog:typecheck": "tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module nodenext --moduleResolution nodenext --target es2023 --strict --skipLibCheck --types node --resolveJsonModule scripts/catalog/build.ts",
+		"municipis:build": "node --experimental-strip-types scripts/municipis/build.ts",
+		"municipis:typecheck": "tsc --ignoreConfig --noEmit --allowImportingTsExtensions --module nodenext --moduleResolution nodenext --target es2023 --strict --skipLibCheck --types node --resolveJsonModule scripts/municipis/build.ts",
 		"pwa:icones": "node --experimental-strip-types scripts/pwa/icones.ts",
 		"pwa:captures": "node --experimental-strip-types scripts/pwa/captures.ts"
 	},

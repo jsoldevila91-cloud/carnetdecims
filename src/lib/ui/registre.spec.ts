@@ -22,6 +22,7 @@ function asc(slug: string | number, data: string, extra: Partial<Ascensio> = {})
 		data,
 		metode: 'a-peu',
 		nota: null,
+		companys: [],
 		createdAt: `2026-01-01T00:00:${String(seq % 60).padStart(2, '0')}.000Z`,
 		updatedAt: '2026-01-01T00:00:00.000Z',
 		...extra

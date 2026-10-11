@@ -12,8 +12,9 @@ import {
 	pendentsDeSincronitzar
 } from './ascensions';
 import { CIMS } from './catalog/cataleg';
-import { obtenirBd, tancarBd, type FilaAscensio } from './local/db';
+import { obtenirBd, tancarBd, type EntradaPreferencia, type FilaAscensio } from './local/db';
 import { establirRellotge } from './local/rellotge';
+import { desarOrigen, llegirOrigen } from './origen';
 import {
 	ErrorSync,
 	MAX_INTENTS,
@@ -25,6 +26,8 @@ import {
 	configurarSync,
 	estatSync,
 	filaDesDeSql,
+	filaPush,
+	origenDesDeJson,
 	propietariLocal,
 	remotSupabase,
 	resoldreConflicteCompte,
@@ -33,6 +36,7 @@ import {
 	type EstatSync,
 	type FilaPush,
 	type FilaRemota,
+	type OrigenSync,
 	type Remot,
 	type ResultatPush
 } from './sync';
@@ -48,7 +52,9 @@ function fixar(iso: string) {
 
 // ---------------------------------------------------------------------------
 // Servidor fals: mateixa regla que `sync_push` (LWW estricte, empat → servidor) i pull per
-// `server_updated_at` amb microsegons, com Postgres.
+// `server_updated_at` amb microsegons, com Postgres. Com la migració 0005: una fila pujada sense
+// la clau `companys` conserva els companys desats, i les files baixades sempre la porten.
+// `origen` imita `sync_origen` (LWW estricte; retorna el que queda al servidor).
 // ---------------------------------------------------------------------------
 
 /** `2026-10-09T10:00:00.123456+00:00` → microsegons des de l'època. */
@@ -85,6 +91,14 @@ class ServidorFals implements Remot {
 	perdreResposta: ((files: FilaPush[]) => boolean) | null = null;
 	/** Totes les files rebudes pel push (per comprovar què s'ha enviat). */
 	rebudes: FilaPush[] = [];
+	/** Municipi d'origen del compte (`perfils`), o `null` si no se n'ha desat mai cap. */
+	origenCompte: OrigenSync | null = null;
+	/** Canvis rebuts per `origen` (`null` = només lectura). */
+	cridesOrigen: (OrigenSync | null)[] = [];
+	/** Si es defineix, la crida següent a `origen` llança aquest error (una vegada). */
+	fallaOrigen: unknown = null;
+	/** Ganxo: s'executa amb la resposta d'`origen` ja calculada, abans de tornar-la. Una vegada. */
+	duranOrigen: (() => Promise<void>) | null = null;
 
 	private tic(): number {
 		this.rellotge += 1;
@@ -93,7 +107,29 @@ class ServidorFals implements Remot {
 
 	/** Escriptura directa (com si vingués d'un altre dispositiu). */
 	escriure(fila: FilaAscensio): void {
-		this.files.set(fila.id, { fila: { ...fila }, server: this.tic() });
+		this.files.set(fila.id, {
+			fila: { ...fila, companys: fila.companys ?? [] },
+			server: this.tic()
+		});
+	}
+
+	async origen(canvi: OrigenSync | null): Promise<OrigenSync | null> {
+		this.cridesOrigen.push(canvi);
+		if (this.fallaOrigen) {
+			const e = this.fallaOrigen;
+			this.fallaOrigen = null;
+			throw e;
+		}
+		if (canvi && (!this.origenCompte || canvi.updatedAt > this.origenCompte.updatedAt)) {
+			this.origenCompte = { ...canvi };
+		}
+		const resposta = this.origenCompte ? { ...this.origenCompte } : null;
+		if (this.duranOrigen) {
+			const g = this.duranOrigen;
+			this.duranOrigen = null;
+			await g();
+		}
+		return resposta;
 	}
 
 	async push(files: FilaPush[]): Promise<ResultatPush> {
@@ -122,7 +158,9 @@ class ServidorFals implements Remot {
 			}
 			const actual = this.files.get(f.id);
 			if (!actual || f.updatedAt > actual.fila.updatedAt) {
-				this.files.set(f.id, { fila: { ...f }, server: this.tic() });
+				// Sense la clau, es conserven els companys desats (fila nova: cap).
+				const companys = f.companys !== undefined ? [...f.companys] : (actual?.fila.companys ?? []);
+				this.files.set(f.id, { fila: { ...f, companys }, server: this.tic() });
 			}
 			acceptades++;
 		}
@@ -720,6 +758,454 @@ describe('esborrat local amb una passada de sync en vol', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Companys (bloc R1) i compatibilitat amb files i clients anteriors
+// ---------------------------------------------------------------------------
+
+describe('companys: push i pull', () => {
+	it('els companys es pugen amb la fila i baixen en un altre dispositiu', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			companys: ['Inesa', 'el Pau']
+		});
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.rebudes).toEqual([
+			expect.objectContaining({ id: a.id, companys: ['Inesa', 'el Pau'] })
+		]);
+		expect(servidor.viva(a.id)?.companys).toEqual(['Inesa', 'el Pau']);
+
+		// Dispositiu nou del mateix compte.
+		await esborrarTot();
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ baixades: 1 });
+		expect(await llistarAscensions()).toEqual([
+			expect.objectContaining({ id: a.id, companys: ['Inesa', 'el Pau'] })
+		]);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('una ascensió nova sense companys puja la clau amb [] (el client nou sempre mana)', async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.rebudes[0]).toHaveProperty('companys', []);
+		// El que baixa és idèntic al que hi ha: cap escriptura local.
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ pujades: 0, baixades: 0 });
+		expect((await filaLocal(a.id))?.companys).toEqual([]);
+	});
+
+	it('treure els companys ([]) també es propaga', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			companys: ['Inesa']
+		});
+		await sincronitzar(servidor, USUARI);
+		fixar('2026-09-29T11:00:00.000Z');
+		await actualitzarAscensio(a.id, { companys: [] });
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.viva(a.id)?.companys).toEqual([]);
+	});
+
+	it('LWW: uns companys remots més nous guanyen i el pendent local es descarta', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			companys: ['Inesa']
+		});
+		await sincronitzar(servidor, USUARI);
+		fixar('2026-09-29T11:00:00.000Z');
+		await actualitzarAscensio(a.id, { companys: ['Local'] });
+		servidor.escriure({
+			...(await filaLocal(a.id))!,
+			companys: ['Remota', 'Mar'],
+			updatedAt: '2026-09-29T12:00:00.000Z'
+		});
+		await sincronitzar(servidor, USUARI);
+		expect((await filaLocal(a.id))?.companys).toEqual(['Remota', 'Mar']);
+		expect(servidor.viva(a.id)?.companys).toEqual(['Remota', 'Mar']);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('una diferència només de companys amb el mateix updatedAt: guanya el servidor', async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await sincronitzar(servidor, USUARI);
+		servidor.escriure({ ...(await filaLocal(a.id))!, companys: ['Inesa'] });
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ baixades: 1 });
+		expect((await filaLocal(a.id))?.companys).toEqual(['Inesa']);
+	});
+});
+
+describe('files sense la clau companys (anteriors a R1) i client antic', () => {
+	/** Fila tal com la tenia el dispositiu amb el client anterior: sense `companys`. */
+	async function filaVella(canvis: Partial<FilaAscensio> = {}): Promise<FilaAscensio> {
+		const fila: FilaAscensio = {
+			id: '01920000-0000-7000-8000-0000000000dd',
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'vella',
+			createdAt: '2026-09-20T10:00:00.000Z',
+			updatedAt: '2026-09-20T10:00:00.000Z',
+			deletedAt: null,
+			...canvis
+		};
+		await obtenirBd().ascensions.put(fila);
+		return fila;
+	}
+
+	it('filaPush: sense la clau a la fila local, tampoc no s’envia', async () => {
+		const vella = await filaVella();
+		expect(filaPush(vella)).not.toHaveProperty('companys');
+		expect(filaPush({ ...vella, companys: [] })).toHaveProperty('companys', []);
+		expect(filaPush({ ...vella, companys: ['Inesa'] }).companys).toEqual(['Inesa']);
+	});
+
+	it('pujar una fila vella no esborra els companys que ja té al núvol, i després baixen', async () => {
+		// Un altre dispositiu (client nou) hi va posar companys; aquest la té sense la clau i més
+		// nova (hi ha editat la nota sense connexió).
+		const vella = await filaVella();
+		servidor.escriure({ ...vella, companys: ['Inesa', 'Pau'] });
+		fixar('2026-09-29T11:00:00.000Z');
+		await actualitzarAscensio(vella.id, { nota: 'editada sense connexió' });
+		expect('companys' in (await filaLocal(vella.id))!).toBe(false);
+
+		const r = await sincronitzar(servidor, USUARI);
+
+		expect(r).toMatchObject({ pujades: 1, rebutjades: 0 });
+		expect(servidor.rebudes[0]).not.toHaveProperty('companys');
+		expect(servidor.viva(vella.id)).toMatchObject({
+			nota: 'editada sense connexió',
+			companys: ['Inesa', 'Pau']
+		});
+		// El pull de la mateixa passada porta els companys al dispositiu.
+		expect(await filaLocal(vella.id)).toMatchObject({
+			nota: 'editada sense connexió',
+			companys: ['Inesa', 'Pau']
+		});
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('client antic: un push sense companys (nota editada) conserva els del núvol', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			companys: ['Inesa']
+		});
+		await sincronitzar(servidor, USUARI);
+		// La PWA antiga puja la fila amb el format antic (sense la clau) i més nova.
+		const { companys: _companys, ...antiga } = filaPush((await filaLocal(a.id))!);
+		void _companys;
+		await servidor.push([
+			{ ...antiga, nota: 'des del client antic', updatedAt: '2026-09-29T12:00:00.000Z' }
+		]);
+		expect(servidor.viva(a.id)).toMatchObject({
+			nota: 'des del client antic',
+			companys: ['Inesa']
+		});
+		// El client nou baixa la nota i manté els companys.
+		await sincronitzar(servidor, USUARI);
+		expect(await filaLocal(a.id)).toMatchObject({
+			nota: 'des del client antic',
+			companys: ['Inesa']
+		});
+	});
+
+	it('després d’actualitzar l’app (cursor a zero), el pull complet porta els companys a les files velles', async () => {
+		const vella = await filaVella();
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.viva(vella.id)?.companys).toEqual([]);
+		// El cursor avança més de 5 s (el solapament del pull) més enllà d'aquella fila.
+		servidor.rellotge += 10_000_000;
+		servidor.escriure(filaRemota());
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ baixades: 1 });
+		// Un altre dispositiu hi havia posat companys **sense** que aquest ho baixés (simula el client
+		// antic, que no demanava la columna): la fila local es queda sense la clau i el cursor ja
+		// l'ha passada.
+		servidor.files.get(vella.id)!.fila.companys = ['Inesa'];
+		await obtenirBd().ascensions.put(vella);
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ baixades: 0 });
+		expect('companys' in (await filaLocal(vella.id))!).toBe(false);
+
+		// La migració v3 de Dexie posa el cursor a zero (vegeu `ascensions.spec.ts`): pull complet.
+		await obtenirBd().meta.put({ clau: 'cursorPull', valor: null });
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ baixades: 1, pujades: 0 });
+		expect((await filaLocal(vella.id))?.companys).toEqual(['Inesa']);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('una fila vella que ja és igual al núvol rep la clau ([]) en el primer pull complet', async () => {
+		const vella = await filaVella();
+		servidor.escriure(vella);
+		await sincronitzar(servidor, USUARI);
+		expect((await filaLocal(vella.id))?.companys).toEqual([]);
+		// I ja no es torna a escriure.
+		await obtenirBd().meta.put({ clau: 'cursorPull', valor: null });
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ baixades: 0 });
+	});
+
+	it("'id en ús': la fila reassignada conserva els companys", async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			companys: ['Inesa']
+		});
+		servidor.aliens.add(a.id);
+		await sincronitzar(servidor, USUARI);
+		const [local] = await llistarAscensions();
+		expect(local.id).not.toBe(a.id);
+		expect(local.companys).toEqual(['Inesa']);
+		expect(servidor.viva(local.id)?.companys).toEqual(['Inesa']);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Municipi d'origen (preferència del compte, LWW)
+// ---------------------------------------------------------------------------
+
+describe("sync del municipi d'origen", () => {
+	const BARCELONA = '080193';
+	const GIRONA = '170792';
+	const VIC = '082981';
+	const pref = () => obtenirBd().preferencies.get('origen');
+	const posar = (p: Partial<EntradaPreferencia>) =>
+		obtenirBd().preferencies.put({
+			clau: 'origen',
+			valor: BARCELONA,
+			updatedAt: '2026-09-29T10:00:00.000Z',
+			pendent: 0,
+			...p
+		});
+
+	it('sense origen enlloc: només es llegeix i no es desa res', async () => {
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.cridesOrigen).toEqual([null]);
+		expect(await pref()).toBeUndefined();
+		expect(servidor.origenCompte).toBeNull();
+	});
+
+	it("primera sessió: l'origen triat sense compte es puja i deixa d'estar pendent", async () => {
+		await desarOrigen(BARCELONA);
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.cridesOrigen).toEqual([
+			{ codi: BARCELONA, updatedAt: '2026-09-29T10:00:00.000Z' }
+		]);
+		expect(servidor.origenCompte).toEqual({
+			codi: BARCELONA,
+			updatedAt: '2026-09-29T10:00:00.000Z'
+		});
+		expect(await pref()).toEqual({
+			clau: 'origen',
+			valor: BARCELONA,
+			updatedAt: '2026-09-29T10:00:00.000Z',
+			pendent: 0
+		});
+		// La sync següent només llegeix.
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.cridesOrigen.at(-1)).toBeNull();
+	});
+
+	it("dispositiu nou: baixa l'origen del compte", async () => {
+		servidor.origenCompte = { codi: GIRONA, updatedAt: '2026-09-01T08:00:00.000Z' };
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toEqual({
+			clau: 'origen',
+			valor: GIRONA,
+			updatedAt: '2026-09-01T08:00:00.000Z',
+			pendent: 0
+		});
+		expect(await llegirOrigen()).toBe(GIRONA);
+	});
+
+	it('LWW: el canvi local més nou guanya; el més antic perd contra el del compte', async () => {
+		servidor.origenCompte = { codi: GIRONA, updatedAt: '2026-09-29T09:00:00.000Z' };
+		await desarOrigen(BARCELONA); // 10:00, més nou
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte.codi).toBe(BARCELONA);
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 0 });
+
+		// Un altre dispositiu el canvia més tard; aquí hi ha un canvi local pendent més antic.
+		servidor.origenCompte = { codi: VIC, updatedAt: '2026-09-29T12:00:00.000Z' };
+		await posar({ valor: GIRONA, updatedAt: '2026-09-29T11:00:00.000Z', pendent: 1 });
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte).toEqual({ codi: VIC, updatedAt: '2026-09-29T12:00:00.000Z' });
+		expect(await pref()).toEqual({
+			clau: 'origen',
+			valor: VIC,
+			updatedAt: '2026-09-29T12:00:00.000Z',
+			pendent: 0
+		});
+	});
+
+	it('empat d’instant amb valors diferents: guanya el servidor', async () => {
+		servidor.origenCompte = { codi: GIRONA, updatedAt: '2026-09-29T10:00:00.000Z' };
+		await desarOrigen(BARCELONA); // mateix instant
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte.codi).toBe(GIRONA);
+		expect(await pref()).toMatchObject({ valor: GIRONA, pendent: 0 });
+	});
+
+	it("treure l'origen també es propaga (valor null amb instant)", async () => {
+		await desarOrigen(BARCELONA);
+		await sincronitzar(servidor, USUARI);
+		fixar('2026-09-29T11:00:00.000Z');
+		await desarOrigen(null);
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte).toEqual({ codi: null, updatedAt: '2026-09-29T11:00:00.000Z' });
+		// Un altre dispositiu que encara el tenia el perd en sincronitzar.
+		await posar({ valor: BARCELONA, updatedAt: '2026-09-29T10:00:00.000Z', pendent: 0 });
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ valor: null, pendent: 0 });
+		expect(await llegirOrigen()).toBeNull();
+	});
+
+	it('si es canvia mentre la petició és en vol, no es trepitja i surt a la sync següent', async () => {
+		await desarOrigen(BARCELONA);
+		servidor.duranOrigen = async () => {
+			fixar('2026-09-29T11:00:00.000Z');
+			await desarOrigen(GIRONA);
+		};
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ valor: GIRONA, pendent: 1 });
+		expect(servidor.origenCompte?.codi).toBe(BARCELONA);
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte?.codi).toBe(GIRONA);
+		expect(await pref()).toMatchObject({ valor: GIRONA, pendent: 0 });
+	});
+
+	it('si el compte no té (o té més antic) un origen local ja pujat, es torna a pujar', async () => {
+		await desarOrigen(BARCELONA);
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 0 });
+		// El compte el perd (no hauria de passar): la sync ho detecta i el torna a pujar.
+		servidor.origenCompte = null;
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 1 });
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte).toEqual({
+			codi: BARCELONA,
+			updatedAt: '2026-09-29T10:00:00.000Z'
+		});
+		expect(await pref()).toMatchObject({ pendent: 0 });
+		// El mateix si el compte en té un de més antic que el local ja pujat.
+		servidor.origenCompte = { codi: GIRONA, updatedAt: '2026-09-01T00:00:00.000Z' };
+		await sincronitzar(servidor, USUARI);
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.origenCompte.codi).toBe(BARCELONA);
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 0 });
+	});
+
+	it('un Remot sense `origen` no el sincronitza (i la resta de la sync funciona)', async () => {
+		await desarOrigen(BARCELONA);
+		await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		const senseOrigen: Remot = {
+			push: (files) => servidor.push(files),
+			pull: (desDe, limit) => servidor.pull(desDe, limit)
+		};
+		expect(await sincronitzar(senseOrigen, USUARI)).toMatchObject({ estat: 'fet', pujades: 1 });
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 1 });
+		expect(servidor.cridesOrigen).toEqual([]);
+	});
+
+	it('un rebuig del servidor no bloqueja la sync de les ascensions (queda pendent)', async () => {
+		const avis = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		await desarOrigen(BARCELONA);
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.fallaOrigen = new ErrorSync('servidor', 'codi de municipi invàlid');
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ estat: 'fet', pujades: 1 });
+		expect(servidor.viva(a.id)).toBeDefined();
+		expect(await pref()).toMatchObject({ pendent: 1 });
+		// Dada personal: el codi del municipi no surt al registre.
+		expect(JSON.stringify(avis.mock.calls)).not.toContain(BARCELONA);
+		avis.mockRestore();
+		// Un error de xarxa, en canvi, fa fallar la passada (es reintentarà).
+		servidor.fallaOrigen = new ErrorSync('xarxa');
+		await expect(sincronitzar(servidor, USUARI)).rejects.toMatchObject({ codi: 'xarxa' });
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ pendent: 0 });
+	});
+
+	it('un codi amb format invàlid que arribi del servidor no es desa', async () => {
+		servidor.origenCompte = { codi: 'Barcelona', updatedAt: '2026-09-29T09:00:00.000Z' };
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toBeUndefined();
+	});
+
+	it('esborrarTot mentre la petició és en vol: no es torna a escriure la preferència', async () => {
+		servidor.origenCompte = { codi: GIRONA, updatedAt: '2026-09-01T08:00:00.000Z' };
+		servidor.duranOrigen = () => esborrarTot();
+		await expect(sincronitzar(servidor, USUARI)).rejects.toBeInstanceOf(SyncAvortada);
+		expect(await obtenirBd().preferencies.count()).toBe(0);
+		// La sync següent el torna a baixar.
+		await sincronitzar(servidor, USUARI);
+		expect(await llegirOrigen()).toBe(GIRONA);
+	});
+
+	it("dades d'un altre compte: res fins que l'usuari tria; `descartar-locals` baixa el del compte", async () => {
+		await desarOrigen(BARCELONA);
+		await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await sincronitzar(servidor, ALTRE); // el dispositiu és d'un altre compte
+		const nou = new ServidorFals();
+		nou.origenCompte = { codi: GIRONA, updatedAt: '2026-09-01T08:00:00.000Z' };
+		expect(await sincronitzar(nou, USUARI)).toEqual({ estat: 'conflicte' });
+		expect(nou.cridesOrigen).toEqual([]);
+		expect(await llegirOrigen()).toBe(BARCELONA);
+
+		configurarSync({ remot: nou, usuariId: USUARI });
+		await sincronitzarAra();
+		await resoldreConflicteCompte('descartar-locals');
+		expect(await pref()).toMatchObject({ valor: GIRONA, pendent: 0 });
+		// El compte nou no rep l'origen de l'altre.
+		expect(nou.origenCompte.codi).toBe(GIRONA);
+		expect(servidor.origenCompte?.codi).toBe(BARCELONA);
+	});
+
+	it('`fusionar`: l’origen del dispositiu es puja al compte actual i guanya el més recent', async () => {
+		await desarOrigen(BARCELONA); // 10:00
+		await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		await sincronitzar(servidor, ALTRE);
+		expect(await pref()).toMatchObject({ pendent: 0 });
+
+		const mesAntic = new ServidorFals();
+		mesAntic.origenCompte = { codi: GIRONA, updatedAt: '2026-09-01T08:00:00.000Z' };
+		configurarSync({ remot: mesAntic, usuariId: USUARI });
+		await sincronitzarAra();
+		await resoldreConflicteCompte('fusionar');
+		expect(mesAntic.origenCompte.codi).toBe(BARCELONA);
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 0 });
+		expect(await propietariLocal()).toBe(USUARI);
+	});
+
+	it('alliberarDadesLocals: l’origen es queda i queda pendent per al compte que vingui', async () => {
+		await desarOrigen(BARCELONA);
+		await sincronitzar(servidor, USUARI);
+		expect(await pref()).toMatchObject({ pendent: 0 });
+		await alliberarDadesLocals();
+		expect(await pref()).toMatchObject({ valor: BARCELONA, pendent: 1 });
+		const nou = new ServidorFals();
+		await sincronitzar(nou, ALTRE);
+		expect(nou.origenCompte?.codi).toBe(BARCELONA);
+	});
+
+	it("l'estat compta l'origen pendent i el puja sol (amb sessió)", async () => {
+		let darrer: EstatSync | undefined;
+		const desub = estatSync.subscribe((e) => (darrer = e));
+		configurarSync({ remot: servidor, usuariId: USUARI });
+		await vi.waitFor(() => expect(darrer).toMatchObject({ sincronitzant: false, pendents: 0 }));
+		await desarOrigen(BARCELONA);
+		await vi.waitFor(() => expect(darrer?.pendents).toBe(1));
+		await sincronitzarAra();
+		await vi.waitFor(() => expect(darrer?.pendents).toBe(0));
+		expect(servidor.origenCompte?.codi).toBe(BARCELONA);
+		desub();
+	});
+});
+
+// ---------------------------------------------------------------------------
 // Orquestració i estat observable
 // ---------------------------------------------------------------------------
 
@@ -763,6 +1249,7 @@ describe('estatSync i sincronitzarAra', () => {
 // ---------------------------------------------------------------------------
 
 function clientFals(respostes: { rpc?: unknown; select?: unknown }) {
+	// (el mateix `rpc` serveix per a `sync_push` i `sync_origen`)
 	const crides: { metode: string; args: unknown[] }[] = [];
 	const consulta = {
 		gte: (...args: unknown[]) => (crides.push({ metode: 'gte', args }), consulta),
@@ -794,6 +1281,7 @@ describe('remotSupabase (client mock)', () => {
 		data: '2025-08-15',
 		metode: 'a_peu' as const,
 		nota: null,
+		companys: ['Inesa', 'el Pau'],
 		created_at: '2025-08-15T10:00:00+00:00',
 		updated_at: '2025-08-15T10:00:00.5+00:00',
 		deleted_at: null,
@@ -821,6 +1309,7 @@ describe('remotSupabase (client mock)', () => {
 					data: '2025-08-15',
 					metode: 'a-peu',
 					nota: null,
+					companys: ['Inesa', 'el Pau'],
 					createdAt: '2025-08-15T10:00:00.000Z',
 					updatedAt: '2025-08-15T10:00:00.500Z',
 					deletedAt: null
@@ -828,6 +1317,8 @@ describe('remotSupabase (client mock)', () => {
 				serverUpdatedAt: sql.server_updated_at
 			}
 		]);
+		// El pull demana la columna nova.
+		expect(String(crides[1].args[0])).toContain('companys');
 		expect(crides.map((c) => c.metode)).toEqual([
 			'from',
 			'select',
@@ -871,5 +1362,54 @@ describe('remotSupabase (client mock)', () => {
 	it('filaDesDeSql converteix làpides i mètodes amb guió baix', () => {
 		const r = filaDesDeSql({ ...sql, metode: 'raquetes', deleted_at: '2025-09-01T00:00:00+00:00' });
 		expect(r.fila).toMatchObject({ metode: 'raquetes', deletedAt: '2025-09-01T00:00:00.000Z' });
+	});
+
+	it('filaDesDeSql: companys del núvol → fila local; sense la columna, sense la clau', () => {
+		expect(filaDesDeSql({ ...sql, companys: [] }).fila.companys).toEqual([]);
+		expect(filaDesDeSql({ ...sql, companys: null }).fila.companys).toEqual([]);
+		const { companys: _c, ...senseColumna } = sql;
+		void _c;
+		expect(filaDesDeSql(senseColumna).fila).not.toHaveProperty('companys');
+	});
+
+	it('push envia els companys només si la fila els porta', async () => {
+		const { client, crides } = clientFals({
+			rpc: { data: { acceptades: 2, rebutjades: [] }, error: null, status: 200 }
+		});
+		const amb = filaPush({ ...filaRemota(), companys: ['Inesa'] });
+		const sense = filaPush(filaRemota({ id: '01920000-0000-7000-8000-0000000000ab' }));
+		await remotSupabase(client).push([amb, sense]);
+		const enviades = (crides[0].args[1] as { files: Record<string, unknown>[] }).files;
+		expect(enviades[0]).toHaveProperty('companys', ['Inesa']);
+		expect(enviades[1]).not.toHaveProperty('companys');
+	});
+
+	it('origen crida `sync_origen` (amb el canvi o sense) i normalitza la resposta', async () => {
+		const resposta = { codi: '080193', updatedAt: '2026-09-29T10:00:00.123+00:00' };
+		const { client, crides } = clientFals({ rpc: { data: resposta, error: null, status: 200 } });
+		const remot = remotSupabase(client);
+		const canvi = { codi: '080193', updatedAt: '2026-09-29T10:00:00.123Z' };
+		expect(await remot.origen!(canvi)).toEqual(canvi);
+		expect(crides[0]).toEqual({ metode: 'rpc', args: ['sync_origen', { canvi }] });
+		await remot.origen!(null);
+		expect(crides[1]).toEqual({ metode: 'rpc', args: ['sync_origen', {}] });
+
+		const buit = clientFals({ rpc: { data: null, error: null, status: 200 } });
+		expect(await remotSupabase(buit.client).origen!(null)).toBeNull();
+		const ko = clientFals({
+			rpc: { data: null, error: { message: 'JWT expired', code: 'PGRST301' }, status: 401 }
+		});
+		await expect(remotSupabase(ko.client).origen!(null)).rejects.toMatchObject({ codi: 'sessio' });
+	});
+
+	it('origenDesDeJson: null si no hi ha instant; codi null si l’usuari el va treure', () => {
+		expect(origenDesDeJson(null)).toBeNull();
+		expect(origenDesDeJson('x')).toBeNull();
+		expect(origenDesDeJson({ codi: '080193' })).toBeNull();
+		expect(origenDesDeJson({ codi: '080193', updatedAt: 'ahir' })).toBeNull();
+		expect(origenDesDeJson({ codi: null, updatedAt: '2026-09-29T10:00:00+00:00' })).toEqual({
+			codi: null,
+			updatedAt: '2026-09-29T10:00:00.000Z'
+		});
 	});
 });

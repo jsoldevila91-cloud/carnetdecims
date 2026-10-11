@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { Dexie } from 'dexie';
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Ascensio } from '$lib/domain';
+import { COMPANYS_MAX, COMPANY_MAX_CARACTERS, type Ascensio } from '$lib/domain';
 import {
 	CODIS_ERROR_VALIDACIO,
 	ErrorAscensioNoTrobada,
@@ -9,6 +9,7 @@ import {
 	ErrorValidacio,
 	FORMAT_EXPORTACIO,
 	NOTA_MAX,
+	VERSIO_EXPORTACIO,
 	actualitzarAscensio,
 	afegirAscensio,
 	ascensionsVives,
@@ -24,7 +25,7 @@ import {
 	type NovaAscensio
 } from './ascensions';
 import { CIMS } from './catalog/cataleg';
-import { CarnetDb, NOM_BD, obtenirBd, tancarBd } from './local/db';
+import { CarnetDb, NOM_BD, obtenirBd, tancarBd, type FilaAscensio } from './local/db';
 import { establirRellotge } from './local/rellotge';
 import { esUuid, uuidv7 } from './local/uuid';
 
@@ -87,12 +88,13 @@ describe('uuidv7', () => {
 });
 
 describe('esquema', () => {
-	it('BD carnetdecims amb ascensions i outbox indexades (v2: + meta de la sync)', async () => {
+	it('BD carnetdecims amb ascensions i outbox indexades (v2: + meta; v3: + preferències)', async () => {
 		const bd = obtenirBd();
 		await bd.open();
 		expect(bd.name).toBe(NOM_BD);
-		expect(bd.verno).toBe(2);
+		expect(bd.verno).toBe(3);
 		expect(bd.meta.schema.primKey.name).toBe('clau');
+		expect(bd.preferencies.schema.primKey.name).toBe('clau');
 		const idx = bd.ascensions.schema.indexes.map((i) => i.name).sort();
 		expect(bd.ascensions.schema.primKey.name).toBe('id');
 		expect(idx).toEqual(['cimId', 'data', 'deletedAt', 'updatedAt']);
@@ -100,11 +102,12 @@ describe('esquema', () => {
 		expect(new CarnetDb('x').tables.map((t) => t.name).sort()).toEqual([
 			'ascensions',
 			'meta',
-			'outbox'
+			'outbox',
+			'preferencies'
 		]);
 	});
 
-	it('migra una BD v1 existent a v2 sense perdre ascensions ni la cua', async () => {
+	it('migra una BD v1 existent a la versió actual sense perdre ascensions ni la cua', async () => {
 		const nom = 'carnetdecims-v1-prova';
 		const v1 = new Dexie(nom);
 		v1.version(1).stores({
@@ -120,12 +123,187 @@ describe('esquema', () => {
 		v1.close();
 		const v2 = new CarnetDb(nom);
 		await v2.open();
-		expect(v2.verno).toBe(2);
+		expect(v2.verno).toBe(3);
 		expect(await v2.ascensions.count()).toBe(1);
 		expect(await v2.outbox.count()).toBe(1);
 		expect(await v2.meta.count()).toBe(0);
+		expect(await v2.preferencies.count()).toBe(0);
 		v2.close();
 		await Dexie.delete(nom);
+	});
+
+	it('migra una BD v2 (beta amb comptes) a v3: files intactes, cursor del pull a zero', async () => {
+		const nom = 'carnetdecims-v2-prova';
+		const v2 = new Dexie(nom);
+		v2.version(1).stores({
+			ascensions: 'id, cimId, data, updatedAt, deletedAt',
+			outbox: 'ascensioId, encuaAt'
+		});
+		v2.version(2).stores({ meta: 'clau' });
+		// Fila tal com la desava el client anterior a R1: sense `companys`.
+		const vella = {
+			id: uuidv7(),
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'vella',
+			createdAt: '2026-09-20T10:00:00.000Z',
+			updatedAt: '2026-09-20T10:00:00.000Z',
+			deletedAt: null
+		};
+		await v2.table('ascensions').put(vella);
+		await v2
+			.table('outbox')
+			.put({ ascensioId: vella.id, encuaAt: '2026-09-20T10:00:00.000Z', intents: 0 });
+		await v2.table('meta').bulkPut([
+			{ clau: 'propietari', valor: 'usuari-1' },
+			{ clau: 'cursorPull', valor: '2026-10-09T15:20:23.938786+00:00' },
+			{ clau: 'ultimaSync', valor: '2026-10-09T15:20:24.000Z' },
+			{ clau: 'epoca', valor: 'epoca-1' }
+		]);
+		v2.close();
+
+		const v3 = new CarnetDb(nom);
+		await v3.open();
+		expect(v3.verno).toBe(3);
+		// La fila no es toca (continua sense la clau: no es pujarà amb companys).
+		expect(await v3.ascensions.toArray()).toEqual([vella]);
+		expect(await v3.outbox.count()).toBe(1);
+		expect(await v3.preferencies.count()).toBe(0);
+		// El cursor torna a zero (pull complet per baixar els companys); la resta de meta es queda.
+		expect((await v3.meta.get('cursorPull'))?.valor).toBeNull();
+		expect((await v3.meta.get('propietari'))?.valor).toBe('usuari-1');
+		expect((await v3.meta.get('epoca'))?.valor).toBe('epoca-1');
+		expect((await v3.meta.get('ultimaSync'))?.valor).toBe('2026-10-09T15:20:24.000Z');
+		v3.close();
+		await Dexie.delete(nom);
+	});
+
+	it('una BD v2 sense cursor (sense compte) migra sense crear-ne cap', async () => {
+		const nom = 'carnetdecims-v2-anonima';
+		const v2 = new Dexie(nom);
+		v2.version(1).stores({
+			ascensions: 'id, cimId, data, updatedAt, deletedAt',
+			outbox: 'ascensioId, encuaAt'
+		});
+		v2.version(2).stores({ meta: 'clau' });
+		await v2.table('meta').put({ clau: 'epoca', valor: 'e' });
+		v2.close();
+		const v3 = new CarnetDb(nom);
+		await v3.open();
+		expect(await v3.meta.toArray()).toEqual([{ clau: 'epoca', valor: 'e' }]);
+		v3.close();
+		await Dexie.delete(nom);
+	});
+});
+
+describe('files anteriors a R1 (sense companys)', () => {
+	async function filaVella(): Promise<FilaAscensio> {
+		const fila: FilaAscensio = {
+			id: uuidv7(),
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'vella',
+			createdAt: '2026-09-20T10:00:00.000Z',
+			updatedAt: '2026-09-20T10:00:00.000Z',
+			deletedAt: null
+		};
+		await obtenirBd().ascensions.put(fila);
+		return fila;
+	}
+
+	it('es llegeixen amb companys: [] (llista, store i exportació)', async () => {
+		const fila = await filaVella();
+		expect(await llistarAscensions()).toEqual([{ ...fila, companys: [] }]);
+		const exp = JSON.parse(await exportarDades());
+		expect(exp.ascensions[0].companys).toEqual([]);
+	});
+
+	it('editar-ne un altre camp no hi afegeix la clau; desar companys, sí', async () => {
+		const fila = await filaVella();
+		const a = await actualitzarAscensio(fila.id, { nota: 'nova' });
+		expect(a.companys).toEqual([]);
+		expect('companys' in (await obtenirBd().ascensions.get(fila.id))!).toBe(false);
+
+		await actualitzarAscensio(fila.id, { companys: [] });
+		expect((await obtenirBd().ascensions.get(fila.id))?.companys).toEqual([]);
+		await actualitzarAscensio(fila.id, { companys: ['Inesa'] });
+		expect((await obtenirBd().ascensions.get(fila.id))?.companys).toEqual(['Inesa']);
+	});
+
+	it('esborrar i restaurar conserven la fila tal com era', async () => {
+		const fila = await filaVella();
+		await esborrarAscensio(fila.id);
+		const r = await restaurarAscensio(fila.id);
+		expect(r.companys).toEqual([]);
+		expect('companys' in (await obtenirBd().ascensions.get(fila.id))!).toBe(false);
+	});
+});
+
+describe('companys (diari de muntanya)', () => {
+	it('afegir sense companys desa []; amb companys, els normalitza', async () => {
+		const a = await afegirAscensio(nova());
+		expect(a.companys).toEqual([]);
+		expect((await obtenirBd().ascensions.get(a.id))?.companys).toEqual([]);
+
+		const b = await afegirAscensio(
+			nova({
+				data: '2026-09-21',
+				companys: ['  Inesa ', 'el   Pau', '', 'inesa', 'INÈSA', 'Colla\ndel CE']
+			})
+		);
+		expect(b.companys).toEqual(['Inesa', 'el Pau', 'Colla del CE']);
+		expect(await llistarAscensions()).toEqual([b, a]);
+	});
+
+	it('actualitzar: absent els conserva, [] els treu, una llista els substitueix', async () => {
+		const a = await afegirAscensio(nova({ companys: ['Inesa', 'Pau'] }));
+		expect((await actualitzarAscensio(a.id, { nota: 'n' })).companys).toEqual(['Inesa', 'Pau']);
+		expect((await actualitzarAscensio(a.id, { companys: ['Mar'] })).companys).toEqual(['Mar']);
+		const c = await actualitzarAscensio(a.id, { companys: [] });
+		expect(c.companys).toEqual([]);
+		expect(c.nota).toBe('n');
+		expect(await pendentsDeSincronitzar()).toHaveLength(1);
+	});
+
+	it('la llista retornada és una còpia (modificar-la no toca la BD)', async () => {
+		const a = await afegirAscensio(nova({ companys: ['Inesa'] }));
+		a.companys.push('intrús');
+		expect((await llistarAscensions())[0].companys).toEqual(['Inesa']);
+	});
+
+	it('errors amb codi: format, massa i massa-llarg (no es desa res)', async () => {
+		const e1 = await errorDe(afegirAscensio(nova({ companys: 'Inesa' as never })));
+		expect([e1.camp, e1.codi]).toEqual(['companys', 'companys:format']);
+		expect((await errorDe(afegirAscensio(nova({ companys: ['a', 7] as never })))).codi).toBe(
+			'companys:format'
+		);
+		const massa = Array.from({ length: COMPANYS_MAX + 1 }, (_, i) => `company ${i}`);
+		expect((await errorDe(afegirAscensio(nova({ companys: massa })))).codi).toBe('companys:massa');
+		const llarg = 'x'.repeat(COMPANY_MAX_CARACTERS + 1);
+		expect((await errorDe(afegirAscensio(nova({ companys: [llarg] })))).codi).toBe(
+			'companys:massa-llarg'
+		);
+		expect(await llistarAscensions()).toEqual([]);
+
+		// Als límits, sí (els repetits i els buits no compten per al màxim).
+		const justos = Array.from({ length: COMPANYS_MAX }, (_, i) => `c${i}`);
+		const ok = await afegirAscensio(nova({ companys: [...justos, 'C0', ' '] }));
+		expect(ok.companys).toEqual(justos);
+		// El límit de llargada compta caràcters Unicode, no unitats UTF-16.
+		const emoji = '🏔'.repeat(COMPANY_MAX_CARACTERS);
+		expect((await afegirAscensio(nova({ companys: [emoji] }))).companys).toEqual([emoji]);
+		const a = await afegirAscensio(nova());
+		expect((await errorDe(actualitzarAscensio(a.id, { companys: massa }))).codi).toBe(
+			'companys:massa'
+		);
+	});
+
+	it('validarAscensio inclou els companys al final, amb codis estables', () => {
+		const errs = validarAscensio({ ...nova(), nota: 7, companys: [3] }, '2026-09-29');
+		expect(errs.map((e) => e.codi)).toEqual(['nota:format', 'companys:format']);
+		for (const e of errs) expect(CODIS_ERROR_VALIDACIO).toContain(e.codi);
 	});
 });
 
@@ -390,11 +568,13 @@ describe('exportar i importar', () => {
 		const b = await afegirAscensio(nova({ cimId: CIM_B }));
 		await esborrarAscensio(b.id);
 		const exp = JSON.parse(await exportarDades());
+		expect(VERSIO_EXPORTACIO).toBe(2);
 		expect(exp).toMatchObject({
 			format: FORMAT_EXPORTACIO,
-			versio: 1,
+			versio: 2,
 			app: 'carnetdecims.cat',
 			exportatAt: '2026-09-29T10:00:00.000Z',
+			preferencies: { origen: null },
 			total: 1
 		});
 		expect(exp.catalegVersio).toBeTruthy();
@@ -407,6 +587,7 @@ describe('exportar i importar', () => {
 				data: a.data,
 				metode: 'a-peu',
 				nota: 'n',
+				companys: [],
 				createdAt: a.createdAt,
 				updatedAt: a.updatedAt
 			}
@@ -520,7 +701,7 @@ describe('exportar i importar', () => {
 			['[]', 'importacio:format'],
 			['{"format":"altre","versio":1,"ascensions":[]}', 'importacio:format'],
 			[`{"format":"${FORMAT_EXPORTACIO}","ascensions":[]}`, 'importacio:format'],
-			[`{"format":"${FORMAT_EXPORTACIO}","versio":2,"ascensions":[]}`, 'importacio:versio'],
+			[`{"format":"${FORMAT_EXPORTACIO}","versio":3,"ascensions":[]}`, 'importacio:versio'],
 			[
 				`{"format":"${FORMAT_EXPORTACIO}","versio":1,"ascensions":[{"id":"x"}]}`,
 				'importacio:sense-valides'

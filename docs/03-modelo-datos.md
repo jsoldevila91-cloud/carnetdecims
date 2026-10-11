@@ -104,6 +104,10 @@ assoliments_usuari (user_id, codi text, assolit_en date, notificat_at timestampt
 
 - **Implementado en la fase 5 (beta)** con migraciones `supabase/migrations/0002`–`0004` (ver `docs/09-supabase-auth.md`). Diferencias con este esquema: sin `device_id` (empate de `updated_at` → gana el servidor), `updated_at`/`created_at` son el reloj del cliente, `cim_id` sin FK hasta cargar el catálogo en la BD, `perfils` solo con `alias`, y las escrituras pasan por la RPC `sync_push` (LWW en el servidor).
 - Los **logros** se calculan con funciones puras a partir de las ascensiones y del catálogo (`nivell_100`, `nivell_200`…, `comarca_completa:{zona}`, `essencials_50`…). La definición vive en el código y la tabla solo guarda cuándo se notificó al usuario, para no repetir avisos. Todo se puede recalcular.
+- **Bloque R1 (migración `0005_diari_i_origen.sql`):**
+  - `ascensions.companys text[] not null default '{}'`: compañeros de la ascensión (nombres o alias en texto libre; el cliente admite 10 de 40 caracteres y el servidor 20 de 80). `sync_push` los guarda; **si la fila llega sin la clave `companys`, conserva los que hubiera** (clientes antiguos en caché y filas locales anteriores a R1); con la clave presente (también `[]`), manda el cliente.
+  - `perfils.origen_municipi` + `perfils.origen_updated_at`: municipio de origen como preferencia de la cuenta (código ICGC de 6 cifras, o `ad:{slug}` / `cn:{slug}` fuera de Catalunya). Se lee y se escribe con la RPC `sync_origen(canvi)`, con LWW por el instante del cliente (empate → servidor). Quitar el origen deja `origen_municipi = null` con el instante informado, para que el cambio se propague.
+  - RLS sin cambios (políticas por fila); `esborrar_compte` ya borra `perfils` y `ascensions` enteros.
 - RGPD: exportación = `select` de `perfils` + `ascensions` en JSON o CSV; al borrar la cuenta, `auth.admin.deleteUser` y el borrado en cascada. Los datos de menores (reto infantil, fecha de nacimiento) quedan fuera del MVP.
 
 ## 2. Modelo local (IndexedDB con Dexie) y sincronización
@@ -125,6 +129,14 @@ db.version(1).stores({
 1. **Push:** `rpc('sync_push', rows[])` con las filas `dirty`. El servidor aplica LWW por fila: actualiza solo si `incoming.client_updated_at > stored.client_updated_at` (empate → gana el `device_id` mayor). Valida con las mismas reglas (fecha, método, cima activa). Devuelve los ids aceptados → `dirty = 0`.
 2. **Pull:** `rpc('sync_pull', cursor)` → filas con `server_updated_at > cursor − 5 s` (el solape cubre transacciones que confirman fuera de orden; el upsert es idempotente). Se aplican en local con la misma regla LWW, salvo si la fila local tiene `dirty = 1` y es más reciente.
 3. Los borrados son tombstones (`deletedAt`) y se sincronizan como cualquier otro cambio.
+
+**Bloque R1 (implementado; Dexie v3, `src/lib/data/local/db.ts`):**
+
+- Tabla nueva `preferencies` (`clau`): hoy solo `origen` = `{ valor: código de municipio | null, updatedAt, pendent }`. Sin sesión vive solo en el dispositivo; con sesión, `sync.ts` lo sincroniza con `sync_origen` (sube si `pendent`, si no solo lee; LWW).
+- `ascensions` no cambia de esquema: `companys` es un campo opcional de la fila. Una fila **sin la clave** (anterior a R1) se lee como `[]` y se sube sin la clave, de modo que el servidor conserva los compañeros que tenga. La migración a v3 pone `cursorPull` a cero para que el siguiente pull sea completo y traiga los compañeros guardados desde otros dispositivos.
+- Qué pasa con el origen: `esborrarTot` y `sortir({ esborrarDades })` lo borran del dispositivo (la sync lo vuelve a bajar si hay sesión); `sortir()` lo conserva; `esborrarCompte` lo borra de la nube y del dispositivo, salvo `conservarDispositiu` (queda local y pendiente de subir a una cuenta futura); con datos de otra cuenta, `descartar-locals` lo borra y baja el de la cuenta actual, y `fusionar` lo sube como un cambio local más (LWW).
+- Exportación JSON **versión 2** (`companys` por ascensión y `preferencies.origen`); la importación acepta las versiones 1 y 2 (un fichero v1 no toca compañeros ni origen).
+- Municipios: `src/lib/data/municipis/municipis.json` (947 de Catalunya + 7 parroquias de Andorra + 26 poblaciones de la Catalunya Nord), generado por `npm run municipis:build` (`scripts/municipis/build.ts`) solo con datos del ICGC (WFS de divisiones administrativas: capital del municipio; geocodificador para Andorra y Catalunya Nord). Se carga en diferido (chunk de ~18 kB gzip).
 
 **Fusión al crear cuenta o iniciar sesión por primera vez en el dispositivo:**
 
@@ -206,6 +218,23 @@ Estimación **propia** de Carnet de Cims (no es el MIDE ni una valoración ofici
 - **Listados** (solo cims con contenido):
   - `cims-facils`: la **ruta normal** tiene nivel 1, con esfuerzo calculado y tecnicidad con fuente.
   - `cims-amb-nens` (decisión del coordinador por seguridad, 6b; el usuario fijó ≤ 2 h 30 y ≤ 600 m): **alguna ruta** de la ficha (`rutaAmbNens`: la más fácil que cumple; desempate por nivel, km-esfuerzo, tiempo y orden en la ficha) con nivel ≤ 2, tecnicidad **con fuente** `cap` o `terreny-irregular`, y desnivel de ida **con fuente** ≤ 600 m y tiempo de ida **con fuente** ≤ 150 min. Si falta cualquiera de esos datos, la ruta no cuenta (antes bastaba "cuando se conozcan"; el Casamanya Nord entraba sin desnivel con fuente, ~760 m reales). La página recibe la ruta elegida (`rutesAmbNens` en `cims-amb-nens/+page.server.ts`) para decir "des de …". Criterios en `CRITERIS_LLISTATS_DIFICULTAT` (la Metodología los lee de ahí).
+
+### 3.5 Estadísticas personales (bloque R1, `src/lib/domain/estadistiques.ts`)
+
+Funciones puras sobre las ascensiones y el catálogo; no se guarda nada. Todo parte de las ascensiones **válidas** (`ascensionsValides`): las "fora del repte" no cuentan en ninguna estadística (se informa cuántas hay en `totals.foraRepte`). Las no esenciales posteriores al 01/07/2019 sí cuentan (son historial), salvo en el progreso del reto 100 Cims, que es el mismo marcador del carnet.
+
+| Dato                                                   | Cuenta                                                                                     | Desempate                                                                                     |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| `rankingCims`, `cimMesFet`                             | ascensiones por cima (`cimMesFet` solo si ≥ 2)                                             | última ascensión más reciente → primera más antigua → id                                      |
+| `cimMesLlunya`                                         | cimas distintas hechas, distancia de gran círculo desde la capital del municipio de origen | más alta → id                                                                                 |
+| `percentatges` (catálogo, esenciales, comarcas, retos) | cimas distintas                                                                            | comarcas: orden de `progresComarques`                                                         |
+| `altitudAcumulada` / `altitudAcumuladaAscensions`      | suma de altitudes de cimas distintas / de cada ascensión (no es desnivel)                  | —                                                                                             |
+| `cimMesAlt`, `ultimCimNou`                             | cimas distintas (primera ascensión)                                                        | primera ascensión más antigua → id                                                            |
+| `primeraAscensio`, `ultimaAscensio`                    | ascensiones                                                                                | fecha → `createdAt` → id                                                                      |
+| `perAny`, `millorAny`                                  | ascensiones y cimas nuevas por año; el mejor año es el de más **cimas nuevas**             | más ascensiones → año más reciente                                                            |
+| `ratxa`                                                | meses naturales seguidos con alguna ascensión (las repeticiones también cuentan)           | la racha actual sigue viva si el mes en curso aún no tiene ascensión; máxima: la más reciente |
+
+"% por reto" en R1: `cent-cims` (objetivo = página actual del carnet, 100…500) e `infantil` (50 cimas desde el 01/07/2026, sin filtrar por edad). `ProgresRepteResum` tiene ya la forma que devolverá el motor de retos de R2.
 
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 

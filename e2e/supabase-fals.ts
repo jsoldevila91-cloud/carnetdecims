@@ -9,8 +9,9 @@
  * - Auth (GoTrue): `POST /auth/v1/otp`, `POST /auth/v1/verify` (codi o `token_hash`),
  *   `POST /auth/v1/logout`, `GET /auth/v1/user`, `POST /auth/v1/token?grant_type=refresh_token`.
  * - PostgREST: `rpc/sync_push` (LWW per `updated_at`, empat → servidor, id d'un altre usuari →
- *   rebutjat), `rpc/esborrar_compte`, `GET ascensions` (filtre `server_updated_at=gte.`, ordre i
- *   límit) i `GET perfils`.
+ *   rebutjat; una fila sense la clau `companys` conserva els companys desats, com la migració
+ *   0005), `rpc/sync_origen` (municipi d'origen del compte, LWW), `rpc/esborrar_compte`,
+ *   `GET ascensions` (filtre `server_updated_at=gte.`, ordre i límit) i `GET perfils`.
  *
  * Qualsevol altra petició a Supabase es respon 501 i queda a `noGestionades` (el test la pot
  * comprovar). Els tokens són JWT sense signar generats aquí: no són credencials.
@@ -29,6 +30,7 @@ export interface FilaServidor {
 	data: string;
 	metode: 'a_peu' | 'btt' | 'esqui' | 'raquetes';
 	nota: string | null;
+	companys: string[];
 	created_at: string;
 	updated_at: string;
 	deleted_at: string | null;
@@ -41,9 +43,17 @@ export interface FilaPushRebuda {
 	data: string;
 	metode: string;
 	nota: string | null;
+	/** Absent si el client no en sap res (client antic o fila anterior a R1). */
+	companys?: string[];
 	createdAt: string;
 	updatedAt: string;
 	deletedAt: string | null;
+}
+
+/** Municipi d'origen d'un compte (`perfils.origen_municipi` / `origen_updated_at`). */
+export interface OrigenServidor {
+	codi: string | null;
+	updatedAt: string;
 }
 
 export interface PeticioRegistrada {
@@ -151,6 +161,8 @@ const pg = (iso: string) => new Date(iso).toISOString().replace('Z', '+00:00');
 
 export class SupabaseFals {
 	files = new Map<string, FilaServidor>();
+	/** Municipi d'origen per id d'usuari (vegeu `origenDe` i `sembrarOrigen`). */
+	origens = new Map<string, OrigenServidor>();
 	peticions: PeticioRegistrada[] = [];
 	noGestionades: string[] = [];
 	/** Correus que han demanat l'enllaç (`/otp`). */
@@ -188,6 +200,7 @@ export class SupabaseFals {
 			data: string;
 			metode?: string;
 			nota?: string | null;
+			companys?: string[];
 			createdAt: string;
 			updatedAt: string;
 			deletedAt?: string | null;
@@ -201,12 +214,23 @@ export class SupabaseFals {
 				data: f.data,
 				metode: (f.metode ?? 'a-peu').replace('-', '_') as FilaServidor['metode'],
 				nota: f.nota ?? null,
+				companys: f.companys ?? [],
 				created_at: pg(f.createdAt),
 				updated_at: pg(f.updatedAt),
 				deleted_at: f.deletedAt ? pg(f.deletedAt) : null,
 				server_updated_at: this.seguentInstant()
 			});
 		}
+	}
+
+	/** Posa el municipi d'origen "ja al núvol" d'un usuari. */
+	sembrarOrigen(email: string, codi: string | null, updatedAt: string) {
+		this.origens.set(idUsuari(email), { codi, updatedAt: new Date(updatedAt).toISOString() });
+	}
+
+	/** Municipi d'origen desat al compte, o `null`. */
+	origenDe(email: string): OrigenServidor | null {
+		return this.origens.get(idUsuari(email)) ?? null;
 	}
 
 	filesDe(email: string): FilaServidor[] {
@@ -339,6 +363,7 @@ export class SupabaseFals {
 			if (this.errorEsborrar)
 				return this.json(route, this.errorEsborrar, { message: 'error intern' });
 			for (const [id, f] of this.files) if (f.user_id === usuari) this.files.delete(id);
+			this.origens.delete(usuari!);
 			this.esborrats.add(usuari!);
 			return route.fulfill({ status: 204, headers: this.cors(req) });
 		}
@@ -358,8 +383,36 @@ export class SupabaseFals {
 				.map(({ user_id, ...resta }) => resta);
 			return this.json(route, 200, files);
 		}
+		if (cami === '/rest/v1/rpc/sync_origen' && req.method() === 'POST') {
+			// Com la RPC de la migració 0005: LWW estricte i retorna el que queda al compte.
+			const canvi = (cos as { canvi?: OrigenServidor } | null)?.canvi;
+			const actual = this.origens.get(usuari!);
+			if (canvi && (!actual || Date.parse(canvi.updatedAt) > Date.parse(actual.updatedAt))) {
+				this.origens.set(usuari!, {
+					codi: canvi.codi ?? null,
+					updatedAt: new Date(canvi.updatedAt).toISOString()
+				});
+			}
+			const o = this.origens.get(usuari!);
+			return this.json(route, 200, o ? { codi: o.codi, updatedAt: pg(o.updatedAt) } : null);
+		}
 		if (cami === '/rest/v1/perfils' && req.method() === 'GET') {
-			return this.json(route, 200, []);
+			const o = this.origens.get(usuari!);
+			return this.json(
+				route,
+				200,
+				o
+					? [
+							{
+								alias: null,
+								origen_municipi: o.codi,
+								origen_updated_at: pg(o.updatedAt),
+								created_at: '2026-10-01T08:00:00+00:00',
+								updated_at: pg(o.updatedAt)
+							}
+						]
+					: []
+			);
 		}
 
 		this.noGestionades.push(`${req.method()} ${cami}${url.search}`);
@@ -395,6 +448,8 @@ export class SupabaseFals {
 					data: f.data,
 					metode: f.metode.replace('-', '_') as FilaServidor['metode'],
 					nota,
+					// Sense la clau, es conserven els companys desats (fila nova: cap).
+					companys: Array.isArray(f.companys) ? f.companys : (actual?.companys ?? []),
 					created_at: actual?.created_at ?? pg(f.createdAt),
 					updated_at: pg(f.updatedAt),
 					deleted_at: f.deletedAt ? pg(f.deletedAt) : null,
@@ -454,7 +509,7 @@ export async function escriureMeta(page: Page, entrades: Record<string, string |
 /** Llegeix una taula sencera de l'IndexedDB de l'app. */
 export function llegirTaula<T = Record<string, unknown>>(
 	page: Page,
-	taula: 'ascensions' | 'outbox' | 'meta'
+	taula: 'ascensions' | 'outbox' | 'meta' | 'preferencies'
 ): Promise<T[]> {
 	return page.evaluate(
 		({ nom, taula }) =>

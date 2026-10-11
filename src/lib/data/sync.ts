@@ -22,12 +22,20 @@
  * 3. **Pull** incremental per `server_updated_at` (solapament de 5 s; aplicar-lo és idempotent).
  *    Regla LWW local: guanya la remota si `updatedAt` remot ≥ local (empat → servidor); si la
  *    local tenia un canvi pendent que perd, el pendent es descarta (el servidor no l'acceptaria).
+ * 4. **Municipi d'origen** (bloc R1, `sincronitzarOrigen`): preferència del compte amb la mateixa
+ *    regla LWW (`updatedAt` del client; empat → servidor). Si hi ha un canvi local pendent es puja
+ *    i el servidor respon amb el valor que guanya; si no, només es llegeix.
+ *
+ * **Companys (bloc R1) i compatibilitat.** Una fila local sense la clau `companys` (vegeu
+ * `FilaAscensio`) es puja sense la clau i `sync_push` (migració 0005) conserva els companys que
+ * tingui al núvol; amb la clau (encara que sigui `[]`), mana el client. És la mateixa regla que
+ * protegeix els companys de les PWA instal·lades amb el client antic a la caché.
  *
  * Sense imports del framework (usable a Capacitor). El client de Supabase s'injecta (`Remot`),
  * així el motor es prova amb un servidor fals en memòria.
  */
 import { liveQuery } from 'dexie';
-import type { Metode } from '$lib/domain';
+import { esCodiMunicipi, mateixosCompanys, type Metode } from '$lib/domain';
 import type { ClientSupabase } from '$lib/platform/supabase';
 import type { FilaAscensioSql, Json, MetodeSql } from '$lib/platform/supabase-tipus';
 import type { StoreLectura } from './ascensions';
@@ -36,6 +44,7 @@ import {
 	obtenirBd,
 	type EntradaMeta,
 	type EntradaOutbox,
+	type EntradaPreferencia,
 	type FilaAscensio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
@@ -53,9 +62,22 @@ export interface FilaPush {
 	data: string;
 	metode: Metode;
 	nota: string | null;
+	/**
+	 * Companys de l'ascensió. **Absent** = la fila local no en sap res: el servidor conserva els
+	 * que tingui. Present (també `[]`) = el servidor els substitueix.
+	 */
+	companys?: string[];
 	createdAt: string;
 	updatedAt: string;
 	deletedAt: string | null;
+}
+
+/** Municipi d'origen tal com viatja entre el client i `sync_origen`. */
+export interface OrigenSync {
+	/** `Municipi.codi`, o `null` si l'usuari l'ha tret. */
+	codi: string | null;
+	/** Instant ISO (rellotge del client) del canvi: el que compara la regla LWW. */
+	updatedAt: string;
 }
 
 /** Fila baixada, ja convertida al format local, amb el cursor del servidor. */
@@ -75,6 +97,12 @@ export interface Remot {
 	push(files: FilaPush[]): Promise<ResultatPush>;
 	/** Files amb `server_updated_at >= desDe` (o totes si `null`), ordenades, com a màxim `limit`. */
 	pull(desDe: string | null, limit: number): Promise<FilaRemota[]>;
+	/**
+	 * Municipi d'origen del compte. Amb `canvi`, primer l'aplica amb LWW (només si és més recent
+	 * que el desat); sempre retorna el valor que queda al servidor (`null` = el compte no n'ha
+	 * desat mai cap). Opcional: un `Remot` sense aquest mètode no sincronitza l'origen.
+	 */
+	origen?(canvi: OrigenSync | null): Promise<OrigenSync | null>;
 }
 
 export type CodiErrorSync = 'xarxa' | 'sessio' | 'servidor';
@@ -112,14 +140,25 @@ export function filaPush(f: FilaAscensio): FilaPush {
 		data: f.data,
 		metode: f.metode,
 		nota: f.nota,
+		// Sense la clau a la fila local, tampoc no s'envia (el servidor conserva els que tingui).
+		...(f.companys !== undefined ? { companys: f.companys } : {}),
 		createdAt: f.createdAt,
 		updatedAt: f.updatedAt,
 		deletedAt: f.deletedAt
 	};
 }
 
-/** Fila de `public.ascensions` (sense `user_id`) → format local. El mètode passa de `a_peu` a `a-peu`. */
-export function filaDesDeSql(r: Omit<FilaAscensioSql, 'user_id'>): FilaRemota {
+/** Fila de `public.ascensions` tal com la baixa el pull (sense `user_id`). */
+export type FilaPullSql = Omit<FilaAscensioSql, 'user_id' | 'companys'> & {
+	/** Absent si la consulta no ha demanat la columna (no hauria de passar amb aquest client). */
+	companys?: string[] | null;
+};
+
+/**
+ * Fila de `public.ascensions` (sense `user_id`) → format local. El mètode passa de `a_peu` a
+ * `a-peu`. Si la fila porta `companys`, la fila local també (el núvol mana); si no, sense la clau.
+ */
+export function filaDesDeSql(r: FilaPullSql): FilaRemota {
 	return {
 		fila: {
 			id: r.id,
@@ -127,6 +166,7 @@ export function filaDesDeSql(r: Omit<FilaAscensioSql, 'user_id'>): FilaRemota {
 			data: r.data,
 			metode: deMetodeSql(r.metode),
 			nota: r.nota,
+			...(r.companys !== undefined ? { companys: [...(r.companys ?? [])] } : {}),
 			createdAt: iso(r.created_at),
 			updatedAt: iso(r.updated_at),
 			deletedAt: r.deleted_at ? iso(r.deleted_at) : null
@@ -154,8 +194,9 @@ export function classificarError(error: unknown, status?: number): ErrorSync {
 	return new ErrorSync('servidor', missatge);
 }
 
-const COLUMNES_PULL =
-	'id, cim_id, data, metode, nota, created_at, updated_at, deleted_at, server_updated_at';
+/** Columnes d'`ascensions` que baixa el client (pull i exportació del compte). */
+export const COLUMNES_PULL =
+	'id, cim_id, data, metode, nota, companys, created_at, updated_at, deleted_at, server_updated_at';
 
 /** `Remot` sobre el client de Supabase (RLS: només les files de l'usuari de la sessió). */
 export function remotSupabase(client: ClientSupabase): Remot {
@@ -188,8 +229,26 @@ export function remotSupabase(client: ClientSupabase): Remot {
 			}
 			if (res.error) throw classificarError(res.error, res.status);
 			return (res.data ?? []).map(filaDesDeSql);
+		},
+		async origen(canvi) {
+			let res;
+			try {
+				res = await client.rpc('sync_origen', canvi ? { canvi: canvi as unknown as Json } : {});
+			} catch (e) {
+				throw classificarError(e);
+			}
+			if (res.error) throw classificarError(res.error, res.status);
+			return origenDesDeJson(res.data);
 		}
 	};
+}
+
+/** Resposta de `sync_origen` → `OrigenSync` (`null` si el compte no té cap origen desat). */
+export function origenDesDeJson(dada: unknown): OrigenSync | null {
+	if (typeof dada !== 'object' || dada === null) return null;
+	const { codi, updatedAt } = dada as { codi?: unknown; updatedAt?: unknown };
+	if (typeof updatedAt !== 'string' || Number.isNaN(Date.parse(updatedAt))) return null;
+	return { codi: typeof codi === 'string' ? codi : null, updatedAt: iso(updatedAt) };
 }
 
 // ---------------------------------------------------------------------------
@@ -253,13 +312,15 @@ export type ResultatSync =
 
 /**
  * Encua totes les files locals (vives i làpides) i assigna el propietari: migració local → núvol.
- * Idempotent: el servidor fa upsert per id, i el pull es fa complet (cursor a zero).
+ * Idempotent: el servidor fa upsert per id, i el pull es fa complet (cursor a zero). El municipi
+ * d'origen del dispositiu, si n'hi ha, també queda pendent de pujar (LWW contra el del compte).
  */
 async function adoptarDadesLocals(usuariId: string, epoca: string | null): Promise<void> {
 	const bd = obtenirBd();
 	const encuaAt = ara().toISOString();
-	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.preferencies, async () => {
 		await comprovarEpoca(epoca);
+		await bd.preferencies.toCollection().modify({ pendent: 1 });
 		const [ids, jaEncuats] = await Promise.all([
 			bd.ascensions.toCollection().primaryKeys(),
 			bd.outbox.toCollection().primaryKeys()
@@ -408,11 +469,17 @@ function comptarBloquejades(): Promise<number> {
 	return obtenirBd().outbox.filter(bloquejada).count();
 }
 
-/** Entrades pendents de pujar que no estan bloquejades (el que la UI mostra com a pendent). */
-function comptarPendents(): Promise<number> {
-	return obtenirBd()
-		.outbox.filter((e) => !bloquejada(e))
-		.count();
+/**
+ * Canvis pendents de pujar (el que la UI mostra com a pendent): entrades de la cua que no estan
+ * bloquejades, més el municipi d'origen si té un canvi local sense pujar.
+ */
+async function comptarPendents(): Promise<number> {
+	const bd = obtenirBd();
+	const [cua, origen] = await Promise.all([
+		bd.outbox.filter((e) => !bloquejada(e)).count(),
+		bd.preferencies.get('origen')
+	]);
+	return cua + (origen?.pendent ? 1 : 0);
 }
 
 /**
@@ -455,6 +522,9 @@ function mateixaFila(a: FilaAscensio, b: FilaAscensio): boolean {
 		a.data === b.data &&
 		a.metode === b.metode &&
 		a.nota === b.nota &&
+		// Una fila local sense la clau no és igual que la remota (que sempre la porta): s'hi escriu.
+		(a.companys === undefined) === (b.companys === undefined) &&
+		mateixosCompanys(a.companys, b.companys) &&
 		a.createdAt === b.createdAt &&
 		a.updatedAt === b.updatedAt &&
 		a.deletedAt === b.deletedAt
@@ -484,6 +554,62 @@ async function baixar(remot: Remot, epoca: string | null): Promise<number> {
 }
 
 /**
+ * Sincronitza el municipi d'origen amb el compte (LWW per `updatedAt`; empat → servidor).
+ * - Amb un canvi local pendent: es puja i el servidor retorna el valor que guanya.
+ * - Sense: només es llegeix el del compte.
+ * El resultat s'aplica en local dins d'una transacció que comprova l'època i que la preferència
+ * no hagi canviat mentre la petició era en vol (si ha canviat, queda pendent per a la sync
+ * següent). Si el servidor rebutja el canvi (no hauria de passar: el client ja valida el codi),
+ * la passada continua: el municipi d'origen no ha de bloquejar la sync de les ascensions.
+ */
+async function sincronitzarOrigen(remot: Remot, epoca: string | null): Promise<void> {
+	if (!remot.origen) return;
+	const bd = obtenirBd();
+	const local = await bd.preferencies.get('origen');
+	let guanyador: OrigenSync | null;
+	try {
+		guanyador = await remot.origen(
+			local?.pendent ? { codi: local.valor, updatedAt: local.updatedAt } : null
+		);
+	} catch (e) {
+		if (e instanceof ErrorSync && e.codi === 'servidor') {
+			// Sense el valor al registre: és una dada personal.
+			console.warn("[sync] el servidor no ha acceptat el municipi d'origen");
+			return;
+		}
+		throw e;
+	}
+	if (guanyador && guanyador.codi !== null && !esCodiMunicipi(guanyador.codi)) return;
+	await bd.transaction('rw', bd.preferencies, bd.meta, async () => {
+		await comprovarEpoca(epoca);
+		const actual = await bd.preferencies.get('origen');
+		const canviat =
+			(actual?.updatedAt ?? null) !== (local?.updatedAt ?? null) ||
+			(actual?.valor ?? null) !== (local?.valor ?? null);
+		if (canviat) return; // l'usuari l'ha tornat a canviar: sortirà a la sync següent
+		if (!guanyador || (actual && guanyador.updatedAt < actual.updatedAt)) {
+			// El compte no té l'origen local (o en té un de més antic): es torna a pujar.
+			if (actual && !actual.pendent) await bd.preferencies.put({ ...actual, pendent: 1 });
+			return;
+		}
+		const nou: EntradaPreferencia = {
+			clau: 'origen',
+			valor: guanyador.codi,
+			updatedAt: guanyador.updatedAt,
+			pendent: 0
+		};
+		if (
+			!actual ||
+			actual.valor !== nou.valor ||
+			actual.updatedAt !== nou.updatedAt ||
+			actual.pendent !== 0
+		) {
+			await bd.preferencies.put(nou);
+		}
+	});
+}
+
+/**
  * Una passada completa de sync per a `usuariId`. Llança `ErrorSync` si falla la xarxa, la sessió
  * o el servidor (el que s'hagi aplicat fins aleshores queda aplicat; tornar-la a fer és segur), i
  * `SyncAvortada` si mentrestant s'han esborrat les dades locals (`meta.epoca` ha canviat): en
@@ -500,6 +626,7 @@ export async function sincronitzar(remot: Remot, usuariId: string): Promise<Resu
 	if (!propietari) await adoptarDadesLocals(usuariId, epoca);
 	const { pujades, rebutjades, reassignades } = await pujar(remot, epoca);
 	const baixades = await baixar(remot, epoca);
+	await sincronitzarOrigen(remot, epoca);
 	await bd.transaction('rw', bd.meta, async () => {
 		await comprovarEpoca(epoca);
 		await bd.meta.put({ clau: 'ultimaSync', valor: ara().toISOString() });
@@ -704,9 +831,10 @@ export function configurarSync(nou: { remot: Remot; usuariId: string } | null): 
 /**
  * Resol el conflicte "dades d'un altre compte al dispositiu":
  * - `fusionar`: les dades locals passen al compte actual i es pugen (les que ja eren al núvol de
- *   l'altre compte, rebutjades com a `id en ús`, hi entren amb un id nou);
- * - `descartar-locals`: s'esborren del dispositiu (no del núvol de l'altre compte) i es baixen
- *   les del compte actual.
+ *   l'altre compte, rebutjades com a `id en ús`, hi entren amb un id nou). El municipi d'origen
+ *   del dispositiu també es puja i guanya el més recent (LWW);
+ * - `descartar-locals`: s'esborren del dispositiu (no del núvol de l'altre compte), també el
+ *   municipi d'origen, i es baixen les dades i l'origen del compte actual.
  */
 export async function resoldreConflicteCompte(
 	accio: 'fusionar' | 'descartar-locals'
@@ -719,10 +847,11 @@ export async function resoldreConflicteCompte(
 			novaEpoca()
 		]);
 	} else {
-		await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+		await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.preferencies, async () => {
 			await bd.ascensions.clear();
 			await bd.outbox.clear();
 			await bd.meta.clear();
+			await bd.preferencies.clear();
 			await bd.meta.put(novaEpoca());
 		});
 	}
@@ -732,14 +861,19 @@ export async function resoldreConflicteCompte(
 
 /**
  * Les dades locals deixen de ser de ningú (p. ex. després d'esborrar el compte i conservar-les).
- * Renova l'època: una passada en vol del compte anterior no hi escriu res més.
+ * Renova l'època: una passada en vol del compte anterior no hi escriu res més. El municipi
+ * d'origen es queda al dispositiu, pendent de pujar al compte que hi entri després.
  */
 export async function alliberarDadesLocals(): Promise<void> {
-	await obtenirBd().meta.bulkPut([
-		{ clau: 'propietari', valor: null },
-		{ clau: 'cursorPull', valor: null },
-		novaEpoca()
-	]);
+	const bd = obtenirBd();
+	await bd.transaction('rw', bd.meta, bd.preferencies, async () => {
+		await bd.meta.bulkPut([
+			{ clau: 'propietari', valor: null },
+			{ clau: 'cursorPull', valor: null },
+			novaEpoca()
+		]);
+		await bd.preferencies.toCollection().modify({ pendent: 1 });
+	});
 }
 
 /** Només per a tests: torna l'orquestració a l'estat inicial. */

@@ -6,3 +6,6 @@ export * from './geo';
 export * from './carnet';
 export * from './a-prop';
 export * from './dificultat';
+export * from './diari';
+export * from './municipis';
+export * from './estadistiques';

@@ -13,12 +13,19 @@
  * La sessió es desa al dispositiu (`platform/supabase.ts`) i la sync (`sync.ts`) s'activa sola
  * mentre hi ha sessió. Aquest mòdul és de navegador: importa'l de manera diferida.
  */
-import { esborrarTot, FORMAT_EXPORTACIO, VERSIO_EXPORTACIO, type StoreLectura } from './ascensions';
+import {
+	esborrarTot,
+	FORMAT_EXPORTACIO,
+	nomMunicipi,
+	VERSIO_EXPORTACIO,
+	type StoreLectura
+} from './ascensions';
 import { CATALEG_VERSIO, CIMS } from './catalog/cataleg';
 import { ara } from './local/rellotge';
 import {
 	alliberarDadesLocals,
 	classificarError,
+	COLUMNES_PULL,
 	configurarSync,
 	filaDesDeSql,
 	remotSupabase,
@@ -290,9 +297,9 @@ export async function completarEntradaDesDeUrl(
 }
 
 /**
- * Tanca la sessió en aquest dispositiu. Les dades locals es queden (marcades com a de l'usuari
- * que surt: si hi entra un altre compte, se li preguntarà què fer-ne) llevat de
- * `esborrarDades: true`, que les esborra del dispositiu (no del núvol).
+ * Tanca la sessió en aquest dispositiu. Les dades locals (ascensions i municipi d'origen) es
+ * queden (marcades com a de l'usuari que surt: si hi entra un altre compte, se li preguntarà què
+ * fer-ne) llevat de `esborrarDades: true`, que les esborra del dispositiu (no del núvol).
  */
 export async function sortir(opcions: { esborrarDades?: boolean } = {}): Promise<void> {
 	configurarSync(null);
@@ -312,9 +319,10 @@ export async function sortir(opcions: { esborrarDades?: boolean } = {}): Promise
 // ---------------------------------------------------------------------------
 
 /**
- * Esborra el compte i totes les dades del núvol (RPC `esborrar_compte`, irreversible) i tanca la
- * sessió. Per defecte també esborra les dades d'aquest dispositiu; amb
- * `conservarDispositiu: true` s'hi queden com a dades sense compte.
+ * Esborra el compte i totes les dades del núvol (RPC `esborrar_compte`, irreversible: ascensions
+ * amb les notes i els companys, i el perfil amb el municipi d'origen) i tanca la sessió. Per
+ * defecte també esborra les dades d'aquest dispositiu; amb `conservarDispositiu: true` s'hi queden
+ * com a dades sense compte (també el municipi d'origen).
  * Cal xarxa i sessió vàlida.
  * @throws ErrorCompte (`sessio`, `xarxa`, `servidor`)
  */
@@ -343,8 +351,9 @@ export async function esborrarCompte(
 
 /**
  * Exportació de les dades del compte al núvol (RGPD, art. 15 i 20): JSON amb el mateix format
- * que `exportarDades` (importable amb `importarDades`), més `compte` (id, correu, perfil) i les
- * ascensions esborrades (`deletedAt`; la importació les ignora). Cal xarxa i sessió.
+ * que `exportarDades` (versió 2, importable amb `importarDades`): les ascensions amb la nota i
+ * els companys, `preferencies.origen` (municipi d'origen del compte), més `compte` (id, correu,
+ * perfil) i les ascensions esborrades (`deletedAt`; la importació les ignora). Cal xarxa i sessió.
  * @throws ErrorCompte (`sessio`, `xarxa`, `servidor`)
  */
 export async function exportarDadesCompte(): Promise<string> {
@@ -358,9 +367,7 @@ export async function exportarDadesCompte(): Promise<string> {
 	for (let desde = 0; ; desde += PAGINA) {
 		const res = await c
 			.from('ascensions')
-			.select(
-				'id, cim_id, data, metode, nota, created_at, updated_at, deleted_at, server_updated_at'
-			)
+			.select(COLUMNES_PULL)
 			.order('data', { ascending: false })
 			.order('id', { ascending: true })
 			.range(desde, desde + PAGINA - 1);
@@ -371,7 +378,17 @@ export async function exportarDadesCompte(): Promise<string> {
 		files.push(...res.data.map((r) => filaDesDeSql(r).fila));
 		if (res.data.length < PAGINA) break;
 	}
-	const perfil = await c.from('perfils').select('alias, created_at, updated_at').maybeSingle();
+	const perfil = await c
+		.from('perfils')
+		.select('alias, origen_municipi, origen_updated_at, created_at, updated_at')
+		.maybeSingle();
+	if (perfil.error) {
+		const e = classificarError(perfil.error, perfil.status);
+		throw new ErrorCompte(e.codi, perfil.error.message);
+	}
+	const origenCodi = perfil.data?.origen_municipi ?? null;
+	const origenAt = perfil.data?.origen_updated_at ?? null;
+	const origenNom = await nomMunicipi(origenCodi);
 	const noms = new Map(CIMS.map((cim) => [cim.id, cim.nom]));
 	const vives = files.filter((f) => !f.deletedAt);
 	return JSON.stringify(
@@ -387,6 +404,12 @@ export async function exportarDadesCompte(): Promise<string> {
 				email: usuari.email,
 				perfil: perfil.data ?? null
 			},
+			preferencies: {
+				origen:
+					origenCodi && origenAt
+						? { codi: origenCodi, nom: origenNom, updatedAt: new Date(origenAt).toISOString() }
+						: null
+			},
 			total: vives.length,
 			ascensions: files.map((f) => ({
 				id: f.id,
@@ -395,6 +418,7 @@ export async function exportarDadesCompte(): Promise<string> {
 				data: f.data,
 				metode: f.metode,
 				nota: f.nota,
+				companys: f.companys ?? [],
 				createdAt: f.createdAt,
 				updatedAt: f.updatedAt,
 				...(f.deletedAt ? { deletedAt: f.deletedAt } : {})

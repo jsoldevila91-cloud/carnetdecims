@@ -151,6 +151,12 @@ export interface Ascensio {
 	data: DataISO;
 	metode: Metode;
 	nota: string | null;
+	/**
+	 * Diari de muntanya (bloc R1): companys de l'ascensió, noms o àlies en text lliure ja
+	 * normalitzats (`normalitzarCompanys` a `diari.ts`). `[]` = sense companys. La capa de dades
+	 * sempre el retorna (les files antigues que no el tenen es llegeixen com a `[]`).
+	 */
+	companys: string[];
 	createdAt: InstantISO;
 	updatedAt: InstantISO;
 	/** Tombstone de sincronización: si tiene valor, la ascensión está borrada. */

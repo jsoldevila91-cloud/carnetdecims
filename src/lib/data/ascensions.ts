@@ -7,13 +7,19 @@
  * - Els esborrats són làpides (`deletedAt`), per poder-los desfer i sincronitzar.
  * - Valida amb les regles del domini (`validarData`, `validarMetode`) i amb el catàleg.
  *   La app només fa seguiment: la validació oficial és de la FEEC.
+ * - Diari de muntanya (bloc R1): cada ascensió pot portar una nota i els companys (noms en text
+ *   lliure, `domain/diari.ts`). Són dades personals i de tercers: només al dispositiu i, amb
+ *   sessió, al compte de l'usuari; mai en una URL ni en un registre.
  *
  * Sense imports del framework (usable a Capacitor). La UI hi accedeix amb `ascensionsVives()`.
  */
 import { liveQuery } from 'dexie';
 import {
 	avuiLocal,
+	esCodiMunicipi,
 	esDataIsoValida,
+	mateixosCompanys,
+	normalitzarCompanys,
 	validarData,
 	validarMetode,
 	type Ascensio,
@@ -26,6 +32,7 @@ import {
 	obtenirBd,
 	type CarnetDb,
 	type EntradaOutbox,
+	type EntradaPreferencia,
 	type FilaAscensio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
@@ -43,12 +50,18 @@ export interface NovaAscensio {
 	data: string;
 	metode: Metode;
 	nota?: string;
+	/**
+	 * Companys de l'ascensió (diari de muntanya): noms o àlies en text lliure. Es normalitzen en
+	 * desar (espais, buits i repetits fora): vegeu `normalitzarCompanys`. Límits: `COMPANYS_MAX`
+	 * noms de `COMPANY_MAX_CARACTERS` caràcters (`$lib/domain`).
+	 */
+	companys?: string[];
 }
 
 /** Llargada màxima de la nota (caràcters Unicode, com `char_length` de Postgres). */
 export const NOTA_MAX = 500;
 
-export type CampAscensio = 'cimId' | 'data' | 'metode' | 'nota';
+export type CampAscensio = 'cimId' | 'data' | 'metode' | 'nota' | 'companys';
 
 /** Codis d'error estables (la UI els tradueix amb `messages/`). */
 export const CODIS_ERROR_VALIDACIO = [
@@ -58,7 +71,10 @@ export const CODIS_ERROR_VALIDACIO = [
 	'data:futura',
 	'metode:invalid',
 	'nota:format',
-	'nota:massa-llarga'
+	'nota:massa-llarga',
+	'companys:format',
+	'companys:massa',
+	'companys:massa-llarg'
 ] as const;
 export type CodiErrorValidacio = (typeof CODIS_ERROR_VALIDACIO)[number];
 
@@ -150,10 +166,21 @@ export function validarAscensio(
 	if (!validarMetode(o.metode)) errors.push(new ErrorValidacio('metode:invalid'));
 	const nota = normalitzarNota(o.nota);
 	if (!nota.ok) errors.push(new ErrorValidacio(nota.codi));
+	const companys = normalitzarCompanys(o.companys);
+	if (!companys.ok) errors.push(new ErrorValidacio(`companys:${companys.error}`));
 	return errors;
 }
 
-/** Valida i normalitza; llança el primer `ErrorValidacio`. */
+/** Companys ja validats (`validarAscensio`), normalitzats. */
+function companysNets(companys: unknown): string[] {
+	const r = normalitzarCompanys(companys);
+	return r.ok ? r.companys : [];
+}
+
+/**
+ * Valida i normalitza; llança el primer `ErrorValidacio`. `companys` només surt al resultat si
+ * l'entrada el porta (vegeu `FilaAscensio`: una fila sense la clau no es puja amb companys).
+ */
 function validarONormalitzar(input: NovaAscensio, avui: DataISO) {
 	const [primer] = validarAscensio(input, avui);
 	if (primer) throw primer;
@@ -161,7 +188,8 @@ function validarONormalitzar(input: NovaAscensio, avui: DataISO) {
 		cimId: input.cimId,
 		data: input.data,
 		metode: input.metode,
-		nota: notaNeta(input.nota)
+		nota: notaNeta(input.nota),
+		...(input.companys !== undefined ? { companys: companysNets(input.companys) } : {})
 	};
 }
 
@@ -170,23 +198,37 @@ function validarONormalitzar(input: NovaAscensio, avui: DataISO) {
 // ---------------------------------------------------------------------------
 
 /** Ordre de l'historial: data desc, després `createdAt` desc (i `id` per estabilitat). */
-function ordenar(a: Ascensio, b: Ascensio): number {
+function ordenar(
+	a: Pick<Ascensio, 'id' | 'data' | 'createdAt'>,
+	b: Pick<Ascensio, 'id' | 'data' | 'createdAt'>
+): number {
 	if (a.data !== b.data) return a.data < b.data ? 1 : -1;
 	if (a.createdAt !== b.createdAt) return a.createdAt < b.createdAt ? 1 : -1;
 	return a.id < b.id ? 1 : a.id > b.id ? -1 : 0;
 }
 
+/** Fila → `Ascensio` (còpia): les files sense `companys` (anteriors a R1) es llegeixen com a `[]`. */
+export function ascensioDeFila(f: FilaAscensio): Ascensio {
+	return { ...f, companys: f.companys ? [...f.companys] : [] };
+}
+
+/** Ascensions vives d'una llista de files, en l'ordre de l'historial. */
+export function vivesDeFiles(files: readonly FilaAscensio[]): Ascensio[] {
+	return files
+		.filter((f) => !f.deletedAt)
+		.sort(ordenar)
+		.map(ascensioDeFila);
+}
+
 function vives(bd: CarnetDb): Promise<Ascensio[]> {
-	return bd.ascensions.toArray().then((files) => files.filter((f) => !f.deletedAt).sort(ordenar));
+	return bd.ascensions.toArray().then(vivesDeFiles);
 }
 
 function encuar(bd: CarnetDb, ascensioId: string, encuaAt: string): Promise<unknown> {
 	return bd.outbox.put({ ascensioId, encuaAt, intents: 0 });
 }
 
-function copia(f: FilaAscensio): Ascensio {
-	return { ...f };
-}
+const copia = ascensioDeFila;
 
 // ---------------------------------------------------------------------------
 // CRUD
@@ -204,6 +246,8 @@ export async function afegirAscensio(input: NovaAscensio): Promise<Ascensio> {
 	const fila: FilaAscensio = {
 		id: uuidv7(instant.getTime()),
 		...net,
+		// Una ascensió nova sempre porta la clau (sense companys = `[]`).
+		companys: net.companys ?? [],
 		createdAt: ts,
 		updatedAt: ts,
 		deletedAt: null
@@ -218,7 +262,8 @@ export async function afegirAscensio(input: NovaAscensio): Promise<Ascensio> {
 
 /**
  * Modifica una ascensió viva. Valida el resultat complet. `nota: ''` esborra la nota;
- * `nota: undefined` (o absent) la deixa igual.
+ * `nota: undefined` (o absent) la deixa igual. `companys: []` treu els companys;
+ * `companys: undefined` (o absent) els deixa igual.
  * @throws ErrorValidacio, ErrorAscensioNoTrobada
  */
 export async function actualitzarAscensio(
@@ -233,7 +278,9 @@ export async function actualitzarAscensio(
 			cimId: canvis.cimId !== undefined ? canvis.cimId : actual.cimId,
 			data: canvis.data !== undefined ? canvis.data : actual.data,
 			metode: canvis.metode !== undefined ? canvis.metode : actual.metode,
-			nota: canvis.nota !== undefined ? (canvis.nota ?? '') : (actual.nota ?? undefined)
+			nota: canvis.nota !== undefined ? (canvis.nota ?? '') : (actual.nota ?? undefined),
+			// Sense canvi de companys, la fila es queda com estava (amb la clau o sense).
+			companys: canvis.companys !== undefined ? (canvis.companys ?? []) : actual.companys
 		};
 		const net = validarONormalitzar(combinat, avuiLocal(ara()));
 		const fila: FilaAscensio = {
@@ -351,7 +398,12 @@ export function ascensionsVivesAmbEstat(): StoreLectura<{
 // ---------------------------------------------------------------------------
 
 export const FORMAT_EXPORTACIO = 'carnetdecims.ascensions';
-export const VERSIO_EXPORTACIO = 1;
+/**
+ * Versió del format d'exportació. La importació accepta totes les versions fins a aquesta.
+ * - 1: ascensions (cim, data, mètode, nota).
+ * - 2 (bloc R1): `companys` a cada ascensió i `preferencies.origen` (municipi d'origen).
+ */
+export const VERSIO_EXPORTACIO = 2;
 /** Límits defensius de la importació. */
 export const IMPORTACIO_MAX_BYTES = 10 * 1024 * 1024;
 export const IMPORTACIO_MAX_ASCENSIONS = 20_000;
@@ -364,7 +416,18 @@ export interface AscensioExportada {
 	data: DataISO;
 	metode: Metode;
 	nota: string | null;
+	/** Des de la versió 2. Absent (fitxers de la versió 1) = el fitxer no en diu res. */
+	companys?: string[];
 	createdAt: string;
+	updatedAt: string;
+}
+
+/** Municipi d'origen dins d'una exportació (versió 2). */
+export interface OrigenExportat {
+	/** `Municipi.codi`, o `null` si l'usuari el va treure. */
+	codi: string | null;
+	/** Només informatiu (no s'importa): nom del municipi. */
+	nom?: string;
 	updatedAt: string;
 }
 
@@ -375,16 +438,31 @@ export interface Exportacio {
 	exportatAt: string;
 	catalegVersio: string;
 	avis: string;
+	/** Des de la versió 2. `origen: null` = sense municipi d'origen. */
+	preferencies?: { origen: OrigenExportat | null };
 	total: number;
 	ascensions: AscensioExportada[];
 }
 
+/** Nom del municipi per a l'exportació (informatiu). Si el conjunt no es pot carregar, res. */
+export async function nomMunicipi(codi: string | null): Promise<string | undefined> {
+	if (!codi) return undefined;
+	try {
+		const { carregarMunicipis } = await import('./municipis');
+		return (await carregarMunicipis()).find((m) => m.codi === codi)?.nom;
+	} catch {
+		return undefined;
+	}
+}
+
 /**
- * Còpia de seguretat / portabilitat (RGPD): JSON versionat amb metadades i les ascensions
- * vives (les làpides no hi surten).
+ * Còpia de seguretat / portabilitat (RGPD): JSON versionat amb metadades, el municipi d'origen
+ * i les ascensions vives amb la nota i els companys (les làpides no hi surten).
  */
 export async function exportarDades(): Promise<string> {
-	const llista = await vives(obtenirBd());
+	const bd = obtenirBd();
+	const [llista, pref] = await Promise.all([vives(bd), bd.preferencies.get('origen')]);
+	const nomOrigen = await nomMunicipi(pref?.valor ?? null);
 	const noms = new Map(CIMS.map((c) => [c.id, c.nom]));
 	const exp: Exportacio = {
 		format: FORMAT_EXPORTACIO,
@@ -393,6 +471,9 @@ export async function exportarDades(): Promise<string> {
 		exportatAt: ara().toISOString(),
 		catalegVersio: CATALEG_VERSIO,
 		avis: 'Còpia personal de Carnet de Cims (web no oficial). No és el registre oficial del repte 100 Cims: la validació la fa la FEEC a través de les entitats.',
+		preferencies: {
+			origen: pref?.valor ? { codi: pref.valor, nom: nomOrigen, updatedAt: pref.updatedAt } : null
+		},
 		total: llista.length,
 		ascensions: llista.map((a) => ({
 			id: a.id,
@@ -401,6 +482,7 @@ export async function exportarDades(): Promise<string> {
 			data: a.data,
 			metode: a.metode,
 			nota: a.nota,
+			companys: a.companys,
 			createdAt: a.createdAt,
 			updatedAt: a.updatedAt
 		}))
@@ -416,7 +498,10 @@ function instantValid(v: unknown, maxim: number): v is string {
 	return !Number.isNaN(t) && esDataIsoValida(v.slice(0, 10)) && t <= maxim;
 }
 
-/** Converteix una entrada del fitxer en fila viva vàlida, o `null` si s'ha d'ignorar. */
+/**
+ * Converteix una entrada del fitxer en fila viva vàlida, o `null` si s'ha d'ignorar. `companys`
+ * només surt a la fila si l'entrada el porta (els fitxers de la versió 1 no en diuen res).
+ */
 function filaImportada(v: unknown, avui: DataISO, maxInstant: number): FilaAscensio | null {
 	if (typeof v !== 'object' || v === null || Array.isArray(v)) return null;
 	const o = v as Record<string, unknown>;
@@ -435,26 +520,77 @@ function filaImportada(v: unknown, avui: DataISO, maxInstant: number): FilaAscen
 		data: o.data as DataISO,
 		metode: o.metode as Metode,
 		nota: notaNeta(o.nota),
+		...(o.companys !== undefined ? { companys: companysNets(o.companys) } : {}),
 		createdAt,
 		updatedAt,
 		deletedAt: null
 	};
 }
 
-function mateixContingut(a: FilaAscensio, b: FilaAscensio): boolean {
+/** `fitxer` sense `companys` (versió 1) no en diu res: no compta com a diferència. */
+function mateixContingut(local: FilaAscensio, fitxer: FilaAscensio): boolean {
 	return (
-		a.cimId === b.cimId &&
-		a.data === b.data &&
-		a.metode === b.metode &&
-		a.nota === b.nota &&
-		!a.deletedAt === !b.deletedAt
+		local.cimId === fitxer.cimId &&
+		local.data === fitxer.data &&
+		local.metode === fitxer.metode &&
+		local.nota === fitxer.nota &&
+		(fitxer.companys === undefined || mateixosCompanys(local.companys, fitxer.companys)) &&
+		!local.deletedAt === !fitxer.deletedAt
 	);
+}
+
+/** Si el fitxer no porta `companys` (versió 1), es conserven els de la fila local. */
+function ambCompanysLocals(fitxer: FilaAscensio, local: FilaAscensio): FilaAscensio {
+	if (fitxer.companys !== undefined || local.companys === undefined) return fitxer;
+	return { ...fitxer, companys: local.companys };
+}
+
+/**
+ * Municipi d'origen d'un fitxer (versió 2): `undefined` si el fitxer no en porta (versió 1) o
+ * no és vàlid; `null` si diu explícitament que no n'hi ha.
+ */
+function origenImportat(
+	preferencies: unknown,
+	maxInstant: number
+): { codi: string; updatedAt: string } | null | undefined {
+	if (typeof preferencies !== 'object' || preferencies === null) return undefined;
+	const o = (preferencies as Record<string, unknown>).origen;
+	if (o === null) return null;
+	if (typeof o !== 'object' || o === undefined) return undefined;
+	const { codi, updatedAt } = o as Record<string, unknown>;
+	if (codi === null) return null;
+	if (!esCodiMunicipi(codi) || !instantValid(updatedAt, maxInstant)) return undefined;
+	return { codi, updatedAt: new Date(updatedAt).toISOString() };
+}
+
+/**
+ * Preferència a escriure en importar, o `null` si no cal tocar-la.
+ * - `fusionar`: guanya la més recent (LWW per `updatedAt`, com la sync); un fitxer sense origen
+ *   no esborra el local.
+ * - `substituir`: el dispositiu queda amb l'origen del fitxer (també si diu que no n'hi ha), amb
+ *   un `updatedAt` nou perquè guanyi també a la sync.
+ */
+function origenAEscriure(
+	fitxer: { codi: string; updatedAt: string } | null | undefined,
+	local: EntradaPreferencia | undefined,
+	mode: 'fusionar' | 'substituir'
+): EntradaPreferencia | null {
+	if (fitxer === undefined) return null;
+	if (mode === 'fusionar') {
+		if (fitxer === null || (local && fitxer.updatedAt <= local.updatedAt)) return null;
+		return { clau: 'origen', valor: fitxer.codi, updatedAt: fitxer.updatedAt, pendent: 1 };
+	}
+	const valor = fitxer?.codi ?? null;
+	if ((local?.valor ?? null) === valor) return null;
+	return { clau: 'origen', valor, updatedAt: instantEscriptura(local?.updatedAt), pendent: 1 };
 }
 
 export interface ResultatImportacio {
 	afegides: number;
 	actualitzades: number;
 	ignorades: number;
+	/** `true` si la importació ha canviat el municipi d'origen del dispositiu (versió 2). */
+	origenImportat?: true;
 }
 
 /** Progrés de l'escriptura d'una importació (files escrites / files a escriure). */
@@ -475,8 +611,11 @@ export interface OpcionsImportacio {
 const BLOC_IMPORTACIO = 200;
 
 /**
- * Importa un fitxer d'`exportarDades`. Cada entrada es valida amb les mateixes regles que el
- * registre (les no vàlides, les làpides i els ids repetits compten com a `ignorades`).
+ * Importa un fitxer d'`exportarDades` (versió 1 o 2 del format). Cada entrada es valida amb les
+ * mateixes regles que el registre (les no vàlides, les làpides i els ids repetits compten com a
+ * `ignorades`). Els fitxers de la versió 1 no porten companys ni municipi d'origen: no toquen
+ * els que hi hagi al dispositiu. Amb la versió 2, el municipi d'origen també s'importa
+ * (`fusionar`: guanya el més recent; `substituir`: guanya el fitxer).
  * - `fusionar`: afegeix les noves; si l'id ja existeix, guanya la de `updatedAt` més recent
  *   (LWW, com la sync). Reimportar el mateix fitxer no canvia res (idempotent).
  * - `substituir`: el dispositiu queda amb exactament les ascensions del fitxer. Les locals que
@@ -540,9 +679,11 @@ export async function importarDades(
 		}
 	};
 
+	const origenFitxer = origenImportat(d.preferencies, maxInstant);
+
 	const bd = obtenirBd();
 	const encuaAt = instant.toISOString();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.preferencies, async () => {
 		let afegides = 0;
 		let actualitzades = 0;
 		const files = [...perId.values()];
@@ -564,14 +705,17 @@ export async function importarDades(
 				afegides++;
 			} else if (mode === 'fusionar') {
 				if (fila.updatedAt > local.updatedAt) {
-					posar(fila, encuaAt);
+					posar(ambCompanysLocals(fila, local), encuaAt);
 					actualitzades++;
 				} else ignorades++;
 			} else if (mateixContingut(local, fila)) {
 				ignorades++;
 			} else {
 				// Substituir: guanya el fitxer; `updatedAt` nou perquè guanyi també a la sync.
-				const nova = { ...fila, updatedAt: instantEscriptura(local.updatedAt) };
+				const nova = {
+					...ambCompanysLocals(fila, local),
+					updatedAt: instantEscriptura(local.updatedAt)
+				};
 				posar(nova, nova.updatedAt);
 				actualitzades++;
 			}
@@ -590,24 +734,28 @@ export async function importarDades(
 			await bd.outbox.bulkPut(cua.slice(i, i + BLOC_IMPORTACIO));
 			avisar({ fetes: Math.min(total, i + BLOC_IMPORTACIO), total });
 		}
-		return { afegides, actualitzades, ignorades };
+		const origen = origenAEscriure(origenFitxer, await bd.preferencies.get('origen'), mode);
+		if (origen) await bd.preferencies.put(origen);
+		return { afegides, actualitzades, ignorades, ...(origen ? { origenImportat: true } : {}) };
 	});
 }
 
 /**
- * Esborra del dispositiu totes les ascensions (també les làpides), la cua de sync i les
- * metadades de la sync (propietari i cursor) (RGPD). Irreversible **en aquest dispositiu**: amb
- * compte, el núvol no es toca i la sync següent hi tornarà a baixar les dades (per esborrar-les
- * del núvol, `esborrarCompte`). Els stores vius emeten `[]`.
+ * Esborra del dispositiu totes les ascensions (també les làpides), la cua de sync, les
+ * metadades de la sync (propietari i cursor) i les preferències (municipi d'origen) (RGPD).
+ * Irreversible **en aquest dispositiu**: amb compte, el núvol no es toca i la sync següent hi
+ * tornarà a baixar les dades i el municipi d'origen (per esborrar-los del núvol,
+ * `esborrarCompte`). Els stores vius emeten `[]` i l'origen queda buit.
  * Una passada de sync en curs no hi pot tornar a escriure (renova `meta.epoca`): no reapareix cap
  * fila ni cursor; amb el cursor esborrat, la sync següent ho baixa tot de nou.
  */
 export async function esborrarTot(): Promise<void> {
 	const bd = obtenirBd();
-	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.preferencies, async () => {
 		await bd.ascensions.clear();
 		await bd.outbox.clear();
 		await bd.meta.clear();
+		await bd.preferencies.clear();
 		// Invalida qualsevol passada de sync en vol: no hi tornarà a escriure (vegeu `sync.ts`).
 		await bd.meta.put(novaEpoca());
 	});
