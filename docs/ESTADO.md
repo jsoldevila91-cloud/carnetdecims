@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-10.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-11.
 
 ## Hecho
 
@@ -162,6 +162,27 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Correcciones de QA:** H1 de la ficha con saltos por 9 tramos de ancho (CLS 0 al cargar Archivo en tablet); carrera borrado local ↔ sync resuelta con `meta.epoca` (las pasadas en curso abortan sin escribir).
 - **QA:** E2E ampliados a las 50 fichas con oráculo independiente (`e2e/fitxes-contingut.ts`). Pasada completa: 2806 pasados; verificación final 744/744 en los 3 proyectos; 1002 unitarios.
 - **No bloqueantes:** a 960 px la cabecera de algunas fichas crece +23 px al cargar la fuente (no es el H1; posiblemente los botones); si un push ya ha salido cuando se borran los datos locales, esas filas llegan a la nube (habrían llegado igual).
+
+## Bloque 6c (en curso, 2026-10-11)
+
+**Modelo por encargo (decisión del usuario, 2026-10-10):** Sonnet redacta, Opus revisa (revisión completa, abriendo las fuentes), QA de suites con Sonnet. Encargo estricto de redacción ("cita literal o no se escribe" + archivo de notas por tanda): `scratchpad/encargo-6c.md` de la sesión; sus reglas están resumidas en el commit `e4abc78` y en la memoria del proyecto.
+
+| Tanda | Zona                                                                                                              | Fichas | Estado                                                                                          |
+| ----- | ----------------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- |
+| 1     | Val d'Aran, Alta Ribagorça, Pallars Sobirà y Jussà                                                                | 26     | redactada y **revisada** (`e4abc78`), **publicada**                                             |
+| 2     | Alt Urgell, Cerdanya, Berguedà, Ripollès, Catalunya Nord, Solsonès                                                | 26     | redactada y **revisada** (`e4abc78`), **publicada**                                             |
+| 3     | Alt Empordà, Garrotxa, Osona, Selva, Maresme, Vallès, Barcelonès, Baix Llobregat, Bages, Anoia, Alt Penedès       | 24     | borrador en `a37eadf`; **revisión de Opus en curso**; sin publicar                              |
+| 4     | Noguera, Alt Camp, Baix Camp, Baix Ebre, Conca, Garrigues, Montsià, Ribera d'Ebre, Segrià, Tarragonès, Terra Alta | 23 + 1 | borrador en `2e9f525`; **revisión de Opus en curso** (y redacta `el-tossal-gros`); sin publicar |
+
+- **Publicado en carnetdecims.cat (2026-10-11):** `e4abc78` + la corrección de catálogo `595f64d` (102 fichas revisadas por SEO; las tandas 3 y 4 no se publican hasta que Opus las revise). Se despliega desde un worktree aparte (`git cherry-pick -n` del catálogo sobre `e4abc78`).
+- **Calidad de los borradores de Sonnet (tandas 1 y 2):** 6/10; ≈ 1,5 errores de hecho por ficha (atribuciones falsas, datos de la cima o variante vecina), 10–12 serios por tanda. Tras Opus: 8/10. Pendiente el dato de las tandas 3 y 4 (encargo estricto) para decidir si Sonnet sigue redactando.
+- **Catálogo:** `el-tossal-gros` era el homónimo equivocado (Mont-ral, 844 m) → **Tossal Gros de la serra de Miramar** (867 m, Figuerola del Camp–Montblanc; `595f64d`). Auditoría: los 150 cims quedan a ≤ 119 m de un elemento de Wikidata etiquetado en la lista de la FEEC. Riesgo de fondo: 46 búsquedas ICGC llegan al tope de 25 resultados sin aviso (añadir una alerta al informe del build).
+- **Al cerrar el 6c falta:**
+  1. guardar las tandas 3 y 4 revisadas (`git add -u src/lib/content/fitxes` + la ficha nueva `el-tossal-gros.ts`);
+  2. QA (Sonnet): `src/routes/(public)/cims/[slug]/page.server.spec.ts` usa `balandrau` como "cim sense contingut" (con 150 fichas no quedará ninguno: rediseñar con un doble); E2E: `SENSE_CONTINGUT` quedará vacío; pasada completa;
+  3. publicar y actualizar este documento.
+- **Para la revisión humana (JSR):** Pic de Certascan (`grimpada-facil` dudosa), Mont-roig (ruta apoyada en blogs; refugio Enric Pujol de emergencia), Tuc de la Llança (solo reseña invernal), Pic de Sotllo y Comaloforno (grimpada), fichas del Pirineu oriental con fuentes de blog (Monturull, Vulturó, Cogulló de Turp, Cap del Verd, Puig Peric, Tretzevents, Salòria), Elefant (sin fuente de ruta normal a la cima), Sant Salvador de les Espases (obras), Pic del Vent (¿2 km / 35 min son de ida?).
+- **Uso:** el 2026-10-11 el límite semanal del plan Pro estaba al 83 % (se restablece el 2026-10-16). Conviene abrir una sesión nueva para el bloque siguiente (R1).
 
 ## Siguiente
 
