@@ -3,6 +3,8 @@
 > Ideas del usuario aterrizadas por Claude. El equipo de agentes las afinará al planificar cada bloque.
 > Principios: lo que funciona **sin cuenta y en el dispositivo** va antes del lanzamiento; lo que necesita **servidor, cuentas o datos de otros usuarios** va tras la fase 5. Nada que comprometa la privacidad sin consentimiento explícito.
 
+> **Actualización (2026-10-11): ya hay cuentas en Supabase** (beta privada, 2026-10-09). La app sigue siendo local-first y todo funciona sin cuenta, pero **con sesión iniciada los datos nuevos se sincronizan**. Donde este documento dice "solo en el dispositivo" o "sin cuenta", léase "en el dispositivo y, con sesión, también en la nube". Detalle para R1 en "Encaje en el plan".
+
 ## 1. Visión: "Carnet de Cims" es un carnet de montaña, no solo del 100 Cims
 
 **Idea:** que la web no parezca 100 % centrada en el 100 Cims; que este sea el reto destacado, entre otros.
@@ -46,7 +48,7 @@
 
 - **% por comarca** (ya existe parcialmente en `/app/comarques`), **% por reto**, % de esenciales, % del catálogo total.
 - **"El cim que més has fet"**: contador de ascensiones por cima (las repeticiones ya se guardan) y ranking personal.
-- **"El cim més llunyà"**: requiere que el usuario indique **su municipio de origen** (lista de municipios del ICGC, no la dirección exacta; se guarda solo en el dispositivo; opcional). La distancia es la del municipio a la cima.
+- **"El cim més llunyà"**: requiere que el usuario indique **su municipio de origen** (lista de municipios del ICGC, no la dirección exacta; opcional; en el dispositivo y, con sesión, sincronizado como preferencia de la cuenta). La distancia es la del municipio a la cima.
 - Otros datos fáciles: altitud acumulada de las cimas, cima más alta, primer y último sello, mejor año, racha de meses seguidos con alguna cima.
 
 **Con cuentas (fase 5+):**
@@ -105,14 +107,22 @@ Los sellos son la recompensa; la razón para usar la app son las **3 necesidades
 
 ## Encaje en el plan (propuesta)
 
-| Bloque                       | Cuándo                                | Contenido                                                                                                                                                 |
-| ---------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **R1 · Estadístiques**       | antes del lanzamiento (tras la 6)     | municipio de origen (opcional, local), "cim que més has fet", "cim més llunyà", % por comarca, por reto y del catálogo, otros datos                       |
-| **R2 · Reptes i medalles**   | antes del lanzamiento                 | motor de retos (dato + función pura), 4–6 retos iniciales, sección "Reptes", medallas en el perfil, rediseño de mensajes (100 Cims destacado entre otros) |
-| **R3 · Compartir i validar** | antes del lanzamiento                 | imagen del carnet para compartir, enlace de solo lectura sin servidor, exportación para validación oficial                                                |
-| **R4 · Proper cim**          | antes o justo después del lanzamiento | recomendación según origen, dificultad, época y meteo                                                                                                     |
-| **Fase 5+**                  | con cuentas                           | percentil anónimo con opt-in, perfil público, amigos, fotos con permiso para Instagram, alertas push                                                      |
-| **Catálogo**                 | continuo                              | ampliación poco a poco con datos del ICGC (más allá de las 150), sin copiar la tabla de la FEEC                                                           |
+| Bloque                       | Cuándo                                | Contenido                                                                                                                                                                               |
+| ---------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **R1 · Estadístiques**       | antes del lanzamiento (tras la 6)     | municipio de origen (opcional; sincronizado con sesión), "cim que més has fet", "cim més llunyà", % por comarca, por reto y del catálogo, otros datos, diari de muntanya (sincronizado) |
+| **R2 · Reptes i medalles**   | antes del lanzamiento                 | motor de retos (dato + función pura), 4–6 retos iniciales, sección "Reptes", medallas en el perfil, rediseño de mensajes (100 Cims destacado entre otros)                               |
+| **R3 · Compartir i validar** | antes del lanzamiento                 | imagen del carnet para compartir, enlace de solo lectura sin servidor, exportación para validación oficial                                                                              |
+| **R4 · Proper cim**          | antes o justo después del lanzamiento | recomendación según origen, dificultad, época y meteo                                                                                                                                   |
+| **Fase 5+**                  | con cuentas                           | percentil anónimo con opt-in, perfil público, amigos, fotos con permiso para Instagram, alertas push                                                                                    |
+| **Catálogo**                 | continuo                              | ampliación poco a poco con datos del ICGC (más allá de las 150), sin copiar la tabla de la FEEC                                                                                         |
+
+### R1 con cuentas (decisión del usuario, 2026-10-11)
+
+- **Diari de muntanya (compañeros y notas):** son campos de la ascensión y **se sincronizan**. Requiere migración nueva en Supabase, ampliar `sync_push`, versión 2 de Dexie y actualizar el export/import JSON (versión del formato).
+- **Municipio de origen:** opcional. Sin sesión, solo en el dispositivo; **con sesión, se sincroniza como preferencia de la cuenta** (lo necesita "El teu proper cim" de R2). Hay que añadirlo a la política de privacidad y al exportar/borrar la cuenta.
+- **Estadísticas:** se calculan en el cliente a partir de las ascensiones; no se guarda nada nuevo.
+- **"% por reto":** en R1 solo el 100 Cims y el Repte infantil; el motor de retos llega en R2.
+- **Percentil ("ets del X %"):** fuera de R1. Sigue necesitando opt-in y un umbral mínimo de usuarios.
 
 ## Decisiones del usuario (2026-10-05)
 

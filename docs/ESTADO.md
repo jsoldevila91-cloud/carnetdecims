@@ -185,7 +185,12 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-**Bloque R1 · Estadístiques i diari** (docs/08 §3 y §6; antes del lanzamiento): municipio de origen (opcional, solo en el dispositivo), "el cim que més has fet", "el cim més llunyà", % por comarca, por reto y del catálogo, y **diari de muntanya** (compañeros y notas). Después: R2 (retos, medallas y "El teu proper cim"), R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+**Bloque R1 · Estadístiques i diari** (docs/08 §3 y §6; antes del lanzamiento): municipio de origen (opcional), "el cim que més has fet", "el cim més llunyà", % por comarca, por reto y del catálogo, y **diari de muntanya** (compañeros y notas).
+
+- **Con cuentas (decisión del 2026-10-11; docs/08 "R1 con cuentas"):** el diari y el municipio de origen **se sincronizan con Supabase** cuando hay sesión (sin sesión, solo en el dispositivo). Implica migración nueva en Supabase, ampliar `sync_push`, Dexie v2, export/import JSON y actualizar la privacitat.
+- Las estadísticas se calculan en el cliente. "% por reto" cubre solo el 100 Cims y el Repte infantil hasta R2. El percentil queda fuera de R1.
+
+Después: R2 (retos, medallas y "El teu proper cim"), R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
