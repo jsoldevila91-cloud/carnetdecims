@@ -55,7 +55,9 @@ type Entrada = string | [string, Opts];
 const LLISTA: Record<string, Entrada[]> = {
 	'alt-camp': [
 		'El Cogulló de Cabra',
-		'El Tossal Gros',
+		// Hi ha més de 25 topònims ICGC "Tossal Gros": la cerca pel nom sol no retorna el de la serra
+		// de Miramar (municipi Montblanc), que és el del repte (vegeu `manual.ts`).
+		['El Tossal Gros', { cerca: ['Tossal Gros Montblanc'] }],
 		['Tossa Grossa de Montferri', { article: 'la' }]
 	],
 	'alt-emporda': [

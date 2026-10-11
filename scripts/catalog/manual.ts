@@ -42,6 +42,17 @@ export interface ResolucioManual {
 }
 
 export const MANUAL: Record<string, ResolucioManual> = {
+	'el-tossal-gros': {
+		icgc: { nom: 'Tossal Gros', municipi: 'Montblanc' },
+		wikidata: 'Q7827867',
+		nota:
+			'Homònim "el Tossal Gros" a Mont-ral (muntanyes de Prades, 844 m, Wikidata Q17483728), que ' +
+			"l'automàtic triava perquè és l'únic cim amb aquest nom que el geocodificador situa a l'Alt Camp. " +
+			'El cim del repte és el Tossal Gros de la serra de Miramar (867 m, límit Figuerola del Camp, Alt ' +
+			'Camp – Montblanc, Conca de Barberà): la Viquipèdia ("Tossal Gros (Figuerola del Camp)", consultat ' +
+			'2026-10-11) diu que és a la llista dels 100 cims de la FEEC, i la del de Mont-ral no. El topònim ' +
+			'ICGC és "Tossal Gros" (Cim, municipi Montblanc); el MDT hi dona 866,5 m i OSM 866,6 m.'
+	},
 	'pic-d-enclar': {
 		icgc: { nom: 'Bony de la Pica' },
 		nota:

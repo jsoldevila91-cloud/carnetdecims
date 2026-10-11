@@ -42,11 +42,11 @@
 		"nom_amb_article": "el Tossal Gros",
 		"nom_amb_de": "del Tossal Gros",
 		"nom_oficial": "El Tossal Gros",
-		"toponim": "el Tossal Gros",
+		"toponim": "Tossal Gros",
 		"alies": [],
-		"altitud": 844,
-		"lat": 41.2901,
-		"lon": 1.12517,
+		"altitud": 867,
+		"lat": 41.37536,
+		"lon": 1.23939,
 		"comarca": "alt-camp",
 		"zona": "catalunya",
 		"essencial": true,
@@ -59,13 +59,13 @@
 			},
 			"coordenades": {
 				"font": "icgc",
-				"ref": "el Tossal Gros (Cim, Mont-ral)",
-				"url": "https://eines.icgc.cat/geocodificador/cerca?text=el%20Tossal%20Gros&layers=topo1,topo2&size=25"
+				"ref": "Tossal Gros (Cim, Montblanc)",
+				"url": "https://eines.icgc.cat/geocodificador/cerca?text=Tossal%20Gros&layers=topo1,topo2&size=25"
 			},
 			"altitud": {
 				"font": "wikidata",
-				"ref": "Q17483728",
-				"url": "https://www.wikidata.org/wiki/Q17483728"
+				"ref": "Q7827867",
+				"url": "https://www.wikidata.org/wiki/Q7827867"
 			}
 		},
 		"confianca": "alta",
