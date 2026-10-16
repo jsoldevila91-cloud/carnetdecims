@@ -61,8 +61,10 @@ export const sobreElProjecte: Contingut = {
 						ordenada: true,
 						items: [
 							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca, historial amb diari i estadístiques. Es pot instal·lar com una app i funciona sense connexió.',
-							'**Comptes opcionals:** per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea, i amb opcions per exportar-les i esborrar-les.',
-							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones, i la previsió meteorològica a cada cim.',
+							'**Ara, en beta:** comptes opcionals per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea i opcions per exportar-les i esborrar-les.',
+							'**Reptes i propers cims:** altres reptes a més del 100 Cims, amb medalles, i propostes de cims pendents per a la propera sortida.',
+							'**Compartir i validar:** compartir el carnet i preparar les ascensions per presentar-les a la validació del repte.',
+							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones.',
 							'**Més cims:** la resta de cims del repte, per lots.'
 						]
 					},
@@ -79,7 +81,7 @@ export const sobreElProjecte: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Les teves dades, al teu dispositiu.** El carnet funciona sense compte; quan n’hi hagi, el compte serà opcional. Ho expliquem a la [política de privadesa](/privacitat).',
+							'**Les teves dades, al teu dispositiu.** El carnet funciona sense compte; el compte és opcional i només serveix per sincronitzar-lo i tenir-ne còpia. Ho expliquem a la [política de privadesa](/privacitat).',
 							"**Fonts obertes i citades.** Cada dada del catàleg té la seva font, i preval la de l'ICGC. Detalls a la [metodologia](/metodologia).",
 							'**Respecte al repte i a la FEEC.** "100 Cims" només s\'usa per descriure el repte, sense logotips de la FEEC.',
 							"**Revisió humana.** Cap fitxa es dona per revisada sense que una persona n'hagi comprovat les dades."
@@ -161,8 +163,10 @@ export const sobreElProjecte: Contingut = {
 						ordenada: true,
 						items: [
 							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca, historial con diario y estadísticas. Se puede instalar como una app y funciona sin conexión.',
-							'**Cuentas opcionales:** para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea, y con opciones para exportarlos y borrarlos.',
-							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas, y la previsión meteorológica en cada cima.',
+							'**Ahora, en beta:** cuentas opcionales para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea y opciones para exportarlos y borrarlos.',
+							'**Retos y próximas cimas:** otros retos además del 100 Cims, con medallas, y propuestas de cimas pendientes para la próxima salida.',
+							'**Compartir y validar:** compartir el carnet y preparar las ascensiones para presentarlas a la validación del reto.',
+							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas.',
 							'**Más cimas:** el resto de cimas del reto, por lotes.'
 						]
 					},
@@ -179,7 +183,7 @@ export const sobreElProjecte: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Tus datos, en tu dispositivo.** El carnet funciona sin cuenta; cuando la haya, la cuenta será opcional. Lo explicamos en la [política de privacidad](/privacitat).',
+							'**Tus datos, en tu dispositivo.** El carnet funciona sin cuenta; la cuenta es opcional y solo sirve para sincronizarlo y tener copia. Lo explicamos en la [política de privacidad](/privacitat).',
 							'**Fuentes abiertas y citadas.** Cada dato del catálogo tiene su fuente, y prevalece la del ICGC. Detalles en la [metodología](/metodologia).',
 							'**Respeto al reto y a la FEEC.** "100 Cims" solo se usa para describir el reto, sin logotipos de la FEEC.',
 							'**Revisión humana.** Ninguna ficha se da por revisada sin que una persona haya comprobado sus datos.'
