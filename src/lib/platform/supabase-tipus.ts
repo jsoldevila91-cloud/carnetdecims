@@ -1,10 +1,7 @@
 /**
  * Tipus de la BD de Supabase (esquema `public`), generats amb `generate_typescript_types` després
- * de les migracions 0002–0004 (`supabase/migrations/`). Regenerar-los quan canviï l'esquema.
- *
- * Migració 0005 (bloc R1): `ascensions.companys`, `perfils.origen_municipi`,
- * `perfils.origen_updated_at` i `sync_origen` s'hi han afegit **a mà** (la migració encara no
- * era aplicada al projecte). Quan s'apliqui, cal regenerar-los i comprovar que coincideixen.
+ * de les migracions 0002–0005 (`supabase/migrations/`). Regenerar-los quan canviï l'esquema.
+ * Comprovats contra el projecte després d'aplicar la 0005 (2026-10-16): coincideixen.
  */
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
