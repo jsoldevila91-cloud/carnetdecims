@@ -1,5 +1,5 @@
 /**
- * `/privacitat` (RGPD), ajustada al que fa el web AVUI (revisada el 2026-10-09, beta privada):
+ * `/privacitat` (RGPD), ajustada al que fa el web AVUI (revisada el 2026-10-16, beta privada):
  * - registre d'ascensions (bloc 4a) a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb
  *   exportació JSON, importació i esborrat total (`data/ascensions.ts`) i petició d'emmagatzematge
  *   persistent (`platform/emmagatzematge.ts`); sense compte, no surten del dispositiu;
@@ -41,6 +41,19 @@
  *   `/api/meteo/{slug}` al nostre origen; el Worker demana la previsió a Open-Meteo amb les
  *   coordenades i l'altitud del cim (cap dada del visitant: ni IP, ni capçaleres, ni galetes) i el
  *   SW en desa la darrera de cada cim consultat (`carnet-meteo-v1`).
+ * - bloc R1 (verificat el 2026-10-16):
+ *   · companys del diari (`domain/diari.ts`): noms o àlies en text lliure, fins a 10 de 40
+ *     caràcters per ascensió; es desen a la fila de l'ascensió (IndexedDB i, amb sessió,
+ *     `public.ascensions.companys`, migració 0005), surten a l'exportació (versió 2, també la del
+ *     compte) i s'esborren amb `esborrarTot` i `esborrar_compte`. Esborrar UNA ascensió en deixa la
+ *     làpida (amb nota i companys, per al «Desfés»): per això el text no diu que s'esborren amb
+ *     l'ascensió, sinó editant-la;
+ *   · municipi d'origen (`data/origen.ts`): només el codi del municipi, taula `preferencies`
+ *     d'IndexedDB i, amb sessió, `public.perfils.origen_municipi` (RPC `sync_origen`); a
+ *     l'exportació (`preferencies.origen`); `esborrarTot` i `esborrar_compte` l'esborren;
+ *   · llista de municipis (`data/municipis/`): JSON del propi build, carregat amb `import()` (chunk
+ *     diferit del mateix origen); la cerca es fa en memòria (`cercarMunicipis`), sense xarxa;
+ *   · estadístiques (`data/estadistiques.ts`): calculades al client; no desen ni envien res.
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
@@ -104,7 +117,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							"El compte és opcional: sense compte, no et demanem cap dada. Amb compte, només el correu (i, si vols, un àlies). No et demanem el nom, ni el telèfon, ni l'edat.",
+							"El compte és opcional: sense compte, no et demanem cap dada. Amb compte, només el correu (i, si vols, un àlies i el teu municipi d'origen). No et demanem el nom, ni l'adreça, ni el telèfon, ni l'edat.",
 							'No enviem publicitat ni butlletins: el correu només serveix per entrar al compte.',
 							"No fem servir cookies de seguiment, de publicitat ni d'analítica, ni cap eina de mesura d'audiència.",
 							'No hi ha publicitat, ni botons de xarxes socials, ni continguts incrustats de tercers. Les tipografies es serveixen des del mateix web, no des de Google Fonts.',
@@ -119,15 +132,18 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: "Les ascensions que registres (cim, data, mètode i, si en vols posar, una nota) es desen al teu dispositiu, a la base de dades del navegador (IndexedDB). **Sense compte, es queden només aquí:** no s'envien a cap servidor i nosaltres no hi tenim accés. Si crees un compte, també se'n desa una còpia al núvol (ho expliquem a l'apartat «Si crees un compte»). El navegador pot demanar-te permís per conservar-les de manera persistent, perquè no les esborri si li falta espai."
+						text: "Les ascensions que registres (cim, data, mètode i, si en vols posar, una nota i els noms dels companys) es desen al teu dispositiu, a la base de dades del navegador (IndexedDB). **Sense compte, es queden només aquí:** no s'envien a cap servidor i nosaltres no hi tenim accés. Si crees un compte, també se'n desa una còpia al núvol (ho expliquem a l'apartat «Si crees un compte»). El navegador pot demanar-te permís per conservar-les de manera persistent, perquè no les esborri si li falta espai."
 					},
 					{
 						tipus: 'llista',
 						items: [
-							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON i tornar-la a importar en un altre navegador o dispositiu.",
-							"**Esborrar-les:** des de l'aplicació pots esborrar totes les teves ascensions del dispositiu. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
+							"**Exportar-les:** des de l'aplicació pots descarregar una còpia en un fitxer JSON (amb les ascensions, les notes, els companys i el municipi d'origen) i tornar-la a importar en un altre navegador o dispositiu.",
+							"**Esborrar-les:** des de l'aplicació («Esborra totes les dades») pots esborrar del dispositiu totes les teves ascensions, amb les notes i els companys, i el municipi d'origen. També s'esborren si elimines les dades del lloc a la configuració del navegador. És irreversible: si no tens una còpia exportada, no les podrem recuperar, perquè no les tenim.",
 							'**Si perds o canvies el dispositiu**, o esborres les dades del navegador, les ascensions que no tinguis al compte es perden: et recomanem crear un compte o exportar-ne una còpia de tant en tant.',
-							"**La teva ubicació:** només quan la demanes amb un botó (ordenar per proximitat els essencials pendents, «La meva ubicació» al mapa o «Cims a prop»), i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies o centrar el mapa: no es desa ni s'envia enlloc. Si no dones permís, la resta funciona igual (per exemple, la llista d'essencials s'ordena per comarca)."
+							"**La teva ubicació:** només quan la demanes amb un botó (ordenar per proximitat els essencials pendents, «La meva ubicació» al mapa o «Cims a prop»), i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies o centrar el mapa: no es desa ni s'envia enlloc. Si no dones permís, la resta funciona igual (per exemple, la llista d'essencials s'ordena per comarca).",
+							"**El teu municipi d'origen (opcional):** si l'indiques, el fem servir per calcular a quina distància tens els cims, com el més llunyà que has pujat. Només desem el municipi, mai l'adreça. Es desa al dispositiu i, si tens compte, també al compte. El pots canviar o treure quan vulguis des del teu perfil, a l'aplicació, i surt a l'exportació. La llista de municipis es baixa del mateix web, com un fitxer més: la cerca es fa al teu dispositiu i no s'envia enlloc.",
+							"**Els companys del diari (opcional):** a cada ascensió pots anotar amb qui hi has pujat, amb noms o àlies en text lliure. Són dades d'altres persones: et recomanem posar-hi només el nom de pila o un àlies, i fer-ho amb el seu permís. Es tracten igual que la nota: es desen amb l'ascensió al dispositiu i, si tens compte, també al compte, i surten a l'exportació. Els pots treure en qualsevol moment editant l'ascensió, i s'esborren del tot amb «Esborra totes les dades» (al dispositiu) o en esborrar el compte (al núvol).",
+							"**Les estadístiques** (el cim que més has fet, el més llunyà, amb qui has pujat més…) es calculen al teu dispositiu a partir de les ascensions i del municipi d'origen. No es desa ni s'envia res més."
 						]
 					},
 					{
@@ -147,11 +163,11 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							"**Quines dades:** el teu correu electrònic; les ascensions que registres (cim, data, mètode i la nota, si n'hi poses); un àlies, només si en vols posar; i les dades tècniques del compte (dates d'alta i d'últim accés i registres d'accés amb l'adreça IP, que es guarden per seguretat).",
+							"**Quines dades:** el teu correu electrònic; les ascensions que registres (cim, data, mètode i, si n'hi poses, la nota i els companys); un àlies i el municipi d'origen, només si en vols posar; i les dades tècniques del compte (dates d'alta i d'últim accés i registres d'accés amb l'adreça IP, que es guarden per seguretat).",
 							"**Per a què:** crear el compte, enviar-te l'enllaç per entrar i desar i sincronitzar el teu carnet entre dispositius. No fem servir el correu per a res més: ni publicitat ni butlletins.",
-							"**Base jurídica:** l'execució del servei que ens demanes en crear el compte (art. 6.1.b del RGPD). L'àlies és voluntari i es basa en el teu consentiment (art. 6.1.a), que pots retirar esborrant-lo.",
+							"**Base jurídica:** l'execució del servei que ens demanes en crear el compte (art. 6.1.b del RGPD). L'àlies i el municipi d'origen són voluntaris i es basen en el teu consentiment (art. 6.1.a), que pots retirar esborrant-los.",
 							`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}). També és Supabase qui t'envia el correu amb l'enllaç d'accés.`,
-							"**Quant de temps:** mentre tinguis el compte. Si l'esborres, s'eliminen el compte i totes les ascensions desades al núvol; les còpies de seguretat del proveïdor, si n'hi ha, es renoven al cap de pocs dies. Les ascensions del teu dispositiu no s'esborren: les pots esborrar a part.",
+							"**Quant de temps:** mentre tinguis el compte. Si l'esborres, s'eliminen el compte i totes les dades desades al núvol (les ascensions amb les notes i els companys, l'àlies i el municipi d'origen); les còpies de seguretat del proveïdor, si n'hi ha, es renoven al cap de pocs dies. Les dades del teu dispositiu es conserven, llevat que en esborrar el compte triïs esborrar-les també; si no, les pots esborrar a part.",
 							"**Menors:** per crear un compte cal tenir 14 anys o més; per sota d'aquesta edat, l'ha de crear el pare, la mare o el tutor legal (art. 7 de la Llei orgànica 3/2018).",
 							'Ningú més no veu el teu carnet: cada compte només pot llegir i modificar les seves pròpies dades.'
 						]
@@ -214,8 +230,8 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Accés i portabilitat:** «Descarrega les meves dades» o «Exporta una còpia (JSON)» et donen totes les teves ascensions en un fitxer que pots fer servir en un altre lloc.',
-							'**Rectificació:** pots editar o esborrar cada ascensió. Per canviar el correu del compte, escriu-nos.',
+							"**Accés i portabilitat:** «Descarrega les meves dades» o «Exporta una còpia (JSON)» et donen en un fitxer totes les teves ascensions, amb les notes i els companys, i el municipi d'origen, perquè les puguis fer servir en un altre lloc.",
+							"**Rectificació:** pots editar o esborrar cada ascensió, i canviar o treure el municipi d'origen. Per canviar el correu del compte, escriu-nos.",
 							'**Supressió:** el botó «Esborra el compte» elimina el compte i totes les dades desades al núvol.',
 							'**Oposició i limitació del tractament:** escriu-nos i ho atendrem.'
 						]
@@ -247,7 +263,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-09'
+		actualitzat: '2026-10-16'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -287,7 +303,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'La cuenta es opcional: sin cuenta, no te pedimos ningún dato. Con cuenta, solo el correo (y, si quieres, un alias). No te pedimos el nombre, ni el teléfono, ni la edad.',
+							'La cuenta es opcional: sin cuenta, no te pedimos ningún dato. Con cuenta, solo el correo (y, si quieres, un alias y tu municipio de origen). No te pedimos el nombre, ni la dirección, ni el teléfono, ni la edad.',
 							'No enviamos publicidad ni boletines: el correo solo sirve para entrar en la cuenta.',
 							'No usamos cookies de seguimiento, de publicidad ni de analítica, ni ninguna herramienta de medición de audiencia.',
 							'No hay publicidad, ni botones de redes sociales, ni contenidos incrustados de terceros. Las tipografías se sirven desde la propia web, no desde Google Fonts.',
@@ -302,15 +318,18 @@ export const privacitat: Contingut = {
 				blocs: [
 					{
 						tipus: 'paragraf',
-						text: 'Las ascensiones que registras (cima, fecha, método y, si quieres, una nota) se guardan en tu dispositivo, en la base de datos del navegador (IndexedDB). **Sin cuenta, se quedan solo aquí:** no se envían a ningún servidor y nosotros no tenemos acceso a ellas. Si creas una cuenta, también se guarda una copia en la nube (lo explicamos en el apartado «Si creas una cuenta»). El navegador puede pedirte permiso para conservarlas de forma persistente, para que no las borre si le falta espacio.'
+						text: 'Las ascensiones que registras (cima, fecha, método y, si quieres, una nota y los nombres de los compañeros) se guardan en tu dispositivo, en la base de datos del navegador (IndexedDB). **Sin cuenta, se quedan solo aquí:** no se envían a ningún servidor y nosotros no tenemos acceso a ellas. Si creas una cuenta, también se guarda una copia en la nube (lo explicamos en el apartado «Si creas una cuenta»). El navegador puede pedirte permiso para conservarlas de forma persistente, para que no las borre si le falta espacio.'
 					},
 					{
 						tipus: 'llista',
 						items: [
-							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON y volver a importarla en otro navegador o dispositivo.',
-							'**Borrarlas:** desde la aplicación puedes borrar todas tus ascensiones del dispositivo. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
+							'**Exportarlas:** desde la aplicación puedes descargar una copia en un archivo JSON (con las ascensiones, las notas, los compañeros y el municipio de origen) y volver a importarla en otro navegador o dispositivo.',
+							'**Borrarlas:** desde la aplicación («Borrar todos los datos») puedes borrar del dispositivo todas tus ascensiones, con las notas y los compañeros, y el municipio de origen. También se borran si eliminas los datos del sitio en la configuración del navegador. Es irreversible: si no tienes una copia exportada, no podremos recuperarlas, porque no las tenemos.',
 							'**Si pierdes o cambias de dispositivo**, o borras los datos del navegador, las ascensiones que no tengas en la cuenta se pierden: te recomendamos crear una cuenta o exportar una copia de vez en cuando.',
-							'**Tu ubicación:** solo cuando la pides con un botón (ordenar por proximidad las esenciales pendientes, «Mi ubicación» en el mapa o «Cimas cerca»), y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias o centrar el mapa: no se guarda ni se envía a ningún sitio. Si no das permiso, el resto funciona igual (por ejemplo, la lista de esenciales se ordena por comarca).'
+							'**Tu ubicación:** solo cuando la pides con un botón (ordenar por proximidad las esenciales pendientes, «Mi ubicación» en el mapa o «Cimas cerca»), y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias o centrar el mapa: no se guarda ni se envía a ningún sitio. Si no das permiso, el resto funciona igual (por ejemplo, la lista de esenciales se ordena por comarca).',
+							'**Tu municipio de origen (opcional):** si lo indicas, lo usamos para calcular a qué distancia tienes las cimas, como la más lejana que has subido. Solo guardamos el municipio, nunca la dirección. Se guarda en el dispositivo y, si tienes cuenta, también en la cuenta. Puedes cambiarlo o quitarlo cuando quieras desde tu perfil, en la aplicación, y aparece en la exportación. La lista de municipios se descarga de la propia web, como un archivo más: la búsqueda se hace en tu dispositivo y no se envía a ningún sitio.',
+							'**Los compañeros del diario (opcional):** en cada ascensión puedes anotar con quién has subido, con nombres o alias en texto libre. Son datos de otras personas: te recomendamos poner solo el nombre de pila o un alias, y hacerlo con su permiso. Se tratan igual que la nota: se guardan con la ascensión en el dispositivo y, si tienes cuenta, también en la cuenta, y aparecen en la exportación. Puedes quitarlos en cualquier momento editando la ascensión, y se borran del todo con «Borrar todos los datos» (en el dispositivo) o al borrar la cuenta (en la nube).',
+							'**Las estadísticas** (la cima que más has hecho, la más lejana, con quién has subido más…) se calculan en tu dispositivo a partir de las ascensiones y del municipio de origen. No se guarda ni se envía nada más.'
 						]
 					},
 					{
@@ -330,11 +349,11 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Qué datos:** tu correo electrónico; las ascensiones que registras (cima, fecha, método y la nota, si la pones); un alias, solo si quieres ponerlo; y los datos técnicos de la cuenta (fechas de alta y de último acceso y registros de acceso con la dirección IP, que se guardan por seguridad).',
+							'**Qué datos:** tu correo electrónico; las ascensiones que registras (cima, fecha, método y, si los pones, la nota y los compañeros); un alias y el municipio de origen, solo si quieres ponerlos; y los datos técnicos de la cuenta (fechas de alta y de último acceso y registros de acceso con la dirección IP, que se guardan por seguridad).',
 							'**Para qué:** crear la cuenta, enviarte el enlace para entrar y guardar y sincronizar tu carnet entre dispositivos. No usamos el correo para nada más: ni publicidad ni boletines.',
-							'**Base jurídica:** la ejecución del servicio que nos pides al crear la cuenta (art. 6.1.b del RGPD). El alias es voluntario y se basa en tu consentimiento (art. 6.1.a), que puedes retirar borrándolo.',
+							'**Base jurídica:** la ejecución del servicio que nos pides al crear la cuenta (art. 6.1.b del RGPD). El alias y el municipio de origen son voluntarios y se basan en tu consentimiento (art. 6.1.a), que puedes retirar borrándolos.',
 							`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}). También es Supabase quien te envía el correo con el enlace de acceso.`,
-							'**Cuánto tiempo:** mientras tengas la cuenta. Si la borras, se eliminan la cuenta y todas las ascensiones guardadas en la nube; las copias de seguridad del proveedor, si las hay, se renuevan a los pocos días. Las ascensiones de tu dispositivo no se borran: puedes borrarlas aparte.',
+							'**Cuánto tiempo:** mientras tengas la cuenta. Si la borras, se eliminan la cuenta y todos los datos guardados en la nube (las ascensiones con las notas y los compañeros, el alias y el municipio de origen); las copias de seguridad del proveedor, si las hay, se renuevan a los pocos días. Los datos de tu dispositivo se conservan, salvo que al borrar la cuenta elijas borrarlos también; si no, puedes borrarlos aparte.',
 							'**Menores:** para crear una cuenta hay que tener 14 años o más; por debajo de esa edad, debe crearla el padre, la madre o el tutor legal (art. 7 de la Ley Orgánica 3/2018).',
 							'Nadie más ve tu carnet: cada cuenta solo puede leer y modificar sus propios datos.'
 						]
@@ -397,8 +416,8 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**Acceso y portabilidad:** «Descargar mis datos» o «Exportar una copia (JSON)» te dan todas tus ascensiones en un archivo que puedes usar en otro sitio.',
-							'**Rectificación:** puedes editar o borrar cada ascensión. Para cambiar el correo de la cuenta, escríbenos.',
+							'**Acceso y portabilidad:** «Descargar mis datos» o «Exportar una copia (JSON)» te dan en un archivo todas tus ascensiones, con las notas y los compañeros, y el municipio de origen, para que puedas usarlas en otro sitio.',
+							'**Rectificación:** puedes editar o borrar cada ascensión, y cambiar o quitar el municipio de origen. Para cambiar el correo de la cuenta, escríbenos.',
 							'**Supresión:** el botón «Borrar la cuenta» elimina la cuenta y todos los datos guardados en la nube.',
 							'**Oposición y limitación del tratamiento:** escríbenos y lo atenderemos.'
 						]
@@ -430,6 +449,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-09'
+		actualitzat: '2026-10-16'
 	}
 };

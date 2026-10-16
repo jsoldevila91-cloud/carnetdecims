@@ -2,6 +2,15 @@
  * `/metodologia`: d'on surten les dades del catàleg, criteris, confiança, revisió i atribucions.
  * Fets verificats contra `scripts/catalog/` (build.ts, fonts/*), `scripts/catalog/informe.md` i
  * docs/03-modelo-datos.md §4 (2026-09-29). Si canvia el catàleg, cal revisar les xifres.
+ *
+ * Secció `municipis-i-estadistiques` (bloc R1, verificada el 2026-10-16): municipis de
+ * `scripts/municipis/build.ts` i `data/municipis/municipis.json` (947 de Catalunya + 7 parròquies
+ * d'Andorra + 26 poblacions de la Catalunya Nord = 980; atribució = `FONT_MUNICIPIS`, que no
+ * s'importa perquè aquest fitxer no depèn de `$lib`); "el cim més llunyà" = `cimMesLlunya`
+ * (`domain/estadistiques.ts`: distància de gran cercle des del cap de municipi, entre cims diferents
+ * fets); què compta = `ascensionsValides` (les "fora del repte" no compten, llevat de "amb qui has
+ * pujat més", que usa `companysUsats` sobre totes les vives; les no essencials
+ * posteriors al 01/07/2019 sí, llevat del progrés del repte 100 Cims, que és el del carnet).
  */
 import {
 	CRITERIS_LLISTATS_DIFICULTAT,
@@ -26,7 +35,7 @@ const ETALAB = 'https://www.etalab.gouv.fr/licence-ouverte-open-licence/';
 const OPENMAPTILES = 'https://openmaptiles.org/';
 const MAPTERHORN_ATRIBUCIO = 'https://mapterhorn.com/attribution';
 
-const ACTUALITZAT = '2026-10-04';
+const ACTUALITZAT = '2026-10-16';
 const CONSULTAT = '2026-09-28';
 
 /* -------- Dificultat orientativa: tots els números surten de `ESCALA_DIFICULTAT` (domain) -------- */
@@ -201,6 +210,41 @@ function seccioDificultat(locale: AppLocale): Seccio {
 	};
 }
 
+/**
+ * Secció "Municipis i estadístiques" (bloc R1): d'on surt la llista de municipis d'origen i com es
+ * calculen les estadístiques personals de l'app. Vegeu la capçalera del fitxer.
+ */
+function seccioMunicipisEstadistiques(locale: AppLocale): Seccio {
+	const blocs: Bloc[] =
+		locale === 'ca'
+			? [
+					{
+						tipus: 'paragraf',
+						text: "**Municipis d'origen.** A l'app pots indicar, si vols, el teu municipi d'origen per saber a quina distància tens els cims. La llista surt de l'ICGC: els 947 municipis de Catalunya, amb la comarca i el punt del cap de municipi, del servei de divisions administratives; i, com que l'ICGC no té la divisió municipal d'Andorra i de la Catalunya Nord, les 7 parròquies d'Andorra i 26 poblacions de referència de la Catalunya Nord, repartides per totes les comarques, amb les coordenades i la grafia del geocodificador de l'ICGC. A la Catalunya Nord no hi són tots els municipis: si el teu no hi surt, tria la població més propera."
+					},
+					{
+						tipus: 'paragraf',
+						text: "**Estadístiques.** Es calculen al teu dispositiu a partir del teu historial. **El cim més llunyà** és, d'entre els cims que has fet, el que queda més lluny del cap del teu municipi d'origen (el nucli principal), en línia recta (distància sobre l'esfera terrestre, sense tenir en compte el relleu ni els camins). Les ascensions que l'historial marca com a **fora del repte** (per exemple, amb una data anterior a l'1 de juliol de 2006, l'inici del repte) no compten en cap xifra ni percentatge; només surten a «Amb qui has pujat més», que recull tot el teu diari. La resta sí que compten, també els cims no essencials que el carnet encara té en espera; només el progrés del repte 100 Cims segueix les regles del carnet."
+					}
+				]
+			: [
+					{
+						tipus: 'paragraf',
+						text: '**Municipios de origen.** En la app puedes indicar, si quieres, tu municipio de origen para saber a qué distancia tienes las cimas. La lista sale del ICGC: los 947 municipios de Cataluña, con la comarca y el punto de la cabecera municipal, del servicio de divisiones administrativas; y, como el ICGC no tiene la división municipal de Andorra y de Cataluña Norte, las 7 parroquias de Andorra y 26 poblaciones de referencia de Cataluña Norte, repartidas por todas las comarcas, con las coordenadas y la grafía del geocodificador del ICGC. En Cataluña Norte no están todos los municipios: si el tuyo no aparece, elige la población más cercana.'
+					},
+					{
+						tipus: 'paragraf',
+						text: '**Estadísticas.** Se calculan en tu dispositivo a partir de tu historial. **La cima más lejana** es, de entre las cimas que has hecho, la que queda más lejos de la cabecera de tu municipio de origen (el núcleo principal), en línea recta (distancia sobre la esfera terrestre, sin tener en cuenta el relieve ni los caminos). Las ascensiones que el historial marca como **fuera del reto** (por ejemplo, con una fecha anterior al 1 de julio de 2006, el inicio del reto) no cuentan en ninguna cifra ni porcentaje; solo aparecen en «Con quién has subido más», que recoge todo tu diario. El resto sí cuentan, también las cimas no esenciales que el carnet aún tiene en espera; solo el progreso del reto 100 Cims sigue las reglas del carnet.'
+					}
+				];
+
+	return {
+		id: 'municipis-i-estadistiques',
+		titol: locale === 'ca' ? 'Municipis i estadístiques' : 'Municipios y estadísticas',
+		blocs
+	};
+}
+
 export const metodologia: Contingut = {
 	ca: {
 		title: 'Metodologia i fonts de les dades dels cims',
@@ -305,6 +349,7 @@ export const metodologia: Contingut = {
 				]
 			},
 			seccioDificultat('ca'),
+			seccioMunicipisEstadistiques('ca'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',
@@ -334,6 +379,7 @@ export const metodologia: Contingut = {
 						tipus: 'llista',
 						items: [
 							`Coordenades, topònims, elevacions, límits comarcals i mapes de Catalunya: © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ca).`,
+							`Llista de municipis d'origen (municipis i caps de municipi de Catalunya, i poblacions de referència d'Andorra i de la Catalunya Nord): © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ca).`,
 							`Catalunya Nord: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Llicència Oberta 2.0](${ETALAB}).`,
 							`© [Col·laboradors d'OpenStreetMap](${OSM_COPYRIGHT}), dades sota llicència [ODbL 1.0](${ODBL}).`,
 							`Mapa interactiu: © [OpenMapTiles](${OPENMAPTILES}) i, per a l'ombrejat del relleu, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
@@ -484,6 +530,7 @@ export const metodologia: Contingut = {
 				]
 			},
 			seccioDificultat('es'),
+			seccioMunicipisEstadistiques('es'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',
@@ -513,6 +560,7 @@ export const metodologia: Contingut = {
 						tipus: 'llista',
 						items: [
 							`Coordenadas, topónimos, elevaciones, límites comarcales y mapas de Cataluña: © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).`,
+							`Lista de municipios de origen (municipios y cabeceras municipales de Cataluña, y poblaciones de referencia de Andorra y de Cataluña Norte): © Institut Cartogràfic i Geològic de Catalunya ([ICGC](${OPEN_ICGC})), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).`,
 							`Cataluña Norte: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Licencia Abierta 2.0](${ETALAB}).`,
 							`© [Colaboradores de OpenStreetMap](${OSM_COPYRIGHT}), datos bajo licencia [ODbL 1.0](${ODBL}).`,
 							`Mapa interactivo: © [OpenMapTiles](${OPENMAPTILES}) y, para el sombreado del relieve, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
