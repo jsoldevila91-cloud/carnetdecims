@@ -4,7 +4,9 @@
  *
  * - Tota escriptura va a IndexedDB i s'encua a `outbox` en la mateixa transacció (la sync de
  *   la fase 5 la buidarà). Mai no s'espera la xarxa.
- * - Els esborrats són làpides (`deletedAt`), per poder-los desfer i sincronitzar.
+ * - Els esborrats són làpides (`deletedAt`), per poder-los desfer i sincronitzar. La làpida
+ *   conserva la nota i els companys només durant la finestra de desfer (`local/lapides.ts`);
+ *   després es buida, també al núvol.
  * - Valida amb les regles del domini (`validarData`, `validarMetode`) i amb el catàleg.
  *   La app només fa seguiment: la validació oficial és de la FEEC.
  * - Diari de muntanya (bloc R1): cada ascensió pot portar una nota i els companys (noms en text
@@ -36,6 +38,7 @@ import {
 	type FilaAscensio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
+import { FINESTRA_DESFER_MS, foraDeFinestra, purgarLapides, senseDiari } from './local/lapides';
 import { ara, instantEscriptura } from './local/rellotge';
 import { esUuid, uuidv7 } from './local/uuid';
 
@@ -294,25 +297,55 @@ export async function actualitzarAscensio(
 	});
 }
 
+let temporitzadorPurga: ReturnType<typeof setTimeout> | null = null;
+
+/**
+ * Programa una purga de làpides (`purgarLapides`) per quan s'acabi la finestra de desfer de
+ * l'esborrat que s'acaba de fer (un sol temporitzador: si se'n programa un altre, el substitueix
+ * i la purga d'aquell també buida les anteriors). Així la làpida es buida encara que la app
+ * quedi oberta sense sessió; si es tanca abans, ho fa la propera obertura de la BD.
+ */
+function programarPurga(): void {
+	if (typeof setTimeout === 'undefined' || !indexedDbDisponible()) return;
+	if (temporitzadorPurga) clearTimeout(temporitzadorPurga);
+	const t = setTimeout(() => {
+		temporitzadorPurga = null;
+		purgarLapides(obtenirBd()).catch(() => {
+			// Es tornarà a provar en obrir la BD o a la sync.
+		});
+	}, FINESTRA_DESFER_MS + 1_000);
+	// A Node (tests) no ha de mantenir viu el procés.
+	(t as { unref?: () => void }).unref?.();
+	temporitzadorPurga = t;
+}
+
 /**
  * Esborra una ascensió deixant-ne la làpida (`deletedAt`), per poder-la desfer
- * (`restaurarAscensio`) i sincronitzar. Idempotent si ja estava esborrada.
+ * (`restaurarAscensio`) i sincronitzar. Idempotent si ja estava esborrada. La làpida conserva la
+ * nota i els companys durant la finestra de desfer (`FINESTRA_DESFER_MS`); després es buida.
  * @throws ErrorAscensioNoTrobada si l'id no existeix.
  */
 export async function esborrarAscensio(id: string): Promise<void> {
 	const bd = obtenirBd();
-	await bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
+	const esborrada = await bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
 		const actual = await bd.ascensions.get(id);
 		if (!actual) throw new ErrorAscensioNoTrobada(id);
-		if (actual.deletedAt) return;
+		if (actual.deletedAt) return false;
 		const ts = instantEscriptura(actual.updatedAt);
 		await bd.ascensions.put({ ...actual, deletedAt: ts, updatedAt: ts });
 		await encuar(bd, id, ts);
+		return true;
 	});
+	if (esborrada) programarPurga();
 }
 
 /**
  * Desfà un esborrat (botó "Desfés"). Idempotent si ja estava viva.
+ * - Dins de la finestra de desfer (`FINESTRA_DESFER_MS` des de `deletedAt`): torna l'ascensió
+ *   sencera, amb la nota i els companys.
+ * - Fora de la finestra (p. ex. un toast pausat més de 10 min): la torna **sense nota ni
+ *   companys**, tant si la purga ja ha passat com si no (el resultat no depèn de quan s'hagi
+ *   executat la purga).
  * @throws ErrorAscensioNoTrobada si l'id no existeix.
  */
 export async function restaurarAscensio(id: string): Promise<Ascensio> {
@@ -322,7 +355,7 @@ export async function restaurarAscensio(id: string): Promise<Ascensio> {
 		if (!actual) throw new ErrorAscensioNoTrobada(id);
 		if (!actual.deletedAt) return copia(actual);
 		const fila: FilaAscensio = {
-			...actual,
+			...(foraDeFinestra(actual) ? senseDiari(actual) : actual),
 			deletedAt: null,
 			updatedAt: instantEscriptura(actual.updatedAt)
 		};
@@ -457,7 +490,8 @@ export async function nomMunicipi(codi: string | null): Promise<string | undefin
 
 /**
  * Còpia de seguretat / portabilitat (RGPD): JSON versionat amb metadades, el municipi d'origen
- * i les ascensions vives amb la nota i els companys (les làpides no hi surten).
+ * i les ascensions vives amb la nota i els companys. Les làpides no hi surten (ni, per tant, la
+ * nota i els companys que encara conservin dins de la finestra de desfer).
  */
 export async function exportarDades(): Promise<string> {
 	const bd = obtenirBd();
@@ -619,8 +653,9 @@ const BLOC_IMPORTACIO = 200;
  * - `fusionar`: afegeix les noves; si l'id ja existeix, guanya la de `updatedAt` més recent
  *   (LWW, com la sync). Reimportar el mateix fitxer no canvia res (idempotent).
  * - `substituir`: el dispositiu queda amb exactament les ascensions del fitxer. Les locals que
- *   no hi són queden com a làpides (per a la sync futura); les que hi són amb un altre
- *   contingut es sobreescriuen. Reimportar-lo no canvia res.
+ *   no hi són queden com a làpides (per a la sync), ja buides de nota i companys (aquest
+ *   esborrat no es pot desfer); les que hi són amb un altre contingut es sobreescriuen.
+ *   Reimportar-lo no canvia res.
  * Tot passa en una transacció amb una lectura (`getAll`) i escriptures en bloc (`bulkPut`): o
  * s'aplica sencer o no s'aplica. Només s'escriuen les files que canvien (ascensió + outbox).
  * @throws ErrorImportacio si el fitxer no és vàlid (no s'escriu res).
@@ -724,7 +759,8 @@ export async function importarDades(
 			for (const f of totes) {
 				if (f.deletedAt || perId.has(f.id)) continue;
 				const ts = instantEscriptura(f.updatedAt);
-				posar({ ...f, deletedAt: ts, updatedAt: ts }, ts);
+				// No hi ha "Desfés": la làpida neix buida (minimització, vegeu `local/lapides.ts`).
+				posar({ ...senseDiari(f), deletedAt: ts, updatedAt: ts }, ts);
 			}
 		}
 		const total = escriure.length;

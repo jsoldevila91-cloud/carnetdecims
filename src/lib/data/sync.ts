@@ -31,6 +31,12 @@
  * tingui al núvol; amb la clau (encara que sigui `[]`), mana el client. És la mateixa regla que
  * protegeix els companys de les PWA instal·lades amb el client antic a la caché.
  *
+ * **Làpides (bloc R1, `local/lapides.ts`).** Abans de pujar, cada passada buida (i encua) les
+ * làpides que ja no es poden desfer: el push les porta al núvol sense nota i amb `companys: []`.
+ * Una làpida que baixa del núvol fora de la finestra de desfer amb nota o companys (esborrada
+ * des d'un dispositiu amb el client antic) es desa ja buida en local i s'encua per pujar-la
+ * buida a la passada següent (`updatedAt` posterior: guanya la LWW del servidor).
+ *
  * Sense imports del framework (usable a Capacitor). El client de Supabase s'injecta (`Remot`),
  * així el motor es prova amb un servidor fals en memòria.
  */
@@ -48,6 +54,7 @@ import {
 	type FilaAscensio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
+import { lapidaBuidada, lapidaPerBuidar, purgarLapides } from './local/lapides';
 import { ara } from './local/rellotge';
 import { uuidv7 } from './local/uuid';
 
@@ -497,18 +504,24 @@ async function aplicarRemotes(remotes: FilaRemota[], epoca: string | null): Prom
 		]);
 		const escriure: FilaAscensio[] = [];
 		const descartar: string[] = [];
+		const encuar: EntradaOutbox[] = [];
+		const instant = ara();
 		remotes.forEach(({ fila }, i) => {
 			const local = locals[i];
-			if (!local) {
-				escriure.push(fila);
+			if (local && fila.updatedAt < local.updatedAt) return; // la local és més nova: la pujarà el push
+			if (local && pendents[i]) descartar.push(fila.id); // el pendent perd (o empata): el servidor no l'acceptaria
+			if (lapidaPerBuidar(fila, instant)) {
+				// Làpida amb nota o companys que ja no es pot desfer: es desa buida i es torna a pujar.
+				const buida = lapidaBuidada(fila);
+				escriure.push(buida);
+				encuar.push({ ascensioId: buida.id, encuaAt: buida.updatedAt, intents: 0 });
 				return;
 			}
-			if (fila.updatedAt < local.updatedAt) return; // la local és més nova: la pujarà el push
-			if (pendents[i]) descartar.push(fila.id); // el pendent perd (o empata): el servidor no l'acceptaria
-			if (!mateixaFila(local, fila)) escriure.push(fila);
+			if (!local || !mateixaFila(local, fila)) escriure.push(fila);
 		});
 		if (escriure.length) await bd.ascensions.bulkPut(escriure);
 		if (descartar.length) await bd.outbox.bulkDelete(descartar);
+		if (encuar.length) await bd.outbox.bulkPut(encuar);
 		const darrer = remotes[remotes.length - 1].serverUpdatedAt;
 		const cursor = (await bd.meta.get('cursorPull'))?.valor ?? null;
 		if (!cursor || darrer > cursor) await bd.meta.put({ clau: 'cursorPull', valor: darrer });
@@ -624,6 +637,8 @@ export async function sincronitzar(remot: Remot, usuariId: string): Promise<Resu
 	const propietari = entradaPropietari?.valor ?? null;
 	if (propietari && propietari !== usuariId) return { estat: 'conflicte' };
 	if (!propietari) await adoptarDadesLocals(usuariId, epoca);
+	// Les làpides que ja no es poden desfer pugen buides (sense nota ni companys).
+	await purgarLapides(bd, () => comprovarEpoca(epoca));
 	const { pujades, rebutjades, reassignades } = await pujar(remot, epoca);
 	const baixades = await baixar(remot, epoca);
 	await sincronitzarOrigen(remot, epoca);

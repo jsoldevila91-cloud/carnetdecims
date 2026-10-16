@@ -9,6 +9,7 @@
 import { Dexie, type EntityTable } from 'dexie';
 import type { Ascensio, InstantISO } from '$lib/domain';
 import { NOM_BD } from './existeix';
+import { purgarLapides } from './lapides';
 
 export { NOM_BD };
 
@@ -22,6 +23,9 @@ export { NOM_BD };
  * abans de R1). Es llegeix com a `[]`, però **no es puja**: `sync_push` conserva els companys
  * que hi hagi al núvol quan la fila arriba sense la clau (igual que amb el client antic). La clau
  * apareix quan l'usuari desa els companys o quan la fila baixa del núvol.
+ *
+ * Làpides: conserven la nota i els companys només durant la finestra de desfer; després queden
+ * amb `nota: null` i `companys: []` (vegeu `lapides.ts`).
  */
 export type FilaAscensio = Omit<Ascensio, 'companys' | 'deletedAt'> & {
 	companys?: string[];
@@ -130,9 +134,24 @@ export function indexedDbDisponible(): boolean {
 	return typeof indexedDB !== 'undefined';
 }
 
-/** Instància única (s'obre de manera mandrosa en la primera operació). */
+/**
+ * Instància única (s'obre de manera mandrosa en la primera operació). En cada obertura, abans
+ * que la UI hi llegeixi, es buiden les làpides que ja no es poden desfer (`lapides.ts`). Si la
+ * purga falla, la BD s'obre igualment (es tornarà a provar a la sync o en la propera obertura).
+ */
 export function obtenirBd(): CarnetDb {
-	bd ??= new CarnetDb();
+	if (!bd) {
+		const nova = new CarnetDb();
+		nova.on(
+			'ready',
+			(vip) =>
+				purgarLapides(vip as CarnetDb).catch((e: unknown) =>
+					console.warn('[bd] no s’han pogut buidar les làpides', e)
+				),
+			true
+		);
+		bd = nova;
+	}
 	return bd;
 }
 

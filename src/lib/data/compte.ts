@@ -353,7 +353,9 @@ export async function esborrarCompte(
  * Exportació de les dades del compte al núvol (RGPD, art. 15 i 20): JSON amb el mateix format
  * que `exportarDades` (versió 2, importable amb `importarDades`): les ascensions amb la nota i
  * els companys, `preferencies.origen` (municipi d'origen del compte), més `compte` (id, correu,
- * perfil) i les ascensions esborrades (`deletedAt`; la importació les ignora). Cal xarxa i sessió.
+ * perfil) i les ascensions esborrades (`deletedAt`; la importació les ignora) **sense nota ni
+ * companys** (minimització: encara que el núvol els conservi dins de la finestra de desfer o d'un
+ * client antic, no surten de l'exportació). Cal xarxa i sessió.
  * @throws ErrorCompte (`sessio`, `xarxa`, `servidor`)
  */
 export async function exportarDadesCompte(): Promise<string> {
@@ -417,8 +419,9 @@ export async function exportarDadesCompte(): Promise<string> {
 				cimNom: noms.get(f.cimId),
 				data: f.data,
 				metode: f.metode,
-				nota: f.nota,
-				companys: f.companys ?? [],
+				// Làpides: mai la nota ni els companys (dades de tercers d'una ascensió esborrada).
+				nota: f.deletedAt ? null : f.nota,
+				companys: f.deletedAt ? [] : (f.companys ?? []),
 				createdAt: f.createdAt,
 				updatedAt: f.updatedAt,
 				...(f.deletedAt ? { deletedAt: f.deletedAt } : {})

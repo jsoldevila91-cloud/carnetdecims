@@ -377,4 +377,31 @@ describe("municipi d'origen i compte (bloc R1)", () => {
 		expect(exp.preferencies).toEqual({ origen: null });
 		expect(exp.compte.perfil).toBeNull();
 	});
+
+	it('exportarDadesCompte: les làpides surten sense nota ni companys, encara que el núvol els tingui', async () => {
+		// Làpida dins de la finestra de desfer (o d'un client antic): al núvol encara té el diari.
+		const id = '01920000-0000-7000-8000-0000000000bb';
+		fals.estat.nuvol.set(id, {
+			id,
+			cim_id: CIMS[3].id,
+			data: '2026-09-10',
+			metode: 'a_peu',
+			nota: 'nota esborrada',
+			companys: ['Inesa', 'el Pau'],
+			created_at: '2026-09-10T10:00:00+00:00',
+			updated_at: '2026-09-29T09:59:00+00:00',
+			deleted_at: '2026-09-29T09:59:00+00:00',
+			server_updated_at: '2026-10-01T00:00:01.000000+00:00'
+		});
+		const text = await exportarDadesCompte();
+		const exp = JSON.parse(text);
+		expect(exp.total).toBe(2);
+		expect(exp.ascensions.find((a: { id: string }) => a.id === id)).toMatchObject({
+			nota: null,
+			companys: [],
+			deletedAt: '2026-09-29T09:59:00.000Z'
+		});
+		expect(text).not.toContain('nota esborrada');
+		expect(text).not.toContain('el Pau');
+	});
 });

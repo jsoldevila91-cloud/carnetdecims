@@ -378,6 +378,115 @@ describe('làpides (deletedAt)', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Làpides: minimització del diari (bloc R1, `local/lapides.ts`)
+// ---------------------------------------------------------------------------
+
+describe('làpides: nota i companys fora de la finestra de desfer', () => {
+	it('una làpida local puja amb el diari dins de la finestra i buida quan ja no es pot desfer', async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'amb boira',
+			companys: ['Inesa']
+		});
+		await sincronitzar(servidor, USUARI);
+		fixar('2026-09-29T11:00:00.000Z');
+		await esborrarAscensio(a.id);
+		await sincronitzar(servidor, USUARI);
+		// Dins de la finestra: "Desfés" encara la pot tornar sencera (també des del núvol).
+		expect(servidor.files.get(a.id)?.fila).toMatchObject({
+			nota: 'amb boira',
+			companys: ['Inesa']
+		});
+
+		fixar('2026-09-29T11:10:00.000Z');
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.rebudes.at(-1)).toMatchObject({
+			id: a.id,
+			nota: null,
+			companys: [],
+			deletedAt: '2026-09-29T11:00:00.000Z',
+			updatedAt: '2026-09-29T11:00:00.001Z'
+		});
+		expect(servidor.files.get(a.id)?.fila).toMatchObject({ nota: null, companys: [] });
+		expect(await filaLocal(a.id)).toMatchObject({ nota: null, companys: [] });
+
+		// Idempotent: cap pujada ni escriptura més.
+		const crides = servidor.crides.push;
+		const r = await sincronitzar(servidor, USUARI);
+		expect(servidor.crides.push).toBe(crides);
+		expect(r).toMatchObject({ estat: 'fet', pujades: 0, baixades: 0 });
+	});
+
+	it('una làpida remota amb diari (client antic) fora de la finestra es desa buida i es puja buida', async () => {
+		const id = filaRemota().id;
+		servidor.escriure(filaRemota());
+		await sincronitzar(servidor, USUARI);
+		servidor.escriure(
+			filaRemota({
+				companys: ['el Pau'],
+				deletedAt: '2025-09-01T00:00:00.000Z',
+				updatedAt: '2025-09-01T00:00:00.000Z'
+			})
+		);
+		await sincronitzar(servidor, USUARI);
+		expect(await filaLocal(id)).toMatchObject({
+			nota: null,
+			companys: [],
+			deletedAt: '2025-09-01T00:00:00.000Z',
+			updatedAt: '2025-09-01T00:00:00.001Z'
+		});
+		expect((await pendentsDeSincronitzar()).map((e) => e.ascensioId)).toEqual([id]);
+
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.files.get(id)?.fila).toMatchObject({
+			nota: null,
+			companys: [],
+			updatedAt: '2025-09-01T00:00:00.001Z'
+		});
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+
+		const crides = servidor.crides.push;
+		const r = await sincronitzar(servidor, USUARI);
+		expect(servidor.crides.push).toBe(crides);
+		expect(r).toMatchObject({ estat: 'fet', pujades: 0, baixades: 0 });
+	});
+
+	it('una làpida remota dins de la finestra conserva el diari fins que en surt', async () => {
+		const id = filaRemota().id;
+		servidor.escriure(
+			filaRemota({
+				companys: ['el Pau'],
+				deletedAt: '2026-09-29T09:59:00.000Z',
+				updatedAt: '2026-09-29T09:59:00.000Z'
+			})
+		);
+		await sincronitzar(servidor, USUARI);
+		expect(await filaLocal(id)).toMatchObject({ nota: 'des del mòbil', companys: ['el Pau'] });
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+
+		fixar('2026-09-29T10:09:00.000Z');
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.files.get(id)?.fila).toMatchObject({ nota: null, companys: [] });
+		expect(await filaLocal(id)).toMatchObject({ nota: null, companys: [] });
+	});
+
+	it('una restauració posterior feta en un altre dispositiu guanya la làpida buidada', async () => {
+		const id = filaRemota().id;
+		servidor.escriure(
+			filaRemota({ deletedAt: '2025-09-01T00:00:00.000Z', updatedAt: '2025-09-01T00:00:00.000Z' })
+		);
+		await sincronitzar(servidor, USUARI); // la desa buida i l'encua
+		// L'altre dispositiu la restaura (amb la nota) abans que aquest pugi la versió buida.
+		servidor.escriure(filaRemota({ updatedAt: '2025-09-01T00:00:05.000Z' }));
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.viva(id)).toMatchObject({ nota: 'des del mòbil' });
+		expect(await llistarAscensions()).toMatchObject([{ id, nota: 'des del mòbil' }]);
+	});
+});
+
+// ---------------------------------------------------------------------------
 // Cua (outbox) i errors
 // ---------------------------------------------------------------------------
 
