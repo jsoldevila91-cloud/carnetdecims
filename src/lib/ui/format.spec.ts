@@ -5,6 +5,9 @@ import {
 	formatDataLlarga,
 	formatDurada,
 	formatKm,
+	formatLlista,
+	formatMes,
+	formatPercentatge,
 	formatStampDate,
 	romanPage
 } from './format';
@@ -48,5 +51,25 @@ describe('format', () => {
 		expect(formatDataLlarga('2026-09-29', 'ca')).toMatch(/^29 de setembre (de|del) 2026$/);
 		expect(formatDataLlarga('2026-01-01', 'ca')).toMatch(/^1 de gener (de|del) 2026$/);
 		expect(formatDataLlarga('no-data', 'ca')).toBe('no-data');
+	});
+
+	it('percentatges sencers, amb "< 1 %" per als valors molt petits', () => {
+		const net = (t: string) => t.replace(/\s/g, ' ');
+		expect(net(formatPercentatge(0.453, 'ca'))).toBe('45 %');
+		expect(net(formatPercentatge(0, 'es'))).toBe('0 %');
+		expect(net(formatPercentatge(1, 'ca'))).toBe('100 %');
+		expect(net(formatPercentatge(0.001, 'ca'))).toBe('< 1 %');
+	});
+
+	it('mes i any per idioma', () => {
+		expect(formatMes('2025-03', 'es')).toBe('marzo de 2025');
+		expect(formatMes('2025-03', 'ca')).toMatch(/^març (de|del) 2025$/);
+		expect(formatMes('x', 'ca')).toBe('x');
+	});
+
+	it('llista de noms amb la conjunció de cada idioma', () => {
+		expect(formatLlista(['Inesa', 'Pau', 'Joan'], 'ca')).toBe('Inesa, Pau i Joan');
+		expect(formatLlista(['Inesa', 'Pau'], 'es')).toBe('Inesa y Pau');
+		expect(formatLlista(['Inesa'], 'ca')).toBe('Inesa');
 	});
 });

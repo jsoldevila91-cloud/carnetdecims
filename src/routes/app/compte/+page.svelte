@@ -13,6 +13,7 @@
 	import { descarregarText } from '$lib/platform/fitxers';
 	import { installacio } from '$lib/platform/installacio.svelte';
 	import CompteNuvol from '$lib/ui/compte/CompteNuvol.svelte';
+	import OrigenMunicipi from '$lib/ui/OrigenMunicipi.svelte';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -56,14 +57,15 @@
 			const r = await importarDades(await f.text(), 'fusionar', {
 				onProgres: (p) => (progres = { ...p })
 			});
-			toasts.show(
-				m.account_import_done({
-					added: String(r.afegides),
-					updated: String(r.actualitzades),
-					ignored: String(r.ignorades)
-				}),
-				{ tone: 'success', duration: 8000 }
-			);
+			const resum = m.account_import_done({
+				added: String(r.afegides),
+				updated: String(r.actualitzades),
+				ignored: String(r.ignorades)
+			});
+			toasts.show(r.origenImportat ? `${resum} ${m.account_import_origin()}` : resum, {
+				tone: 'success',
+				duration: 8000
+			});
 		} catch (err) {
 			const codi = err instanceof ErrorImportacio ? err.codi : null;
 			toasts.show(
@@ -193,6 +195,12 @@
 		<p class="privacy">
 			<a href={href('/privacitat')}>{m.account_privacy_link()}</a>
 		</p>
+	</Card>
+
+	<!-- Preferència opcional (R1): municipi d'origen per a les distàncies. -->
+	<Card as="section" padding="md" variant="flat" aria-labelledby="account-origin" id="origen">
+		<h2 id="account-origin" class="x-wide">{m.origin_title()}</h2>
+		<OrigenMunicipi />
 	</Card>
 
 	<!-- Sempre disponible si es pot instal·lar (també després de rebutjar l'avís automàtic). -->

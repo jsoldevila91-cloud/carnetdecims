@@ -233,7 +233,10 @@
 	<section class="sec" aria-labelledby="pagines-t">
 		<div class="sec-h">
 			<h2 id="pagines-t" class="x-wide">{m.carnet_pages_title()}</h2>
-			<a href={href('/app/historial')}>{m.app_history_link()} →</a>
+			<span class="sec-links">
+				<a href={href('/app/historial')}>{m.app_history_link()} →</a>
+				<a href={href('/app/estadistiques')}>{m.stats_link()} →</a>
+			</span>
 		</div>
 		<PaginesCarnet {carnet} onobrir={obrirSegell} enfocar={focusSegell} />
 		<div class="actions">
@@ -462,6 +465,12 @@
 		font-weight: var(--fw-semibold);
 		color: var(--c-stamp-ink);
 		text-decoration: none;
+	}
+
+	.sec-links {
+		display: inline-flex;
+		flex-wrap: wrap;
+		gap: 0 var(--sp-4);
 	}
 
 	.sec-h a:hover {

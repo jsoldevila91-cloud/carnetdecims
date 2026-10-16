@@ -13,6 +13,8 @@
 	} from '$lib/data/ascensions';
 	import { CIMS, cimPerSlug, comarcaPerSlug } from '$lib/data/catalog';
 	import {
+		COMPANYS_MAX,
+		COMPANY_MAX_CARACTERS,
 		DATA_INICI_REPTE,
 		METODES,
 		avuiLocal,
@@ -23,6 +25,7 @@
 	import { getLocale } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import Button from './Button.svelte';
+	import CampCompanys from './CampCompanys.svelte';
 	import Icon from './Icon.svelte';
 	import Segell from './Segell.svelte';
 	import SelectorCim from './SelectorCim.svelte';
@@ -34,7 +37,7 @@
 	 * Formulari "Registrar ascensió" (i "Editar"). El mateix component va al full inferior
 	 * (shallow routing) i a la pàgina /app/registrar. Valida amb el contracte de dades
 	 * (`validarAscensio`), mostra els errors al costat de cada camp i un resum, i avisa sense
-	 * bloquejar (restricció d'accés, repetició, límit anual).
+	 * bloquejar (restricció d'accés, repetició, límit anual). Diari (R1): companys (plegat) i nota.
 	 */
 	let {
 		cim,
@@ -65,6 +68,10 @@
 	let data = $state(avui);
 	let metode = $state<Metode>('a-peu');
 	let nota = $state('');
+	let companys = $state<string[]>([]);
+	/** Nom escrit al camp de companys i encara no afegit: també es desa. */
+	let companyEscrit = $state('');
+	let campCompanys: CampCompanys | undefined = $state();
 	let original = $state<Ascensio | undefined>();
 	let carregant = $state(untrack(() => !!ascensioId));
 	let intentat = $state(false);
@@ -82,15 +89,18 @@
 			data = a.data;
 			metode = a.metode;
 			nota = a.nota ?? '';
+			companys = [...a.companys];
 		} else errorGeneral = m.register_error_not_found();
 		carregant = false;
 	});
 
+	const companysFinals = $derived(companyEscrit.trim() ? [...companys, companyEscrit] : companys);
 	const valors = $derived<NovaAscensio>({
 		cimId: cimId ?? -1,
 		data,
 		metode,
-		nota
+		nota,
+		companys: companysFinals
 	});
 	const errors = $derived(intentat ? validarAscensio(valors, avui) : []);
 	const errorDe = (camp: CampAscensio) => errors.find((e) => e.camp === camp);
@@ -103,11 +113,9 @@
 		'metode:invalid': m.register_error_method,
 		'nota:format': m.register_error_note,
 		'nota:massa-llarga': m.register_error_note,
-		// Bloc R1 (pendent del frontend): el formulari encara no té el camp de companys; quan el
-		// tingui, cal un text propi per a cada codi.
-		'companys:format': m.register_error_generic,
-		'companys:massa': m.register_error_generic,
-		'companys:massa-llarg': m.register_error_generic
+		'companys:format': m.partners_error_format,
+		'companys:massa': () => m.partners_error_many({ max: String(COMPANYS_MAX) }),
+		'companys:massa-llarg': () => m.partners_error_long({ max: String(COMPANY_MAX_CARACTERS) })
 	};
 	const textError = (camp: CampAscensio) => {
 		const e = errorDe(camp);
@@ -142,6 +150,7 @@
 		else if (primer === 'metode')
 			form?.querySelector<HTMLElement>(`input[name="metode-${uid}"]`)?.focus();
 		else if (primer === 'nota') form?.querySelector<HTMLElement>(`#${ids.nota}`)?.focus();
+		else if (primer === 'companys') await campCompanys?.focus();
 	}
 
 	async function onsubmit(event: SubmitEvent) {
@@ -155,7 +164,7 @@
 		}
 		desant = true;
 		try {
-			const nova: NovaAscensio = { cimId: cimId!, data, metode, nota };
+			const nova: NovaAscensio = { cimId: cimId!, data, metode, nota, companys: companysFinals };
 			const desada = original
 				? await editarAscensio(original, nova)
 				: await registrarAscensio(nova);
@@ -226,6 +235,16 @@
 			</div>
 			{#if errorDe('metode')}<p id="{ids.metode}-err" class="err">{textError('metode')}</p>{/if}
 		</fieldset>
+
+		<div class="line">
+			<CampCompanys
+				bind:this={campCompanys}
+				bind:companys
+				bind:text={companyEscrit}
+				ascensions={$vives}
+				error={textError('companys')}
+			/>
+		</div>
 
 		<div class="line last">
 			<label class="label" for={ids.nota}>{m.register_note_label()}</label>

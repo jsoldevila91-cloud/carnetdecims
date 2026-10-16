@@ -220,7 +220,8 @@ export const ROUTES = {
 		register: '/ca/app/registrar',
 		essentials: '/ca/app/essencials',
 		regions: '/ca/app/comarques',
-		nearby: '/ca/app/a-prop'
+		nearby: '/ca/app/a-prop',
+		stats: '/ca/app/estadistiques'
 	},
 	es: {
 		home: '/es',
@@ -231,6 +232,7 @@ export const ROUTES = {
 		register: '/es/app/registrar',
 		essentials: '/es/app/esenciales',
 		regions: '/es/app/comarcas',
-		nearby: '/es/app/cerca'
+		nearby: '/es/app/cerca',
+		stats: '/es/app/estadisticas'
 	}
 } as const;

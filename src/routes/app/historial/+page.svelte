@@ -3,7 +3,7 @@
 	import { ascensionsVivesAmbEstat } from '$lib/data/ascensions';
 	import { CIMS } from '$lib/data/catalog';
 	import { ascensionsEnRestriccio, ascensionsValides, avuiLocal } from '$lib/domain';
-	import { Button, EmptyState, PageMeta } from '$lib/ui';
+	import { Button, Chip, EmptyState, PageMeta } from '$lib/ui';
 	import FilaAscensio from '$lib/ui/FilaAscensio.svelte';
 	import { esborrarAmbDesfer } from '$lib/ui/accions-ascensio';
 	import { obrirEdicio, obrirRegistre, registrarHref } from '$lib/ui/fulls';
@@ -24,7 +24,14 @@
 	}
 
 	const llista = $derived($vives.ascensions);
-	const grups = $derived(agruparPerAny(llista));
+	/**
+	 * Vista "Diari": només les ascensions amb nota o companys. L'estat és a la memòria de la
+	 * pàgina (no a la URL): és un filtre de les dades personals.
+	 */
+	let nomesDiari = $state(false);
+	const esDiari = (a: Ascensio) => !!a.nota?.trim() || a.companys.length > 0;
+	const diari = $derived(llista.filter(esDiari));
+	const grups = $derived(agruparPerAny(nomesDiari ? diari : llista));
 	// Mateix criteri que el carnet: les repeticions es calculen sobre les ascensions vàlides
 	// (`ascensionsValides`); les invàlides (abans del 01/07/2006, futures…) són "fora del repte".
 	const avui = avuiLocal();
@@ -74,6 +81,17 @@
 		<Button href={href('/app')} variant="outline" icon="home">{m.app_title()}</Button>
 	</div>
 
+	<div class="filtre">
+		<Chip bind:pressed={nomesDiari}>{m.history_diary_filter()}</Chip>
+		<p class="filtre-hint">{m.history_diary_hint()}</p>
+	</div>
+	<p class="filtre-estat mono" role="status">
+		{nomesDiari ? m.history_diary_count({ count: String(diari.length) }) : ''}
+	</p>
+	{#if nomesDiari && diari.length === 0}
+		<p class="buit">{m.history_diary_empty()}</p>
+	{/if}
+
 	{#each grups as grup (grup.any)}
 		<section class="any" aria-labelledby="any-{grup.any}">
 			<h2 id="any-{grup.any}" class="x-wide">
@@ -116,6 +134,35 @@
 		flex-wrap: wrap;
 		gap: var(--sp-3);
 		margin: var(--sp-4) 0 var(--sp-2);
+	}
+
+	.filtre {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--sp-2) var(--sp-3);
+		margin-top: var(--sp-4);
+	}
+
+	.filtre-hint {
+		flex: 1 1 14rem;
+		font-size: var(--fs-xs);
+		color: var(--c-ink-2);
+	}
+
+	.filtre-estat {
+		margin-top: var(--sp-2);
+		font-size: var(--fs-xs);
+		color: var(--c-ink-2);
+	}
+
+	.buit {
+		margin-top: var(--sp-4);
+		padding: var(--sp-4);
+		border: var(--bw) dashed var(--c-ink-2);
+		border-radius: var(--r-lg);
+		color: var(--c-ink-2);
+		max-width: 44rem;
 	}
 
 	.any {

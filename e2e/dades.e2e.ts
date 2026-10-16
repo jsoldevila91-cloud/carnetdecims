@@ -58,7 +58,7 @@ test.describe('Exportar', () => {
 		const json = JSON.parse(await readFile((await download.path())!, 'utf8'));
 		expect(json).toMatchObject({
 			format: 'carnetdecims.ascensions',
-			versio: 1,
+			versio: 2,
 			app: 'carnetdecims.cat',
 			total: 2
 		});

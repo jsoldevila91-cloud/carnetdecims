@@ -67,7 +67,11 @@ export const LOCALIZED_ROUTES: ReadonlyArray<{ path: string; localized: Localize
 	{ path: '/app/compte', localized: { ca: '/app/compte', es: '/app/cuenta' } },
 	{ path: '/app/essencials', localized: { ca: '/app/essencials', es: '/app/esenciales' } },
 	{ path: '/app/comarques', localized: { ca: '/app/comarques', es: '/app/comarcas' } },
-	{ path: '/app/a-prop', localized: { ca: '/app/a-prop', es: '/app/cerca' } }
+	{ path: '/app/a-prop', localized: { ca: '/app/a-prop', es: '/app/cerca' } },
+	{
+		path: '/app/estadistiques',
+		localized: { ca: '/app/estadistiques', es: '/app/estadisticas' }
+	}
 ];
 
 type UrlPattern = { pattern: string; localized: Array<[AppLocale, string]> };

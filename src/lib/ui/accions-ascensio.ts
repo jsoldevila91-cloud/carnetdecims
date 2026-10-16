@@ -92,7 +92,7 @@ export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
 	return desada;
 }
 
-/** Desa els canvis d'una ascensió. "Desfés" hi torna els valors anteriors. */
+/** Desa els canvis d'una ascensió. "Desfés" hi torna els valors anteriors (companys inclosos). */
 export async function editarAscensio(previ: Ascensio, canvis: NovaAscensio): Promise<Ascensio> {
 	const desada = await actualitzarAscensio(previ.id, { ...canvis, nota: canvis.nota ?? '' });
 	toasts.show(m.register_toast_updated(), {
@@ -107,7 +107,9 @@ export async function editarAscensio(previ: Ascensio, canvis: NovaAscensio): Pro
 							cimId: previ.cimId,
 							data: previ.data,
 							metode: previ.metode,
-							nota: previ.nota ?? ''
+							nota: previ.nota ?? '',
+							// Diari (R1): també torna la llista de companys d'abans (`[]` els treu).
+							companys: previ.companys ?? []
 						}),
 					previ.id
 				)

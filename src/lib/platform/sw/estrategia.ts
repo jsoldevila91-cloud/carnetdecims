@@ -81,8 +81,26 @@ export const HOSTS_MAPA: ReadonlySet<string> = new Set([
 
 /** Segments localitzats de les pàgines de la zona `/app` que es precarreguen (shell SPA). */
 const APP_SEGMENTS: Record<LocaleSW, readonly string[]> = {
-	ca: ['', '/registrar', '/historial', '/compte', '/a-prop', '/essencials', '/comarques'],
-	es: ['', '/registrar', '/historial', '/cuenta', '/cerca', '/esenciales', '/comarcas']
+	ca: [
+		'',
+		'/registrar',
+		'/historial',
+		'/compte',
+		'/a-prop',
+		'/essencials',
+		'/comarques',
+		'/estadistiques'
+	],
+	es: [
+		'',
+		'/registrar',
+		'/historial',
+		'/cuenta',
+		'/cerca',
+		'/esenciales',
+		'/comarcas',
+		'/estadisticas'
+	]
 };
 
 const SEGMENT_FITXA: Record<LocaleSW, string> = { ca: 'cims', es: 'cimas' };

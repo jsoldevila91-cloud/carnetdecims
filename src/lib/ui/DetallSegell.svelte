@@ -6,12 +6,12 @@
 	import Button from './Button.svelte';
 	import { cimPerId } from './cim-per-id';
 	import { dataSegellLlarga } from './carnet';
-	import { formatAltitude, formatDataLlarga, romanPage } from './format';
+	import { formatAltitude, formatDataLlarga, formatLlista, romanPage } from './format';
 	import Segell from './Segell.svelte';
 
 	/**
 	 * Detall d'un segell del carnet (dins del full inferior): cim amb enllaç a la fitxa, data,
-	 * mètode, nota, estat per al repte, repeticions i accés a editar o registrar-ne una altra.
+	 * mètode, companys i nota (diari), estat per al repte, repeticions i accés a editar o registrar-ne una altra.
 	 */
 	let {
 		segell,
@@ -101,6 +101,12 @@
 				{estat}
 			</dd>
 		</div>
+		{#if ascensio?.companys?.length}
+			<div class="full">
+				<dt>{m.history_partners_label()}</dt>
+				<dd class="companys">{formatLlista(ascensio.companys, locale)}</dd>
+			</div>
+		{/if}
 		{#if ascensio?.nota}
 			<div class="full">
 				<dt>{m.history_note()}</dt>
@@ -213,6 +219,10 @@
 
 	dd.espera {
 		color: var(--c-ink-2);
+	}
+
+	.companys {
+		overflow-wrap: anywhere;
 	}
 
 	.nota {

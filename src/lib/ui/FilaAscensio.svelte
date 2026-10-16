@@ -5,11 +5,11 @@
 	import { m } from '$lib/paraglide/messages';
 	import Icon from './Icon.svelte';
 	import Segell from './Segell.svelte';
-	import { formatAltitude, formatDataLlarga, formatStampDate } from './format';
+	import { formatAltitude, formatDataLlarga, formatLlista, formatStampDate } from './format';
 
 	/**
 	 * Una ascensió de la llista (progrés i historial): segell, cim (enllaç a la fitxa), data,
-	 * mètode i nota. Amb `onedit`/`ondelete` mostra els botons d'editar i esborrar.
+	 * mètode, companys i nota (diari). Amb `onedit`/`ondelete` mostra els botons d'editar i esborrar.
 	 */
 	let {
 		ascensio,
@@ -68,6 +68,11 @@
 				{#if foraRepte}<span class="tag mono">{m.history_out_of_challenge()}</span>
 				{:else if repeticio}<span class="tag mono">{m.history_repeat()}</span>{/if}
 				{#if restriccio}<span class="tag mono warn">! {m.history_restriction()}</span>{/if}
+			</p>
+		{/if}
+		{#if ascensio.companys?.length}
+			<p class="companys">
+				{m.history_partners({ names: formatLlista(ascensio.companys, locale) })}
 			</p>
 		{/if}
 		{#if ascensio.nota}
@@ -154,6 +159,13 @@
 	.tag.warn {
 		border-color: var(--c-stamp-ink);
 		color: var(--c-stamp-ink);
+	}
+
+	.companys {
+		margin-top: var(--sp-1);
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-semibold);
+		overflow-wrap: anywhere;
 	}
 
 	.nota {

@@ -62,7 +62,8 @@ describe('camins localitzats (han de coincidir amb $lib/i18n/routes)', () => {
 			'/app/compte',
 			'/app/a-prop',
 			'/app/essencials',
-			'/app/comarques'
+			'/app/comarques',
+			'/app/estadistiques'
 		];
 		expect(new Set(paginesAppPrecache())).toEqual(
 			new Set(LOCALES.flatMap((l) => esperades.map((p) => localizePath(p, l))))
@@ -99,9 +100,9 @@ describe('llistaPrecache', () => {
 		expect(fitxerEstaticPrecache('/apple-touch-icon.png')).toBe(false);
 	});
 
-	it('pàgines: el shell de /app (14) i les offline; cap fitxa prerenderitzada', () => {
+	it('pàgines: el shell de /app (16) i les offline; cap fitxa prerenderitzada', () => {
 		const pagines = PRECACHE_LLISTA.filter((e) => e.pagina).map((e) => e.url);
-		expect(pagines).toHaveLength(16);
+		expect(pagines).toHaveLength(18);
 		expect(pagines).toContain('/ca/app');
 		expect(pagines).toContain('/es/app/cuenta');
 		expect(pagines).toContain(paginaOffline('ca'));
