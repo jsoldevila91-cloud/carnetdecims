@@ -58,12 +58,6 @@ async function fixarRellotge(page: Page) {
 	await page.clock.setFixedTime(ARA);
 }
 
-const nomCim = (id: number) => {
-	const c = CIMS.find((x) => x.id === id);
-	if (!c) throw new Error(`cim ${id}`);
-	return c.nom;
-};
-
 /** Cims essencials (tots ho són al catàleg actual) per sembrar volums grans. */
 const IDS_CATALEG = CIMS.map((c) => c.id).sort((a, b) => a - b);
 
@@ -373,7 +367,10 @@ test.describe('Validació: llista de l’any', () => {
 		// Res de la pàgina fora del full ocupa espai a la impressió
 		const visibles = await page.evaluate(() =>
 			[...document.body.querySelectorAll<HTMLElement>('body *')]
-				.filter((el) => !el.closest('.full-impres') && !el.contains(document.querySelector('.full-impres')))
+				.filter(
+					(el) =>
+						!el.closest('.full-impres') && !el.contains(document.querySelector('.full-impres'))
+				)
 				.filter((el) => {
 					const r = el.getBoundingClientRect();
 					return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
@@ -504,7 +501,9 @@ test.describe('Compartir: enllaç de només lectura', () => {
 		const viu = page.getByTestId('compartir-avis-copia');
 		await expect(viu).toHaveAttribute('aria-live', 'polite');
 		await expect(viu).toHaveText('');
-		await main(page).getByRole('button', { name: t('ca', 'share_link_copy') }).click();
+		await main(page)
+			.getByRole('button', { name: t('ca', 'share_link_copy') })
+			.click();
 		if (browserName === 'chromium') {
 			await expect(viu).toHaveText(t('ca', 'share_link_copied'));
 			expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(url);
@@ -529,7 +528,12 @@ test.describe('Compartir: enllaç de només lectura', () => {
 		const info = await img.evaluate(async (el: HTMLImageElement) => {
 			await el.decode();
 			const b = new Uint8Array(await (await fetch(el.src)).arrayBuffer());
-			return { w: el.naturalWidth, h: el.naturalHeight, sig: [...b.subarray(0, 8)], mida: b.length };
+			return {
+				w: el.naturalWidth,
+				h: el.naturalHeight,
+				sig: [...b.subarray(0, 8)],
+				mida: b.length
+			};
 		});
 		expect(info.sig).toEqual([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 		expect({ w: info.w, h: info.h }).toEqual({ w: 1080, h: 1350 });
@@ -537,7 +541,9 @@ test.describe('Compartir: enllaç de només lectura', () => {
 
 		const [baixada] = await Promise.all([
 			page.waitForEvent('download'),
-			main(page).getByRole('button', { name: t('ca', 'share_image_download') }).click()
+			main(page)
+				.getByRole('button', { name: t('ca', 'share_image_download') })
+				.click()
 		]);
 		expect(baixada.suggestedFilename()).toBe('carnetdecims.png');
 		const buf = readFileSync((await baixada.path())!);
