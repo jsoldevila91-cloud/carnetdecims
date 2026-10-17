@@ -35,6 +35,11 @@ export interface FilaSembra {
 	data: string;
 	metode?: 'a-peu' | 'btt' | 'esqui' | 'raquetes';
 	nota?: string | null;
+	/**
+	 * Companys (bloc R1). Absent = fila sense la clau (com les desades abans de R1); `[]` = fila
+	 * amb la clau i sense companys.
+	 */
+	companys?: string[];
 	createdAt?: string;
 	updatedAt?: string;
 }
@@ -55,6 +60,7 @@ export function completar(f: FilaSembra, i = 0) {
 		data: f.data,
 		metode: f.metode ?? 'a-peu',
 		nota: f.nota ?? null,
+		...(f.companys !== undefined ? { companys: f.companys } : {}),
 		createdAt: ts,
 		updatedAt: f.updatedAt ?? ts,
 		deletedAt: null

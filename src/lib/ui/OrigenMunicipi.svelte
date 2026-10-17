@@ -65,20 +65,23 @@
 		botoTria?.focus();
 	}
 
+	// `desant` es torna a `false` abans de moure el focus: amb els botons encara `disabled`,
+	// `focus()` no fa res i el focus es perdia al <body>.
 	async function desar(mun: Municipi) {
 		if (desant) return;
 		desant = true;
 		error = '';
 		try {
 			await desarOrigen(mun.codi);
-			missatge = m.origin_saved({ municipi: mun.nom });
-			await tancarCerca();
-			onfet?.();
 		} catch (e) {
 			error = e instanceof ErrorOrigen ? m.origin_error_unknown() : m.origin_error_generic();
-		} finally {
 			desant = false;
+			return;
 		}
+		desant = false;
+		missatge = m.origin_saved({ municipi: mun.nom });
+		await tancarCerca();
+		onfet?.();
 	}
 
 	async function treure() {
@@ -87,16 +90,17 @@
 		error = '';
 		try {
 			await esborrarOrigen();
-			missatge = m.origin_removed();
-			cercant = false;
-			await tick();
-			botoTria?.focus();
-			onfet?.();
 		} catch {
 			error = m.origin_error_generic();
-		} finally {
 			desant = false;
+			return;
 		}
+		desant = false;
+		missatge = m.origin_removed();
+		cercant = false;
+		await tick();
+		botoTria?.focus();
+		onfet?.();
 	}
 </script>
 
@@ -233,7 +237,13 @@
 		font-size: var(--fs-xs);
 	}
 
+	/* Buida, fora del flux però dins de l'arbre d'accessibilitat (amb `display: none` la regió
+	   viva no hi seria i el primer missatge no s'anunciaria). */
 	.estat-viu:empty {
-		display: none;
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
 	}
 </style>

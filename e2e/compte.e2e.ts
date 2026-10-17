@@ -18,6 +18,7 @@ import { test as base, expect, gotoHydrated, settleAnimations } from './fixtures
 import {
 	CIM,
 	NOM_BD,
+	SHEET_EDICIO,
 	botoRegistrar,
 	completar,
 	obrirFullNav,
@@ -38,6 +39,7 @@ import {
 	supabaseFals,
 	type SupabaseFals
 } from './supabase-fals';
+import { escriureOrigen, filesAmbCompanys, llegirOrigen, municipi, t } from './r1';
 
 const test = base.extend<{ supa: SupabaseFals }>({
 	supa: [
@@ -419,8 +421,9 @@ test.describe('Sincronització', () => {
 				}),
 			NOM_BD
 		);
-		expect(versio.v).toBe(20);
-		expect(versio.stores.sort()).toEqual(['ascensions', 'meta', 'outbox']);
+		// Dexie aplica totes les versions en ordre: des de R1, la 3 (IndexedDB 30) amb `preferencies`.
+		expect(versio.v).toBe(30);
+		expect(versio.stores.sort()).toEqual(['ascensions', 'meta', 'outbox', 'preferencies']);
 
 		await desarSessio(page, INESA);
 		await gotoHydrated(page, COMPTE);
@@ -992,5 +995,271 @@ test.describe('Reflow a 320 px', () => {
 			},
 			llarg
 		);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Bloc R1: companys i municipi d'origen amb compte
+// ---------------------------------------------------------------------------
+
+test.describe('Sincronització R1 · companys i municipi d’origen', () => {
+	const T = (dia: number) => new Date(Date.UTC(2026, 0, dia, 10)).toISOString();
+
+	test('puja els companys i l’origen; una fila sense la clau es puja sense `companys`', async ({
+		page,
+		supa
+	}) => {
+		const rows = await sembrar(
+			page,
+			[
+				{ cimId: CIM.pedraforca.id, data: '2024-08-10', companys: ['Inesa', 'Pau'] },
+				{ cimId: CIM.montcau.id, data: '2025-02-01', companys: [] },
+				{ cimId: CIM.canigo.id, data: '2025-06-20' } // d'abans de R1
+			],
+			'/ca/app'
+		);
+		const tremp = municipi('Tremp');
+		await escriureOrigen(page, tremp.codi, { updatedAt: T(5), pendent: 1 });
+		await desarSessio(page, INESA);
+		await gotoHydrated(page, COMPTE);
+		await esperarSincronitzat(page);
+
+		const pujades = new Map(supa.pushos.flat().map((f) => [f.id, f]));
+		expect(pujades.get(rows[0].id)?.companys).toEqual(['Inesa', 'Pau']);
+		expect(pujades.get(rows[1].id)?.companys).toEqual([]);
+		expect(pujades.get(rows[2].id)).toBeDefined();
+		expect('companys' in pujades.get(rows[2].id)!).toBe(false);
+		const nuvol = new Map(supa.filesDe(INESA).map((f) => [f.id, f]));
+		expect(nuvol.get(rows[0].id)?.companys).toEqual(['Inesa', 'Pau']);
+
+		expect(supa.origenDe(INESA)).toEqual({ codi: tremp.codi, updatedAt: T(5) });
+		await expect.poll(async () => (await llegirOrigen(page))?.pendent).toBe(0);
+		// Amb sessió, el text de privacitat diu que també es desa al compte.
+		await expect(page.getByTestId('origen-municipi')).toContainText(
+			t('ca', 'origin_privacy_cloud')
+		);
+	});
+
+	test('baixa els companys i l’origen d’un altre dispositiu i les estadístiques els fan servir', async ({
+		page,
+		supa
+	}) => {
+		const altre = completar({ cimId: CIM.pica.id, data: '2024-07-20' }, 1);
+		supa.sembrar(INESA, [{ ...altre, companys: ['Marta', 'Jordi'] }]);
+		supa.sembrarOrigen(INESA, municipi('Figueres').codi, T(9));
+		await prepararAutenticat(page, INESA, []);
+		await esperarSincronitzat(page);
+		const [fila] = await filesAmbCompanys(page);
+		expect(fila).toMatchObject({ id: altre.id, companys: ['Marta', 'Jordi'] });
+		expect(await llegirOrigen(page)).toMatchObject({
+			valor: municipi('Figueres').codi,
+			updatedAt: T(9),
+			pendent: 0
+		});
+		await expect(page.getByTestId('origen-municipi').locator('.valor')).toContainText('Figueres');
+
+		await gotoHydrated(page, '/ca/app/estadistiques');
+		await expect(page.getByTestId('stats-llunya')).toContainText('Figueres');
+		await expect(page.getByTestId('stats-companys').locator('li .c-nom')).toHaveText([
+			'Jordi',
+			'Marta'
+		]);
+		// Cap petició de sync porta el nom del municipi o dels companys a la URL
+		expect(supa.peticions.filter((p) => /Marta|Figueres|170669/.test(p.query))).toEqual([]);
+	});
+
+	test('una fila local sense la clau `companys` no esborra els del núvol (i després els baixa)', async ({
+		page,
+		supa
+	}) => {
+		const id = uuidTest();
+		const base = { id, cimId: CIM.matagalls.id, data: '2024-05-01', createdAt: T(1) };
+		supa.sembrar(INESA, [{ ...base, nota: 'núvol', companys: ['Anna'], updatedAt: T(2) }]);
+		// Local: la mateixa fila editada després (nota), sense la clau (client d'abans de R1)
+		await prepararAutenticat(page, INESA, [{ ...base, nota: 'local nova', updatedAt: T(3) }], {
+			propietari: idUsuari(INESA)
+		});
+		await esperarSincronitzat(page);
+		const pujada = supa.pushos.flat().find((f) => f.id === id);
+		expect(pujada).toBeDefined();
+		expect('companys' in pujada!).toBe(false);
+		const alNuvol = supa.filesDe(INESA).find((f) => f.id === id)!;
+		expect(alNuvol.nota).toBe('local nova');
+		expect(alNuvol.companys).toEqual(['Anna']);
+		// El pull la torna a baixar (server_updated_at nou) amb els companys
+		await expect
+			.poll(async () => (await filesAmbCompanys(page)).find((f) => f.id === id)?.companys)
+			.toEqual(['Anna']);
+	});
+
+	test('Dexie v2 → v3: el cursor del pull es reinicia i baixen els companys d’abans', async ({
+		page,
+		supa
+	}) => {
+		const files = [
+			completar({ cimId: CIM.pedraforca.id, data: '2024-08-10' }, 0),
+			completar({ cimId: CIM.montcau.id, data: '2025-02-01' }, 1)
+		];
+		// Al núvol (desats per un altre dispositiu amb R1) tenen companys
+		supa.sembrar(
+			INESA,
+			files.map((f) => ({ ...f, companys: ['Inesa'] }))
+		);
+		// BD v2 (IndexedDB 20): files baixades sense companys i cursor posterior a tot el núvol.
+		await gotoHydrated(page, '/ca/repte-100-cims');
+		await page.evaluate(
+			({ nom, files, uid }) =>
+				new Promise<void>((resolve, reject) => {
+					const req = indexedDB.open(nom, 20);
+					req.onupgradeneeded = () => {
+						const bd = req.result;
+						const a = bd.createObjectStore('ascensions', { keyPath: 'id' });
+						for (const i of ['cimId', 'data', 'updatedAt', 'deletedAt']) a.createIndex(i, i);
+						const o = bd.createObjectStore('outbox', { keyPath: 'ascensioId' });
+						o.createIndex('encuaAt', 'encuaAt');
+						bd.createObjectStore('meta', { keyPath: 'clau' });
+					};
+					req.onerror = () => reject(req.error);
+					req.onsuccess = () => {
+						const bd = req.result;
+						const tx = bd.transaction(['ascensions', 'meta'], 'readwrite');
+						for (const f of files) tx.objectStore('ascensions').put(f);
+						tx.objectStore('meta').put({ clau: 'propietari', valor: uid });
+						tx.objectStore('meta').put({
+							clau: 'cursorPull',
+							valor: '2026-10-02T00:00:00.000000+00:00'
+						});
+						tx.oncomplete = () => {
+							bd.close();
+							resolve();
+						};
+						tx.onerror = () => reject(tx.error);
+					};
+				}),
+			{ nom: NOM_BD, files, uid: idUsuari(INESA) }
+		);
+		await desarSessio(page, INESA);
+		await gotoHydrated(page, COMPTE);
+		await esperarSincronitzat(page);
+		// El pull ha estat complet (sense `server_updated_at=gte.`)
+		expect(supa.crides('/rest/v1/ascensions')[0].query).not.toContain('server_updated_at=gte');
+		const locals = await filesAmbCompanys(page);
+		expect(locals.map((f) => f.companys)).toEqual([['Inesa'], ['Inesa']]);
+		// Res a pujar: les files no han canviat
+		expect(supa.pushos.flat()).toEqual([]);
+	});
+
+	test('editar sense connexió una fila sense la clau no esborra els companys d’un altre dispositiu', async ({
+		page,
+		supa,
+		consoleGuard
+	}) => {
+		// BUG (R1, pendent): el formulari d'edició sempre envia `companys` (aquí `[]`), així que la
+		// fila guanya la clau i el push substitueix els companys del núvol. Passa si la fila és
+		// d'abans de R1 i encara no s'ha baixat de nou (p. ex. sense connexió després d'actualitzar).
+		// Quan s'arregli, Playwright avisarà que el test ja passa: cal treure aquesta línia.
+		test.fail(true, 'editar una fila sense la clau hi posa companys: [] i esborra els del núvol');
+		consoleGuard.allow(
+			/Failed to load resource|ERR_INTERNET_DISCONNECTED|network connection|Load failed|Fetch API cannot load|NetworkError/
+		);
+		const id = uuidTest();
+		const base = { id, cimId: CIM.matagalls.id, data: '2024-05-01', createdAt: T(1) };
+		// Un altre dispositiu hi ha posat companys; aquest encara no ho ha baixat (fila d'abans de R1)
+		supa.sembrar(INESA, [{ ...base, nota: 'vella', companys: ['Anna'], updatedAt: T(2) }]);
+		supa.senseXarxa = true;
+		await sembrar(page, [{ ...base, nota: 'vella', updatedAt: T(1) }], '/ca/app');
+		await escriureMeta(page, { propietari: idUsuari(INESA) });
+		await desarSessio(page, INESA);
+		await gotoHydrated(page, '/ca/app/historial');
+		// Edita només la nota (no toca els companys)
+		await page.getByRole('button', { name: /^Edita l'ascensió a Matagalls/ }).click();
+		const full = page.getByRole('dialog', { name: SHEET_EDICIO });
+		await full.getByLabel('Nota (opcional)').fill('nova');
+		await full.getByRole('button', { name: 'Desa els canvis' }).click();
+		await expect(full).toBeHidden();
+
+		supa.senseXarxa = false;
+		await gotoHydrated(page, COMPTE);
+		await esperarSincronitzat(page);
+		const alNuvol = supa.filesDe(INESA).find((f) => f.id === id)!;
+		expect(alNuvol.nota).toBe('nova');
+		expect(alNuvol.companys, 'els companys posats des de l’altre dispositiu').toEqual(['Anna']);
+	});
+
+	test('làpida: conserva nota i companys 10 min (Desfés) i després puja buida al núvol', async ({
+		page,
+		supa
+	}) => {
+		// Rellotge del navegador fix (els temporitzadors van de debò): T0 i després T0 + 11 min.
+		const T0 = new Date('2026-10-16T10:00:00+02:00');
+		await page.clock.setFixedTime(T0);
+		const files = [
+			{ cimId: CIM.matagalls.id, data: '2024-05-01', nota: 'Amb boira', companys: ['Inesa'] },
+			{ cimId: CIM.montcau.id, data: '2024-06-01', nota: 'Desfet', companys: ['Pau'] }
+		];
+		const rows = await prepararAutenticat(page, INESA, files, { url: '/ca/app/historial' });
+		await expect.poll(() => supa.filesDe(INESA).length, { timeout: 15_000 }).toBe(2);
+
+		// Dins de la finestra: Desfés torna l'ascensió sencera
+		await page.getByRole('button', { name: /^Esborra l'ascensió a Montcau/ }).click();
+		await toast(page, 'Ascensió esborrada: Montcau.')
+			.getByRole('button', { name: 'Desfés' })
+			.click();
+		await expect(page.getByRole('heading', { name: 'Montcau' })).toBeVisible();
+		const montcau = () => filesAmbCompanys(page).then((f) => f.find((x) => x.id === rows[1].id)!);
+		expect(await montcau()).toMatchObject({ deletedAt: null, nota: 'Desfet', companys: ['Pau'] });
+
+		// Esborrat que es queda: la làpida puja amb la nota i els companys (encara es pot desfer)
+		await page.getByRole('button', { name: /^Esborra l'ascensió a Matagalls/ }).click();
+		await expect(toast(page, 'Ascensió esborrada: Matagalls.')).toBeVisible();
+		const alNuvol = () => supa.filesDe(INESA).find((f) => f.id === rows[0].id)!;
+		await expect.poll(() => alNuvol().deleted_at, { timeout: 15_000 }).not.toBeNull();
+		expect(alNuvol()).toMatchObject({ nota: 'Amb boira', companys: ['Inesa'] });
+		const lapida = (await filesAmbCompanys(page)).find((f) => f.id === rows[0].id)!;
+		expect(lapida.deletedAt).not.toBeNull();
+
+		// 11 minuts després (nova obertura de la BD): es buida i puja buida, amb updatedAt + 1 ms
+		await page.clock.setFixedTime(new Date(T0.getTime() + 11 * 60_000));
+		await gotoHydrated(page, COMPTE);
+		await esperarSincronitzat(page);
+		await expect.poll(() => alNuvol().nota, { timeout: 15_000 }).toBeNull();
+		expect(alNuvol().companys).toEqual([]);
+		expect(alNuvol().deleted_at).not.toBeNull();
+		expect(new Date(alNuvol().updated_at).getTime()).toBe(new Date(lapida.updatedAt).getTime() + 1);
+		const local = (await filesAmbCompanys(page)).find((f) => f.id === rows[0].id)!;
+		expect(local).toMatchObject({ nota: null, companys: [] });
+		expect(await llegirTaula(page, 'outbox')).toEqual([]);
+		// L'ascensió restaurada no es toca
+		expect(supa.filesDe(INESA).find((f) => f.id === rows[1].id)).toMatchObject({
+			deleted_at: null,
+			nota: 'Desfet',
+			companys: ['Pau']
+		});
+	});
+
+	test('origen amb LWW: guanya el més recent a cada costat; treure’l també es propaga', async ({
+		page,
+		supa
+	}) => {
+		// 1) El del compte és més nou: guanya el compte
+		supa.sembrarOrigen(INESA, municipi('Figueres').codi, T(10));
+		await sembrar(page, [], '/ca/app');
+		await escriureOrigen(page, municipi('Tremp').codi, { updatedAt: T(4), pendent: 1 });
+		await desarSessio(page, INESA);
+		await gotoHydrated(page, COMPTE);
+		await esperarSincronitzat(page);
+		await expect
+			.poll(async () => (await llegirOrigen(page))?.valor)
+			.toBe(municipi('Figueres').codi);
+		expect(supa.origenDe(INESA)?.codi).toBe(municipi('Figueres').codi);
+
+		// 2) Treure'l des de la UI (més nou): el compte queda sense municipi
+		await page
+			.getByTestId('origen-municipi')
+			.getByRole('button', { name: t('ca', 'origin_remove') })
+			.click();
+		await expect.poll(() => supa.origenDe(INESA)?.codi, { timeout: 15_000 }).toBeNull();
+		await expect.poll(async () => (await llegirOrigen(page))?.pendent).toBe(0);
+		expect((await llegirOrigen(page))?.valor).toBeNull();
 	});
 });

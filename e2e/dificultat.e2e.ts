@@ -998,7 +998,11 @@ test.describe('Dificultat · sense text de fitxes al client', () => {
 			URL_LLISTAT.essencials.es,
 			comarcaUrl('ripolles', 'ca')
 		]) {
-			const res = await request.get(`${url}/__data.json`);
+			// Entre petició i petició hi ha ~1.000 comprovacions: `wrangler dev` pot haver tancat la
+			// connexió keep-alive i la següent surt amb ECONNRESET. Es reintenta un cop.
+			const res = await request
+				.get(`${url}/__data.json`)
+				.catch(() => request.get(`${url}/__data.json`));
 			expect(res.status(), url).toBe(200);
 			const cos = await res.text();
 			for (const { slug, s } of SONDES)
