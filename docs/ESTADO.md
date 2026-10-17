@@ -1,4 +1,4 @@
-# Estado del proyecto
+﻿# Estado del proyecto
 
 > Se actualiza al final de cada bloque. Última actualización: 2026-10-17.
 
@@ -209,7 +209,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **QA (`b8a84e0`, `91bab0b`, más correcciones de Claude):** `e2e/reptes.e2e.ts` (61 tests por proyecto): **366/366 en los 3 proyectos con `--repeat-each 2`**. Suite completa en desktop-chrome: 1699 pasados (2 timeouts por carga, ya ajustados). 1459 unitarios. Build OK.
 - **Bajos pendientes:** el toast del 100.º cim dice "100/200"; `compte.e2e.ts:244` es intermitente en mobile-safari (también antes de R2).
 
-## Bloque R3 · Compartir i validar (terminado, 2026-10-18)
+## Bloque R3 · Compartir i validar (terminado y publicado, 2026-10-18; Worker `6977e9b5`; verificado: 200 y `noindex, nofollow` en las páginas nuevas ca/es)
 
 - **Dominio (`10c4b7a`, `8e2146d`):** `domain/validacio.ts` (`exportValidacio`: filas del año que cuentan para el 100 Cims con avisos `restriccio`, `restriccio-incerta`, `repetit`, `mes-de-100`, `en-espera`; excluidas con motivo; `terminiValidacio` 31/12; `csvValidacio` con BOM, `;`, CRLF y protección contra fórmulas). `domain/carnet-compartit.ts` + `platform/compressio.ts` + `data/compartir.ts`: enlace de solo lectura en el fragmento (`/ca/carnet#c=…`), formato binario v1 (varints, nombre opcional ≤ 40, un sello por cim y **medallas de quien comparte**), lectura estricta (base64url canónico, límite contra bombas de descompresión, cims desconocidos y fechas futuras descartados). 100 ascensiones + 10 medallas ≈ 465 caracteres de URL. Reglas en docs/03 §3.7.
   - **Ids del catálogo fijados** (`catalog/ids-estables.json` + test): la lista solo puede crecer por el final. Códigos de reto propios en `CODIS_REPTE_COMPARTIT` (solo crecen).
