@@ -112,7 +112,7 @@
 					m.validation_col_num(),
 					m.validation_col_date(),
 					m.validation_col_peak(),
-					m.validation_col_altitude(),
+					m.validation_csv_col_altitude(),
 					m.validation_col_comarca(),
 					m.validation_col_method(),
 					m.validation_col_warnings()

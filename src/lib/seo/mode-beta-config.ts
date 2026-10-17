@@ -47,18 +47,56 @@ const FI_BLOC = '# === FI MODE BETA ===';
 /** Bloc de `_headers` (Workers Static Assets) per a les pàgines prerenderitzades i els fitxers. */
 export const BLOC_HEADERS_BETA = `${INICI_BLOC}\n/*\n  X-Robots-Tag: ${ROBOTS_BETA}\n${FI_BLOC}\n`;
 
+/** Treu el bloc delimitat per `inici`/`fi` (i el salt de línia que el segueix), si hi és. */
+function treureBloc(contingut: string, inici: string, fi: string): string {
+	const i = contingut.indexOf(inici);
+	const f = contingut.indexOf(fi);
+	return i >= 0 && f > i
+		? contingut.slice(0, i) + contingut.slice(f + fi.length).replace(/^\r?\n/, '')
+		: contingut;
+}
+
 /**
  * Contingut del `_headers` de l'arrel (l'adapter de Cloudflare el copia a la sortida i hi afegeix
  * les seves regles). En beta hi posa el bloc al principi; fora de beta el treu. Conserva les
  * regles manuals que hi pugui haver. `undefined` = el fitxer no ha d'existir.
  */
 export function aplicarBlocBeta(contingut: string | undefined, beta: boolean): string | undefined {
-	const inici = contingut?.indexOf(INICI_BLOC) ?? -1;
-	const fi = contingut?.indexOf(FI_BLOC) ?? -1;
-	const sense =
-		contingut !== undefined && inici >= 0 && fi > inici
-			? contingut.slice(0, inici) + contingut.slice(fi + FI_BLOC.length).replace(/^\r?\n/, '')
-			: (contingut ?? '');
+	const sense = treureBloc(contingut ?? '', INICI_BLOC, FI_BLOC);
 	const resultat = beta ? BLOC_HEADERS_BETA + sense : sense;
 	return resultat.trim() ? resultat : undefined;
+}
+
+/**
+ * Pàgines públiques prerenderitzades que **mai** s'indexen, tampoc després del llançament:
+ * el carnet compartit (`/{idioma}/carnet#c=…`, bloc R3), que mostra dades personals llegides del
+ * fragment. El meta robots el posa `PageMeta` (`noindex nofollow`); la capçalera, el `_headers`
+ * (no passen pel Worker) i, si mai hi passen (dev, preview), `hooks.server.ts`.
+ */
+export const RUTES_NOINDEX_SEMPRE = ['/ca/carnet', '/es/carnet'] as const;
+
+/** Valor de `X-Robots-Tag` de `RUTES_NOINDEX_SEMPRE`. */
+export const ROBOTS_PRIVAT = 'noindex, nofollow';
+
+const INICI_BLOC_PRIVAT =
+	'# === INICI NOINDEX SEMPRE (generat per plugin-mode-beta; no editar) ===';
+const FI_BLOC_PRIVAT = '# === FI NOINDEX SEMPRE ===';
+
+/** Bloc de `_headers` amb `X-Robots-Tag` per a `RUTES_NOINDEX_SEMPRE`. */
+export const BLOC_HEADERS_PRIVAT = `${INICI_BLOC_PRIVAT}\n${RUTES_NOINDEX_SEMPRE.map(
+	(r) => `${r}\n  X-Robots-Tag: ${ROBOTS_PRIVAT}\n`
+).join('')}${FI_BLOC_PRIVAT}\n`;
+
+/**
+ * `_headers` complet: el bloc beta (`aplicarBlocBeta`) i, **fora de beta**, el de
+ * `RUTES_NOINDEX_SEMPRE`. En beta no cal: `/*` ja hi posa `noindex, nofollow`, i Cloudflare
+ * ajuntaria els dos valors de la mateixa capçalera amb una coma (`noindex, nofollow, noindex, …`).
+ */
+export function aplicarBlocsHeaders(
+	contingut: string | undefined,
+	beta: boolean
+): string | undefined {
+	const sensePrivat = treureBloc(contingut ?? '', INICI_BLOC_PRIVAT, FI_BLOC_PRIVAT);
+	const ambPrivat = beta ? sensePrivat : BLOC_HEADERS_PRIVAT + sensePrivat;
+	return aplicarBlocBeta(ambPrivat || undefined, beta);
 }

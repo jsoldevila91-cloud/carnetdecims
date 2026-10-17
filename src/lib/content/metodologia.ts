@@ -35,7 +35,7 @@ const ETALAB = 'https://www.etalab.gouv.fr/licence-ouverte-open-licence/';
 const OPENMAPTILES = 'https://openmaptiles.org/';
 const MAPTERHORN_ATRIBUCIO = 'https://mapterhorn.com/attribution';
 
-const ACTUALITZAT = '2026-10-17';
+const ACTUALITZAT = '2026-10-18';
 const CONSULTAT = '2026-09-28';
 
 /* -------- Dificultat orientativa: tots els números surten de `ESCALA_DIFICULTAT` (domain) -------- */
@@ -280,6 +280,86 @@ function seccioReptes(locale: AppLocale): Seccio {
 	};
 }
 
+/**
+ * Llista per a la validació (bloc R3): `exportValidacio` de `domain/validacio.ts`
+ * (docs/03-modelo-datos.md §3.7). Les tres "interpretacions" són les ambigüitats pendents de
+ * confirmar amb 100cims@feec.cat: si la FEEC les aclareix, cal revisar aquest text i el codi.
+ */
+function seccioValidacio(locale: AppLocale): Seccio {
+	if (locale === 'ca') {
+		return {
+			id: 'llista-de-validacio',
+			titol: 'Llista per a la validació',
+			blocs: [
+				{
+					tipus: 'paragraf',
+					text: "A [Prepara la validació](/app/validacio) tries un any i, si vols, la data a partir de la qual encara no has presentat res. La llista inclou les ascensions d'aquell any que compten per al repte (a partir de l'1 de juliol de 2006, sense vehicle de motor, no futures i de cims del catàleg), ordenades per data. Les altres surten a part, a «No s'inclouen», amb el motiu. Al costat de cada ascensió hi pot haver aquests avisos:"
+				},
+				{
+					tipus: 'llista',
+					items: [
+						"**Restricció d'accés:** el dia de l'ascensió el cim tenia una restricció vigent, i la normativa diu que en aquests períodes l'ascensió no es valida.",
+						"**Cim repetit:** ja tenies una ascensió vàlida anterior al mateix cim, d'aquell any o d'un altre. No és un cim nou.",
+						"**Més de 100:** és el cim nou número 101 o posterior de l'any natural, i la FEEC en valida un màxim de 100 per any. Es compta tot l'any, encara que hagis triat una data d'inici.",
+						'**En espera:** és un cim no essencial que vas pujar per primera vegada a partir de l’1 de juliol de 2019, quan encara no havies completat el repte 100 Cims. Surt a la llista, però no suma per al repte fins que el completis.'
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: 'En tres punts la normativa no és del tot clara. Hi apliquem la interpretació següent, **pendent de confirmar amb la FEEC**; si tens dubtes, consulta-ho amb la teva entitat o amb la FEEC:'
+				},
+				{
+					tipus: 'llista',
+					items: [
+						"**Termini:** la normativa diu que els fulls han d'arribar «abans del 31 de desembre». El compte enrere arriba fins al 31, però no podem assegurar que aquell mateix dia encara s'acceptin.",
+						"**Repeticions:** no sabem si la FEEC vol que s'hi presentin els cims que ja tenies. Surten a la llista amb l'avís de cim repetit i no compten com a cims nous per al màxim de 100; tu decideixes si els passes al full.",
+						'**No essencials en espera:** els comptem dins del màxim de 100 cims nous de l’any, encara que no sumin per al repte fins que el completis.'
+					]
+				},
+				{
+					tipus: 'paragraf',
+					text: "La llista només t'ajuda a omplir el full de validació de la FEEC: no valida res i, en cas de dubte, val el criteri de la FEEC. Es genera al teu dispositiu; el CSV i la versió per imprimir no s'envien enlloc i no hi ha cap camp per al DNI ni la llicència (al full imprès hi queden en blanc perquè els escriguis a mà)."
+				}
+			]
+		};
+	}
+	return {
+		id: 'llista-de-validacio',
+		titol: 'Lista para la validación',
+		blocs: [
+			{
+				tipus: 'paragraf',
+				text: 'En [Prepara la validación](/app/validacio) eliges un año y, si quieres, la fecha a partir de la cual aún no has presentado nada. La lista incluye las ascensiones de ese año que cuentan para el reto (desde el 1 de julio de 2006, sin vehículo de motor, no futuras y de cimas del catálogo), ordenadas por fecha. Las demás aparecen aparte, en «No se incluyen», con el motivo. Junto a cada ascensión puede haber estos avisos:'
+			},
+			{
+				tipus: 'llista',
+				items: [
+					'**Restricción de acceso:** el día de la ascensión la cima tenía una restricción vigente, y la normativa dice que en esos periodos la ascensión no se valida.',
+					'**Cima repetida:** ya tenías una ascensión válida anterior a la misma cima, de ese año o de otro. No es una cima nueva.',
+					'**Más de 100:** es la cima nueva número 101 o posterior del año natural, y la FEEC valida un máximo de 100 al año. Se cuenta todo el año, aunque hayas elegido una fecha de inicio.',
+					'**En espera:** es una cima no esencial que subiste por primera vez a partir del 1 de julio de 2019, cuando aún no habías completado el reto 100 Cims. Aparece en la lista, pero no suma para el reto hasta que lo completes.'
+				]
+			},
+			{
+				tipus: 'paragraf',
+				text: 'En tres puntos la normativa no es del todo clara. Aplicamos la interpretación siguiente, **pendiente de confirmar con la FEEC**; si tienes dudas, consúltalo con tu entidad o con la FEEC:'
+			},
+			{
+				tipus: 'llista',
+				items: [
+					'**Plazo:** la normativa dice que las hojas tienen que llegar «abans del 31 de desembre» (antes del 31 de diciembre). La cuenta atrás llega hasta el día 31, pero no podemos asegurar que ese mismo día aún se acepten.',
+					'**Repeticiones:** no sabemos si la FEEC quiere que se presenten las cimas que ya tenías. Aparecen en la lista con el aviso de cima repetida y no cuentan como cimas nuevas para el máximo de 100; tú decides si las pasas a la hoja.',
+					'**No esenciales en espera:** las contamos dentro del máximo de 100 cimas nuevas del año, aunque no sumen para el reto hasta que lo completes.'
+				]
+			},
+			{
+				tipus: 'paragraf',
+				text: 'La lista solo te ayuda a rellenar la hoja de validación de la FEEC: no valida nada y, en caso de duda, vale el criterio de la FEEC. Se genera en tu dispositivo; el CSV y la versión para imprimir no se envían a ningún sitio y no hay ningún campo para el DNI ni la licencia (en la hoja impresa quedan en blanco para que los escribas a mano).'
+			}
+		]
+	};
+}
+
 export const metodologia: Contingut = {
 	ca: {
 		title: 'Metodologia i fonts de les dades dels cims',
@@ -386,6 +466,7 @@ export const metodologia: Contingut = {
 			seccioDificultat('ca'),
 			seccioMunicipisEstadistiques('ca'),
 			seccioReptes('ca'),
+			seccioValidacio('ca'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',
@@ -568,6 +649,7 @@ export const metodologia: Contingut = {
 			seccioDificultat('es'),
 			seccioMunicipisEstadistiques('es'),
 			seccioReptes('es'),
+			seccioValidacio('es'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',

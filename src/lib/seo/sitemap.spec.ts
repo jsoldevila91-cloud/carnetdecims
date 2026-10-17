@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { CIMS, cimsPerComarca, comarquesAmbCims } from '$lib/data/catalog';
 import { comarcaIndexable, llistatIndexable, MIN_CIMS_LLISTAT_INDEXABLE } from './indexabilitat';
 import { slugsLlistatDificultat } from '$lib/content/fitxes';
+import { PRERENDER_PATHS } from '$lib/i18n/routes';
 import { CONTINGUTS, PAGINES_CONTINGUT, type Contingut, type ClauPagina } from '$lib/content';
 import {
 	CONTINGUT_FORA_SITEMAP,
@@ -55,6 +56,16 @@ describe('sitemaps', () => {
 		expect(ca).toContain('<loc>https://carnetdecims.cat/ca/cims</loc>');
 		expect(es).toContain('<loc>https://carnetdecims.cat/es/cimas</loc>');
 		expect(ca + es).not.toMatch(/\/app|<loc>[^<]*\/<\/loc>|lastmod/);
+	});
+
+	it('el carnet compartit (/carnet, R3) no surt a cap sitemap ni a PRERENDER_PATHS', () => {
+		expect(PRERENDER_PATHS as readonly string[]).not.toContain('/carnet');
+		const tots = sitemapEntries()
+			.filter((e) => e !== '/sitemap-index.xml')
+			.map((e) => sitemapXml(e.slice('/sitemap-'.length, -'.xml'.length)) ?? '')
+			.join('\n');
+		expect(tots).toContain('<loc>');
+		expect(tots).not.toMatch(/\/carnet(<|\/|#|")/);
 	});
 
 	it('alternates hreflang recíproques amb x-default → ca', () => {

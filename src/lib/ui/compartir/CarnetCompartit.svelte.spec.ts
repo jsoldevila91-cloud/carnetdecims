@@ -64,7 +64,7 @@ describe('CarnetCompartit', () => {
 			.toBeVisible();
 		await expect
 			.element(page.getByTestId('carnet-compartit-descartades'))
-			.toHaveTextContent('2 entrades');
+			.toHaveTextContent("no s'han pogut mostrar (cim desconegut o data futura): 2.");
 	});
 });
 

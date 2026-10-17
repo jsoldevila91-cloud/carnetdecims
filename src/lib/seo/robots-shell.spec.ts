@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
 	ATRIBUT_SHELL,
 	META_NOINDEX_SHELL,
+	esRutaNoindexSempre,
 	esRutaNoindexShell,
 	injectarAvisNoscript,
 	injectarNoindexShell,
@@ -16,6 +17,15 @@ const SHELL = `<!doctype html>
 	</head>
 	<body><div style="display: contents"><script>/* start */</script></div></body>
 </html>`;
+
+describe('esRutaNoindexSempre', () => {
+	it('només el carnet compartit', () => {
+		expect(esRutaNoindexSempre('/(public)/carnet')).toBe(true);
+		for (const id of ['/(public)/cims', '/app', '/(public)/carnet/x', '/carnet', null, undefined]) {
+			expect(esRutaNoindexSempre(id)).toBe(false);
+		}
+	});
+});
 
 describe('esRutaNoindexShell', () => {
 	it('només la zona /app', () => {

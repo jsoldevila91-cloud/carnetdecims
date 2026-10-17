@@ -55,6 +55,11 @@
  *     origen), baixat amb `fetch` en diferit; la cerca es fa en memòria (`cercarMunicipis`), sense
  *     xarxa;
  *   · estadístiques (`data/estadistiques.ts`): calculades al client; no desen ni envien res.
+ * - bloc R3 (2026-10-17): secció `compartir`. Imatge per compartir dibuixada amb canvas al client
+ *   (`ui/compartir/imatge-carnet.ts`); enllaç `/{idioma}/carnet#c=…` amb cims, dates i nom opcional
+ *   al fragment (`domain/carnet-compartit.ts`, `data/compartir.ts`; sense notes, companys, mètode ni
+ *   ids), que no arriba mai al servidor ni es desa; llista de validació (`domain/validacio.ts`, CSV i
+ *   impressió) generada al client, sense nom, DNI ni llicència (el full imprès els deixa en blanc).
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
@@ -154,6 +159,21 @@ export const privacitat: Contingut = {
 				]
 			},
 			{
+				id: 'compartir',
+				titol: 'Compartir el carnet i preparar la validació',
+				blocs: [
+					{
+						tipus: 'llista',
+						items: [
+							"**La imatge per compartir** es dibuixa al teu dispositiu i no s'envia a cap servidor. Només surt del dispositiu si tu la comparteixes amb una altra aplicació.",
+							"**L'enllaç de només lectura** porta dins els cims i les dates de les ascensions del carnet i, si n'hi poses, el nom que vulguis mostrar. No porta les notes, els companys ni el mètode. Aquestes dades van al fragment de l'enllaç (la part posterior al «#»), que el navegador no envia mai al servidor: no les rebem ni les desem enlloc, i la pàgina que obre l'enllaç les llegeix al dispositiu de qui l'obre.",
+							"**Qualsevol persona que tingui l'enllaç pot veure aquestes dades**, i qualsevol que el rebi el pot reenviar. Comparteix-lo només amb qui vulguis. Un enllaç ja enviat no es pot desactivar, perquè no es desa enlloc.",
+							"**La llista per a la validació** (CSV o versió per imprimir o desar en PDF) es genera al teu dispositiu i no surt d'aquí, llevat que tu l'enviïs. No et demanem ni desem el DNI ni el número de llicència: al full imprès hi queden en blanc perquè els escriguis a mà."
+						]
+					}
+				]
+			},
+			{
 				id: 'compte',
 				titol: 'Si crees un compte',
 				blocs: [
@@ -170,7 +190,7 @@ export const privacitat: Contingut = {
 							`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}). També és Supabase qui t'envia el correu amb l'enllaç d'accés.`,
 							"**Quant de temps:** mentre tinguis el compte. Si l'esborres, s'eliminen el compte i totes les dades desades al núvol (les ascensions amb les notes i els companys, l'àlies i el municipi d'origen); les còpies de seguretat del proveïdor, si n'hi ha, es renoven al cap de pocs dies. Les dades del teu dispositiu es conserven, llevat que en esborrar el compte triïs esborrar-les també; si no, les pots esborrar a part.",
 							"**Menors:** per crear un compte cal tenir 14 anys o més; per sota d'aquesta edat, l'ha de crear el pare, la mare o el tutor legal (art. 7 de la Llei orgànica 3/2018).",
-							'Ningú més no veu el teu carnet: cada compte només pot llegir i modificar les seves pròpies dades.'
+							'Ningú més no veu el teu carnet al núvol: cada compte només pot llegir i modificar les seves pròpies dades. (Si en comparteixes un enllaç, les dades hi van dins i no passen pel núvol; ho expliquem a «Compartir el carnet i preparar la validació».)'
 						]
 					}
 				]
@@ -264,7 +284,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-17'
+		actualitzat: '2026-10-18'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -340,6 +360,21 @@ export const privacitat: Contingut = {
 				]
 			},
 			{
+				id: 'compartir',
+				titol: 'Compartir el carnet y preparar la validación',
+				blocs: [
+					{
+						tipus: 'llista',
+						items: [
+							'**La imagen para compartir** se dibuja en tu dispositivo y no se envía a ningún servidor. Solo sale del dispositivo si tú la compartes con otra aplicación.',
+							'**El enlace de solo lectura** lleva dentro las cimas y las fechas de las ascensiones del carnet y, si lo pones, el nombre que quieras mostrar. No lleva las notas, los compañeros ni el método. Estos datos van en el fragmento del enlace (la parte que sigue a «#»), que el navegador nunca envía al servidor: no los recibimos ni los guardamos en ningún sitio, y la página que abre el enlace los lee en el dispositivo de quien lo abre.',
+							'**Cualquier persona que tenga el enlace puede ver estos datos**, y cualquiera que lo reciba puede reenviarlo. Compártelo solo con quien quieras. Un enlace ya enviado no se puede desactivar, porque no se guarda en ningún sitio.',
+							'**La lista para la validación** (CSV o versión para imprimir o guardar en PDF) se genera en tu dispositivo y no sale de aquí, salvo que tú la envíes. No te pedimos ni guardamos el DNI ni el número de licencia: en la hoja impresa quedan en blanco para que los escribas a mano.'
+						]
+					}
+				]
+			},
+			{
 				id: 'compte',
 				titol: 'Si creas una cuenta',
 				blocs: [
@@ -356,7 +391,7 @@ export const privacitat: Contingut = {
 							`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}). También es Supabase quien te envía el correo con el enlace de acceso.`,
 							'**Cuánto tiempo:** mientras tengas la cuenta. Si la borras, se eliminan la cuenta y todos los datos guardados en la nube (las ascensiones con las notas y los compañeros, el alias y el municipio de origen); las copias de seguridad del proveedor, si las hay, se renuevan a los pocos días. Los datos de tu dispositivo se conservan, salvo que al borrar la cuenta elijas borrarlos también; si no, puedes borrarlos aparte.',
 							'**Menores:** para crear una cuenta hay que tener 14 años o más; por debajo de esa edad, debe crearla el padre, la madre o el tutor legal (art. 7 de la Ley Orgánica 3/2018).',
-							'Nadie más ve tu carnet: cada cuenta solo puede leer y modificar sus propios datos.'
+							'Nadie más ve tu carnet en la nube: cada cuenta solo puede leer y modificar sus propios datos. (Si compartes un enlace, los datos van dentro y no pasan por la nube; lo explicamos en «Compartir el carnet y preparar la validación».)'
 						]
 					}
 				]
@@ -450,6 +485,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-17'
+		actualitzat: '2026-10-18'
 	}
 };

@@ -21,7 +21,8 @@ const CAMINS_EXISTENTS = new Set<string>([
 	...Object.values(PAGINES_CONTINGUT),
 	...SLUGS_CIMS.map((s) => `/cims/${s}`),
 	...slugsComarquesAmbCims().map((s) => `/comarques/${s}`),
-	'/app'
+	'/app',
+	'/app/validacio'
 ]);
 
 /** Tot el text en línia d'una pàgina (on es permeten enllaços). */

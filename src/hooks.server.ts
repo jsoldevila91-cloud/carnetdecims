@@ -3,8 +3,10 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { baseLocale, getTextDirection, localizeHref, locales } from '$lib/paraglide/runtime';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 import { MODE_BETA, ROBOTS_BETA } from '$lib/seo/mode-beta';
+import { ROBOTS_PRIVAT } from '$lib/seo/mode-beta-config';
 import { m } from '$lib/paraglide/messages';
 import {
+	esRutaNoindexSempre,
 	esRutaNoindexShell,
 	injectarAvisNoscript,
 	injectarNoindexShell
@@ -76,10 +78,19 @@ function ambCapcalera(response: Response, nom: string, valor: string): Response 
  *   les respostes del Worker i meta robots a tot HTML que no en porti (el de `PageMeta` ja hi és).
  *   Les pàgines prerenderitzades no passen pel Worker: la capçalera els arriba pel `_headers`
  *   (`seo/plugin-mode-beta.ts`) i el meta, de `PageMeta`.
+ * - El **carnet compartit** (`/{idioma}/carnet`, R3) no s'indexa mai: `noindex, nofollow`. És
+ *   prerenderitzat i la capçalera li arriba pel `_headers` (`RUTES_NOINDEX_SEMPRE`); aquí només
+ *   per si es serveix des del Worker (dev, preview). El meta ja el posa `PageMeta`.
  */
 const handleNoindex: Handle = async ({ event, resolve }) => {
 	const app = esRutaNoindexShell(event.route.id);
-	const robots = MODE_BETA ? ROBOTS_BETA : app ? 'noindex' : undefined;
+	const robots = MODE_BETA
+		? ROBOTS_BETA
+		: app
+			? 'noindex'
+			: esRutaNoindexSempre(event.route.id)
+				? ROBOTS_PRIVAT
+				: undefined;
 	const response = await resolve(
 		event,
 		robots

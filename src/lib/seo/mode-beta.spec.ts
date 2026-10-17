@@ -2,8 +2,11 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
 	BLOC_HEADERS_BETA,
+	BLOC_HEADERS_PRIVAT,
+	RUTES_NOINDEX_SEMPRE,
 	ROBOTS_BETA,
 	aplicarBlocBeta,
+	aplicarBlocsHeaders,
 	esModeBeta,
 	resoldreModeBeta,
 	valorModeBetaWrangler
@@ -64,6 +67,31 @@ describe('aplicarBlocBeta (_headers)', () => {
 		const un = aplicarBlocBeta(manual, true);
 		expect(un).toBe(BLOC_HEADERS_BETA + manual);
 		expect(aplicarBlocBeta(un, true)).toBe(un);
+	});
+});
+
+describe('aplicarBlocsHeaders (carnet compartit sempre noindex)', () => {
+	it('fora de beta, X-Robots-Tag noindex, nofollow a /ca/carnet i /es/carnet', () => {
+		const out = aplicarBlocsHeaders(undefined, false);
+		expect(out).toBe(BLOC_HEADERS_PRIVAT);
+		expect(RUTES_NOINDEX_SEMPRE).toEqual(['/ca/carnet', '/es/carnet']);
+		for (const r of RUTES_NOINDEX_SEMPRE) {
+			expect(out).toContain(`${r}\n  X-Robots-Tag: noindex, nofollow\n`);
+		}
+		expect(out).not.toMatch(/^\/\*$/m);
+	});
+	it('en beta, només el bloc /* (sense duplicar la capçalera)', () => {
+		expect(aplicarBlocsHeaders(undefined, true)).toBe(BLOC_HEADERS_BETA);
+		expect(aplicarBlocsHeaders(BLOC_HEADERS_PRIVAT, true)).toBe(BLOC_HEADERS_BETA);
+	});
+	it('idempotent, en tots dos sentits, i conserva les regles manuals', () => {
+		const manual = '/feed.xml\n  Cache-Control: no-cache\n';
+		const fora = aplicarBlocsHeaders(manual, false);
+		expect(fora).toBe(BLOC_HEADERS_PRIVAT + manual);
+		expect(aplicarBlocsHeaders(fora, false)).toBe(fora);
+		const beta = aplicarBlocsHeaders(fora, true);
+		expect(beta).toBe(BLOC_HEADERS_BETA + manual);
+		expect(aplicarBlocsHeaders(beta, false)).toBe(fora);
 	});
 });
 

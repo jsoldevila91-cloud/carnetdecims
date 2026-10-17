@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { loadEnv, type Plugin } from 'vite';
 import {
 	NOM_VARIABLE_MODE_BETA,
-	aplicarBlocBeta,
+	aplicarBlocsHeaders,
 	resoldreModeBeta,
 	valorModeBetaWrangler
 } from './mode-beta-config.ts';
@@ -13,6 +13,7 @@ import {
  * - defineix `__MODE_BETA__` (el llegeix `mode-beta.ts`) per a pàgines, hooks i sitemaps;
  * - al build, escriu (o neteja) el bloc `X-Robots-Tag` del `_headers` de l'arrel, que l'adapter
  *   copia a `.svelte-kit/cloudflare/_headers`: les pàgines prerenderitzades no passen pel Worker.
+ *   Fora de beta hi escriu el bloc de `RUTES_NOINDEX_SEMPRE` (carnet compartit, `noindex, nofollow`).
  */
 export function pluginModeBeta(): Plugin {
 	return {
@@ -29,7 +30,7 @@ export function pluginModeBeta(): Plugin {
 			if (command === 'build') {
 				const headersPath = resolve(arrel, '_headers');
 				const actual = existsSync(headersPath) ? readFileSync(headersPath, 'utf8') : undefined;
-				const nou = aplicarBlocBeta(actual, beta);
+				const nou = aplicarBlocsHeaders(actual, beta);
 				if (nou === undefined) {
 					if (actual !== undefined) rmSync(headersPath);
 				} else if (nou !== actual) {

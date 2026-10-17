@@ -13,7 +13,10 @@ const PROPIES: ClauPagina[] = ['metodologia', 'sobreElProjecte', 'avisLegal', 'p
 const CAMINS_EXISTENTS = new Set<string>([
 	...PRERENDER_PATHS,
 	...SLUGS_CIMS.map((s) => `/cims/${s}`),
-	...slugsComarquesAmbCims().map((s) => `/comarques/${s}`)
+	...slugsComarquesAmbCims().map((s) => `/comarques/${s}`),
+	// Zona de l'app (SPA, noindex): només les pàgines que s'enllacen des del contingut.
+	'/app',
+	'/app/validacio'
 ]);
 
 const DATA_ISO = /^\d{4}-\d{2}-\d{2}$/;

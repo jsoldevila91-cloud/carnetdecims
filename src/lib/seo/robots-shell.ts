@@ -24,6 +24,14 @@ export function esRutaNoindexShell(routeId: string | null | undefined): boolean 
 }
 
 /**
+ * Rutes públiques (id intern de SvelteKit) que no s'indexen mai, tampoc després del llançament:
+ * el carnet compartit (`/{idioma}/carnet#c=…`, bloc R3). Vegeu `RUTES_NOINDEX_SEMPRE`.
+ */
+export function esRutaNoindexSempre(routeId: string | null | undefined): boolean {
+	return routeId === '/(public)/carnet';
+}
+
+/**
  * Afegeix el meta just abans de `</head>`. No fa res si el fragment no conté `</head>` o si
  * ja hi ha un meta robots (p. ex. el de `PageMeta` a les pàgines amb SSR, o en mode beta).
  */

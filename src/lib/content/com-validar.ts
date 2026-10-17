@@ -103,7 +103,7 @@ export const comValidar: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**31 de desembre:** data límit perquè els fulls arribin a la FEEC i les ascensions comptin en aquell any.',
+							'**Abans del 31 de desembre:** els fulls han d’arribar a la FEEC perquè les ascensions comptin en aquell any. No ho deixis per a l’últim dia.',
 							'**100 cims per any:** és el màxim que es pot presentar per validar cada any.',
 							"**Un any de vigència:** un cim registrat al web de la FEEC que passa més d'un any sense full de validació s'esborra.",
 							'**Sense termini per a les ascensions:** no hi ha data límit per completar el repte.'
@@ -138,7 +138,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'A més, al [teu carnet](/app) pots anotar les ascensions (es desen al teu dispositiu, sense compte) i veure-les segellades en pàgines de la I a la V, quins essencials et falten i com vas a cada comarca. També t’avisa si en un any passes de 100 cims nous, si repeteixes un cim o si el dia de l’ascensió hi havia una restricció d’accés.'
+						text: 'A més, al [teu carnet](/app) pots anotar les ascensions (es desen al teu dispositiu, sense compte) i veure-les segellades en pàgines de la I a la V, quins essencials et falten i com vas a cada comarca. També t’avisa si en un any passes de 100 cims nous, si repeteixes un cim o si el dia de l’ascensió hi havia una restricció d’accés. I, quan arriba l’hora de validar, pots [preparar la llista de les ascensions de l’any](/app/validacio) per passar-la al full de validació, amb aquests avisos, en CSV o per imprimir.'
 					},
 					{
 						tipus: 'paragraf',
@@ -147,7 +147,7 @@ export const comValidar: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'Valida ascensions ni les envia a la FEEC.',
+							'Valida ascensions ni les envia a la FEEC: la llista que prepara només t’ajuda a omplir el full de la FEEC.',
 							"Està connectat amb el teu compte de federat ni amb l'àrea privada de la FEEC.",
 							'Substitueix el full de validació ni la signatura de la teva entitat.',
 							'Garanteix que la FEEC comptarà un cim: en cas de dubte, val sempre el criteri de la FEEC.'
@@ -184,7 +184,7 @@ export const comValidar: Contingut = {
 			}
 		],
 		fonts: FONTS_CA,
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-18'
 	},
 	es: {
 		title: 'Cómo validar las cimas del reto 100 Cims',
@@ -256,7 +256,7 @@ export const comValidar: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**31 de diciembre:** fecha límite para que las hojas lleguen a la FEEC y las ascensiones cuenten ese año.',
+							'**Antes del 31 de diciembre:** las hojas tienen que llegar a la FEEC para que las ascensiones cuenten ese año. No lo dejes para el último día.',
 							'**100 cimas al año:** es el máximo que se puede presentar para validar cada año.',
 							'**Un año de vigencia:** una cima registrada en la web de la FEEC que pasa más de un año sin hoja de validación se borra.',
 							'**Sin plazo para las ascensiones:** no hay fecha límite para completar el reto.'
@@ -291,7 +291,7 @@ export const comValidar: Contingut = {
 					},
 					{
 						tipus: 'paragraf',
-						text: 'Además, en [tu carnet](/app) puedes anotar las ascensiones (se guardan en tu dispositivo, sin cuenta) y verlas selladas en páginas de la I a la V, qué esenciales te faltan y cómo vas en cada comarca. También te avisa si en un año pasas de 100 cimas nuevas, si repites una cima o si el día de la ascensión había una restricción de acceso.'
+						text: 'Además, en [tu carnet](/app) puedes anotar las ascensiones (se guardan en tu dispositivo, sin cuenta) y verlas selladas en páginas de la I a la V, qué esenciales te faltan y cómo vas en cada comarca. También te avisa si en un año pasas de 100 cimas nuevas, si repites una cima o si el día de la ascensión había una restricción de acceso. Y, cuando llega el momento de validar, puedes [preparar la lista de las ascensiones del año](/app/validacio) para pasarla a la hoja de validación, con esos avisos, en CSV o para imprimir.'
 					},
 					{
 						tipus: 'paragraf',
@@ -300,7 +300,7 @@ export const comValidar: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'Valida ascensiones ni las envía a la FEEC.',
+							'Valida ascensiones ni las envía a la FEEC: la lista que prepara solo te ayuda a rellenar la hoja de la FEEC.',
 							'Está conectado con tu cuenta de federado ni con el área privada de la FEEC.',
 							'Sustituye la hoja de validación ni la firma de tu entidad.',
 							'Garantiza que la FEEC vaya a contar una cima: en caso de duda, vale siempre el criterio de la FEEC.'
@@ -337,6 +337,6 @@ export const comValidar: Contingut = {
 			}
 		],
 		fonts: FONTS_ES,
-		actualitzat: '2026-09-30'
+		actualitzat: '2026-10-18'
 	}
 };
