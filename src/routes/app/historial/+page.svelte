@@ -79,6 +79,9 @@
 			{m.app_register_more()}
 		</Button>
 		<Button href={href('/app')} variant="outline" icon="home">{m.app_title()}</Button>
+		<Button href={href('/app/validacio')} variant="outline" icon="clipboard">
+			{m.validation_entry()}
+		</Button>
 	</div>
 
 	<div class="filtre">

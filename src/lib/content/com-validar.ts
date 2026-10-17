@@ -5,7 +5,11 @@
 import type { Contingut, FontCitada } from './types.ts';
 
 const CONSULTAT = '2026-09-29';
-const URL_REGISTRA = 'https://www.feec.cat/activitats/100-cims/registra-el-teu-cim/';
+/** Pàgina oficial de la FEEC per registrar i validar els cims (també l'enllaça `/app/validacio`). */
+export const URL_REGISTRA = 'https://www.feec.cat/activitats/100-cims/registra-el-teu-cim/';
+/** Full de validació individual oficial de la FEEC (PDF). */
+export const URL_FULL_VALIDACIO_INDIVIDUAL =
+	'https://www.feec.cat/wp-content/uploads/2022/11/full_validacio_100_cims_individual_v2.pdf';
 
 const FONTS_CA: FontCitada[] = [
 	{ nom: 'FEEC: Registra el teu cim', url: URL_REGISTRA, consultat: CONSULTAT },
@@ -16,7 +20,7 @@ const FONTS_CA: FontCitada[] = [
 	},
 	{
 		nom: "FEEC: Full de validació de l'ascensió (individual, PDF)",
-		url: 'https://www.feec.cat/wp-content/uploads/2022/11/full_validacio_100_cims_individual_v2.pdf',
+		url: URL_FULL_VALIDACIO_INDIVIDUAL,
 		consultat: CONSULTAT
 	},
 	{

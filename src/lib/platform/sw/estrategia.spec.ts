@@ -13,6 +13,7 @@ import {
 	htmlEsDeLaVersio,
 	llistaPrecache,
 	meteoDesadaUtil,
+	paginaCarnetCompartit,
 	paginaOffline,
 	paginesAppPrecache,
 	type PeticioSW
@@ -69,7 +70,9 @@ describe('camins localitzats (han de coincidir amb $lib/i18n/routes)', () => {
 			'/app/a-prop',
 			'/app/essencials',
 			'/app/comarques',
-			'/app/estadistiques'
+			'/app/estadistiques',
+			'/app/validacio',
+			'/app/compartir'
 		];
 		expect(new Set(paginesAppPrecache())).toEqual(
 			new Set(LOCALES.flatMap((l) => esperades.map((p) => localizePath(p, l))))
@@ -114,9 +117,12 @@ describe('llistaPrecache', () => {
 		});
 	});
 
-	it('pàgines: el shell de /app (16) i les offline; cap fitxa prerenderitzada', () => {
+	it('pàgines: el shell de /app (20), les offline i el carnet compartit; cap fitxa', () => {
 		const pagines = PRECACHE_LLISTA.filter((e) => e.pagina).map((e) => e.url);
-		expect(pagines).toHaveLength(18);
+		expect(pagines).toHaveLength(24);
+		expect(pagines).toContain(paginaCarnetCompartit('ca'));
+		expect(pagines).toContain('/es/carnet');
+		expect(decideix(nav('/ca/carnet'))).toEqual({ tipus: 'precache', clau: '/ca/carnet' });
 		expect(pagines).toContain('/ca/app');
 		expect(pagines).toContain('/es/app/cuenta');
 		expect(pagines).toContain(paginaOffline('ca'));

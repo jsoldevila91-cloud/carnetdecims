@@ -136,6 +136,12 @@
 			<Button variant="ink" onclick={exportar} disabled={ocupat || total === 0}>
 				{m.account_export()}
 			</Button>
+			<Button href={href('/app/validacio')} variant="outline" icon="clipboard">
+				{m.validation_entry()}
+			</Button>
+			<Button href={href('/app/compartir')} variant="outline" icon="share">
+				{m.share_entry()}
+			</Button>
 		</div>
 
 		<div class="import">

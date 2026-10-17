@@ -131,3 +131,23 @@ Los sellos son la recompensa; la razón para usar la app son las **3 necesidades
 3. **Percentil y fotos para Instagram:** solo con cuenta y consentimiento explícito (opt-in, revocable, con moderación).
 
 **Orden previsto:** cerrar el 6b → 6c (resto de fichas) → R1 → R2 → R3 → (R4) → fase 5 cuando el usuario haga las acciones previas → fase 7.
+
+## Apunts nous del usuario (2026-10-17)
+
+Revisados contra el código: ya hechos la visión "carnet de muntanya" y los retos con medallas (R2), "El teu proper cim" (R2), el contador por cima y el cim més llunyà (R1) y compartir el carnet (R3). Quedan:
+
+**Bloque corto antes del lanzamiento (R5 · Detalls útils):**
+
+1. **Compartir una ascensión en redes:** botón en cada ascensión que genera una imagen con la cima, el día, el logo y el nombre del web (mismo sistema que la imagen del carnet de R3).
+2. **Información rápida en la lista de cims:** icono pequeño del tiempo actual y aviso si la cima está cerrada en esta época (hoy solo en la ficha).
+3. **Mapa interactivo en la ficha:** el mapa es una imagen estática; al tocarlo, abrir el mapa interactivo centrado en la cima (reutilizar `/mapa`).
+4. **Wikiloc no abre la app:** los enlaces van a `map.do` y el móvil abre el navegador; probar un formato de enlace que el móvil abra con la app (Android e iPhone), con el web como alternativa.
+
+**Análisis rápido (antes del lanzamiento):**
+
+5. **Comparativa con Fes Cims (fescims.com):** qué ofrecen, en qué nos diferenciamos y si los datos que muestran en su web son fiables.
+
+**Fase 5 o posterior (con cuentas):**
+
+6. **Fotos por cima:** campo `fotos` en la ascensión y almacenamiento (Supabase Storage, UE); quitar EXIF/GPS antes de subir; permiso explícito y revocable por foto para publicarla en el Instagram de Carnet de Cims etiquetando al usuario; moderación (ver §5).
+7. **Panel de administrador:** ver la actividad de cada usuario y sus cims, y corregirlos. Requiere rol de administrador en Supabase, registro de cada acción y actualizar la política de privacidad.

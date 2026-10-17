@@ -217,6 +217,8 @@ Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.
 
 ## Pendiente o decisiones abiertas
 
+- **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): bloque R5 · Detalls útils (compartir ascensión, tiempo y cierre en la lista, mapa interactivo en la ficha, Wikiloc que abra la app) y comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
+
 - **Fase 5, después de la beta:** Google OAuth (credenciales en Google Cloud Console, las crea el usuario), deduplicación entre dispositivos, `www` → apex.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
 - **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).

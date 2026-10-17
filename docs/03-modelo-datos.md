@@ -258,6 +258,41 @@ Funciones puras sobre las ascensiones y el catálogo; no se guarda nada. Todo pa
 - **Medallas:** una por nivel alcanzado (`assoliments`); el 100 Cims da hasta 5 (I–V: 100 … 5×100) y se considera `completat` (con `dataCompletat`) al llegar a 100 (decisión del usuario).
 - **El teu proper cim:** puntuación aditiva y explicable (motivos devueltos): distancia al origen, dificultad habitual (mediana de los hechos), época (altitud vs mes; también `bona-epoca` +5 en primavera y otoño por debajo de 2.000 m), restricción activa = excluida, bonus de reto a punto (faltan ≤ 3 y ≥ 50 % hecho; en empate, gana el reto con menos pendientes y después el de fracción más alta; Les 4 estacions solo cuenta con el año en curso y si todas las estaciones que faltan aún caben en el año, campo `ResultatRepte.aPunt`) y meteo opcional (`ajustarAmbMeteo`). Pesos en `PUNTS`. Si una cima no tiene ningún motivo, lleva el motivo neutro `pendent` (0 puntos), para que siempre haya uno que mostrar.
 
+### 3.7 Validació i compartir (bloque R3)
+
+Funciones puras en `src/lib/domain/validacio.ts` y `src/lib/domain/carnet-compartit.ts`; compresión en `src/lib/platform/compressio.ts`; enlace completo en `src/lib/data/compartir.ts` (sin Dexie, lo puede importar la página pública). No se guarda nada nuevo ni sale nada del dispositivo.
+
+**Exportación para la validación oficial** (`exportValidacio(ascensions, cataleg, any, { desDe?, avui?, ...OpcionsRepte })`). Ayuda para rellenar el full de la FEEC; la app no valida ni presenta nada. Sin nombre, DNI ni licencia (el full los rellena la persona a mano).
+
+- **Filas:** ascensiones que cuentan (`ascensionsValides`) del año natural `any` y desde `desDe` (inclusive). Orden: fecha, `createdAt`, id; `num` correlativo 1..n.
+- **Excluidas** (`excloses`, nunca filas) con motivo: `esborrada`, `metode` (motor o desconocido), `fora-del-repte` (< 01/07/2006), `futura` (> hoy), `cim-desconegut`; si hay varios, el primero en este orden. Las de fecha con formato inválido no tienen año y no salen.
+- **Avisos** (acumulables, en este orden):
+  - `restriccio`: restricción de acceso activa el día de la ascensión (`ascensionsEnRestriccio`; §3.3.5, la FEEC no la valida).
+  - `repetit`: la cima ya tenía una ascensión válida anterior (cualquier año o el mismo; orden fecha, `createdAt`, id). No es cima nueva.
+  - `mes-de-100`: cima nueva número 101 o posterior del año natural (`limitAnual`, §3.3.2). El recuento es de **todo el año** aunque `desDe` oculte filas.
+  - `en-espera`: no esencial con la primera ascensión desde el 01/07/2019 mientras el 100 no está completado (§3.1; misma regla que `Carnet.enEspera`, también con `noEssencialsRetroactives: false`).
+  - `fora-del-repte`: **no se emite nunca en una fila** (se mantiene en el tipo por estabilidad del contrato; las ascensiones fuera del reto van a `excloses`).
+- `totalNous` = cimas nuevas de todo el año; `superaMaxim = totalNous > limitAnual`. Solo aviso.
+- `anysAmbAscensions(asc, avui?)`: años (desc.) con alguna ascensión viva y fecha válida ≥ 01/07/2006 (y ≤ `avui` si se pasa).
+- `terminiValidacio(avui)`: `{ any, dataLimit: 'AAAA-12-31', dies }` (0 el mismo 31/12).
+- `csvValidacio(exp, cataleg, textos, comarques)`: RFC 4180 con `;`, BOM UTF-8 y CRLF (también al final). Columnas: núm., fecha `dd/mm/aaaa`, cima (`nom`), altitud, comarca (nombre), método, avisos (separados por ", "). Los textos de idioma los pasa la UI. Protección contra inyección de fórmulas: un campo que empieza por `= + - @`, tabulador o CR lleva el prefijo `'`.
+
+**Ambigüedades (a confirmar con 100cims@feec.cat):**
+
+- **Plazo:** la normativa dice que las listas deben llegar "abans del 31 de desembre". Puede leerse como "como muy tarde el 31/12" o "antes del 31/12" (último día el 30). `terminiValidacio` usa el 31/12 (contrato del bloque); la UI debería decir "fins al 31 de desembre" sin prometer que ese día se acepte.
+- **Repeticiones en el full:** no se sabe si la FEEC quiere que se presenten repeticiones de cimas ya validadas. Salen con el aviso `repetit` y no cuentan como cimas nuevas para el límite anual.
+- **No esenciales en espera:** se cuentan para el límite de 100 al año (como `excesAnual`), aunque aún no sumen para el reto.
+
+**Enlace de solo lectura sin servidor** (`/ca/carnet#c=…`, `/es/carnet#c=…`):
+
+- **Qué contiene:** un sello por cima tal como lo muestra el carnet (`entradaCompartir`: páginas, `enEspera` y `fora` de `paginesCarnet`), con cima y fecha, y un nombre opcional. Nada más: ni notas, ni compañeros, ni método, ni ids, ni `createdAt`. El fragmento no llega nunca al servidor.
+- **Formato binario v1** (varints LEB128 de ≤ 3 bytes): `[1] · varint L · L bytes de nombre UTF-8 · varint N · N × (varint Δdías, varint cimId)`. Entradas ordenadas por fecha (estable dentro del día: el orden del carnet de quien comparte); Δdías respecto de la anterior y la primera respecto del 01/07/2006. Después, `comprimeix` (1 byte de cabecera: `0` sin comprimir, `1` `deflate-raw`; sin comprimir si no hay `CompressionStream` o si comprimido no es más corto) y base64url sin relleno.
+- **Tamaño medido** (catálogo de 522, fechas repartidas): 100 ascensiones ≈ 290 bytes → **~380 caracteres** de fragmento; 150 ≈ 550; 500 ≈ **1.570**. Deflate gana poco (los datos ya son densos).
+- **Validación al leer** (`descodificaCarnet(bytes, cataleg, avui)`, `llegeixEnllac(fragment, cataleg, avui)`; nunca lanzan por una entrada mala): errores `buit`, `base64` (alfabeto URL-safe estricto, sin `=`, bits sobrantes a cero), `compressio` (corrupto o > `MAX_BYTES_CARNET`, ~12 KB: protección contra bombas de descompresión, se corta leyendo a trozos), `versio`, `format` (truncado, bytes de más, varint no canónico o > 3 bytes, nombre no UTF-8), `massa-gran` (> 2.000 entradas, nombre > 160 bytes, fragmento demasiado largo). Las entradas con cima fuera del catálogo o fecha posterior a `avui` se **descartan y se cuentan** (`descartades`); los duplicados exactos se quedan en uno.
+- **Nombre** (`sanejaNom`): saltos y tabuladores → espacio; se quitan controles (Cc) y formato invisible (Cf: bidi, zero-width, BOM), salvo el ZWJ de los emojis; espacios colapsados; ≤ 40 puntos de código. Es texto plano: la UI nunca lo interpreta como HTML.
+- **Para pintarlo:** `ascensionsDeCarnetCompartit(carnet)` da ascensiones sintéticas (`c0001`…, `a-peu`) para `paginesCarnet`/`resumCarnet`; el carnet de quien recibe es el mismo que el de quien comparte (test).
+- **Clave del cim:** `Cim.id`, la misma de las ascensiones guardadas. `scripts/catalog/build.ts` la asigna por la posición en `ESSENCIALS`; `src/lib/data/catalog/ids-estables.spec.ts` la fija contra `ids-estables.json` (id → `nom_oficial`). **La lista solo crece por el final**; al ampliar el catálogo se añaden los ids nuevos al JSON, sin tocar los existentes.
+
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 
 ### 4.1 Qué publica la FEEC

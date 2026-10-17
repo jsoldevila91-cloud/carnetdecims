@@ -67,6 +67,7 @@ export const LOCALIZED_ROUTES: ReadonlyArray<{ path: string; localized: Localize
 	{ path: '/app/reptes/:slug', localized: { ca: '/app/reptes/:slug', es: '/app/retos/:slug' } },
 	{ path: '/app/reptes', localized: { ca: '/app/reptes', es: '/app/retos' } },
 	{ path: '/app/compte', localized: { ca: '/app/compte', es: '/app/cuenta' } },
+	{ path: '/app/validacio', localized: { ca: '/app/validacio', es: '/app/validacion' } },
 	{ path: '/app/essencials', localized: { ca: '/app/essencials', es: '/app/esenciales' } },
 	{ path: '/app/comarques', localized: { ca: '/app/comarques', es: '/app/comarcas' } },
 	{ path: '/app/a-prop', localized: { ca: '/app/a-prop', es: '/app/cerca' } },

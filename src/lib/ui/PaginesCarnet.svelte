@@ -27,8 +27,11 @@
 		enfocar = null
 	}: {
 		carnet: Carnet;
-		/** Tocar un segell (obre el detall). */
-		onobrir: (segell: SegellCarnet | SegellFora) => void;
+		/**
+		 * Tocar un segell (obre el detall). Sense `onobrir`, el carnet és de **només lectura**
+		 * (carnet compartit, `/carnet`): els segells no són botons i el nom accessible és un text.
+		 */
+		onobrir?: (segell: SegellCarnet | SegellFora) => void;
 		/** `ascensioId` del segell que ha de rebre el focus (p. ex. en tancar el detall o l'edició). */
 		enfocar?: string | null;
 	} = $props();
@@ -183,7 +186,24 @@
 			<ol class="graella" aria-label={m.carnet_grid_label({ page: romanPage(visible) })}>
 				{#each CASELLES_PAGINA as n (n)}
 					{@const s = perCasella.get(n)}
-					{#if s}
+					{#if s && !onobrir}
+						{@const cim = cimPerId(s.cimId)}
+						<li class="casella plena" data-casella={n}>
+							<span class="cel">
+								<span class="sr-only">{etiqueta(s)}</span>
+								<span class="num mono" aria-hidden="true">{n}</span>
+								<span class="segell" aria-hidden="true">
+									<SegellMini
+										inicials={inicialsCim(cim?.nom ?? '?')}
+										essencial={s.essencial}
+										espera={!s.comptaPerRepte}
+										rotate={inclinacioSegell(s.ordre)}
+									/>
+								</span>
+								<span class="data mono" aria-hidden="true">{dataSegellCurta(s.data)}</span>
+							</span>
+						</li>
+					{:else if s}
 						{@const cim = cimPerId(s.cimId)}
 						<li class="casella plena">
 							<button
@@ -191,7 +211,7 @@
 								aria-label={etiqueta(s)}
 								data-casella={n}
 								data-ascensio={s.ascensioId}
-								onclick={() => onobrir(s)}
+								onclick={() => onobrir?.(s)}
 							>
 								<span class="num mono" aria-hidden="true">{n}</span>
 								<span class="segell">
@@ -227,25 +247,46 @@
 			{#each llista as s (s.ascensioId)}
 				{@const cim = cimPerId(s.cimId)}
 				<li>
-					<button
-						type="button"
-						data-ascensio={s.ascensioId}
-						onclick={() => onobrir(s)}
-						aria-label={etiquetaExtra(s)}
-					>
-						<span class="segell">
-							<SegellMini
-								inicials={inicialsCim(cim?.nom ?? '?')}
-								essencial={s.essencial}
-								{espera}
-								rotate={inclinacioSegell(s.ordre)}
-							/>
+					{#if !onobrir}
+						<span class="fila">
+							<span class="segell" aria-hidden="true">
+								<SegellMini
+									inicials={inicialsCim(cim?.nom ?? '?')}
+									essencial={s.essencial}
+									{espera}
+									rotate={inclinacioSegell(s.ordre)}
+								/>
+							</span>
+							<span class="text">
+								<b>{cim?.nom ?? `#${s.cimId}`}</b>
+								<small class="mono"
+									><span class="sr-only">{formatDataLlarga(s.data, locale)}</span><span
+										aria-hidden="true">{dataSegellCurta(s.data)}</span
+									></small
+								>
+							</span>
 						</span>
-						<span class="text" aria-hidden="true">
-							<b>{cim?.nom ?? `#${s.cimId}`}</b>
-							<small class="mono">{dataSegellCurta(s.data)}</small>
-						</span>
-					</button>
+					{:else}
+						<button
+							type="button"
+							data-ascensio={s.ascensioId}
+							onclick={() => onobrir(s)}
+							aria-label={etiquetaExtra(s)}
+						>
+							<span class="segell">
+								<SegellMini
+									inicials={inicialsCim(cim?.nom ?? '?')}
+									essencial={s.essencial}
+									{espera}
+									rotate={inclinacioSegell(s.ordre)}
+								/>
+							</span>
+							<span class="text" aria-hidden="true">
+								<b>{cim?.nom ?? `#${s.cimId}`}</b>
+								<small class="mono">{dataSegellCurta(s.data)}</small>
+							</span>
+						</button>
+					{/if}
 				</li>
 			{/each}
 		</ul>
@@ -459,7 +500,8 @@
 		border-color: var(--c-rule);
 	}
 
-	.plena button {
+	.plena button,
+	.plena .cel {
 		display: grid;
 		grid-template-rows: minmax(0, 1fr) auto;
 		grid-template-columns: minmax(0, 1fr);
@@ -475,6 +517,11 @@
 		color: inherit;
 		cursor: pointer;
 		font: inherit;
+	}
+
+	.plena .cel,
+	.extres .fila {
+		cursor: default;
 	}
 
 	.plena button:hover {
@@ -550,7 +597,8 @@
 		list-style: none;
 	}
 
-	.extres button {
+	.extres button,
+	.extres .fila {
 		display: flex;
 		align-items: center;
 		gap: var(--sp-2);

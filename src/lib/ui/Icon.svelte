@@ -65,7 +65,20 @@
 			'M8 3.5h8a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z',
 			'M11 17.5h2'
 		],
-		mail: ['M4 6.5h16v11H4z', 'm4.5 7 7.5 6 7.5-6']
+		mail: ['M4 6.5h16v11H4z', 'm4.5 7 7.5 6 7.5-6'],
+		/** Descarrega un fitxer (CSV, imatge). */
+		download: ['M12 4v10.5M7.5 10 12 14.5 16.5 10', 'M5 19.5h14'],
+		/** Imprimeix o desa en PDF. */
+		print: ['M7 9V3.5h10V9', 'M7 16.5H4.5v-7.5h15v7.5H17', 'M7 13.5h10v7H7z'],
+		/** Enllaç (copia l'enllaç del carnet). */
+		link: [
+			'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1',
+			'M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1'
+		],
+		/** Copia al porta-retalls. */
+		copy: ['M9 9h10.5v10.5H9z', 'M15 9V4.5H4.5V15H9'],
+		/** Validació (full amb una marca). */
+		clipboard: ['M8 4.5H6v16h12v-16h-2', 'M9 3.5h6v3H9z', 'm9 13.5 2 2 4-4']
 	} as const;
 
 	export type IconName = keyof typeof ICONS;

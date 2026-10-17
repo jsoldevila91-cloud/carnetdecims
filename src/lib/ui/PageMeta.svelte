@@ -20,6 +20,7 @@
 		title,
 		description,
 		noindex = false,
+		nofollow = false,
 		alternates = locales,
 		image,
 		type = 'website'
@@ -27,6 +28,8 @@
 		title: string;
 		description?: string;
 		noindex?: boolean;
+		/** Amb `noindex`: tampoc no se segueixen els enllaços (p. ex. el carnet compartit). */
+		nofollow?: boolean;
 		alternates?: readonly Locale[];
 		image?: string;
 		type?: 'website' | 'article';
@@ -43,7 +46,9 @@
 	const locale = $derived(getLocale());
 	const canonical = $derived(abs(locale));
 	const paired = $derived(alternates.length > 1 && alternates.includes(locale));
-	const robots = $derived(MODE_BETA ? ROBOTS_BETA : noindex ? 'noindex' : undefined);
+	const robots = $derived(
+		MODE_BETA ? ROBOTS_BETA : noindex ? (nofollow ? 'noindex, nofollow' : 'noindex') : undefined
+	);
 </script>
 
 <svelte:head>

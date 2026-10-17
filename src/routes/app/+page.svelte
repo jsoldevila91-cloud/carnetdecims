@@ -262,6 +262,12 @@
 			>
 				{m.app_register_more()}
 			</Button>
+			<Button href={href('/app/compartir')} variant="outline" icon="share">
+				{m.share_entry()}
+			</Button>
+			<Button href={href('/app/validacio')} variant="outline" icon="clipboard">
+				{m.validation_entry()}
+			</Button>
 		</div>
 	</section>
 {/if}

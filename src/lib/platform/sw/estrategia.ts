@@ -95,7 +95,9 @@ const APP_SEGMENTS: Record<LocaleSW, readonly string[]> = {
 		'/a-prop',
 		'/essencials',
 		'/comarques',
-		'/estadistiques'
+		'/estadistiques',
+		'/validacio',
+		'/compartir'
 	],
 	es: [
 		'',
@@ -105,7 +107,9 @@ const APP_SEGMENTS: Record<LocaleSW, readonly string[]> = {
 		'/cerca',
 		'/esenciales',
 		'/comarcas',
-		'/estadisticas'
+		'/estadisticas',
+		'/validacion',
+		'/compartir'
 	]
 };
 
@@ -115,6 +119,15 @@ const SEGMENT_COMARCA: Record<LocaleSW, string> = { ca: 'comarques', es: 'comarc
 /** Pàgines de la zona `/app` que van al precache (ca i es). */
 export function paginesAppPrecache(): string[] {
 	return LOCALES_SW.flatMap((l) => APP_SEGMENTS[l].map((s) => `/${l}/app${s}`));
+}
+
+/**
+ * Carnet compartit de només lectura (`/ca/carnet`, `/es/carnet`; bloc R3): shell prerenderitzat
+ * (`noindex`) que pinta el carnet al client a partir del fragment `#c=…`. Va al precache perquè un
+ * enllaç rebut s'obri també sense connexió (el fragment no arriba mai al servidor ni a la cache).
+ */
+export function paginaCarnetCompartit(locale: LocaleSW): string {
+	return `/${locale}/carnet`;
 }
 
 /** Pàgina offline pròpia (prerenderitzada) per idioma. */
@@ -163,7 +176,7 @@ export type EntradaPrecache = { url: string; pagina: boolean };
 /**
  * Llista del precache inicial: `build` sense els fitxers diferits (MapLibre i el seu worker,
  * que entren a `recursos` quan es visita el mapa), els fitxers estàtics lleugers, els manifests
- * prerenderitzats, les pàgines de `/app` i les pàgines offline.
+ * prerenderitzats, les pàgines de `/app`, les pàgines offline i el carnet compartit.
  */
 export function llistaPrecache(opcions: {
 	build: readonly string[];
@@ -177,7 +190,11 @@ export function llistaPrecache(opcions: {
 		...files.filter(fitxerEstaticPrecache),
 		...prerendered.filter((p) => p.endsWith('.webmanifest') || p === CAMI_DIFICULTATS)
 	].map((url) => ({ url, pagina: false }));
-	const pagines = [...paginesAppPrecache(), ...LOCALES_SW.map(paginaOffline)].map((url) => ({
+	const pagines = [
+		...paginesAppPrecache(),
+		...LOCALES_SW.map(paginaOffline),
+		...LOCALES_SW.map(paginaCarnetCompartit)
+	].map((url) => ({
 		url,
 		pagina: true
 	}));

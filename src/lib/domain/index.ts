@@ -12,3 +12,5 @@ export * from './estadistiques';
 export * from './reptes';
 export * from './massissos';
 export * from './proper-cim';
+export * from './validacio';
+export * from './carnet-compartit';

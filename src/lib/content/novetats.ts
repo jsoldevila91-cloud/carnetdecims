@@ -23,6 +23,26 @@ export const CLAU_NOVETATS = 'carnetdecims:novetat-vista';
 
 export const NOVETATS: readonly Novetat[] = Object.freeze([
 	{
+		id: '2026-10-18-compartir-validar',
+		data: '2026-10-18',
+		titol: {
+			ca: 'Comparteix el carnet i prepara la validació',
+			es: 'Comparte el carnet y prepara la validación'
+		},
+		punts: {
+			ca: [
+				'Comparteix el carnet: una imatge amb els segells, el nivell i les medalles per enviar per WhatsApp o penjar a les xarxes, generada al teu mòbil.',
+				'Enllaç de només lectura: qui l’obri veu el teu carnet sense compte. Només porta els cims i les dates (i el nom, si el poses).',
+				'Prepara la validació: la llista de les ascensions de l’any amb avisos (restriccions, repeticions, més de 100), en CSV o per imprimir i desar en PDF. Recorda que valida la FEEC a través de la teva entitat.'
+			],
+			es: [
+				'Comparte el carnet: una imagen con los sellos, el nivel y las medallas para enviar por WhatsApp o subir a las redes, generada en tu móvil.',
+				'Enlace de solo lectura: quien lo abra ve tu carnet sin cuenta. Solo lleva las cimas y las fechas (y el nombre, si lo pones).',
+				'Prepara la validación: la lista de las ascensiones del año con avisos (restricciones, repeticiones, más de 100), en CSV o para imprimir y guardar en PDF. Recuerda que valida la FEEC a través de tu entidad.'
+			]
+		}
+	},
+	{
 		id: '2026-10-17-reptes',
 		data: '2026-10-17',
 		titol: { ca: 'Reptes, medalles i el teu proper cim', es: 'Retos, medallas y tu próxima cima' },

@@ -57,6 +57,9 @@ export default defineConfig({
 					...LOCALES.map((l) => `/manifest-${l}.webmanifest` as const),
 					// Pàgina offline que serveix el service worker (noindex, fora del sitemap).
 					...LOCALES.map((l) => `/${l}/offline` as const),
+					// Carnet compartit de només lectura (R3): shell noindex, contingut al client des del
+					// fragment `#c=…`; fora del sitemap i al precache del service worker.
+					...LOCALES.map((l) => `/${l}/carnet` as const),
 					// Dificultats dels cims per a "El teu proper cim" (no s'enllaça enlloc).
 					'/api/dificultats.json'
 				]
