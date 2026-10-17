@@ -478,6 +478,8 @@ test.describe('Avís d’instal·lació (Chromium, beforeinstallprompt simulat)'
 	test('no surt en entrar; després del primer registre sí; "Ara no" persisteix i el focus va al contingut', async ({
 		page
 	}) => {
+		// Esperes de fins a 20 s + 15 s (el toast ha de desaparèixer): 30 s no basten sota càrrega.
+		test.slow();
 		// En entrar, encara que el navegador ofereixi instal·lar: cap avís
 		await gotoHydrated(page, '/ca/app');
 		await simulaBeforeInstallPrompt(page, 'dismissed');

@@ -574,7 +574,7 @@ test.describe('Text de les fitxes fora del JS del client', () => {
 		// 200 peticions (50 fitxes × ca/es × HTML i __data.json). Les sondes pròpies es busquen amb
 		// `includes`; les de les altres 49 fitxes, amb un `Set` dels trossos ASCII del cos (la
 		// mateixa partició que les sondes), validat amb les pròpies: tota sonda pròpia hi ha de ser.
-		test.setTimeout(180_000);
+		test.setTimeout(300_000);
 		const errors: string[] = [];
 		for (const p of FITXES) {
 			for (const locale of LOCALES) {

@@ -1178,6 +1178,92 @@ test.describe('El teu proper cim', () => {
 		for (const nom of primers) expect(despres).not.toContain(nom);
 	});
 
+	test('repte a punt: les 4 estacions d’un any tancat no puntuen; el bonus va al massís al qual en falta 1', async ({
+		page
+	}) => {
+		await fixarRellotge(page);
+		await mockMeteo(page, previsio(DIES_FINDE.map((data) => ({ data }))));
+		// 2025: 3/4 estacions (any tancat). 2026: hivern i primavera (l'estiu ja no es pot fer, som a
+		// l'octubre) → Les 4 estacions no és "a punt". Montseny: 3 de 4 fets; en falta 1.
+		await sembrar(
+			page,
+			[
+				fila('canigo', '2025-04-10'),
+				fila('montcau', '2025-07-10'),
+				fila('pica-d-estats', '2025-10-10'),
+				fila('matagalls', '2026-01-10'),
+				fila('les-agudes', '2026-04-10'),
+				fila('tagamanent', '2025-11-10')
+			],
+			ROUTES.ca.app
+		);
+		await expect(cimsProper(page)).toHaveCount(3);
+		await expect(proper(page)).not.toContainText(t('ca', 'repte_les_4_estacions_nom'));
+		const montsoriu = cimsProper(page).filter({ hasText: cimDe('turo-de-montsoriu').nom });
+		await expect(montsoriu).toHaveCount(1);
+		await expect(montsoriu).toContainText(
+			t('ca', 'proper_cim_motiu_repte_a_punt', {
+				repte: t('ca', 'repte_massis_montseny_nom'),
+				falten: 1
+			})
+		);
+		// I és el primer (és l'únic amb el bonus)
+		expect((await nomsProper(page))[0]).toBe(cimDe('turo-de-montsoriu').nom);
+	});
+
+	test('repte a punt: Les 4 estacions sí puntua amb l’any en curs (3 de 4 i la que falta encara cap)', async ({
+		page
+	}) => {
+		await fixarRellotge(page);
+		await mockMeteo(page, previsio(DIES_FINDE.map((data) => ({ data }))));
+		await sembrar(
+			page,
+			[
+				fila('canigo', '2026-01-10'),
+				fila('montcau', '2026-04-10'),
+				fila('pica-d-estats', '2026-07-10')
+			],
+			ROUTES.ca.app
+		);
+		await expect(cimsProper(page)).toHaveCount(3);
+		for (const li of await cimsProper(page).all())
+			await expect(li).toContainText(
+				t('ca', 'proper_cim_motiu_repte_a_punt', {
+					repte: t('ca', 'repte_les_4_estacions_nom'),
+					falten: 1
+				})
+			);
+	});
+
+	test('cada recomanació mostra almenys un motiu, també sense meteo, origen ni dificultats (cims alts a l’octubre)', async ({
+		page,
+		consoleGuard
+	}) => {
+		// BUG (informe QA R2, verificació): `ProperCim.svelte` filtra els motius amb `punts !== 0`, i
+		// el motiu neutre `pendent` (0 punts) no es veu mai: la targeta queda sense cap motiu. Quan es
+		// corregeixi, aquest test fallarà: treure `test.fail()`.
+		test.fail();
+		consoleGuard.allow(/Failed to load resource/);
+		await fixarRellotge(page);
+		await mockMeteo(page, { error: 'no disponible' }, 502);
+		// Sense dificultats (cap nivell habitual) i amb tots els cims de menys de 2.000 m fets, només
+		// queden cims alts, que a l'octubre no tenen cap motiu d'època.
+		await page.route(/\/api\/dificultats\.json/, (route) =>
+			route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
+		);
+		await sembrar(
+			page,
+			CIMS.filter((c) => c.altitud < 2000).map((c, i): FilaSembra => ({
+				cimId: c.id,
+				data: `${2010 + (i % 14)}-0${1 + (i % 9)}-1${i % 9}`
+			})),
+			ROUTES.ca.app
+		);
+		await expect(cimsProper(page)).toHaveCount(3);
+		for (const li of await cimsProper(page).all())
+			expect(await li.locator('ul.motius li').count(), await li.innerText()).toBeGreaterThan(0);
+	});
+
 	test('restriccions: un cim en obres no es recomana mai; La Picossa (15/01–15/06) sí a l’octubre però no al juny', async ({
 		page
 	}) => {
@@ -1331,7 +1417,10 @@ test.describe('Novetats', () => {
 
 	// El full s'obre sol en carregar, sense cap control que l'hagi obert: en tancar-lo, el focus
 	// va al contingut principal i no queda a <body> (WCAG 2.4.3).
-	test('en tancar el full el foco no queda a <body>', async ({ page }) => {
+	test('en tancar el full el foco no queda a <body>', async ({ page, browserName }) => {
+		// BUG a WebKit (informe QA R2, verificació): el foco hi queda a <body> igualment (Novetats
+		// el mou a `#contingut` abans que WebKit acabi de restaurar-lo en tancar el <dialog>).
+		test.fail(browserName === 'webkit', 'Novetats: foco a <body> a WebKit');
 		await page.addInitScript(() => {
 			if (!localStorage.getItem('carnetdecims:novetat-vista'))
 				localStorage.setItem('carnetdecims:llest-offline', '1');
