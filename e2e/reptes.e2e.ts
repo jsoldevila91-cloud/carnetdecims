@@ -1361,8 +1361,14 @@ test.describe('Novetats', () => {
 	});
 
 	test('usuari existent (altres claus carnetdecims:*, sense novetat-vista): surt el full, es tanca amb "Entesos" i no torna a sortir', async ({
-		page
+		page,
+		consoleGuard
 	}) => {
+		// En tancar el full, el punter queda sobre la barra inferior (Mapa) i SvelteKit en precarrega les
+		// dades; la navegació següent avorta la petició, i WebKit ho registra com a error.
+		consoleGuard.allow(
+			/__data\.json\?x-sveltekit-invalidated=\d+ due to access control checks|TypeError: Load failed/
+		);
 		await page.addInitScript(() => {
 			if (!localStorage.getItem('carnetdecims:novetat-vista'))
 				localStorage.setItem('carnetdecims:llest-offline', '1');
@@ -1376,7 +1382,8 @@ test.describe('Novetats', () => {
 		await f.getByRole('button', { name: exacte('ca', 'news_close') }).click();
 		await expect(f).toBeHidden();
 		expect(await page.evaluate((c) => localStorage.getItem(c), CLAU_NOVETAT)).toBe(ID_NOVETAT);
-		await page.reload();
+		// Recàrrega hidratada: un `reload` sec seguit de `goto` avortava peticions en vol (WebKit).
+		await gotoHydrated(page, ROUTES.ca.app);
 		await expect(full(page)).toHaveCount(0);
 		await gotoHydrated(page, ROUTES.es.app);
 		await expect(page.getByRole('dialog')).toHaveCount(0);
