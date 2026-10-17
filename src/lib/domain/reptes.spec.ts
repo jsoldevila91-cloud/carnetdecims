@@ -17,6 +17,7 @@ import {
 	cimsDelFiltre,
 	clauMissatgeRepte,
 	estacioDe,
+	estacionsPossiblesDesDe,
 	idRepteMassis,
 	medalles,
 	medallesDeResultats,
@@ -303,6 +304,28 @@ describe('Les 4 estacions', () => {
 		expect(estacioDe('2025-11-30')).toBe('tardor');
 		expect(estacioDe('2025-12-01')).toBe('hivern');
 		expect(ESTACIONS).toHaveLength(4);
+	});
+
+	it('estacionsPossiblesDesDe: l’hivern sempre (desembre)', () => {
+		expect(estacionsPossiblesDesDe(1)).toEqual([...ESTACIONS]);
+		expect(estacionsPossiblesDesDe(6)).toEqual(['estiu', 'tardor', 'hivern']);
+		expect(estacionsPossiblesDesDe(9)).toEqual(['tardor', 'hivern']);
+		expect(estacionsPossiblesDesDe(12)).toEqual(['hivern']);
+	});
+
+	it('aPunt: null si completat o si falta una estació ja passada aquest any', () => {
+		const tot = avaluarRepte(
+			r,
+			[asc(1, '2025-01-01'), asc(2, '2025-04-01'), asc(3, '2025-07-01'), asc(4, '2025-10-01')],
+			CATALEG,
+			OP
+		);
+		expect(tot.aPunt).toBeNull();
+		expect(avaluarRepte(r, [asc(1, '2026-10-01')], CATALEG, OP).aPunt).toBeNull();
+		expect(avaluarRepte(r, [], CATALEG, { avui: '2026-02-01' }).aPunt).toEqual({
+			falten: 4,
+			fraccio: 0
+		});
 	});
 
 	it('les 4 el mateix any natural (el desembre compta per a l’any que acaba)', () => {

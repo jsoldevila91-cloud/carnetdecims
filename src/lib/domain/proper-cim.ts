@@ -10,14 +10,18 @@
  *   −12. Sense prou dades (o sense la dificultat del cim), no puntua.
  * - **Època** (mes d'`avui`, o de la sortida): de desembre a abril, cim ≥ 2.000 m → −25 (neu
  *   probable); novembre i maig, cim ≥ 2.500 m → −10. De juny a setembre, cim ≥ 2.000 m → +10
- *   (bona època); juliol i agost, cim < 800 m → −5 (calor). De desembre a febrer, cim < 1.200 m → +5.
+ *   (bona època); primavera (mar-mai) i tardor (set-nov), cim < 2.000 m → +5 (bona època
+ *   també); juliol i agost, cim < 800 m → −5 (calor). De desembre a febrer, cim < 1.200 m → +5.
  * - **Restriccions**: un cim amb una restricció activa (`estatRestriccions`) avui o en algun dia
  *   de `diesSortida` **queda fora** (la FEEC no valida les ascensions en període restringit);
  *   `exclosesPerRestriccio` diu quants.
  * - **Repte a punt**: si el cim faria avançar un repte no completat al qual falten ≤
- *   `FALTEN_REPTE_A_PUNT` i amb ≥ 50 % fet (`ResultatRepte.cimsQueSumen`), +15 (només el repte amb menys falten).
+ *   `FALTEN_REPTE_A_PUNT` i amb ≥ 50 % fet (`ResultatRepte.cimsQueSumen`, `aPunt`), +15 (el repte amb menys falten;
+ *   en empat, el de fracció més alta). Les 4 estacions només hi compten amb l'any en curs.
  * - **Meteo** (opcional, `ajustarAmbMeteo`): el frontend demana `/api/meteo` per a les candidates
  *   i pot reordenar: bon temps +10, variable 0, dolent −20.
+ *
+ * - Cap motiu → `pendent` (0 punts): cada recomanació en té almenys un per explicar-la.
  *
  * Desempat: puntuació, després menys distància (sense distància, al final), després `id`.
  */
@@ -44,6 +48,7 @@ export const PUNTS = Object.freeze({
 	neuProbable: -25,
 	neuPossible: -10,
 	bonaEpoca: 10,
+	bonaEpocaMitjana: 5,
 	calor: -5,
 	hivernBaix: 5,
 	repteAPunt: 15,
@@ -62,6 +67,7 @@ export type ClauMotiu =
 	| 'calor'
 	| 'hivern-baix'
 	| 'repte-a-punt'
+	| 'pendent'
 	| 'meteo-bona'
 	| 'meteo-variable'
 	| 'meteo-dolenta';
@@ -154,6 +160,8 @@ export function motiusEpoca(altitud: number, mes: number): MotiuRecomanacio[] {
 	}
 	if (mes >= 6 && mes <= 9 && altitud >= 2000)
 		m.push({ clau: 'bona-epoca', punts: PUNTS.bonaEpoca });
+	else if ([3, 4, 5, 9, 10, 11].includes(mes) && altitud < 2000)
+		m.push({ clau: 'bona-epoca', punts: PUNTS.bonaEpocaMitjana });
 	if ((mes === 7 || mes === 8) && altitud < 800) m.push({ clau: 'calor', punts: PUNTS.calor });
 	if (hivern && altitud < 1200) m.push({ clau: 'hivern-baix', punts: PUNTS.hivernBaix });
 	return m;
@@ -205,16 +213,18 @@ export function puntuarPendents<C extends Cim>(
 	const origen = e.origen ?? null;
 	const mes = Number(dies[0].slice(5, 7));
 
-	// Repte a punt: per a cada cim, el repte no completat amb menys falten.
-	const aPunt = new Map<number, { repteId: string; falten: number }>();
+	// Repte a punt: per a cada cim, el repte amb menys falten; en empat, el de fracció més alta
+	// (i, si encara empaten, el primer de la llista).
+	const aPunt = new Map<number, { repteId: string; falten: number; fraccio: number }>();
 	for (const r of e.reptes ?? []) {
-		if (r.completat) continue;
-		const falten = r.objectiu - r.fets;
-		if (falten <= 0 || falten > FALTEN_REPTE_A_PUNT || r.fraccio < FRACCIO_MIN_REPTE_A_PUNT)
-			continue;
+		if (r.completat || r.aPunt === null) continue;
+		const falten = r.aPunt ? r.aPunt.falten : r.objectiu - r.fets;
+		const fraccio = r.aPunt ? r.aPunt.fraccio : r.fraccio;
+		if (falten <= 0 || falten > FALTEN_REPTE_A_PUNT || fraccio < FRACCIO_MIN_REPTE_A_PUNT) continue;
 		for (const id of r.cimsQueSumen) {
-			const actual = aPunt.get(id);
-			if (!actual || falten < actual.falten) aPunt.set(id, { repteId: r.id, falten });
+			const a = aPunt.get(id);
+			if (!a || falten < a.falten || (falten === a.falten && fraccio > a.fraccio))
+				aPunt.set(id, { repteId: r.id, falten, fraccio });
 		}
 	}
 
@@ -245,7 +255,14 @@ export function puntuarPendents<C extends Cim>(
 		}
 		motius.push(...motiusEpoca(cim.altitud, mes));
 		const r = aPunt.get(cim.id);
-		if (r) motius.push({ clau: 'repte-a-punt', punts: PUNTS.repteAPunt, ...r });
+		if (r)
+			motius.push({
+				clau: 'repte-a-punt',
+				punts: PUNTS.repteAPunt,
+				repteId: r.repteId,
+				falten: r.falten
+			});
+		if (motius.length === 0) motius.push({ clau: 'pendent', punts: 0 });
 		candidates.push({
 			cim,
 			puntuacio: motius.reduce((s, m) => s + m.punts, 0),
@@ -311,7 +328,7 @@ export function ajustarAmbMeteo<C extends Cim>(
 		const previsio = meteo.get(r.cim.id);
 		const estat = previsio ? estatMeteo(previsio, sortida) : null;
 		if (estat === null) return r;
-		const motius = r.motius.filter((m) => !m.clau.startsWith('meteo-'));
+		const motius = r.motius.filter((m) => !m.clau.startsWith('meteo-') && m.clau !== 'pendent');
 		motius.push({ clau: `meteo-${estat}` as ClauMotiu, punts: punts[estat] });
 		return {
 			...r,

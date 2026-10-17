@@ -16,7 +16,7 @@ import {
 	type RestriccioAcces
 } from './index';
 
-const AVUI = '2026-10-17'; // octubre: sense motius d'època per a cims < 2.000 m
+const AVUI = '2026-10-17';
 
 function cim(id: number, over: Partial<Cim> = {}): Cim {
 	return {
@@ -25,7 +25,7 @@ function cim(id: number, over: Partial<Cim> = {}): Cim {
 		nom: `Cim ${id}`,
 		nom_amb_article: `el Cim ${id}`,
 		nom_amb_de: `del Cim ${id}`,
-		altitud: 1500,
+		altitud: 2100, // a l'octubre (AVUI), sense motius d'època
 		comarca: 'c',
 		zona: 'catalunya',
 		essencial: true,
@@ -79,7 +79,11 @@ describe('properCim', () => {
 		expect(N_PROPER_CIM).toBe(3);
 		expect(r.senseOrigen).toBe(true);
 		expect(r.recomanacions.map((x) => x.cim.id)).toEqual([1, 2, 3]);
-		expect(r.recomanacions[0]).toMatchObject({ distanciaKm: null, puntuacio: 0, motius: [] });
+		expect(r.recomanacions[0]).toMatchObject({
+			distanciaKm: null,
+			puntuacio: 0,
+			motius: [{ clau: 'pendent', punts: 0 }]
+		});
 	});
 
 	it('distància: més a prop puntua més; 0 punts a partir de DISTANCIA_ZERO_KM', () => {
@@ -164,9 +168,13 @@ describe('properCim', () => {
 	it('motiusEpoca a les vores', () => {
 		const c = (alt: number, mes: number) => motiusEpoca(alt, mes).map((m) => m.clau);
 		expect(c(2000, 4)).toEqual(['neu-probable']);
-		expect(c(1999, 4)).toEqual([]);
+		expect(c(1999, 4)).toEqual(['bona-epoca']);
 		expect(c(2500, 5)).toEqual(['neu-possible']);
 		expect(c(2499, 11)).toEqual([]);
+		expect(c(1999, 11)).toEqual(['bona-epoca']);
+		expect(c(1500, 10)).toEqual(['bona-epoca']);
+		expect(motiusEpoca(1500, 9)[0].punts).toBe(PUNTS.bonaEpocaMitjana);
+		expect(c(1500, 7)).toEqual([]);
 		expect(c(2000, 6)).toEqual(['bona-epoca']);
 		expect(c(2000, 10)).toEqual([]);
 		expect(c(799, 7)).toEqual(['calor']);
@@ -191,6 +199,73 @@ describe('properCim', () => {
 			repteId: 'massis-montseny',
 			falten: 1
 		});
+	});
+
+	it('QA: 3 estacions en un any tancat no donen "repte a punt"; el massís sí', () => {
+		const cat = [
+			cim(1, { slug: 'matagalls' }),
+			cim(2, { slug: 'les-agudes' }),
+			cim(3, { slug: 'tagamanent' }),
+			cim(4, { slug: 'turo-de-montsoriu' }),
+			cim(5)
+		];
+		const avui = '2026-10-16';
+		const ascensions = [asc(1, '2025-01-10'), asc(2, '2025-04-10'), asc(3, '2025-07-10')];
+		const reptes = avaluarReptes(ascensions, cat, { avui });
+		const est = reptes.find((r) => r.id === 'les-4-estacions')!;
+		expect(est.fets).toBe(3);
+		expect(est.aPunt).toBeNull(); // 2026: falta la primavera, que ja no es pot fer
+		const r = properCim({ ascensions, cataleg: cat, avui, reptes, n: 5 });
+		const ambBonus = r.recomanacions.filter((x) => x.motius.some((m) => m.clau === 'repte-a-punt'));
+		expect(ambBonus.map((x) => x.cim.id)).toEqual([4]);
+		expect(ambBonus[0].motius).toContainEqual({
+			clau: 'repte-a-punt',
+			punts: PUNTS.repteAPunt,
+			repteId: 'massis-montseny',
+			falten: 1
+		});
+	});
+
+	it('Les 4 estacions a punt amb l’any en curs i estacions encara possibles', () => {
+		const cat = [cim(1), cim(2), cim(3)];
+		const ascensions = [asc(1, '2026-01-10'), asc(2, '2026-04-10'), asc(3, '2026-07-10')];
+		const reptes = avaluarReptes(ascensions, cat, { avui: AVUI });
+		expect(reptes.find((r) => r.id === 'les-4-estacions')!.aPunt).toEqual({
+			falten: 1,
+			fraccio: 0.75
+		});
+	});
+
+	it('empat de falten: guanya la fracció més alta, no l’ordre de la llista', () => {
+		const base = {
+			progres: 0,
+			fets: 0,
+			nivell: 0,
+			nivellMaxim: 1,
+			assoliments: [],
+			completat: false,
+			dataCompletat: null,
+			pendents: { tipus: 'cims' as const, cimIds: [] },
+			cimsQueSumen: [1]
+		};
+		const reptes = [
+			{ ...base, id: 'a', fets: 2, objectiu: 3, fraccio: 2 / 3 },
+			{ ...base, id: 'b', fets: 9, objectiu: 10, fraccio: 0.9 },
+			{ ...base, id: 'c', fets: 1, objectiu: 2, fraccio: 0.5, aPunt: null }
+		];
+		const r = properCim({ ascensions: [], cataleg: [cim(1)], avui: AVUI, reptes });
+		expect(r.recomanacions[0].motius).toContainEqual(
+			expect.objectContaining({ clau: 'repte-a-punt', repteId: 'b', falten: 1 })
+		);
+	});
+
+	it('cada recomanació té almenys un motiu', () => {
+		const r = properCim({
+			ascensions: [],
+			cataleg: [cim(1), cim(2, { altitud: 1200 })],
+			avui: AVUI
+		});
+		for (const x of r.recomanacions) expect(x.motius.length).toBeGreaterThan(0);
 	});
 
 	it('avui o dia de sortida invàlids llancen', () => {

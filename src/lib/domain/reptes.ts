@@ -153,6 +153,12 @@ export interface ResultatRepte extends ProgresRepteResum {
 	 * si el repte està completat.
 	 */
 	cimsQueSumen: number[];
+	/**
+	 * Per al bonus "repte a punt" d'"El teu proper cim", quan el progrés que importa no és
+	 * `objectiu − fets` / `fraccio`. Les 4 estacions: només l'any en curs (`null` si alguna
+	 * estació que falta ja no es pot fer aquest any). Absent = fer servir `objectiu − fets`.
+	 */
+	aPunt?: { falten: number; fraccio: number } | null;
 }
 
 export interface OpcionsReptes extends Partial<OpcionsRepte> {
@@ -326,6 +332,20 @@ export function estacioDe(data: DataISO): Estacio {
 	if (mes >= 6 && mes <= 8) return 'estiu';
 	if (mes >= 9 && mes <= 11) return 'tardor';
 	return 'hivern';
+}
+
+/**
+ * Estacions que encara es poden fer dins l'any natural a partir del mes `mes` (1–12), inclòs:
+ * l'hivern sempre (desembre).
+ */
+export function estacionsPossiblesDesDe(mes: number): Estacio[] {
+	return ESTACIONS.filter(
+		(e) =>
+			e === 'hivern' ||
+			(e === 'primavera' && mes <= 5) ||
+			(e === 'estiu' && mes <= 8) ||
+			(e === 'tardor' && mes <= 11)
+	);
 }
 
 /** Índex de mes absolut (any × 12 + mes - 1). */
@@ -508,7 +528,7 @@ function avaluarEstacions(
 	// Suma avui si l'estació d'avui encara falta aquest any.
 	const anyAvui = perAny.get(anyDe(avui));
 	const suma = !anyAvui?.has(estacioDe(avui));
-	return resultat(
+	const res = resultat(
 		id,
 		millor,
 		conjunt.length > 0 ? ESTACIONS.length : 0,
@@ -516,6 +536,17 @@ function avaluarEstacions(
 		{ tipus: 'estacions', any: millorAny, estacions: falten },
 		suma ? conjunt.map((c) => c.id) : []
 	);
+	// "A punt" només amb l'any en curs i si totes les estacions que falten encara hi caben.
+	const faltenAra = ESTACIONS.filter((e) => !anyAvui?.has(e));
+	const possibles = estacionsPossiblesDesDe(Number(avui.slice(5, 7)));
+	res.aPunt =
+		res.completat || conjunt.length === 0 || !faltenAra.every((e) => possibles.includes(e))
+			? null
+			: {
+					falten: faltenAra.length,
+					fraccio: (ESTACIONS.length - faltenAra.length) / ESTACIONS.length
+				};
+	return res;
 }
 
 function avaluarMesos(
