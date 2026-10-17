@@ -18,6 +18,7 @@
 	} from '$lib/ui';
 	import AvisInstallacio from '$lib/ui/AvisInstallacio.svelte';
 	import BannerBeta from '$lib/ui/BannerBeta.svelte';
+	import Novetats from '$lib/ui/Novetats.svelte';
 	import { carregarRegistre, precarregarRegistreQuanOcios } from '$lib/ui/carrega-registre';
 	import { m } from '$lib/paraglide/messages';
 	import { prefersReducedMotion, supportsViewTransitions } from '$lib/platform/motion';
@@ -104,6 +105,7 @@
 <BottomNav />
 <Toaster />
 <AvisInstallacio />
+<Novetats />
 
 <BottomSheet
 	open={page.state.sheet === 'registrar' || page.state.sheet === 'editar'}

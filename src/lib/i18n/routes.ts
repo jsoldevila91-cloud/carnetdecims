@@ -64,6 +64,8 @@ export const LOCALIZED_ROUTES: ReadonlyArray<{ path: string; localized: Localize
 	{ path: '/metodologia', localized: { ca: '/metodologia', es: '/metodologia' } },
 
 	// Zona app (noindex): /app es manté igual en tots dos idiomes
+	{ path: '/app/reptes/:slug', localized: { ca: '/app/reptes/:slug', es: '/app/retos/:slug' } },
+	{ path: '/app/reptes', localized: { ca: '/app/reptes', es: '/app/retos' } },
 	{ path: '/app/compte', localized: { ca: '/app/compte', es: '/app/cuenta' } },
 	{ path: '/app/essencials', localized: { ca: '/app/essencials', es: '/app/esenciales' } },
 	{ path: '/app/comarques', localized: { ca: '/app/comarques', es: '/app/comarcas' } },

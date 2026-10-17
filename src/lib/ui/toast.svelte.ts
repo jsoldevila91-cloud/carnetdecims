@@ -20,6 +20,8 @@ export type ToastItem = {
 	tone: ToastTone;
 	action?: ToastAction;
 	segell?: ToastSegell;
+	/** Medalla nova (R2): icona de medalla. */
+	medalla?: boolean;
 	/** Text addicional només per a lectors de pantalla (p. ex. el comptador del segell). */
 	sr?: string;
 };
@@ -38,17 +40,19 @@ class Toasts {
 			duration = 4000,
 			action,
 			segell,
+			medalla,
 			sr
 		}: {
 			tone?: ToastTone;
 			duration?: number;
 			action?: ToastAction;
 			segell?: ToastSegell;
+			medalla?: boolean;
 			sr?: string;
 		} = {}
 	) {
 		const id = this.#next++;
-		this.items.push({ id, message, tone, action, segell, sr });
+		this.items.push({ id, message, tone, action, segell, medalla, sr });
 		if (duration > 0) {
 			this.#timers.set(id, { handle: null, remaining: duration, start: 0 });
 			this.resume(id);

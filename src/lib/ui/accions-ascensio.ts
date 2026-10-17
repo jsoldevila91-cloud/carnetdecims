@@ -13,12 +13,13 @@ import {
 	type NovaAscensio
 } from '$lib/data/ascensions';
 import { CIMS } from '$lib/data/catalog';
-import { avuiLocal, calcularEstatRepte, type Ascensio } from '$lib/domain';
+import { avuiLocal, calcularEstatRepte, medalles, type Ascensio } from '$lib/domain';
 import { EVENT_ASCENSIONS } from '$lib/data/local/existeix';
 import { demanarPersistencia } from '$lib/platform/emmagatzematge';
 import { installacio } from '$lib/platform/installacio.svelte';
 import { m } from '$lib/paraglide/messages';
 import { marcadorRepte } from './registre';
+import { medallesNoves, nomMedalla } from './reptes';
 import { toasts } from './toast.svelte';
 
 /** Durada dels toasts amb "Desfés" (es pausa amb el ratolí a sobre o el focus a dins). */
@@ -87,10 +88,37 @@ export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
 			action: { label: m.toast_undo(), run: () => desfer(() => esborrarAscensio(desada.id)) }
 		}
 	);
+	celebrarMedalles(abans, desada, avui);
 	installacio.despresDeRegistrar();
 	// Pàgines que no obren la BD fins que hi ha dades (p. ex. /mapa) ja la poden llegir.
 	window.dispatchEvent(new Event(EVENT_ASCENSIONS));
 	return desada;
+}
+
+/** Durada del toast de medalla (es pausa amb el ratolí a sobre o el focus a dins). */
+const DURADA_MEDALLA = 8000;
+
+/**
+ * Celebració de les medalles noves (bloc R2): es comparen les medalles d'abans i de després del
+ * registre (`medalles()`, derivades; no es desa res). Un toast per medalla, a la regió viva del
+ * `Toaster` (el lector de pantalla l'anuncia). Un error de càlcul no ha d'afectar el registre.
+ */
+function celebrarMedalles(abans: readonly Ascensio[], desada: Ascensio, avui: string): void {
+	try {
+		const noves = medallesNoves(
+			medalles(abans, CIMS, { avui }),
+			medalles([...abans, desada], CIMS, { avui })
+		);
+		for (const md of noves) {
+			toasts.show(m.medal_toast({ name: nomMedalla(md) }), {
+				tone: 'success',
+				duration: DURADA_MEDALLA,
+				medalla: true
+			});
+		}
+	} catch (e) {
+		console.error('[medalles]', e);
+	}
 }
 
 /** Desa els canvis d'una ascensió. "Desfés" hi torna els valors anteriors (companys inclosos). */

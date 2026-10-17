@@ -44,6 +44,8 @@
 						<span class="stamp-ic" aria-hidden="true"
 							><Icon name="stamp" size={20} strokeWidth={2} /></span
 						>
+					{:else if toast.medalla}
+						<span class="medal-ic" aria-hidden="true"><Icon name="medal" size={22} /></span>
 					{:else if toast.tone === 'success'}<Icon name="check" size={20} />{/if}
 					<span class="msg">
 						{#if toast.segell}
@@ -72,6 +74,28 @@
 </section>
 
 <style>
+	.medal-ic {
+		display: inline-grid;
+		color: var(--c-stamp);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.medal-ic {
+			animation: medalla 600ms var(--ease) both;
+		}
+	}
+
+	@keyframes medalla {
+		from {
+			transform: scale(0.4) rotate(-25deg);
+			opacity: 0;
+		}
+		60% {
+			transform: scale(1.2) rotate(8deg);
+			opacity: 1;
+		}
+	}
+
 	.toaster {
 		position: fixed;
 		left: var(--gutter);

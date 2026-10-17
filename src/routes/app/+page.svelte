@@ -18,6 +18,7 @@
 	import FilaEssencial from '$lib/ui/FilaEssencial.svelte';
 	import IndicadorNuvol from '$lib/ui/compte/IndicadorNuvol.svelte';
 	import PaginesCarnet from '$lib/ui/PaginesCarnet.svelte';
+	import ProperCim from '$lib/ui/ProperCim.svelte';
 	import { cimPerId } from '$lib/ui/cim-per-id';
 	import { CASELLES_PAGINA } from '$lib/ui/carnet';
 	import { esClicSimple, obrirRegistre, registrarHref } from '$lib/ui/fulls';
@@ -125,6 +126,7 @@
 <PageMeta title={m.app_meta_title()} noindex />
 
 <h1 class="x-wide title">{m.app_title()}</h1>
+<p class="app-lede">{m.app_lede()}</p>
 
 <IndicadorNuvol />
 
@@ -194,6 +196,18 @@
 
 {#if ple}
 	<p class="full-banner x-wide" role="note">{m.carnet_full()}</p>
+{/if}
+
+<p class="reptes-link">
+	<a href={href('/app/reptes')} data-testid="enllac-reptes">
+		<Icon name="medal" size={20} /><span>{m.app_reptes_link()}</span><span aria-hidden="true"
+			>→</span
+		>
+	</a>
+</p>
+
+{#if $vives.carregat}
+	<ProperCim {ascensions} carregat={$vives.carregat} />
 {/if}
 
 {#if !$vives.carregat}
@@ -303,6 +317,38 @@
 </BottomSheet>
 
 <style>
+	.app-lede {
+		margin: calc(-1 * var(--sp-3)) 0 var(--sp-4);
+		font-size: var(--fs-sm);
+		color: var(--c-ink-2);
+	}
+
+	.reptes-link {
+		margin-top: var(--sp-4);
+	}
+
+	.reptes-link a {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-2);
+		min-height: var(--tap);
+		padding: var(--sp-2) var(--sp-4);
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-md);
+		background: var(--c-card);
+		color: var(--c-ink);
+		font-weight: var(--fw-bold);
+		text-decoration: none;
+	}
+
+	.reptes-link a span:nth-child(2) {
+		flex: 1;
+	}
+
+	.reptes-link a:hover {
+		background: var(--c-paper-2);
+	}
+
 	.title {
 		margin-bottom: var(--sp-5);
 		font-size: clamp(var(--fs-xl), 6vw, var(--fs-2xl));

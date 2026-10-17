@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { ascensionsVives } from '$lib/data/ascensions';
+	import { CIMS } from '$lib/data/catalog';
 	import { estadistiques } from '$lib/data/estadistiques';
 	import { origen } from '$lib/data/origen';
 	import {
 		METODES,
+		avuiLocal,
+		medalles,
 		REPTE_CENT_CIMS,
 		REPTE_INFANTIL,
 		companysUsats,
@@ -25,6 +28,7 @@
 	import OrigenMunicipi from '$lib/ui/OrigenMunicipi.svelte';
 	import { obrirRegistre, registrarHref } from '$lib/ui/fulls';
 	import { formatMes, formatPercentatge } from '$lib/ui/format';
+	import { nomMedalla } from '$lib/ui/reptes';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -40,6 +44,8 @@
 	const locale = getLocale();
 
 	const e = $derived($est.estadistiques);
+	/** Medalles dels reptes (R2), de la més recent a la més antiga. */
+	const llistaMedalles = $derived(medalles($vives, CIMS, { avui: avuiLocal() }).reverse());
 	const companys = $derived(companysUsats($vives, { limit: 5 }));
 	const repetits = $derived(e.rankingCims.filter((r) => r.ascensions >= 2).slice(0, 5));
 	const metodesUsats = $derived(METODES.filter((mt) => e.totals.perMetode[mt] > 0));
@@ -172,6 +178,25 @@
 						: m.stats_out_of_challenge({ count: String(e.totals.foraRepte) })}
 				</p>
 			{/if}
+		</section>
+
+		<!-- Medalles dels reptes (R2) -->
+		<section class="sec ample" aria-labelledby="st-medalles" data-testid="stats-medalles">
+			<h2 id="st-medalles" class="sec-h x-wide">{m.medals_title()}</h2>
+			{#if llistaMedalles.length === 0}
+				<p class="m-nota">{m.medals_empty()}</p>
+			{:else}
+				<ul class="medalles">
+					{#each llistaMedalles as md (`${md.repteId}#${md.nivell}`)}
+						<li>
+							<span class="md-ic" aria-hidden="true">★</span>
+							<span class="md-nom">{nomMedalla(md)}</span>
+							<time class="petit mono" datetime={md.data}>{data(md.data)}</time>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+			<a class="mes" href={href('/app/reptes')}>{m.app_reptes_link()} →</a>
 		</section>
 
 		<!-- El cim que més has fet (només si n'hi ha algun de repetit) -->
@@ -606,6 +631,41 @@
 		margin-top: var(--sp-3);
 		font-size: var(--fs-xs);
 		color: var(--c-ink-2);
+	}
+
+	/* ── Medalles ── */
+	.medalles {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+		gap: var(--sp-2) var(--sp-4);
+		margin: 0 0 var(--sp-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.medalles li {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+		gap: 0 var(--sp-2);
+		padding: var(--sp-2) 0;
+		border-bottom: 1px dashed var(--c-rule);
+	}
+
+	.md-ic {
+		grid-row: span 2;
+		display: grid;
+		place-items: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 2px double var(--c-stamp-ink);
+		border-radius: 50%;
+		color: var(--c-stamp-ink);
+	}
+
+	.md-nom {
+		font-weight: var(--fw-bold);
+		overflow-wrap: anywhere;
 	}
 
 	/* ── Targetes destacades ── */

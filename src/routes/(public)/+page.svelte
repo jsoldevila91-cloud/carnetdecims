@@ -166,6 +166,20 @@
 	</ol>
 </section>
 
+<section class="repte" aria-labelledby="reptes-title">
+	<h2 id="reptes-title" class="section-title x-wide">{m.home_reptes_title()}</h2>
+	<Card padding="lg" variant="flat" class="repte-card">
+		<p>{m.home_reptes_text()}</p>
+		<ul>
+			<li>
+				<a href={href('/app/reptes')} rel="nofollow"
+					>{m.home_reptes_link()}<Icon name="arrow" size={18} /></a
+				>
+			</li>
+		</ul>
+	</Card>
+</section>
+
 <section class="repte" aria-labelledby="repte-title">
 	<h2 id="repte-title" class="section-title x-wide">{m.home_repte_title()}</h2>
 	<Card padding="lg" variant="flat" class="repte-card">

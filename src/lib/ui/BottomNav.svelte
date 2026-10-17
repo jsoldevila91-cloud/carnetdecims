@@ -10,7 +10,14 @@
 	 * i barra lateral a partir de 768 px. Registrar obre un full amb shallow routing;
 	 * amb clic modificat o sense JS, l'enllaç porta a la pàgina /app/registrar.
 	 */
-	type Tab = { path: string; label: () => string; icon: IconName; match: (p: string) => boolean };
+	type Tab = {
+		path: string;
+		label: () => string;
+		icon: IconName;
+		match: (p: string) => boolean;
+		/** Només a la barra lateral (≥ 768 px): la barra inferior es queda amb 5 destins. */
+		nomesRail?: boolean;
+	};
 
 	const REGISTER_PATH = '/app/registrar';
 
@@ -28,6 +35,13 @@
 			label: m.nav_peaks,
 			icon: 'peak',
 			match: (p) => p === '/cims' || p.startsWith('/cims/')
+		},
+		{
+			path: '/app/reptes',
+			label: m.nav_reptes,
+			icon: 'medal',
+			match: (p) => p === '/app/reptes' || p.startsWith('/app/reptes/'),
+			nomesRail: true
 		},
 		{ path: '/app/compte', label: m.nav_profile, icon: 'user', match: (p) => p === '/app/compte' }
 	];
@@ -68,7 +82,7 @@
 					</a>
 				</li>
 			{:else}
-				<li>
+				<li class={{ rail: tab.nomesRail }}>
 					<a
 						href={href(tab.path)}
 						aria-current={active ? 'page' : undefined}
@@ -176,8 +190,17 @@
 		transform: scale(0.95) rotate(-6deg);
 	}
 
+	/* Destins només de la barra lateral: amagats a la barra inferior del mòbil. */
+	.rail {
+		display: none;
+	}
+
 	/* ---------- Escriptori: barra lateral ---------- */
 	@media (min-width: 48rem) {
+		.rail {
+			display: list-item;
+		}
+
 		.bottom-nav {
 			top: 0;
 			right: auto;
