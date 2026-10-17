@@ -27,11 +27,11 @@ describe('MASSISSOS contra el catàleg', () => {
 
 	it('instantània de les llistes (canvis conscients)', () => {
 		expect(Object.fromEntries(MASSISSOS.map((m) => [m.id, m.cims.length]))).toEqual({
-			montseny: 3,
+			montseny: 4,
 			montserrat: 3,
 			'sant-llorenc-del-munt': 3,
-			ports: 4,
-			'cadi-moixero': 3,
+			ports: 5,
+			'cadi-moixero': 5,
 			prades: 3,
 			montsec: 3
 		});

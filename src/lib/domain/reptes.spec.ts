@@ -472,7 +472,8 @@ describe('100 Cims i infantil (delegats, compatibles amb R1)', () => {
 		const c = per(ID_REPTE_CENT_CIMS, rs);
 		expect(c.nivell).toBe(1);
 		expect(c.objectiu).toBe(200);
-		expect(c.completat).toBe(false);
+		expect(c.completat).toBe(true);
+		expect(c.dataCompletat).toBe(c.assoliments[0].data);
 		expect(c.pendents.tipus).toBe('cims');
 		expect(c.cimsQueSumen).not.toContain(1);
 		const inf = per(ID_REPTE_INFANTIL, rs);
@@ -506,13 +507,14 @@ describe('100 Cims i infantil (delegats, compatibles amb R1)', () => {
 		expect(res.cimsQueSumen).not.toContain(2);
 	});
 
-	it('100 Cims a 5×100: completat amb la data del 5è nivell', () => {
+	it('100 Cims: completat al 100; a 5×100 cimsQueSumen buit', () => {
 		const cat = Array.from({ length: 520 }, (_, i) => cim(i + 1));
 		const a = cat.map((c, i) => asc(c.id, sumarDies('2007-01-01', i)));
 		const res = avaluarRepte(repteDeId(ID_REPTE_CENT_CIMS)!, a, cat, OP);
 		expect(res.nivell).toBe(5);
 		expect(res.completat).toBe(true);
-		expect(res.dataCompletat).toBe(sumarDies('2007-01-01', 499));
+		expect(res.dataCompletat).toBe(sumarDies('2007-01-01', 99));
+		expect(res.assoliments.map((a) => a.nivell)).toEqual([1, 2, 3, 4, 5]);
 		expect(res.cimsQueSumen).toEqual([]);
 	});
 

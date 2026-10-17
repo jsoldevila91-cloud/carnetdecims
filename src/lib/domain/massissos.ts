@@ -11,9 +11,9 @@
  * naturals protegits de la Generalitat (PEIN / parcs naturals: Montseny, Muntanya de Montserrat,
  * Sant Llorenç del Munt i l'Obac, Els Ports, Cadí-Moixeró, Paratge natural de Poblet / Muntanyes
  * de Prades, Serra del Montsec) i el mapa topogràfic de l'ICGC. Criteri conservador: un cim de
- * frontera dubtosa (p. ex. Turó de Montsoriu respecte del Montseny, Puig de la Creu de Castellar
- * respecte de Sant Llorenç, Santa Bàrbara d'Horta respecte dels Ports, el Pedraforca i la Tosa
- * respecte del Cadí-Moixeró) **no** s'hi posa. Per afegir-ne un: slug + revisar la caixa + test.
+ * frontera dubtosa no s'hi posa si l'usuari no ho decideix: el Puig de la Creu de Castellar
+ * **no** és de Sant Llorenç; el Turó de Montsoriu (Montseny), Santa Bàrbara (Ports), el Pedraforca
+ * i la Tosa (Cadí-Moixeró) **sí** que hi són (decisió de l'usuari, R2). Per afegir-ne un: slug + revisar la caixa + test.
  *
  * El catàleg no s'edita mai a mà: si un slug canvia a `npm run catalog:build`, el test falla i
  * s'actualitza aquesta llista.
@@ -34,8 +34,8 @@ export interface Massis {
 export const MASSISSOS: readonly Massis[] = Object.freeze([
 	{
 		id: 'montseny',
-		cims: ['matagalls', 'les-agudes', 'tagamanent'],
-		bbox: [2.2, 41.7, 2.5, 41.85]
+		cims: ['matagalls', 'les-agudes', 'tagamanent', 'turo-de-montsoriu'],
+		bbox: [2.2, 41.7, 2.56, 41.85]
 	},
 	{
 		id: 'montserrat',
@@ -49,13 +49,19 @@ export const MASSISSOS: readonly Massis[] = Object.freeze([
 	},
 	{
 		id: 'ports',
-		cims: ['caro', 'tossal-dels-tres-reis', 'roques-de-benet', 'tossal-d-engrillo'],
-		bbox: [0.1, 40.7, 0.42, 40.96]
+		cims: [
+			'caro',
+			'tossal-dels-tres-reis',
+			'roques-de-benet',
+			'tossal-d-engrillo',
+			'santa-barbara'
+		],
+		bbox: [0.1, 40.7, 0.42, 40.97]
 	},
 	{
 		id: 'cadi-moixero',
-		cims: ['comabona', 'vulturo', 'penyes-altes'],
-		bbox: [1.55, 42.25, 1.88, 42.33]
+		cims: ['comabona', 'vulturo', 'penyes-altes', 'pedraforca-pollego-superior', 'la-tosa'],
+		bbox: [1.55, 42.22, 1.9, 42.33]
 	},
 	{
 		id: 'prades',

@@ -369,7 +369,8 @@ function resultat(
 
 /**
  * Resum del 100 Cims a partir de l'estat del carnet: el mateix marcador que `resumCarnet` (fins
- * al 100, regla d'essencials; després, cims per als nivells). `completat` = 5×100.
+ * al 100, regla d'essencials;  després, cims per als nivells). `completat` i `dataCompletat` en arribar al 100
+ * (decisió de l'usuari); les medalles surten per nivell (I–V) i `cimsQueSumen` no es buida fins al 5×100.
  */
 export function resultatCentCims(
 	estat: EstatRepte<AscensioRepte>,
@@ -379,7 +380,7 @@ export function resultatCentCims(
 	const fets = n === 0 ? estat.progres100.comptador : estat.nivell.comptador;
 	const objectiu = Math.min(NIVELL_MAXIM, n + 1) * OBJECTIU_REPTE;
 	const assoliments = estat.nivell.assoliments.map((a) => ({ nivell: a.nivell, data: a.data }));
-	const completat = n === NIVELL_MAXIM;
+	const completat = n >= 1;
 	const fetes = estat.primeres;
 	const cimIds =
 		n === 0
@@ -397,9 +398,9 @@ export function resultatCentCims(
 		nivellMaxim: NIVELL_MAXIM,
 		assoliments,
 		completat,
-		dataCompletat: completat ? assoliments[assoliments.length - 1].data : null,
+		dataCompletat: completat ? assoliments[0].data : null,
 		pendents: { tipus: 'cims', cimIds },
-		cimsQueSumen: completat ? [] : cimIds
+		cimsQueSumen: n === NIVELL_MAXIM ? [] : cimIds
 	};
 }
 
