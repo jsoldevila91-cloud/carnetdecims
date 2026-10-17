@@ -198,7 +198,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Sin probar:** migración Dexie v3 desde una PWA real instalada, lectores de pantalla reales, dispositivos físicos.
 - **Bajos pendientes:** al elegir el origen desde la sheet de estadísticas, "Municipi desat" no se anuncia (se cierra antes); el primer recuento de `SelectorMunicipi` puede no anunciarse; una fila con > 10 compañeros (cliente futuro) no se puede editar en este cliente.
 
-## Bloque R2 · Reptes, medalles i "El teu proper cim" (terminado, 2026-10-17; sin publicar)
+## Bloque R2 · Reptes, medalles i "El teu proper cim" (terminado y publicado, 2026-10-17; Worker `8c5e4228`)
 
 - **Dominio (`fc5c498`, `0a76d6c`, `56f271a`):** `domain/reptes.ts` (motor: el reto es un dato y `avaluarRepte`/`avaluarReptes`/`medalles` son funciones puras), `massissos.ts` (lista curada y validada contra el catálogo) y `proper-cim.ts` (puntuación con motivos y ajuste con la meteo). Reglas en docs/03 §3.6.
   - Retos: 100 Cims (destacado; **completado al llegar a 100**, una medalla por nivel I–V), Repte infantil, Totes les comarques (43), Les 4 estacions (meteorológicas, por año natural), 12 mesos 12 cims (cim **nuevo de verdad**, puede cruzar el año) y 7 massissos (Montseny 4 con Montsoriu, Montserrat 3, Sant Llorenç 3, Ports 5 con Santa Bàrbara, Cadí-Moixeró 5 con Pedraforca y la Tosa, Prades 3, Montsec 3).
@@ -211,7 +211,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-R1 **publicado en carnetdecims.cat el 2026-10-17** (`86f3057`, versión de Worker `38c59e45`; verificado: 200 y `noindex` en las páginas nuevas). R2 terminado (sin publicar todavía). En una **sesión nueva**: publicar R2, R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1 **publicado en carnetdecims.cat el 2026-10-17** (`86f3057`, versión de Worker `38c59e45`; verificado: 200 y `noindex` en las páginas nuevas). R2 **publicado en carnetdecims.cat el 2026-10-17** (`f67aa31`, versión de Worker `8c5e4228`; verificado: 200 y `noindex` en `/ca`, `/ca/app/reptes`, `/es/app/retos`, detalle y `/api/dificultats.json`). En una **sesión nueva**: R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
