@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { camiAlternatiu } from '$lib/ui/cami-alternatiu.svelte';
 	import { ascensionsVivesAmbEstat } from '$lib/data/ascensions';
 	import { CIMS, COMARQUES } from '$lib/data/catalog';
 	import {
@@ -30,6 +31,15 @@
 		repte ? avaluarRepte(repte, $vives.ascensions, CIMS, { avui }) : undefined
 	);
 	const pendents = $derived(resultat?.pendents);
+
+	// Selector d'idioma: el slug del repte és diferent en cada idioma.
+	$effect(() => {
+		const r = repte;
+		camiAlternatiu.valor = r
+			? { ca: `/app/reptes/${r.slug.ca}`, es: `/app/reptes/${r.slug.es}` }
+			: null;
+		return () => (camiAlternatiu.valor = null);
+	});
 	const cimsPendents = $derived(
 		pendents?.tipus === 'cims'
 			? pendents.cimIds.map((id) => cimPerId(id)).filter((c) => c !== undefined)

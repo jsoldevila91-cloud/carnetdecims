@@ -51,6 +51,12 @@ export const MAX_EDAT_METEO_MS = 3 * 24 * 60 * 60 * 1000;
 /** Capçalera amb l'instant (ms) en què el SW va desar la previsió. */
 export const CAPCALERA_DESAT = 'x-carnet-sw-desat';
 
+/**
+ * Dificultats dels cims per a "El teu proper cim" (R2): fitxer prerenderitzat que va al precache
+ * (cache-first, com la resta de recursos de la versió) perquè funcioni sense xarxa.
+ */
+export const CAMI_DIFICULTATS = '/api/dificultats.json';
+
 /** Camí de l'API de meteo d'un cim (`/api/meteo/{slug}`). */
 const CAMI_METEO = /^\/api\/meteo\/[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -169,7 +175,7 @@ export function llistaPrecache(opcions: {
 	const recursos = [
 		...build.filter((f) => !diferits.has(f)),
 		...files.filter(fitxerEstaticPrecache),
-		...prerendered.filter((p) => p.endsWith('.webmanifest'))
+		...prerendered.filter((p) => p.endsWith('.webmanifest') || p === CAMI_DIFICULTATS)
 	].map((url) => ({ url, pagina: false }));
 	const pagines = [...paginesAppPrecache(), ...LOCALES_SW.map(paginaOffline)].map((url) => ({
 		url,
@@ -236,6 +242,9 @@ export function estrategiaPer(
 	// La query no forma part de la clau: una previsió per cim.
 	if (CAMI_METEO.test(cami) && peticio.mode !== 'navigate') {
 		return { tipus: 'meteo', clau: `${url.origin}${cami}` };
+	}
+	if (cami === CAMI_DIFICULTATS && precache.has(cami) && peticio.mode !== 'navigate') {
+		return { tipus: 'precache', clau: cami };
 	}
 	if (
 		cami.startsWith('/api/') ||

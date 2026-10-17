@@ -1108,7 +1108,7 @@ test.describe('El teu proper cim', () => {
 		await expect(peu(page)).toHaveText(exacte('ca', 'proper_cim_meteo_unavailable'));
 	});
 
-	test('sense connexió (navigator.onLine = false): no es demana la meteo i hi ha 3 cims amb l’avís', async ({
+	test('sense connexió i sense còpia desada: es demana la meteo, falla i hi ha 3 cims amb l’avís', async ({
 		page,
 		consoleGuard
 	}) => {
@@ -1118,15 +1118,33 @@ test.describe('El teu proper cim', () => {
 			Object.defineProperty(navigator, 'onLine', { get: () => false, configurable: true });
 		});
 		const peticions: string[] = [];
-		page.on('request', (r) => {
-			if (/\/api\/meteo\//.test(r.url())) peticions.push(r.url());
+		await page.route(/\/api\/meteo\//, (route) => {
+			peticions.push(route.request().url());
+			return route.abort('internetdisconnected');
 		});
 		// Les dificultats tampoc arriben (fetch avortat): sense elles també hi ha recomanacions.
 		await page.route(/\/api\/dificultats\.json/, (route) => route.abort('internetdisconnected'));
 		await gotoHydrated(page, ROUTES.ca.app);
 		await expect(cimsProper(page)).toHaveCount(3);
 		await expect(peu(page)).toHaveText(exacte('ca', 'proper_cim_meteo_unavailable'));
-		expect(peticions).toEqual([]);
+		// Es demana igualment: el service worker pot tenir l'última previsió desada.
+		expect(peticions.length).toBeGreaterThan(0);
+	});
+
+	test('sense connexió amb la previsió desada (SW): es fa servir i se’n mostra l’antiguitat', async ({
+		page
+	}) => {
+		await fixarRellotge(page);
+		await page.addInitScript(() => {
+			Object.defineProperty(navigator, 'onLine', { get: () => false, configurable: true });
+		});
+		await mockMeteo(page, previsio([{ data: '2026-10-17' }, { data: '2026-10-18' }]));
+		await gotoHydrated(page, ROUTES.ca.app);
+		await expect(cimsProper(page)).toHaveCount(3);
+		const edat = proper(page).getByTestId('proper-cim-meteo-edat');
+		await expect(edat).toBeVisible();
+		await expect(edat).toContainText('Sense connexió');
+		await expect(edat).toContainText('Previsió actualitzada');
 	});
 
 	test('les dificultats no arriben (404): igualment 3 recomanacions', async ({
@@ -1311,11 +1329,9 @@ test.describe('Novetats', () => {
 		expect(await page.evaluate((c) => localStorage.getItem(c), CLAU_NOVETAT)).toBe(ID_NOVETAT);
 	});
 
-	// BUG conegut (vegeu l'informe de QA R2): el full s'obre sol en carregar, sense cap control que
-	// l'hagi obert; en tancar-lo el navegador restaura el foco a <body> (WCAG 2.4.3). `test.fail`
-	// fa que aquest test passi mentre el bug existeixi i avisi (falli) quan es corregeixi.
-	test('en tancar el full el foco no queda a <body> (BUG: hi queda)', async ({ page }) => {
-		test.fail();
+	// El full s'obre sol en carregar, sense cap control que l'hagi obert: en tancar-lo, el focus
+	// va al contingut principal i no queda a <body> (WCAG 2.4.3).
+	test('en tancar el full el foco no queda a <body>', async ({ page }) => {
 		await page.addInitScript(() => {
 			if (!localStorage.getItem('carnetdecims:novetat-vista'))
 				localStorage.setItem('carnetdecims:llest-offline', '1');

@@ -19,6 +19,7 @@
 	import Button from './Button.svelte';
 	import OrigenMunicipi from './OrigenMunicipi.svelte';
 	import { formatAltitude, formatDataLlarga } from './format';
+	import { EDAT_ANTIGA_MIN, edatMinuts, formatEdat } from './fitxa/meteo';
 	import { capDeSetmanaVinent, textMotiu } from './reptes';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -41,6 +42,21 @@
 	let senseOrigen = $state(false);
 	let estatMeteo = $state<EstatMeteoUi>('carregant');
 	let font = $state<FontMeteo | null>(null);
+	/** La previsió més antiga de les rebudes (pot venir de la còpia del service worker). */
+	let actualitzat = $state<string | null>(null);
+	let rebuda = $state<Date | null>(null);
+	/** S'ha rebut sense connexió: és la còpia desada. */
+	let desada = $state(false);
+
+	/** Edat de la previsió: es mostra si és la còpia desada o si és antiga. */
+	const edat = $derived.by(() => {
+		if (!actualitzat || !rebuda) return null;
+		const minuts = edatMinuts(actualitzat, rebuda);
+		if (minuts === null) return null;
+		const antiga = minuts > EDAT_ANTIGA_MIN;
+		if (!desada && !antiga) return null;
+		return { text: m.cim_weather_updated({ fa: formatEdat(minuts, locale) }), antiga };
+	});
 	let calculat = $state(false);
 	let fullOrigen = $state(false);
 
@@ -103,10 +119,7 @@
 		recomanacions = candidates.slice(0, N_PROPER_CIM);
 		calculat = true;
 		if (candidates.length === 0) return;
-		if (typeof navigator !== 'undefined' && !navigator.onLine) {
-			estatMeteo = 'sense';
-			return;
-		}
+		// Sense connexió també es demana: el service worker torna l'última previsió desada.
 		estatMeteo = 'carregant';
 		const respostes = await Promise.allSettled(
 			candidates.map((c) => obtenirMeteo(c.cim.slug, { signal }))
@@ -114,12 +127,18 @@
 		if (signal.aborted) return;
 		// eslint-disable-next-line svelte/prefer-svelte-reactivity -- mapa local, no reactiu
 		const meteo = new Map<number, readonly DiaMeteoMinim[]>();
+		let mesAntiga: string | null = null;
 		respostes.forEach((res, i) => {
 			if (res.status === 'fulfilled') {
 				meteo.set(candidates[i].cim.id, res.value.dies);
 				font ??= res.value.font;
+				if (mesAntiga === null || res.value.actualitzat < mesAntiga)
+					mesAntiga = res.value.actualitzat;
 			}
 		});
+		desada = typeof navigator !== 'undefined' && !navigator.onLine;
+		actualitzat = mesAntiga;
+		rebuda = new Date();
 		if (meteo.size === 0) {
 			estatMeteo = 'sense';
 			return;
@@ -193,6 +212,13 @@
 				(<a href={font.llicenciaUrl} rel="noopener license" target="_blank">{font.llicencia}</a>)
 			{/if}
 		</p>
+		{#if estatMeteo === 'amb' && edat && actualitzat}
+			<p class="edat mono" role="note" data-testid="proper-cim-meteo-edat">
+				{desada ? m.cim_weather_saved() : ''}
+				<time datetime={actualitzat}>{edat.text}</time>.
+				{edat.antiga ? m.cim_weather_old() : ''}
+			</p>
+		{/if}
 		<p class="nota">{m.proper_cim_disclaimer()}</p>
 	{/if}
 </section>
@@ -317,6 +343,7 @@
 	}
 
 	.sense-meteo,
+	.edat,
 	.peu {
 		margin-top: var(--sp-1);
 		font-size: var(--fs-2xs);

@@ -34,7 +34,13 @@ const DIFERITS = new Set([
 const PRECACHE_LLISTA = llistaPrecache({
 	build: BUILD,
 	files: ['/favicon.svg', '/robots.txt', '/icons/icon-192.png', '/screenshots/carnet.png'],
-	prerendered: ['/ca', '/ca/cims/montcau', '/manifest-ca.webmanifest', '/ca/offline'],
+	prerendered: [
+		'/ca',
+		'/ca/cims/montcau',
+		'/manifest-ca.webmanifest',
+		'/ca/offline',
+		'/api/dificultats.json'
+	],
 	diferits: DIFERITS
 });
 const PRECACHE = new Set(PRECACHE_LLISTA.map((e) => e.url));
@@ -98,6 +104,14 @@ describe('llistaPrecache', () => {
 		expect(PRECACHE.has('/screenshots/carnet.png')).toBe(false);
 		expect(PRECACHE.has('/manifest-ca.webmanifest')).toBe(true);
 		expect(fitxerEstaticPrecache('/apple-touch-icon.png')).toBe(false);
+	});
+
+	it('inclou les dificultats de "El teu proper cim" i les serveix del precache', () => {
+		expect(PRECACHE.has('/api/dificultats.json')).toBe(true);
+		expect(decideix(recurs('/api/dificultats.json', 'cors', ''))).toEqual({
+			tipus: 'precache',
+			clau: '/api/dificultats.json'
+		});
 	});
 
 	it('pàgines: el shell de /app (16) i les offline; cap fitxa prerenderitzada', () => {

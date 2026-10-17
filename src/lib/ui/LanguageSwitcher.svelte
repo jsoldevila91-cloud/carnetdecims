@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import { endonym, getLocale, href, internalPath, locales } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
+	import { camiAlternatiu } from './cami-alternatiu.svelte';
 
 	/**
 	 * Selector d'idioma: enllaços reals a la ruta equivalent (`/ca/cims` ↔ `/es/cimas`).
@@ -12,6 +13,11 @@
 	let { variant = 'compact' }: { variant?: 'compact' | 'full' } = $props();
 
 	const current = $derived(getLocale());
+
+	/** Camí intern de destí: el de la pàgina en aquell idioma si en té un de propi (slugs traduïts). */
+	function cami(locale: string): string {
+		return camiAlternatiu.valor?.[locale] ?? internalPath(page.url.pathname);
+	}
 
 	// La query (filtres) només es pot llegir al client: les pàgines públiques es prerenderitzen.
 	let search = $state('');
@@ -25,7 +31,7 @@
 		{#each locales as locale (locale)}
 			<li>
 				<a
-					href={href(internalPath(page.url.pathname), locale) + search}
+					href={href(cami(locale), locale) + search}
 					hreflang={locale}
 					lang={locale}
 					aria-current={locale === current ? 'true' : undefined}

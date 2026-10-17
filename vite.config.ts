@@ -56,7 +56,9 @@ export default defineConfig({
 					SITEMAP_INDEX_PATH,
 					...LOCALES.map((l) => `/manifest-${l}.webmanifest` as const),
 					// Pàgina offline que serveix el service worker (noindex, fora del sitemap).
-					...LOCALES.map((l) => `/${l}/offline` as const)
+					...LOCALES.map((l) => `/${l}/offline` as const),
+					// Dificultats dels cims per a "El teu proper cim" (no s'enllaça enlloc).
+					'/api/dificultats.json'
 				]
 			}
 		}),

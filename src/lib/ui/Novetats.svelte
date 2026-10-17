@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import {
 		CLAU_NOVETATS,
 		darreraNovetat,
@@ -70,9 +70,19 @@
 		obert = true;
 	});
 
-	function tancar() {
+	/**
+	 * El full s'obre sol (cap control l'ha obert): en tancar-lo, el navegador deixaria el focus a
+	 * <body>. Va al contingut principal (WCAG 2.4.3), si l'usuari no l'ha mogut ja.
+	 */
+	async function tancar() {
 		obert = false;
 		desar(darreraNovetat());
+		await tick();
+		requestAnimationFrame(() => {
+			const actiu = document.activeElement;
+			if (actiu && actiu !== document.body && actiu.isConnected) return;
+			document.getElementById('contingut')?.focus();
+		});
 	}
 </script>
 
