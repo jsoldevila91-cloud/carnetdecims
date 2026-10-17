@@ -219,7 +219,8 @@
 	<div id={ids.panell} class="panell" hidden={!obert}>
 		{#if companys.length > 0}
 			<ul class="xips" aria-label={m.partners_list_label()} bind:this={llistaXips}>
-				{#each companys as nom, i (nom)}
+				<!-- Clau amb l'índex: un repetit exacte (el núvol no deduplica) no trenca la llista. -->
+				{#each companys as nom, i (`${i}:${nom}`)}
 					<li class="xip">
 						<span class="nom">{nom}</span>
 						<button

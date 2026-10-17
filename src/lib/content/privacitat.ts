@@ -51,8 +51,9 @@
  *   · municipi d'origen (`data/origen.ts`): només el codi del municipi, taula `preferencies`
  *     d'IndexedDB i, amb sessió, `public.perfils.origen_municipi` (RPC `sync_origen`); a
  *     l'exportació (`preferencies.origen`); `esborrarTot` i `esborrar_compte` l'esborren;
- *   · llista de municipis (`data/municipis/`): JSON del propi build, carregat amb `import()` (chunk
- *     diferit del mateix origen); la cerca es fa en memòria (`cercarMunicipis`), sense xarxa;
+ *   · llista de municipis (`data/municipis/`): JSON estàtic del propi build (amb hash, del mateix
+ *     origen), baixat amb `fetch` en diferit; la cerca es fa en memòria (`cercarMunicipis`), sense
+ *     xarxa;
  *   · estadístiques (`data/estadistiques.ts`): calculades al client; no desen ni envien res.
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */

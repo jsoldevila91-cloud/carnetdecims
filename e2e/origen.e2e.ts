@@ -28,31 +28,36 @@ const boto = (page: Page, clau: string, locale: Locale = 'ca') =>
 const estatViu = (page: Page) => bloc(page).locator('.estat-viu');
 
 /**
- * Observa el chunk del conjunt de municipis (el que porta el codi de Barcelona). Amb
- * `bloquejar`, la petició s'avorta (sense connexió i sense caché).
+ * Observa el fitxer del conjunt de municipis (el que porta el codi de Barcelona): avui un JSON
+ * estàtic amb hash (`_app/immutable/assets/municipis.[hash].json`) que es baixa amb `fetch`; també
+ * es vigilen els chunks JS per si mai tornés a anar dins d'un mòdul. Amb `bloquejar`, la petició
+ * s'avorta (sense connexió i sense caché).
  */
 async function vigilarChunkMunicipis(page: Page) {
 	const estat = { peticions: 0, carregat: 0, bloquejar: false };
-	await page.route(/\/_app\/immutable\/chunks\/[^/]+\.js$/, async (route: Route) => {
-		// `wrangler dev` a vegades talla una connexió sota càrrega (ECONNRESET): es reintenta.
-		let resp;
-		for (let intent = 0; ; intent++) {
-			try {
-				resp = await route.fetch();
-				break;
-			} catch (e) {
-				if (intent >= 2) throw e;
+	await page.route(
+		/\/_app\/immutable\/(?:chunks\/[^/]+\.js|assets\/[^/]+\.json)$/,
+		async (route: Route) => {
+			// `wrangler dev` a vegades talla una connexió sota càrrega (ECONNRESET): es reintenta.
+			let resp;
+			for (let intent = 0; ; intent++) {
+				try {
+					resp = await route.fetch();
+					break;
+				} catch (e) {
+					if (intent >= 2) throw e;
+				}
 			}
+			const body = await resp.text();
+			// Al JSON, cometes dobles; compilat a JS, de qualsevol tipus (accents greus).
+			if (/["'`]080193["'`]/.test(body)) {
+				estat.peticions++;
+				if (estat.bloquejar) return route.abort('internetdisconnected');
+				estat.carregat++;
+			}
+			return route.fulfill({ response: resp, body });
 		}
-		const body = await resp.text();
-		// El JSON es compila a JS amb cometes de qualsevol tipus (avui, accents greus).
-		if (/["'`]080193["'`]/.test(body)) {
-			estat.peticions++;
-			if (estat.bloquejar) return route.abort('internetdisconnected');
-			estat.carregat++;
-		}
-		return route.fulfill({ response: resp, body });
-	});
+	);
 	return estat;
 }
 
@@ -181,14 +186,10 @@ test.describe('Municipi d’origen a /app/compte', () => {
 
 	test('el chunk no es pot baixar: error, camp desactivat i "Torna-ho a provar" ho recupera', async ({
 		page,
-		consoleGuard,
-		browserName
+		consoleGuard
 	}) => {
-		// BUG (R1, pendent): Chromium desa a la memòria de mòduls l'import() fallit del chunk de
-		// municipis i "Torna-ho a provar" no el torna a demanar mai (cal recarregar la pàgina).
-		// WebKit sí que el torna a demanar. Quan s'arregli, aquest test passarà a Chromium i
-		// Playwright avisarà que cal treure aquesta línia.
-		test.fail(browserName === 'chromium', 'el reintent no torna a baixar el chunk a Chromium');
+		// Regressió (R1): amb `import()`, Chromium desava el mòdul fallit i el reintent no el
+		// tornava a demanar. Ara és un `fetch` d'un fitxer estàtic, que es pot repetir.
 		consoleGuard.allow(
 			/Failed to fetch dynamically imported module|Failed to load resource|net::ERR|Importing a module script failed|error loading dynamically imported module/i
 		);
@@ -202,7 +203,7 @@ test.describe('Municipi d’origen a /app/compte', () => {
 		chunk.bloquejar = false;
 		expect(chunk.peticions).toBe(1);
 		await alerta.getByRole('button', { name: exacte('ca', 'origin_retry') }).click();
-		// El reintent ha de tornar a demanar el chunk (un import() fallit no es pot repetir igual)
+		// El reintent ha de tornar a demanar el fitxer
 		await expect.poll(() => chunk.peticions, { timeout: 5_000 }).toBe(2);
 		await expect(cercador(bloc(page))).toBeEnabled();
 		await expect(cercador(bloc(page))).toBeFocused();

@@ -972,6 +972,27 @@ describe('files sense la clau companys (anteriors a R1) i client antic', () => {
 		expect(filaPush({ ...vella, companys: ['Inesa'] }).companys).toEqual(['Inesa']);
 	});
 
+	it('editar-la amb el formulari (companys: []) no esborra els companys del núvol', async () => {
+		const vella = await filaVella();
+		servidor.escriure({ ...vella, companys: ['Inesa', 'Pau'] });
+		fixar('2026-09-29T11:00:00.000Z');
+		// El formulari sempre envia tots els camps, i `companys: []` perquè aquí no se'n veu cap.
+		await actualitzarAscensio(vella.id, {
+			cimId: vella.cimId,
+			data: vella.data,
+			metode: vella.metode,
+			nota: 'només la nota',
+			companys: []
+		});
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.rebudes[0]).not.toHaveProperty('companys');
+		expect(servidor.viva(vella.id)).toMatchObject({
+			nota: 'només la nota',
+			companys: ['Inesa', 'Pau']
+		});
+		expect((await filaLocal(vella.id))?.companys).toEqual(['Inesa', 'Pau']);
+	});
+
 	it('pujar una fila vella no esborra els companys que ja té al núvol, i després baixen', async () => {
 		// Un altre dispositiu (client nou) hi va posar companys; aquest la té sense la clau i més
 		// nova (hi ha editat la nota sense connexió).

@@ -264,26 +264,40 @@ export async function afegirAscensio(input: NovaAscensio): Promise<Ascensio> {
 }
 
 /**
- * Modifica una ascensió viva. Valida el resultat complet. `nota: ''` esborra la nota;
- * `nota: undefined` (o absent) la deixa igual. `companys: []` treu els companys;
- * `companys: undefined` (o absent) els deixa igual.
- * @throws ErrorValidacio, ErrorAscensioNoTrobada
+ * Canvis d'una ascensió viva (`actualitzarAscensio`). Com `NovaAscensio`, però `companys: null`
+ * vol dir "sense dades de companys": la fila es queda (o torna a quedar) **sense la clau**, com
+ * les anteriors a R1. Només ho fa servir el "Desfés" d'una edició (`CanvisDesfer`).
  */
-export async function actualitzarAscensio(
+export type CanvisAscensio = Partial<Omit<NovaAscensio, 'companys'>> & {
+	companys?: string[] | null;
+};
+
+/** Els canvis que tornen una ascensió exactament a l'estat d'abans d'una edició. */
+export type CanvisDesfer = Required<Pick<NovaAscensio, 'cimId' | 'data' | 'metode' | 'nota'>> & {
+	/** `null` si la fila no tenia la clau `companys` (anterior a R1, encara no baixada). */
+	companys: string[] | null;
+};
+
+/** Escriu els canvis; retorna la fila desada i els canvis que la tornen a l'estat d'abans. */
+async function aplicarCanvis(
 	id: string,
-	canvis: Partial<NovaAscensio>
-): Promise<Ascensio> {
+	canvis: CanvisAscensio
+): Promise<{ desada: Ascensio; desfer: CanvisDesfer }> {
 	const bd = obtenirBd();
 	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
 		const actual = await bd.ascensions.get(id);
 		if (!actual || actual.deletedAt) throw new ErrorAscensioNoTrobada(id);
+		// Companys resultants: `undefined` = la fila es queda sense la clau.
+		let companys: string[] | undefined;
+		if (canvis.companys === null) companys = undefined;
+		else if (canvis.companys === undefined) companys = actual.companys;
+		else companys = canvis.companys;
 		const combinat: NovaAscensio = {
 			cimId: canvis.cimId !== undefined ? canvis.cimId : actual.cimId,
 			data: canvis.data !== undefined ? canvis.data : actual.data,
 			metode: canvis.metode !== undefined ? canvis.metode : actual.metode,
 			nota: canvis.nota !== undefined ? (canvis.nota ?? '') : (actual.nota ?? undefined),
-			// Sense canvi de companys, la fila es queda com estava (amb la clau o sense).
-			companys: canvis.companys !== undefined ? (canvis.companys ?? []) : actual.companys
+			companys
 		};
 		const net = validarONormalitzar(combinat, avuiLocal(ara()));
 		const fila: FilaAscensio = {
@@ -291,10 +305,50 @@ export async function actualitzarAscensio(
 			...net,
 			updatedAt: instantEscriptura(actual.updatedAt)
 		};
+		// Una fila sense la clau (anterior a R1, potser amb companys al núvol que encara no han
+		// baixat) que acaba sense companys continua sense la clau: el push no porta `companys` i
+		// `sync_push` conserva els del núvol. Un formulari que no en mostra cap (n'envia `[]`)
+		// no ha d'esborrar el que no ha vist. Amb `null`, la clau es treu.
+		if (companys === undefined || (actual.companys === undefined && fila.companys?.length === 0))
+			delete fila.companys;
 		await bd.ascensions.put(fila);
 		await encuar(bd, id, fila.updatedAt);
-		return copia(fila);
+		return {
+			desada: copia(fila),
+			desfer: {
+				cimId: actual.cimId,
+				data: actual.data,
+				metode: actual.metode,
+				nota: actual.nota ?? '',
+				companys: actual.companys ? [...actual.companys] : null
+			}
+		};
 	});
+}
+
+/**
+ * Modifica una ascensió viva. Valida el resultat complet. `nota: ''` esborra la nota;
+ * `nota: undefined` (o absent) la deixa igual. `companys: []` treu els companys;
+ * `companys: undefined` (o absent) els deixa igual; `companys: null` treu la clau.
+ * Excepció: una fila **sense la clau** `companys` (anterior a R1) que queda sense companys
+ * (`[]`) continua sense la clau, perquè la sync no esborri els que tingui al núvol.
+ * @throws ErrorValidacio, ErrorAscensioNoTrobada
+ */
+export async function actualitzarAscensio(id: string, canvis: CanvisAscensio): Promise<Ascensio> {
+	return (await aplicarCanvis(id, canvis)).desada;
+}
+
+/**
+ * Com `actualitzarAscensio`, però també retorna els canvis que la tornen exactament a l'estat
+ * d'abans (`desfer`, llegit a la mateixa transacció), per al "Desfés" de la UI: si la fila no
+ * tenia la clau `companys`, `desfer.companys` és `null` i desfer la torna a deixar sense.
+ * @throws ErrorValidacio, ErrorAscensioNoTrobada
+ */
+export async function actualitzarAscensioAmbDesfer(
+	id: string,
+	canvis: CanvisAscensio
+): Promise<{ desada: Ascensio; desfer: CanvisDesfer }> {
+	return aplicarCanvis(id, canvis);
 }
 
 let temporitzadorPurga: ReturnType<typeof setTimeout> | null = null;

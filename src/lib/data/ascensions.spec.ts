@@ -11,6 +11,7 @@ import {
 	NOTA_MAX,
 	VERSIO_EXPORTACIO,
 	actualitzarAscensio,
+	actualitzarAscensioAmbDesfer,
 	afegirAscensio,
 	ascensionsVives,
 	ascensionsVivesAmbEstat,
@@ -226,10 +227,69 @@ describe('files anteriors a R1 (sense companys)', () => {
 		expect(a.companys).toEqual([]);
 		expect('companys' in (await obtenirBd().ascensions.get(fila.id))!).toBe(false);
 
-		await actualitzarAscensio(fila.id, { companys: [] });
-		expect((await obtenirBd().ascensions.get(fila.id))?.companys).toEqual([]);
 		await actualitzarAscensio(fila.id, { companys: ['Inesa'] });
 		expect((await obtenirBd().ascensions.get(fila.id))?.companys).toEqual(['Inesa']);
+		// Ja amb la clau, `[]` sí que els treu (i es pujarà `companys: []`).
+		await actualitzarAscensio(fila.id, { companys: [] });
+		expect((await obtenirBd().ascensions.get(fila.id))?.companys).toEqual([]);
+	});
+
+	it('el formulari (que sempre envia companys: []) no hi posa la clau', async () => {
+		// Sense veure els companys que un altre dispositiu hi pugui haver posat al núvol, el
+		// formulari envia `[]`: la fila es queda sense la clau i el push no els esborra.
+		const fila = await filaVella();
+		const a = await actualitzarAscensio(fila.id, {
+			cimId: fila.cimId,
+			data: fila.data,
+			metode: fila.metode,
+			nota: 'editada',
+			companys: []
+		});
+		expect(a).toMatchObject({ nota: 'editada', companys: [] });
+		const desada = (await obtenirBd().ascensions.get(fila.id))!;
+		expect('companys' in desada).toBe(false);
+		expect(desada.nota).toBe('editada');
+		expect((await pendentsDeSincronitzar()).map((e) => e.ascensioId)).toEqual([fila.id]);
+		// Una llista que en normalitzar queda buida tampoc no hi posa la clau.
+		await actualitzarAscensio(fila.id, { companys: ['  ', ''] });
+		expect('companys' in (await obtenirBd().ascensions.get(fila.id))!).toBe(false);
+	});
+
+	it('companys: null treu la clau (desfer cap a una fila anterior a R1)', async () => {
+		const a = await afegirAscensio(nova({ companys: ['Inesa'] }));
+		const r = await actualitzarAscensio(a.id, { companys: null });
+		expect(r.companys).toEqual([]);
+		expect('companys' in (await obtenirBd().ascensions.get(a.id))!).toBe(false);
+	});
+
+	it('actualitzarAscensioAmbDesfer: desfer torna exactament la fila d’abans', async () => {
+		const fila = await filaVella();
+		// Sense clau → amb companys → desfer: torna a quedar sense la clau.
+		fixar('2026-09-29T11:00:00.000Z');
+		const { desada, desfer } = await actualitzarAscensioAmbDesfer(fila.id, {
+			nota: 'nova',
+			companys: ['Inesa']
+		});
+		expect(desada.companys).toEqual(['Inesa']);
+		expect(desfer).toEqual({
+			cimId: fila.cimId,
+			data: fila.data,
+			metode: fila.metode,
+			nota: 'vella',
+			companys: null
+		});
+		fixar('2026-09-29T11:00:01.000Z');
+		await actualitzarAscensio(fila.id, desfer);
+		const tornada = (await obtenirBd().ascensions.get(fila.id))!;
+		expect('companys' in tornada).toBe(false);
+		expect(tornada).toMatchObject({ nota: 'vella', cimId: fila.cimId, data: fila.data });
+
+		// Amb clau `[]` → amb companys → desfer: torna `[]` (la clau present mana).
+		const b = await afegirAscensio(nova({ data: '2026-09-21' }));
+		const ed = await actualitzarAscensioAmbDesfer(b.id, { companys: ['Pau'] });
+		expect(ed.desfer.companys).toEqual([]);
+		await actualitzarAscensio(b.id, ed.desfer);
+		expect((await obtenirBd().ascensions.get(b.id))?.companys).toEqual([]);
 	});
 
 	it('esborrar i restaurar conserven la fila tal com era', async () => {

@@ -19,6 +19,7 @@
 		METODES,
 		avuiLocal,
 		esDataIsoValida,
+		normalitzarCompanys,
 		type Ascensio,
 		type Metode
 	} from '$lib/domain';
@@ -89,7 +90,9 @@
 			data = a.data;
 			metode = a.metode;
 			nota = a.nota ?? '';
-			companys = [...a.companys];
+			// El núvol no deduplica: es llegeixen normalitzats (sense repetits), com es desarien.
+			const nets = normalitzarCompanys(a.companys);
+			companys = nets.ok ? nets.companys : [...new Set(a.companys)];
 		} else errorGeneral = m.register_error_not_found();
 		carregant = false;
 	});

@@ -5,6 +5,7 @@
  */
 import {
 	actualitzarAscensio,
+	actualitzarAscensioAmbDesfer,
 	afegirAscensio,
 	esborrarAscensio,
 	llistarAscensions,
@@ -94,25 +95,19 @@ export async function registrarAscensio(nova: NovaAscensio): Promise<Ascensio> {
 
 /** Desa els canvis d'una ascensió. "Desfés" hi torna els valors anteriors (companys inclosos). */
 export async function editarAscensio(previ: Ascensio, canvis: NovaAscensio): Promise<Ascensio> {
-	const desada = await actualitzarAscensio(previ.id, { ...canvis, nota: canvis.nota ?? '' });
+	// `desfer` és l'estat exacte de la fila d'abans (llegit a la mateixa transacció): si no tenia
+	// la clau `companys` (anterior a R1), desfer la torna a deixar sense, i la sync no esborra
+	// els companys que pugui tenir al núvol.
+	const { desada, desfer: estatPrevi } = await actualitzarAscensioAmbDesfer(previ.id, {
+		...canvis,
+		nota: canvis.nota ?? ''
+	});
 	toasts.show(m.register_toast_updated(), {
 		tone: 'success',
 		duration: DURADA_DESFES,
 		action: {
 			label: m.toast_undo(),
-			run: () =>
-				desfer(
-					() =>
-						actualitzarAscensio(previ.id, {
-							cimId: previ.cimId,
-							data: previ.data,
-							metode: previ.metode,
-							nota: previ.nota ?? '',
-							// Diari (R1): també torna la llista de companys d'abans (`[]` els treu).
-							companys: previ.companys ?? []
-						}),
-					previ.id
-				)
+			run: () => desfer(() => actualitzarAscensio(previ.id, estatPrevi), previ.id)
 		}
 	});
 	return desada;

@@ -169,12 +169,30 @@
 	/** S'avorta en desmuntar la pàgina: un mapa que encara es carregava es destrueix. */
 	const desmuntatge = new AbortController();
 
+	/** L'`import()` del motor ja ha fallat una vegada en aquesta pàgina. */
+	let importMotorFallit = false;
+
+	/**
+	 * Import del motor (MapLibre). Chromium desa al mapa de mòduls un `import()` fallit (p. ex.
+	 * sense connexió: MapLibre no és al precache) i el reintent no el torna a demanar: si torna a
+	 * fallar amb connexió, es recarrega la pàgina (l'URL ja porta els filtres, la vista i el cim).
+	 */
+	async function importarMotor() {
+		try {
+			return await import('$lib/ui/mapa/motor');
+		} catch (error) {
+			if (importMotorFallit && navigator.onLine) location.reload();
+			importMotorFallit = true;
+			throw error;
+		}
+	}
+
 	async function activarMapa() {
 		if (estatMapa === 'carregant' || estatMapa === 'actiu' || !contenidor) return;
 		if (desmuntatge.signal.aborted) return;
 		estatMapa = 'carregant';
 		try {
-			const { crearMotor } = await import('$lib/ui/mapa/motor');
+			const { crearMotor } = await importarMotor();
 			if (desmuntatge.signal.aborted) return;
 			const escriptori = matchMedia('(min-width: 48rem)').matches;
 			const estatic: MapaEstaticComarca = escriptori ? estaticEscriptori : estaticMobil;

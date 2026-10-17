@@ -1154,11 +1154,9 @@ test.describe('Sincronització R1 · companys i municipi d’origen', () => {
 		supa,
 		consoleGuard
 	}) => {
-		// BUG (R1, pendent): el formulari d'edició sempre envia `companys` (aquí `[]`), així que la
-		// fila guanya la clau i el push substitueix els companys del núvol. Passa si la fila és
-		// d'abans de R1 i encara no s'ha baixat de nou (p. ex. sense connexió després d'actualitzar).
-		// Quan s'arregli, Playwright avisarà que el test ja passa: cal treure aquesta línia.
-		test.fail(true, 'editar una fila sense la clau hi posa companys: [] i esborra els del núvol');
+		// Regressió (R1): el formulari d'edició sempre envia `companys` (aquí `[]`). Si la fila és
+		// d'abans de R1 i encara no s'ha baixat de nou, ha de quedar sense la clau perquè el push
+		// no substitueixi els companys del núvol (`actualitzarAscensio`).
 		consoleGuard.allow(
 			/Failed to load resource|ERR_INTERNET_DISCONNECTED|network connection|Load failed|Fetch API cannot load|NetworkError/
 		);
