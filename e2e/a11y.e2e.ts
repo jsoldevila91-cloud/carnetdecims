@@ -79,7 +79,8 @@ test.describe('Objectius tàctils i reflow', () => {
 			.evaluateAll((els) =>
 				els.map((e) => e.getBoundingClientRect()).map((r) => [r.width, r.height])
 			);
-		expect(boxes).toHaveLength(5);
+		// 5 destins a la barra inferior; a partir de 768 px la barra lateral hi afegeix "Reptes" (R2).
+		expect(boxes).toHaveLength((page.viewportSize()?.width ?? 0) >= 768 ? 6 : 5);
 		for (const [w, h] of boxes) {
 			expect(w).toBeGreaterThanOrEqual(44);
 			expect(h).toBeGreaterThanOrEqual(44);

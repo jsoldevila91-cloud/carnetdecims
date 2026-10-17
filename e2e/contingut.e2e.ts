@@ -314,7 +314,7 @@ test.describe('Privadesa: el web fa el que diu la política', () => {
 						: 0,
 				caches: 'caches' in window ? await caches.keys() : []
 			}));
-			// La política (bloc 4d) diu: memòria cau del service worker (`carnet-*`), dues preferències
+			// La política (bloc 4d) diu: memòria cau del service worker (`carnet-*`), tres preferències (amb la novetat vista, R2)
 			// tècniques a localStorage i l'estat de navegació de SvelteKit a sessionStorage. Res més.
 			// IndexedDB: cap BD sense ascensions (/mapa només la llegeix si ja existeix, `data/local/existeix.ts`).
 			test
@@ -322,7 +322,12 @@ test.describe('Privadesa: el web fa el que diu la política', () => {
 				.annotations.push({ type: 'sessionStorage', description: storage.session.join(', ') });
 			expect(storage.session.filter((k) => !/^sveltekit:/.test(k))).toEqual([]);
 			for (const k of storage.local)
-				expect(['carnetdecims:llest-offline', 'carnetdecims:avis-installacio']).toContain(k);
+				expect([
+					'carnetdecims:llest-offline',
+					'carnetdecims:avis-installacio',
+					// Bloc R2: última novetat vista (la política ho explica).
+					'carnetdecims:novetat-vista'
+				]).toContain(k);
 			expect(storage.idb).toEqual([]);
 			expect(storage.sw).toBeLessThanOrEqual(1);
 			for (const c of storage.caches) expect(c).toMatch(/^carnet-/);
@@ -361,6 +366,7 @@ test.describe('Portada definitiva', () => {
 			expect(h2).toEqual([
 				MSG[l].home_value_title,
 				MSG[l].home_steps_title,
+				MSG[l].home_reptes_title,
 				MSG[l].home_repte_title,
 				MSG[l].home_featured_title,
 				MSG[l].explore_label,

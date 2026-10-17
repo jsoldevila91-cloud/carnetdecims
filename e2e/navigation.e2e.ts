@@ -246,7 +246,16 @@ test.describe('404', () => {
 });
 
 test.describe('Sense connexió', () => {
-	test('mostra el bàner offline i avisa en recuperar la connexió', async ({ page, context }) => {
+	test('mostra el bàner offline i avisa en recuperar la connexió', async ({
+		page,
+		context,
+		consoleGuard
+	}) => {
+		// "El teu proper cim" (R2) demana /api/dificultats.json en carregar /app: si la xarxa es talla
+		// just després, la petició falla (soroll del navegador, no un error de l'app).
+		consoleGuard.allow(
+			/Failed to load resource: (?:net::ERR_INTERNET_DISCONNECTED|WebKit encountered an internal error)/
+		);
 		await gotoHydrated(page, ROUTES.ca.app);
 		await context.setOffline(true);
 		await page.evaluate(() => window.dispatchEvent(new Event('offline')));

@@ -90,9 +90,16 @@ export const test = base.extend<{
 		{ auto: true }
 	],
 	consoleGuard: [
-		async ({ page }, use) => {
+		async ({ page, browserName }, use) => {
 			const errors: string[] = [];
 			const allowed: RegExp[] = [];
+			// WebKit: en descarregar el document (`page.goto`, `reload`, canvi d'idioma) amb
+			// peticions de "El teu proper cim" (bloc R2: `/api/meteo/*`, `/api/dificultats.json`) encara
+			// en vol, surten com a pageerror "… due to access control checks" (mateix cas que
+			// `toleraAvortamentsWebKit`). Chromium no ho reporta. Afecta qualsevol test que passi per
+			// `/app` i navegui de seguida; un fallo real de CORS fallaria també a Chromium.
+			if (browserName === 'webkit')
+				allowed.push(/\/api\/(?:meteo\/[a-z0-9-]+|dificultats\.json) due to access control checks/);
 			page.on('console', (msg) => {
 				if (msg.type() === 'error') errors.push(`console: ${msg.text()}`);
 			});

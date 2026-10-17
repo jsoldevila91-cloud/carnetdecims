@@ -546,9 +546,9 @@ test.describe('Dificultat · llistes de cims', () => {
 		test(`/cims-essencials i tresmils (${locale}): distintiu només als cims amb dificultat`, async ({
 			page
 		}) => {
-			await page.goto(URL_LLISTAT.essencials[locale]);
+			await gotoHydrated(page, URL_LLISTAT.essencials[locale]);
 			await expectBadgesLlista(page, locale);
-			await page.goto(URL_LLISTAT.tresmils[locale]);
+			await gotoHydrated(page, URL_LLISTAT.tresmils[locale]);
 			await expectBadgesLlista(page, locale);
 		});
 
@@ -563,7 +563,9 @@ test.describe('Dificultat · llistes de cims', () => {
 			test.setTimeout(30_000 + comarques.length * 3_000);
 			await stubMaps(page);
 			for (const comarca of comarques) {
-				await page.goto(comarcaUrl(comarca, locale));
+				// gotoHydrated: sense esperar la hidratació, el `goto` següent avorta els `import()` del
+				// layout (WebKit: "Importing a module script failed").
+				await gotoHydrated(page, comarcaUrl(comarca, locale));
 				const amb = await expectBadgesLlista(page, locale);
 				const ambDificultat = [...ESPERAT_LLISTES.keys()].filter(
 					(slug) => cim(slug).comarca === comarca
@@ -703,7 +705,7 @@ test.describe('Llistats de dificultat', () => {
 				'cims-facils',
 				'cims-amb-nens'
 			] as const) {
-				await page.goto(URL_LLISTAT[origen][locale]);
+				await gotoHydrated(page, URL_LLISTAT[origen][locale]);
 				const nav = page.getByRole('navigation', { name: nomNav });
 				const hrefs = await hrefsAbsoluts(nav.locator('a'));
 				for (const desti of ['cims-facils', 'cims-amb-nens'] as const) {
