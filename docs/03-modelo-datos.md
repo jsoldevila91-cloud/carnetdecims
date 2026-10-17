@@ -245,6 +245,19 @@ Funciones puras sobre las ascensiones y el catálogo; no se guarda nada. Todo pa
 
 "% por reto" en R1: `cent-cims` (objetivo = página actual del carnet, 100…500) e `infantil` (50 cimas desde el 01/07/2026, sin filtrar por edad). `ProgresRepteResum` tiene ya la forma que devolverá el motor de retos de R2.
 
+### 3.6 Retos propios, medallas y "El teu proper cim" (bloque R2)
+
+`src/lib/domain/reptes.ts`, `massissos.ts` y `proper-cim.ts` (puros, con tests). No se guarda nada nuevo: progreso y medallas se derivan de las ascensiones y del catálogo (sin tocar Dexie, sync ni Supabase).
+
+- **Un reto es un dato** (`Repte`: `id`, `slug.ca/es`, `condicio` = filtro de cimas + regla). Textos en `messages/*.json` con la clave `repte_<id con _>_nom` / `_descripcio`.
+- **Qué cuenta en los retos propios:** las borradas nunca; fechas válidas ≤ hoy (también anteriores al 01/07/2006: los retos propios no siguen la normativa FEEC); sin regla de esenciales ni límite anual; siempre **cimas distintas** (fecha de una cima = su primera ascensión). `cent-cims` e `infantil` delegan en `calcularEstatRepte` (idéntico a carnet y estadísticas de R1). Objetivo 0 (catálogo o conjunto vacío) → nunca completado.
+- **Les 4 estacions:** estaciones **meteorológicas** por meses enteros (primavera mar–may, verano jun–ago, otoño sep–nov, invierno dic–feb), dentro de un mismo **año natural**: el invierno de un año es enero, febrero y diciembre de ese año (el invierno que cruza el año no une diciembre con el enero siguiente). Se eligieron frente a las astronómicas porque no dependen de la fecha variable del equinoccio/solsticio y son fáciles de explicar. Cualquier ascensión cuenta (también repetir cima).
+- **12 mesos, 12 cims:** 12 meses de calendario consecutivos con al menos una **cima nueva** (primera ascensión de toda la vida a esa cima); una repetición no cuenta. Puede cruzar el año. Una vez completado, sigue completado.
+- **Totes les comarques:** una cima en cada comarca con cimas en el catálogo (incluye `andorra` y `catalunya-nord`, que en el catálogo son comarcas).
+- **Massissos:** lista curada de slugs por macizo (`massissos.ts`, con fuente y caja de control); el test la valida contra `cims.json` (existencia, caja, ≥ 3 cimas).
+- **Medallas:** una por nivel alcanzado (`assoliments`); el 100 Cims da hasta 5 (100 … 5×100) y se considera `completat` en 5×100.
+- **El teu proper cim:** puntuación aditiva y explicable (motivos devueltos): distancia al origen, dificultad habitual (mediana de los hechos), época (altitud vs mes), restricción activa = excluida, bonus de reto a punto (faltan ≤ 3 y ≥ 50 % hecho) y meteo opcional (`ajustarAmbMeteo`). Pesos en `PUNTS`.
+
 ## 4. Plan de obtención de datos (solo investigación; no se ha descargado ni scrapeado nada)
 
 ### 4.1 Qué publica la FEEC

@@ -9,3 +9,6 @@ export * from './dificultat';
 export * from './diari';
 export * from './municipis';
 export * from './estadistiques';
+export * from './reptes';
+export * from './massissos';
+export * from './proper-cim';

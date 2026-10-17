@@ -21,15 +21,14 @@
  *
  * **Desempats** (deterministes): vegeu cada funció.
  *
- * **Reptes.** A R1 només n'hi ha dos (`REPTE_CENT_CIMS` i `REPTE_INFANTIL`). El motor genèric de
- * reptes és de R2: `ProgresRepteResum` ja té la forma que retornarà (`id` de text, nivells), de
- * manera que R2 només hi haurà d'afegir entrades.
+ * **Reptes.** `percentatges.reptes` conté el 100 Cims i el Repte infantil, calculats amb el motor
+ * de reptes de R2 (`reptes.ts`), que n'avalua també els propis amb la mateixa forma
+ * (`ResultatRepte` amplia `ProgresRepteResum`).
  */
 import { progresComarques, type AscensioCarnet, type ProgresComarca } from './carnet';
 import { distanciaKm, type Punt } from './geo';
+import { resultatCentCims, resultatInfantil } from './reptes';
 import {
-	NIVELL_MAXIM,
-	OBJECTIU_REPTE,
 	OPCIONS_PER_DEFECTE,
 	anyDe,
 	avuiLocal,
@@ -38,7 +37,7 @@ import {
 	type EstatRepte,
 	type OpcionsRepte
 } from './repte';
-import { METODES, type Cim, type DataISO, type Metode } from './types';
+import { METODES, type Cataleg, type Cim, type DataISO, type Metode } from './types';
 
 // ---------------------------------------------------------------------------
 // Tipus
@@ -420,34 +419,25 @@ export function ratxaMesos(dates: Iterable<DataISO>, avui: DataISO): RatxaMesos 
 // Percentatges
 // ---------------------------------------------------------------------------
 
-/** Progrés dels reptes de R1 a partir de l'estat del repte (calculat amb cims diferents). */
-function progresReptes(estat: EstatRepte<AscensioEstadistica>): ProgresRepteResum[] {
-	// 100 Cims: el mateix marcador que el carnet (`resumCarnet`): fins al 100 compten els cims amb
-	// la regla d'essencials; després, els que compten per als nivells.
-	const n = estat.nivell.nivell;
-	const fets = n === 0 ? estat.progres100.comptador : estat.nivell.comptador;
-	const objectiu = Math.min(NIVELL_MAXIM, n + 1) * OBJECTIU_REPTE;
-	const inf = estat.infantil;
-	return [
-		{
-			id: REPTE_CENT_CIMS,
-			fets,
-			objectiu,
-			fraccio: Math.min(1, fets / objectiu),
-			nivell: n,
-			nivellMaxim: NIVELL_MAXIM,
-			assoliments: estat.nivell.assoliments.map((a) => ({ nivell: a.nivell, data: a.data }))
-		},
-		{
-			id: REPTE_INFANTIL,
-			fets: inf.comptador,
-			objectiu: inf.objectiu,
-			fraccio: Math.min(1, inf.comptador / inf.objectiu),
-			nivell: inf.completat ? 1 : 0,
-			nivellMaxim: 1,
-			assoliments: inf.dataAssoliment ? [{ nivell: 1, data: inf.dataAssoliment }] : []
-		}
-	];
+/**
+ * Progrés dels reptes de R1 (100 Cims i infantil) amb el motor de reptes (R2): els mateixos
+ * resultats que `avaluarRepte`, reduïts a la forma de `ProgresRepteResum`.
+ */
+function progresReptes(
+	estat: EstatRepte<AscensioEstadistica>,
+	cataleg: Cataleg,
+	o: OpcionsRepte
+): ProgresRepteResum[] {
+	const resum = (r: ProgresRepteResum): ProgresRepteResum => ({
+		id: r.id,
+		fets: r.fets,
+		objectiu: r.objectiu,
+		fraccio: r.fraccio,
+		nivell: r.nivell,
+		nivellMaxim: r.nivellMaxim,
+		assoliments: r.assoliments
+	});
+	return [resum(resultatCentCims(estat, cataleg)), resum(resultatInfantil(estat, cataleg, o))];
 }
 
 // ---------------------------------------------------------------------------
@@ -529,7 +519,7 @@ export function calcularEstadistiques<C extends Cim>(
 			comarques,
 			comarquesAmbCims: proporcio(comarques.filter((c) => c.fets > 0).length, comarques.length),
 			comarquesCompletes: comarques.filter((c) => c.total > 0 && c.fets === c.total).length,
-			reptes: progresReptes(estat)
+			reptes: progresReptes(estat, cims, o)
 		},
 		altitudAcumulada: cimsFets.reduce((s, c) => s + c.altitud, 0),
 		altitudAcumuladaAscensions: altitudAscensions,
