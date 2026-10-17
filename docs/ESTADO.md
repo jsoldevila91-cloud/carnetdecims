@@ -183,14 +183,24 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 **Uso:** el 2026-10-11 el límite semanal del plan Pro estaba al 83 % (se restablece el 2026-10-16). El bloque siguiente se empieza en una **sesión nueva**.
 
+## Bloque R1 · Estadístiques i diari (terminado, 2026-10-17; `86f3057`)
+
+- **Backend (`a5cb659`):**
+  - `domain/estadistiques.ts`, `diari.ts`, `municipis.ts` (puros, con tests). Las ascensiones "fora del repte" no cuentan, salvo en "amb qui has pujat més".
+  - Municipios ICGC por script (`npm run municipis:build`): 947 de Catalunya + 7 parroquias de Andorra + 26 poblaciones de la Catalunya Nord. Se sirven como asset JSON con hash, pedido con `fetch` (en el precache del SW).
+  - `companys` en la ascensión (cliente ≤ 10 × 40; servidor ≤ 20 × 80). Dexie v3 (`preferencies`). Exportación v2 (importa v1).
+  - **Migración 0005 aplicada en Supabase el 2026-10-16** (`companys`, `sync_push` compatible con el cliente viejo, `perfils.origen_*`, RPC `sync_origen`). Tipos regenerados y comprobados. La lógica plpgsql **no se ha probado contra Postgres** (el usuario no autorizó la prueba con un usuario real); la cubren los unitarios y `e2e/supabase-fals.ts`.
+- **Frontend (`34b90c5`):** `/ca/app/estadistiques` y `/es/app/estadisticas`, `SelectorMunicipi`/`OrigenMunicipi` (en `/app/compte` y desde "El cim més llunyà"), `CampCompanys` en el registro, filtro "Només el diari" en el historial.
+- **SEO (`a8a37aa`, `b41b611`):** privacitat (municipio, compañeros como datos de terceros, catálogo local), metodologia (fuente ICGC, cálculo del cim més llunyà), textos ca/es, full de ruta de "Sobre el projecte" al día.
+- **Lápidas (`45cb215`, decisión del usuario):** pasados 10 min (`FINESTRA_DESFER_MS`) se vacían nota y compañeros, en local y en la nube (`updatedAt` + 1 ms).
+- **QA (`133269a`, `86f3057`):** 55 E2E nuevos por proyecto. Suite completa: 3665 pasados, 4 fallidos (frágil corregido y entorno WebKit; pasan aislados), 0 flaky. Bugs corregidos: fila anterior a R1 que borraba compañeros del servidor al editarla; reintento del selector de municipios y del mapa en Chromium; foco y región viva en `OrigenMunicipi`; claves duplicadas en `CampCompanys`. 1386 unitarios.
+- **Decisiones del usuario (2026-10-16):** se quedan las 26 poblaciones de la Catalunya Nord, `NOTA_MAX` 500, altitud acumulada por cimas distintas y el Repte infantil visible para todos.
+- **Sin probar:** migración Dexie v3 desde una PWA real instalada, lectores de pantalla reales, dispositivos físicos.
+- **Bajos pendientes:** al elegir el origen desde la sheet de estadísticas, "Municipi desat" no se anuncia (se cierra antes); el primer recuento de `SelectorMunicipi` puede no anunciarse; una fila con > 10 compañeros (cliente futuro) no se puede editar en este cliente.
+
 ## Siguiente
 
-**Bloque R1 · Estadístiques i diari** (docs/08 §3 y §6; antes del lanzamiento): municipio de origen (opcional), "el cim que més has fet", "el cim més llunyà", % por comarca, por reto y del catálogo, y **diari de muntanya** (compañeros y notas).
-
-- **Con cuentas (decisión del 2026-10-11; docs/08 "R1 con cuentas"):** el diari y el municipio de origen **se sincronizan con Supabase** cuando hay sesión (sin sesión, solo en el dispositivo). Implica migración nueva en Supabase, ampliar `sync_push`, Dexie v2, export/import JSON y actualizar la privacitat.
-- Las estadísticas se calculan en el cliente. "% por reto" cubre solo el 100 Cims y el Repte infantil hasta R2. El percentil queda fuera de R1.
-
-Después: R2 (retos, medallas y "El teu proper cim"), R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1 **publicado en carnetdecims.cat el 2026-10-17** (`86f3057`, versión de Worker `38c59e45`; verificado: 200 y `noindex` en las páginas nuevas). En una **sesión nueva**: **Bloque R2** (retos, medallas y "El teu proper cim"; docs/08 §2 y §6), R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
