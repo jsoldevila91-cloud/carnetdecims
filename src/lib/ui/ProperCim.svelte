@@ -187,7 +187,7 @@
 					</p>
 					<ul class="motius">
 						{#each r.motius
-							.filter((mt) => mt.punts !== 0 || mt.clau === 'meteo-variable')
+							.filter((mt) => mt.punts !== 0 || mt.clau === 'meteo-variable' || mt.clau === 'pendent')
 							.slice(0, 3) as mt (mt.clau)}
 							<li class={mt.punts < 0 ? 'contra' : 'favor'}>
 								<span aria-hidden="true">{mt.punts < 0 ? '−' : '+'}</span>

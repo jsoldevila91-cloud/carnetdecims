@@ -78,11 +78,12 @@
 		obert = false;
 		desar(darreraNovetat());
 		await tick();
-		requestAnimationFrame(() => {
+		// WebKit restaura el focus en tancar el <dialog> després del primer frame: s'espera una mica més.
+		setTimeout(() => {
 			const actiu = document.activeElement;
 			if (actiu && actiu !== document.body && actiu.isConnected) return;
 			document.getElementById('contingut')?.focus();
-		});
+		}, 100);
 	}
 </script>
 

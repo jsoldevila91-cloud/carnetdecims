@@ -1239,10 +1239,6 @@ test.describe('El teu proper cim', () => {
 		page,
 		consoleGuard
 	}) => {
-		// BUG (informe QA R2, verificació): `ProperCim.svelte` filtra els motius amb `punts !== 0`, i
-		// el motiu neutre `pendent` (0 punts) no es veu mai: la targeta queda sense cap motiu. Quan es
-		// corregeixi, aquest test fallarà: treure `test.fail()`.
-		test.fail();
 		consoleGuard.allow(/Failed to load resource/);
 		await fixarRellotge(page);
 		await mockMeteo(page, { error: 'no disponible' }, 502);
@@ -1417,10 +1413,7 @@ test.describe('Novetats', () => {
 
 	// El full s'obre sol en carregar, sense cap control que l'hagi obert: en tancar-lo, el focus
 	// va al contingut principal i no queda a <body> (WCAG 2.4.3).
-	test('en tancar el full el foco no queda a <body>', async ({ page, browserName }) => {
-		// BUG a WebKit (informe QA R2, verificació): el foco hi queda a <body> igualment (Novetats
-		// el mou a `#contingut` abans que WebKit acabi de restaurar-lo en tancar el <dialog>).
-		test.fail(browserName === 'webkit', 'Novetats: foco a <body> a WebKit');
+	test('en tancar el full el foco no queda a <body>', async ({ page }) => {
 		await page.addInitScript(() => {
 			if (!localStorage.getItem('carnetdecims:novetat-vista'))
 				localStorage.setItem('carnetdecims:llest-offline', '1');
