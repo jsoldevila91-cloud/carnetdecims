@@ -1158,7 +1158,7 @@ test.describe('Sincronització R1 · companys i municipi d’origen', () => {
 		// d'abans de R1 i encara no s'ha baixat de nou, ha de quedar sense la clau perquè el push
 		// no substitueixi els companys del núvol (`actualitzarAscensio`).
 		consoleGuard.allow(
-			/Failed to load resource|ERR_INTERNET_DISCONNECTED|network connection|Load failed|Fetch API cannot load|NetworkError/
+			/Failed to load resource|ERR_INTERNET_DISCONNECTED|network connection|Load failed|Fetch API cannot load|NetworkError|Importing a module script failed/
 		);
 		const id = uuidTest();
 		const base = { id, cimId: CIM.matagalls.id, data: '2024-05-01', createdAt: T(1) };

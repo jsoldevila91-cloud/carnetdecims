@@ -209,9 +209,20 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **QA (`b8a84e0`, `91bab0b`, más correcciones de Claude):** `e2e/reptes.e2e.ts` (61 tests por proyecto): **366/366 en los 3 proyectos con `--repeat-each 2`**. Suite completa en desktop-chrome: 1699 pasados (2 timeouts por carga, ya ajustados). 1459 unitarios. Build OK.
 - **Bajos pendientes:** el toast del 100.º cim dice "100/200"; `compte.e2e.ts:244` es intermitente en mobile-safari (también antes de R2).
 
+## Bloque R3 · Compartir i validar (terminado, 2026-10-18)
+
+- **Dominio (`10c4b7a`, `8e2146d`):** `domain/validacio.ts` (`exportValidacio`: filas del año que cuentan para el 100 Cims con avisos `restriccio`, `restriccio-incerta`, `repetit`, `mes-de-100`, `en-espera`; excluidas con motivo; `terminiValidacio` 31/12; `csvValidacio` con BOM, `;`, CRLF y protección contra fórmulas). `domain/carnet-compartit.ts` + `platform/compressio.ts` + `data/compartir.ts`: enlace de solo lectura en el fragmento (`/ca/carnet#c=…`), formato binario v1 (varints, nombre opcional ≤ 40, un sello por cim y **medallas de quien comparte**), lectura estricta (base64url canónico, límite contra bombas de descompresión, cims desconocidos y fechas futuras descartados). 100 ascensiones + 10 medallas ≈ 465 caracteres de URL. Reglas en docs/03 §3.7.
+  - **Ids del catálogo fijados** (`catalog/ids-estables.json` + test): la lista solo puede crecer por el final. Códigos de reto propios en `CODIS_REPTE_COMPARTIT` (solo crecen).
+- **UI:** `/ca/app/validacio` (`/es/app/validacion`): año, "solo a partir de", termini, avisos con texto, excluidas, CSV e impresión/PDF con huecos a mano para nombre, DNI, licencia y entidad (no se guardan). `/app/compartir`: imagen 1080×1350 en canvas (`navigator.share` con archivo o descarga) y enlace con nombre opcional. Pública `/ca|es/carnet` (prerender del shell, `noindex, nofollow` en meta y `X-Robots-Tag` vía `_headers`, fuera del sitemap, en el precache del SW). Entradas desde `/app`, historial y compte. Novetat `2026-10-18-compartir-validar`.
+- **SEO (`6cc31d9`):** textos ca/es, privacitat (sección compartir: el fragmento no llega nunca al servidor), metodologia (lista de validación), com-validar y sobre el projecte.
+- **QA (`e2e/r3.e2e.ts`, 28 tests por proyecto):** 166 pasados, 0 fallidos, 0 flaky en los 3 proyectos con `--repeat-each 2` (2 saltados: offline en WebKit). Regresión (carnet, historial, reptes, pwa, compte, contingut): 893 pasados, 3 intermitentes de carga/WebKit (uno tolerado en el test). 1561 unitarios. Bugs corregidos: impresión global que dejaba otras páginas en blanco, falsa alarma de restricción en Sant Salvador de les Espases, medallas perdidas en el enlace, año por defecto futuro, apóstrofo catalán.
+- **A confirmar con 100cims@feec.cat** (docs/03 §3.7): si el 31/12 entra en plazo; si las repeticiones se presentan; si los no esenciales en espera cuentan para el máximo de 100 al año.
+- **Sin probar:** `navigator.share` y portapapeles en móviles reales; impresión real a papel/PDF; offline en WebKit.
+- **Bajos pendientes:** el cambio de idioma en `/carnet` probablemente pierde el fragmento; `platform/fitxers.ts` no tiene `descarregarBlob` (helper inline en la página); `municipis/carrega.spec.ts` intermitente bajo carga.
+
 ## Siguiente
 
-R1 **publicado en carnetdecims.cat el 2026-10-17** (`86f3057`, versión de Worker `38c59e45`; verificado: 200 y `noindex` en las páginas nuevas). R2 **publicado en carnetdecims.cat el 2026-10-17** (`f67aa31`, versión de Worker `8c5e4228`; verificado: 200 y `noindex` en `/ca`, `/ca/app/reptes`, `/es/app/retos`, detalle y `/api/dificultats.json`). En una **sesión nueva**: R3 (compartir y exportación para la validación), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1 y R2 publicados el 2026-10-17 (Workers `38c59e45` y `8c5e4228`). R3: ver arriba. En una **sesión nueva**: R5 · Detalls útils (doc 08, "Apunts nous"), comparativa con Fes Cims, resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
