@@ -1,4 +1,4 @@
-﻿# Estado del proyecto
+# Estado del proyecto
 
 > Se actualiza al final de cada bloque. Última actualización: 2026-10-17.
 
