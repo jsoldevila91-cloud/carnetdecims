@@ -289,6 +289,44 @@ describe('exportValidacio', () => {
 		expect(avisosDe(e, 7)).toEqual([[], ['restriccio', 'repetit'], ['repetit']]);
 	});
 
+	it('restricció permanent sense dates (Sant Salvador de les Espases): restriccio-incerta', () => {
+		const obres: RestriccioAcces = {
+			tipus: 'obres',
+			periodeIniciMmdd: null,
+			periodeFiMmdd: null,
+			dataInici: null,
+			dataFi: null,
+			fontUrl: 'https://example.org'
+		};
+		const fauna: RestriccioAcces = {
+			...obres,
+			tipus: 'fauna',
+			periodeIniciMmdd: '01-15',
+			periodeFiMmdd: '06-15'
+		};
+		const cat = CATALEG.map((c) =>
+			c.id === 45
+				? { ...c, restriccions: [obres] }
+				: c.id === 46
+					? { ...c, restriccions: [obres, fauna] }
+					: c
+		);
+		const e = exportValidacio(
+			[asc(45, '2026-02-01'), asc(45, '2026-08-01'), asc(46, '2026-02-01'), asc(46, '2026-08-01')],
+			cat,
+			2026,
+			{ avui: AVUI }
+		);
+		expect(avisosDe(e, 45)).toEqual([['restriccio-incerta'], ['restriccio-incerta', 'repetit']]);
+		// Amb una restricció datada activa, l'avís és categòric; fora del període, incert.
+		expect(avisosDe(e, 46)).toEqual([['restriccio'], ['restriccio-incerta', 'repetit']]);
+		for (const f of e.files) {
+			expect(f.avisos.includes('restriccio') && f.avisos.includes('restriccio-incerta')).toBe(
+				false
+			);
+		}
+	});
+
 	it('avisos acumulats en ordre canònic', () => {
 		const tot: RestriccioAcces = {
 			tipus: 'obres',
@@ -307,7 +345,7 @@ describe('exportValidacio', () => {
 		);
 		const darrera = e.files.at(-1)!;
 		expect(darrera.cimId).toBe(400);
-		expect(darrera.avisos).toEqual(['restriccio', 'mes-de-100', 'en-espera']);
+		expect(darrera.avisos).toEqual(['restriccio-incerta', 'mes-de-100', 'en-espera']);
 		for (const f of e.files) {
 			const pos = f.avisos.map((a) => AVISOS_VALIDACIO.indexOf(a));
 			expect(pos).toEqual([...pos].sort((x, y) => x - y));

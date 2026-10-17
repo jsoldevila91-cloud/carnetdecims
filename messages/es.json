@@ -1012,6 +1012,7 @@
 	"validation_col_method": "Método",
 	"validation_col_warnings": "Avisos",
 	"validation_warning_restriction": "Dentro de un periodo de restricción de acceso: la FEEC no la valida",
+	"validation_warning_restriction_uncertain": "Puede haber una restricción de acceso sin fechas conocidas: consúltalo antes de presentarla",
 	"validation_warning_repeated": "Cima repetida: ya la habías subido antes y no cuenta como cima nueva",
 	"validation_warning_over_100": "Supera el máximo de 100 cimas nuevas al año",
 	"validation_warning_waiting": "No esencial, en espera: no cuenta hasta que completes el reto 100 Cims",

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CIMS } from '$lib/data/catalog';
 import {
+	CODIS_REPTE_COMPARTIT,
 	aBase64Url,
 	codificaCarnet,
 	esErrorCarnet,
@@ -71,14 +72,23 @@ describe('enllacCarnet / llegeixEnllac', () => {
 		}
 	});
 
-	it('mida: 100 ascensions < 1.000 caràcters de fragment; 500 també cabent en un URL', async () => {
-		const f100 = await fragmentCarnet({
+	it('mida: 100 ascensions + 10 medalles < 1.000 caràcters de fragment; 500 també cabent en un URL', async () => {
+		const medalles = CODIS_REPTE_COMPARTIT.slice(0, 10).map((repteId, i) => ({
+			repteId,
+			nivell: 1,
+			data: sumarDies('2019-03-01', i * 97)
+		}));
+		const entrada100 = {
 			nom: 'Nom de quaranta caràcters per a la prova',
 			ascensions: carnet(
 				CIMS.slice(0, 100).map((c) => c.id),
 				8
-			)
-		});
+			),
+			medalles
+		};
+		const f100 = await fragmentCarnet(entrada100);
+		const r100 = await llegeixEnllac(`#c=${f100}`, CIMS, AVUI);
+		expect(!esErrorCarnet(r100) && r100.medalles).toEqual(medalles);
 		const f500 = await fragmentCarnet({
 			ascensions: carnet(
 				CATALEG_522.slice(0, 500).map((c) => c.id),
@@ -138,6 +148,10 @@ describe('enllacCarnet / llegeixEnllac', () => {
 			]
 		});
 		const r = await llegeixEnllac(`#c=${aBase64Url(await comprimeix(bytes))}`, CIMS, AVUI);
-		expect(r).toEqual({ ascensions: [{ cimId: 1, data: '2020-01-01' }], descartades: 2 });
+		expect(r).toEqual({
+			ascensions: [{ cimId: 1, data: '2020-01-01' }],
+			descartades: 2,
+			medalles: []
+		});
 	});
 });

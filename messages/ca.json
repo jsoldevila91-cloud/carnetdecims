@@ -1012,6 +1012,7 @@
 	"validation_col_method": "Mètode",
 	"validation_col_warnings": "Avisos",
 	"validation_warning_restriction": "Dins d'un període de restricció d'accés: la FEEC no la valida",
+	"validation_warning_restriction_uncertain": "Pot haver-hi una restricció d'accés sense dates conegudes: consulta-ho abans de presentar-la",
 	"validation_warning_repeated": "Cim repetit: ja l'havies pujat abans i no compta com a cim nou",
 	"validation_warning_over_100": "Passa del màxim de 100 cims nous per any",
 	"validation_warning_waiting": "No essencial, en espera: no compta fins que completis el repte 100 Cims",

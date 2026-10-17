@@ -27,7 +27,8 @@
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
-	type Avis = AvisValidacio;
+	/** `restriccio-incerta`: restricció permanent sense dates (p. ex. Sant Salvador de les Espases). */
+	type Avis = AvisValidacio | 'restriccio-incerta';
 
 	const vives = ascensionsVivesAmbEstat();
 	const avui = avuiLocal();
@@ -35,7 +36,7 @@
 	const uid = $props.id();
 
 	const ascensions = $derived($vives.ascensions);
-	const anys = $derived([...anysAmbAscensions(ascensions)].sort((a, b) => b - a));
+	const anys = $derived([...anysAmbAscensions(ascensions, avui)].sort((a, b) => b - a));
 	const termini = terminiValidacio(avui);
 
 	/** Any triat; per defecte, l'any en curs si té ascensions (si no, el més recent). */
@@ -60,6 +61,7 @@
 
 	const TEXT_AVIS: Record<Avis, () => string> = {
 		restriccio: m.validation_warning_restriction,
+		'restriccio-incerta': m.validation_warning_restriction_uncertain,
 		repetit: m.validation_warning_repeated,
 		'mes-de-100': m.validation_warning_over_100,
 		'en-espera': m.validation_warning_waiting,
@@ -668,18 +670,22 @@
 	}
 
 	@media print {
-		/* Només el full: fora capçalera, navegació, peu, fulls i avisos (són fora de <main>). */
-		:global(.skip-link),
-		:global(.shell ~ *),
-		:global(.shell > :not(main)),
-		:global(main > :not(.full-impres)) {
+		/*
+		 * Només el full: fora capçalera, navegació, peu, fulls i avisos (són fora de <main>).
+		 * Tot va condicionat a `body:has(.full-impres)`: el CSS d'aquesta pàgina continua carregat
+		 * després de navegar i, sense la condició, buidaria la impressió de qualsevol altra pàgina.
+		 */
+		:global(body:has(.full-impres) .skip-link),
+		:global(body:has(.full-impres) .shell ~ *),
+		:global(body:has(.full-impres) .shell > :not(main)),
+		:global(body:has(.full-impres) main > :not(.full-impres)) {
 			display: none !important;
 		}
 
-		:global(html),
-		:global(body),
-		:global(.shell),
-		:global(main) {
+		:global(html:has(.full-impres)),
+		:global(body:has(.full-impres)),
+		:global(body:has(.full-impres) .shell),
+		:global(body:has(.full-impres) main) {
 			min-height: 0 !important;
 			margin: 0 !important;
 			padding: 0 !important;

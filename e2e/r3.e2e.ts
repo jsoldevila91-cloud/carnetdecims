@@ -96,6 +96,8 @@ function bytesV1(
 		out.push(...varint(d - anterior), ...varint(cimId));
 		anterior = d;
 	}
+	// Medalles (M = 0): el carnet compartit v1 acaba amb el recompte de medalles.
+	out.push(...varint(0));
 	return out;
 }
 
@@ -128,7 +130,16 @@ function llegeixEnllacTest(url: string) {
 		dies += vi();
 		entrades.push({ cimId: vi(), data: sumaDies('2006-07-01', dies) });
 	}
-	return { versio, nom, entrades, sobrants: dades.length - pos, cru: dades };
+	// Medalles: codi del repte, nivell (1 byte) i dies en zigzag des del 01/07/2006.
+	const nm = vi();
+	const medalles: { codi: number; nivell: number; dies: number }[] = [];
+	for (let i = 0; i < nm; i++) {
+		const codi = vi();
+		const nivell = dades[pos++];
+		const z = vi();
+		medalles.push({ codi, nivell, dies: z % 2 === 0 ? z / 2 : -(z + 1) / 2 });
+	}
+	return { versio, nom, entrades, medalles, sobrants: dades.length - pos, cru: dades };
 }
 
 // ── Localitzadors ──────────────────────────────────────────────────────────
@@ -387,12 +398,8 @@ test.describe('Validació: llista de l’any', () => {
 	test('després de visitar la validació, imprimir una altra pàgina de l’app no la deixa en blanc', async ({
 		page
 	}) => {
-		// BUG conegut (informe QA R3): els `:global(...)` de `@media print` de la validació
-		// continuen carregats després de navegar i amaguen tot el <main>. Treure `test.fail` quan
-		// es corregeixi.
-		test.fail();
-		// Els estils `@media print` de la validació són `:global(main > :not(.full-impres))`: si
-		// continuen carregats després de navegar amb el router, buiden qualsevol altra pàgina.
+		// Els estils `@media print` de la validació continuen carregats després de navegar amb el
+		// router: han d'estar condicionats a `body:has(.full-impres)` per no buidar altres pàgines.
 		await fixarRellotge(page);
 		await sembrar(page, [{ cimId: CIM.matagalls.id, data: '2026-05-01' }], '/ca/app/historial');
 		const enllac = main(page).locator('a[href="/ca/app/validacio"]').first();
@@ -779,4 +786,55 @@ test.describe('Reflow (320/375/1280) i axe', () => {
 			await expectAxeNet(page);
 		});
 	}
+});
+
+// ---------------------------------------------------------------------------
+// Restricció sense dates i medalles al carnet compartit
+// ---------------------------------------------------------------------------
+
+test.describe('R3: restricció incerta i medalles compartides', () => {
+	for (const locale of LOCALES) {
+		test(`${locale}: restricció permanent sense dates → avís "restriccio-incerta" (pantalla i full)`, async ({
+			page
+		}) => {
+			await fixarRellotge(page);
+			await sembrar(
+				page,
+				[{ cimId: CIM.santSalvador.id, data: '2026-05-01' }],
+				RUTA.validacio[locale]
+			);
+			await expect(filesTaula(page)).toHaveCount(1);
+			const text = t(locale, 'validation_warning_restriction_uncertain');
+			const fila = filesTaula(page).first();
+			await expect(fila.locator('li.avis.restriccio-incerta')).toContainText(text);
+			await expect(fila.locator('li.avis.restriccio')).toHaveCount(0);
+			await page.emulateMedia({ media: 'print' });
+			await expect(page.locator('.full-impres tbody tr').first()).toContainText(text);
+		});
+	}
+
+	test('les medalles de qui comparteix surten al carnet compartit', async ({ page, context }) => {
+		await fixarRellotge(page);
+		// Les 4 estacions del 2026 amb 4 cims diferents (hivern, primavera, estiu, tardor).
+		await sembrar(
+			page,
+			[
+				{ cimId: CIM.matagalls.id, data: '2026-01-15' },
+				{ cimId: CIM.montcau.id, data: '2026-04-15' },
+				{ cimId: CIM.pica.id, data: '2026-07-15' },
+				{ cimId: CIM.canigo.id, data: '2026-10-01' }
+			],
+			RUTA.compartir.ca
+		);
+		const url = await enllacGenerat(page, 'ca');
+		const p2 = await context.newPage();
+		await p2.clock.setFixedTime(ARA);
+		await p2.goto(url);
+		await waitForHydration(p2, 30_000);
+		await expect(titolCarnet(p2)).toBeVisible();
+		await expect(p2.locator('main .medalles li')).toContainText([
+			t('ca', 'repte_les_4_estacions_nom')
+		]);
+		await p2.close();
+	});
 });

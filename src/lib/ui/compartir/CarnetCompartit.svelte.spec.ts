@@ -56,7 +56,8 @@ describe('CarnetCompartit', () => {
 	it('sense nom: "Un carnet compartit"; avisa de les entrades descartades', async () => {
 		const carnet: TipusCarnet = {
 			ascensions: [{ cimId: 54, data: '2020-01-01' }],
-			descartades: 2
+			descartades: 2,
+			medalles: [{ repteId: 'les-4-estacions', nivell: 1, data: '2020-01-01' }]
 		};
 		render(CarnetCompartit, { carnet, avui: AVUI });
 		await expect
@@ -65,6 +66,8 @@ describe('CarnetCompartit', () => {
 		await expect
 			.element(page.getByTestId('carnet-compartit-descartades'))
 			.toHaveTextContent("no s'han pogut mostrar (cim desconegut o data futura): 2.");
+		// Les medalles són les de l'enllaç (no es recalculen: amb 1 cim no n'hi hauria cap).
+		await expect.element(page.getByText('Les 4 estacions')).toBeVisible();
 	});
 });
 
@@ -83,6 +86,14 @@ describe('titolCarnetCompartit', () => {
 		expect(titolCarnetCompartit('Helena')).toBe("Carnet d'Helena");
 		expect(titolCarnetCompartit('Àlex')).toBe("Carnet d'Àlex");
 		expect(titolCarnetCompartit('Pere')).toBe('Carnet de Pere');
+		expect(titolCarnetCompartit('Úrsula')).toBe("Carnet d'Úrsula");
+		expect(titolCarnetCompartit('Uriol')).toBe("Carnet d'Uriol");
+		expect(titolCarnetCompartit('ona')).toBe("Carnet d'ona");
+		// i/u semivocals (també després de h): no s'apostrofa.
+		expect(titolCarnetCompartit('Iu')).toBe('Carnet de Iu');
+		expect(titolCarnetCompartit('Iolanda')).toBe('Carnet de Iolanda');
+		expect(titolCarnetCompartit('Huang')).toBe('Carnet de Huang');
+		expect(titolCarnetCompartit('Ïsona')).toBe("Carnet d'Ïsona");
 		expect(titolCarnetCompartit('  ')).toBe('Un carnet compartit');
 		expect(titolCarnetCompartit(undefined)).toBe('Un carnet compartit');
 	});

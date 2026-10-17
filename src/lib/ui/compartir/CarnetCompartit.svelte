@@ -7,7 +7,6 @@
 	import {
 		ascensionsDeCarnetCompartit,
 		avuiLocal,
-		medalles,
 		paginesCarnet,
 		resumCarnet,
 		type CarnetCompartit,
@@ -26,7 +25,12 @@
 	const ascensions = $derived(ascensionsDeCarnetCompartit(carnet));
 	const pagines = $derived(paginesCarnet(ascensions, CIMS, { avui }));
 	const resum = $derived(resumCarnet(ascensions, CIMS, { avui }));
-	const llistaMedalles = $derived(medalles(ascensions, CIMS, { avui }).reverse());
+	/**
+	 * Medalles de qui comparteix, tal com vénen a l'enllaç (`CarnetCompartit.medalles`): no es
+	 * recalculen, perquè l'enllaç només porta un segell per cim i no les ascensions repetides
+	 * ni el mètode. Les més recents primer.
+	 */
+	const llistaMedalles = $derived([...carnet.medalles].reverse());
 </script>
 
 <h1 class="x-wide title" data-testid="carnet-compartit-titol">

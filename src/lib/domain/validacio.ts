@@ -14,6 +14,9 @@
  * - Avisos d'una fila (es poden acumular):
  *   - `restriccio`: el dia de l'ascensió hi havia una restricció d'accés activa al cim
  *     (`ascensionsEnRestriccio`; la FEEC no valida les ascensions dins del període, §3.3.5).
+ *   - `restriccio-incerta`: en lloc de `restriccio` (mai tots dos) quan totes les restriccions
+ *     actives aquell dia són permanents i sense dates (`AvisRestriccio.incerta`, p. ex. obres sense
+ *     inici conegut): no se sap si l'ascensió hi cau dins; la UI ho ha de dir com a dubte.
  *   - `repetit`: el cim ja tenia una ascensió vàlida anterior (qualsevol any, també el mateix);
  *     ordre: data, `createdAt`, id. No és un cim nou.
  *   - `mes-de-100`: és el cim nou número 101 o posterior de l'any natural (`limitAnual`, §3.3.2).
@@ -44,11 +47,12 @@ import type { Ascensio, Cataleg, Cim, ComarcaCataleg, DataISO, Metode } from './
 // ---------------------------------------------------------------------------
 
 export type AvisValidacio =
-	'restriccio' | 'repetit' | 'mes-de-100' | 'en-espera' | 'fora-del-repte';
+	'restriccio' | 'restriccio-incerta' | 'repetit' | 'mes-de-100' | 'en-espera' | 'fora-del-repte';
 
 /** Ordre canònic dels avisos dins d'una fila (i del CSV). */
 export const AVISOS_VALIDACIO: readonly AvisValidacio[] = [
 	'restriccio',
+	'restriccio-incerta',
 	'repetit',
 	'mes-de-100',
 	'en-espera',
@@ -162,7 +166,9 @@ export function exportValidacio(
 	// Historial complet (tots els anys) en ordre: per a `repetit`, `en-espera` i el recompte anual.
 	const valides = ascensionsValides(ascensions, cims, avui).sort(compara);
 	const completat = progres100(valides, cims, o).dataAssoliment;
-	const enRestriccio = new Set(ascensionsEnRestriccio(valides, cims).map((r) => r.ascensio));
+	const enRestriccio = new Map(
+		ascensionsEnRestriccio(valides, cims).map((r) => [r.ascensio, r.incerta])
+	);
 
 	const primera = new Map<number, AscensioValidacio>();
 	for (const a of valides) if (!primera.has(a.cimId)) primera.set(a.cimId, a);
@@ -189,7 +195,8 @@ export function exportValidacio(
 			(completat === null || (!o.noEssencialsRetroactives && a.data <= completat));
 
 		const avisos: AvisValidacio[] = [];
-		if (enRestriccio.has(a)) avisos.push('restriccio');
+		const incerta = enRestriccio.get(a);
+		if (incerta !== undefined) avisos.push(incerta ? 'restriccio-incerta' : 'restriccio');
 		if (repetit) avisos.push('repetit');
 		if (!repetit && nousAny > o.limitAnual) avisos.push('mes-de-100');
 		if (enEspera) avisos.push('en-espera');

@@ -20,9 +20,15 @@ export function estatDeLectura(
 	return { tipus: 'ok', carnet: resultat };
 }
 
-/** El nom comença per vocal o h + vocal: en català, "Carnet d'Inesa" (no "de Inesa"). */
+/**
+ * La preposició "de" s'apostrofa davant del nom: comença per vocal o per h muda + vocal
+ * ("Carnet d'Inesa", "d'Úrsula", "d'Helena"), però no davant de i/u semivocals (i, u, hi, hu
+ * seguides de vocal: "Carnet de Iu", "de Iolanda", "de Huang").
+ */
 export function comencaPerVocal(nom: string): boolean {
-	return /^h?[aeiouàèéíïòóúü]/i.test(nom.normalize('NFC').trim());
+	const net = nom.normalize('NFC').trim();
+	if (/^h?[iu][aeiouàèéíòóú]/i.test(net)) return false;
+	return /^h?[aeiouàèéíïòóúü]/i.test(net);
 }
 
 /** Títol del carnet: "Carnet d'Inesa", "Carnet de Pere" o, sense nom, "Un carnet compartit". */

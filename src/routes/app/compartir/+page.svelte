@@ -345,9 +345,17 @@
 						{m.share_link_share()}
 					</Button>
 				{/if}
-				{#if enllac && !generant}
-					<a class="obrir" href={enllac} target="_blank" rel="noopener"
-						>{m.share_link_open()}<span class="sr-only">{m.validation_external_hint()}</span></a
+				{#if enllac}
+					<!-- Mentre es regenera, l'enllaç es desactiva però no desapareix (el focus no salta). -->
+					<a
+						class="obrir"
+						href={enllac}
+						target="_blank"
+						rel="noopener"
+						aria-disabled={generant ? 'true' : undefined}
+						onclick={(e) => {
+							if (generant) e.preventDefault();
+						}}>{m.share_link_open()}<span class="sr-only">{m.validation_external_hint()}</span></a
 					>
 				{/if}
 			</div>
@@ -500,6 +508,11 @@
 		font-size: var(--fs-xs);
 		font-weight: var(--fw-semibold);
 		color: var(--c-stamp-ink);
+	}
+
+	.obrir[aria-disabled='true'] {
+		color: var(--c-ink-2);
+		cursor: progress;
 	}
 
 	.viu {

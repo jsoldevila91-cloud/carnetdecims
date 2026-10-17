@@ -3,12 +3,16 @@ import {
 	MAX_BYTES_CARNET,
 	MAX_ENTRADES_COMPARTIDES,
 	aBase64Url,
+	CODIS_REPTE_COMPARTIT,
+	MAX_MEDALLES_COMPARTIDES,
+	REPTES,
 	ascensionsDeCarnetCompartit,
 	codificaCarnet,
 	deBase64Url,
 	descodificaCarnet,
 	entradaCompartir,
 	esErrorCarnet,
+	medalles,
 	paginesCarnet,
 	resumCarnet,
 	sanejaNom,
@@ -18,6 +22,7 @@ import {
 	type Cim,
 	type DataISO,
 	type ErrorCarnetCompartit,
+	type Medalla,
 	type Metode
 } from './index';
 
@@ -96,8 +101,12 @@ const err = (bytes: number[] | Uint8Array) =>
 describe('codificaCarnet / descodificaCarnet', () => {
 	it('carnet buit sense nom: 3 bytes', () => {
 		const bytes = codificaCarnet({ ascensions: [] });
-		expect([...bytes]).toEqual([1, 0, 0]);
-		expect(descodificaCarnet(bytes, CATALEG, AVUI)).toEqual({ ascensions: [], descartades: 0 });
+		expect([...bytes]).toEqual([1, 0, 0, 0]);
+		expect(descodificaCarnet(bytes, CATALEG, AVUI)).toEqual({
+			ascensions: [],
+			descartades: 0,
+			medalles: []
+		});
 	});
 
 	it('format v1 documentat', () => {
@@ -109,7 +118,7 @@ describe('codificaCarnet / descodificaCarnet', () => {
 			]
 		});
 		// versió, nom (2 bytes), N=2, (Δ0, 5), (Δ2, 200 = 0xC8 0x01)
-		expect([...bytes]).toEqual([1, 2, 78, 97, 2, 0, 5, 2, 0xc8, 0x01]);
+		expect([...bytes]).toEqual([1, 2, 78, 97, 2, 0, 5, 2, 0xc8, 0x01, 0]);
 	});
 
 	it('round-trip de 500 entrades (ordre per data, estable dins del dia)', () => {
@@ -178,7 +187,7 @@ describe('codificaCarnet / descodificaCarnet', () => {
 	});
 
 	it('avui invàlid és un error de programació', () => {
-		expect(() => descodificaCarnet(Uint8Array.from([1, 0, 0]), CATALEG, 'avui')).toThrow(
+		expect(() => descodificaCarnet(Uint8Array.from([1, 0, 0, 0]), CATALEG, 'avui')).toThrow(
 			RangeError
 		);
 	});
@@ -196,9 +205,10 @@ describe('descodificaCarnet: validació estricta', () => {
 		expect(err([1])).toEqual({ error: 'format' });
 		expect(err([1, 0])).toEqual({ error: 'format' });
 		expect(err([1, 0, 1, 0])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0])).toEqual({ error: 'format' }); // falta el recompte de medalles
 		expect(err([1, 3, 65])).toEqual({ error: 'format' });
-		expect(err([1, 0, 0, 0])).toEqual({ error: 'format' });
-		expect(err([1, 0, 1, 0, 5, 9])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0, 0, 0])).toEqual({ error: 'format' });
+		expect(err([1, 0, 1, 0, 5, 0, 9])).toEqual({ error: 'format' });
 	});
 
 	it('varints no canònics o massa llargs', () => {
@@ -216,7 +226,7 @@ describe('descodificaCarnet: validació estricta', () => {
 	});
 
 	it('N gran amb poques dades: format, sense reservar memòria', () => {
-		expect(err([1, 0, 0xd0, 0x0f, 0, 1])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0xd0, 0x0f, 0, 1, 0])).toEqual({ error: 'format' });
 	});
 
 	it('nom que no és UTF-8 vàlid', () => {
@@ -243,21 +253,22 @@ describe('descodificaCarnet: validació estricta', () => {
 	});
 
 	it('cimId 0 (impossible en codificar) es descarta', () => {
-		expect(ok(err([1, 0, 1, 0, 0]))).toEqual({ ascensions: [], descartades: 1 });
+		expect(ok(err([1, 0, 1, 0, 0, 0]))).toEqual({ ascensions: [], descartades: 1, medalles: [] });
 	});
 
 	it('duplicats a l’enllaç: se’n queda un, sense comptar-lo com a descartat', () => {
-		expect(ok(err([1, 0, 2, 5, 1, 0, 1]))).toEqual({
+		expect(ok(err([1, 0, 2, 5, 1, 0, 1, 0]))).toEqual({
 			ascensions: [{ cimId: 1, data: '2006-07-06' }],
-			descartades: 0
+			descartades: 0,
+			medalles: []
 		});
 	});
 
 	it('accepta el catàleg com a Map', () => {
 		const mapa = new Map(CATALEG.map((c) => [c.id, c]));
-		expect(ok(descodificaCarnet(Uint8Array.from([1, 0, 1, 0, 1]), mapa, AVUI)).ascensions).toEqual([
-			{ cimId: 1, data: '2006-07-01' }
-		]);
+		expect(
+			ok(descodificaCarnet(Uint8Array.from([1, 0, 1, 0, 1, 0]), mapa, AVUI)).ascensions
+		).toEqual([{ cimId: 1, data: '2006-07-01' }]);
 	});
 
 	it('bytes aleatoris: mai llança', () => {
@@ -310,8 +321,8 @@ describe('sanejaNom', () => {
 	});
 
 	it('controls injectats directament als bytes: se sanegen en descodificar', () => {
-		expect(ok(err([1, 4, 65, 0x1b, 0x0a, 66, 0])).nom).toBe('A B');
-		expect(ok(err([1, 3, 65, 0x1b, 66, 0])).nom).toBe('AB');
+		expect(ok(err([1, 4, 65, 0x1b, 0x0a, 66, 0, 0])).nom).toBe('A B');
+		expect(ok(err([1, 3, 65, 0x1b, 66, 0, 0])).nom).toBe('AB');
 	});
 });
 
@@ -384,13 +395,14 @@ describe('entradaCompartir', () => {
 			ascensions: [
 				{ cimId: 1, data: '2020-05-01' },
 				{ cimId: 151, data: '2022-01-01' }
-			]
+			],
+			medalles: []
 		});
 		for (const a of e.ascensions) expect(Object.keys(a).sort()).toEqual(['cimId', 'data']);
 	});
 
 	it('sense nom: no hi ha clau nom', () => {
-		expect(entradaCompartir([], CATALEG, { avui: AVUI })).toEqual({ ascensions: [] });
+		expect(entradaCompartir([], CATALEG, { avui: AVUI })).toEqual({ ascensions: [], medalles: [] });
 	});
 
 	it('el carnet de qui rep és el mateix que el de qui comparteix', () => {
@@ -435,11 +447,130 @@ describe('ascensionsDeCarnetCompartit', () => {
 				{ cimId: 4, data: '2020-01-01' },
 				{ cimId: 2, data: '2020-01-01' }
 			],
-			descartades: 0
+			descartades: 0,
+			medalles: []
 		});
 		expect(r).toEqual([
 			{ id: 'c0001', cimId: 4, data: '2020-01-01', metode: 'a-peu', createdAt: '' },
 			{ id: 'c0002', cimId: 2, data: '2020-01-01', metode: 'a-peu', createdAt: '' }
 		]);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Medalles
+// ---------------------------------------------------------------------------
+
+describe('medalles al carnet compartit', () => {
+	const M: Medalla[] = [
+		{ repteId: 'massis-montseny', nivell: 1, data: '1998-05-01' },
+		{ repteId: 'cent-cims', nivell: 1, data: '2020-01-01' },
+		{ repteId: 'les-4-estacions', nivell: 1, data: '2021-12-01' },
+		{ repteId: 'cent-cims', nivell: 5, data: '2026-10-17' }
+	];
+
+	it('round-trip: ordre, nivell i dates anteriors al 2006', () => {
+		const bytes = codificaCarnet({ ascensions: [], medalles: M });
+		expect(ok(descodificaCarnet(bytes, CATALEG, AVUI)).medalles).toEqual(M);
+	});
+
+	it('format: codi, nivell i zigzag(dies)', () => {
+		const bytes = codificaCarnet({
+			ascensions: [],
+			medalles: [
+				{ repteId: 'cent-cims', nivell: 2, data: '2006-07-02' },
+				{ repteId: 'infantil', nivell: 1, data: '2006-06-30' }
+			]
+		});
+		// M=2, (0, 2, zigzag(1)=2), (1, 1, zigzag(-1)=1)
+		expect([...bytes]).toEqual([1, 0, 0, 2, 0, 2, 2, 1, 1, 1]);
+	});
+
+	it('duplicades (mateix repte i nivell): la primera', () => {
+		const bytes = codificaCarnet({
+			ascensions: [],
+			medalles: [M[1], { ...M[1], data: '2021-01-01' }]
+		});
+		expect(ok(descodificaCarnet(bytes, CATALEG, AVUI)).medalles).toEqual([M[1]]);
+		expect(ok(err([1, 0, 0, 2, 0, 1, 2, 0, 1, 4])).medalles).toEqual([
+			{ repteId: 'cent-cims', nivell: 1, data: '2006-07-02' }
+		]);
+	});
+
+	it('errors de programació en codificar', () => {
+		const ko = (m: Medalla) => () => codificaCarnet({ ascensions: [], medalles: [m] });
+		expect(ko({ repteId: 'inventat', nivell: 1, data: '2020-01-01' })).toThrow(RangeError);
+		expect(ko({ repteId: 'cent-cims', nivell: 0, data: '2020-01-01' })).toThrow(RangeError);
+		expect(ko({ repteId: 'cent-cims', nivell: 6, data: '2020-01-01' })).toThrow(RangeError);
+		expect(ko({ repteId: 'cent-cims', nivell: 1.5, data: '2020-01-01' })).toThrow(RangeError);
+		expect(ko({ repteId: 'cent-cims', nivell: 1, data: '1899-12-31' })).toThrow(RangeError);
+		expect(ko({ repteId: 'cent-cims', nivell: 1, data: '2020-02-30' })).toThrow(RangeError);
+		const massa = Array.from({ length: MAX_MEDALLES_COMPARTIDES + 1 }, (_, i) => ({
+			repteId: CODIS_REPTE_COMPARTIT[i % CODIS_REPTE_COMPARTIT.length],
+			nivell: 1 + Math.floor(i / CODIS_REPTE_COMPARTIT.length),
+			data: '2020-01-01'
+		}));
+		expect(() => codificaCarnet({ ascensions: [], medalles: massa })).toThrow(RangeError);
+	});
+
+	it('lectura estricta: codis desconeguts i dates futures es descarten', () => {
+		// codi 200 desconegut; cent-cims amb data futura (AVUI + 1)
+		const futur = 2 * (7413 + 1); // zigzag dels dies del 2026-10-18
+		const v = (n: number) => (n < 128 ? [n] : [(n & 0x7f) | 0x80, n >> 7]);
+		const r = ok(err([1, 0, 0, 3, ...v(200), 1, 0, 0, 1, ...v(futur), 1, 1, 0]));
+		expect(r.medalles).toEqual([{ repteId: 'infantil', nivell: 1, data: '2006-07-01' }]);
+		expect(r.descartades).toBe(0);
+	});
+
+	it('lectura estricta: nivell, data mínima, mida i bytes de més', () => {
+		expect(err([1, 0, 0, 1, 0, 0, 0])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0, 1, 0, 6, 0])).toEqual({ error: 'format' });
+		// zigzag de -40000 dies (abans del 1900) = 79999 = 0xFF 0xF0 0x04
+		expect(err([1, 0, 0, 1, 0, 1, 0xff, 0xf0, 0x04])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0, 101])).toEqual({ error: 'massa-gran' });
+		expect(err([1, 0, 0, 1, 0, 1])).toEqual({ error: 'format' });
+		expect(err([1, 0, 0, 1, 0, 1, 0, 7])).toEqual({ error: 'format' });
+	});
+
+	it('la taula de codis cobreix tots els reptes, sense repetits, i és estable', () => {
+		for (const r of REPTES) expect(CODIS_REPTE_COMPARTIT, r.id).toContain(r.id);
+		expect(new Set(CODIS_REPTE_COMPARTIT).size).toBe(CODIS_REPTE_COMPARTIT.length);
+		// Fixat: només es pot afegir al final.
+		expect(CODIS_REPTE_COMPARTIT.slice(0, 12)).toEqual([
+			'cent-cims',
+			'infantil',
+			'totes-les-comarques',
+			'les-4-estacions',
+			'12-mesos-12-cims',
+			'massis-montseny',
+			'massis-montserrat',
+			'massis-sant-llorenc-del-munt',
+			'massis-ports',
+			'massis-cadi-moixero',
+			'massis-prades',
+			'massis-montsec'
+		]);
+	});
+
+	it('entradaCompartir porta les medalles reals, que no es poden recalcular des de l’enllaç', () => {
+		// El mateix cim les 4 estacions del 2025: 1 segell, però la medalla de Les 4 estacions.
+		const llista = ['2025-01-10', '2025-04-10', '2025-07-10', '2025-10-10'].map((d) => asc(1, d));
+		const reals = medalles(llista, CATALEG, { avui: AVUI });
+		expect(reals.map((m) => m.repteId)).toContain('les-4-estacions');
+
+		const entrada = entradaCompartir(llista, CATALEG, { avui: AVUI });
+		expect(entrada.ascensions).toHaveLength(1);
+		expect(entrada.medalles).toEqual(reals);
+
+		const rebut = ok(descodificaCarnet(codificaCarnet(entrada), CATALEG, AVUI));
+		expect(rebut.medalles).toEqual(reals);
+		const recalculades = medalles(ascensionsDeCarnetCompartit(rebut), CATALEG, { avui: AVUI });
+		expect(recalculades.map((m) => m.repteId)).not.toContain('les-4-estacions');
+	});
+
+	it('entradaCompartir amb 100 Cims complet: medalla del 100', () => {
+		const llista = Array.from({ length: 100 }, (_, i) => asc(i + 1, sumarDies('2024-01-01', i)));
+		const e = entradaCompartir(llista, CATALEG, { avui: AVUI });
+		expect(e.medalles).toContainEqual({ repteId: 'cent-cims', nivell: 1, data: '2024-04-09' });
 	});
 });
