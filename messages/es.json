@@ -32,8 +32,8 @@
 
 	"seo_org_description": "Web independiente y no oficial sobre el reto 100 Cims. No está vinculada a la FEEC.",
 
-	"home_meta_title": "Carnet de Cims: cimas esenciales y guía del reto 100 Cims",
-	"home_meta_description": "Las 150 cimas esenciales del reto 100 Cims: ficha con mapa y restricciones, por comarcas y listas, y tu carnet de ascensiones en el móvil.",
+	"home_meta_title": "Carnet de Cims: carnet de montaña para el reto 100 Cims",
+	"home_meta_description": "Tu carnet de montaña en el móvil: sella tus cimas, sigue el reto 100 Cims y otros retos, y consulta las cimas esenciales con mapa y restricciones.",
 	"home_kicker": "Tu carnet de montaña",
 	"home_title": "Sella tus cimas: el reto 100 Cims y otros retos",
 	"home_lede": "Registra cada ascensión y llena tu carnet desde el móvil, sin cuenta. El reto 100 Cims es el destacado, con otros retos y medallas. Y consulta las cimas esenciales en la lista, en el mapa y por comarcas, con la altitud, el mapa de situación y las restricciones de acceso.",
@@ -933,7 +933,7 @@
 	"reptes_months_done_this_month": "Este mes ya tienes una cima nueva. ¡Sigue el mes que viene!",
 	"reptes_months_todo_this_month": "Este mes aún no has subido ninguna cima nueva: sube una para mantener la racha.",
 	"reptes_feec_title": "Reto de la FEEC",
-	"reptes_feec_note": "El seguimiento sigue la normativa de la FEEC, pero no es una validación oficial.",
+	"reptes_feec_note": "El cálculo aplica la normativa de la FEEC, pero no es una validación oficial.",
 	"reptes_open_carnet": "Abrir mi carnet",
 	"season_spring": "Primavera",
 	"season_summer": "Verano",
@@ -975,6 +975,6 @@
 	"news_title": "Novedades",
 	"news_close": "Entendido",
 	"home_reptes_title": "Retos y medallas",
-	"home_reptes_text": "Además del reto 100 Cims, el carnet calcula otros retos con tus ascensiones: Todas las comarcas, Las 4 estaciones, 12 meses 12 cimas, el Reto infantil y los macizos. Al completar uno, ganas una medalla.",
+	"home_reptes_text": "Además del reto 100 Cims, el carnet calcula otros retos con tus ascensiones: Todas las comarcas, Las 4 estaciones, «12 meses, 12 cimas», el Reto infantil y los macizos. Al completar uno, ganas una medalla.",
 	"home_reptes_link": "Ver los retos"
 }

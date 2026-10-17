@@ -60,9 +60,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca, historial amb diari i estadístiques. Es pot instal·lar com una app i funciona sense connexió.',
+							'**Ara:** fitxes de cims, comarques, llistats, el mapa interactiu amb els cims a prop, la normativa explicada i el carnet de segells al teu dispositiu, sense compte: pàgines de la I a la V (1×100 a 5×100), essencials pendents, progrés per comarca, historial amb diari i estadístiques, i altres reptes a més del 100 Cims, amb medalles i propostes de cims pendents per a la propera sortida ([com es calculen](/metodologia)). Es pot instal·lar com una app i funciona sense connexió.',
 							'**Ara, en beta:** comptes opcionals per sincronitzar el carnet entre dispositius i tenir-ne còpia, amb les dades allotjades a la Unió Europea i opcions per exportar-les i esborrar-les.',
-							'**Reptes i propers cims:** altres reptes a més del 100 Cims, amb medalles, i propostes de cims pendents per a la propera sortida.',
 							'**Compartir i validar:** compartir el carnet i preparar les ascensions per presentar-les a la validació del repte.',
 							'**Continguts:** descripcions, accessos i dificultat (MIDE) revisats per persones.',
 							'**Més cims:** la resta de cims del repte, per lots.'
@@ -110,7 +109,7 @@ export const sobreElProjecte: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-16'
+		actualitzat: '2026-10-17'
 	},
 	es: {
 		title: 'Sobre el proyecto: qué es y qué preparamos',
@@ -162,9 +161,8 @@ export const sobreElProjecte: Contingut = {
 						tipus: 'llista',
 						ordenada: true,
 						items: [
-							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca, historial con diario y estadísticas. Se puede instalar como una app y funciona sin conexión.',
+							'**Ahora:** fichas de cimas, comarcas, listados, el mapa interactivo con las cimas cercanas, la normativa explicada y el carnet de sellos en tu dispositivo, sin cuenta: páginas de la I a la V (1×100 a 5×100), esenciales pendientes, progreso por comarca, historial con diario y estadísticas, y otros retos además del 100 Cims, con medallas y propuestas de cimas pendientes para la próxima salida ([cómo se calculan](/metodologia)). Se puede instalar como una app y funciona sin conexión.',
 							'**Ahora, en beta:** cuentas opcionales para sincronizar el carnet entre dispositivos y tener copia, con los datos alojados en la Unión Europea y opciones para exportarlos y borrarlos.',
-							'**Retos y próximas cimas:** otros retos además del 100 Cims, con medallas, y propuestas de cimas pendientes para la próxima salida.',
 							'**Compartir y validar:** compartir el carnet y preparar las ascensiones para presentarlas a la validación del reto.',
 							'**Contenidos:** descripciones, accesos y dificultad (MIDE) revisados por personas.',
 							'**Más cimas:** el resto de cimas del reto, por lotes.'
@@ -212,6 +210,6 @@ export const sobreElProjecte: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-16'
+		actualitzat: '2026-10-17'
 	}
 };

@@ -32,8 +32,8 @@
 
 	"seo_org_description": "Web independent i no oficial sobre el repte 100 Cims. No està vinculada a la FEEC.",
 
-	"home_meta_title": "Carnet de Cims: cims essencials i guia del repte 100 Cims",
-	"home_meta_description": "Els 150 cims essencials del repte 100 Cims: fitxa amb mapa i restriccions, per comarques i llistes, i el teu carnet d'ascensions al mòbil.",
+	"home_meta_title": "Carnet de Cims: carnet de muntanya per al repte 100 Cims",
+	"home_meta_description": "El teu carnet de muntanya al mòbil: segella els cims, segueix el repte 100 Cims i altres reptes, i consulta els cims essencials amb mapa i restriccions.",
 	"home_kicker": "El teu carnet de muntanya",
 	"home_title": "Segella els teus cims: el repte 100 Cims i altres reptes",
 	"home_lede": "Registra cada ascensió i omple el teu carnet des del mòbil, sense compte. El repte 100 Cims és el destacat, amb altres reptes i medalles. I consulta els cims essencials a la llista, al mapa i per comarques, amb l'altitud, el mapa de situació i les restriccions d'accés.",
@@ -933,7 +933,7 @@
 	"reptes_months_done_this_month": "Aquest mes ja tens un cim nou. Continua el mes vinent!",
 	"reptes_months_todo_this_month": "Aquest mes encara no has pujat cap cim nou: puja'n un per mantenir la ratxa.",
 	"reptes_feec_title": "Repte de la FEEC",
-	"reptes_feec_note": "El seguiment segueix la normativa de la FEEC, però no és una validació oficial.",
+	"reptes_feec_note": "El càlcul aplica la normativa de la FEEC, però no és una validació oficial.",
 	"reptes_open_carnet": "Obre el meu carnet",
 	"season_spring": "Primavera",
 	"season_summer": "Estiu",
@@ -975,6 +975,6 @@
 	"news_title": "Novetats",
 	"news_close": "Entesos",
 	"home_reptes_title": "Reptes i medalles",
-	"home_reptes_text": "A més del repte 100 Cims, el carnet calcula altres reptes amb les teves ascensions: Totes les comarques, Les 4 estacions, 12 mesos 12 cims, el Repte infantil i els massissos. En completar-ne un, guanyes una medalla.",
+	"home_reptes_text": "A més del repte 100 Cims, el carnet calcula altres reptes amb les teves ascensions: Totes les comarques, Les 4 estacions, «12 mesos, 12 cims», el Repte infantil i els massissos. En completar-ne un, guanyes una medalla.",
 	"home_reptes_link": "Mira els reptes"
 }

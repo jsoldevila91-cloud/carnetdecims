@@ -28,12 +28,12 @@ export const NOVETATS: readonly Novetat[] = Object.freeze([
 		titol: { ca: 'Reptes, medalles i el teu proper cim', es: 'Retos, medallas y tu próxima cima' },
 		punts: {
 			ca: [
-				'Nova secció Reptes: a més del repte 100 Cims, Totes les comarques, Les 4 estacions, 12 mesos 12 cims, el Repte infantil i els massissos, amb el progrés i el que et falta.',
+				'Nova secció Reptes: a més del repte 100 Cims, Totes les comarques, Les 4 estacions, «12 mesos, 12 cims», el Repte infantil i els massissos, amb el progrés i el que et falta.',
 				'Medalles: quan completes un repte en guanyes una, amb la data. Les veus a les teves estadístiques.',
 				'El teu proper cim: tres cims pendents recomanats per al cap de setmana, segons la distància des del teu municipi, l’època de l’any, la dificultat habitual i la previsió del temps.'
 			],
 			es: [
-				'Nueva sección Retos: además del reto 100 Cims, Todas las comarcas, Las 4 estaciones, 12 meses 12 cimas, el Reto infantil y los macizos, con el progreso y lo que te falta.',
+				'Nueva sección Retos: además del reto 100 Cims, Todas las comarcas, Las 4 estaciones, «12 meses, 12 cimas», el Reto infantil y los macizos, con el progreso y lo que te falta.',
 				'Medallas: cuando completas un reto ganas una, con la fecha. Las ves en tus estadísticas.',
 				'Tu próxima cima: tres cimas pendientes recomendadas para el fin de semana, según la distancia desde tu municipio, la época del año, la dificultad habitual y la previsión del tiempo.'
 			]

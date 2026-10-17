@@ -35,7 +35,7 @@ const ETALAB = 'https://www.etalab.gouv.fr/licence-ouverte-open-licence/';
 const OPENMAPTILES = 'https://openmaptiles.org/';
 const MAPTERHORN_ATRIBUCIO = 'https://mapterhorn.com/attribution';
 
-const ACTUALITZAT = '2026-10-16';
+const ACTUALITZAT = '2026-10-17';
 const CONSULTAT = '2026-09-28';
 
 /* -------- Dificultat orientativa: tots els números surten de `ESCALA_DIFICULTAT` (domain) -------- */
@@ -245,6 +245,41 @@ function seccioMunicipisEstadistiques(locale: AppLocale): Seccio {
 	};
 }
 
+/**
+ * Secció "Reptes i recomanacions" (bloc R2): com es calculen els reptes, les medalles i
+ * "El teu proper cim" (domain/reptes.ts, domain/proper-cim.ts; docs/03-modelo-datos.md §3.6).
+ */
+function seccioReptes(locale: AppLocale): Seccio {
+	const blocs: Bloc[] =
+		locale === 'ca'
+			? [
+					{
+						tipus: 'paragraf',
+						text: "**Reptes.** El progrés de cada repte es calcula al teu dispositiu a partir de les ascensions del carnet; no es desa a part. El repte 100 Cims i el repte infantil fan servir les mateixes regles que el carnet (normativa de la FEEC), però el resultat no és una validació oficial. Els reptes propis de Carnet de Cims (Totes les comarques, Les 4 estacions, «12 mesos, 12 cims» i els massissos) compten cims diferents, tant si són essencials com si no, sense el límit de 100 cims l'any i també amb ascensions anteriors al 2006; no compten les ascensions amb data futura ni les fetes amb vehicle de motor. Les estacions són per mesos sencers (primavera, de març a maig, i així successivament) dins del mateix any natural, i a «12 mesos, 12 cims» cada mes hi ha d'haver un cim que no havies pujat mai. Els cims de cada massís són una llista que hem triat nosaltres a partir del mapa. Cada nivell assolit dona una medalla amb la data en què l'has aconseguit."
+					},
+					{
+						tipus: 'paragraf',
+						text: "**El teu proper cim.** Proposa tres cims que encara no has fet amb una puntuació orientativa, i et diu els motius: la distància en línia recta des del teu municipi d'origen (si l'has indicat), la dificultat orientativa comparada amb la dels cims que acostumes a fer, l'època de l'any (neu probable als cims alts a l'hivern, calor als cims baixos a l'estiu), si el cim et fa avançar en un repte que tens a punt d'acabar i, si hi ha connexió, la previsió d'Open-Meteo per als dies de la sortida. Els cims amb una restricció d'accés vigent aquells dies no es proposen. És una ajuda per triar, no una garantia que el cim estigui en condicions: abans de sortir, consulta la previsió oficial i l'estat de la muntanya."
+					}
+				]
+			: [
+					{
+						tipus: 'paragraf',
+						text: '**Retos.** El progreso de cada reto se calcula en tu dispositivo a partir de las ascensiones del carnet; no se guarda aparte. El reto 100 Cims y el reto infantil usan las mismas reglas que el carnet (normativa de la FEEC), pero el resultado no es una validación oficial. Los retos propios de Carnet de Cims (Todas las comarcas, Las 4 estaciones, «12 meses, 12 cimas» y los macizos) cuentan cimas distintas, sean esenciales o no, sin el límite de 100 cimas al año y también con ascensiones anteriores a 2006; no cuentan las ascensiones con fecha futura ni las hechas con vehículo de motor. Las estaciones son por meses enteros (primavera, de marzo a mayo, y así sucesivamente) dentro del mismo año natural, y en «12 meses, 12 cimas» cada mes tiene que haber una cima que no habías subido nunca. Las cimas de cada macizo son una lista que hemos elegido nosotros a partir del mapa. Cada nivel alcanzado da una medalla con la fecha en que lo has conseguido.'
+					},
+					{
+						tipus: 'paragraf',
+						text: '**Tu próxima cima.** Propone tres cimas que aún no has hecho con una puntuación orientativa, y te dice los motivos: la distancia en línea recta desde tu municipio de origen (si lo has indicado), la dificultad orientativa comparada con la de las cimas que sueles hacer, la época del año (nieve probable en las cimas altas en invierno, calor en las cimas bajas en verano), si la cima te hace avanzar en un reto que tienes a punto de terminar y, si hay conexión, la previsión de Open-Meteo para los días de la salida. Las cimas con una restricción de acceso vigente esos días no se proponen. Es una ayuda para elegir, no una garantía de que la cima esté en condiciones: antes de salir, consulta la previsión oficial y el estado de la montaña.'
+					}
+				];
+
+	return {
+		id: 'reptes-i-recomanacions',
+		titol: locale === 'ca' ? 'Reptes i recomanacions' : 'Retos y recomendaciones',
+		blocs
+	};
+}
+
 export const metodologia: Contingut = {
 	ca: {
 		title: 'Metodologia i fonts de les dades dels cims',
@@ -350,6 +385,7 @@ export const metodologia: Contingut = {
 			},
 			seccioDificultat('ca'),
 			seccioMunicipisEstadistiques('ca'),
+			seccioReptes('ca'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',
@@ -531,6 +567,7 @@ export const metodologia: Contingut = {
 			},
 			seccioDificultat('es'),
 			seccioMunicipisEstadistiques('es'),
+			seccioReptes('es'),
 			{
 				id: 'no-oficial',
 				titol: 'Una web no oficial',

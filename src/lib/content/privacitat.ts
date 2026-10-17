@@ -144,7 +144,7 @@ export const privacitat: Contingut = {
 							"**La teva ubicació:** només quan la demanes amb un botó (ordenar per proximitat els essencials pendents, «La meva ubicació» al mapa o «Cims a prop»), i amb el permís que et demana el navegador. La posició es fa servir en aquest dispositiu per calcular les distàncies o centrar el mapa: no es desa ni s'envia enlloc. Si no dones permís, la resta funciona igual (per exemple, la llista d'essencials s'ordena per comarca).",
 							"**El teu municipi d'origen (opcional):** si l'indiques, el fem servir per calcular a quina distància tens els cims, com el més llunyà que has pujat. Només desem el municipi, mai l'adreça. Es desa al dispositiu i, si tens compte, també al compte. El pots canviar o treure quan vulguis des del teu perfil, a l'aplicació, i surt a l'exportació. La llista de municipis es baixa del mateix web, com un fitxer més: la cerca es fa al teu dispositiu i no s'envia enlloc.",
 							"**Els companys del diari (opcional):** a cada ascensió pots anotar amb qui hi has pujat, amb noms o àlies en text lliure. Són dades d'altres persones: et recomanem posar-hi només el nom de pila o un àlies, i fer-ho amb el seu permís. Es tracten igual que la nota: es desen amb l'ascensió al dispositiu i, si tens compte, també al compte, i surten a l'exportació. Els pots treure en qualsevol moment editant l'ascensió. Si esborres una ascensió, la nota i els companys es conserven 10 minuts perquè la puguis recuperar amb «Desfés», i després s'esborren, també del compte. Tots s'esborren alhora amb «Esborra totes les dades» (al dispositiu) o en esborrar el compte (al núvol).",
-							"**Les estadístiques** (el cim que més has fet, el més llunyà, amb qui has pujat més…) es calculen al teu dispositiu a partir de les ascensions i del municipi d'origen. No es desa ni s'envia res més."
+							"**Les estadístiques** (el cim que més has fet, el més llunyà, amb qui has pujat més…) es calculen al teu dispositiu a partir de les ascensions i del municipi d'origen. També els **reptes i les medalles**, que no es desen enlloc: es tornen a calcular cada vegada a partir de les ascensions. I **«El teu proper cim»** tria els cims recomanats al teu dispositiu; per a la previsió del temps només demana al nostre servidor la de cada cim candidat, sense el teu municipi ni cap altra dada teva. No es desa ni s'envia res més."
 						]
 					},
 					{
@@ -190,7 +190,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): les imatges del mapa de les fitxes de cim, de les pàgines de comarca i del mapa general, i les tessel·les, la tipografia i les icones del [mapa interactiu](/mapa), es carreguen des dels seus servidors.`,
 							`**[Mapterhorn](${MAPTERHORN})**: quan fas servir el mapa interactiu, l'ombrejat del relleu es carrega des dels seus servidors.`,
 							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord, i el Plan IGN del mapa interactiu quan t'hi apropes, es carreguen des de la Géoplateforme de l'IGN.`,
-							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim): **no rep la teva IP**. El teu navegador només demana la previsió al nostre servidor, i és el nostre servidor qui la demana a Open-Meteo amb les coordenades i l'altitud del cim, sense cap dada teva.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim i d'«El teu proper cim»): **no rep la teva IP**. El teu navegador només demana la previsió al nostre servidor, i és el nostre servidor qui la demana a Open-Meteo amb les coordenades i l'altitud del cim, sense cap dada teva.`,
 							`**[Wikiloc](${WIKILOC})** (rutes recomanades d'algunes fitxes de cim): el mapa de cada ruta **no es carrega fins que prems «Mostra la ruta»**; abans no es fa cap connexió amb Wikiloc. Quan el prems, el navegador carrega el mapa des dels servidors de Wikiloc, que rep la teva adreça IP i pot fer servir les seves pròpies galetes, sota la seva responsabilitat i d'acord amb la seva [política de privadesa](${WIKILOC_PRIVACY}). Els enllaços «Obre a Wikiloc» i «Veure rutes a Wikiloc» et porten al seu web només si hi fas clic.`,
 							`**[Supabase](${SUPABASE})** (comptes): només si crees un compte o hi entres. Rep l'adreça IP i les peticions de sincronització, com a encarregat del tractament (vegeu l'apartat «Si crees un compte»).`,
 							'**Altres enllaços externs** (FEEC, fonts de dades): només si hi fas clic.'
@@ -264,7 +264,7 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-16'
+		actualitzat: '2026-10-17'
 	},
 	es: {
 		title: 'Política de privacidad',
@@ -330,7 +330,7 @@ export const privacitat: Contingut = {
 							'**Tu ubicación:** solo cuando la pides con un botón (ordenar por proximidad las esenciales pendientes, «Mi ubicación» en el mapa o «Cimas cerca»), y con el permiso que te pide el navegador. La posición se usa en este dispositivo para calcular las distancias o centrar el mapa: no se guarda ni se envía a ningún sitio. Si no das permiso, el resto funciona igual (por ejemplo, la lista de esenciales se ordena por comarca).',
 							'**Tu municipio de origen (opcional):** si lo indicas, lo usamos para calcular a qué distancia tienes las cimas, como la más lejana que has subido. Solo guardamos el municipio, nunca la dirección. Se guarda en el dispositivo y, si tienes cuenta, también en la cuenta. Puedes cambiarlo o quitarlo cuando quieras desde tu perfil, en la aplicación, y aparece en la exportación. La lista de municipios se descarga de la propia web, como un archivo más: la búsqueda se hace en tu dispositivo y no se envía a ningún sitio.',
 							'**Los compañeros del diario (opcional):** en cada ascensión puedes anotar con quién has subido, con nombres o alias en texto libre. Son datos de otras personas: te recomendamos poner solo el nombre de pila o un alias, y hacerlo con su permiso. Se tratan igual que la nota: se guardan con la ascensión en el dispositivo y, si tienes cuenta, también en la cuenta, y aparecen en la exportación. Puedes quitarlos en cualquier momento editando la ascensión. Si borras una ascensión, la nota y los compañeros se conservan 10 minutos para que puedas recuperarla con «Deshacer», y después se borran, también de la cuenta. Todos se borran a la vez con «Borrar todos los datos» (en el dispositivo) o al borrar la cuenta (en la nube).',
-							'**Las estadísticas** (la cima que más has hecho, la más lejana, con quién has subido más…) se calculan en tu dispositivo a partir de las ascensiones y del municipio de origen. No se guarda ni se envía nada más.'
+							'**Las estadísticas** (la cima que más has hecho, la más lejana, con quién has subido más…) se calculan en tu dispositivo a partir de las ascensiones y del municipio de origen. También los **retos y las medallas**, que no se guardan en ningún sitio: se vuelven a calcular cada vez a partir de las ascensiones. Y **«Tu próxima cima»** elige las cimas recomendadas en tu dispositivo; para la previsión del tiempo solo pide a nuestro servidor la de cada cima candidata, sin tu municipio ni ningún otro dato tuyo. No se guarda ni se envía nada más.'
 						]
 					},
 					{
@@ -376,7 +376,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): las imágenes del mapa de las fichas de cima, de las páginas de comarca y del mapa general, y las teselas, la tipografía y los iconos del [mapa interactivo](/mapa), se cargan desde sus servidores.`,
 							`**[Mapterhorn](${MAPTERHORN})**: cuando usas el mapa interactivo, el sombreado del relieve se carga desde sus servidores.`,
 							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte, y el Plan IGN del mapa interactivo al acercarte, se cargan desde la Géoplateforme del IGN.`,
-							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima): **no recibe tu IP**. Tu navegador solo pide la previsión a nuestro servidor, y es nuestro servidor quien la pide a Open-Meteo con las coordenadas y la altitud de la cima, sin ningún dato tuyo.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima y de «Tu próxima cima»): **no recibe tu IP**. Tu navegador solo pide la previsión a nuestro servidor, y es nuestro servidor quien la pide a Open-Meteo con las coordenadas y la altitud de la cima, sin ningún dato tuyo.`,
 							`**[Wikiloc](${WIKILOC})** (rutas recomendadas de algunas fichas de cima): el mapa de cada ruta **no se carga hasta que pulsas «Mostrar la ruta»**; antes no se establece ninguna conexión con Wikiloc. Cuando lo pulsas, el navegador carga el mapa desde los servidores de Wikiloc, que recibe tu dirección IP y puede usar sus propias cookies, bajo su responsabilidad y según su [política de privacidad](${WIKILOC_PRIVACY}). Los enlaces «Abrir en Wikiloc» y «Ver rutas en Wikiloc» te llevan a su web solo si haces clic en ellos.`,
 							`**[Supabase](${SUPABASE})** (cuentas): solo si creas una cuenta o entras en ella. Recibe la dirección IP y las peticiones de sincronización, como encargado del tratamiento (ver el apartado «Si creas una cuenta»).`,
 							'**Otros enlaces externos** (FEEC, fuentes de datos): solo si los pulsas.'
@@ -450,6 +450,6 @@ export const privacitat: Contingut = {
 				]
 			}
 		],
-		actualitzat: '2026-10-16'
+		actualitzat: '2026-10-17'
 	}
 };
