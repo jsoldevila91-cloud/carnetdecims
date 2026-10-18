@@ -895,6 +895,35 @@ test.describe('Indicadors i avisos', () => {
 		await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 		await expect(page.getByRole('complementary', { name: 'Avís de versió beta' })).toHaveCount(0);
 	});
+
+	test('sense PUBLIC_PASSWORD_AUTH: cap camp de contrasenya ni pestanyes (anònim i amb sessió)', async ({
+		page
+	}) => {
+		// Els E2E normals es construeixen sense el flag (desactivat per defecte); el flux amb
+		// contrasenya es prova a `contrasenya.contrasenya.ts` (`playwright.contrasenya.config.ts`).
+		await gotoHydrated(page, COMPTE);
+		await expect(seccio(page).getByRole('button', { name: "Envia'm l'enllaç" })).toBeVisible();
+		await expect(seccio(page).locator('input[type="password"]')).toHaveCount(0);
+		await expect(seccio(page).getByRole('tablist')).toHaveCount(0);
+		await expect(seccio(page).getByRole('tab')).toHaveCount(0);
+		for (const nom of [
+			'Entra amb la contrasenya',
+			'Crea el compte',
+			'He oblidat la contrasenya',
+			'Prefereixo rebre un enllaç o un codi',
+			'Mostra la contrasenya'
+		]) {
+			await expect(seccio(page).getByRole('button', { name: nom })).toHaveCount(0);
+		}
+		// Amb sessió, tampoc la secció "Crea o canvia la contrasenya".
+		await desarSessio(page, INESA);
+		await gotoHydrated(page, COMPTE);
+		await expect(seccio(page).getByText('Has entrat amb')).toBeVisible({ timeout: 15_000 });
+		await expect(
+			seccio(page).getByRole('button', { name: 'Crea o canvia la contrasenya' })
+		).toHaveCount(0);
+		await expect(seccio(page).locator('input[type="password"]')).toHaveCount(0);
+	});
 });
 
 // ---------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { CONTRASENYA_MIN, validarContrasenya } from '$lib/domain/contrasenya';
 	import { network } from '$lib/platform/network.svelte';
 	import { m } from '$lib/paraglide/messages';
@@ -58,6 +59,9 @@
 			onfet();
 		} catch (e) {
 			const err = errorContrasenya(e);
+			// El camp està desactivat mentre es desa: cal reactivar-lo abans de moure-hi el focus.
+			desant = false;
+			await tick();
 			if (err.camp === 'contrasenya') {
 				errorCamp = err.text;
 				camp?.focus();

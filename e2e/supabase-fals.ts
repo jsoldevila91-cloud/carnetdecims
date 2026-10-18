@@ -6,8 +6,13 @@
  * nivell de context (`context.route`) i respon amb un servidor en memòria que imita el contracte
  * que fa servir l'app:
  *
- * - Auth (GoTrue): `POST /auth/v1/otp`, `POST /auth/v1/verify` (codi o `token_hash`),
- *   `POST /auth/v1/logout`, `GET /auth/v1/user`, `POST /auth/v1/token?grant_type=refresh_token`.
+ * - Auth (GoTrue): `POST /auth/v1/otp`, `POST /auth/v1/verify` (codi o `token_hash`; `type`
+ *   `email`/`signup`/`recovery`), `POST /auth/v1/logout`, `GET /auth/v1/user`,
+ *   `POST /auth/v1/token?grant_type=refresh_token`.
+ * - Correu + contrasenya (vegeu `comptes`): `POST /auth/v1/signup` (sense sessió, cal confirmar;
+ *   si el correu ja existeix, usuari ofuscat amb `identities: []`), `POST /auth/v1/token?
+ *   grant_type=password` (`invalid_credentials`, `email_not_confirmed`), `POST /auth/v1/resend`,
+ *   `POST /auth/v1/recover`, `PUT /auth/v1/user` (`weak_password`, `same_password`).
  * - PostgREST: `rpc/sync_push` (LWW per `updated_at`, empat → servidor, id d'un altre usuari →
  *   rebutjat; una fila sense la clau `companys` conserva els companys desats, com la migració
  *   0005), `rpc/sync_origen` (municipi d'origen del compte, LWW), `rpc/esborrar_compte`,
@@ -21,6 +26,14 @@ import { NOM_BD } from './ascensions';
 
 export const CODI_BO = '123456';
 export const TOKEN_HASH_BO = 'hash-de-prova-bo';
+/** `token_hash` bo de l'enllaç de restabliment (`type=recovery`): sessió de `emailEnllac`. */
+export const TOKEN_HASH_RECUPERACIO = 'hash-de-prova-recuperacio';
+
+/** Compte amb contrasenya del servidor fals (valors de prova, no credencials). */
+export interface CompteFals {
+	contrasenya: string;
+	confirmat: boolean;
+}
 export const CLAU_SESSIO = 'carnetdecims-auth';
 
 export interface FilaServidor {
@@ -308,9 +321,16 @@ export class SupabaseFals {
 			return this.json(route, 200, {});
 		}
 		if (cami === '/auth/v1/verify' && req.method() === 'POST') {
-			const b = (cos ?? {}) as { email?: string; token?: string; token_hash?: string };
+			const b = (cos ?? {}) as {
+				email?: string;
+				token?: string;
+				token_hash?: string;
+				type?: string;
+			};
 			let email: string | null = null;
-			if (b.token_hash === TOKEN_HASH_BO) email = this.emailEnllac;
+			if (b.type === 'recovery') {
+				if (b.token_hash === TOKEN_HASH_RECUPERACIO) email = this.emailEnllac;
+			} else if (b.token_hash === TOKEN_HASH_BO) email = this.emailEnllac;
 			else if (b.token === CODI_BO && b.email) email = b.email;
 			if (!email) {
 				return this.json(route, 403, {
@@ -319,8 +339,90 @@ export class SupabaseFals {
 					msg: 'Token has expired or is invalid'
 				});
 			}
+			// Obrir l'enllaç (o el codi) del correu confirma el compte amb contrasenya pendent.
+			const compte = this.comptes.get(email);
+			if (compte) compte.confirmat = true;
 			this.correus.add(email);
 			return this.json(route, 200, sessioFalsa(email));
+		}
+		if (cami === '/auth/v1/signup' && req.method() === 'POST') {
+			const b = (cos ?? {}) as { email?: string; password?: string };
+			const email = b.email ?? '';
+			this.signups.push(email);
+			const ara = '2026-10-01T08:00:00Z';
+			if (this.comptes.has(email)) {
+				// GoTrue amb "Confirm email": usuari ofuscat, sense identitats ni correu enviat.
+				return this.json(route, 200, {
+					...usuariFals(email),
+					id: '00000000-0000-4000-8000-000000000000',
+					email_confirmed_at: null,
+					identities: [],
+					created_at: ara,
+					updated_at: ara
+				});
+			}
+			this.comptes.set(email, { contrasenya: b.password ?? '', confirmat: false });
+			this.correusEnviats.push({ tipus: 'signup', email });
+			return this.json(route, 200, {
+				...usuariFals(email),
+				email_confirmed_at: null,
+				confirmation_sent_at: ara,
+				identities: [{ id: idUsuari(email), provider: 'email', identity_data: { email } }]
+			});
+		}
+		if (cami === '/auth/v1/resend' && req.method() === 'POST') {
+			const b = (cos ?? {}) as { email?: string; type?: string };
+			const compte = this.comptes.get(b.email ?? '');
+			if (compte && !compte.confirmat) {
+				this.correusEnviats.push({ tipus: 'resend', email: b.email! });
+			}
+			return this.json(route, 200, {});
+		}
+		if (cami === '/auth/v1/recover' && req.method() === 'POST') {
+			const b = (cos ?? {}) as { email?: string };
+			// Resposta idèntica tant si el correu té compte com si no (no es revela).
+			if (this.comptes.has(b.email ?? '')) {
+				this.correusEnviats.push({ tipus: 'recover', email: b.email! });
+			}
+			return this.json(route, 200, {});
+		}
+		if (cami === '/auth/v1/user' && req.method() === 'PUT') {
+			const email = [...this.correus].find((e) => idUsuari(e) === usuari);
+			if (!email) {
+				return this.json(route, 401, { code: 401, error_code: 'bad_jwt', msg: 'invalid JWT' });
+			}
+			const b = (cos ?? {}) as { password?: string };
+			if (typeof b.password === 'string') {
+				if (this.errorCanviContrasenya) {
+					const e = this.errorCanviContrasenya;
+					return this.json(route, e.status, {
+						code: e.status,
+						error_code: e.error_code,
+						msg: e.msg,
+						...(e.error_code === 'weak_password'
+							? { weak_password: { reasons: this.motiusFeble } }
+							: {})
+					});
+				}
+				if (b.password.length < 6) {
+					return this.json(route, 422, {
+						code: 422,
+						error_code: 'weak_password',
+						msg: 'Password should be at least 6 characters.',
+						weak_password: { reasons: ['length'] }
+					});
+				}
+				const actual = this.comptes.get(email);
+				if (actual && actual.contrasenya === b.password) {
+					return this.json(route, 422, {
+						code: 422,
+						error_code: 'same_password',
+						msg: 'New password should be different from the old password.'
+					});
+				}
+				this.comptes.set(email, { contrasenya: b.password, confirmat: true });
+			}
+			return this.json(route, 200, usuariFals(email));
 		}
 		if (cami === '/auth/v1/logout') {
 			return route.fulfill({ status: 204, headers: this.cors(req) });
@@ -330,6 +432,27 @@ export class SupabaseFals {
 			return s
 				? this.json(route, 200, usuariFals(s))
 				: this.json(route, 401, { code: 401, error_code: 'bad_jwt', msg: 'invalid JWT' });
+		}
+		if (cami === '/auth/v1/token' && url.searchParams.get('grant_type') === 'password') {
+			const b = (cos ?? {}) as { email?: string; password?: string };
+			const email = b.email ?? '';
+			const compte = this.comptes.get(email);
+			if (!compte || compte.contrasenya !== b.password) {
+				return this.json(route, 400, {
+					code: 400,
+					error_code: 'invalid_credentials',
+					msg: 'Invalid login credentials'
+				});
+			}
+			if (!compte.confirmat) {
+				return this.json(route, 400, {
+					code: 400,
+					error_code: 'email_not_confirmed',
+					msg: 'Email not confirmed'
+				});
+			}
+			this.correus.add(email);
+			return this.json(route, 200, sessioFalsa(email));
 		}
 		if (cami === '/auth/v1/token') {
 			const b = (cos ?? {}) as { refresh_token?: string };
@@ -425,8 +548,23 @@ export class SupabaseFals {
 	correus = new Set<string>();
 	/** Usuaris esborrats amb `esborrar_compte`. */
 	esborrats = new Set<string>();
-	/** Correu de l'usuari que obre l'enllaç `token_hash` bo. */
+	/** Correu de l'usuari que obre l'enllaç `token_hash` bo (també el de restabliment). */
 	emailEnllac = 'inesa@exemple.cat';
+	/** Comptes amb contrasenya per correu (vegeu `crearCompte`). */
+	comptes = new Map<string, CompteFals>();
+	/** Correus de registre (`/signup`) rebuts, en ordre. */
+	signups: string[] = [];
+	/** Correus que el servidor "enviaria" (registre, reenviament i restabliment). */
+	correusEnviats: { tipus: 'signup' | 'resend' | 'recover'; email: string }[] = [];
+	/** Error que tornarà el `PUT /user` amb contrasenya (mentre no es buidi). */
+	errorCanviContrasenya: ErrorAuth | null = null;
+	/** Motius de `weak_password` quan `errorCanviContrasenya.error_code === 'weak_password'`. */
+	motiusFeble: string[] = ['characters'];
+
+	/** Afegeix un compte amb contrasenya (confirmat per defecte). */
+	crearCompte(email: string, contrasenya: string, opcions: { confirmat?: boolean } = {}) {
+		this.comptes.set(email, { contrasenya, confirmat: opcions.confirmat ?? true });
+	}
 
 	private syncPush(uid: string, files: FilaPushRebuda[]) {
 		let acceptades = 0;

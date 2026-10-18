@@ -144,6 +144,9 @@
 				onentrat(desde);
 			}
 		} catch (e) {
+			// Els camps estan desactivats mentre s'envia: cal reactivar-los abans de moure-hi el focus.
+			enviant = false;
+			await tick();
 			mostraError(errorContrasenya(e));
 		} finally {
 			enviant = false;
@@ -159,6 +162,8 @@
 			errorGen = null;
 			onconfirmar(adreca);
 		} catch (e) {
+			enviant = false;
+			await tick();
 			mostraError(errorContrasenya(e));
 		} finally {
 			enviant = false;
@@ -202,6 +207,8 @@
 		} catch (e) {
 			const err = errorContrasenya(e);
 			errorEmail = err.text;
+			enviant = false;
+			await tick();
 			campOblit?.focus();
 		} finally {
 			enviant = false;
