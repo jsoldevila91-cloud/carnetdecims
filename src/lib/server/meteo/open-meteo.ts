@@ -14,7 +14,14 @@
  * - `models` per defecte (`best_match`: AROME/ICON-D2 a curt termini a la zona).
  */
 import type { DiaMeteo, FontMeteo } from '$lib/platform/meteo';
-import { ErrorProveidor, USER_AGENT, type ProveidorMeteo, type PuntMeteo } from './proveidor';
+import {
+	ErrorProveidor,
+	USER_AGENT,
+	type ActualPunt,
+	type ProveidorMeteo,
+	type ProveidorMeteoActual,
+	type PuntMeteo
+} from './proveidor';
 
 export const API_OPEN_METEO = 'https://api.open-meteo.com/v1/forecast';
 
@@ -142,6 +149,107 @@ export function crearOpenMeteo(f: typeof fetch = fetch): ProveidorMeteo {
 				throw new ErrorProveidor('Open-Meteo: JSON no vàlid');
 			}
 			return parsejarOpenMeteo(json, dies);
+		}
+	};
+}
+
+// ---------------------------------------------------------------------------
+// Temps actual de molts punts en una sola crida (`/api/meteo/ara`)
+// ---------------------------------------------------------------------------
+
+/**
+ * Punts per crida. Open-Meteo admet llistes de coordenades separades per comes (la resposta és
+ * aleshores un array en el mateix ordre); amb 100 punts l'URL fa ~3 kB. Cal tenir present que
+ * el límit diari es comptabilitza, molt probablement, **per punt** (no està documentat: es
+ * pressuposa el pitjor cas), i per això el servei en fa una foto per hora i no per petició.
+ */
+export const MAX_PUNTS_PER_CRIDA = 100;
+
+const ACTUALS = ['temperature_2m', 'weather_code', 'is_day'] as const;
+
+/** URL de la crida multipunt (només els punts dels cims; cap dada del visitant). */
+export function urlOpenMeteoActual(punts: readonly PuntMeteo[]): string {
+	if (punts.length === 0 || punts.length > MAX_PUNTS_PER_CRIDA) {
+		throw new RangeError(`Nombre de punts invàlid: ${punts.length}`);
+	}
+	const p = new URLSearchParams({
+		latitude: punts.map((x) => x.lat.toFixed(4)).join(','),
+		longitude: punts.map((x) => x.lon.toFixed(4)).join(','),
+		elevation: punts.map((x) => String(Math.round(x.altitud))).join(','),
+		current: ACTUALS.join(','),
+		timezone: ZONA_HORARIA,
+		temperature_unit: 'celsius'
+	});
+	return `${API_OPEN_METEO}?${p}`;
+}
+
+type RespostaActual = {
+	current?: { time?: unknown; temperature_2m?: unknown; weather_code?: unknown; is_day?: unknown };
+};
+
+function parsejarUnActual(r: RespostaActual | null | undefined): ActualPunt | null {
+	const c = r?.current;
+	if (!c) return null;
+	const { time, temperature_2m: t, weather_code: codi, is_day: dia } = c;
+	if (typeof time !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(time)) return null;
+	if (!num(t) || !num(codi) || !Number.isInteger(codi) || (dia !== 0 && dia !== 1)) return null;
+	return { codi, temperatura: t, esDia: dia === 1, hora: time };
+}
+
+/**
+ * Converteix la resposta multipunt (array; amb un sol punt Open-Meteo torna un objecte) al
+ * format brut, en l'ordre dels punts. Un punt amb dades incompletes → `null`. Llança
+ * `ErrorProveidor` si la forma no és l'esperada (p. ex. `{ error: true }` o un nombre
+ * d'elements diferent) o si cap punt té dades.
+ */
+export function parsejarOpenMeteoActual(json: unknown, n: number): (ActualPunt | null)[] {
+	const llista = Array.isArray(json)
+		? json
+		: n === 1 && json && typeof json === 'object'
+			? [json]
+			: null;
+	if (!llista || llista.length !== n) {
+		throw new ErrorProveidor('Open-Meteo: resposta multipunt amb una forma inesperada');
+	}
+	const resultat = llista.map((r) => parsejarUnActual(r as RespostaActual));
+	if (resultat.every((r) => r === null)) throw new ErrorProveidor('Open-Meteo: cap punt complet');
+	return resultat;
+}
+
+export function crearOpenMeteoActual(f: typeof fetch = fetch): ProveidorMeteoActual {
+	async function tros(punts: readonly PuntMeteo[], signal: AbortSignal) {
+		let res: Response;
+		try {
+			res = await f(urlOpenMeteoActual(punts), {
+				headers: { accept: 'application/json', 'user-agent': USER_AGENT },
+				signal
+			});
+		} catch (e) {
+			throw new ErrorProveidor(`Open-Meteo: sense resposta (${(e as Error)?.name ?? 'error'})`);
+		}
+		if (res.status !== 200) throw new ErrorProveidor(`Open-Meteo: HTTP ${res.status}`);
+		let json: unknown;
+		try {
+			json = await res.json();
+		} catch {
+			throw new ErrorProveidor('Open-Meteo: JSON no vàlid');
+		}
+		return parsejarOpenMeteoActual(json, punts.length);
+	}
+
+	return {
+		font: FONT_OPEN_METEO,
+		async actual(punts, signal) {
+			if (punts.length === 0) return [];
+			const timeout = AbortSignal.timeout(TIMEOUT_MS);
+			const s = signal ? AbortSignal.any([signal, timeout]) : timeout;
+			const trossos: PuntMeteo[][] = [];
+			for (let i = 0; i < punts.length; i += MAX_PUNTS_PER_CRIDA) {
+				trossos.push(punts.slice(i, i + MAX_PUNTS_PER_CRIDA));
+			}
+			// Tot o res: si un tros falla, la foto no es desa a mitges.
+			const parts = await Promise.all(trossos.map((t) => tros(t, s)));
+			return parts.flat();
 		}
 	};
 }

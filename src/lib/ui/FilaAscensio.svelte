@@ -4,18 +4,21 @@
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 	import Icon from './Icon.svelte';
+	import CompartirAscensio from './compartir/CompartirAscensio.svelte';
 	import Segell from './Segell.svelte';
 	import { formatAltitude, formatDataLlarga, formatLlista, formatStampDate } from './format';
 
 	/**
 	 * Una ascensió de la llista (progrés i historial): segell, cim (enllaç a la fitxa), data,
-	 * mètode, companys i nota (diari). Amb `onedit`/`ondelete` mostra els botons d'editar i esborrar.
+	 * mètode, companys i nota (diari). Amb `onedit`/`ondelete` mostra els botons d'editar i esborrar;
+	 * amb `compartir`, el de compartir-ne la imatge (R5: sense notes ni companys).
 	 */
 	let {
 		ascensio,
 		repeticio = false,
 		foraRepte = false,
 		restriccio = false,
+		compartir = false,
 		onedit,
 		ondelete
 	}: {
@@ -24,6 +27,8 @@
 		/** Ascensió invàlida per al repte (abans del 01/07/2006, futura…): no segella. */
 		foraRepte?: boolean;
 		restriccio?: boolean;
+		/** Mostra el botó "Comparteix" (imatge de l'ascensió). */
+		compartir?: boolean;
 		onedit?: () => void;
 		ondelete?: () => void;
 	} = $props();
@@ -78,7 +83,7 @@
 		{#if ascensio.nota}
 			<p class="nota"><span class="sr-only">{m.history_note()}: </span>{ascensio.nota}</p>
 		{/if}
-		{#if onedit || ondelete}
+		{#if onedit || ondelete || (compartir && cim)}
 			<div class="accions">
 				{#if onedit}
 					<button
@@ -99,6 +104,9 @@
 					>
 						<Icon name="close" size={16} />{m.history_delete()}
 					</button>
+				{/if}
+				{#if compartir && cim}
+					<CompartirAscensio cimId={ascensio.cimId} data={ascensio.data} />
 				{/if}
 			</div>
 		{/if}

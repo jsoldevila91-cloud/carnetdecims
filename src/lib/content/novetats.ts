@@ -23,6 +23,26 @@ export const CLAU_NOVETATS = 'carnetdecims:novetat-vista';
 
 export const NOVETATS: readonly Novetat[] = Object.freeze([
 	{
+		id: '2026-10-18-detalls-utils',
+		data: '2026-10-18',
+		titol: {
+			ca: 'Comparteix cada ascensió i obre el mapa des de la fitxa',
+			es: 'Comparte cada ascensión y abre el mapa desde la ficha'
+		},
+		punts: {
+			ca: [
+				'Comparteix una ascensió: a l’historial i al detall de cada segell, el botó «Comparteix» crea una imatge amb el cim, l’altitud, la comarca i el dia, a punt per a WhatsApp o les xarxes. Es genera al teu mòbil i no hi surten ni les notes ni els companys.',
+				'Mapa interactiu des de la fitxa: toca el mapa de qualsevol cim i s’obre el mapa interactiu centrat en aquell cim.',
+				'Llista de cims més útil: icona del temps que fa ara a cada cim i un avís als cims amb una restricció d’accés vigent avui.'
+			],
+			es: [
+				'Comparte una ascensión: en el historial y en el detalle de cada sello, el botón «Compartir» crea una imagen con la cima, la altitud, la comarca y el día, lista para WhatsApp o las redes. Se genera en tu móvil y no aparecen ni las notas ni los compañeros.',
+				'Mapa interactivo desde la ficha: toca el mapa de cualquier cima y se abre el mapa interactivo centrado en esa cima.',
+				'Lista de cimas más útil: icono del tiempo que hace ahora en cada cima y un aviso en las cimas con una restricción de acceso vigente hoy.'
+			]
+		}
+	},
+	{
 		id: '2026-10-18-compartir-validar',
 		data: '2026-10-18',
 		titol: {

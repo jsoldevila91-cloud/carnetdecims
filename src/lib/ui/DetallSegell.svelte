@@ -8,6 +8,7 @@
 	import { dataSegellLlarga } from './carnet';
 	import { formatAltitude, formatDataLlarga, formatLlista, romanPage } from './format';
 	import Segell from './Segell.svelte';
+	import CompartirAscensio from './compartir/CompartirAscensio.svelte';
 
 	/**
 	 * Detall d'un segell del carnet (dins del full inferior): cim amb enllaç a la fitxa, data,
@@ -146,6 +147,9 @@
 			>
 				{m.stamp_detail_register_again()}
 			</Button>
+		{/if}
+		{#if cim}
+			<CompartirAscensio cimId={segell.cimId} data={segell.data} estil="boto" />
 		{/if}
 	</div>
 </div>

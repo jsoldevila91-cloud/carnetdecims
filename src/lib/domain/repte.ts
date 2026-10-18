@@ -17,7 +17,8 @@ import {
 	type DataISO,
 	type Metode,
 	type Nivell,
-	type RestriccioAcces
+	type RestriccioAcces,
+	type TipusRestriccio
 } from './types';
 
 // ---------------------------------------------------------------------------
@@ -669,6 +670,101 @@ export function estatRestriccions(
 /** Té alguna restricció activa en la data? */
 export function teRestriccioActiva(cim: Pick<Cim, 'restriccions'>, data: DataISO): boolean {
 	return cim.restriccions.some((r) => restriccioActiva(r, data));
+}
+
+/** Avís compacte de restricció activa per a les llistes de cims (R5.2). */
+export interface RestriccioVigent {
+	/** Tipus de la restricció que dura més (la que dona `fins`). */
+	tipus: TipusRestriccio;
+	/**
+	 * Darrer dia (inclòs) en què el cim continua restringit, si se sap: final del periode anual
+	 * en curs o `dataFi`. `null` = sense final conegut (permanent, o rang obert per la dreta).
+	 * Amb diverses restriccions actives, la més tardana (`null` guanya).
+	 */
+	fins: DataISO | null;
+	/**
+	 * `true` si **totes** les restriccions actives són permanents i sense dates
+	 * (`esRestriccioPermanent`, p. ex. Sant Salvador de les Espases: obres sense inici ni final
+	 * coneguts). Segons la llista de la FEEC el cim està restringit, però no se sap des de quan ni
+	 * fins quan i la dada pot haver quedat antiga: la UI ho ha de dir com a dubte ("comprova-ho a
+	 * la FEEC"), no com a "tancat fins a…". Mateix criteri que `AvisRestriccio.incerta`.
+	 */
+	incerta: boolean;
+	/** Totes les restriccions actives en la data (ordre del catàleg). */
+	restriccions: RestriccioAcces[];
+}
+
+/** Final (inclòs) de l'aparició en curs d'un periode anual que conté `data`. */
+function fiPeriodeEnCurs(r: RestriccioAcces, data: DataISO): DataISO {
+	const any = Number(data.slice(0, 4));
+	const inici = r.periodeIniciMmdd as string;
+	const fi = r.periodeFiMmdd as string;
+	// Periode que creua el canvi d'any i som a la part de l'any d'inici: acaba l'any següent.
+	const anyFi = inici > fi && data.slice(5) >= inici ? any + 1 : any;
+	let candidat = `${String(anyFi).padStart(4, '0')}-${fi}`;
+	// `02-29` en un any no de traspàs: el darrer dia real és el 28.
+	if (!esDataIsoValida(candidat)) candidat = `${String(anyFi).padStart(4, '0')}-02-28`;
+	return candidat;
+}
+
+function finsDe(r: RestriccioAcces, data: DataISO): DataISO | null {
+	let fins: DataISO | null = esRestriccioPeriodica(r) ? fiPeriodeEnCurs(r, data) : null;
+	if (r.dataFi !== null && (fins === null || r.dataFi < fins)) fins = r.dataFi;
+	return fins;
+}
+
+/**
+ * Restricció d'accés vigent en una data, en format barat per a llistes (icona + "fins al…").
+ * `null` si el cim no té cap restricció activa en la data (o no en té cap). Com
+ * `estatRestriccions`, és només un **avís** (§3.3.5); la data ha de ser la d'avui en local
+ * (`avuiLocal()`) i, en pàgines prerenderitzades, s'ha de calcular al client.
+ *
+ * Cost: els cims sense restriccions surten de seguida (avui només 2 dels 150 en tenen).
+ * @throws RangeError si `data` no és una data vàlida (error de programació).
+ */
+export function restriccioVigent(
+	cim: Pick<Cim, 'restriccions'>,
+	data: DataISO
+): RestriccioVigent | null {
+	if (!esDataIsoValida(data)) throw new RangeError(`data invàlida: ${String(data)}`);
+	if (cim.restriccions.length === 0) return null;
+	const actives = restriccionsActives(cim, data);
+	if (actives.length === 0) return null;
+
+	let principal = actives[0];
+	let fins = finsDe(principal, data);
+	for (const r of actives.slice(1)) {
+		if (fins === null) break;
+		const f = finsDe(r, data);
+		if (f === null || f > fins) {
+			principal = r;
+			fins = f;
+		}
+	}
+	return {
+		tipus: principal.tipus,
+		fins,
+		incerta: actives.every(esRestriccioPermanent),
+		restriccions: actives
+	};
+}
+
+/**
+ * `restriccioVigent` de tots els cims d'una llista que en tenen una en la data, per id. Pensat
+ * per calcular-ho un sol cop per llista (p. ex. 150 cims) en lloc de fila a fila.
+ */
+export function restriccionsVigents(
+	cims: readonly Pick<Cim, 'id' | 'restriccions'>[],
+	data: DataISO
+): Map<number, RestriccioVigent> {
+	if (!esDataIsoValida(data)) throw new RangeError(`data invàlida: ${String(data)}`);
+	const resultat = new Map<number, RestriccioVigent>();
+	for (const cim of cims) {
+		if (cim.restriccions.length === 0) continue;
+		const v = restriccioVigent(cim, data);
+		if (v) resultat.set(cim.id, v);
+	}
+	return resultat;
 }
 
 /** Aviso: ascensión hecha con una restricción de acceso activa en la cima. */

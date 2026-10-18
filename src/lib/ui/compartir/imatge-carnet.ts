@@ -6,23 +6,24 @@
  * fosc. Els textos arriben ja traduïts (`TextosImatge`); aquí només hi ha dibuix.
  */
 
-export const AMPLE_IMATGE = 1080;
-export const ALT_IMATGE = 1350;
+import {
+	FONT_MONO,
+	FONT_WIDE,
+	PALETA_CLARA,
+	capcalera,
+	espaiat,
+	font,
+	linies,
+	peu,
+	prepararFull,
+	rectArrodonit,
+	type Ctx
+} from './imatge-comu';
 
-/** Paleta Segells (tema clar), igual que `src/lib/ui/styles/tokens.css`. */
-const C = {
-	paper: '#f6f2e9',
-	dot: '#e2d9c7',
-	card: '#fbf8f1',
-	ink: '#1b2a47',
-	ink2: '#4a5570',
-	rule: '#d6cab3',
-	stamp: '#c0392b',
-	stampInk: '#b3352a'
-} as const;
+export { ALT_IMATGE, AMPLE_IMATGE, carregarFontsImatge, pngDelCanvas } from './imatge-comu';
 
-const FONT_WIDE = '"Archivo Variable", "Archivo", system-ui, sans-serif';
-const FONT_MONO = '"IBM Plex Mono", ui-monospace, monospace';
+/** El carnet es dibuixa sempre amb el tema clar (com el carnet de paper). */
+const C = PALETA_CLARA;
 
 export interface SegellImatge {
 	/** 1..100 dins de la pàgina. */
@@ -62,63 +63,6 @@ export interface DadesImatge {
 	objectiu: number;
 	segells: SegellImatge[];
 	textos: TextosImatge;
-}
-
-/** Espera que les fonts del web estiguin carregades (el canvas no les demana sol). */
-export async function carregarFontsImatge(): Promise<void> {
-	if (typeof document === 'undefined' || !document.fonts) return;
-	await Promise.allSettled([
-		document.fonts.load(`900 120px ${FONT_WIDE}`),
-		document.fonts.load(`700 40px ${FONT_WIDE}`),
-		document.fonts.load(`400 28px ${FONT_MONO}`),
-		document.fonts.load(`600 28px ${FONT_MONO}`)
-	]);
-	await document.fonts.ready;
-}
-
-type Ctx = CanvasRenderingContext2D & { fontStretch?: string; letterSpacing?: string };
-
-function font(ctx: Ctx, pes: number, mida: number, familia: string, ample = false) {
-	ctx.font = `${pes} ${mida}px ${familia}`;
-	if ('fontStretch' in ctx) ctx.fontStretch = ample ? 'expanded' : 'normal';
-}
-
-function espaiat(ctx: Ctx, px: number) {
-	if ('letterSpacing' in ctx) ctx.letterSpacing = `${px}px`;
-}
-
-/** Talla un text en línies d'amplada màxima `max` (com a molt `maxLinies`, amb "…"). */
-function linies(ctx: Ctx, text: string, max: number, maxLinies: number): string[] {
-	const paraules = text.split(/\s+/).filter(Boolean);
-	const out: string[] = [];
-	let actual = '';
-	for (const p of paraules) {
-		const prova = actual ? `${actual} ${p}` : p;
-		if (ctx.measureText(prova).width <= max || !actual) actual = prova;
-		else {
-			out.push(actual);
-			actual = p;
-		}
-	}
-	if (actual) out.push(actual);
-	if (out.length <= maxLinies) return out;
-	const tallat = out.slice(0, maxLinies);
-	let darrera = tallat[maxLinies - 1];
-	while (darrera.length > 1 && ctx.measureText(`${darrera}…`).width > max) {
-		darrera = darrera.slice(0, -1);
-	}
-	tallat[maxLinies - 1] = `${darrera.trimEnd()}…`;
-	return tallat;
-}
-
-function rectArrodonit(ctx: Ctx, x: number, y: number, w: number, h: number, r: number) {
-	ctx.beginPath();
-	ctx.moveTo(x + r, y);
-	ctx.arcTo(x + w, y, x + w, y + h, r);
-	ctx.arcTo(x + w, y + h, x, y + h, r);
-	ctx.arcTo(x, y + h, x, y, r);
-	ctx.arcTo(x, y, x + w, y, r);
-	ctx.closePath();
 }
 
 function segell(ctx: Ctx, cx: number, cy: number, mida: number, s: SegellImatge) {
@@ -183,57 +127,13 @@ function medalla(ctx: Ctx, cx: number, cy: number, r: number) {
 
 /** Dibuixa la imatge del carnet a `canvas` (es redimensiona a 1080×1350). */
 export function dibuixarImatgeCarnet(canvas: HTMLCanvasElement, dades: DadesImatge): void {
-	canvas.width = AMPLE_IMATGE;
-	canvas.height = ALT_IMATGE;
-	const ctx = canvas.getContext('2d') as Ctx | null;
-	if (!ctx) return;
+	const preparat = prepararFull(canvas, C);
+	if (!preparat) return;
+	const { ctx, full } = preparat;
+	const { fy, x0, x1 } = full;
 	const { textos } = dades;
 
-	// Paper amb trama de punts.
-	ctx.fillStyle = C.paper;
-	ctx.fillRect(0, 0, AMPLE_IMATGE, ALT_IMATGE);
-	ctx.fillStyle = C.dot;
-	for (let y = 12; y < ALT_IMATGE; y += 24) {
-		for (let x = 12; x < AMPLE_IMATGE; x += 24) ctx.fillRect(x, y, 3, 3);
-	}
-
-	// Full del carnet amb ombra dura.
-	const fx = 56;
-	const fy = 56;
-	const fw = AMPLE_IMATGE - fx * 2 - 10;
-	const fh = ALT_IMATGE - fy * 2 - 10;
-	ctx.fillStyle = C.ink;
-	rectArrodonit(ctx, fx + 12, fy + 12, fw, fh, 16);
-	ctx.fill();
-	ctx.fillStyle = C.card;
-	rectArrodonit(ctx, fx, fy, fw, fh, 16);
-	ctx.fill();
-	ctx.lineWidth = 4;
-	ctx.strokeStyle = C.ink;
-	ctx.stroke();
-
-	const x0 = fx + 48;
-	const x1 = fx + fw - 48;
-
-	// Capçalera: marca i pàgina.
-	ctx.fillStyle = C.ink;
-	ctx.textBaseline = 'alphabetic';
-	font(ctx, 600, 30, FONT_MONO);
-	espaiat(ctx, 4);
-	ctx.textAlign = 'left';
-	ctx.fillText(textos.marca.toUpperCase(), x0, fy + 84);
-	ctx.textAlign = 'right';
-	ctx.fillStyle = C.stampInk;
-	ctx.fillText(textos.pagina.toUpperCase(), x1, fy + 84);
-	espaiat(ctx, 0);
-	ctx.strokeStyle = C.rule;
-	ctx.lineWidth = 2;
-	ctx.setLineDash([10, 8]);
-	ctx.beginPath();
-	ctx.moveTo(x0, fy + 112);
-	ctx.lineTo(x1, fy + 112);
-	ctx.stroke();
-	ctx.setLineDash([]);
+	capcalera(ctx, full, C, { esquerra: textos.marca, dreta: textos.pagina });
 
 	// Xifra gran "n/100".
 	ctx.textAlign = 'left';
@@ -317,24 +217,5 @@ export function dibuixarImatgeCarnet(canvas: HTMLCanvasElement, dades: DadesImat
 	}
 
 	// Peu: data i web.
-	const py = fy + fh - 56;
-	ctx.strokeStyle = C.ink;
-	ctx.lineWidth = 3;
-	ctx.beginPath();
-	ctx.moveTo(x0, py - 54);
-	ctx.lineTo(x1, py - 54);
-	ctx.stroke();
-	font(ctx, 400, 28, FONT_MONO);
-	ctx.fillStyle = C.ink2;
-	ctx.textAlign = 'left';
-	ctx.fillText(textos.data, x0, py);
-	font(ctx, 900, 34, FONT_WIDE, true);
-	ctx.fillStyle = C.stampInk;
-	ctx.textAlign = 'right';
-	ctx.fillText(textos.web, x1, py);
-}
-
-/** PNG del canvas (o `null` si el navegador no el pot generar). */
-export function pngDelCanvas(canvas: HTMLCanvasElement): Promise<Blob | null> {
-	return new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/png'));
+	peu(ctx, full, C, { esquerra: textos.data, web: textos.web });
 }

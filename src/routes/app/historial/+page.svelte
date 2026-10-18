@@ -110,6 +110,7 @@
 							repeticio={repeticions.has(a.id)}
 							foraRepte={foraRepte.has(a.id)}
 							restriccio={enRestriccio.has(a.id)}
+							compartir
 							onedit={() => obrirEdicio(a.id)}
 							ondelete={() => esborrar(a)}
 						/>

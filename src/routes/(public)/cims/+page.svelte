@@ -14,6 +14,9 @@
 		type FiltresCims,
 		type FranjaAltitud
 	} from '$lib/ui/filtre-cims';
+	import { onMount } from 'svelte';
+	import AtribucioMeteoAra from '$lib/ui/AtribucioMeteoAra.svelte';
+	import { InfoRapidaLlista } from '$lib/ui/info-rapida-llista.svelte';
 	import { getLocale, href } from '$lib/i18n';
 	import { cimsGraph } from '$lib/seo/jsonld';
 	import { m } from '$lib/paraglide/messages';
@@ -32,6 +35,12 @@
 		description: m.peaks_meta_description(),
 		breadcrumbNames: { inici: m.nav_home(), cims: m.explore_all() }
 	});
+	// Temps d'ara i avís d'accés per cim (R5.2): només al client (la pàgina és prerenderitzada).
+	// Cada fila reserva l'espai des del principi: quan arriben les dades no es mou res.
+	const info = new InfoRapidaLlista(CIMS);
+	const infoRapida = info.per;
+	onMount(() => info.carregar());
+
 	const cerca = new Map(CIMS.map((c) => [c.slug, textCerca(c, comarcaPerSlug(c.comarca)?.nom)]));
 
 	const ETIQUETA_FRANJA: Record<FranjaAltitud, () => string> = {
@@ -172,6 +181,7 @@
 
 <section aria-labelledby="per-comarca">
 	<h2 id="per-comarca" class="sr-only">{m.peaks_by_comarca()}</h2>
+	<AtribucioMeteoAra font={info.meteo?.font} hora={info.meteo?.hora} />
 	{#if actius && visibles === 0}
 		<div class="buit">
 			<p class="buit-titol">{m.filters_empty_title()}</p>
@@ -186,7 +196,7 @@
 					<a href={href(`/comarques/${comarca.slug}`)}>{comarca.nom}</a>
 					<span class="count mono">{n}</span>
 				</h3>
-				<LlistaCims {cims} {amagats} dificultats={data.dificultats} />
+				<LlistaCims {cims} {amagats} dificultats={data.dificultats} {infoRapida} />
 			</section>
 		{/each}
 	</div>

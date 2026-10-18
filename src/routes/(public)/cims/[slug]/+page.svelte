@@ -33,7 +33,7 @@
 		type Zona
 	} from '$lib/domain';
 	import { cimGraph } from '$lib/seo/jsonld';
-	import { nomAmbA, nomAmbArticle, seoFitxaCim } from '$lib/seo/fitxa-cim';
+	import { nomAmbA, nomAmbArticle, nomAmbEn, seoFitxaCim } from '$lib/seo/fitxa-cim';
 	import { mapaEstaticPerCim } from '$lib/platform/mapa-estatic';
 	import { wikilocUrl } from '$lib/platform/wikiloc';
 
@@ -421,7 +421,17 @@
 			<section class="blk" aria-labelledby="mapa">
 				<h2 id="mapa" class="x-wide">{m.cim_map_title()}</h2>
 				<figure class="map">
-					<div class="map-img">
+					<!-- La imatge fixa (lleugera, sense JS) és un enllaç al mapa interactiu centrat en el cim
+					     (`/mapa?cim=slug`, que el valida contra el catàleg). `nofollow`: URL amb query. -->
+					<a
+						class="map-img"
+						href={mapaHref}
+						rel="nofollow"
+						aria-label={m.cim_map_open_interactive_label({
+							nom_en: nomAmbEn(cim.nom_amb_article, locale)
+						})}
+						data-testid="fitxa-mapa-interactiu"
+					>
 						<img
 							src={mapa.url}
 							width={MAPA_AMPLE}
@@ -432,7 +442,10 @@
 							crossorigin="anonymous"
 						/>
 						<span class="pin" aria-hidden="true"></span>
-					</div>
+						<span class="map-cta" aria-hidden="true"
+							><Icon name="map" size={18} />{m.cim_map_open_interactive()}</span
+						>
+					</a>
 					<figcaption class="mono">
 						<a href={mapa.llicenciaUrl} rel="external noopener license" target="_blank">
 							{mapa.font === 'icgc' ? m.cim_map_attribution_icgc() : m.cim_map_attribution_ign()}
@@ -867,6 +880,7 @@
 	}
 
 	.map-img {
+		display: block;
 		position: relative;
 		overflow: hidden;
 		border: var(--bw) solid var(--c-line);
@@ -880,6 +894,33 @@
 		height: auto;
 		aspect-ratio: 640 / 400;
 		object-fit: cover;
+	}
+
+	.map-img:hover .map-cta {
+		background: var(--c-ink);
+		color: var(--c-on-ink);
+	}
+
+	/* Rètol fix a sota (no tapa el pin del centre); amb l'àrea de toc de tota la imatge. */
+	.map-cta {
+		position: absolute;
+		right: var(--sp-3);
+		bottom: var(--sp-3);
+		display: inline-flex;
+		align-items: center;
+		gap: var(--sp-2);
+		min-height: var(--tap);
+		padding: 0 var(--sp-4);
+		background: var(--c-card);
+		color: var(--c-ink);
+		border: var(--bw) solid var(--c-line);
+		border-radius: var(--r-md);
+		box-shadow: var(--sh-2);
+		font-family: var(--font-wide);
+		font-stretch: var(--stretch-semi);
+		font-weight: var(--fw-heavy);
+		font-size: var(--fs-sm);
+		text-decoration: none;
 	}
 
 	/* La imatge sempre està centrada al cim */

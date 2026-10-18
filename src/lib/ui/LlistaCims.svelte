@@ -5,6 +5,8 @@
 	import { m } from '$lib/paraglide/messages';
 	import { formatAltitude } from './format';
 	import DificultatBadge, { type DificultatResum } from './fitxa/DificultatBadge.svelte';
+	import InfoRapidaCim from './InfoRapidaCim.svelte';
+	import type { InfoRapidaPerCim } from './info-rapida';
 
 	/**
 	 * Llista de fitxes de cim (nom amb el rombe d'essencial + altitud), amb enllaços a les fitxes
@@ -17,6 +19,8 @@
 	 *   (mapa lleuger del `+page.server.ts`, `$lib/server/dificultats`).
 	 * - `detall`: línia opcional sota cada cim, dins l'enllaç (p. ex. "Des de Vidrà · +300 m"
 	 *   a `/cims-amb-nens`). La pinta qui crida (i n'hi dona l'estil); ha d'ocupar tota la fila.
+	 * - `infoRapida`: temps d'ara i avís d'accés per cim (R5). Si es passa, cada fila reserva
+	 *   l'espai (`InfoRapidaCim`) encara que no hi hagi dades: quan arriben, no es mou res.
 	 */
 	let {
 		cims,
@@ -25,7 +29,8 @@
 		meta,
 		amagats,
 		dificultats,
-		detall
+		detall,
+		infoRapida
 	}: {
 		cims: readonly CimCataleg[];
 		ordenada?: boolean;
@@ -34,6 +39,7 @@
 		amagats?: ReadonlySet<string>;
 		dificultats?: Readonly<Record<string, DificultatResum>>;
 		detall?: Snippet<[CimCataleg]>;
+		infoRapida?: InfoRapidaPerCim;
 	} = $props();
 </script>
 
@@ -53,6 +59,9 @@
 			<span class="dif"
 				><DificultatBadge dificultat={dificultats[cim.slug]} variant="compacte" /></span
 			>
+		{/if}
+		{#if infoRapida}
+			<InfoRapidaCim info={infoRapida(cim)} />
 		{/if}
 		<span class="meta mono">
 			{[meta?.(cim), `${formatAltitude(cim.altitud)} m`].filter(Boolean).join(' · ')}

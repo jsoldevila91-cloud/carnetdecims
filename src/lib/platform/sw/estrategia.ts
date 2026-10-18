@@ -60,6 +60,9 @@ export const CAMI_DIFICULTATS = '/api/dificultats.json';
 /** Camí de l'API de meteo d'un cim (`/api/meteo/{slug}`). */
 const CAMI_METEO = /^\/api\/meteo\/[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+/** Temps actual de tots els cims (R5.2): sempre a la xarxa, no és una previsió per cim. */
+export const CAMI_METEO_ARA_SW = '/api/meteo/ara';
+
 /** La còpia desada de la meteo (desada a `desatMs`) encara es pot servir a `araMs`. */
 export function meteoDesadaUtil(desatMs: number, araMs: number): boolean {
 	return Number.isFinite(desatMs) && araMs - desatMs >= 0 && araMs - desatMs <= MAX_EDAT_METEO_MS;
@@ -256,8 +259,10 @@ export function estrategiaPer(
 	}
 
 	const cami = url.pathname;
-	// La query no forma part de la clau: una previsió per cim.
-	if (CAMI_METEO.test(cami) && peticio.mode !== 'navigate') {
+	// La query no forma part de la clau: una previsió per cim. El temps actual de les llistes
+	// (`/api/meteo/ara`) no es desa: sense xarxa, la llista surt sense icones (vegeu
+	// `obtenirMeteoAra`); una còpia de fa hores del temps "actual" enganyaria.
+	if (CAMI_METEO.test(cami) && cami !== CAMI_METEO_ARA_SW && peticio.mode !== 'navigate') {
 		return { tipus: 'meteo', clau: `${url.origin}${cami}` };
 	}
 	if (cami === CAMI_DIFICULTATS && precache.has(cami) && peticio.mode !== 'navigate') {

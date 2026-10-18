@@ -5,12 +5,26 @@
 	import { m } from '$lib/paraglide/messages';
 	import { obrirRegistre, registrarHref } from './fulls';
 	import { formatAltitude, formatKm } from './format';
+	import InfoRapidaCim from './InfoRapidaCim.svelte';
+	import type { InfoRapidaCim as Info } from './info-rapida';
 
 	/**
 	 * Una essencial pendent: casella buida (forat de segell), nom enllaçat a la fitxa, altitud i
 	 * comarca, distància (si s'ha ordenat per proximitat) i enllaç per registrar-la.
+	 * Amb `ambInfo`, reserva l'espai per al temps d'ara i l'avís d'accés (`info`, R5).
 	 */
-	let { cim, distanciaKm = null }: { cim: CimCataleg; distanciaKm?: number | null } = $props();
+	let {
+		cim,
+		distanciaKm = null,
+		ambInfo = false,
+		info = null
+	}: {
+		cim: CimCataleg;
+		distanciaKm?: number | null;
+		/** Reserva l'espai de la informació ràpida (encara que `info` no hi sigui). */
+		ambInfo?: boolean;
+		info?: Info | null;
+	} = $props();
 
 	const locale = getLocale();
 	const comarca = $derived(comarcaPerSlug(cim.comarca)?.nom ?? cim.comarca);
@@ -24,6 +38,9 @@
 			{m.ess_peak_meta({ alt: formatAltitude(cim.altitud), comarca })}
 		</small>
 	</div>
+	{#if ambInfo}
+		<InfoRapidaCim {info} />
+	{/if}
 	{#if distanciaKm !== null && Number.isFinite(distanciaKm)}
 		<span class="km mono">
 			<span aria-hidden="true">{m.ess_distance({ km: formatKm(distanciaKm, locale) })}</span>

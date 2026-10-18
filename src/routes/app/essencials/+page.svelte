@@ -4,6 +4,9 @@
 	import { avuiLocal, distanciaKm, essencialsPendentsOrdenades, type Punt } from '$lib/domain';
 	import { Button, PageMeta } from '$lib/ui';
 	import FilaEssencial from '$lib/ui/FilaEssencial.svelte';
+	import { onMount } from 'svelte';
+	import AtribucioMeteoAra from '$lib/ui/AtribucioMeteoAra.svelte';
+	import { InfoRapidaLlista } from '$lib/ui/info-rapida-llista.svelte';
 	import { demanarPosicio, type ErrorPosicio } from '$lib/platform/geolocalitzacio';
 	import { href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
@@ -41,6 +44,11 @@
 		posicio = null;
 		error = null;
 	}
+
+	// Temps d'ara i avís d'accés per cim (R5.2), carregats al client; l'espai ja és reservat a
+	// cada fila.
+	const info = new InfoRapidaLlista(CIMS);
+	onMount(() => info.carregar());
 
 	const distancia = (lat: number | null, lon: number | null) =>
 		posicio && lat !== null && lon !== null ? distanciaKm(posicio, { lat, lon }) : null;
@@ -80,9 +88,17 @@
 		<p class="error" role="alert">{ERRORS[error]()}</p>
 	{/if}
 
+	<AtribucioMeteoAra font={info.meteo?.font} hora={info.meteo?.hora} />
 	<ul class="llista">
 		{#each pendents as cim (cim.id)}
-			<li><FilaEssencial {cim} distanciaKm={distancia(cim.lat, cim.lon)} /></li>
+			<li>
+				<FilaEssencial
+					{cim}
+					distanciaKm={distancia(cim.lat, cim.lon)}
+					ambInfo
+					info={info.per(cim)}
+				/>
+			</li>
 		{/each}
 	</ul>
 {/if}

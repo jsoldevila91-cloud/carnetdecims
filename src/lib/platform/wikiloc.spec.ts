@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { wikilocEmbedUrl, wikilocUrl } from './wikiloc';
+import { CAMI_WIKILOC_APP, wikilocEmbedUrl, wikilocUrl } from './wikiloc';
 
 describe('wikilocUrl', () => {
 	it("obre el mapa de Wikiloc centrat al cim, en l'idioma de la pàgina", () => {
 		const url = new URL(wikilocUrl(42.2396, 1.7028, 'ca'));
 		expect(url.origin).toBe('https://ca.wikiloc.com');
-		expect(url.pathname).toBe('/wikiloc/map.do');
+		// `/openMap` és a l'apple-app-site-association de Wikiloc (obre l'app); `map.do` no ho és.
+		// Al web redirigeix a `/wikiloc/map.do` amb els mateixos `sw`, `ne` i `page`.
+		expect(url.pathname).toBe('/openMap');
+		expect(url.pathname).toBe(CAMI_WIKILOC_APP);
+		expect(url.searchParams.get('page')).toBe('1');
+		expect([...url.searchParams.keys()]).toEqual(['sw', 'ne', 'page']);
 		const [swLat, swLon] = url.searchParams.get('sw')!.split(',').map(Number);
 		const [neLat, neLon] = url.searchParams.get('ne')!.split(',').map(Number);
 		expect((swLat + neLat) / 2).toBeCloseTo(42.2396, 4);

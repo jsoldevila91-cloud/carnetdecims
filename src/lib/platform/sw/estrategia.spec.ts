@@ -265,6 +265,11 @@ describe('meteo (/api/meteo/{slug}): network-first amb la darrera còpia', () =>
 		expect(decideix(recurs('/api/meteo/Montcau', 'cors', ''))).toEqual({ tipus: 'xarxa' });
 		expect(decideix(recurs('/api/meteo/montcau/x', 'cors', ''))).toEqual({ tipus: 'xarxa' });
 		expect(decideix(recurs('/api/meteo/', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		// Temps actual de les llistes (R5.2): mai es desa, amb query o sense.
+		expect(decideix(recurs('/api/meteo/ara', 'cors', ''))).toEqual({ tipus: 'xarxa' });
+		expect(decideix(recurs('/api/meteo/ara?slugs=montcau', 'same-origin', ''))).toEqual({
+			tipus: 'xarxa'
+		});
 		expect(
 			decideix(recurs('https://api.open-meteo.com/v1/forecast?latitude=1', 'cors', ''))
 		).toEqual({ tipus: 'xarxa' });

@@ -34,3 +34,24 @@ export class ErrorProveidor extends Error {
 
 /** Identificació nostra davant dels proveïdors (MET Norway l'exigeix; Open-Meteo l'agraeix). */
 export const USER_AGENT = 'CarnetDeCims/1.0 (+https://carnetdecims.cat; hola@carnetdecims.cat)';
+
+/** Temps actual en brut d'un punt (el servei el compacta a `TempsActual`). */
+export interface ActualPunt {
+	/** Codi de temps WMO. */
+	codi: number;
+	/** Temperatura a l'altitud del punt (°C). */
+	temperatura: number;
+	esDia: boolean;
+	/** Hora local de validesa, `AAAA-MM-DDTHH:MM`. */
+	hora: string;
+}
+
+/** Proveïdor del temps actual de molts punts alhora (`/api/meteo/ara`). */
+export interface ProveidorMeteoActual {
+	readonly font: FontMeteo;
+	/**
+	 * Temps actual de cada punt, en el mateix ordre; `null` per als punts sense dades completes.
+	 * Llança `ErrorProveidor` si la resposta no arriba, no és 200 o no té el format esperat.
+	 */
+	actual(punts: readonly PuntMeteo[], signal?: AbortSignal): Promise<(ActualPunt | null)[]>;
+}

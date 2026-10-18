@@ -33,6 +33,7 @@
 		pngDelCanvas,
 		type DadesImatge
 	} from '$lib/ui/compartir/imatge-carnet';
+	import { descarregar, potCompartirFitxers } from '$lib/ui/compartir/compartir-fitxer';
 	import { getLocale, href } from '$lib/i18n';
 	import { m } from '$lib/paraglide/messages';
 
@@ -63,15 +64,7 @@
 
 	onMount(() => {
 		potCompartir = typeof navigator.share === 'function';
-		try {
-			const prova = new File([new Blob([''], { type: 'image/png' })], NOM_FITXER, {
-				type: 'image/png'
-			});
-			potCompartirFitxer =
-				typeof navigator.canShare === 'function' && navigator.canShare({ files: [prova] });
-		} catch {
-			potCompartirFitxer = false;
-		}
+		potCompartirFitxer = potCompartirFitxers(NOM_FITXER);
 		return () => {
 			if (urlImatge) URL.revokeObjectURL(urlImatge);
 		};
@@ -144,12 +137,7 @@
 	});
 
 	function descarregarImatge() {
-		if (!urlImatge) return;
-		const a = document.createElement('a');
-		a.href = urlImatge;
-		a.download = NOM_FITXER;
-		a.rel = 'noopener';
-		a.click();
+		if (urlImatge) descarregar(urlImatge, NOM_FITXER);
 	}
 
 	async function compartirImatge() {
