@@ -124,7 +124,7 @@ Fuera de la muestra, también difieren en altitud (≤ 2 m, en todos tenemos MDT
 | hreflang | En el sitemap y en la portada (en/ca/es, `x-default` = en); en las landings de retos no hay | Correcto solo en la portada |
 | Sitemap | 55 URLs: portadas, retos, tienda y legales. **Ni una ficha de cima** | https://fescims.com/sitemap.xml |
 | robots.txt | Permite los bots de búsqueda (también OAI-SearchBot y Claude-SearchBot); a los bots de entrenamiento les bloquea `/*/mountains/` y `/*/ferratas/` | https://fescims.com/robots.txt |
-| Description de la portada | En inglés, también en `/ca` (no verificado en `/ca`; la portada es `/en`) | — |
+| Portada | `/` redirige a `/en`; `/ca` tiene title en catalán y hreflang | Inglés por defecto aunque el público sea catalán |
 
 **Oportunidades para nosotros:**
 1. **Long tail por cima** ("pujar al {cim}", "{cim} 100 cims", "{cim} altitud", "cómo subir al {cim}"): Fes Cims no compite porque sus fichas son `noindex` y se pintan en el cliente. Las nuestras se prerenderizan con contenido redactado: es nuestra ventaja principal, pero solo cuenta cuando estén en `revisat` e indexables.

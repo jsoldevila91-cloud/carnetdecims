@@ -235,13 +235,15 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. En una **sesión nueva**: comparativa con Fes Cims (doc 08, punto 5), resto de la fase 5 (Google, deduplicación, `www`, avisos) fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
+R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). En una **sesión nueva**: resto de la fase 5 (Google, deduplicación, `www`, avisos), fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
 ## Pendiente o decisiones abiertas
 
-- **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 hecho; queda la comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
+- **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 y la comparativa con Fes Cims hechos; fotos y panel de administrador en la fase 5+.
+
+- **Comparativa con Fes Cims (`docs/10`, §5):** 10 recomendaciones para antes del lanzamiento. Las de prioridad alta: indexar un primer lote de fichas populares, decidir la comarca de 5 cimas limítrofes (Mola d'Estat, que el ICGC pone en Prades, Baix Camp; Cap del Verd, Monturull, Tuc de Ratera y Castell de Milany), explicar en metodologia por qué la altitud difiere de otras apps, y tomar una línea base en Google.es y Search Console.
 
 - **Notificaciones push (R6, pendiente de implementar; apunte del usuario del 2026-10-18):** Web Push para Android/escritorio e iPhone con la PWA instalada. Plan en `docs/04-plan-fases.md` (bloque R6) y en docs/08, punto 8.
 
