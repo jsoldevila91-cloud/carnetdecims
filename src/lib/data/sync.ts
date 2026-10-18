@@ -15,13 +15,19 @@
  *    `updatedAt` (empat → es queda el servidor). Una entrada només surt de la cua si no ha
  *    canviat mentre es pujava (`encuaAt` igual) i el servidor no l'ha rebutjada.
  *    - Rebuig `id en ús` (l'id ja és d'un altre compte: dades fusionades o un JSON d'un altre
- *      compte): la fila rep un UUIDv7 nou (sense làpida per a l'id vell) i es torna a pujar en
- *      la mateixa passada.
+ *      compte): la fila rep un UUIDv7 nou (sense làpida per a l'id vell, però amb una redirecció
+ *      id vell → id nou a `redireccions`) i es torna a pujar en la mateixa passada.
  *    - Altres rebutjos: `intents + 1`; a partir de `MAX_INTENTS` l'entrada queda bloquejada (no
  *      compta com a pendent i l'estat mostra `error: 'servidor'`), sense perdre la fila local.
  * 3. **Pull** incremental per `server_updated_at` (solapament de 5 s; aplicar-lo és idempotent).
  *    Regla LWW local: guanya la remota si `updatedAt` remot ≥ local (empat → servidor); si la
  *    local tenia un canvi pendent que perd, el pendent es descarta (el servidor no l'acceptaria).
+ * 3b. **Duplicats** (`resoldreDuplicats`, `domain/duplicats.ts`): després del pull, les ascensions
+ *    vives que són la mateixa (cim, data i mètode; p. ex. registrada en dos dispositius) es
+ *    fusionen a la guanyadora determinista i les altres passen a làpida (buida, amb una redirecció
+ *    id vell → id nou). Tot amb `updatedAt` = el més gran del grup + 1 ms: dos dispositius que
+ *    fan el mateix pla escriuen exactament les mateixes files i la LWW convergeix. Si hi ha
+ *    canvis, es pugen en la mateixa passada.
  * 4. **Municipi d'origen** (bloc R1, `sincronitzarOrigen`): preferència del compte amb la mateixa
  *    regla LWW (`updatedAt` del client; empat → servidor). Si hi ha un canvi local pendent es puja
  *    i el servidor respon amb el valor que guanya; si no, només es llegeix.
@@ -41,7 +47,7 @@
  * així el motor es prova amb un servidor fals en memòria.
  */
 import { liveQuery } from 'dexie';
-import { esCodiMunicipi, mateixosCompanys, type Metode } from '$lib/domain';
+import { esCodiMunicipi, mateixosCompanys, planificarDuplicats, type Metode } from '$lib/domain';
 import type { ClientSupabase } from '$lib/platform/supabase';
 import type { FilaAscensioSql, Json, MetodeSql } from '$lib/platform/supabase-tipus';
 import type { StoreLectura } from './ascensions';
@@ -51,10 +57,12 @@ import {
 	type EntradaMeta,
 	type EntradaOutbox,
 	type EntradaPreferencia,
-	type FilaAscensio
+	type FilaAscensio,
+	type Redireccio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
-import { lapidaBuidada, lapidaPerBuidar, purgarLapides } from './local/lapides';
+import { lapidaBuidada, lapidaPerBuidar, purgarLapides, senseDiari } from './local/lapides';
+import { redireccio } from './local/redireccions';
 import { ara } from './local/rellotge';
 import { uuidv7 } from './local/uuid';
 
@@ -314,6 +322,8 @@ export type ResultatSync =
 			baixades: number;
 			/** Entrades de la cua bloquejades (`intents >= MAX_INTENTS`) en acabar la passada. */
 			bloquejades: number;
+			/** Ascensions duplicades que han passat a làpida (fusionades amb la guanyadora). */
+			duplicats: number;
 	  }
 	| { estat: 'conflicte' };
 
@@ -370,7 +380,9 @@ const esIdEnUs = (motiu: unknown): boolean =>
  * La fila `idVell` té un id que al núvol és d'un altre compte (p. ex. dades fusionades d'un altre
  * compte o un JSON exportat per un altre compte). Es reemplaça localment per una còpia idèntica
  * amb un UUIDv7 nou, i la cua passa a l'id nou. L'id vell s'esborra **sense làpida** (no és
- * d'aquest compte: al núvol no s'hi ha de pujar res amb aquell id).
+ * d'aquest compte: al núvol no s'hi ha de pujar res amb aquell id) i se'n desa la redirecció
+ * (`local/redireccions.ts`): una edició, un esborrat o un "Desfés" oberts amb l'id vell actuen
+ * sobre el nou, i reimportar un fitxer amb l'id vell no el torna a crear.
  *
  * Idempotència: l'id nou queda desat abans de pujar-lo; si la resposta del push es perd, el
  * reintent puja el mateix id nou i el servidor el tracta com un upsert (no es duplica).
@@ -378,7 +390,7 @@ const esIdEnUs = (motiu: unknown): boolean =>
  */
 async function reassignarId(idVell: string, epoca: string | null): Promise<string | null> {
 	const bd = obtenirBd();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, async () => {
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.redireccions, async () => {
 		await comprovarEpoca(epoca);
 		const fila = await bd.ascensions.get(idVell);
 		await bd.outbox.delete(idVell);
@@ -388,6 +400,7 @@ async function reassignarId(idVell: string, epoca: string | null): Promise<strin
 		await bd.ascensions.delete(idVell);
 		await bd.ascensions.add({ ...fila, id: idNou });
 		await bd.outbox.put({ ascensioId: idNou, encuaAt: ara().toISOString(), intents: 0 });
+		await bd.redireccions.put(redireccio(idVell, idNou, 'id-en-us'));
 		return idNou;
 	});
 }
@@ -478,15 +491,14 @@ function comptarBloquejades(): Promise<number> {
 
 /**
  * Canvis pendents de pujar (el que la UI mostra com a pendent): entrades de la cua que no estan
- * bloquejades, més el municipi d'origen si té un canvi local sense pujar.
+ * bloquejades, més el municipi d'origen si té un canvi local sense pujar. També les bloquejades
+ * (una sola lectura de la cua).
  */
-async function comptarPendents(): Promise<number> {
+async function comptarCua(): Promise<{ pendents: number; bloquejades: number }> {
 	const bd = obtenirBd();
-	const [cua, origen] = await Promise.all([
-		bd.outbox.filter((e) => !bloquejada(e)).count(),
-		bd.preferencies.get('origen')
-	]);
-	return cua + (origen?.pendent ? 1 : 0);
+	const [cua, origen] = await Promise.all([bd.outbox.toArray(), bd.preferencies.get('origen')]);
+	const bloquejades = cua.filter(bloquejada).length;
+	return { pendents: cua.length - bloquejades + (origen?.pendent ? 1 : 0), bloquejades };
 }
 
 /**
@@ -542,6 +554,44 @@ function mateixaFila(a: FilaAscensio, b: FilaAscensio): boolean {
 		a.updatedAt === b.updatedAt &&
 		a.deletedAt === b.deletedAt
 	);
+}
+
+/**
+ * Resol els duplicats entre les ascensions vives del dispositiu (`planificarDuplicats`): la
+ * guanyadora rep el contingut fusionat (si canvia) i les perdedores passen a làpida **ja buida**
+ * (la nota i els companys ja són a la guanyadora; no és un esborrat de l'usuari i no té "Desfés"),
+ * amb una redirecció cap a la guanyadora. Tot amb l'`instant` del pla (determinista) i encuat per
+ * pujar. Una transacció; una lectura (`getAll`). Retorna quantes files han passat a làpida.
+ * No s'executa sense sessió: sense sync no hi pot haver duplicats d'altres dispositius.
+ */
+async function resoldreDuplicats(epoca: string | null): Promise<number> {
+	const bd = obtenirBd();
+	const taules = [bd.ascensions, bd.outbox, bd.meta, bd.redireccions];
+	return bd.transaction('rw', taules, async () => {
+		await comprovarEpoca(epoca);
+		const plans = planificarDuplicats(await bd.ascensions.toArray());
+		if (!plans.length) return 0;
+		const encuaAt = ara().toISOString();
+		const escriure: FilaAscensio[] = [];
+		const redireccions: Redireccio[] = [];
+		for (const pla of plans) {
+			const { guanyadora, contingut, instant } = pla;
+			if (pla.canviaGuanyadora) {
+				const fila: FilaAscensio = { ...guanyadora, nota: contingut.nota, updatedAt: instant };
+				if (contingut.companys === undefined) delete fila.companys;
+				else fila.companys = contingut.companys;
+				escriure.push(fila);
+			}
+			for (const p of pla.perdedores) {
+				escriure.push({ ...senseDiari(p), deletedAt: instant, updatedAt: instant });
+				redireccions.push(redireccio(p.id, guanyadora.id, 'duplicat'));
+			}
+		}
+		await bd.ascensions.bulkPut(escriure);
+		await bd.outbox.bulkPut(escriure.map((f) => ({ ascensioId: f.id, encuaAt, intents: 0 })));
+		await bd.redireccions.bulkPut(redireccions);
+		return redireccions.length;
+	});
 }
 
 /** Màxim de pàgines per pull (defensa contra bucles si el servidor es comportés malament). */
@@ -639,15 +689,24 @@ export async function sincronitzar(remot: Remot, usuariId: string): Promise<Resu
 	if (!propietari) await adoptarDadesLocals(usuariId, epoca);
 	// Les làpides que ja no es poden desfer pugen buides (sense nota ni companys).
 	await purgarLapides(bd, () => comprovarEpoca(epoca));
-	const { pujades, rebutjades, reassignades } = await pujar(remot, epoca);
+	const pujada = await pujar(remot, epoca);
 	const baixades = await baixar(remot, epoca);
+	const duplicats = await resoldreDuplicats(epoca);
+	if (duplicats) {
+		// La fusió es puja ara mateix (els altres dispositius la veuran a la seva sync següent).
+		const r = await pujar(remot, epoca);
+		pujada.pujades += r.pujades;
+		pujada.rebutjades += r.rebutjades;
+		pujada.reassignades += r.reassignades;
+	}
+	const { pujades, rebutjades, reassignades } = pujada;
 	await sincronitzarOrigen(remot, epoca);
 	await bd.transaction('rw', bd.meta, async () => {
 		await comprovarEpoca(epoca);
 		await bd.meta.put({ clau: 'ultimaSync', valor: ara().toISOString() });
 	});
 	const bloquejades = await comptarBloquejades();
-	return { estat: 'fet', pujades, rebutjades, reassignades, baixades, bloquejades };
+	return { estat: 'fet', pujades, rebutjades, reassignades, baixades, bloquejades, duplicats };
 }
 
 // ---------------------------------------------------------------------------
@@ -660,6 +719,12 @@ export interface EstatSync {
 	 * servidor ha rebutjat `MAX_INTENTS` vegades es reporten com a `error: 'servidor'`.
 	 */
 	pendents: number;
+	/**
+	 * Entrades de la cua que el servidor ha rebutjat `MAX_INTENTS` vegades o més (no compten a
+	 * `pendents`). Mentre n'hi hagi, la sync publica `error: 'servidor'`; la UI en pot mostrar un
+	 * text propi. Una edició local de la fila la torna a encuar (i deixa de comptar).
+	 */
+	bloquejades: number;
 	/** Instant ISO de l'última sync completa (d'aquest dispositiu), o `null`. */
 	ultimaSync: string | null;
 	/** Hi ha una sync en curs. */
@@ -678,7 +743,13 @@ export interface EstatSync {
 	actiu: boolean;
 }
 
-let estat: EstatSync = { pendents: 0, ultimaSync: null, sincronitzant: false, actiu: false };
+let estat: EstatSync = {
+	pendents: 0,
+	bloquejades: 0,
+	ultimaSync: null,
+	sincronitzant: false,
+	actiu: false
+};
 const subscriptors = new Set<(e: EstatSync) => void>();
 let aturarComptador: (() => void) | null = null;
 
@@ -693,10 +764,10 @@ function engegarComptador(): void {
 		(ultimaSync) => publicar({ ultimaSync }),
 		() => {}
 	);
-	const sub = liveQuery(comptarPendents).subscribe({
-		next: (pendents) => {
+	const sub = liveQuery(comptarCua).subscribe({
+		next: ({ pendents, bloquejades }) => {
 			const augmenta = pendents > estat.pendents;
-			publicar({ pendents });
+			publicar({ pendents, bloquejades });
 			// Escriptura local nova: pujada amb debounce (si hi ha sessió).
 			if (augmenta) programar(RETARD_DESPRES_ESCRIPTURA_MS);
 		},
@@ -766,6 +837,7 @@ async function passada(): Promise<void> {
 				// Canvis que el servidor rebutja sempre: error visible (no "pendents" per sempre).
 				// Les files locals no es toquen.
 				error: r.bloquejades ? 'servidor' : undefined,
+				bloquejades: r.bloquejades,
 				ultimaSync: ara().toISOString()
 			});
 		}
@@ -862,11 +934,13 @@ export async function resoldreConflicteCompte(
 			novaEpoca()
 		]);
 	} else {
-		await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.preferencies, async () => {
+		const taules = [bd.ascensions, bd.outbox, bd.meta, bd.preferencies, bd.redireccions];
+		await bd.transaction('rw', taules, async () => {
 			await bd.ascensions.clear();
 			await bd.outbox.clear();
 			await bd.meta.clear();
 			await bd.preferencies.clear();
+			await bd.redireccions.clear();
 			await bd.meta.put(novaEpoca());
 		});
 	}
@@ -899,5 +973,11 @@ export function _reiniciarSyncPerTests(): void {
 	subscriptors.clear();
 	enCurs = null;
 	repetir = false;
-	estat = { pendents: 0, ultimaSync: null, sincronitzant: false, actiu: false };
+	estat = {
+		pendents: 0,
+		bloquejades: 0,
+		ultimaSync: null,
+		sincronitzant: false,
+		actiu: false
+	};
 }

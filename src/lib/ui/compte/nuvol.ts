@@ -19,6 +19,11 @@ export interface SyncUi {
 	sincronitzant?: boolean;
 	/** El dispositiu té dades d'un altre compte: cal que l'usuari triï abans de sincronitzar. */
 	conflicte?: string | null;
+	/**
+	 * Canvis que el servidor ha rebutjat `MAX_INTENTS` vegades: ja no es tornen a pujar sols i
+	 * no compten com a `pendents`. Mentre n'hi hagi, `error` és `'servidor'`.
+	 */
+	bloquejades?: number;
 }
 
 export type EstatNuvol =
@@ -26,6 +31,7 @@ export type EstatNuvol =
 	| { tipus: 'local' }
 	| { tipus: 'error' }
 	| { tipus: 'conflicte' }
+	| { tipus: 'bloquejades'; bloquejades: number }
 	| { tipus: 'pendents'; pendents: number; offline: boolean }
 	| { tipus: 'mai' }
 	| { tipus: 'ok'; ultimaSync: Date };
@@ -37,11 +43,19 @@ export function dataSync(valor: SyncUi['ultimaSync']): Date | null {
 	return Number.isNaN(d.getTime()) ? null : d;
 }
 
-/** Què s'ha de mostrar segons la sessió i la sincronització. L'error mana sobre els pendents. */
+/**
+ * Què s'ha de mostrar segons la sessió i la sincronització. L'error mana sobre els pendents.
+ * Els canvis bloquejats (rebutjats pel servidor massa vegades) tenen text propi: arriben amb
+ * `error: 'servidor'`, però qualsevol altre error (sessió caducada, xarxa) passa al davant, i es
+ * mostren també sense connexió (no depenen de la xarxa: no s'arreglaran sols).
+ */
 export function estatNuvol(sessio: SessioUi, sync: SyncUi, online = true): EstatNuvol {
 	if (sessio.estat === 'carregant') return { tipus: 'carregant' };
 	if (sessio.estat === 'anonim') return { tipus: 'local' };
 	if (sync.conflicte) return { tipus: 'conflicte' };
+	const bloquejades = sync.bloquejades ?? 0;
+	if (sync.error && sync.error !== 'servidor' && online) return { tipus: 'error' };
+	if (bloquejades > 0) return { tipus: 'bloquejades', bloquejades };
 	if (sync.error && online) return { tipus: 'error' };
 	if (sync.pendents > 0) return { tipus: 'pendents', pendents: sync.pendents, offline: !online };
 	const ultima = dataSync(sync.ultimaSync);
@@ -148,7 +162,7 @@ export type PrimerAcces = 'desant' | 'fet' | 'error' | 'conflicte';
  */
 export function estatPrimerAcces(desde: number, sync: SyncUi): PrimerAcces {
 	if (sync.conflicte) return 'conflicte';
-	if (sync.error) return 'error';
+	if (sync.error || (sync.bloquejades ?? 0) > 0) return 'error';
 	const ultima = dataSync(sync.ultimaSync);
 	if (ultima && ultima.getTime() >= desde && sync.pendents === 0 && !sync.sincronitzant) {
 		return 'fet';

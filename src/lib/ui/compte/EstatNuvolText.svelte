@@ -29,6 +29,7 @@
 			case 'local':
 				return 'device';
 			case 'error':
+			case 'bloquejades':
 			case 'conflicte':
 				return 'cloud-alert';
 			case 'pendents':
@@ -52,6 +53,10 @@
 				return m.cloud_status_local();
 			case 'error':
 				return m.cloud_status_error();
+			case 'bloquejades':
+				return estat.bloquejades === 1
+					? m.cloud_sync_blocked_one()
+					: m.cloud_sync_blocked({ count: String(estat.bloquejades) });
 			case 'conflicte':
 				return m.cloud_conflict_title();
 			case 'pendents':
@@ -100,6 +105,7 @@
 	}
 
 	.error :global(svg),
+	.bloquejades :global(svg),
 	.conflicte :global(svg) {
 		color: var(--c-stamp-ink);
 	}

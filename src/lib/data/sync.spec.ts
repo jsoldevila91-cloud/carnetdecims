@@ -3,13 +3,15 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vites
 import type { ClientSupabase } from '$lib/platform/supabase';
 import {
 	actualitzarAscensio,
+	actualitzarAscensioAmbDesfer,
 	afegirAscensio,
 	esborrarAscensio,
 	esborrarTot,
 	exportarDades,
 	importarDades,
 	llistarAscensions,
-	pendentsDeSincronitzar
+	pendentsDeSincronitzar,
+	restaurarAscensio
 } from './ascensions';
 import { CIMS } from './catalog/cataleg';
 import { obtenirBd, tancarBd, type EntradaPreferencia, type FilaAscensio } from './local/db';
@@ -250,7 +252,8 @@ describe('primera sync: adopció de les dades locals', () => {
 			rebutjades: 0,
 			reassignades: 0,
 			baixades: 0,
-			bloquejades: 0
+			bloquejades: 0,
+			duplicats: 0
 		});
 		expect(servidor.viva(a.id)).toMatchObject({ cimId: CIM_A, metode: 'a-peu' });
 		expect(servidor.files.get(b.id)?.fila.deletedAt).not.toBeNull();
@@ -557,7 +560,9 @@ describe('cua i errors', () => {
 		const n = PAGINA_PULL + 37;
 		for (let i = 0; i < n; i++) {
 			const hex = i.toString(16).padStart(12, '0');
-			servidor.escriure(filaRemota({ id: `01920000-0000-7000-8000-${hex}` }));
+			// Un dia diferent per fila: no són duplicats (mateix cim, data i mètode).
+			const data = new Date(Date.UTC(2010, 0, 1) + i * 86_400_000).toISOString().slice(0, 10);
+			servidor.escriure(filaRemota({ id: `01920000-0000-7000-8000-${hex}`, data }));
 		}
 		const r = await sincronitzar(servidor, USUARI);
 		expect(r).toMatchObject({ baixades: n });
@@ -778,8 +783,20 @@ describe('rebutjos permanents (no "pendents" per sempre)', () => {
 		const desub = estatSync.subscribe((e) => (darrer = e));
 		configurarSync({ remot: servidor, usuariId: USUARI });
 		await vi.waitFor(() =>
-			expect(darrer).toMatchObject({ sincronitzant: false, error: 'servidor', pendents: 0 })
+			expect(darrer).toMatchObject({
+				sincronitzant: false,
+				error: 'servidor',
+				pendents: 0,
+				bloquejades: 1
+			})
 		);
+		// Una edició local la torna a encuar: deixa de comptar com a bloquejada.
+		await obtenirBd().outbox.put({
+			ascensioId: id,
+			encuaAt: '2026-09-29T11:00:00.000Z',
+			intents: 0
+		});
+		await vi.waitFor(() => expect(darrer).toMatchObject({ bloquejades: 0 }));
 		expect(servidor.viva(ok.id)).toBeDefined();
 		expect(await llistarAscensions()).toHaveLength(2);
 		desub();
@@ -863,6 +880,223 @@ describe('esborrat local amb una passada de sync en vol', () => {
 		await sincronitzarAra();
 		expect(await llistarAscensions()).toHaveLength(2);
 		desub();
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Duplicats entre dispositius i redireccions d'ids
+// ---------------------------------------------------------------------------
+
+const TAULES_DISPOSITIU = ['ascensions', 'outbox', 'meta', 'preferencies', 'redireccions'] as const;
+
+/**
+ * Diversos dispositius sobre la mateixa BD de proves: en canviar de dispositiu, es desa el
+ * contingut de totes les taules del dispositiu actual i es carrega el de l'altre (buit si és nou).
+ */
+class Dispositius {
+	private desats = new Map<string, Record<string, unknown[]>>();
+
+	constructor(private actual: string) {}
+
+	async canviarA(nom: string): Promise<void> {
+		const bd = obtenirBd();
+		const taules = TAULES_DISPOSITIU.map((t) => bd.table(t));
+		const desat: Record<string, unknown[]> = {};
+		for (const t of taules) desat[t.name] = await t.toArray();
+		this.desats.set(this.actual, desat);
+		const carregar = this.desats.get(nom);
+		await bd.transaction('rw', taules, async () => {
+			for (const t of taules) {
+				await t.clear();
+				if (carregar?.[t.name].length) await t.bulkPut(carregar[t.name]);
+			}
+		});
+		this.actual = nom;
+	}
+}
+
+const vivesServidor = (s: ServidorFals) =>
+	[...s.files.values()].filter((r) => !r.fila.deletedAt).map((r) => r.fila);
+
+describe('duplicats entre dispositius', () => {
+	const MATEIXA = { cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' } as const;
+
+	it('la mateixa ascensió registrada en dos dispositius: 1 viva al núvol i a cada dispositiu', async () => {
+		const disp = new Dispositius('mobil');
+		const a = await afegirAscensio({ ...MATEIXA, nota: 'des del mòbil', companys: ['Inesa'] });
+		await sincronitzar(servidor, USUARI);
+
+		await disp.canviarA('ordinador');
+		fixar('2026-09-29T12:00:00.000Z');
+		const b = await afegirAscensio({ ...MATEIXA, nota: "des de l'ordinador", companys: ['Pau'] });
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ estat: 'fet', duplicats: 1, rebutjades: 0 });
+
+		// Guanya la més antiga (a), amb la nota i els companys de totes dues.
+		const esperada = {
+			id: a.id,
+			nota: `des del mòbil\n\ndes de l'ordinador`,
+			companys: ['Inesa', 'Pau'],
+			createdAt: a.createdAt,
+			updatedAt: '2026-09-29T12:00:00.001Z'
+		};
+		expect(await llistarAscensions()).toEqual([expect.objectContaining(esperada)]);
+		expect(vivesServidor(servidor)).toEqual([expect.objectContaining(esperada)]);
+		// La perdedora és una làpida buida (al núvol i en local), sense res pendent.
+		expect(servidor.files.get(b.id)?.fila).toMatchObject({
+			deletedAt: '2026-09-29T12:00:00.001Z',
+			nota: null,
+			companys: []
+		});
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+
+		await disp.canviarA('mobil');
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 0, pujades: 0 });
+		expect(await llistarAscensions()).toEqual([expect.objectContaining(esperada)]);
+		expect((await filaLocal(b.id))?.deletedAt).toBe('2026-09-29T12:00:00.001Z');
+
+		// Estable: més passades no pugen ni fusionen res a cap dels dos dispositius.
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 0, pujades: 0 });
+		await disp.canviarA('ordinador');
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 0, pujades: 0 });
+		expect(vivesServidor(servidor)).toHaveLength(1);
+	});
+
+	it('si tots dos dispositius fusionen pel seu compte, escriuen les mateixes files (convergeixen)', async () => {
+		const disp = new Dispositius('mobil');
+		const a = await afegirAscensio({ ...MATEIXA, nota: 'a' });
+		await sincronitzar(servidor, USUARI);
+
+		await disp.canviarA('ordinador');
+		fixar('2026-09-29T12:00:00.000Z');
+		const b = await afegirAscensio({ ...MATEIXA, nota: 'b', companys: ['Pau'] });
+		// L'ordinador fusiona, però la pujada de la fusió falla (queda pendent).
+		servidor.duranPull = async () => {
+			servidor.fallaPush = new ErrorSync('xarxa');
+		};
+		await expect(sincronitzar(servidor, USUARI)).rejects.toMatchObject({ codi: 'xarxa' });
+		expect(await llistarAscensions()).toHaveLength(1);
+
+		// El mòbil baixa b (viva) i fusiona pel seu compte.
+		await disp.canviarA('mobil');
+		fixar('2026-09-29T13:00:00.000Z');
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 1 });
+		const mobil = await obtenirBd().ascensions.bulkGet([a.id, b.id]);
+
+		// L'ordinador puja la seva fusió: és idèntica (el servidor es queda la seva, igual).
+		await disp.canviarA('ordinador');
+		fixar('2026-09-29T14:00:00.000Z');
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 0 });
+		const ordinador = await obtenirBd().ascensions.bulkGet([a.id, b.id]);
+		expect(ordinador).toEqual(mobil);
+		expect(servidor.files.get(a.id)?.fila).toEqual(mobil[0]);
+		expect(servidor.files.get(b.id)?.fila).toEqual(mobil[1]);
+		expect(mobil[0]).toMatchObject({ nota: 'a\n\nb', companys: ['Pau'], deletedAt: null });
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('mètodes diferents el mateix dia no es fusionen', async () => {
+		await afegirAscensio(MATEIXA);
+		servidor.escriure(filaRemota({ cimId: CIM_A, data: '2026-09-20', metode: 'esqui' }));
+		expect(await sincronitzar(servidor, USUARI)).toMatchObject({ duplicats: 0 });
+		expect(await llistarAscensions()).toHaveLength(2);
+	});
+
+	it('una edició, un esborrat o un Desfés amb l’id de la perdedora actuen sobre la guanyadora', async () => {
+		const a = await afegirAscensio({ ...MATEIXA, nota: 'a' });
+		fixar('2026-09-29T11:00:00.000Z');
+		// Una fila igual (més nova) arriba d'un altre dispositiu.
+		const idB = '01920000-0000-7000-8000-0000000000bb';
+		servidor.escriure(
+			filaRemota({
+				id: idB,
+				...MATEIXA,
+				nota: null,
+				createdAt: '2026-09-29T10:30:00.000Z',
+				updatedAt: '2026-09-29T10:30:00.000Z'
+			})
+		);
+		await sincronitzar(servidor, USUARI);
+		expect((await filaLocal(idB))?.deletedAt).toBeTruthy();
+
+		// La fitxa d'edició era oberta amb l'id de la perdedora.
+		const editada = await actualitzarAscensio(idB, { nota: 'editada' });
+		expect(editada).toMatchObject({ id: a.id, nota: 'editada' });
+		await esborrarAscensio(idB);
+		expect(await llistarAscensions()).toEqual([]);
+		expect((await filaLocal(a.id))?.deletedAt).toBeTruthy();
+	});
+});
+
+describe("redireccions d'ids reassignats ('id en ús')", () => {
+	it("editar, esborrar i desfer amb l'id vell després de la reassignació actuen sobre l'id nou", async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.aliens.add(a.id);
+		await sincronitzar(servidor, USUARI);
+		const [nova] = await llistarAscensions();
+		expect(nova.id).not.toBe(a.id);
+
+		fixar('2026-09-29T11:00:00.000Z');
+		const editada = await actualitzarAscensio(a.id, { nota: 'editada' });
+		expect(editada).toMatchObject({ id: nova.id, nota: 'editada' });
+		const { desada, desfer } = await actualitzarAscensioAmbDesfer(a.id, { nota: 'segona' });
+		expect(desada.id).toBe(nova.id);
+		expect(desfer.nota).toBe('editada');
+
+		await esborrarAscensio(a.id);
+		expect(await llistarAscensions()).toEqual([]);
+		// "Desfés" amb l'id vell (el toast era obert quan es va reassignar).
+		const restaurada = await restaurarAscensio(a.id);
+		expect(restaurada).toMatchObject({ id: nova.id, nota: 'segona' });
+
+		await sincronitzar(servidor, USUARI);
+		expect(servidor.viva(nova.id)?.nota).toBe('segona');
+		expect(servidor.files.has(a.id)).toBe(false);
+		expect(servidor.files.size).toBe(1);
+	});
+
+	it("importar dues vegades el JSON d'un altre compte: la segona no afegeix res", async () => {
+		const a = await afegirAscensio({
+			cimId: CIM_A,
+			data: '2026-09-20',
+			metode: 'a-peu',
+			nota: 'n'
+		});
+		const json = await exportarDades();
+		await esborrarTot();
+		await sincronitzar(servidor, USUARI);
+		servidor.aliens.add(a.id);
+
+		expect(await importarDades(json, 'fusionar')).toMatchObject({ afegides: 1 });
+		await sincronitzar(servidor, USUARI); // l'id vell es reassigna
+		expect(await importarDades(json, 'fusionar')).toEqual({
+			afegides: 0,
+			actualitzades: 0,
+			ignorades: 1
+		});
+		expect(await importarDades(json, 'substituir')).toEqual({
+			afegides: 0,
+			actualitzades: 0,
+			ignorades: 1
+		});
+		// Sense la redirecció (p. ex. desada abans d'aquesta versió), la clau de duplicat també ho evita.
+		await obtenirBd().redireccions.clear();
+		expect(await importarDades(json, 'fusionar')).toMatchObject({ afegides: 0 });
+
+		const r = await sincronitzar(servidor, USUARI);
+		expect(r).toMatchObject({ reassignades: 0, duplicats: 0 });
+		expect(await llistarAscensions()).toEqual([expect.objectContaining({ nota: 'n' })]);
+		expect(servidor.files.size).toBe(1);
+		expect(await pendentsDeSincronitzar()).toEqual([]);
+	});
+
+	it('esborrarTot també esborra les redireccions', async () => {
+		const a = await afegirAscensio({ cimId: CIM_A, data: '2026-09-20', metode: 'a-peu' });
+		servidor.aliens.add(a.id);
+		await sincronitzar(servidor, USUARI);
+		expect(await obtenirBd().redireccions.count()).toBe(1);
+		await esborrarTot();
+		expect(await obtenirBd().redireccions.count()).toBe(0);
 	});
 });
 

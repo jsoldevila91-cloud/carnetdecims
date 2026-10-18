@@ -7,6 +7,7 @@ export * from './carnet';
 export * from './a-prop';
 export * from './dificultat';
 export * from './diari';
+export * from './duplicats';
 export * from './municipis';
 export * from './estadistiques';
 export * from './reptes';

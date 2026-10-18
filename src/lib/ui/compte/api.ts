@@ -19,11 +19,17 @@ export interface ApiCompte {
 	estatSync: StoreUi<SyncUi>;
 	compteDisponible(): boolean;
 	entrarAmbEmail(email: string, opcions: { redirectTo: string }): Promise<void>;
+	/** Entrar amb Google està configurat en aquest build (`PUBLIC_GOOGLE_AUTH`)? */
+	googleDisponible(): boolean;
+	/** Redirigeix a Google; en tornar, l'entrada es completa com la de l'enllaç del correu. */
+	entrarAmbGoogle(opcions: { redirectTo: string }): Promise<void>;
 	verificarCodi(email: string, codi: string): Promise<unknown>;
 	completarEntradaDesDeUrl(): Promise<'cap' | 'entrat' | ErrorAmbCodi>;
 	sortir(): Promise<void>;
 	esborrarCompte(opcions: { conservarDispositiu?: boolean }): Promise<void>;
 	exportarDadesCompte(): Promise<string>;
+	/** Còpia de les dades d'aquest dispositiu (inclou els canvis que no s'han pogut pujar). */
+	exportarDadesLocals(): Promise<string>;
 	sincronitzarAra(): Promise<void>;
 	resoldreConflicteCompte(accio: 'fusionar' | 'descartar-locals'): Promise<void>;
 }

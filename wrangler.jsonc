@@ -13,10 +13,13 @@
 	// Supabase (fase 5): URL i clau PUBLICABLE, públiques per disseny (la seguretat és la RLS).
 	// El build les llegeix d'aquí si no hi ha `.env` (`platform/plugin-env-supabase.ts`).
 	// Mai no hi posis la service_role.
+	// PUBLIC_GOOGLE_AUTH: entrada amb Google (Supabase OAuth). "true" només quan el proveïdor estigui
+	// configurat al panell de Supabase (el secret de Google va allà, mai aquí). Es llegeix al build.
 	"vars": {
 		"PUBLIC_MODE_BETA": "true",
 		"PUBLIC_SUPABASE_URL": "https://ckqhdryopasitqtwjyys.supabase.co",
-		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_Zo2yYlYYhLqV7LP1FwFAoQ_f64S1pD8"
+		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_Zo2yYlYYhLqV7LP1FwFAoQ_f64S1pD8",
+		"PUBLIC_GOOGLE_AUTH": "false"
 	},
 	// Domini propi (zona carnetdecims.cat a Cloudflare; el correu continua a Hostinger: MX/SPF/DKIM).
 	"routes": [{ "pattern": "carnetdecims.cat", "custom_domain": true }],

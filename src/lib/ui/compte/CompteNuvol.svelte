@@ -12,6 +12,7 @@
 	import { toasts } from '../toast.svelte';
 	import { codiError, type ApiCompte } from './api';
 	import { apiReal } from './api-real';
+	import BotoGoogle from './BotoGoogle.svelte';
 	import EstatNuvolText from './EstatNuvolText.svelte';
 	import {
 		VIGENCIA_ENLLAC_MS,
@@ -48,6 +49,7 @@
 		titol: `compte-${uid}`,
 		email: `compte-email-${uid}`,
 		emailErr: `compte-email-err-${uid}`,
+		googleErr: `compte-google-err-${uid}`,
 		codi: `compte-codi-${uid}`,
 		codiHint: `compte-codi-hint-${uid}`,
 		codiErr: `compte-codi-err-${uid}`,
@@ -56,6 +58,8 @@
 	const locale = getLocale();
 	// svelte-ignore state_referenced_locally
 	const disponible = api.compteDisponible();
+	// svelte-ignore state_referenced_locally
+	const googleDisponible = disponible && api.googleDisponible();
 
 	const sessioActual = $derived($sessio);
 	const usuariEmail = $derived(
@@ -78,8 +82,10 @@
 	let codi = $state('');
 	let errorCodi = $state<string | null>(null);
 	let verificant = $state(false);
-	/** Error en tornar de l'enllaç (caducat, ja fet servir…). */
+	/** Error en tornar de l'enllaç (caducat, ja fet servir…) o de Google (cancel·lat…). */
 	let errorEnllac = $state<string | null>(null);
+	let entrantGoogle = $state(false);
+	let errorGoogle = $state<string | null>(null);
 
 	// ── Primer accés: instant d'entrada i ascensions que hi havia abans ──
 	let primerDesDe = $state<number | null>(null);
@@ -97,7 +103,13 @@
 			oblidaEnllacEnviat();
 		}
 		if (!disponible) return;
-		// Tornada de l'enllaç del correu: es completa l'entrada i es neteja la URL.
+		// Si es torna enrere des de Google, la pàgina pot sortir de la memòria cau (bfcache) amb el
+		// botó encara en càrrega.
+		const enTornar = (e: PageTransitionEvent) => {
+			if (e.persisted) entrantGoogle = false;
+		};
+		addEventListener('pageshow', enTornar);
+		// Tornada de l'enllaç del correu o de Google: es completa l'entrada i es neteja la URL.
 		const desde = Date.now();
 		void api.completarEntradaDesDeUrl().then(async (r) => {
 			if (r === 'cap') return;
@@ -109,6 +121,7 @@
 			}
 			errorEnllac = codiError(r) === 'codi:invalid' ? m.cloud_link_invalid() : textErrorCompte(r);
 		});
+		return () => removeEventListener('pageshow', enTornar);
 	});
 
 	function iniciaPrimerAcces(desde: number) {
@@ -165,8 +178,37 @@
 				return m.cloud_unavailable();
 			case 'codi:invalid':
 				return m.cloud_code_invalid();
+			case 'cancelat':
+				return m.cloud_google_cancelled();
 			default:
 				return m.cloud_send_error();
+		}
+	}
+
+	/** URL de tornada (enllaç del correu i Google): la pàgina del compte en l'idioma actual. */
+	function urlTornada(): string {
+		return new URL(href('/app/compte'), location.origin).href;
+	}
+
+	async function entraAmbGoogle() {
+		if (entrantGoogle) return;
+		errorEnllac = null;
+		if (!network.online) {
+			errorGoogle = m.cloud_google_offline();
+			return;
+		}
+		entrantGoogle = true;
+		errorGoogle = null;
+		try {
+			// Si va bé, el navegador surt cap a Google: el botó es queda en estat de càrrega.
+			await api.entrarAmbGoogle({ redirectTo: urlTornada() });
+		} catch (e) {
+			const codi = codiError(e);
+			errorGoogle =
+				codi === 'xarxa' || codi === 'limit' || codi === 'cancelat' || codi === 'no-configurat'
+					? textErrorCompte(e)
+					: m.cloud_google_error();
+			entrantGoogle = false;
 		}
 	}
 
@@ -178,9 +220,9 @@
 		enviant = true;
 		errorEmail = null;
 		errorEnllac = null;
+		errorGoogle = null;
 		try {
-			const redirectTo = new URL(href('/app/compte'), location.origin).href;
-			await api.entrarAmbEmail(adreca, { redirectTo });
+			await api.entrarAmbEmail(adreca, { redirectTo: urlTornada() });
 			const t = Date.now();
 			desaEnllacEnviat(adreca, t);
 			enviat = { email: adreca, t };
@@ -264,12 +306,36 @@
 		try {
 			// No llança: els errors queden a `estatSync.error`.
 			await api.sincronitzarAra();
-			if ($estatSync.error) toasts.show(m.cloud_sync_error(), { tone: 'error', duration: 8000 });
-			else toasts.show(m.cloud_sync_done(), { tone: 'success' });
+			const despres = estatNuvol(sessioActual, $estatSync, network.online);
+			if (despres.tipus === 'bloquejades') {
+				toasts.show(textBloquejades(despres.bloquejades), { tone: 'error', duration: 8000 });
+			} else if ($estatSync.error) {
+				toasts.show(m.cloud_sync_error(), { tone: 'error', duration: 8000 });
+			} else toasts.show(m.cloud_sync_done(), { tone: 'success' });
 		} catch {
 			toasts.show(m.cloud_sync_error(), { tone: 'error', duration: 8000 });
 		} finally {
 			sincronitzant = false;
+		}
+	}
+
+	function textBloquejades(n: number): string {
+		return n === 1
+			? m.cloud_sync_blocked_toast_one()
+			: m.cloud_sync_blocked_toast({ count: String(n) });
+	}
+
+	/** Còpia local (inclou els canvis bloquejats, que no són al núvol). */
+	let exportantLocals = $state(false);
+	async function exportaLocals() {
+		exportantLocals = true;
+		try {
+			descarregarText(`carnetdecims-${avuiLocal()}.json`, await api.exportarDadesLocals());
+			toasts.show(m.account_export_done(), { tone: 'success' });
+		} catch {
+			toasts.show(m.register_error_generic(), { tone: 'error' });
+		} finally {
+			exportantLocals = false;
 		}
 	}
 
@@ -447,6 +513,22 @@
 					<p id={ids.emailErr} class="err" role="alert">{errorEmail}</p>
 				{/if}
 			</form>
+			{#if googleDisponible}
+				<div class="alternativa">
+					<p class="separador" aria-hidden="true"><span>{m.cloud_or()}</span></p>
+					<BotoGoogle
+						ocupat={entrantGoogle}
+						disabled={entrantGoogle || enviant}
+						onclick={entraAmbGoogle}
+						aria-describedby={errorGoogle ? ids.googleErr : undefined}
+					>
+						{entrantGoogle ? m.cloud_google_opening() : m.cloud_google()}
+					</BotoGoogle>
+					{#if errorGoogle}
+						<p id={ids.googleErr} class="err" role="alert">{errorGoogle}</p>
+					{/if}
+				</div>
+			{/if}
 			<noscript><p class="err">{m.cloud_noscript()}</p></noscript>
 		{/if}
 	{:else}
@@ -475,6 +557,18 @@
 				<p class="hint">
 					{$estatSync.error === 'sessio' ? m.cloud_sync_error_session() : m.cloud_sync_error()}
 				</p>
+			{:else if estat.tipus === 'bloquejades'}
+				<p class="hint">{m.cloud_sync_blocked_hint()}</p>
+				<div class="actions">
+					<Button
+						variant="outline"
+						icon="install"
+						onclick={exportaLocals}
+						disabled={exportantLocals}
+					>
+						{m.cloud_sync_blocked_export()}
+					</Button>
+				</div>
 			{:else if estat.tipus === 'conflicte'}
 				<p class="hint">{m.cloud_conflict_text()}</p>
 				<div class="actions">
@@ -502,7 +596,7 @@
 			>
 				{#if syncEnCurs}
 					{m.cloud_syncing()}
-				{:else if estat.tipus === 'error'}
+				{:else if estat.tipus === 'error' || estat.tipus === 'bloquejades'}
 					{m.cloud_sync_retry()}
 				{:else}
 					{m.cloud_sync_now()}
@@ -662,6 +756,46 @@
 		font-weight: var(--fw-semibold);
 	}
 
+	.alternativa {
+		display: grid;
+		gap: var(--sp-3);
+		margin-top: var(--sp-3);
+	}
+
+	.alternativa :global(.google) {
+		width: 100%;
+	}
+
+	@media (min-width: 30rem) {
+		.alternativa {
+			justify-items: start;
+		}
+
+		.alternativa :global(.google) {
+			width: auto;
+		}
+	}
+
+	.separador {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-3);
+		justify-self: stretch;
+		color: var(--c-ink-2);
+		font-family: var(--font-mono);
+		font-size: var(--fs-xs);
+		font-weight: var(--fw-semibold);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.separador::before,
+	.separador::after {
+		content: '';
+		flex: 1;
+		border-top: 1px dashed var(--c-rule);
+	}
+
 	.enviat {
 		margin-top: var(--sp-4);
 		padding: var(--sp-3) var(--sp-4);
@@ -737,6 +871,7 @@
 	}
 
 	.estat.error,
+	.estat.bloquejades,
 	.estat.conflicte {
 		padding: var(--sp-3);
 		border: 1.5px solid var(--c-stamp-ink);
@@ -745,6 +880,7 @@
 	}
 
 	.estat.error .hint,
+	.estat.bloquejades .hint,
 	.estat.conflicte .hint {
 		color: var(--c-ink);
 	}

@@ -18,13 +18,18 @@
 import { liveQuery } from 'dexie';
 import {
 	avuiLocal,
+	clauDuplicat,
+	contingutCanvia,
 	esCodiMunicipi,
 	esDataIsoValida,
+	fusionarContingut,
 	mateixosCompanys,
 	normalitzarCompanys,
+	ordreGuanyadora,
 	validarData,
 	validarMetode,
 	type Ascensio,
+	type ContingutFusionat,
 	type DataISO,
 	type Metode
 } from '$lib/domain';
@@ -35,10 +40,12 @@ import {
 	type CarnetDb,
 	type EntradaOutbox,
 	type EntradaPreferencia,
-	type FilaAscensio
+	type FilaAscensio,
+	type Redireccio
 } from './local/db';
 import { novaEpoca } from './local/epoca';
 import { FINESTRA_DESFER_MS, foraDeFinestra, purgarLapides, senseDiari } from './local/lapides';
+import { filaResolta, redireccio, resoldreId } from './local/redireccions';
 import { ara, instantEscriptura } from './local/rellotge';
 import { esUuid, uuidv7 } from './local/uuid';
 
@@ -284,8 +291,10 @@ async function aplicarCanvis(
 	canvis: CanvisAscensio
 ): Promise<{ desada: Ascensio; desfer: CanvisDesfer }> {
 	const bd = obtenirBd();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
-		const actual = await bd.ascensions.get(id);
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.redireccions, async () => {
+		// Un id reassignat o fusionat amb un duplicat (p. ex. la fitxa d'edició era oberta quan la
+		// sync l'ha canviat) actua sobre la fila que el representa ara.
+		const actual = await filaResolta(bd, id, true);
 		if (!actual || actual.deletedAt) throw new ErrorAscensioNoTrobada(id);
 		// Companys resultants: `undefined` = la fila es queda sense la clau.
 		let companys: string[] | undefined;
@@ -312,7 +321,7 @@ async function aplicarCanvis(
 		if (companys === undefined || (actual.companys === undefined && fila.companys?.length === 0))
 			delete fila.companys;
 		await bd.ascensions.put(fila);
-		await encuar(bd, id, fila.updatedAt);
+		await encuar(bd, fila.id, fila.updatedAt);
 		return {
 			desada: copia(fila),
 			desfer: {
@@ -332,6 +341,8 @@ async function aplicarCanvis(
  * `companys: undefined` (o absent) els deixa igual; `companys: null` treu la clau.
  * Excepció: una fila **sense la clau** `companys` (anterior a R1) que queda sense companys
  * (`[]`) continua sense la clau, perquè la sync no esborri els que tingui al núvol.
+ * Un id reassignat (`id en ús`) o fusionat amb un duplicat actua sobre la fila que el representa
+ * ara (`local/redireccions.ts`); la fila retornada porta l'id nou.
  * @throws ErrorValidacio, ErrorAscensioNoTrobada
  */
 export async function actualitzarAscensio(id: string, canvis: CanvisAscensio): Promise<Ascensio> {
@@ -381,15 +392,23 @@ function programarPurga(): void {
  */
 export async function esborrarAscensio(id: string): Promise<void> {
 	const bd = obtenirBd();
-	const esborrada = await bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
-		const actual = await bd.ascensions.get(id);
-		if (!actual) throw new ErrorAscensioNoTrobada(id);
-		if (actual.deletedAt) return false;
-		const ts = instantEscriptura(actual.updatedAt);
-		await bd.ascensions.put({ ...actual, deletedAt: ts, updatedAt: ts });
-		await encuar(bd, id, ts);
-		return true;
-	});
+	const esborrada = await bd.transaction(
+		'rw',
+		bd.ascensions,
+		bd.outbox,
+		bd.redireccions,
+		async () => {
+			// Id reassignat, o duplicat fusionat (làpida amb redirecció): s'esborra la fila que el
+			// representa ara.
+			const actual = await filaResolta(bd, id, true);
+			if (!actual) throw new ErrorAscensioNoTrobada(id);
+			if (actual.deletedAt) return false;
+			const ts = instantEscriptura(actual.updatedAt);
+			await bd.ascensions.put({ ...actual, deletedAt: ts, updatedAt: ts });
+			await encuar(bd, actual.id, ts);
+			return true;
+		}
+	);
 	if (esborrada) programarPurga();
 }
 
@@ -404,8 +423,10 @@ export async function esborrarAscensio(id: string): Promise<void> {
  */
 export async function restaurarAscensio(id: string): Promise<Ascensio> {
 	const bd = obtenirBd();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, async () => {
-		const actual = await bd.ascensions.get(id);
+	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.redireccions, async () => {
+		// Només se segueix la redirecció si l'id ja no existeix (p. ex. reassignat mentre el toast
+		// de "Desfés" era obert); una làpida existent és la que l'usuari vol desfer.
+		const actual = await filaResolta(bd, id, false);
 		if (!actual) throw new ErrorAscensioNoTrobada(id);
 		if (!actual.deletedAt) return copia(actual);
 		const fila: FilaAscensio = {
@@ -414,7 +435,7 @@ export async function restaurarAscensio(id: string): Promise<Ascensio> {
 			updatedAt: instantEscriptura(actual.updatedAt)
 		};
 		await bd.ascensions.put(fila);
-		await encuar(bd, id, fila.updatedAt);
+		await encuar(bd, fila.id, fila.updatedAt);
 		return copia(fila);
 	});
 }
@@ -673,6 +694,106 @@ function origenAEscriure(
 	return { clau: 'origen', valor, updatedAt: instantEscriptura(local?.updatedAt), pendent: 1 };
 }
 
+/** Fila amb el contingut fusionat (`domain/duplicats.ts`) i un `updatedAt` nou. */
+function ambContingut(
+	fila: FilaAscensio,
+	contingut: ContingutFusionat,
+	updatedAt: string
+): FilaAscensio {
+	const nova: FilaAscensio = { ...fila, nota: contingut.nota, updatedAt };
+	if (contingut.companys === undefined) delete nova.companys;
+	else nova.companys = contingut.companys;
+	return nova;
+}
+
+/** Entrada del fitxer ja preparada per escriure (`prepararFitxer`). */
+interface FilaPreparada {
+	fila: FilaAscensio;
+	/**
+	 * L'id és el d'una ascensió local **viva** amb la mateixa clau de duplicat (el fitxer la porta
+	 * amb un altre id): es fusiona amb la local en lloc de crear una fila nova.
+	 */
+	perClau: boolean;
+}
+
+/**
+ * Prepara les entrades vàlides del fitxer (ja deduplicades per id) abans d'escriure-les:
+ * 1. Un id que el dispositiu ja va reassignar (`id en ús`) o fusionar (duplicat) passa a l'id
+ *    nou (`local/redireccions.ts`): reimportar el JSON d'un altre compte no torna a crear l'id vell.
+ *    Si dues entrades acaben amb el mateix id, es queda la de `updatedAt` més recent.
+ * 2. Les entrades que són la mateixa ascensió (`clauDuplicat`: cim, data i mètode) es fusionen en
+ *    una de sola (`fusionarContingut`): primer les que ja existeixen en local pel seu id (vives
+ *    abans que làpides) i després l'ordre determinista (`ordreGuanyadora`); `updatedAt`, el més
+ *    recent del grup. Les altres compten com a ignorades.
+ * 3. Si el grup no té cap id local però hi ha una ascensió local viva amb la mateixa clau (que el
+ *    fitxer no porta pel seu id), l'entrada pren l'id i el `createdAt` d'aquella local (`perClau`).
+ * `fusionades`: ids locals vius del fitxer que s'han fusionat dins d'una altra entrada → id que es
+ * queda (amb `substituir` passen a làpida amb una redirecció).
+ */
+function prepararFitxer(
+	files: readonly FilaAscensio[],
+	perIdLocal: ReadonlyMap<string, FilaAscensio>,
+	redireccions: ReadonlyMap<string, string>
+): { files: FilaPreparada[]; fusionades: Map<string, string>; ignorades: number } {
+	let ignorades = 0;
+	const perId = new Map<string, FilaAscensio>();
+	for (const f of files) {
+		const id = resoldreId(redireccions, f.id);
+		const fila = id === f.id ? f : { ...f, id };
+		const previa = perId.get(id);
+		if (previa) ignorades++;
+		if (!previa || fila.updatedAt > previa.updatedAt) perId.set(id, fila);
+	}
+	const grups = new Map<string, FilaAscensio[]>();
+	for (const f of perId.values()) {
+		const clau = clauDuplicat(f);
+		const grup = grups.get(clau);
+		if (grup) grup.push(f);
+		else grups.set(clau, [f]);
+	}
+	// Ascensions locals vives que el fitxer no porta pel seu id, per clau de duplicat.
+	const localsPerClau = new Map<string, FilaAscensio[]>();
+	for (const l of perIdLocal.values()) {
+		if (l.deletedAt || perId.has(l.id)) continue;
+		const clau = clauDuplicat(l);
+		const llista = localsPerClau.get(clau);
+		if (llista) llista.push(l);
+		else localsPerClau.set(clau, [l]);
+	}
+	const rang = (f: FilaAscensio): number => {
+		const local = perIdLocal.get(f.id);
+		return local ? (local.deletedAt ? 1 : 0) : 2;
+	};
+	const preparades: FilaPreparada[] = [];
+	const fusionades = new Map<string, string>();
+	for (const [clau, grup] of grups) {
+		const ordenat =
+			grup.length > 1 ? [...grup].sort((a, b) => rang(a) - rang(b) || ordreGuanyadora(a, b)) : grup;
+		const [base, ...resta] = ordenat;
+		ignorades += resta.length;
+		let fila = base;
+		if (resta.length) {
+			const contingut = fusionarContingut(ordenat, { notaMax: NOTA_MAX });
+			let updatedAt = base.updatedAt;
+			for (const f of resta) if (f.updatedAt > updatedAt) updatedAt = f.updatedAt;
+			fila = ambContingut(base, contingut, updatedAt);
+		}
+		let perClau = false;
+		if (!perIdLocal.has(fila.id)) {
+			const local = localsPerClau.get(clau)?.sort(ordreGuanyadora)[0];
+			if (local) {
+				fila = { ...fila, id: local.id, createdAt: local.createdAt };
+				perClau = true;
+			}
+		}
+		for (const f of resta) {
+			if (perIdLocal.get(f.id)?.deletedAt === null) fusionades.set(f.id, fila.id);
+		}
+		preparades.push({ fila, perClau });
+	}
+	return { files: preparades, fusionades, ignorades };
+}
+
 export interface ResultatImportacio {
 	afegides: number;
 	actualitzades: number;
@@ -772,26 +893,43 @@ export async function importarDades(
 
 	const bd = obtenirBd();
 	const encuaAt = instant.toISOString();
-	return bd.transaction('rw', bd.ascensions, bd.outbox, bd.preferencies, async () => {
+	const taules = [bd.ascensions, bd.outbox, bd.preferencies, bd.redireccions];
+	return bd.transaction('rw', taules, async () => {
 		let afegides = 0;
 		let actualitzades = 0;
-		const files = [...perId.values()];
-		// Una sola lectura (`getAll`) en lloc d'un `get` per id: a WebKit cada petició IndexedDB
-		// té un cost fix alt, fins i tot dins d'una transacció (mesurat al bloc 4a).
-		const totes = await bd.ascensions.toArray();
+		// Una sola lectura per taula (`getAll`) en lloc d'un `get` per id: a WebKit cada petició
+		// IndexedDB té un cost fix alt, fins i tot dins d'una transacció (mesurat al bloc 4a).
+		const [totes, redireccions] = await Promise.all([
+			bd.ascensions.toArray(),
+			bd.redireccions.toArray()
+		]);
 		const perIdLocal = new Map(totes.map((f) => [f.id, f]));
-		const locals = files.map((f) => perIdLocal.get(f.id));
+		const preparat = prepararFitxer(
+			[...perId.values()],
+			perIdLocal,
+			new Map(redireccions.map((r) => [r.idVell, r.idNou]))
+		);
+		ignorades += preparat.ignorades;
 		const escriure: FilaAscensio[] = [];
 		const cua: EntradaOutbox[] = [];
 		const posar = (fila: FilaAscensio, ts: string) => {
 			escriure.push(fila);
 			cua.push({ ascensioId: fila.id, encuaAt: ts, intents: 0 });
 		};
-		files.forEach((fila, i) => {
-			const local = locals[i];
+		for (const { fila, perClau } of preparat.files) {
+			const local = perIdLocal.get(fila.id);
 			if (!local) {
 				posar(fila, encuaAt);
 				afegides++;
+			} else if (perClau && mode === 'fusionar') {
+				// La mateixa ascensió amb un altre id (d'un altre dispositiu o compte): es fusiona amb
+				// la local, que conserva el seu id (cap id d'un altre compte no arriba al núvol).
+				const contingut = fusionarContingut([local, fila], { notaMax: NOTA_MAX });
+				if (contingutCanvia(local, contingut)) {
+					const nova = ambContingut(local, contingut, instantEscriptura(local.updatedAt));
+					posar(nova, nova.updatedAt);
+					actualitzades++;
+				} else ignorades++;
 			} else if (mode === 'fusionar') {
 				if (fila.updatedAt > local.updatedAt) {
 					posar(ambCompanysLocals(fila, local), encuaAt);
@@ -808,15 +946,21 @@ export async function importarDades(
 				posar(nova, nova.updatedAt);
 				actualitzades++;
 			}
-		});
+		}
+		const noves: Redireccio[] = [];
 		if (mode === 'substituir') {
+			const delFitxer = new Set(preparat.files.map((p) => p.fila.id));
 			for (const f of totes) {
-				if (f.deletedAt || perId.has(f.id)) continue;
+				if (f.deletedAt || delFitxer.has(f.id)) continue;
 				const ts = instantEscriptura(f.updatedAt);
 				// No hi ha "Desfés": la làpida neix buida (minimització, vegeu `local/lapides.ts`).
 				posar({ ...senseDiari(f), deletedAt: ts, updatedAt: ts }, ts);
+				// Duplicat d'una altra entrada del fitxer: l'id vell apunta a la que es queda.
+				const idNou = preparat.fusionades.get(f.id);
+				if (idNou) noves.push(redireccio(f.id, idNou, 'duplicat'));
 			}
 		}
+		if (noves.length) await bd.redireccions.bulkPut(noves);
 		const total = escriure.length;
 		avisar({ fetes: 0, total });
 		for (let i = 0; i < total; i += BLOC_IMPORTACIO) {
@@ -832,7 +976,8 @@ export async function importarDades(
 
 /**
  * Esborra del dispositiu totes les ascensions (també les làpides), la cua de sync, les
- * metadades de la sync (propietari i cursor) i les preferències (municipi d'origen) (RGPD).
+ * metadades de la sync (propietari i cursor), les redireccions d'ids i les preferències (municipi
+ * d'origen) (RGPD).
  * Irreversible **en aquest dispositiu**: amb compte, el núvol no es toca i la sync següent hi
  * tornarà a baixar les dades i el municipi d'origen (per esborrar-los del núvol,
  * `esborrarCompte`). Els stores vius emeten `[]` i l'origen queda buit.
@@ -841,11 +986,13 @@ export async function importarDades(
  */
 export async function esborrarTot(): Promise<void> {
 	const bd = obtenirBd();
-	await bd.transaction('rw', bd.ascensions, bd.outbox, bd.meta, bd.preferencies, async () => {
+	const taules = [bd.ascensions, bd.outbox, bd.meta, bd.preferencies, bd.redireccions];
+	await bd.transaction('rw', taules, async () => {
 		await bd.ascensions.clear();
 		await bd.outbox.clear();
 		await bd.meta.clear();
 		await bd.preferencies.clear();
+		await bd.redireccions.clear();
 		// Invalida qualsevol passada de sync en vol: no hi tornarà a escriure (vegeu `sync.ts`).
 		await bd.meta.put(novaEpoca());
 	});

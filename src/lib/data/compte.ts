@@ -10,6 +10,12 @@
  * - el codi (6–10 xifres) es pot escriure a la mateixa pantalla (`verificarCodi`): és el camí
  *   bo per a la PWA instal·lada a l'iPhone, on l'enllaç del correu s'obre a Safari i no a la PWA.
  *
+ * Entrada amb Google (`entrarAmbGoogle`, desactivada per defecte: `PUBLIC_GOOGLE_AUTH`): Supabase
+ * OAuth amb PKCE. Torna a `redirectTo` amb `?code=` (el client el bescanvia sol,
+ * `detectSessionInUrl`) o amb `?error=…` (p. ex. `access_denied` si l'usuari cancel·la); la pàgina
+ * crida igualment `completarEntradaDesDeUrl()`. El secret del client de Google només és al panell
+ * de Supabase (`docs/10-google-oauth.md`).
+ *
  * La sessió es desa al dispositiu (`platform/supabase.ts`) i la sync (`sync.ts`) s'activa sola
  * mentre hi ha sessió. Aquest mòdul és de navegador: importa'l de manera diferida.
  */
@@ -32,6 +38,7 @@ import {
 	sincronitzarAra
 } from './sync';
 import {
+	googleAuthActiu,
 	obtenirSupabase,
 	sessioDesada,
 	supabaseConfigurat,
@@ -59,7 +66,8 @@ export type CodiErrorCompte =
 	| 'limit' // massa correus o intents seguits (cal esperar)
 	| 'xarxa'
 	| 'sessio' // cal tornar a entrar
-	| 'no-configurat' // falten PUBLIC_SUPABASE_*
+	| 'no-configurat' // falten PUBLIC_SUPABASE_* (o Google no està activat en aquest build)
+	| 'cancelat' // l'usuari ha cancel·lat l'entrada amb Google (`?error=access_denied`)
 	| 'servidor';
 
 /** Error d'una operació del compte. `codi` estable per traduir amb `messages/`. */
@@ -75,6 +83,12 @@ export class ErrorCompte extends Error {
 
 /** El compte (Supabase) està configurat en aquest build? Si no, la UI no l'ofereix. */
 export const compteDisponible = supabaseConfigurat;
+
+/**
+ * L'entrada amb Google està activada en aquest build (`compteDisponible()` i
+ * `PUBLIC_GOOGLE_AUTH`)? Si no, la UI no l'ofereix.
+ */
+export const googleDisponible: boolean = supabaseConfigurat() && googleAuthActiu;
 
 // ---------------------------------------------------------------------------
 // Sessió observable
@@ -219,6 +233,59 @@ export async function entrarAmbEmail(
 }
 
 /**
+ * Entra amb Google (Supabase OAuth, flux PKCE): el navegador surt cap a Google i torna a
+ * `redirectTo` (URL absoluta de la llista permesa de Supabase, p. ex. `${origin}/ca/app/compte`),
+ * on `completarEntradaDesDeUrl()` completa l'entrada o retorna l'error (`cancelat` si l'usuari
+ * cancel·la a Google). La promesa es resol quan comença la redirecció.
+ * @throws ErrorCompte (`no-configurat` si `googleDisponible` és fals; `xarxa`, `limit`, `servidor`)
+ */
+export async function entrarAmbGoogle(opcions: { redirectTo: string }): Promise<void> {
+	if (!googleDisponible) throw new ErrorCompte('no-configurat', 'Google no activat');
+	let res;
+	try {
+		res = await client().auth.signInWithOAuth({
+			provider: 'google',
+			options: { redirectTo: opcions.redirectTo }
+		});
+	} catch (e) {
+		if (e instanceof ErrorCompte) throw e;
+		throw new ErrorCompte('xarxa', String(e));
+	}
+	if (res.error) throw errorAuth(res.error);
+}
+
+/**
+ * Error d'autenticació que torna a la URL (`?error=…&error_code=…&error_description=…`, a la query
+ * amb PKCE o al fragment amb el flux implícit). `null` si la URL no en porta cap.
+ * - `error_code` de límit → `limit`;
+ * - `error_code` d'enllaç o codi caducat o invàlid (p. ex. `otp_expired`, `flow_state_expired`)
+ *   → `codi:invalid` (l'enllaç del correu caducat torna amb `error=access_denied` **i** aquest codi);
+ * - `error=access_denied` sense cap altre `error_code` → `cancelat` (l'usuari ha cancel·lat a
+ *   Google);
+ * - altres que diguin `expired`, `invalid` o `denied` → `codi:invalid`; la resta, `servidor`.
+ * Exportat per als tests.
+ */
+export function errorEntradaUrl(
+	error: string | null,
+	codi: string | null,
+	descripcio: string | null = null
+): ErrorCompte | null {
+	if (!error && !codi) return null;
+	const e = (error ?? '').trim().toLowerCase();
+	const c = (codi ?? '').trim().toLowerCase();
+	const detall = [codi, error, descripcio].filter(Boolean).join(': ');
+	if (/rate_limit|over_.*limit/.test(c)) return new ErrorCompte('limit', detall);
+	if (c && c !== 'access_denied' && /expired|invalid|not_found|bad_code/.test(c)) {
+		return new ErrorCompte('codi:invalid', detall);
+	}
+	if (e === 'access_denied' && (!c || c === 'access_denied')) {
+		return new ErrorCompte('cancelat', detall);
+	}
+	if (/expired|invalid|denied/.test(c || e)) return new ErrorCompte('codi:invalid', detall);
+	return new ErrorCompte('servidor', detall);
+}
+
+/**
  * Completa l'accés amb el codi del correu (alternativa a l'enllaç).
  * @throws ErrorCompte (`codi:invalid`, `limit`, `xarxa`, `servidor`)
  */
@@ -261,21 +328,23 @@ export async function completarEntradaDesDeUrl(
 	let resultat: 'entrat' | ErrorCompte;
 	try {
 		const c = client();
-		const errorUrl =
-			q.get('error_code') ?? hash.get('error_code') ?? q.get('error') ?? hash.get('error');
+		const errorUrl = errorEntradaUrl(
+			q.get('error') ?? hash.get('error'),
+			q.get('error_code') ?? hash.get('error_code'),
+			q.get('error_description') ?? hash.get('error_description')
+		);
 		const tokenHash = q.get('token_hash');
 		if (errorUrl) {
-			resultat = new ErrorCompte(
-				/expired|invalid|denied/i.test(errorUrl) ? 'codi:invalid' : 'servidor',
-				errorUrl
-			);
+			resultat = errorUrl;
 		} else if (tokenHash) {
 			const tipus = q.get('type') === 'magiclink' ? 'magiclink' : 'email';
 			const { data, error } = await c.auth.verifyOtp({ token_hash: tokenHash, type: tipus });
 			resultat = error ? errorAuth(error) : data.session ? 'entrat' : new ErrorCompte('servidor');
 		} else {
-			// `?code=` (PKCE) o `#access_token` (implícit): supabase-js ja els processa en
-			// inicialitzar-se (`detectSessionInUrl`); aquí només s'espera el resultat.
+			// `?code=` (PKCE: enllaç del correu amb la plantilla per defecte o retorn de Google) o
+			// `#access_token` (implícit): supabase-js ja els processa en inicialitzar-se
+			// (`detectSessionInUrl`); aquí només s'espera el resultat. Si el verificador PKCE no és en
+			// aquest navegador (p. ex. s'ha obert en un altre), no hi ha sessió: `codi:invalid`.
 			const { data, error } = await c.auth.getSession();
 			resultat = error
 				? errorAuth(error)

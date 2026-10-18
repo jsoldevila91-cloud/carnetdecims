@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { VARS_SUPABASE, valorVarWrangler } from './plugin-env-supabase';
+import { VARS_COMPTE, VARS_SUPABASE, valorVarWrangler } from './plugin-env-supabase';
 
 describe('valorVarWrangler', () => {
 	const jsonc = `{
@@ -7,7 +7,8 @@ describe('valorVarWrangler', () => {
 	"vars": {
 		"PUBLIC_MODE_BETA": "true",
 		"PUBLIC_SUPABASE_URL": "https://exemple.supabase.co",
-		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_x"
+		"PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_x",
+		"PUBLIC_GOOGLE_AUTH": "false"
 	}
 }`;
 
@@ -16,6 +17,10 @@ describe('valorVarWrangler', () => {
 			'https://exemple.supabase.co',
 			'sb_publishable_x'
 		]);
+	});
+
+	it('llegeix també el flag de Google', () => {
+		expect(VARS_COMPTE.map((n) => valorVarWrangler(jsonc, n))).toEqual(['false']);
 	});
 
 	it('retorna undefined si la variable falta o és buida', () => {

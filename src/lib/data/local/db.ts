@@ -73,6 +73,23 @@ export interface EntradaPreferencia {
 }
 
 /**
+ * Redirecció d'un id d'ascensió que ha deixat d'existir (versió 4 de l'esquema) cap a la fila que
+ * la representa ara:
+ * - `id-en-us`: la sync li ha donat un id nou perquè l'id era d'un altre compte (`reassignarId`);
+ * - `duplicat`: era un duplicat d'una altra ascensió i ha passat a làpida (`domain/duplicats.ts`).
+ * Serveix perquè una edició, un esborrat o un "Desfés" oberts amb l'id vell actuïn sobre la fila
+ * nova, i perquè reimportar un fitxer amb l'id vell no la dupliqui. Només conté ids (cap dada
+ * personal); s'esborra amb la resta de dades locals.
+ */
+export interface Redireccio {
+	idVell: string;
+	idNou: string;
+	motiu: 'id-en-us' | 'duplicat';
+	/** Instant (rellotge del client) en què s'ha creat. */
+	creatAt: InstantISO;
+}
+
+/**
  * Esquemes versionats. **Mai no s'edita una versió publicada**: per canviar l'esquema, s'hi
  * afegeix una versió nova amb només les taules que canvien i, si cal, una funció `upgrade`
  * que migri les dades (Dexie les aplica en ordre en obrir la BD).
@@ -109,6 +126,11 @@ export const ESQUEMES: readonly {
 		upgrade: async (tx) => {
 			await tx.table('meta').where('clau').equals('cursorPull').modify({ valor: null });
 		}
+	},
+	{
+		// Deduplicació (entre dispositius i importació): ids vells → ids nous (`Redireccio`).
+		versio: 4,
+		stores: { redireccions: 'idVell' }
 	}
 ];
 
@@ -117,6 +139,7 @@ export class CarnetDb extends Dexie {
 	outbox!: EntityTable<EntradaOutbox, 'ascensioId'>;
 	meta!: EntityTable<EntradaMeta, 'clau'>;
 	preferencies!: EntityTable<EntradaPreferencia, 'clau'>;
+	redireccions!: EntityTable<Redireccio, 'idVell'>;
 
 	constructor(nom = NOM_BD) {
 		super(nom);

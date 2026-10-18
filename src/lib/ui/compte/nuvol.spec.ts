@@ -54,6 +54,16 @@ describe('estatNuvol', () => {
 		});
 	});
 
+	it('canvis bloquejats: text propi, també sense connexió; altres errors passen al davant', () => {
+		const bloq = { pendents: 1, error: 'servidor', bloquejades: 2 };
+		expect(estatNuvol(autenticat, bloq)).toEqual({ tipus: 'bloquejades', bloquejades: 2 });
+		expect(estatNuvol(autenticat, bloq, false)).toEqual({ tipus: 'bloquejades', bloquejades: 2 });
+		expect(estatNuvol(autenticat, { ...bloq, error: 'sessio' })).toEqual({ tipus: 'error' });
+		expect(estatNuvol(autenticat, { pendents: 0, error: 'servidor', bloquejades: 0 })).toEqual({
+			tipus: 'error'
+		});
+	});
+
 	it('tot desat amb data, o encara cap sincronització', () => {
 		const d = '2026-10-09T10:00:00Z';
 		expect(estatNuvol(autenticat, { pendents: 0, ultimaSync: d })).toEqual({

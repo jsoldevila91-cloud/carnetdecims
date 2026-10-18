@@ -11,7 +11,11 @@
  *   pròpia (`docs/09-supabase-auth.md`) torna amb `?token_hash=`, que gestiona `compte.ts`.
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import {
+	PUBLIC_GOOGLE_AUTH,
+	PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+	PUBLIC_SUPABASE_URL
+} from '$env/static/public';
 import type { Database } from './supabase-tipus';
 
 export type ClientSupabase = SupabaseClient<Database>;
@@ -23,6 +27,21 @@ export const CLAU_SESSIO = 'carnetdecims-auth';
 export function supabaseConfigurat(): boolean {
 	return Boolean(PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 }
+
+/**
+ * Valor d'un flag públic del build: només `true`, `1`, `yes` i `on` l'activen; buit, absent o
+ * qualsevol altre valor el deixen desactivat.
+ */
+export function flagActiu(valor: string | undefined | null): boolean {
+	const v = valor?.trim().toLowerCase();
+	return v === 'true' || v === '1' || v === 'yes' || v === 'on';
+}
+
+/**
+ * Entrada amb Google activada en aquest build (`PUBLIC_GOOGLE_AUTH`, per defecte desactivada).
+ * Només diu que el build l'ofereix; cal també el proveïdor Google configurat a Supabase.
+ */
+export const googleAuthActiu: boolean = flagActiu(PUBLIC_GOOGLE_AUTH);
 
 /** `localStorage` si es pot fer servir (Safari privat, cookies bloquejades…); si no, memòria. */
 function emmagatzematge(): Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> {

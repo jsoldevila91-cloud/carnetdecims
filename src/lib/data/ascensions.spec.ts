@@ -89,11 +89,11 @@ describe('uuidv7', () => {
 });
 
 describe('esquema', () => {
-	it('BD carnetdecims amb ascensions i outbox indexades (v2: + meta; v3: + preferències)', async () => {
+	it('BD carnetdecims amb ascensions i outbox indexades (v2: + meta; v3: + preferències; v4: + redireccions)', async () => {
 		const bd = obtenirBd();
 		await bd.open();
 		expect(bd.name).toBe(NOM_BD);
-		expect(bd.verno).toBe(3);
+		expect(bd.verno).toBe(4);
 		expect(bd.meta.schema.primKey.name).toBe('clau');
 		expect(bd.preferencies.schema.primKey.name).toBe('clau');
 		const idx = bd.ascensions.schema.indexes.map((i) => i.name).sort();
@@ -104,8 +104,10 @@ describe('esquema', () => {
 			'ascensions',
 			'meta',
 			'outbox',
-			'preferencies'
+			'preferencies',
+			'redireccions'
 		]);
+		expect(bd.redireccions.schema.primKey.name).toBe('idVell');
 	});
 
 	it('migra una BD v1 existent a la versió actual sense perdre ascensions ni la cua', async () => {
@@ -124,7 +126,7 @@ describe('esquema', () => {
 		v1.close();
 		const v2 = new CarnetDb(nom);
 		await v2.open();
-		expect(v2.verno).toBe(3);
+		expect(v2.verno).toBe(4);
 		expect(await v2.ascensions.count()).toBe(1);
 		expect(await v2.outbox.count()).toBe(1);
 		expect(await v2.meta.count()).toBe(0);
@@ -166,7 +168,7 @@ describe('esquema', () => {
 
 		const v3 = new CarnetDb(nom);
 		await v3.open();
-		expect(v3.verno).toBe(3);
+		expect(v3.verno).toBe(4);
 		// La fila no es toca (continua sense la clau: no es pujarà amb companys).
 		expect(await v3.ascensions.toArray()).toEqual([vella]);
 		expect(await v3.outbox.count()).toBe(1);
@@ -789,13 +791,209 @@ describe('exportar i importar', () => {
 	});
 });
 
+describe('importar: duplicats (mateix cim, data i mètode amb un altre id)', () => {
+	/** Fitxer de la versió 2 amb les entrades donades. */
+	const fitxer = (ascensions: Record<string, unknown>[]) =>
+		JSON.stringify({ format: FORMAT_EXPORTACIO, versio: 2, ascensions });
+	const entrada = (canvis: Record<string, unknown> = {}) => ({
+		id: uuidv7(1_750_000_000_000),
+		cimId: CIM_A,
+		data: '2026-09-20',
+		metode: 'a-peu',
+		nota: null,
+		companys: [],
+		createdAt: '2026-09-20T08:00:00.000Z',
+		updatedAt: '2026-09-20T08:00:00.000Z',
+		...canvis
+	});
+
+	it('fusionar: un duplicat d’una local no crea fila; la local conserva l’id i rep el contingut', async () => {
+		const local = await afegirAscensio(nova({ nota: 'local', companys: ['Inesa'] }));
+		const json = fitxer([entrada({ nota: 'fitxer', companys: ['Pau', 'inesa'] })]);
+		fixar('2026-09-29T11:00:00.000Z');
+		expect(await importarDades(json, 'fusionar')).toEqual({
+			afegides: 0,
+			actualitzades: 1,
+			ignorades: 0
+		});
+		expect(await llistarAscensions()).toEqual([
+			expect.objectContaining({
+				id: local.id,
+				createdAt: local.createdAt,
+				nota: 'local\n\nfitxer',
+				companys: ['Inesa', 'Pau'],
+				updatedAt: '2026-09-29T11:00:00.000Z'
+			})
+		]);
+		// Reimportar-lo no canvia res (la nota del fitxer ja hi és).
+		expect(await importarDades(json, 'fusionar')).toEqual({
+			afegides: 0,
+			actualitzades: 0,
+			ignorades: 1
+		});
+		expect(await obtenirBd().ascensions.count()).toBe(1);
+	});
+
+	it('duplicats dins del fitxer: una sola fila (la més antiga) amb el contingut de totes', async () => {
+		const vella = entrada({ id: uuidv7(1_700_000_000_000), nota: 'primera' });
+		const json = fitxer([
+			entrada({
+				nota: 'segona',
+				companys: ['Pau'],
+				createdAt: '2026-09-21T08:00:00.000Z',
+				updatedAt: '2026-09-22T08:00:00.000Z'
+			}),
+			vella,
+			entrada({ id: uuidv7(1_760_000_000_000), cimId: CIM_B })
+		]);
+		expect(await importarDades(json, 'fusionar')).toEqual({
+			afegides: 2,
+			actualitzades: 0,
+			ignorades: 1
+		});
+		const llista = await llistarAscensions();
+		expect(llista).toHaveLength(2);
+		expect(llista.find((a) => a.cimId === CIM_A)).toMatchObject({
+			id: vella.id,
+			nota: 'primera\n\nsegona',
+			companys: ['Pau'],
+			createdAt: vella.createdAt,
+			updatedAt: '2026-09-22T08:00:00.000Z'
+		});
+		// Idempotent.
+		expect(await importarDades(json, 'fusionar')).toMatchObject({ afegides: 0, actualitzades: 0 });
+		expect(await importarDades(json, 'substituir')).toMatchObject({
+			afegides: 0,
+			actualitzades: 0
+		});
+		expect(await llistarAscensions()).toHaveLength(2);
+	});
+
+	it('substituir: la local duplicada conserva l’id, pren el contingut del fitxer i no passa a làpida', async () => {
+		const local = await afegirAscensio(nova({ nota: 'local' }));
+		const altra = await afegirAscensio(nova({ cimId: CIM_B }));
+		const json = fitxer([entrada({ nota: 'fitxer' })]);
+		fixar('2026-09-29T12:00:00.000Z');
+		expect(await importarDades(json, 'substituir')).toEqual({
+			afegides: 0,
+			actualitzades: 1,
+			ignorades: 0
+		});
+		expect(await llistarAscensions()).toEqual([
+			expect.objectContaining({ id: local.id, nota: 'fitxer', createdAt: local.createdAt })
+		]);
+		expect((await obtenirBd().ascensions.get(altra.id))?.deletedAt).toBeTruthy();
+		expect(await importarDades(json, 'substituir')).toEqual({
+			afegides: 0,
+			actualitzades: 0,
+			ignorades: 1
+		});
+	});
+
+	it('substituir: dues locals duplicades al fitxer → una làpida amb redirecció a l’altra', async () => {
+		const a = await afegirAscensio(nova({ nota: 'a' }));
+		fixar('2026-09-29T10:05:00.000Z');
+		const b = await afegirAscensio(nova({ nota: 'b' }));
+		const json = await exportarDades();
+		expect(await importarDades(json, 'substituir')).toMatchObject({ afegides: 0, ignorades: 1 });
+		const llista = await llistarAscensions();
+		expect(llista).toEqual([expect.objectContaining({ id: a.id, nota: 'a\n\nb' })]);
+		expect((await obtenirBd().ascensions.get(b.id))?.deletedAt).toBeTruthy();
+		expect(await obtenirBd().redireccions.get(b.id)).toMatchObject({
+			idNou: a.id,
+			motiu: 'duplicat'
+		});
+		// Editar amb l'id de la que ha passat a làpida actua sobre la que es queda.
+		expect(await actualitzarAscensio(b.id, { nota: 'nova' })).toMatchObject({ id: a.id });
+	});
+
+	it('un id del fitxer amb redirecció (reassignat) actua sobre l’id nou', async () => {
+		const a = await afegirAscensio(nova({ nota: 'vella' }));
+		const exp = JSON.parse(await exportarDades());
+		const idVell = uuidv7(1_600_000_000_000);
+		exp.ascensions[0].id = idVell;
+		// Al fitxer hi ha una edició posterior (canvi de data: la clau de duplicat ja no coincideix).
+		exp.ascensions[0].data = '2026-09-19';
+		exp.ascensions[0].nota = 'nova';
+		exp.ascensions[0].updatedAt = '2026-09-29T10:30:00.000Z';
+		await obtenirBd().redireccions.put({
+			idVell,
+			idNou: a.id,
+			motiu: 'id-en-us',
+			creatAt: '2026-09-29T10:00:00.000Z'
+		});
+		fixar('2026-09-29T11:00:00.000Z');
+		expect(await importarDades(JSON.stringify(exp), 'fusionar')).toEqual({
+			afegides: 0,
+			actualitzades: 1,
+			ignorades: 0
+		});
+		expect(await llistarAscensions()).toEqual([
+			expect.objectContaining({ id: a.id, data: '2026-09-19', nota: 'nova' })
+		]);
+	});
+
+	it('una làpida amb la mateixa clau no compta com a duplicat', async () => {
+		const a = await afegirAscensio(nova());
+		await esborrarAscensio(a.id);
+		expect(await importarDades(fitxer([entrada()]), 'fusionar')).toMatchObject({ afegides: 1 });
+		expect(await llistarAscensions()).toHaveLength(1);
+	});
+});
+
+describe('redireccions en editar, esborrar i desfer', () => {
+	async function redirigir(idVell: string, idNou: string) {
+		await obtenirBd().redireccions.put({
+			idVell,
+			idNou,
+			motiu: 'id-en-us',
+			creatAt: '2026-09-29T10:00:00.000Z'
+		});
+	}
+
+	it('un id inexistent amb redirecció actua sobre l’id nou (també en cadena)', async () => {
+		const a = await afegirAscensio(nova());
+		const x = uuidv7();
+		const y = uuidv7();
+		await redirigir(x, y);
+		await redirigir(y, a.id);
+		expect(await actualitzarAscensio(x, { nota: 'n' })).toMatchObject({ id: a.id, nota: 'n' });
+		await esborrarAscensio(x);
+		expect(await llistarAscensions()).toEqual([]);
+		expect(await restaurarAscensio(x)).toMatchObject({ id: a.id, nota: 'n' });
+	});
+
+	it('sense redirecció, els errors no canvien; un cicle no penja', async () => {
+		const x = uuidv7();
+		const y = uuidv7();
+		await redirigir(x, y);
+		await redirigir(y, x);
+		await expect(actualitzarAscensio(x, { nota: 'n' })).rejects.toBeInstanceOf(
+			ErrorAscensioNoTrobada
+		);
+		await expect(esborrarAscensio(x)).rejects.toBeInstanceOf(ErrorAscensioNoTrobada);
+		await expect(restaurarAscensio(x)).rejects.toBeInstanceOf(ErrorAscensioNoTrobada);
+	});
+
+	it('restaurar una làpida existent no segueix la redirecció (és la que l’usuari desfà)', async () => {
+		const a = await afegirAscensio(nova());
+		const b = await afegirAscensio(nova({ cimId: CIM_B }));
+		await esborrarAscensio(a.id);
+		await redirigir(a.id, b.id);
+		expect(await restaurarAscensio(a.id)).toMatchObject({ id: a.id, deletedAt: null });
+	});
+});
+
 describe('importació gran (rendiment, progrés, atomicitat)', () => {
-	/** Fitxer amb `n` entrades vàlides (ids nous) a partir d'una data base. */
+	/**
+	 * Fitxer amb `n` entrades vàlides (ids nous), una per dia a partir del 2010-01-01: cap parell
+	 * no és duplicat (mateix cim, data i mètode), així els recomptes no depenen de la deduplicació.
+	 */
 	function fitxerGran(n: number, ids: string[] = []) {
 		const ascensions = Array.from({ length: n }, (_, i) => ({
 			id: ids[i] ?? uuidv7(1_700_000_000_000 + i),
 			cimId: CIMS[i % CIMS.length].id,
-			data: `20${10 + (i % 15)}-0${1 + (i % 9)}-1${i % 10}`,
+			data: new Date(Date.UTC(2010, 0, 1) + i * 86_400_000).toISOString().slice(0, 10),
 			metode: 'a-peu',
 			nota: i % 3 === 0 ? `nota ${i}` : null,
 			createdAt: '2026-01-01T00:00:00.000Z',

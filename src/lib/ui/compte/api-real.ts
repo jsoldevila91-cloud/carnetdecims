@@ -2,12 +2,15 @@
  * Implementació real del contracte de la UI del compte. Importa Supabase: només des de la zona
  * `/app` (SPA) o amb `import()` diferit.
  */
+import { exportarDades } from '$lib/data/ascensions';
 import {
 	compteDisponible,
 	completarEntradaDesDeUrl,
 	entrarAmbEmail,
+	entrarAmbGoogle,
 	esborrarCompte,
 	exportarDadesCompte,
+	googleDisponible,
 	sessio,
 	sortir,
 	verificarCodi
@@ -20,11 +23,14 @@ export const apiReal: ApiCompte = {
 	estatSync,
 	compteDisponible,
 	entrarAmbEmail,
+	googleDisponible: () => googleDisponible,
+	entrarAmbGoogle,
 	verificarCodi,
 	completarEntradaDesDeUrl: () => completarEntradaDesDeUrl(),
 	sortir: () => sortir(),
 	esborrarCompte,
 	exportarDadesCompte,
+	exportarDadesLocals: () => exportarDades(),
 	sincronitzarAra,
 	resoldreConflicteCompte
 };

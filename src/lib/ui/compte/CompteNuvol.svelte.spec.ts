@@ -22,11 +22,14 @@ function doble(
 		estatSync,
 		compteDisponible: () => true,
 		entrarAmbEmail: vi.fn(async () => {}),
+		googleDisponible: () => false,
+		entrarAmbGoogle: vi.fn(async () => {}),
 		verificarCodi: vi.fn(async () => ({})),
 		completarEntradaDesDeUrl: vi.fn(async () => 'cap' as const),
 		sortir: vi.fn(async () => sessio.set({ estat: 'anonim' })),
 		esborrarCompte: vi.fn(async () => sessio.set({ estat: 'anonim' })),
 		exportarDadesCompte: vi.fn(async () => '{}'),
+		exportarDadesLocals: vi.fn(async () => '{}'),
 		sincronitzarAra: vi.fn(async () => {}),
 		resoldreConflicteCompte: vi.fn(async () => {}),
 		...extra
@@ -99,6 +102,48 @@ describe('CompteNuvol', () => {
 		await expect.element(page.getByText('Error en sincronitzar')).toBeVisible();
 		await page.getByRole('button', { name: 'Torna-ho a provar' }).click();
 		expect(api.sincronitzarAra).toHaveBeenCalled();
+	});
+
+	it('autenticat: canvis bloquejats pel servidor amb text propi i còpia local', async () => {
+		const { api } = doble(autenticat, {
+			pendents: 0,
+			ultimaSync: null,
+			error: 'servidor',
+			bloquejades: 2
+		});
+		render(CompteNuvol, { ascensionsLocals: 3, api });
+		await expect.element(page.getByText("2 canvis no s'han pogut desar al núvol")).toBeVisible();
+		await page.getByRole('button', { name: 'Descarrega una còpia' }).click();
+		expect(api.exportarDadesLocals).toHaveBeenCalled();
+		expect(page.getByText(/No s'ha pogut sincronitzar/).query()).toBeNull();
+	});
+
+	it('Google: sense configurar no es mostra; configurat redirigeix a la pàgina del compte', async () => {
+		const sense = doble({ estat: 'anonim' });
+		const r = render(CompteNuvol, { ascensionsLocals: 0, api: sense.api });
+		await expect.element(page.getByLabelText('Correu electrònic')).toBeVisible();
+		expect(page.getByRole('button', { name: /Google/ }).query()).toBeNull();
+		r.unmount();
+
+		const { api } = doble({ estat: 'anonim' }, undefined, { googleDisponible: () => true });
+		render(CompteNuvol, { ascensionsLocals: 0, api });
+		await page.getByRole('button', { name: 'Continua amb Google' }).click();
+		expect(api.entrarAmbGoogle).toHaveBeenCalledWith({
+			redirectTo: expect.stringMatching(/\/ca\/app\/compte$/)
+		});
+	});
+
+	it('Google: un error es mostra i el botó es pot tornar a fer servir', async () => {
+		const { api } = doble({ estat: 'anonim' }, undefined, {
+			googleDisponible: () => true,
+			entrarAmbGoogle: vi.fn(async () => {
+				throw Object.assign(new Error('x'), { codi: 'xarxa' });
+			})
+		});
+		render(CompteNuvol, { ascensionsLocals: 0, api });
+		await page.getByRole('button', { name: 'Continua amb Google' }).click();
+		await expect.element(page.getByRole('alert')).toHaveTextContent(/No s'ha pogut connectar/);
+		await expect.element(page.getByRole('button', { name: 'Continua amb Google' })).toBeEnabled();
 	});
 
 	it('esborrar el compte demana escriure el correu o ESBORRAR', async () => {
