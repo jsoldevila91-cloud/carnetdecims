@@ -69,6 +69,8 @@
  * - fase 5 (2026-10-18): deduplicació d'ascensions (`domain/duplicats.ts`: mateix cim, data i
  *   mètode; es fusionen nota i companys) a la sync i a la importació. «Continua amb Google»
  *   (`PUBLIC_GOOGLE_AUTH`, desactivat): amb el flag actiu es mostra `privacitatAmbGoogle`.
+ *   Correu + contrasenya (`PUBLIC_PASSWORD_AUTH`, desactivat; independent de Google): la variant
+ *   la tria `privacitatSegons`. En activar-lo, canviar `actualitzat` (vegeu `crearPrivacitat`).
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
@@ -100,19 +102,31 @@ export const RESPONSABLE_TRACTAMENT = 'Jonatan Soldevila Rafael';
  * Amb Google s'hi afegeixen el proveïdor d'identitat (Google Ireland Limited), les dades que
  * envia (correu, nom i foto), que només fem servir el correu, la base jurídica i que és opcional.
  * Abans d'activar el flag a producció, cal posar a `actualitzat` la data d'activació.
+ *
+ * `contrasenya`: si el build ofereix entrar amb correu i contrasenya (`contrasenyaAuthActiu`,
+ * `PUBLIC_PASSWORD_AUTH`, desactivat). És independent de Google: hi ha quatre combinacions. Amb
+ * contrasenya s'hi afegeixen: que és una via d'accés opcional, que la desa Supabase xifrada amb
+ * hash (bcrypt) i nosaltres no la veiem ni la podem recuperar, que l'app no la desa al dispositiu
+ * ni l'envia a tercers, els correus de confirmació i de restabliment, la base jurídica (6.1.b) i
+ * que s'esborra amb el compte. Abans d'activar el flag a producció, cal posar a `actualitzat` la
+ * data d'activació (mentre estigui desactivat no es toca).
  */
-export function crearPrivacitat(google: boolean): Contingut {
+export function crearPrivacitat(google: boolean, contrasenya = false): Contingut {
 	/** Text segons la variant: `g(ambGoogle, senseGoogle)`. */
 	const g = (amb: string, sense: string): string => (google ? amb : sense);
 	/** Elements de llista que només surten amb Google. */
 	const nomesGoogle = (...items: string[]): string[] => (google ? items : []);
+	/** Text segons la variant: `c(ambContrasenya, senseContrasenya)`. */
+	const c = (amb: string, sense: string): string => (contrasenya ? amb : sense);
+	/** Elements de llista que només surten amb contrasenya. */
+	const nomesContrasenya = (...items: string[]): string[] => (contrasenya ? items : []);
 	return {
 		ca: {
 			title: 'Política de privadesa',
 			description:
 				'Com tracta Carnet de Cims les teves dades: compte opcional amb dades a la UE, sense cookies de seguiment ni analítica. Qui les tracta i quins drets tens.',
 			h1: 'Política de privadesa',
-			intro: `En resum: pots fer servir Carnet de Cims sense compte, i aleshores les ascensions es desen només al teu dispositiu. Si crees un compte (opcional), ${g("només fem servir el teu correu (l'escrius tu o, si entres amb Google, ens el passa Google)", 'et demanem només el correu')} i desem el teu carnet en servidors de la Unió Europea per sincronitzar-lo; el pots exportar i esborrar quan vulguis. No fem servir cookies de seguiment ni analítica. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).`,
+			intro: `En resum: pots fer servir Carnet de Cims sense compte, i aleshores les ascensions es desen només al teu dispositiu. Si crees un compte (opcional), ${g(`només fem servir el teu correu (l'escrius tu o, si entres amb Google, ens el passa Google${c('; si vols, també hi pots afegir una contrasenya, que nosaltres no veiem mai', '')})`, `et demanem només el correu${c(' (i, si vols, una contrasenya, que nosaltres no veiem mai)', '')}`)} i desem el teu carnet en servidors de la Unió Europea per sincronitzar-lo; el pots exportar i esborrar quan vulguis. No fem servir cookies de seguiment ni analítica. Aquí t'ho expliquem en detall, d'acord amb el Reglament general de protecció de dades (RGPD).`,
 			seccions: [
 				{
 					id: 'responsable',
@@ -144,7 +158,7 @@ export function crearPrivacitat(google: boolean): Contingut {
 						{
 							tipus: 'llista',
 							items: [
-								`El compte és opcional: sense compte, no et demanem cap dada. Amb compte, només el correu (i, si vols, un àlies i el teu municipi d'origen). No et demanem el nom, ni l'adreça, ni el telèfon, ni l'edat.${g(' Si entres amb Google, Google també ens envia el teu nom i la foto del perfil, però no els fem servir.', '')}`,
+								`El compte és opcional: sense compte, no et demanem cap dada. Amb compte, només el correu (i, si vols, un àlies i el teu municipi d'origen). No et demanem el nom, ni l'adreça, ni el telèfon, ni l'edat.${g(' Si entres amb Google, Google també ens envia el teu nom i la foto del perfil, però no els fem servir.', '')}${c(' Si entres amb contrasenya, no la veiem mai: la desa xifrada el servei que gestiona els comptes.', '')}`,
 								'No enviem publicitat ni butlletins: el correu només serveix per entrar al compte.',
 								"No fem servir cookies de seguiment, de publicitat ni d'analítica, ni cap eina de mesura d'audiència.",
 								'No hi ha publicitat, ni botons de xarxes socials, ni continguts incrustats de tercers. Les tipografies es serveixen des del mateix web, no des de Google Fonts.',
@@ -200,15 +214,18 @@ export function crearPrivacitat(google: boolean): Contingut {
 					blocs: [
 						{
 							tipus: 'paragraf',
-							text: `El compte és opcional i serveix per desar el teu carnet al núvol i tenir-lo a tots els teus dispositius. S'hi entra amb un enllaç que t'enviem per correu, sense contrasenya${g(', o, si ho prefereixes, amb el teu compte de Google', '')}. Si apuntes la mateixa ascensió (el mateix cim, el mateix dia i amb el mateix mètode) en dos dispositius, es desa una sola vegada i se n'ajunten les notes i els companys.`
+							text: `El compte és opcional i serveix per desar el teu carnet al núvol i tenir-lo a tots els teus dispositius. S'hi entra amb un enllaç que t'enviem per correu${c(g(', amb el teu compte de Google o amb el teu correu i una contrasenya', ' o amb el teu correu i una contrasenya'), `, sense contrasenya${g(', o, si ho prefereixes, amb el teu compte de Google', '')}`)}. Si apuntes la mateixa ascensió (el mateix cim, el mateix dia i amb el mateix mètode) en dos dispositius, es desa una sola vegada i se n'ajunten les notes i els companys.`
 						},
 						{
 							tipus: 'llista',
 							items: [
-								`**Quines dades:** el teu correu electrònic${g(' (i, si entres amb Google, el nom i la foto del perfil que ens envia Google)', '')}; les ascensions que registres (cim, data, mètode i, si n'hi poses, la nota i els companys); un àlies i el municipi d'origen, només si en vols posar; i les dades tècniques del compte (dates d'alta i d'últim accés i registres d'accés amb l'adreça IP, que es guarden per seguretat).`,
-								`**Per a què:** crear el compte, enviar-te l'enllaç per entrar${g(' o identificar-te amb Google', '')} i desar i sincronitzar el teu carnet entre dispositius. No fem servir el correu per a res més: ni publicitat ni butlletins.`,
+								`**Quines dades:** el teu correu electrònic${g(' (i, si entres amb Google, el nom i la foto del perfil que ens envia Google)', '')}${c('; la contrasenya, si en tries una (desada xifrada: no la veiem mai)', '')}; les ascensions que registres (cim, data, mètode i, si n'hi poses, la nota i els companys); un àlies i el municipi d'origen, només si en vols posar; i les dades tècniques del compte (dates d'alta i d'últim accés i registres d'accés amb l'adreça IP, que es guarden per seguretat).`,
+								`**Per a què:** crear el compte, enviar-te l'enllaç per entrar${g(' o identificar-te amb Google', '')}${c(", comprovar la contrasenya quan entres amb contrasenya, confirmar el teu correu quan et dones d'alta i enviar-te un enllaç per triar-ne una de nova si l'oblides", '')} i desar i sincronitzar el teu carnet entre dispositius. No fem servir el correu per a res més: ni publicitat ni butlletins.`,
 								...nomesGoogle(
 									`**Entrar amb Google (opcional):** si tries «Continua amb Google», Google Ireland Limited fa de proveïdor d'identitat: hi entres a la pàgina de Google i, amb el teu permís, Google ens envia el teu correu, el nom i la foto del perfil. Només fem servir el correu, per crear el compte i identificar-te. El nom i la foto es guarden amb les dades tècniques del compte, no es mostren ni es fan servir per a res i s'esborren amb el compte. No rebem la teva contrasenya de Google ni cap altra dada del teu compte de Google. Base jurídica: l'execució del servei que ens demanes (art. 6.1.b del RGPD). És opcional: sempre pots entrar amb el correu. Google tracta les dades del teu compte de Google com a responsable, d'acord amb la seva [política de privadesa](${GOOGLE_PRIVACY}).`
+								),
+								...nomesContrasenya(
+									"**Entrar amb contrasenya (opcional):** pots entrar amb el teu correu i una contrasenya en lloc de l'enllaç per correu. La contrasenya la desa Supabase (l'encarregat del tractament que gestiona els comptes) xifrada amb una funció de hash (bcrypt): no es guarda mai tal com l'escrius, nosaltres no la veiem i no la podem recuperar; si l'oblides, en tries una de nova. L'aplicació no la desa al teu dispositiu (si vols, la pot recordar el gestor de contrasenyes del navegador) ni l'envia a cap altre servei. Si et dones d'alta amb contrasenya, t'enviem un correu per confirmar l'adreça abans de poder entrar; si l'oblides, te n'enviem un altre amb un enllaç per triar-ne una de nova. Aquests correus només serveixen per a això. Base jurídica: l'execució del servei que ens demanes (art. 6.1.b del RGPD). La contrasenya s'esborra amb el compte. És opcional: sempre pots entrar amb un enllaç per correu."
 								),
 								"**Base jurídica:** l'execució del servei que ens demanes en crear el compte (art. 6.1.b del RGPD). L'àlies i el municipi d'origen són voluntaris i es basen en el teu consentiment (art. 6.1.a), que pots retirar esborrant-los.",
 								`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}). També és Supabase qui t'envia el correu amb l'enllaç d'accés.`,
@@ -318,7 +335,7 @@ export function crearPrivacitat(google: boolean): Contingut {
 			description:
 				'Cómo trata Carnet de Cims tus datos: cuenta opcional con datos en la UE, sin cookies de seguimiento ni analítica. Quién los trata y qué derechos tienes.',
 			h1: 'Política de privacidad',
-			intro: `En resumen: puedes usar Carnet de Cims sin cuenta, y entonces las ascensiones se guardan solo en tu dispositivo. Si creas una cuenta (opcional), ${g('solo usamos tu correo (lo escribes tú o, si entras con Google, nos lo pasa Google)', 'solo te pedimos el correo')} y guardamos tu carnet en servidores de la Unión Europea para sincronizarlo; puedes exportarlo y borrarlo cuando quieras. No usamos cookies de seguimiento ni analítica. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).`,
+			intro: `En resumen: puedes usar Carnet de Cims sin cuenta, y entonces las ascensiones se guardan solo en tu dispositivo. Si creas una cuenta (opcional), ${g(`solo usamos tu correo (lo escribes tú o, si entras con Google, nos lo pasa Google${c('; si quieres, también puedes añadir una contraseña, que nosotros no vemos nunca', '')})`, `solo te pedimos el correo${c(' (y, si quieres, una contraseña, que nosotros no vemos nunca)', '')}`)} y guardamos tu carnet en servidores de la Unión Europea para sincronizarlo; puedes exportarlo y borrarlo cuando quieras. No usamos cookies de seguimiento ni analítica. Aquí te lo explicamos en detalle, de acuerdo con el Reglamento general de protección de datos (RGPD).`,
 			seccions: [
 				{
 					id: 'responsable',
@@ -350,7 +367,7 @@ export function crearPrivacitat(google: boolean): Contingut {
 						{
 							tipus: 'llista',
 							items: [
-								`La cuenta es opcional: sin cuenta, no te pedimos ningún dato. Con cuenta, solo el correo (y, si quieres, un alias y tu municipio de origen). No te pedimos el nombre, ni la dirección, ni el teléfono, ni la edad.${g(' Si entras con Google, Google también nos envía tu nombre y la foto del perfil, pero no los usamos.', '')}`,
+								`La cuenta es opcional: sin cuenta, no te pedimos ningún dato. Con cuenta, solo el correo (y, si quieres, un alias y tu municipio de origen). No te pedimos el nombre, ni la dirección, ni el teléfono, ni la edad.${g(' Si entras con Google, Google también nos envía tu nombre y la foto del perfil, pero no los usamos.', '')}${c(' Si entras con contraseña, no la vemos nunca: la guarda cifrada el servicio que gestiona las cuentas.', '')}`,
 								'No enviamos publicidad ni boletines: el correo solo sirve para entrar en la cuenta.',
 								'No usamos cookies de seguimiento, de publicidad ni de analítica, ni ninguna herramienta de medición de audiencia.',
 								'No hay publicidad, ni botones de redes sociales, ni contenidos incrustados de terceros. Las tipografías se sirven desde la propia web, no desde Google Fonts.',
@@ -406,15 +423,18 @@ export function crearPrivacitat(google: boolean): Contingut {
 					blocs: [
 						{
 							tipus: 'paragraf',
-							text: `La cuenta es opcional y sirve para guardar tu carnet en la nube y tenerlo en todos tus dispositivos. Se entra con un enlace que te enviamos por correo, sin contraseña${g(' o, si lo prefieres, con tu cuenta de Google', '')}. Si apuntas la misma ascensión (la misma cima, el mismo día y con el mismo método) en dos dispositivos, se guarda una sola vez y se juntan las notas y los compañeros.`
+							text: `La cuenta es opcional y sirve para guardar tu carnet en la nube y tenerlo en todos tus dispositivos. Se entra con un enlace que te enviamos por correo${c(g(', con tu cuenta de Google o con tu correo y una contraseña', ' o con tu correo y una contraseña'), `, sin contraseña${g(' o, si lo prefieres, con tu cuenta de Google', '')}`)}. Si apuntas la misma ascensión (la misma cima, el mismo día y con el mismo método) en dos dispositivos, se guarda una sola vez y se juntan las notas y los compañeros.`
 						},
 						{
 							tipus: 'llista',
 							items: [
-								`**Qué datos:** tu correo electrónico${g(' (y, si entras con Google, el nombre y la foto del perfil que nos envía Google)', '')}; las ascensiones que registras (cima, fecha, método y, si los pones, la nota y los compañeros); un alias y el municipio de origen, solo si quieres ponerlos; y los datos técnicos de la cuenta (fechas de alta y de último acceso y registros de acceso con la dirección IP, que se guardan por seguridad).`,
-								`**Para qué:** crear la cuenta, enviarte el enlace para entrar${g(' o identificarte con Google', '')} y guardar y sincronizar tu carnet entre dispositivos. No usamos el correo para nada más: ni publicidad ni boletines.`,
+								`**Qué datos:** tu correo electrónico${g(' (y, si entras con Google, el nombre y la foto del perfil que nos envía Google)', '')}${c('; la contraseña, si eliges una (guardada cifrada: no la vemos nunca)', '')}; las ascensiones que registras (cima, fecha, método y, si los pones, la nota y los compañeros); un alias y el municipio de origen, solo si quieres ponerlos; y los datos técnicos de la cuenta (fechas de alta y de último acceso y registros de acceso con la dirección IP, que se guardan por seguridad).`,
+								`**Para qué:** crear la cuenta, enviarte el enlace para entrar${g(' o identificarte con Google', '')}${c(', comprobar la contraseña cuando entras con contraseña, confirmar tu correo cuando te das de alta y enviarte un enlace para elegir una nueva si la olvidas', '')} y guardar y sincronizar tu carnet entre dispositivos. No usamos el correo para nada más: ni publicidad ni boletines.`,
 								...nomesGoogle(
 									`**Entrar con Google (opcional):** si eliges «Continuar con Google», Google Ireland Limited actúa como proveedor de identidad: entras en la página de Google y, con tu permiso, Google nos envía tu correo, el nombre y la foto del perfil. Solo usamos el correo, para crear la cuenta e identificarte. El nombre y la foto se guardan con los datos técnicos de la cuenta, no se muestran ni se usan para nada y se borran con la cuenta. No recibimos tu contraseña de Google ni ningún otro dato de tu cuenta de Google. Base jurídica: la ejecución del servicio que nos pides (art. 6.1.b del RGPD). Es opcional: siempre puedes entrar con el correo. Google trata los datos de tu cuenta de Google como responsable, de acuerdo con su [política de privacidad](${GOOGLE_PRIVACY}).`
+								),
+								...nomesContrasenya(
+									'**Entrar con contraseña (opcional):** puedes entrar con tu correo y una contraseña en lugar del enlace por correo. La contraseña la guarda Supabase (el encargado del tratamiento que gestiona las cuentas) cifrada con una función de hash (bcrypt): nunca se guarda tal como la escribes, nosotros no la vemos y no podemos recuperarla; si la olvidas, eliges una nueva. La aplicación no la guarda en tu dispositivo (si quieres, puede recordarla el gestor de contraseñas del navegador) ni la envía a ningún otro servicio. Si te das de alta con contraseña, te enviamos un correo para confirmar la dirección antes de poder entrar; si la olvidas, te enviamos otro con un enlace para elegir una nueva. Estos correos solo sirven para eso. Base jurídica: la ejecución del servicio que nos pides (art. 6.1.b del RGPD). La contraseña se borra con la cuenta. Es opcional: siempre puedes entrar con un enlace por correo.'
 								),
 								'**Base jurídica:** la ejecución del servicio que nos pides al crear la cuenta (art. 6.1.b del RGPD). El alias y el municipio de origen son voluntarios y se basan en tu consentimiento (art. 6.1.a), que puedes retirar borrándolos.',
 								`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}). También es Supabase quien te envía el correo con el enlace de acceso.`,
@@ -527,3 +547,12 @@ export const privacitat: Contingut = crearPrivacitat(false);
 
 /** Variant per al build amb `PUBLIC_GOOGLE_AUTH` actiu (la tria `PaginaContingut`). */
 export const privacitatAmbGoogle: Contingut = crearPrivacitat(true);
+
+/**
+ * Política per als flags del build (`googleAuthActiu`, `contrasenyaAuthActiu`); la fa servir
+ * `PaginaContingut`. Sense contrasenya, retorna les constants de dalt (mateixa referència).
+ */
+export function privacitatSegons(google: boolean, contrasenya: boolean): Contingut {
+	if (!contrasenya) return google ? privacitatAmbGoogle : privacitat;
+	return crearPrivacitat(google, true);
+}

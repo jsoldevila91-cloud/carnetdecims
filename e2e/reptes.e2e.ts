@@ -15,7 +15,7 @@
  * (xifres esperades) es calculen aquí sobre `cims.json`, no es copia `domain/reptes.ts`.
  */
 import type { Locator, Page } from '@playwright/test';
-import { NOVETATS } from '../src/lib/content/novetats';
+import { TOTES_LES_NOVETATS, novetatsActives } from '../src/lib/content/novetats-llista';
 import { test, expect, gotoHydrated, mainNav, ROUTES, settleAnimations } from './fixtures';
 import {
 	CIM,
@@ -49,6 +49,11 @@ const AVUI = '2026-10-16';
 const ARA = new Date('2026-10-16T10:00:00+02:00');
 
 const CLAU_NOVETAT = 'carnetdecims:novetat-vista';
+/**
+ * Novetats del build de les proves: els flags del compte desactivats (`wrangler.jsonc`). Es llegeix
+ * de `novetats-llista.ts` perquè `novetats.ts` importa `$env`, que Playwright no resol.
+ */
+const NOVETATS = novetatsActives(TOTES_LES_NOVETATS, {});
 const ID_NOVETAT = NOVETATS[0].id;
 
 /** Reptes inicials: 5 + 7 massissos. */

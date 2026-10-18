@@ -191,3 +191,67 @@ describe('privadesa amb i sense «Continua amb Google»', () => {
 		expect(es).toContain('Es opcional: siempre puedes entrar con el correo.');
 	});
 });
+
+describe('privadesa amb i sense correu + contrasenya', () => {
+	const COMBINACIONS = [
+		[false, false],
+		[true, false],
+		[false, true],
+		[true, true]
+	] as const;
+
+	it('sense contrasenya, privacitatSegons retorna les constants i no parla de contrasenya', async () => {
+		const { privacitat, privacitatAmbGoogle, privacitatSegons } = await import('./privacitat');
+		expect(privacitatSegons(false, false)).toBe(privacitat);
+		expect(privacitatSegons(true, false)).toBe(privacitatAmbGoogle);
+		for (const l of LOCALES) {
+			for (const p of [privacitat, privacitatAmbGoogle]) {
+				const text = JSON.stringify(p[l]);
+				expect(text).not.toMatch(/bcrypt|amb contrasenya|con contraseña/);
+				// Text vigent intacte: l'accés és «sense contrasenya».
+				expect(text).toMatch(/sense contrasenya|sin contraseña/);
+			}
+		}
+	});
+
+	it('les quatre combinacions tenen les mateixes seccions i la mateixa data', async () => {
+		const { privacitat, privacitatSegons } = await import('./privacitat');
+		for (const [g, c] of COMBINACIONS) {
+			const p = privacitatSegons(g, c);
+			for (const l of LOCALES) {
+				expect(p[l].seccions.map((s) => s.id)).toEqual(privacitat[l].seccions.map((s) => s.id));
+				// La data no canvia mentre el flag estigui desactivat (es canvia en activar-lo).
+				expect(p[l].actualitzat).toBe(privacitat[l].actualitzat);
+			}
+		}
+	});
+
+	it('amb contrasenya explica hash, que no la veiem, correus, base jurídica i esborrat', async () => {
+		const { privacitatSegons } = await import('./privacitat');
+		for (const g of [false, true]) {
+			const p = privacitatSegons(g, true);
+			const ca = JSON.stringify(p.ca);
+			const es = JSON.stringify(p.es);
+			for (const text of [ca, es]) {
+				expect(text).toContain('bcrypt');
+				expect(text).toContain('6.1.b');
+				expect(text).not.toMatch(/sense contrasenya|sin contraseña/);
+			}
+			expect(ca).toContain('**Entrar amb contrasenya (opcional):**');
+			expect(ca).toContain('nosaltres no la veiem i no la podem recuperar');
+			expect(ca).toContain("t'enviem un correu per confirmar l'adreça");
+			expect(ca).toContain('un enllaç per triar-ne una de nova');
+			expect(ca).toContain("La contrasenya s'esborra amb el compte.");
+			expect(ca).toContain('o amb el teu correu i una contrasenya');
+			expect(es).toContain('**Entrar con contraseña (opcional):**');
+			expect(es).toContain('nosotros no la vemos y no podemos recuperarla');
+			expect(es).toContain('te enviamos un correo para confirmar la dirección');
+			expect(es).toContain('un enlace para elegir una nueva');
+			expect(es).toContain('La contraseña se borra con la cuenta.');
+			expect(es).toContain('o con tu correo y una contraseña');
+			// Google només hi surt si el seu flag també és actiu.
+			expect(ca.includes('Google Ireland Limited')).toBe(g);
+			expect(es.includes('Google Ireland Limited')).toBe(g);
+		}
+	});
+});

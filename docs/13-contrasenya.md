@@ -51,7 +51,7 @@ se abra en otro navegador o dispositivo.
 **Asunto:**
 
 ```
-Carnet de Cims · Canvia la contrasenya / Cambia tu contraseña
+Carnet de Cims · Tria una contrasenya nova / Elige una contraseña nueva
 ```
 
 **Cuerpo (HTML, pegar tal cual):**
@@ -63,10 +63,7 @@ Carnet de Cims · Canvia la contrasenya / Cambia tu contraseña
 	<h2 style="margin: 0 0 16px;">Carnet de Cims</h2>
 
 	<p>Hola!</p>
-	<p>
-		Has demanat canviar la contrasenya del teu Carnet de Cims. Toca aquest botó per triar-ne una de
-		nova:
-	</p>
+	<p>Has demanat una contrasenya nova per al teu Carnet de Cims. Prem aquest botó per triar-la:</p>
 	<p>
 		<a
 			href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=recovery"
@@ -76,26 +73,25 @@ Carnet de Cims · Canvia la contrasenya / Cambia tu contraseña
 	</p>
 	<p style="color: #555;">
 		L'enllaç caduca d'aquí a una hora i només es pot fer servir una vegada. Si no ho has demanat tu,
-		pots ignorar aquest correu: la teva contrasenya no canvia.
+		pots ignorar aquest correu: la teva contrasenya no canviarà.
 	</p>
 
 	<hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;" />
 
 	<p>¡Hola!</p>
 	<p>
-		Has pedido cambiar la contraseña de tu Carnet de Cims. Pulsa el botón de arriba para elegir una
-		nueva.
+		Has pedido una contraseña nueva para tu Carnet de Cims. Pulsa el botón de arriba para elegirla.
 	</p>
 	<p style="color: #555;">
 		El enlace caduca en una hora y solo se puede usar una vez. Si no lo has pedido tú, puedes
-		ignorar este correo: tu contraseña no cambia.
+		ignorar este correo: tu contraseña no cambiará.
 	</p>
 
 	<hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;" />
 	<p style="color: #777; font-size: 12px;">
 		Carnet de Cims (carnetdecims.cat) és un web no oficial de seguiment personal del repte 100 Cims.
 		No és el registre oficial: la validació la fa la FEEC. · Web no oficial de seguimiento personal
-		del reto 100 Cims; no es el registro oficial.
+		del reto 100 Cims; no es el registro oficial: la validación la hace la FEEC.
 	</p>
 </div>
 ```
@@ -120,7 +116,7 @@ Carnet de Cims · Confirma el teu correu / Confirma tu correo
 	<h2 style="margin: 0 0 16px;">Carnet de Cims</h2>
 
 	<p>Hola!</p>
-	<p>Gràcies per crear el teu Carnet de Cims. Toca aquest botó per confirmar el correu i entrar:</p>
+	<p>Gràcies per crear el teu Carnet de Cims. Prem aquest botó per confirmar el correu i entrar:</p>
 	<p>
 		<a
 			href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email"
@@ -128,7 +124,7 @@ Carnet de Cims · Confirma el teu correu / Confirma tu correo
 			>Confirma el correu</a
 		>
 	</p>
-	<p>O escriu aquest codi a la app:</p>
+	<p>O escriu aquest codi a l'app:</p>
 	<p
 		style="font-size: 28px; font-weight: bold; letter-spacing: 6px; font-family: ui-monospace, monospace;"
 	>
@@ -156,17 +152,21 @@ Carnet de Cims · Confirma el teu correu / Confirma tu correo
 	<p style="color: #777; font-size: 12px;">
 		Carnet de Cims (carnetdecims.cat) és un web no oficial de seguiment personal del repte 100 Cims.
 		No és el registre oficial: la validació la fa la FEEC. · Web no oficial de seguimiento personal
-		del reto 100 Cims; no es el registro oficial.
+		del reto 100 Cims; no es el registro oficial: la validación la hace la FEEC.
 	</p>
 </div>
 ```
 
 ### 2.3 Password Changed (si aparece en el panel)
 
-Si el panel ofrece la notificación "Password changed" (avisos de seguridad), activarla con este
-asunto y un texto corto en ca/es: "La contrasenya del teu Carnet de Cims ha canviat. Si no has
-estat tu, entra amb un enllaç del correu i canvia-la." / "La contraseña de tu Carnet de Cims ha
-cambiado. Si no has sido tú, entra con un enlace del correo y cámbiala." Es opcional.
+Si el panel ofrece la notificación "Password changed" (avisos de seguridad), activarla. Es
+opcional.
+
+- **Asunto:** `Carnet de Cims · La contrasenya ha canviat / Tu contraseña ha cambiado`
+- **Texto ca:** "La contrasenya del teu Carnet de Cims ha canviat. Si no has estat tu, entra amb
+  un enllaç del correu, tria'n una de nova i escriu-nos a hola@carnetdecims.cat."
+- **Texto es:** "La contraseña de tu Carnet de Cims ha cambiado. Si no has sido tú, entra con un
+  enlace del correo, elige una nueva y escríbenos a hola@carnetdecims.cat."
 
 ## 3. Authentication → Rate Limits
 
@@ -182,7 +182,11 @@ Los valores por defecto están bien. Entrar con contraseña no envía correos; r
    contraseña; desde el perfil, crear la contraseña de una cuenta que entraba con enlace.
 2. En `wrangler.jsonc` → `vars`: `"PUBLIC_PASSWORD_AUTH": "true"`, compilar (con
    `PUBLIC_MODE_BETA=true` mientras dure la beta) y `npx wrangler deploy`.
-3. Al activarlo: cambiar la fecha `actualitzat` de la privacitat.
+3. Al activarlo: cambiar la fecha `actualitzat` de la privacitat (`src/lib/content/privacitat.ts`;
+   la variante con contraseña ya está escrita y la elige `privacitatSegons`) y poner el `id` y la
+   `data` del día de activación a la novedad `*-contrasenya` de
+   `src/lib/content/novetats-llista.ts` (solo se muestra con el flag activo; debe quedar la
+   primera de la lista).
 
 ## 5. Notas
 

@@ -22,8 +22,8 @@
 	import { ampleParaulaMesLlargaEm, ampleTextEm } from '$lib/ui/titol-ample';
 	import { getLocale, href } from '$lib/i18n';
 	import { CONTINGUTS, PAGINES_CONTINGUT } from '$lib/content';
-	import { privacitatAmbGoogle } from '$lib/content/privacitat';
-	import { googleAuthActiu } from '$lib/platform/flags';
+	import { privacitatSegons } from '$lib/content/privacitat';
+	import { contrasenyaAuthActiu, googleAuthActiu } from '$lib/platform/flags';
 	import { paginaGraph } from '$lib/seo/jsonld';
 	import {
 		ID_FAQ,
@@ -43,9 +43,14 @@
 	let { clau, destacat }: { clau: ClauPagina; destacat?: Snippet } = $props();
 
 	const locale = getLocale();
-	/** La privadesa té una variant per al build amb «Continua amb Google» (`PUBLIC_GOOGLE_AUTH`). */
+	/**
+	 * La privadesa depèn dels flags del build: «Continua amb Google» (`PUBLIC_GOOGLE_AUTH`) i
+	 * correu + contrasenya (`PUBLIC_PASSWORD_AUTH`), independents entre si.
+	 */
 	const contingut = $derived(
-		clau === 'privacitat' && googleAuthActiu ? privacitatAmbGoogle : CONTINGUTS[clau]
+		clau === 'privacitat'
+			? privacitatSegons(googleAuthActiu, contrasenyaAuthActiu)
+			: CONTINGUTS[clau]
 	);
 	const pagina = $derived(contingut[locale]);
 	const path = $derived(PAGINES_CONTINGUT[clau]);
