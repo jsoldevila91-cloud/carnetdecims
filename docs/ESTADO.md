@@ -138,7 +138,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
   - **https://carnetdecims.cat** (custom domain) y https://carnetdecims.carnetdecims.workers.dev. Verificado el 2026-10-09: 200 en `/ca`, `/ca/app`, `/es/app/cuenta` y `/api/meteo/…`; `noindex, nofollow` en cabecera y meta.
   - DNS en Cloudflare (lee/sofia.ns.cloudflare.com): MX, SPF, DMARC y DKIM (a/b/c) de Hostinger en "DNS only"; borrados el A del apex y el CNAME de `www` de Hostinger.
   - Despliegue: compilar con `PUBLIC_MODE_BETA=true` y `npx wrangler deploy` (sesión OAuth de wrangler ya hecha). Mejor desde un worktree aparte si hay un servidor de dev/preview abierto (EPERM en `.svelte-kit/cloudflare`).
-  - `www.carnetdecims.cat`: sin configurar (más adelante, redirección al apex).
+  - `www.carnetdecims.cat`: 301 al apex desde el 2026-10-18 (Redirect Rule; ver "Fase 5 · cierre").
 - **Pendiente del usuario (bloquea a Inesa):**
   1. Supabase → URL Configuration: Site URL `https://carnetdecims.cat`; Redirect URLs `https://carnetdecims.cat/**`, `https://carnetdecims.carnetdecims.workers.dev/**`, `http://localhost:5190/**`.
   2. Supabase → **SMTP propio** (`smtp.hostinger.com`, 465 SSL, `hola@carnetdecims.cat`; la contraseña solo en el panel). Sin esto, el correo solo llega a los miembros de la organización de Supabase.
@@ -237,12 +237,12 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Sync bloqueada:** `EstatSync.bloquejades` con texto propio y "Descarrega una còpia"; el toast de la sync manual se sustituye en lugar de apilarse.
 - **SEO:** textos ca/es revisados, privacitat (deduplicación), novetat `2026-10-18-sense-duplicats`.
 - **QA:** `e2e/duplicats.e2e.ts` (12 por proyecto) y `e2e/google-actiu.google.ts` con config propia (`npx playwright test -c e2e/playwright.google.config.ts`, `vite dev` en :5192 con el flag activo). `supabase-fals.ts` con `rebutjarIds`. 1689 unitarios.
-- **`www.carnetdecims.cat` → apex:** pendiente del usuario en el panel de Cloudflare (no se puede con wrangler sin pasar todos los assets por el Worker): registro `www` proxied + Redirect Rule 301.
+- **`www.carnetdecims.cat` → apex (hecho en el panel el 2026-10-18, con permiso del usuario):** registro `A www → 192.0.2.1` con proxy y Redirect Rule "www.carnetdecims.cat -> carnetdecims.cat (301)" (`http*://www.carnetdecims.cat/*` → `https://carnetdecims.cat/${2}`, conserva la query). Verificado con curl: 301 en http y https, con ruta y query.
 - **Bajos:** "substituir" sin E2E (la UI solo ofrece fusionar); tras un error 503 no hay reintento automático hasta `online`/visibilidad/5 min; un dispositivo que recibe por pull la lápida de una perdedora no guarda redirección (si tenía la hoja abierta, "no trobada").
 
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 hecho y **pendiente de publicar** (con permiso del usuario); pendiente del usuario: credenciales de Google (`docs/12-google-oauth.md`) y `www` en Cloudflare. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
+R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 hecho y **pendiente de publicar** (con permiso del usuario); pendiente del usuario: credenciales de Google (`docs/12-google-oauth.md`); `www` → apex ya activo. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
@@ -254,7 +254,7 @@ Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.
 
 - **Notificaciones push (R6, pendiente de implementar; apunte del usuario del 2026-10-18):** Web Push para Android/escritorio e iPhone con la PWA instalada. Plan en `docs/04-plan-fases.md` (bloque R6) y en docs/08, punto 8.
 
-- **Fase 5:** solo falta lo del usuario: credenciales de Google (`docs/12-google-oauth.md`) y activar `PUBLIC_GOOGLE_AUTH`; `www` → apex en el panel de Cloudflare.
+- **Fase 5:** solo falta lo del usuario: credenciales de Google (`docs/12-google-oauth.md`) y activar `PUBLIC_GOOGLE_AUTH`.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
 - **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).
 
