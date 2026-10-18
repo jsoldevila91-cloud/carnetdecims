@@ -14,7 +14,7 @@
  * OAuth amb PKCE. Torna a `redirectTo` amb `?code=` (el client el bescanvia sol,
  * `detectSessionInUrl`) o amb `?error=…` (p. ex. `access_denied` si l'usuari cancel·la); la pàgina
  * crida igualment `completarEntradaDesDeUrl()`. El secret del client de Google només és al panell
- * de Supabase (`docs/10-google-oauth.md`).
+ * de Supabase (`docs/11-google-oauth.md`).
  *
  * La sessió es desa al dispositiu (`platform/supabase.ts`) i la sync (`sync.ts`) s'activa sola
  * mentre hi ha sessió. Aquest mòdul és de navegador: importa'l de manera diferida.

@@ -151,3 +151,21 @@ Revisados contra el código: ya hechos la visión "carnet de muntanya" y los ret
 
 6. **Fotos por cima:** campo `fotos` en la ascensión y almacenamiento (Supabase Storage, UE); quitar EXIF/GPS antes de subir; permiso explícito y revocable por foto para publicarla en el Instagram de Carnet de Cims etiquetando al usuario; moderación (ver §5).
 7. **Panel de administrador:** ver la actividad de cada usuario y sus cims, y corregirlos. Requiere rol de administrador en Supabase, registro de cada acción y actualizar la política de privacidad.
+
+## Apunt del usuario (2026-10-18): notificaciones push
+
+8. **Notificaciones push (bloque R6, pendiente):** avisos al móvil de quien tiene la app/web. Detalle técnico en `docs/04-plan-fases.md` (bloque R6).
+   - **Plataformas:** Android y escritorio, siempre que el usuario acepte el permiso. iPhone/iPad (iOS ≥ 16.4) **solo con la PWA añadida a la pantalla de inicio**. Con Capacitor (futuro), push nativo APNs/FCM.
+   - **Usos propuestos:** restricción nueva o mal tiempo en una cima pendiente o planificada, recordatorio de una salida y hitos del reto ("et queden 5 cims"). El usuario elige qué tipos recibe.
+   - **RGPD:** consentimiento explícito y revocable; la suscripción (endpoint) es un dato personal; actualizar privacitat y exportar/borrar la cuenta.
+
+## Apunt del usuario (2026-10-18): lo que falta para superar a Fes Cims
+
+Sale de `docs/10-comparativa-fes-cims.md`. Idea: no competir en comunidad ni en otras actividades (rankings, chat, ferratas, retos de fuera de Cataluña), sino ser **el carnet más fiable y cómodo para hacer el 100 Cims**.
+
+9. **Indexar las fichas (prioridad 1, antes del lanzamiento):** pasar a `revisat` un primer lote de las cimas más buscadas (Pedraforca, Puigmal, Pica d'Estats, Matagalls, Canigó, Tagamanent, Sant Jeroni…). Fes Cims no compite en Google por cada cima (sus fichas son `noindex`). Depende de la revisión de JSR (regla de ≥ 400 palabras en ESTADO).
+10. **Las 522 cimas (prioridad 2):** sin ellas, quien hace el reto completo necesita también otra app. Ya apuntado en `04-plan-fases.md` (pendiente del permiso de la FEEC); aquí sube de prioridad.
+11. **Rutas seleccionadas por cima:** 3–5 rutas con km y desnivel de nuestras fuentes (enlaces `nofollow`), en lugar de la búsqueda genérica de Wikiloc. El bloque 6a lo preveía (2–3 rutas elegidas a mano) y está sin hacer: `wikiloc` vacío en las 100 fichas nuevas.
+12. **Social ligero sin cuenta obligatoria:** planes de salida sencillos y ascensiones con amigos (por ejemplo, un enlace para que los compañeros añadan la misma ascensión a su carnet). Va más allá de "amigos" de la tabla de fase 5+.
+13. **Importar GPX** (Wikiloc, Garmin, Komoot…) para registrar la ascensión desde el track (fase 5+).
+14. **Fotos:** ya apuntado en el punto 6.

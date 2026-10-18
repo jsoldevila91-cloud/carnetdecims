@@ -1,4 +1,4 @@
-# 10 · Entrar con Google (Supabase Auth)
+# 11 · Entrar con Google (Supabase Auth)
 
 > Fase 5. El código está listo y **desactivado**: el botón "Continua amb Google" solo aparece si
 > el build tiene `PUBLIC_GOOGLE_AUTH=true` (`wrangler.jsonc` → `vars`, o `.env` en local).
