@@ -104,12 +104,13 @@
 
 ## 7. Tu carnet, siempre seguro
 
-| Qué puedes hacer                                                        | Por qué mola        | Pantalla para el vídeo          |
-| ----------------------------------------------------------------------- | ------------------- | ------------------------------- |
-| **Usarla sin crear cuenta**                                             | Empiezas al momento | Primer registro sin cuenta      |
-| Crear cuenta **sin contraseña**, con un código por correo               | Nada que recordar   | Pantalla del código             |
-| **No pierdes nada si cambias de móvil**: tu carnet se guarda en la nube | Tranquilidad        | Indicador "Guardado en la nube" |
-| **Descargar una copia** o borrarlo todo cuando quieras                  | Tus datos son tuyos | Pantalla "Tus datos"            |
+| Qué puedes hacer                                                                              | Por qué mola                                    | Pantalla para el vídeo              |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------- | ----------------------------------- |
+| **Usarla sin crear cuenta**                                                                   | Empiezas al momento                             | Primer registro sin cuenta          |
+| Crear cuenta **sin contraseña**, con un código por correo                                     | Nada que recordar                               | Pantalla del código                 |
+| **No pierdes nada si cambias de móvil**: tu carnet se guarda en la nube                       | Tranquilidad                                    | Indicador "Guardado en la nube"     |
+| Entrar también con **correo y contraseña** (opcional), y recuperarla por correo si la olvidas | Como en cualquier app; el navegador la recuerda | Pestañas "Entra" / "Crea un compte" |
+| **Descargar una copia** o borrarlo todo cuando quieras                                        | Tus datos son tuyos                             | Pantalla "Tus datos"                |
 
 ## 8. Como una app de verdad
 
@@ -134,14 +135,13 @@
 
 - Avisos en el móvil (notificaciones).
 - Entrar con Google.
-- Entrar con **correo y contraseña** (opcional; el enlace y Google siguen igual), crear o cambiar la contraseña desde el perfil y recuperarla por correo. Pantalla para el vídeo: pestañas "Entra" / "Crea un compte" en la cuenta. Hecho y desactivado (`PUBLIC_PASSWORD_AUTH`); se anuncia cuando se active.
 - Fotos en tus ascensiones.
 - Más cimas, además de las 150 esenciales.
 
 ## Novedades por bloque (se añade una línea en cada bloque)
 
 - **2026-10-18:** lista inicial (todo lo publicado hasta R5).
-- **2026-10-18:** entrar con contraseña, hecho pero desactivado (en "Próximamente").
+- **2026-10-18:** entrar con correo y contraseña (sección 7).
 
 ## Idea para el vídeo (borrador)
 
