@@ -107,6 +107,8 @@ export interface EnllacEnviat {
 	email: string;
 	/** Instant de l'enviament (ms): compte enrere per reenviar. */
 	t: number;
+	/** `'registre'`: correu de confirmació d'un compte amb contrasenya (no un enllaç d'entrada). */
+	tipus?: 'registre';
 }
 
 type Magatzem = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
@@ -119,9 +121,15 @@ function magatzem(): Magatzem | null {
 	}
 }
 
-export function desaEnllacEnviat(email: string, t: number, m: Magatzem | null = magatzem()): void {
+export function desaEnllacEnviat(
+	email: string,
+	t: number,
+	m: Magatzem | null = magatzem(),
+	tipus?: 'registre'
+): void {
 	try {
-		m?.setItem(CLAU_ENLLAC, JSON.stringify({ email, t } satisfies EnllacEnviat));
+		const valor: EnllacEnviat = tipus ? { email, t, tipus } : { email, t };
+		m?.setItem(CLAU_ENLLAC, JSON.stringify(valor));
 	} catch {
 		/* sense emmagatzematge: l'estat "enviat" no sobreviu a una recàrrega */
 	}
@@ -132,9 +140,10 @@ export function llegeixEnllacEnviat(m: Magatzem | null = magatzem()): EnllacEnvi
 		const raw = m?.getItem(CLAU_ENLLAC);
 		if (!raw) return null;
 		const v = JSON.parse(raw) as Partial<EnllacEnviat>;
-		return typeof v.email === 'string' && typeof v.t === 'number'
-			? { email: v.email, t: v.t }
-			: null;
+		if (typeof v.email !== 'string' || typeof v.t !== 'number') return null;
+		return v.tipus === 'registre'
+			? { email: v.email, t: v.t, tipus: 'registre' }
+			: { email: v.email, t: v.t };
 	} catch {
 		return null;
 	}

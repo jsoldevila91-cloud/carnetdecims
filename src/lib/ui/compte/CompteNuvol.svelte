@@ -13,6 +13,8 @@
 	import { codiError, type ApiCompte } from './api';
 	import { apiReal } from './api-real';
 	import BotoGoogle from './BotoGoogle.svelte';
+	import CanviContrasenya from './CanviContrasenya.svelte';
+	import EntradaContrasenya from './EntradaContrasenya.svelte';
 	import EstatNuvolText from './EstatNuvolText.svelte';
 	import {
 		VIGENCIA_ENLLAC_MS,
@@ -42,7 +44,7 @@
 
 	// L'API no canvia durant la vida del component (és una dependència, no un estat).
 	// svelte-ignore state_referenced_locally
-	const { sessio, estatSync } = api;
+	const { sessio, estatSync, modeRecuperacio } = api;
 
 	const uid = $props.id();
 	const ids = {
@@ -53,13 +55,19 @@
 		codi: `compte-codi-${uid}`,
 		codiHint: `compte-codi-hint-${uid}`,
 		codiErr: `compte-codi-err-${uid}`,
-		confirma: `compte-confirma-${uid}`
+		confirma: `compte-confirma-${uid}`,
+		enllac: `compte-enllac-${uid}`,
+		recuperacio: `compte-recuperacio-${uid}`,
+		pwdTitol: `compte-pwd-titol-${uid}`,
+		pwdObre: `compte-pwd-obre-${uid}`
 	};
 	const locale = getLocale();
 	// svelte-ignore state_referenced_locally
 	const disponible = api.compteDisponible();
 	// svelte-ignore state_referenced_locally
 	const googleDisponible = disponible && api.googleDisponible();
+	// svelte-ignore state_referenced_locally
+	const contrasenyaDisponible = disponible && api.contrasenyaDisponible();
 
 	const sessioActual = $derived($sessio);
 	const usuariEmail = $derived(
@@ -86,6 +94,28 @@
 	let errorEnllac = $state<string | null>(null);
 	let entrantGoogle = $state(false);
 	let errorGoogle = $state<string | null>(null);
+	/** Amb la contrasenya activada, l'enllaç o el codi queden darrere d'aquest botó. */
+	let veureEnllac = $state(false);
+
+	// ── Mode recuperació (tornada de l'enllaç "he oblidat la contrasenya") ──
+	let recuperacioUrl = $state(false);
+	const mostraRecuperacio = $derived(
+		contrasenyaDisponible &&
+			sessioActual.estat === 'autenticat' &&
+			($modeRecuperacio || recuperacioUrl)
+	);
+	let titolRecuperacio: HTMLHeadingElement | undefined = $state();
+	let recuperacioEnfocada = false;
+	$effect(() => {
+		if (!mostraRecuperacio) {
+			recuperacioEnfocada = false;
+			return;
+		}
+		if (titolRecuperacio && !recuperacioEnfocada) {
+			recuperacioEnfocada = true;
+			titolRecuperacio.focus();
+		}
+	});
 
 	// ── Primer accés: instant d'entrada i ascensions que hi havia abans ──
 	let primerDesDe = $state<number | null>(null);
@@ -117,6 +147,12 @@
 				iniciaPrimerAcces(desde);
 				await tick();
 				avisPrimer?.focus();
+				return;
+			}
+			if (r === 'recuperacio') {
+				// Ha entrat amb l'enllaç de restabliment: el panell "contrasenya nova" agafa el focus.
+				iniciaPrimerAcces(desde);
+				recuperacioUrl = true;
 				return;
 			}
 			errorEnllac = codiError(r) === 'codi:invalid' ? m.cloud_link_invalid() : textErrorCompte(r);
@@ -212,7 +248,17 @@
 		}
 	}
 
-	async function envia(adreca: string): Promise<boolean> {
+	/** Desa l'estat "t'hem enviat un correu" (enllaç d'entrada o confirmació del registre). */
+	function marcaEnviat(adreca: string, tipus?: 'registre') {
+		const t = Date.now();
+		desaEnllacEnviat(adreca, t, undefined, tipus);
+		enviat = tipus ? { email: adreca, t, tipus } : { email: adreca, t };
+		ara = t;
+		codi = '';
+		errorCodi = null;
+	}
+
+	async function envia(adreca: string, tipus?: 'registre'): Promise<boolean> {
 		if (!network.online) {
 			errorEmail = m.cloud_send_offline();
 			return false;
@@ -222,13 +268,12 @@
 		errorEnllac = null;
 		errorGoogle = null;
 		try {
-			await api.entrarAmbEmail(adreca, { redirectTo: urlTornada() });
-			const t = Date.now();
-			desaEnllacEnviat(adreca, t);
-			enviat = { email: adreca, t };
-			ara = t;
-			codi = '';
-			errorCodi = null;
+			if (tipus === 'registre') {
+				await api.reenviarConfirmacio(adreca, { redirectTo: urlTornada() });
+			} else {
+				await api.entrarAmbEmail(adreca, { redirectTo: urlTornada() });
+			}
+			marcaEnviat(adreca, tipus);
 			return true;
 		} catch (e) {
 			errorEmail = textErrorCompte(e);
@@ -256,8 +301,11 @@
 
 	async function reenvia() {
 		if (!enviat || espera > 0) return;
-		if (await envia(enviat.email)) {
-			toasts.show(m.cloud_resent(), { tone: 'success' });
+		const tipus = enviat.tipus;
+		if (await envia(enviat.email, tipus)) {
+			toasts.show(tipus === 'registre' ? m.cloud_password_confirm_resent() : m.cloud_resent(), {
+				tone: 'success'
+			});
 		} else {
 			toasts.show(errorEmail ?? m.cloud_send_error(), { tone: 'error', duration: 8000 });
 		}
@@ -287,12 +335,54 @@
 	}
 
 	async function canviaCorreu() {
+		const registre = enviat?.tipus === 'registre';
 		enviat = null;
 		errorEmail = null;
 		oblidaEnllacEnviat();
+		if (contrasenyaDisponible && !registre) veureEnllac = true;
 		await tick();
-		campEmail?.focus();
-		campEmail?.select();
+		const camp =
+			contrasenyaDisponible && registre
+				? document.querySelector<HTMLInputElement>('#compte-pwd-email')
+				: campEmail;
+		camp?.focus();
+		camp?.select();
+	}
+
+	// ── Correu + contrasenya ──
+	async function entratAmbContrasenya(desde: number) {
+		errorEnllac = null;
+		iniciaPrimerAcces(desde);
+		await tick();
+		avisPrimer?.focus();
+	}
+
+	async function confirmacioEnviada(adreca: string) {
+		errorEnllac = null;
+		marcaEnviat(adreca, 'registre');
+		await tick();
+		avisEnviat?.focus();
+	}
+
+	async function recuperacioFeta() {
+		api.sortirModeRecuperacio();
+		recuperacioUrl = false;
+		toasts.show(m.cloud_password_saved(), { tone: 'success', duration: 8000 });
+		await enfocaTitol();
+	}
+
+	async function recuperacioDespres() {
+		api.sortirModeRecuperacio();
+		recuperacioUrl = false;
+		await enfocaTitol();
+	}
+
+	let canviObert = $state(false);
+	async function tancaCanvi(fet: boolean) {
+		canviObert = false;
+		if (fet) toasts.show(m.cloud_password_saved(), { tone: 'success', duration: 8000 });
+		await tick();
+		document.getElementById(ids.pwdObre)?.focus();
 	}
 
 	// ── Autenticat ──
@@ -363,6 +453,8 @@
 		sortint = true;
 		try {
 			await api.sortir();
+			recuperacioUrl = false;
+			canviObert = false;
 			primerDesDe = null;
 			primerFet = null;
 			toasts.show(m.cloud_signed_out(), { tone: 'info', duration: 8000 });
@@ -432,6 +524,50 @@
 	}
 </script>
 
+{#snippet formEnllac()}
+	<form class="form" onsubmit={enviaFormulari} novalidate>
+		<label class="label" for={ids.email}>{m.cloud_email_label()}</label>
+		<div class="fila">
+			<input
+				bind:this={campEmail}
+				id={ids.email}
+				class="field"
+				type="email"
+				name="email"
+				autocomplete="email"
+				inputmode="email"
+				autocapitalize="none"
+				spellcheck="false"
+				required
+				bind:value={email}
+				aria-invalid={errorEmail ? 'true' : undefined}
+				aria-describedby={errorEmail ? ids.emailErr : undefined}
+				disabled={enviant}
+			/>
+			<Button type="submit" variant="stamp" icon="arrow" disabled={enviant}>
+				{enviant ? m.cloud_sending() : m.cloud_send()}
+			</Button>
+		</div>
+		{#if errorEmail}
+			<p id={ids.emailErr} class="err" role="alert">{errorEmail}</p>
+		{/if}
+	</form>
+{/snippet}
+
+{#snippet blocGoogle()}
+	<BotoGoogle
+		ocupat={entrantGoogle}
+		disabled={entrantGoogle || enviant}
+		onclick={entraAmbGoogle}
+		aria-describedby={errorGoogle ? ids.googleErr : undefined}
+	>
+		{entrantGoogle ? m.cloud_google_opening() : m.cloud_google()}
+	</BotoGoogle>
+	{#if errorGoogle}
+		<p id={ids.googleErr} class="err" role="alert">{errorGoogle}</p>
+	{/if}
+{/snippet}
+
 <Card as="section" padding="md" aria-labelledby={ids.titol} id="compte">
 	<h2 id={ids.titol} class="x-wide" tabindex="-1" bind:this={titol}>{m.cloud_title()}</h2>
 
@@ -447,12 +583,17 @@
 		{/if}
 
 		{#if enviat}
+			{@const registre = enviat.tipus === 'registre'}
 			<div class="enviat" tabindex="-1" bind:this={avisEnviat}>
 				<p class="enviat-t">
 					<span class="ico"><Icon name="mail" /></span>
-					<span>{m.cloud_sent({ email: enviat.email })}</span>
+					<span>
+						{registre
+							? m.cloud_password_confirm_sent({ email: enviat.email })
+							: m.cloud_sent({ email: enviat.email })}
+					</span>
 				</p>
-				<p class="hint">{m.cloud_sent_hint()}</p>
+				<p class="hint">{registre ? m.cloud_password_confirm_hint() : m.cloud_sent_hint()}</p>
 			</div>
 
 			<form class="form codi" onsubmit={verificaCodi} novalidate>
@@ -483,57 +624,63 @@
 
 			<div class="actions">
 				{#if espera > 0}
-					<p class="hint mono espera">{m.cloud_resend_wait({ seconds: String(espera) })}</p>
+					<p class="hint mono espera">
+						{registre
+							? m.cloud_password_confirm_wait({ seconds: String(espera) })
+							: m.cloud_resend_wait({ seconds: String(espera) })}
+					</p>
 				{:else}
 					<Button variant="outline" onclick={reenvia} disabled={enviant}>
-						{enviant ? m.cloud_sending() : m.cloud_resend()}
+						{#if enviant}
+							{m.cloud_sending()}
+						{:else}
+							{registre ? m.cloud_password_confirm_resend() : m.cloud_resend()}
+						{/if}
 					</Button>
 				{/if}
 				<Button variant="ghost" onclick={canviaCorreu}>{m.cloud_change_email()}</Button>
 			</div>
+		{:else if contrasenyaDisponible}
+			<p class="hint">
+				{googleDisponible ? m.cloud_password_intro() : m.cloud_password_intro_no_google()}
+			</p>
+			{#if googleDisponible}
+				<div class="alternativa google-primer">
+					{@render blocGoogle()}
+					<p class="separador" aria-hidden="true"><span>{m.cloud_or()}</span></p>
+				</div>
+			{/if}
+			<EntradaContrasenya
+				{api}
+				{urlTornada}
+				onentrat={entratAmbContrasenya}
+				onconfirmar={confirmacioEnviada}
+				disabled={entrantGoogle || enviant}
+			/>
+			<div class="altres">
+				<Button
+					variant="ghost"
+					aria-expanded={veureEnllac}
+					aria-controls={veureEnllac ? ids.enllac : undefined}
+					onclick={() => (veureEnllac = !veureEnllac)}
+				>
+					{m.cloud_password_link_toggle()}
+				</Button>
+				{#if veureEnllac}
+					<div id={ids.enllac}>
+						<p class="hint">{m.cloud_password_link_hint()}</p>
+						{@render formEnllac()}
+					</div>
+				{/if}
+			</div>
+			<noscript><p class="err">{m.cloud_noscript()}</p></noscript>
 		{:else}
 			<p class="hint">{googleDisponible ? m.cloud_intro_how_google() : m.cloud_intro_how()}</p>
-			<form class="form" onsubmit={enviaFormulari} novalidate>
-				<label class="label" for={ids.email}>{m.cloud_email_label()}</label>
-				<div class="fila">
-					<input
-						bind:this={campEmail}
-						id={ids.email}
-						class="field"
-						type="email"
-						name="email"
-						autocomplete="email"
-						inputmode="email"
-						autocapitalize="none"
-						spellcheck="false"
-						required
-						bind:value={email}
-						aria-invalid={errorEmail ? 'true' : undefined}
-						aria-describedby={errorEmail ? ids.emailErr : undefined}
-						disabled={enviant}
-					/>
-					<Button type="submit" variant="stamp" icon="arrow" disabled={enviant}>
-						{enviant ? m.cloud_sending() : m.cloud_send()}
-					</Button>
-				</div>
-				{#if errorEmail}
-					<p id={ids.emailErr} class="err" role="alert">{errorEmail}</p>
-				{/if}
-			</form>
+			{@render formEnllac()}
 			{#if googleDisponible}
 				<div class="alternativa">
 					<p class="separador" aria-hidden="true"><span>{m.cloud_or()}</span></p>
-					<BotoGoogle
-						ocupat={entrantGoogle}
-						disabled={entrantGoogle || enviant}
-						onclick={entraAmbGoogle}
-						aria-describedby={errorGoogle ? ids.googleErr : undefined}
-					>
-						{entrantGoogle ? m.cloud_google_opening() : m.cloud_google()}
-					</BotoGoogle>
-					{#if errorGoogle}
-						<p id={ids.googleErr} class="err" role="alert">{errorGoogle}</p>
-					{/if}
+					{@render blocGoogle()}
 				</div>
 			{/if}
 			<noscript><p class="err">{m.cloud_noscript()}</p></noscript>
@@ -543,6 +690,22 @@
 			<span class="label">{m.cloud_signed_in_as()}</span>
 			<strong class="email">{usuariEmail}</strong>
 		</p>
+
+		{#if mostraRecuperacio}
+			<section class="recuperacio" aria-labelledby={ids.recuperacio}>
+				<h3 id={ids.recuperacio} tabindex="-1" bind:this={titolRecuperacio}>
+					{m.cloud_password_recovery_title()}
+				</h3>
+				<p class="hint">{m.cloud_password_recovery_text()}</p>
+				<CanviContrasenya
+					{api}
+					email={usuariEmail}
+					onfet={recuperacioFeta}
+					oncancel={recuperacioDespres}
+					textCancel={m.cloud_password_recovery_later()}
+				/>
+			</section>
+		{/if}
 
 		{#if primerFet}
 			<p class="primer ok" role="status" tabindex="-1" bind:this={avisPrimer}>
@@ -613,6 +776,31 @@
 				{m.cloud_sign_out()}
 			</Button>
 		</div>
+
+		{#if contrasenyaDisponible && !mostraRecuperacio}
+			<section class="pwd" aria-labelledby={ids.pwdTitol}>
+				<h3 id={ids.pwdTitol}>{m.cloud_password_section_title()}</h3>
+				<p class="hint">{m.cloud_password_section_text()}</p>
+				<div class="actions">
+					<Button
+						id={ids.pwdObre}
+						variant="outline"
+						aria-expanded={canviObert}
+						onclick={() => (canviObert = !canviObert)}
+					>
+						{m.cloud_password_section_open()}
+					</Button>
+				</div>
+				{#if canviObert}
+					<CanviContrasenya
+						{api}
+						email={usuariEmail}
+						onfet={() => tancaCanvi(true)}
+						oncancel={() => tancaCanvi(false)}
+					/>
+				{/if}
+			</section>
+		{/if}
 
 		<div class="danger">
 			<Button variant="outline" class="btn-danger" onclick={obreEsborrat}>
@@ -781,6 +969,44 @@
 		.alternativa :global(.google) {
 			width: auto;
 		}
+	}
+
+	.google-primer {
+		margin-top: var(--sp-4);
+	}
+
+	.altres {
+		margin-top: var(--sp-5);
+		padding-top: var(--sp-3);
+		border-top: 1px dashed var(--c-rule);
+	}
+
+	.recuperacio {
+		margin-top: var(--sp-4);
+		padding: var(--sp-3) var(--sp-4);
+		border: 2px solid var(--c-ink);
+		border-radius: var(--r-md);
+		background: var(--c-card);
+	}
+
+	.recuperacio h3,
+	.pwd h3 {
+		font-size: var(--fs-base);
+	}
+
+	.recuperacio h3:focus {
+		outline: none;
+	}
+
+	.recuperacio h3:focus-visible {
+		outline: 2px solid var(--c-focus);
+		outline-offset: 4px;
+	}
+
+	.pwd {
+		margin-top: var(--sp-4);
+		padding-top: var(--sp-4);
+		border-top: 1px dashed var(--c-rule);
 	}
 
 	.separador {

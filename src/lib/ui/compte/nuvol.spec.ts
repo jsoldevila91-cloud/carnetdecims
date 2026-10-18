@@ -130,6 +130,14 @@ describe('marca "enllaç enviat"', () => {
 		expect(llegeixEnllacEnviat(m)).toBeNull();
 	});
 
+	it('recorda si era la confirmació d’un registre amb contrasenya', () => {
+		const m = memoria();
+		desaEnllacEnviat('a@b.cat', 1000, m, 'registre');
+		expect(llegeixEnllacEnviat(m)).toEqual({ email: 'a@b.cat', t: 1000, tipus: 'registre' });
+		m.setItem(CLAU_ENLLAC, JSON.stringify({ email: 'a@b.cat', t: 1, tipus: 'altre' }));
+		expect(llegeixEnllacEnviat(m)).toEqual({ email: 'a@b.cat', t: 1 });
+	});
+
 	it('ignora valors corruptes i magatzem inexistent', () => {
 		const m = memoria();
 		m.setItem(CLAU_ENLLAC, '{no json');

@@ -78,7 +78,18 @@
 		/** Copia al porta-retalls. */
 		copy: ['M9 9h10.5v10.5H9z', 'M15 9V4.5H4.5V15H9'],
 		/** Validació (full amb una marca). */
-		clipboard: ['M8 4.5H6v16h12v-16h-2', 'M9 3.5h6v3H9z', 'm9 13.5 2 2 4-4']
+		clipboard: ['M8 4.5H6v16h12v-16h-2', 'M9 3.5h6v3H9z', 'm9 13.5 2 2 4-4'],
+		/** Mostra la contrasenya. */
+		eye: [
+			'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z',
+			'M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z'
+		],
+		/** Amaga la contrasenya (ull ratllat). */
+		'eye-off': [
+			'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z',
+			'M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z',
+			'M4 4l16 16'
+		]
 	} as const;
 
 	export type IconName = keyof typeof ICONS;
