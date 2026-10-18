@@ -192,6 +192,33 @@ describe('privadesa amb i sense «Continua amb Google»', () => {
 	});
 });
 
+describe('privadesa: correus del compte per Hostinger', () => {
+	it('totes les variants diuen que els correus surten per Hostinger, encarregat, i no per Supabase sol', async () => {
+		const { privacitatSegons } = await import('./privacitat');
+		for (const g of [false, true]) {
+			for (const c of [false, true]) {
+				const p = privacitatSegons(g, c);
+				const ca = JSON.stringify(p.ca);
+				const es = JSON.stringify(p.es);
+				for (const text of [ca, es]) {
+					expect(text).toContain('https://www.hostinger.com/legal/privacy-policy');
+					expect(text).toContain('hola@carnetdecims.cat');
+					expect(text).not.toMatch(/Supabase qui t'envia|Supabase quien te envía/);
+				}
+				expect(ca).toContain('**Correus del compte:**');
+				expect(ca).toContain("fa d'encarregat del tractament per encàrrec nostre");
+				expect(ca).toContain("La bústia de correu l'allotja Hostinger");
+				expect(es).toContain('**Correos de la cuenta:**');
+				expect(es).toContain('actúa como encargado del tratamiento por encargo nuestro');
+				expect(es).toContain('El buzón de correo lo aloja Hostinger');
+				// Amb contrasenya, també la confirmació i el restabliment.
+				expect(ca.includes("l'enllaç per restablir la contrasenya")).toBe(c);
+				expect(es.includes('el enlace para restablecer la contraseña')).toBe(c);
+			}
+		}
+	});
+});
+
 describe('privadesa amb i sense correu + contrasenya', () => {
 	const COMBINACIONS = [
 		[false, false],

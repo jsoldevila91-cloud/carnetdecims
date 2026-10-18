@@ -7,7 +7,9 @@
  *   eu-west-1, Irlanda); al núvol, taules `ascensions` (cim, data, mètode, nota) i `perfils` (àlies
  *   opcional), `supabase/migrations/0002_dades_usuari.sql`, amb RLS i supressió del compte
  *   ("Esborra el compte", `/app/compte`) en cascada; la sessió de supabase-js es desa a
- *   localStorage. Si es configura un SMTP propi per als correus d'accés, cal afegir-lo aquí;
+ *   localStorage. Correus del compte (enllaç i codi, confirmació, restabliment): els genera Supabase i
+ *   s'envien pel SMTP propi de Hostinger (`smtp.hostinger.com`, remitent hola@carnetdecims.cat),
+ *   encarregat del tractament, que també allotja la bústia (afegit el 2026-10-18);
  * - responsable del tractament: el nom complet de la persona titular surt NOMÉS a la secció
  *   `responsable` d'aquesta pàgina (decisió de l'usuari, 2026-10-09); a la resta del web, "JSR"
  *   (`titular.ts`), i mai a metadades ni JSON-LD (`continguts.spec.ts` ho comprova);
@@ -68,9 +70,9 @@
  *   no la desa (`xarxa`). Les restriccions vigents es calculen al client.
  * - fase 5 (2026-10-18): deduplicació d'ascensions (`domain/duplicats.ts`: mateix cim, data i
  *   mètode; es fusionen nota i companys) a la sync i a la importació. «Continua amb Google»
- *   (`PUBLIC_GOOGLE_AUTH`, desactivat): amb el flag actiu es mostra `privacitatAmbGoogle`.
- *   Correu + contrasenya (`PUBLIC_PASSWORD_AUTH`, desactivat; independent de Google): la variant
- *   la tria `privacitatSegons`. En activar-lo, canviar `actualitzat` (vegeu `crearPrivacitat`).
+ *   (`PUBLIC_GOOGLE_AUTH`, activat el 2026-10-18): amb el flag actiu es mostra `privacitatAmbGoogle`.
+ *   Correu + contrasenya (`PUBLIC_PASSWORD_AUTH`, activat el 2026-10-18; independent de Google):
+ *   la variant la tria `privacitatSegons`. Si es desactiva o es reactiva, canviar `actualitzat`.
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
@@ -89,6 +91,7 @@ const SUPABASE = 'https://supabase.com/';
 const SUPABASE_PRIVACY = 'https://supabase.com/privacy';
 const SUPABASE_DPA = 'https://supabase.com/legal/dpa';
 const GOOGLE_PRIVACY = 'https://policies.google.com/privacy';
+const HOSTINGER_PRIVACY = 'https://www.hostinger.com/legal/privacy-policy';
 
 /**
  * Persona responsable del tractament (art. 13 del RGPD). Només es fa servir a la secció
@@ -104,12 +107,12 @@ export const RESPONSABLE_TRACTAMENT = 'Jonatan Soldevila Rafael';
  * Abans d'activar el flag a producció, cal posar a `actualitzat` la data d'activació.
  *
  * `contrasenya`: si el build ofereix entrar amb correu i contrasenya (`contrasenyaAuthActiu`,
- * `PUBLIC_PASSWORD_AUTH`, desactivat). És independent de Google: hi ha quatre combinacions. Amb
+ * `PUBLIC_PASSWORD_AUTH`, activat el 2026-10-18). És independent de Google: hi ha quatre combinacions. Amb
  * contrasenya s'hi afegeixen: que és una via d'accés opcional, que la desa Supabase xifrada amb
  * hash (bcrypt) i nosaltres no la veiem ni la podem recuperar, que l'app no la desa al dispositiu
  * ni l'envia a tercers, els correus de confirmació i de restabliment, la base jurídica (6.1.b) i
- * que s'esborra amb el compte. Abans d'activar el flag a producció, cal posar a `actualitzat` la
- * data d'activació (mentre estigui desactivat no es toca).
+ * que s'esborra amb el compte. Si es canvia l'estat del flag a producció, cal posar a
+ * `actualitzat` la data del canvi.
  */
 export function crearPrivacitat(google: boolean, contrasenya = false): Contingut {
 	/** Text segons la variant: `g(ambGoogle, senseGoogle)`. */
@@ -228,7 +231,8 @@ export function crearPrivacitat(google: boolean, contrasenya = false): Contingut
 									"**Entrar amb contrasenya (opcional):** pots entrar amb el teu correu i una contrasenya en lloc de l'enllaç per correu. La contrasenya la desa Supabase (l'encarregat del tractament que gestiona els comptes) xifrada amb una funció de hash (bcrypt): no es guarda mai tal com l'escrius, nosaltres no la veiem i no la podem recuperar; si l'oblides, en tries una de nova. L'aplicació no la desa al teu dispositiu (si vols, la pot recordar el gestor de contrasenyes del navegador) ni l'envia a cap altre servei. Si et dones d'alta amb contrasenya, t'enviem un correu per confirmar l'adreça abans de poder entrar; si l'oblides, te n'enviem un altre amb un enllaç per triar-ne una de nova. Aquests correus només serveixen per a això. Base jurídica: l'execució del servei que ens demanes (art. 6.1.b del RGPD). La contrasenya s'esborra amb el compte. És opcional: sempre pots entrar amb un enllaç per correu."
 								),
 								"**Base jurídica:** l'execució del servei que ens demanes en crear el compte (art. 6.1.b del RGPD). L'àlies i el municipi d'origen són voluntaris i es basen en el teu consentiment (art. 6.1.a), que pots retirar esborrant-los.",
-								`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}). També és Supabase qui t'envia el correu amb l'enllaç d'accés.`,
+								`**Encarregat del tractament:** [Supabase](${SUPABASE}) allotja la base de dades i gestiona l'accés per encàrrec nostre, amb servidors a la Unió Europea (Irlanda). Si mai hi accedeix des de fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb el seu [acord de tractament de dades](${SUPABASE_DPA}) i la seva [política de privadesa](${SUPABASE_PRIVACY}).`,
+								`**Correus del compte:** els correus que t'enviem per al compte (l'enllaç i el codi per entrar${c(", la confirmació de l'alta i l'enllaç per restablir la contrasenya", '')}) els prepara Supabase i surten de la nostra adreça ${TITULAR.correu} a través del nostre proveïdor de correu, [Hostinger](${HOSTINGER_PRIVACY}), que fa d'encarregat del tractament per encàrrec nostre: rep la teva adreça de correu i el missatge només per enviar-lo. Si mai tracta dades fora de l'Espai Econòmic Europeu, ho fa amb les garanties del RGPD (clàusules contractuals tipus), d'acord amb la seva [política de privadesa](${HOSTINGER_PRIVACY}).`,
 								"**Quant de temps:** mentre tinguis el compte. Si l'esborres, s'eliminen el compte i totes les dades desades al núvol (les ascensions amb les notes i els companys, l'àlies i el municipi d'origen); les còpies de seguretat del proveïdor, si n'hi ha, es renoven al cap de pocs dies. Les dades del teu dispositiu es conserven, llevat que en esborrar el compte triïs esborrar-les també; si no, les pots esborrar a part.",
 								"**Menors:** per crear un compte cal tenir 14 anys o més; per sota d'aquesta edat, l'ha de crear el pare, la mare o el tutor legal (art. 7 de la Llei orgànica 3/2018).",
 								'Ningú més no veu el teu carnet al núvol: cada compte només pot llegir i modificar les seves pròpies dades. (Si en comparteixes un enllaç, les dades hi van dins i no passen pel núvol; ho expliquem a «Compartir el carnet i preparar la validació».)'
@@ -275,7 +279,7 @@ export function crearPrivacitat(google: boolean, contrasenya = false): Contingut
 							items: [
 								"**Desar i sincronitzar el teu carnet, si crees un compte.** Ho expliquem a l'apartat «Si crees un compte».",
 								"**Servir el web i protegir-lo.** Els registres tècnics de les peticions (IP, data i hora, pàgina, navegador) els tracta Cloudflare per encàrrec nostre. Base jurídica: l'interès legítim a oferir un web segur i operatiu (art. 6.1.f del RGPD). Es conserven durant els terminis de Cloudflare i no els fem servir per elaborar perfils.",
-								`**Respondre't si ens escrius.** Si ens envies un correu a ${TITULAR.correu}, fem servir la teva adreça i el missatge només per atendre la consulta. Base jurídica: la teva sol·licitud i el nostre interès legítim a respondre-la. Els conservem el temps necessari per atendre-la i, després, els esborrem.`
+								`**Respondre't si ens escrius.** Si ens envies un correu a ${TITULAR.correu}, fem servir la teva adreça i el missatge només per atendre la consulta. Base jurídica: la teva sol·licitud i el nostre interès legítim a respondre-la. Els conservem el temps necessari per atendre-la i, després, els esborrem. La bústia de correu l'allotja Hostinger, per encàrrec nostre.`
 							]
 						},
 						{
@@ -437,7 +441,8 @@ export function crearPrivacitat(google: boolean, contrasenya = false): Contingut
 									'**Entrar con contraseña (opcional):** puedes entrar con tu correo y una contraseña en lugar del enlace por correo. La contraseña la guarda Supabase (el encargado del tratamiento que gestiona las cuentas) cifrada con una función de hash (bcrypt): nunca se guarda tal como la escribes, nosotros no la vemos y no podemos recuperarla; si la olvidas, eliges una nueva. La aplicación no la guarda en tu dispositivo (si quieres, puede recordarla el gestor de contraseñas del navegador) ni la envía a ningún otro servicio. Si te das de alta con contraseña, te enviamos un correo para confirmar la dirección antes de poder entrar; si la olvidas, te enviamos otro con un enlace para elegir una nueva. Estos correos solo sirven para eso. Base jurídica: la ejecución del servicio que nos pides (art. 6.1.b del RGPD). La contraseña se borra con la cuenta. Es opcional: siempre puedes entrar con un enlace por correo.'
 								),
 								'**Base jurídica:** la ejecución del servicio que nos pides al crear la cuenta (art. 6.1.b del RGPD). El alias y el municipio de origen son voluntarios y se basan en tu consentimiento (art. 6.1.a), que puedes retirar borrándolos.',
-								`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}). También es Supabase quien te envía el correo con el enlace de acceso.`,
+								`**Encargado del tratamiento:** [Supabase](${SUPABASE}) aloja la base de datos y gestiona el acceso por encargo nuestro, con servidores en la Unión Europea (Irlanda). Si alguna vez accede desde fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [acuerdo de tratamiento de datos](${SUPABASE_DPA}) y su [política de privacidad](${SUPABASE_PRIVACY}).`,
+								`**Correos de la cuenta:** los correos que te enviamos para la cuenta (el enlace y el código para entrar${c(', la confirmación del alta y el enlace para restablecer la contraseña', '')}) los prepara Supabase y salen de nuestra dirección ${TITULAR.correu} a través de nuestro proveedor de correo, [Hostinger](${HOSTINGER_PRIVACY}), que actúa como encargado del tratamiento por encargo nuestro: recibe tu dirección de correo y el mensaje solo para enviarlo. Si alguna vez trata datos fuera del Espacio Económico Europeo, lo hace con las garantías del RGPD (cláusulas contractuales tipo), de acuerdo con su [política de privacidad](${HOSTINGER_PRIVACY}).`,
 								'**Cuánto tiempo:** mientras tengas la cuenta. Si la borras, se eliminan la cuenta y todos los datos guardados en la nube (las ascensiones con las notas y los compañeros, el alias y el municipio de origen); las copias de seguridad del proveedor, si las hay, se renuevan a los pocos días. Los datos de tu dispositivo se conservan, salvo que al borrar la cuenta elijas borrarlos también; si no, puedes borrarlos aparte.',
 								'**Menores:** para crear una cuenta hay que tener 14 años o más; por debajo de esa edad, debe crearla el padre, la madre o el tutor legal (art. 7 de la Ley Orgánica 3/2018).',
 								'Nadie más ve tu carnet en la nube: cada cuenta solo puede leer y modificar sus propios datos. (Si compartes un enlace, los datos van dentro y no pasan por la nube; lo explicamos en «Compartir el carnet y preparar la validación».)'
@@ -484,7 +489,7 @@ export function crearPrivacitat(google: boolean, contrasenya = false): Contingut
 							items: [
 								'**Guardar y sincronizar tu carnet, si creas una cuenta.** Lo explicamos en el apartado «Si creas una cuenta».',
 								'**Servir la web y protegerla.** Los registros técnicos de las peticiones (IP, fecha y hora, página, navegador) los trata Cloudflare por encargo nuestro. Base jurídica: el interés legítimo en ofrecer una web segura y operativa (art. 6.1.f del RGPD). Se conservan durante los plazos de Cloudflare y no los usamos para elaborar perfiles.',
-								`**Responderte si nos escribes.** Si nos envías un correo a ${TITULAR.correu}, usamos tu dirección y el mensaje solo para atender la consulta. Base jurídica: tu solicitud y nuestro interés legítimo en responderla. Los conservamos el tiempo necesario para atenderla y, después, los borramos.`
+								`**Responderte si nos escribes.** Si nos envías un correo a ${TITULAR.correu}, usamos tu dirección y el mensaje solo para atender la consulta. Base jurídica: tu solicitud y nuestro interés legítimo en responderla. Los conservamos el tiempo necesario para atenderla y, después, los borramos. El buzón de correo lo aloja Hostinger, por encargo nuestro.`
 							]
 						},
 						{
@@ -542,7 +547,7 @@ export function crearPrivacitat(google: boolean, contrasenya = false): Contingut
 	};
 }
 
-/** Política vigent: sense entrada amb Google (`PUBLIC_GOOGLE_AUTH` desactivat). */
+/** Política sense Google ni contrasenya (tots dos flags desactivats). */
 export const privacitat: Contingut = crearPrivacitat(false);
 
 /** Variant per al build amb `PUBLIC_GOOGLE_AUTH` actiu (la tria `PaginaContingut`). */

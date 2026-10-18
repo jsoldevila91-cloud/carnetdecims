@@ -54,7 +54,9 @@ export default defineConfig({
 		// Els E2E proven el SEO del llançament (canonical, index, sitemaps): build sense mode beta.
 		// El mode beta es prova amb tests unitaris (seo/mode-beta*.spec.ts). Si reaprofites un
 		// servidor obert, construeix-lo amb PUBLIC_MODE_BETA=false.
-		env: { PUBLIC_MODE_BETA: 'false' },
+		// Contrasenya desactivada: aquesta suite prova la pantalla del compte sense contrasenya; amb el
+		// flag actiu (com a producció) la prova `e2e/playwright.contrasenya.config.ts`.
+		env: { PUBLIC_MODE_BETA: 'false', PUBLIC_PASSWORD_AUTH: 'false' },
 		reuseExistingServer: !process.env.CI,
 		timeout: 240_000,
 		stdout: 'ignore',

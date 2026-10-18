@@ -25,7 +25,7 @@ export type FlagNovetat = 'contrasenya';
 
 export const TOTES_LES_NOVETATS: readonly Novetat[] = Object.freeze([
 	{
-		// PUBLIC_PASSWORD_AUTH desactivat: no surt. En activar-lo, id i data del dia d'activació.
+		// Només amb PUBLIC_PASSWORD_AUTH actiu (activat i publicat el 2026-10-18).
 		id: '2026-10-18-contrasenya',
 		data: '2026-10-18',
 		nomesSi: 'contrasenya',
