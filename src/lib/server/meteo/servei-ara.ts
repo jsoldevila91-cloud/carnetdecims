@@ -13,6 +13,13 @@
  *   d'hora i per a una icona n'hi ha prou. Es guarda fins a 3 h (`TTL_CACHE_ARA_S`) per tornar la
  *   darrera foto si el proveïdor falla (*stale-if-error*, `x-carnet-meteo: STALE`); més antiga ja
  *   no es fa servir (el temps "actual" de fa hores enganya).
+ * - **La foto no depèn que el visitant esperi** (el client abandona als 8 s i Open-Meteo pot
+ *   trigar ~20 s en fred): en un MISS la foto (crida + `cache.put`) es comença en segon pla
+ *   (`enSegonPla` = `ctx.waitUntil`, que la deixa acabar fins a 30 s després de la resposta) i la
+ *   petició n'espera com a molt `ESPERA_MAX_ARA_MS`. Si no ha arribat: la foto anterior (STALE) si
+ *   n'hi ha; si no, 503 amb `retry-after` i sense cache. El visitant següent la troba a la cache.
+ *   Si la foto falla (502 o STALE), l'isolate no en torna a demanar cap durant
+ *   `REPOS_DESPRES_ERROR_MS` (límit per minut d'Open-Meteo, que compta per punt).
  * - Al navegador: `max-age` de 10 min. El service worker no la desa (`estrategia.ts`: `xarxa`).
  * - Validació estricta de la query: només `slugs`, un sol cop, 1..`MAX_SLUGS_METEO_ARA` slugs
  *   ben formats separats per comes; si no, 400 JSON. Els slugs ben formats que no són del
@@ -49,8 +56,11 @@ export interface OpcionsServeiAra {
 	cims: readonly CimMeteoAra[];
 	proveidor: ProveidorMeteoActual;
 	cache?: CacheMeteo;
+	/** `ctx.waitUntil` del Worker: la foto i el `cache.put` acaben encara que la resposta surti. */
 	enSegonPla?: (p: Promise<unknown>) => void;
 	ara?: () => Date;
+	/** Espera màxima de la foto nova (per defecte `ESPERA_MAX_ARA_MS`; els tests l'escurcen). */
+	esperaMaxMs?: number;
 }
 
 export type ErrorQueryAra =
@@ -126,19 +136,84 @@ async function obtenirFoto(o: OpcionsServeiAra, ara: Date): Promise<MeteoAra> {
 	return { actualitzat: ara.toISOString(), hora, font: o.proveidor.font, cims };
 }
 
+/** Temps màxim que una petició espera la foto nova abans de respondre sense (~6 s). */
+export const ESPERA_MAX_ARA_MS = 6000;
+/** Sense foto ni còpia: `retry-after` (s) del 503 mentre la foto es prepara en segon pla. */
+export const RETRY_AFTER_ARA_S = 30;
 /**
- * Foto en curs per proveïdor dins del mateix isolate: si arriben moltes peticions just quan la
- * foto caduca, només la primera pregunta al proveïdor i la resta l'esperen.
+ * Després d'una foto fallida, l'isolate no en torna a demanar cap durant aquest temps. Open-Meteo
+ * compta cada punt com una crida (comprovat el 2026-10-18: amb ~900 punts en un minut torna 429
+ * "Minutely API request limit exceeded", límit 600/min) i una foto en són 150.
  */
-const enCurs = new WeakMap<ProveidorMeteoActual, Promise<MeteoAra>>();
+export const REPOS_DESPRES_ERROR_MS = 60_000;
 
-function fotoCompartida(o: OpcionsServeiAra, ara: Date): Promise<MeteoAra> {
-	const existent = enCurs.get(o.proveidor);
-	if (existent) return existent;
-	const p = obtenirFoto(o, ara).finally(() => enCurs.delete(o.proveidor));
-	enCurs.set(o.proveidor, p);
+interface EstatIsolate {
+	/** Foto en curs: totes les peticions de l'isolate esperen la mateixa (inclou el `cache.put`). */
+	enCurs?: Promise<MeteoAra>;
+	/** Instant (ms) del darrer error del proveïdor. */
+	darrerError?: number;
+}
+
+/** Estat per proveïdor dins del mateix isolate. */
+const estats = new WeakMap<ProveidorMeteoActual, EstatIsolate>();
+
+function estatDe(p: ProveidorMeteoActual): EstatIsolate {
+	let e = estats.get(p);
+	if (!e) estats.set(p, (e = {}));
+	return e;
+}
+
+/**
+ * Comença (o reaprofita) la foto i la desa a la cache quan arriba. La promesa es registra amb
+ * `enSegonPla` (`ctx.waitUntil`) perquè la crida i el `cache.put` acabin encara que la resposta
+ * ja hagi sortit. `undefined` si som en repòs després d'un error.
+ */
+function fotoEnSegonPla(
+	o: OpcionsServeiAra,
+	ara: Date,
+	clau: Request
+): Promise<MeteoAra> | undefined {
+	const estat = estatDe(o.proveidor);
+	if (estat.enCurs) {
+		// També es registra a aquesta petició: la foto no depèn que la primera continuï viva.
+		o.enSegonPla?.(estat.enCurs.catch(() => undefined));
+		return estat.enCurs;
+	}
+	if (
+		estat.darrerError !== undefined &&
+		ara.getTime() - estat.darrerError < REPOS_DESPRES_ERROR_MS
+	) {
+		return undefined;
+	}
+	const p = (async () => {
+		const foto = await obtenirFoto(o, ara);
+		if (o.cache) {
+			const perDesar = json(foto, 200, {
+				'cache-control': `public, max-age=${TTL_CACHE_ARA_S}`,
+				[CAPCALERA_OBTINGUT]: String(Date.parse(foto.actualitzat))
+			});
+			await o.cache.put(clau, perDesar).catch(() => undefined);
+		}
+		return foto;
+	})();
+	estat.enCurs = p;
+	p.then(
+		() => {
+			estat.darrerError = undefined;
+		},
+		(e) => {
+			estat.darrerError = ara.getTime();
+			console.error(`[meteo-ara] ${(e as Error)?.message ?? e}`);
+		}
+	).finally(() => {
+		if (estat.enCurs === p) estat.enCurs = undefined;
+	});
+	// Sempre resolta: `waitUntil` no ha de veure un rebuig.
+	o.enSegonPla?.(p.catch(() => undefined));
 	return p;
 }
+
+const ESGOTAT = Symbol('esgotat');
 
 export async function respostaMeteoAra(o: OpcionsServeiAra): Promise<Response> {
 	const filtre = llegirQueryAra(o.url);
@@ -163,29 +238,41 @@ export async function respostaMeteoAra(o: OpcionsServeiAra): Promise<Response> {
 		});
 	}
 
-	let foto: MeteoAra;
-	try {
-		foto = await fotoCompartida(o, ara);
-	} catch (e) {
-		console.error(`[meteo-ara] ${(e as Error)?.message ?? e}`);
-		if (desada && edatS >= 0 && edatS < TTL_CACHE_ARA_S) {
-			const antiga = (await desada.json()) as MeteoAra;
-			return json(filtrar(antiga, filtre), 200, {
-				'cache-control': 'public, max-age=300',
-				[CAPCALERA_ESTAT_CACHE]: 'STALE'
-			});
-		}
-		return json({ error: 'proveidor_no_disponible' }, 502, SENSE_CACHE);
+	// MISS: la foto es fa en segon pla i aquí només s'espera `ESPERA_MAX_ARA_MS`.
+	const enCurs = fotoEnSegonPla(o, ara, clau);
+	let resultat: MeteoAra | typeof ESGOTAT | Error = ESGOTAT;
+	if (enCurs) {
+		let temporitzador: ReturnType<typeof setTimeout> | undefined;
+		const espera = new Promise<typeof ESGOTAT>((r) => {
+			temporitzador = setTimeout(() => r(ESGOTAT), o.esperaMaxMs ?? ESPERA_MAX_ARA_MS);
+		});
+		resultat = await Promise.race([enCurs.catch((e: unknown) => toError(e)), espera]);
+		clearTimeout(temporitzador);
+	}
+	if (resultat !== ESGOTAT && !(resultat instanceof Error)) {
+		return json(filtrar(resultat, filtre), 200, {
+			...PER_AL_NAVEGADOR,
+			[CAPCALERA_ESTAT_CACHE]: 'MISS'
+		});
 	}
 
-	if (o.cache) {
-		const perDesar = json(foto, 200, {
-			'cache-control': `public, max-age=${TTL_CACHE_ARA_S}`,
-			[CAPCALERA_OBTINGUT]: String(ara.getTime())
+	if (desada && edatS >= 0 && edatS < TTL_CACHE_ARA_S) {
+		const antiga = (await desada.json()) as MeteoAra;
+		return json(filtrar(antiga, filtre), 200, {
+			'cache-control': 'public, max-age=300',
+			[CAPCALERA_ESTAT_CACHE]: 'STALE'
 		});
-		const desar = o.cache.put(clau, perDesar).catch(() => undefined);
-		if (o.enSegonPla) o.enSegonPla(desar);
-		else await desar;
 	}
-	return json(filtrar(foto, filtre), 200, { ...PER_AL_NAVEGADOR, [CAPCALERA_ESTAT_CACHE]: 'MISS' });
+	if (resultat instanceof Error) {
+		return json({ error: 'proveidor_no_disponible' }, 502, SENSE_CACHE);
+	}
+	// Encara es prepara (o repòs després d'un error): el visitant següent la trobarà a la cache.
+	return json({ error: 'meteo_en_preparacio' }, 503, {
+		...SENSE_CACHE,
+		'retry-after': String(RETRY_AFTER_ARA_S)
+	});
+}
+
+function toError(e: unknown): Error {
+	return e instanceof Error ? e : new Error(String(e));
 }

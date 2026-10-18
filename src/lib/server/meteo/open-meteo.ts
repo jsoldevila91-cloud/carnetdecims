@@ -216,7 +216,19 @@ export function parsejarOpenMeteoActual(json: unknown, n: number): (ActualPunt |
 	return resultat;
 }
 
-export function crearOpenMeteoActual(f: typeof fetch = fetch): ProveidorMeteoActual {
+/**
+ * Temps màxim d'espera de la crida multipunt (propi: no és `TIMEOUT_MS`). En fred (coordenades o
+ * hora que Open-Meteo encara no té a la seva cache) s'han mesurat ~18–20 s per a 50–100 punts; en
+ * calent, ~1 s. 25 s cap dins dels 30 s que `ctx.waitUntil` deixa acabar després de la resposta.
+ * Trossos més petits no van més de pressa en fred (50 punts ~20 s, mesurat), per això es manté
+ * `MAX_PUNTS_PER_CRIDA`.
+ */
+export const TIMEOUT_ACTUAL_MS = 25_000;
+
+export function crearOpenMeteoActual(
+	f: typeof fetch = fetch,
+	opcions: { timeoutMs?: number } = {}
+): ProveidorMeteoActual {
 	async function tros(punts: readonly PuntMeteo[], signal: AbortSignal) {
 		let res: Response;
 		try {
@@ -241,7 +253,7 @@ export function crearOpenMeteoActual(f: typeof fetch = fetch): ProveidorMeteoAct
 		font: FONT_OPEN_METEO,
 		async actual(punts, signal) {
 			if (punts.length === 0) return [];
-			const timeout = AbortSignal.timeout(TIMEOUT_MS);
+			const timeout = AbortSignal.timeout(opcions.timeoutMs ?? TIMEOUT_ACTUAL_MS);
 			const s = signal ? AbortSignal.any([signal, timeout]) : timeout;
 			const trossos: PuntMeteo[][] = [];
 			for (let i = 0; i < punts.length; i += MAX_PUNTS_PER_CRIDA) {

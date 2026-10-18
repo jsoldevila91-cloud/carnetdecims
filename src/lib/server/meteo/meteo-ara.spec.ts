@@ -11,6 +11,8 @@ import { CAMI_METEO_ARA_SW } from '$lib/platform/sw/estrategia';
 import {
 	FONT_OPEN_METEO,
 	MAX_PUNTS_PER_CRIDA,
+	TIMEOUT_ACTUAL_MS,
+	TIMEOUT_MS,
 	crearOpenMeteoActual,
 	parsejarOpenMeteoActual,
 	urlOpenMeteoActual
@@ -18,7 +20,10 @@ import {
 import { ErrorProveidor, type ActualPunt, type ProveidorMeteoActual } from './proveidor';
 import { CAPCALERA_ESTAT_CACHE, type CacheMeteo } from './servei';
 import {
+	ESPERA_MAX_ARA_MS,
 	MAX_AGE_NAVEGADOR_ARA_S,
+	REPOS_DESPRES_ERROR_MS,
+	RETRY_AFTER_ARA_S,
 	TTL_CACHE_ARA_S,
 	TTL_FRESCA_ARA_S,
 	llegirQueryAra,
@@ -118,6 +123,23 @@ describe('Open-Meteo multipunt (temps actual)', () => {
 	});
 });
 
+describe('temps d’espera de la crida multipunt', () => {
+	it('propi i més llarg que el de la previsió (en fred Open-Meteo triga ~20 s)', () => {
+		expect(TIMEOUT_ACTUAL_MS).toBe(25_000);
+		expect(TIMEOUT_ACTUAL_MS).toBeGreaterThan(TIMEOUT_MS);
+	});
+
+	it('esgotat → ErrorProveidor (TimeoutError), sense penjar-se', async () => {
+		const penjat = ((_u: string, init?: RequestInit) =>
+			new Promise<Response>((_, rebutja) => {
+				init?.signal?.addEventListener('abort', () => rebutja(init.signal!.reason));
+			})) as typeof fetch;
+		await expect(
+			crearOpenMeteoActual(penjat, { timeoutMs: 20 }).actual([PEDRAFORCA])
+		).rejects.toThrow(/TimeoutError/);
+	});
+});
+
 describe('llegirQueryAra (validació estricta)', () => {
 	const q = (s: string) => llegirQueryAra(new URL(`https://carnetdecims.cat/api/meteo/ara${s}`));
 
@@ -159,12 +181,13 @@ const CIMS_PROVA: CimMeteoAra[] = [
 	{ slug: 'montcau', punt: { lat: 41.69, lon: 2.0, altitud: 1056 } }
 ];
 
-function proveidorFals(falla = false): ProveidorMeteoActual & { crides: number } {
+function proveidorFals(falla = false, retardMs = 0): ProveidorMeteoActual & { crides: number } {
 	const p = {
 		font: FONT_OPEN_METEO,
 		crides: 0,
 		async actual(punts: readonly unknown[]) {
 			p.crides++;
+			if (retardMs) await new Promise((r) => setTimeout(r, retardMs));
 			if (falla) throw new ErrorProveidor('caigut');
 			expect(punts).toHaveLength(3);
 			return [
@@ -290,6 +313,86 @@ describe('servei /api/meteo/ara', () => {
 		});
 		expect(sense.status).toBe(502);
 		expect(sense.headers.get('cache-control')).toBe('no-store');
+		err.mockRestore();
+	});
+
+	it('proveïdor lent sense còpia: 503 ràpid amb retry-after; la foto es desa en segon pla', async () => {
+		const cache = cacheMemoria();
+		const proveidor = proveidorFals(false, 60);
+		const segonPla: Promise<unknown>[] = [];
+		const o = {
+			url: url(),
+			cims: CIMS_PROVA,
+			proveidor,
+			cache,
+			enSegonPla: (p: Promise<unknown>) => void segonPla.push(p),
+			esperaMaxMs: 10,
+			ara: () => T0
+		};
+		const r1 = await respostaMeteoAra(o);
+		expect(r1.status).toBe(503);
+		expect(r1.headers.get('retry-after')).toBe(String(RETRY_AFTER_ARA_S));
+		expect(r1.headers.get('cache-control')).toBe('no-store');
+		expect(await r1.json()).toEqual({ error: 'meteo_en_preparacio' });
+		expect(cache.claus()).toEqual([]);
+
+		// Una altra petició mentre es prepara: no torna a cridar el proveïdor.
+		expect((await respostaMeteoAra(o)).status).toBe(503);
+		expect(segonPla).toHaveLength(2);
+		await Promise.all(segonPla);
+		expect(cache.claus()).toEqual(['https://carnetdecims.cat/api/meteo/ara?v=1']);
+
+		const r2 = await respostaMeteoAra({ ...o, ara: () => new Date(T0.getTime() + 60_000) });
+		expect(r2.headers.get(CAPCALERA_ESTAT_CACHE)).toBe('HIT');
+		expect(proveidor.crides).toBe(1);
+		expect(ESPERA_MAX_ARA_MS).toBeLessThan(8000); // el client abandona als 8 s
+	});
+
+	it('proveïdor lent amb foto caducada: STALE ràpid i la nova queda desada per al següent', async () => {
+		const cache = cacheMemoria();
+		await respostaMeteoAra({
+			url: url(),
+			cims: CIMS_PROVA,
+			proveidor: proveidorFals(),
+			cache,
+			ara: () => T0
+		});
+		const segonPla: Promise<unknown>[] = [];
+		const T1 = new Date(T0.getTime() + (TTL_FRESCA_ARA_S + 60) * 1000);
+		const lent = proveidorFals(false, 60);
+		const o = {
+			url: url('?slugs=canigo'),
+			cims: CIMS_PROVA,
+			proveidor: lent,
+			cache,
+			enSegonPla: (p: Promise<unknown>) => void segonPla.push(p),
+			esperaMaxMs: 10,
+			ara: () => T1
+		};
+		const r = await respostaMeteoAra(o);
+		expect(r.headers.get(CAPCALERA_ESTAT_CACHE)).toBe('STALE');
+		expect(((await r.json()) as MeteoAra).actualitzat).toBe(T0.toISOString());
+		await Promise.all(segonPla);
+		const r2 = await respostaMeteoAra({ ...o, ara: () => new Date(T1.getTime() + 1000) });
+		expect(r2.headers.get(CAPCALERA_ESTAT_CACHE)).toBe('HIT');
+		expect(((await r2.json()) as MeteoAra).actualitzat).toBe(T1.toISOString());
+		expect(lent.crides).toBe(1);
+	});
+
+	it('després d’un error, repòs: no es torna a cridar el proveïdor fins al cap d’un minut', async () => {
+		const err = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+		const caigut = proveidorFals(true);
+		const o = { url: url(), cims: CIMS_PROVA, proveidor: caigut };
+		expect((await respostaMeteoAra({ ...o, ara: () => T0 })).status).toBe(502);
+		const enRepos = await respostaMeteoAra({ ...o, ara: () => new Date(T0.getTime() + 30_000) });
+		expect(enRepos.status).toBe(503);
+		expect(enRepos.headers.get('retry-after')).toBe(String(RETRY_AFTER_ARA_S));
+		expect(caigut.crides).toBe(1);
+		await respostaMeteoAra({
+			...o,
+			ara: () => new Date(T0.getTime() + REPOS_DESPRES_ERROR_MS + 1000)
+		});
+		expect(caigut.crides).toBe(2);
 		err.mockRestore();
 	});
 
