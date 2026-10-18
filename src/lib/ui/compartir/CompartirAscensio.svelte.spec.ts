@@ -62,7 +62,7 @@ describe('CompartirAscensio', () => {
 		await expect
 			.element(
 				page.getByRole('button', {
-					name: `Comparteix una imatge de l'ascensió a ${cim.nom} del ${formatDataLlarga('2024-07-12', 'ca')}`
+					name: `Comparteix una imatge de l'ascensió a ${cim.nom} del dia ${formatDataLlarga('2024-07-12', 'ca')}`
 				})
 			)
 			.toBeVisible();

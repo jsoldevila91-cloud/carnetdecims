@@ -281,6 +281,51 @@ function seccioReptes(locale: AppLocale): Seccio {
 }
 
 /**
+ * Secció "Temps actual i restriccions a les llistes" (bloc R5): `GET /api/meteo/ara`
+ * (`server/meteo/servei-ara.ts`, foto horària de tot el catàleg, `elevation` = altitud del cim,
+ * fresca 1 h i fins a 3 h si el proveïdor falla), `categoriaTemps` (`domain/temps.ts`) i
+ * `restriccionsVigents` (`domain/repte.ts`); docs/03-modelo-datos.md §3.8.
+ */
+function seccioLlistes(locale: AppLocale): Seccio {
+	if (locale === 'ca') {
+		return {
+			id: 'temps-i-restriccions-a-les-llistes',
+			titol: 'Temps actual i restriccions a les llistes',
+			blocs: [
+				{
+					tipus: 'paragraf',
+					text: "A la [llista de cims](/cims) i als essencials pendents, cada cim pot portar dues icones. Les dues són orientatives: abans de sortir, consulta la previsió oficial, l'estat de la muntanya i la fitxa del cim."
+				},
+				{
+					tipus: 'llista',
+					items: [
+						"**Temps actual:** el cel i la temperatura que dona [Open-Meteo](https://open-meteo.com/) a les coordenades del cim, amb la temperatura ajustada a l'altitud del cim. És una estimació d'un model meteorològic, no una observació feta al cim. Les dades s'actualitzen cada hora i a sobre de la llista hi surt l'hora a què corresponen; si el servei no respon, es mostren les últimes que tenim durant un màxim de tres hores, i després les icones desapareixen.",
+						"**Restricció d'accés:** surt quan avui el cim té una restricció vigent (per exemple, per protecció de la fauna), amb el dia que s'acaba si el sabem. Es calcula amb la data del teu dispositiu i les mateixes dades de restriccions de les fitxes. Si un cim té una restricció sense dates conegudes, l'avís diu que pot haver-n'hi una i que ho comprovis a la FEEC, però no el donem per tancat."
+					]
+				}
+			]
+		};
+	}
+	return {
+		id: 'temps-i-restriccions-a-les-llistes',
+		titol: 'Tiempo actual y restricciones en las listas',
+		blocs: [
+			{
+				tipus: 'paragraf',
+				text: 'En la [lista de cimas](/cims) y en las esenciales pendientes, cada cima puede llevar dos iconos. Los dos son orientativos: antes de salir, consulta la previsión oficial, el estado de la montaña y la ficha de la cima.'
+			},
+			{
+				tipus: 'llista',
+				items: [
+					'**Tiempo actual:** el cielo y la temperatura que da [Open-Meteo](https://open-meteo.com/) en las coordenadas de la cima, con la temperatura ajustada a la altitud de la cima. Es una estimación de un modelo meteorológico, no una observación hecha en la cima. Los datos se actualizan cada hora y encima de la lista aparece la hora a la que corresponden; si el servicio no responde, se muestran los últimos que tenemos durante un máximo de tres horas, y después los iconos desaparecen.',
+					'**Restricción de acceso:** aparece cuando hoy la cima tiene una restricción vigente (por ejemplo, por protección de la fauna), con el día en que termina si lo sabemos. Se calcula con la fecha de tu dispositivo y los mismos datos de restricciones de las fichas. Si una cima tiene una restricción sin fechas conocidas, el aviso dice que puede haberla y que lo compruebes en la FEEC, pero no la damos por cerrada.'
+				]
+			}
+		]
+	};
+}
+
+/**
  * Llista per a la validació (bloc R3): `exportValidacio` de `domain/validacio.ts`
  * (docs/03-modelo-datos.md §3.7). Les tres "interpretacions" són les ambigüitats pendents de
  * confirmar amb 100cims@feec.cat: si la FEEC les aclareix, cal revisar aquest text i el codi.
@@ -466,6 +511,7 @@ export const metodologia: Contingut = {
 			seccioDificultat('ca'),
 			seccioMunicipisEstadistiques('ca'),
 			seccioReptes('ca'),
+			seccioLlistes('ca'),
 			seccioValidacio('ca'),
 			{
 				id: 'no-oficial',
@@ -500,6 +546,7 @@ export const metodologia: Contingut = {
 							`Catalunya Nord: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Llicència Oberta 2.0](${ETALAB}).`,
 							`© [Col·laboradors d'OpenStreetMap](${OSM_COPYRIGHT}), dades sota llicència [ODbL 1.0](${ODBL}).`,
 							`Mapa interactiu: © [OpenMapTiles](${OPENMAPTILES}) i, per a l'ombrejat del relleu, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
+							`Previsió i temps actual dels cims: [Open-Meteo](https://open-meteo.com/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ca).`,
 							`Altituds i coordenades complementàries: [Wikidata](${WIKIDATA}), dades en domini públic ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.ca)). La citem per transparència.`,
 							`Llista de cims essencials: FEEC, repte 100 Cims ([llista pública](${PDF_ESSENCIALS})). Web no oficial; la validació d'ascensions la fa la FEEC a través de les entitats.`
 						]
@@ -649,6 +696,7 @@ export const metodologia: Contingut = {
 			seccioDificultat('es'),
 			seccioMunicipisEstadistiques('es'),
 			seccioReptes('es'),
+			seccioLlistes('es'),
 			seccioValidacio('es'),
 			{
 				id: 'no-oficial',
@@ -683,6 +731,7 @@ export const metodologia: Contingut = {
 							`Cataluña Norte: © IGN France (BD TOPO, RGE ALTI, Plan IGN), [Licencia Abierta 2.0](${ETALAB}).`,
 							`© [Colaboradores de OpenStreetMap](${OSM_COPYRIGHT}), datos bajo licencia [ODbL 1.0](${ODBL}).`,
 							`Mapa interactivo: © [OpenMapTiles](${OPENMAPTILES}) y, para el sombreado del relieve, © [Mapterhorn](${MAPTERHORN_ATRIBUCIO}).`,
+							`Previsión y tiempo actual de las cimas: [Open-Meteo](https://open-meteo.com/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).`,
 							`Altitudes y coordenadas complementarias: [Wikidata](${WIKIDATA}), datos en dominio público ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.es)). La citamos por transparencia.`,
 							`Lista de cimas esenciales: FEEC, reto 100 Cims ([lista pública](${PDF_ESSENCIALS})). Web no oficial; la validación de ascensiones la hace la FEEC a través de las entidades.`
 						]

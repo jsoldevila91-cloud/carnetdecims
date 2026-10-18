@@ -1,5 +1,5 @@
 /**
- * `/privacitat` (RGPD), ajustada al que fa el web AVUI (revisada el 2026-10-16, beta privada):
+ * `/privacitat` (RGPD), ajustada al que fa el web AVUI (revisada el 2026-10-18, beta privada):
  * - registre d'ascensions (bloc 4a) a IndexedDB (BD `carnetdecims`, `data/local/db.ts`), amb
  *   exportació JSON, importació i esborrat total (`data/ascensions.ts`) i petició d'emmagatzematge
  *   persistent (`platform/emmagatzematge.ts`); sense compte, no surten del dispositiu;
@@ -60,6 +60,12 @@
  *   al fragment (`domain/carnet-compartit.ts`, `data/compartir.ts`; sense notes, companys, mètode ni
  *   ids), que no arriba mai al servidor ni es desa; llista de validació (`domain/validacio.ts`, CSV i
  *   impressió) generada al client, sense nom, DNI ni llicència (el full imprès els deixa en blanc).
+ * - bloc R5 (2026-10-18): imatge d'una ascensió (`ui/compartir/imatge-ascensio.ts`, canvas al
+ *   client) amb dades del catàleg i la data; sense nota, companys ni mètode. Temps actual de les
+ *   llistes (`/cims`, `/app/essencials`): `GET /api/meteo/ara` al nostre origen, sense paràmetres
+ *   (una foto de tot el catàleg, `ui/info-rapida-llista.svelte.ts`): no revela quins cims té
+ *   pendents l'usuari; el Worker la demana a Open-Meteo amb coordenades i altitud dels cims; el SW
+ *   no la desa (`xarxa`). Les restriccions vigents es calculen al client.
  * Cal actualitzar-la abans d'activar l'analítica (fase 7) o qualsevol altre tractament.
  */
 import { TITULAR } from './titular.ts';
@@ -165,7 +171,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							"**La imatge per compartir** es dibuixa al teu dispositiu i no s'envia a cap servidor. Només surt del dispositiu si tu la comparteixes amb una altra aplicació.",
+							"**Les imatges per compartir** (la del carnet i la de cada ascensió) es dibuixen al teu dispositiu i no s'envien a cap servidor. Només surten del dispositiu si tu les comparteixes amb una altra aplicació. La d'una ascensió només porta el cim, l'altitud, la comarca i el dia: no hi surten ni la nota, ni els companys, ni el mètode.",
 							"**L'enllaç de només lectura** porta dins els cims i les dates de les ascensions del carnet i, si n'hi poses, el nom que vulguis mostrar. No porta les notes, els companys ni el mètode. Aquestes dades van al fragment de l'enllaç (la part posterior al «#»), que el navegador no envia mai al servidor: no les rebem ni les desem enlloc, i la pàgina que obre l'enllaç les llegeix al dispositiu de qui l'obre.",
 							"**Qualsevol persona que tingui l'enllaç pot veure aquestes dades**, i qualsevol que el rebi el pot reenviar. Comparteix-lo només amb qui vulguis. Un enllaç ja enviat no es pot desactivar, perquè no es desa enlloc.",
 							"**La llista per a la validació** (CSV o versió per imprimir o desar en PDF) es genera al teu dispositiu i no surt d'aquí, llevat que tu l'enviïs. No et demanem ni desem el DNI ni el número de llicència: al full imprès hi queden en blanc perquè els escriguis a mà."
@@ -210,7 +216,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): les imatges del mapa de les fitxes de cim, de les pàgines de comarca i del mapa general, i les tessel·les, la tipografia i les icones del [mapa interactiu](/mapa), es carreguen des dels seus servidors.`,
 							`**[Mapterhorn](${MAPTERHORN})**: quan fas servir el mapa interactiu, l'ombrejat del relleu es carrega des dels seus servidors.`,
 							`**[IGN France](${IGN})**: les imatges del mapa dels cims de la Catalunya Nord, i el Plan IGN del mapa interactiu quan t'hi apropes, es carreguen des de la Géoplateforme de l'IGN.`,
-							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim i d'«El teu proper cim»): **no rep la teva IP**. El teu navegador només demana la previsió al nostre servidor, i és el nostre servidor qui la demana a Open-Meteo amb les coordenades i l'altitud del cim, sense cap dada teva.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsió meteorològica de les fitxes de cim i d'«El teu proper cim», i temps actual de la llista de cims i dels essencials): **no rep la teva IP**. El teu navegador només demana les dades al nostre servidor, i és el nostre servidor qui les demana a Open-Meteo amb les coordenades i l'altitud dels cims, sense cap dada teva. Per al temps actual de les llistes, el navegador demana sempre el de tot el catàleg, de manera que la petició no diu quins cims tens fets o pendents.`,
 							`**[Wikiloc](${WIKILOC})** (rutes recomanades d'algunes fitxes de cim): el mapa de cada ruta **no es carrega fins que prems «Mostra la ruta»**; abans no es fa cap connexió amb Wikiloc. Quan el prems, el navegador carrega el mapa des dels servidors de Wikiloc, que rep la teva adreça IP i pot fer servir les seves pròpies galetes, sota la seva responsabilitat i d'acord amb la seva [política de privadesa](${WIKILOC_PRIVACY}). Els enllaços «Obre a Wikiloc» i «Veure rutes a Wikiloc» et porten al seu web només si hi fas clic.`,
 							`**[Supabase](${SUPABASE})** (comptes): només si crees un compte o hi entres. Rep l'adreça IP i les peticions de sincronització, com a encarregat del tractament (vegeu l'apartat «Si crees un compte»).`,
 							'**Altres enllaços externs** (FEEC, fonts de dades): només si hi fas clic.'
@@ -366,7 +372,7 @@ export const privacitat: Contingut = {
 					{
 						tipus: 'llista',
 						items: [
-							'**La imagen para compartir** se dibuja en tu dispositivo y no se envía a ningún servidor. Solo sale del dispositivo si tú la compartes con otra aplicación.',
+							'**Las imágenes para compartir** (la del carnet y la de cada ascensión) se dibujan en tu dispositivo y no se envían a ningún servidor. Solo salen del dispositivo si tú las compartes con otra aplicación. La de una ascensión solo lleva la cima, la altitud, la comarca y el día: no aparecen ni la nota, ni los compañeros, ni el método.',
 							'**El enlace de solo lectura** lleva dentro las cimas y las fechas de las ascensiones del carnet y, si lo pones, el nombre que quieras mostrar. No lleva las notas, los compañeros ni el método. Estos datos van en el fragmento del enlace (la parte que sigue a «#»), que el navegador nunca envía al servidor: no los recibimos ni los guardamos en ningún sitio, y la página que abre el enlace los lee en el dispositivo de quien lo abre.',
 							'**Cualquier persona que tenga el enlace puede ver estos datos**, y cualquiera que lo reciba puede reenviarlo. Compártelo solo con quien quieras. Un enlace ya enviado no se puede desactivar, porque no se guarda en ningún sitio.',
 							'**La lista para la validación** (CSV o versión para imprimir o guardar en PDF) se genera en tu dispositivo y no sale de aquí, salvo que tú la envíes. No te pedimos ni guardamos el DNI ni el número de licencia: en la hoja impresa quedan en blanco para que los escribas a mano.'
@@ -411,7 +417,7 @@ export const privacitat: Contingut = {
 							`**[ICGC](${ICGC})** (Institut Cartogràfic i Geològic de Catalunya): las imágenes del mapa de las fichas de cima, de las páginas de comarca y del mapa general, y las teselas, la tipografía y los iconos del [mapa interactivo](/mapa), se cargan desde sus servidores.`,
 							`**[Mapterhorn](${MAPTERHORN})**: cuando usas el mapa interactivo, el sombreado del relieve se carga desde sus servidores.`,
 							`**[IGN France](${IGN})**: las imágenes del mapa de las cimas de Cataluña Norte, y el Plan IGN del mapa interactivo al acercarte, se cargan desde la Géoplateforme del IGN.`,
-							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima y de «Tu próxima cima»): **no recibe tu IP**. Tu navegador solo pide la previsión a nuestro servidor, y es nuestro servidor quien la pide a Open-Meteo con las coordenadas y la altitud de la cima, sin ningún dato tuyo.`,
+							`**[Open-Meteo](${OPEN_METEO})** (previsión meteorológica de las fichas de cima y de «Tu próxima cima», y tiempo actual de la lista de cimas y de las esenciales): **no recibe tu IP**. Tu navegador solo pide los datos a nuestro servidor, y es nuestro servidor quien los pide a Open-Meteo con las coordenadas y la altitud de las cimas, sin ningún dato tuyo. Para el tiempo actual de las listas, el navegador pide siempre el de todo el catálogo, así que la petición no dice qué cimas tienes hechas o pendientes.`,
 							`**[Wikiloc](${WIKILOC})** (rutas recomendadas de algunas fichas de cima): el mapa de cada ruta **no se carga hasta que pulsas «Mostrar la ruta»**; antes no se establece ninguna conexión con Wikiloc. Cuando lo pulsas, el navegador carga el mapa desde los servidores de Wikiloc, que recibe tu dirección IP y puede usar sus propias cookies, bajo su responsabilidad y según su [política de privacidad](${WIKILOC_PRIVACY}). Los enlaces «Abrir en Wikiloc» y «Ver rutas en Wikiloc» te llevan a su web solo si haces clic en ellos.`,
 							`**[Supabase](${SUPABASE})** (cuentas): solo si creas una cuenta o entras en ella. Recibe la dirección IP y las peticiones de sincronización, como encargado del tratamiento (ver el apartado «Si creas una cuenta»).`,
 							'**Otros enlaces externos** (FEEC, fuentes de datos): solo si los pulsas.'

@@ -21,9 +21,9 @@ describe('info ràpida (R5.2)', () => {
 	it('avís: fins a, sense data de fi i incerta (mai "tancat")', () => {
 		expect(
 			textAcces({ tipus: 'fauna', fins: '2026-07-15', incerta: false }, '2026-03-01', 'ca')
-		).toBe('Restringit fins al 15 de juliol · Protecció de la fauna');
+		).toBe('Accés restringit fins al dia 15 de juliol · Protecció de la fauna');
 		expect(textAcces({ tipus: 'militar', fins: null, incerta: false }, '2026-03-01', 'ca')).toBe(
-			'Restringit (sense data de fi) · Zona militar'
+			'Accés restringit (sense data de fi) · Zona militar'
 		);
 		const incerta = textAcces({ tipus: 'obres', fins: null, incerta: true }, '2026-03-01', 'ca');
 		expect(incerta).toBe('Possible restricció (obres): comprova-ho a la FEEC');

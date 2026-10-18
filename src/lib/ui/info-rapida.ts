@@ -79,8 +79,8 @@ export function formatFins(fins: DataISO, avui: DataISO | null, locale: string):
 }
 
 /**
- * Text de l'avís d'accés: "Restringit fins al 15 de juliol · Protecció de la fauna",
- * "Restringit (sense data de fi) · Zona militar" o, si és incerta,
+ * Text de l'avís d'accés: "Accés restringit fins al dia 15 de juliol · Protecció de la fauna",
+ * "Accés restringit (sense data de fi) · Zona militar" o, si és incerta,
  * "Possible restricció (obres): comprova-ho a la FEEC".
  */
 export function textAcces(a: AccesAra, avui: DataISO | null, locale: string): string {

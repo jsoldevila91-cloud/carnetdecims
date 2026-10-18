@@ -52,7 +52,7 @@ describe('InfoRapidaCim', () => {
 			.element(page.getByText('Temps actual al cim (hora 10:15): Assolellat, 12 °C'))
 			.toBeInTheDocument();
 		await expect
-			.element(page.getByText('Restringit (sense data de fi) · Zona militar'))
+			.element(page.getByText('Accés restringit (sense data de fi) · Zona militar'))
 			.toBeInTheDocument();
 	});
 

@@ -5,7 +5,7 @@
 
 	/**
 	 * Llegenda i atribució del temps actual de les llistes (R5.2, CC BY 4.0 obligatòria a prop de
-	 * les icones): "Temps actual al cim (hora 10:15) · Dades: Open-Meteo (CC BY 4.0)". La línia
+	 * les icones): "Temps actual a cada cim (hora 10:15) · Dades: Open-Meteo (CC BY 4.0)". La línia
 	 * sempre ocupa el seu lloc: sense dades (sense connexió) queda buida i no mou la llista.
 	 */
 	let { font = null, hora = null }: { font?: FontMeteo | null; hora?: string | null } = $props();
@@ -14,8 +14,11 @@
 <p class="atribucio mono" data-testid="atribucio-meteo">
 	{#if font && hora}
 		{m.quick_weather_caption({ hora: horaCurta(hora) })} · {m.quick_weather_data()}
-		<a href={font.url} rel="external noopener" target="_blank">{font.nom}</a>
-		(<a href={font.llicenciaUrl} rel="external noopener license" target="_blank">{font.llicencia}</a
+		<a href={font.url} rel="external noopener" target="_blank"
+			>{font.nom}<span class="sr-only"> {m.external_new_tab()}</span></a
+		>
+		(<a href={font.llicenciaUrl} rel="external noopener license" target="_blank"
+			>{font.llicencia}<span class="sr-only"> {m.external_new_tab()}</span></a
 		>)
 	{/if}
 </p>

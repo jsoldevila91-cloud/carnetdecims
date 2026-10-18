@@ -1089,7 +1089,7 @@
 	"cim_map_open_interactive": "Abrir el mapa interactivo",
 	"cim_map_open_interactive_label": "Abrir el mapa interactivo centrado {nom_en}",
 	"quick_weather_label": "Tiempo actual en la cima (hora {hora}): {condicio}, {temp}",
-	"quick_weather_caption": "Tiempo actual en la cima (hora {hora})",
+	"quick_weather_caption": "Tiempo actual en cada cima (hora {hora})",
 	"quick_weather_data": "Datos:",
 	"quick_weather_sol": "Soleado",
 	"quick_weather_sol_nit": "Despejado",
@@ -1099,7 +1099,7 @@
 	"quick_weather_pluja": "Lluvia",
 	"quick_weather_neu": "Nieve",
 	"quick_weather_tempesta": "Tormenta",
-	"quick_access_until": "Restringido hasta el {data} · {tipus}",
-	"quick_access_open": "Restringido (sin fecha de fin) · {tipus}",
+	"quick_access_until": "Acceso restringido hasta el {data} · {tipus}",
+	"quick_access_open": "Acceso restringido (sin fecha de fin) · {tipus}",
 	"quick_access_uncertain": "Posible restricción ({tipus}): compruébalo en la FEEC"
 }
