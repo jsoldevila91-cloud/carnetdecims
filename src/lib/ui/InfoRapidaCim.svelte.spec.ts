@@ -79,6 +79,21 @@ describe('AvisRestriccio', () => {
 	});
 });
 
+describe('AvisRestriccio curt (llistes)', () => {
+	it('text curt visible sense hover (incerta) i el complet al title i per a lectors', async () => {
+		render(AvisRestriccio, {
+			acces: { tipus: 'obres', fins: null, incerta: true },
+			variant: 'curt'
+		});
+		const avis = page.getByTestId('avis-restriccio');
+		await expect.element(avis.getByText('Possible restricció', { exact: true })).toBeVisible();
+		await expect
+			.element(avis)
+			.toHaveAttribute('title', 'Possible restricció (obres): comprova-ho a la FEEC');
+		await expect.element(avis).not.toHaveTextContent(/tancat|restringit/i);
+	});
+});
+
 describe('AtribucioMeteoAra', () => {
 	it('atribució CC BY 4.0 amb enllaços; sense dades, línia buida', async () => {
 		const buida = render(AtribucioMeteoAra, {});

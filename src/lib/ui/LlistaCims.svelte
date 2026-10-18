@@ -19,8 +19,8 @@
 	 *   (mapa lleuger del `+page.server.ts`, `$lib/server/dificultats`).
 	 * - `detall`: línia opcional sota cada cim, dins l'enllaç (p. ex. "Des de Vidrà · +300 m"
 	 *   a `/cims-amb-nens`). La pinta qui crida (i n'hi dona l'estil); ha d'ocupar tota la fila.
-	 * - `infoRapida`: temps d'ara i avís d'accés per cim (R5). Si es passa, cada fila reserva
-	 *   l'espai (`InfoRapidaCim`) encara que no hi hagi dades: quan arriben, no es mou res.
+	 * - `infoRapida`: temps d'ara i avís d'accés per cim (R5). Si es passa, cada fila hi reserva
+	 *   una línia d'alçada fixa sota el nom (`InfoRapidaCim`), amb dades o sense: no es mou res.
 	 */
 	let {
 		cims,
@@ -60,12 +60,13 @@
 				><DificultatBadge dificultat={dificultats[cim.slug]} variant="compacte" /></span
 			>
 		{/if}
-		{#if infoRapida}
-			<InfoRapidaCim info={infoRapida(cim)} />
-		{/if}
 		<span class="meta mono">
 			{[meta?.(cim), `${formatAltitude(cim.altitud)} m`].filter(Boolean).join(' · ')}
 		</span>
+		{#if infoRapida}
+			<!-- Línia pròpia sota el nom (alçada fixa): no treu amplada al nom. -->
+			<span class="info-fila"><InfoRapidaCim info={infoRapida(cim)} /></span>
+		{/if}
 		{@render detall?.(cim)}
 	</a>
 {/snippet}
@@ -147,6 +148,11 @@
 
 	.dif {
 		flex: none;
+	}
+
+	.info-fila {
+		flex: 0 0 100%;
+		min-width: 0;
 	}
 
 	.meta {

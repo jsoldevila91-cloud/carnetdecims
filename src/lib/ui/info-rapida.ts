@@ -89,3 +89,14 @@ export function textAcces(a: AccesAra, avui: DataISO | null, locale: string): st
 	if (a.fins) return m.quick_access_until({ data: formatFins(a.fins, avui, locale), tipus });
 	return m.quick_access_open({ tipus });
 }
+
+/**
+ * Text curt i visible de l'avís (a la segona línia de les files, perquè s'entengui sense
+ * `title` ni ratolí): "Restringit fins al dia 15 de juny", "Restringit" o "Possible restricció".
+ * El text complet va per a lectors de pantalla i al `title`.
+ */
+export function textAccesCurt(a: AccesAra, avui: DataISO | null, locale: string): string {
+	if (a.incerta) return m.quick_access_short_uncertain();
+	if (a.fins) return m.quick_access_short_until({ data: formatFins(a.fins, avui, locale) });
+	return m.quick_access_short_open();
+}

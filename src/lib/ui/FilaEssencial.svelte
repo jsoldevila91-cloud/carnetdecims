@@ -37,10 +37,11 @@
 		<small class="mono">
 			{m.ess_peak_meta({ alt: formatAltitude(cim.altitud), comarca })}
 		</small>
+		{#if ambInfo}
+			<!-- Sota el nom (línia d'alçada fixa): no treu amplada al nom ni al botó Registrar. -->
+			<InfoRapidaCim {info} />
+		{/if}
 	</div>
-	{#if ambInfo}
-		<InfoRapidaCim {info} />
-	{/if}
 	{#if distanciaKm !== null && Number.isFinite(distanciaKm)}
 		<span class="km mono">
 			<span aria-hidden="true">{m.ess_distance({ km: formatKm(distanciaKm, locale) })}</span>

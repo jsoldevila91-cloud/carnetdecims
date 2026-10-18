@@ -1053,7 +1053,11 @@ test.describe('Fitxa del cim: imatge estàtica del mapa', () => {
 			'%E0%A4%A'
 		]) {
 			const pageErrors: string[] = [];
-			page.on('pageerror', (e) => pageErrors.push(e.message));
+			// WebKit: la càrrega de l'estil del mapa de la pàgina anterior, avortada en navegar,
+			// surt com a pageerror "due to access control checks" (mateix cas que fixtures.ts).
+			page.on('pageerror', (e) => {
+				if (!/due to access control checks/.test(e.message)) pageErrors.push(e.message);
+			});
 			await page.goto(`/ca/mapa?cim=${raw}`);
 			await expect(page.locator('main h1, h1').first()).toBeVisible();
 			await expect(page.getByRole('dialog')).toHaveCount(0);

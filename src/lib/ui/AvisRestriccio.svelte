@@ -1,29 +1,35 @@
 <script lang="ts">
 	import { getLocale } from '$lib/i18n';
 	import type { DataISO } from '$lib/domain';
-	import { textAcces, type AccesAra } from './info-rapida';
+	import { textAcces, textAccesCurt, type AccesAra } from './info-rapida';
 
 	/**
 	 * Avís de restricció d'accés vigent avui (R5.2). Senyal propi:
 	 * - restricció coneguda: triangle d'avís en tinta de segell;
 	 * - `incerta` (permanent sense dates, p. ex. Sant Salvador de les Espases): cercle amb "?" en
 	 *   tinta suau; el text diu "Possible restricció…: comprova-ho a la FEEC", mai "tancat".
-	 * Variants: `compacte` (només el senyal, 1.25rem; text per a lectors de pantalla i `title`) i
-	 * `complet` (senyal + text visible).
+	 * Variants: `compacte` (només el senyal, 1.25rem; text per a lectors de pantalla i `title`),
+	 * `curt` (senyal + text curt visible, p. ex. "Possible restricció"; el complet per a lectors de
+	 * pantalla i `title`: s'entén en pantalles tàctils) i `complet` (senyal + text complet).
 	 */
 	let {
 		acces,
 		avui = null,
 		variant = 'compacte'
-	}: { acces: AccesAra; avui?: DataISO | null; variant?: 'compacte' | 'complet' } = $props();
+	}: {
+		acces: AccesAra;
+		avui?: DataISO | null;
+		variant?: 'compacte' | 'curt' | 'complet';
+	} = $props();
 
 	const locale = getLocale();
 	const text = $derived(textAcces(acces, avui, locale));
+	const curt = $derived(textAccesCurt(acces, avui, locale));
 </script>
 
 <span
 	class={['avis', variant, { incerta: acces.incerta }]}
-	title={variant === 'compacte' ? text : undefined}
+	title={variant === 'complet' ? undefined : text}
 	data-testid="avis-restriccio"
 >
 	<svg
@@ -48,6 +54,9 @@
 	</svg>
 	{#if variant === 'complet'}
 		<span class="text">{text}</span>
+	{:else if variant === 'curt'}
+		<span class="text-curt" aria-hidden="true">{curt}</span>
+		<span class="sr-only">{text}</span>
 	{:else}
 		<span class="sr-only">{text}</span>
 	{/if}
@@ -75,6 +84,28 @@
 	.compacte svg {
 		width: 1.25rem;
 		height: 1.25rem;
+	}
+
+	.curt {
+		min-width: 0;
+		max-width: 100%;
+		font-family: var(--font-mono);
+		font-size: var(--fs-xs);
+		font-weight: var(--fw-semibold);
+		line-height: 1.25rem;
+	}
+
+	.curt svg {
+		flex: none;
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.text-curt {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.complet {

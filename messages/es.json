@@ -1101,5 +1101,8 @@
 	"quick_weather_tempesta": "Tormenta",
 	"quick_access_until": "Acceso restringido hasta el {data} · {tipus}",
 	"quick_access_open": "Acceso restringido (sin fecha de fin) · {tipus}",
-	"quick_access_uncertain": "Posible restricción ({tipus}): compruébalo en la FEEC"
+	"quick_access_uncertain": "Posible restricción ({tipus}): compruébalo en la FEEC",
+	"quick_access_short_until": "Restringido hasta el {data}",
+	"quick_access_short_open": "Restringido",
+	"quick_access_short_uncertain": "Posible restricción"
 }
