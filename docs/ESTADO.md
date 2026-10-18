@@ -229,7 +229,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Sin probar:** Wikiloc `/openMap` en Android e iPhone con la app (y desde la PWA instalada); "enrere" desde `/mapa?cim=` en iPhone real; `navigator.share` de la imagen en móviles reales.
 - **Bajos pendientes:** `restriction_from`/`restriction_until` de la ficha ("Des del 1…", "Fins al 11…") con el mismo fallo de apostrofación; la imagen del carnet de R3 siempre en claro.
 
-## Fase 5 · cierre (terminado, 2026-10-18; **sin publicar**)
+## Fase 5 · cierre (terminado y publicado, 2026-10-18; Worker `f6595d7d`; verificado: 200 y `noindex, nofollow` en `/ca`, `/ca/app`, `/es/app/cuenta`, privacitat ca/es con el texto nuevo, `/ca/cims`, `/api/meteo/ara`; `www` → 301)
 
 - **Deduplicación** (`dc55958`; regla en docs/03): dos ascensiones **vivas** con el mismo `cimId`, `data` y `metode` son la misma. Ganadora determinista (`createdAt` más antiguo, luego id menor); notas unidas (si pasan de 500, la más reciente) y companys unidos (≤ 10); `updatedAt` = máximo del grupo + 1 ms, así dos dispositivos convergen sin bucles. Se aplica tras el pull (`resoldreDuplicats`, perdedoras a lápida vacía) y en `importarDades` (ambos modos; reimportar el JSON de otra cuenta = 0 añadidas). Dexie **v4** `redireccions` (idVell → idNou, por `id en ús` o duplicado): editar, Desfés y borrar siguen la redirección. **Sin migración de Supabase.**
   - Riesgo aceptado (a confirmar por el usuario): dos registros intencionados del mismo cim, día y método se fusionan.
@@ -242,7 +242,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 hecho y **pendiente de publicar** (con permiso del usuario); pendiente del usuario: credenciales de Google (`docs/12-google-oauth.md`); `www` → apex ya activo. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
+R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 publicado (Worker `f6595d7d`); pendiente del usuario: credenciales de Google (`docs/12-google-oauth.md`); `www` → apex ya activo. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
