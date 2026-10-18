@@ -161,3 +161,33 @@ describe('dades del titular i marcadors pendents', () => {
 		}
 	});
 });
+
+describe('privadesa amb i sense «Continua amb Google»', () => {
+	it('la política vigent (Google desactivat) no diu que es pugui entrar amb Google', async () => {
+		const { privacitat, privacitatAmbGoogle } = await import('./privacitat');
+		expect(CONTINGUTS.privacitat).toBe(privacitat);
+		for (const l of LOCALES) {
+			const text = JSON.stringify(privacitat[l]);
+			expect(text).not.toMatch(/amb Google|con Google|Google Ireland/);
+			// Mateixes seccions en totes dues variants: només canvia el text.
+			expect(privacitatAmbGoogle[l].seccions.map((s) => s.id)).toEqual(
+				privacitat[l].seccions.map((s) => s.id)
+			);
+		}
+	});
+
+	it('la variant amb Google explica proveïdor, dades, ús del correu, base jurídica i que és opcional', async () => {
+		const { privacitatAmbGoogle } = await import('./privacitat');
+		const ca = JSON.stringify(privacitatAmbGoogle.ca);
+		const es = JSON.stringify(privacitatAmbGoogle.es);
+		for (const text of [ca, es]) {
+			expect(text).toContain('Google Ireland Limited');
+			expect(text).toContain('6.1.b');
+			expect(text).toContain('https://policies.google.com/privacy');
+		}
+		expect(ca).toContain('Només fem servir el correu');
+		expect(ca).toContain('És opcional: sempre pots entrar amb el correu.');
+		expect(es).toContain('Solo usamos el correo');
+		expect(es).toContain('Es opcional: siempre puedes entrar con el correo.');
+	});
+});

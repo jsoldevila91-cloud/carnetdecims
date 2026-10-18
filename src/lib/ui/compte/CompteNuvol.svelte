@@ -301,6 +301,13 @@
 	let resolent = $state(false);
 	const syncEnCurs = $derived(sincronitzant || !!$estatSync.sincronitzant);
 
+	/** Toast del resultat de l'última sync manual: se substitueix en lloc d'apilar-se. */
+	let toastSync: number | null = null;
+	function avisSync(text: string, error: boolean) {
+		if (toastSync !== null) toasts.dismiss(toastSync);
+		toastSync = toasts.show(text, error ? { tone: 'error', duration: 8000 } : { tone: 'success' });
+	}
+
 	async function sincronitza() {
 		sincronitzant = true;
 		try {
@@ -308,12 +315,12 @@
 			await api.sincronitzarAra();
 			const despres = estatNuvol(sessioActual, $estatSync, network.online);
 			if (despres.tipus === 'bloquejades') {
-				toasts.show(textBloquejades(despres.bloquejades), { tone: 'error', duration: 8000 });
+				avisSync(textBloquejades(despres.bloquejades), true);
 			} else if ($estatSync.error) {
-				toasts.show(m.cloud_sync_error(), { tone: 'error', duration: 8000 });
-			} else toasts.show(m.cloud_sync_done(), { tone: 'success' });
+				avisSync(m.cloud_sync_error(), true);
+			} else avisSync(m.cloud_sync_done(), false);
 		} catch {
-			toasts.show(m.cloud_sync_error(), { tone: 'error', duration: 8000 });
+			avisSync(m.cloud_sync_error(), true);
 		} finally {
 			sincronitzant = false;
 		}
@@ -485,7 +492,7 @@
 				<Button variant="ghost" onclick={canviaCorreu}>{m.cloud_change_email()}</Button>
 			</div>
 		{:else}
-			<p class="hint">{m.cloud_intro_how()}</p>
+			<p class="hint">{googleDisponible ? m.cloud_intro_how_google() : m.cloud_intro_how()}</p>
 			<form class="form" onsubmit={enviaFormulari} novalidate>
 				<label class="label" for={ids.email}>{m.cloud_email_label()}</label>
 				<div class="fila">

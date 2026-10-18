@@ -23,6 +23,26 @@ export const CLAU_NOVETATS = 'carnetdecims:novetat-vista';
 
 export const NOVETATS: readonly Novetat[] = Object.freeze([
 	{
+		id: '2026-10-18-sense-duplicats',
+		data: '2026-10-18',
+		titol: {
+			ca: 'Sense ascensions duplicades',
+			es: 'Sin ascensiones duplicadas'
+		},
+		punts: {
+			ca: [
+				'Si apuntes la mateixa ascensió (el mateix cim, el mateix dia i amb el mateix mètode) al mòbil i a l’ordinador, en sincronitzar el compte es desa una sola vegada i se n’ajunten les notes i els companys.',
+				'Si importes una còpia que ja havies importat, o la d’un altre compte, les ascensions que ja tens no es dupliquen.',
+				'Si un canvi no es pot desar al núvol, ara t’ho diem clarament: queda desat en aquest dispositiu i en pots descarregar una còpia.'
+			],
+			es: [
+				'Si apuntas la misma ascensión (la misma cima, el mismo día y con el mismo método) en el móvil y en el ordenador, al sincronizar la cuenta se guarda una sola vez y se juntan las notas y los compañeros.',
+				'Si importas una copia que ya habías importado, o la de otra cuenta, las ascensiones que ya tienes no se duplican.',
+				'Si un cambio no se puede guardar en la nube, ahora te lo decimos claramente: queda guardado en este dispositivo y puedes descargar una copia.'
+			]
+		}
+	},
+	{
 		id: '2026-10-18-detalls-utils',
 		data: '2026-10-18',
 		titol: {

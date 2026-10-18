@@ -146,11 +146,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
   4. Probar el registro con su propio correo; después, pasar el enlace a Inesa.
   5. Hostinger → Correos → "Comprobar estado" del DKIM en verde.
 - **QA de cuentas** (`e2e/compte.e2e.ts`, 26 tests con Supabase simulado en `e2e/supabase-fals.ts`; ningún correo real). 4 bugs corregidos y verificados (`30caf43`, publicado el 2026-10-10): ids de otra cuenta ("id en ús") reasignados al subir; email inválido; texto de "Esborra totes les dades" con sesión; banner solo en beta. E2E: 412 pasados, 1 intermitente de WebKit (`pwa.e2e.ts:400`, `import()` abortado por `page.goto`).
-- **Pendientes no bloqueantes de cuentas:**
-  - importar dos veces el JSON de **otra** cuenta duplica (el id viejo se borra al reasignar): guardar el mapeo idVell → idNou en `meta` o deduplicar por (cim, fecha, método, createdAt);
-  - si la hoja de edición o el "Desfés" está abierto justo cuando se reasigna un id, sale un error genérico (sin pérdida de datos);
-  - texto propio para entradas de sync bloqueadas (hoy, `cloud_sync_error` genérico);
-  - tolerar en `pwa.e2e.ts:400` el `import()` abortado en WebKit.
+- **Pendientes no bloqueantes de cuentas:** todos resueltos en el bloque "Fase 5 · cierre" (más abajo); la tolerancia de `pwa.e2e.ts` ya estaba desde `173ae45`.
 
 ## Bloque 6b (terminado, 2026-10-10; publicado en carnetdecims.cat)
 
@@ -233,9 +229,20 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Sin probar:** Wikiloc `/openMap` en Android e iPhone con la app (y desde la PWA instalada); "enrere" desde `/mapa?cim=` en iPhone real; `navigator.share` de la imagen en móviles reales.
 - **Bajos pendientes:** `restriction_from`/`restriction_until` de la ficha ("Des del 1…", "Fins al 11…") con el mismo fallo de apostrofación; la imagen del carnet de R3 siempre en claro.
 
+## Fase 5 · cierre (terminado, 2026-10-18; **sin publicar**)
+
+- **Deduplicación** (`dc55958`; regla en docs/03): dos ascensiones **vivas** con el mismo `cimId`, `data` y `metode` son la misma. Ganadora determinista (`createdAt` más antiguo, luego id menor); notas unidas (si pasan de 500, la más reciente) y companys unidos (≤ 10); `updatedAt` = máximo del grupo + 1 ms, así dos dispositivos convergen sin bucles. Se aplica tras el pull (`resoldreDuplicats`, perdedoras a lápida vacía) y en `importarDades` (ambos modos; reimportar el JSON de otra cuenta = 0 añadidas). Dexie **v4** `redireccions` (idVell → idNou, por `id en ús` o duplicado): editar, Desfés y borrar siguen la redirección. **Sin migración de Supabase.**
+  - Riesgo aceptado (a confirmar por el usuario): dos registros intencionados del mismo cim, día y método se fusionan.
+- **Google OAuth, desactivado** (flag de build `PUBLIC_GOOGLE_AUTH`, `"false"` en `wrangler.jsonc`; `platform/flags.ts`): `entrarAmbGoogle`, `BotoGoogle.svelte` (directrices de Google, claro/oscuro), error `cancelat`, `cloud_intro_how_google`, privacitat con variante Google (`privacitatAmbGoogle`, elegida en build). Pasos para el usuario: **`docs/10-google-oauth.md`**. Al activarlo: cambiar `actualitzat` de privacitat.
+- **Sync bloqueada:** `EstatSync.bloquejades` con texto propio y "Descarrega una còpia"; el toast de la sync manual se sustituye en lugar de apilarse.
+- **SEO:** textos ca/es revisados, privacitat (deduplicación), novetat `2026-10-18-sense-duplicats`.
+- **QA:** `e2e/duplicats.e2e.ts` (12 por proyecto) y `e2e/google-actiu.google.ts` con config propia (`npx playwright test -c e2e/playwright.google.config.ts`, `vite dev` en :5192 con el flag activo). `supabase-fals.ts` con `rebutjarIds`. 1689 unitarios.
+- **`www.carnetdecims.cat` → apex:** pendiente del usuario en el panel de Cloudflare (no se puede con wrangler sin pasar todos los assets por el Worker): registro `www` proxied + Redirect Rule 301.
+- **Bajos:** "substituir" sin E2E (la UI solo ofrece fusionar); tras un error 503 no hay reintento automático hasta `online`/visibilidad/5 min; un dispositivo que recibe por pull la lápida de una perdedora no guarda redirección (si tenía la hoja abierta, "no trobada").
+
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. En una **sesión nueva**: comparativa con Fes Cims (doc 08, punto 5), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1, R2, R3 y R5 publicados; cierre de la fase 5 hecho y **pendiente de publicar** (con permiso del usuario). Pendiente del usuario: credenciales de Google (`docs/10`) y `www` en Cloudflare. Después: fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
@@ -243,7 +250,7 @@ Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.
 
 - **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 hecho; queda la comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
 
-- **Fase 5, después de la beta:** Google OAuth (credenciales en Google Cloud Console, las crea el usuario), deduplicación entre dispositivos, `www` → apex.
+- **Fase 5:** solo falta lo del usuario: credenciales de Google (`docs/10-google-oauth.md`) y activar `PUBLIC_GOOGLE_AUTH`; `www` → apex en el panel de Cloudflare.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
 - **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).
 

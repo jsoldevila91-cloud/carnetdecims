@@ -182,6 +182,8 @@ export class SupabaseFals {
 	errorPushDespresDePerdua: number | null = null;
 	/** `esborrar_compte` respon aquest status sense esborrar res. */
 	errorEsborrar: number | null = null;
+	/** Ids que `sync_push` rebutja sempre amb aquest motiu (p. ex. per forçar "canvis bloquejats"). */
+	rebutjarIds = new Map<string, string>();
 	private rellotge = Date.parse('2026-10-01T08:00:00Z') * 1000;
 
 	private seguentInstant(): string {
@@ -432,6 +434,11 @@ export class SupabaseFals {
 		for (const f of files) {
 			if (f.data < '2006-07-01' || !(f.cimId >= 1 && f.cimId <= 32767)) {
 				rebutjades.push({ id: f.id, motiu: 'data fora de rang' });
+				continue;
+			}
+			const motiuForcat = this.rebutjarIds.get(f.id);
+			if (motiuForcat) {
+				rebutjades.push({ id: f.id, motiu: motiuForcat });
 				continue;
 			}
 			const actual = this.files.get(f.id);

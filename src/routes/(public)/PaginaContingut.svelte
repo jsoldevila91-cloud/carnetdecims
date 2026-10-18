@@ -22,6 +22,8 @@
 	import { ampleParaulaMesLlargaEm, ampleTextEm } from '$lib/ui/titol-ample';
 	import { getLocale, href } from '$lib/i18n';
 	import { CONTINGUTS, PAGINES_CONTINGUT } from '$lib/content';
+	import { privacitatAmbGoogle } from '$lib/content/privacitat';
+	import { googleAuthActiu } from '$lib/platform/flags';
 	import { paginaGraph } from '$lib/seo/jsonld';
 	import {
 		ID_FAQ,
@@ -41,7 +43,11 @@
 	let { clau, destacat }: { clau: ClauPagina; destacat?: Snippet } = $props();
 
 	const locale = getLocale();
-	const pagina = $derived(CONTINGUTS[clau][locale]);
+	/** La privadesa té una variant per al build amb «Continua amb Google» (`PUBLIC_GOOGLE_AUTH`). */
+	const contingut = $derived(
+		clau === 'privacitat' && googleAuthActiu ? privacitatAmbGoogle : CONTINGUTS[clau]
+	);
+	const pagina = $derived(contingut[locale]);
 	const path = $derived(PAGINES_CONTINGUT[clau]);
 
 	/** Les subpàgines del repte pengen del hub a la molla de pa. */

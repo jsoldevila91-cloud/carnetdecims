@@ -421,9 +421,16 @@ test.describe('Sincronització', () => {
 				}),
 			NOM_BD
 		);
-		// Dexie aplica totes les versions en ordre: des de R1, la 3 (IndexedDB 30) amb `preferencies`.
-		expect(versio.v).toBe(30);
-		expect(versio.stores.sort()).toEqual(['ascensions', 'meta', 'outbox', 'preferencies']);
+		// Dexie aplica totes les versions en ordre: des de la deduplicació, la 4 (IndexedDB 40) amb
+		// `redireccions` (R1 hi va afegir `preferencies`).
+		expect(versio.v).toBe(40);
+		expect(versio.stores.sort()).toEqual([
+			'ascensions',
+			'meta',
+			'outbox',
+			'preferencies',
+			'redireccions'
+		]);
 
 		await desarSessio(page, INESA);
 		await gotoHydrated(page, COMPTE);

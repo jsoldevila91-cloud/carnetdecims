@@ -123,10 +123,16 @@ describe('CompteNuvol', () => {
 		const r = render(CompteNuvol, { ascensionsLocals: 0, api: sense.api });
 		await expect.element(page.getByLabelText('Correu electrònic')).toBeVisible();
 		expect(page.getByRole('button', { name: /Google/ }).query()).toBeNull();
+		await expect.element(page.getByText(/^Només et demanem el correu/)).toBeVisible();
+		expect(page.getByText(/compte de Google/).query()).toBeNull();
 		r.unmount();
 
 		const { api } = doble({ estat: 'anonim' }, undefined, { googleDisponible: () => true });
 		render(CompteNuvol, { ascensionsLocals: 0, api });
+		// El text d'entrada no contradiu el botó: correu o compte de Google.
+		await expect
+			.element(page.getByText(/^Entra amb el correu, .* o amb el teu compte de Google\./))
+			.toBeVisible();
 		await page.getByRole('button', { name: 'Continua amb Google' }).click();
 		expect(api.entrarAmbGoogle).toHaveBeenCalledWith({
 			redirectTo: expect.stringMatching(/\/ca\/app\/compte$/)
