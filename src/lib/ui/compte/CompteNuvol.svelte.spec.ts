@@ -271,9 +271,10 @@ describe('CompteNuvol amb contrasenya (PUBLIC_PASSWORD_AUTH)', () => {
 	});
 
 	it('entra amb correu i contrasenya i anuncia el primer accés', async () => {
-		const { api, sessio } = ambPwd();
+		const { api, sessio, estatSync } = ambPwd();
+		// Com Supabase: la sessió es publica més tard (onAuthStateChange amb setTimeout).
 		api.entrarAmbContrasenya = vi.fn(async () => {
-			sessio.set(autenticat);
+			setTimeout(() => sessio.set(autenticat), 50);
 			return {};
 		});
 		render(CompteNuvol, { ascensionsLocals: 2, api });
@@ -281,7 +282,17 @@ describe('CompteNuvol amb contrasenya (PUBLIC_PASSWORD_AUTH)', () => {
 		await campPwd().fill('qualsevol');
 		await page.getByRole('button', { name: 'Entra amb la contrasenya' }).click();
 		expect(api.entrarAmbContrasenya).toHaveBeenCalledWith('nom@exemple.cat', 'qualsevol');
-		await expect.element(page.getByText(/Desant les teves ascensions al núvol/)).toBeVisible();
+		const avis = page.getByText(/Desant les teves ascensions al núvol/);
+		await expect.element(avis).toBeVisible();
+		await expect.element(avis).toHaveFocus();
+		const element = avis.element();
+		// desant → fet: el mateix element role=status, que conserva el focus.
+		estatSync.set({ pendents: 0, ultimaSync: new Date(Date.now() + 10) });
+		await expect
+			.element(page.getByText('Hem desat les teves 2 ascensions al núvol.').first())
+			.toBeVisible();
+		expect(document.activeElement).toBe(element);
+		expect(element.getAttribute('role')).toBe('status');
 	});
 
 	it('credencials incorrectes: error lligat als camps amb aria-describedby', async () => {

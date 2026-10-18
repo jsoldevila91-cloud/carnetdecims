@@ -144,9 +144,7 @@
 		void api.completarEntradaDesDeUrl().then(async (r) => {
 			if (r === 'cap') return;
 			if (r === 'entrat') {
-				iniciaPrimerAcces(desde);
-				await tick();
-				avisPrimer?.focus();
+				iniciaPrimerAcces(desde, true);
 				return;
 			}
 			if (r === 'recuperacio') {
@@ -160,8 +158,14 @@
 		return () => removeEventListener('pageshow', enTornar);
 	});
 
-	function iniciaPrimerAcces(desde: number) {
+	/**
+	 * `enfocar`: el focus ha d'anar a l'avís del primer accés quan aparegui. La sessió es publica
+	 * més tard (`onAuthStateChange` emet amb `setTimeout`), així que no es pot enfocar de seguida:
+	 * ho fa l'efecte de sota quan l'avís ja és al DOM.
+	 */
+	function iniciaPrimerAcces(desde: number, enfocar = false) {
 		primerDesDe = desde;
+		focusPrimerPendent = enfocar;
 		primerAbans = ascensionsLocals;
 		primerFet = null;
 		enviat = null;
@@ -187,6 +191,26 @@
 			? estatPrimerAcces(primerDesDe, $estatSync)
 			: null
 	);
+
+	/** Hi ha un avís del primer accés (un sol element `role=status` per a desant → fet / error). */
+	const avisPrimerVisible = $derived(
+		// `fet` també: entre la sync acabada i el missatge final no es pot desmuntar (perdria el focus).
+		primerFet !== null || primer === 'desant' || primer === 'fet' || primer === 'error'
+	);
+
+	// Focus pendent després d'entrar (contrasenya, codi, enllaç o Google): a l'avís quan es munta;
+	// si un cop amb sessió no n'hi ha (p. ex. conflicte de dades), al títol de la secció.
+	let focusPrimerPendent = $state(false);
+	$effect(() => {
+		if (!focusPrimerPendent || sessioActual.estat !== 'autenticat') return;
+		if (avisPrimerVisible && avisPrimer) {
+			focusPrimerPendent = false;
+			avisPrimer.focus();
+		} else if (!avisPrimerVisible) {
+			focusPrimerPendent = false;
+			void enfocaTitol();
+		}
+	});
 
 	$effect(() => {
 		if (primer !== 'fet' || primerAbans === null || ascensionsLocals === null) return;
@@ -324,9 +348,7 @@
 		const desde = Date.now();
 		try {
 			await api.verificarCodi(enviat.email, net);
-			iniciaPrimerAcces(desde);
-			await tick();
-			avisPrimer?.focus();
+			iniciaPrimerAcces(desde, true);
 		} catch (e) {
 			errorCodi = textErrorCompte(e);
 		} finally {
@@ -352,9 +374,7 @@
 	// ── Correu + contrasenya ──
 	async function entratAmbContrasenya(desde: number) {
 		errorEnllac = null;
-		iniciaPrimerAcces(desde);
-		await tick();
-		avisPrimer?.focus();
+		iniciaPrimerAcces(desde, true);
 	}
 
 	async function confirmacioEnviada(adreca: string) {
@@ -456,6 +476,7 @@
 			recuperacioUrl = false;
 			canviObert = false;
 			primerDesDe = null;
+			focusPrimerPendent = false;
 			primerFet = null;
 			toasts.show(m.cloud_signed_out(), { tone: 'info', duration: 8000 });
 			await enfocaTitol();
@@ -509,6 +530,7 @@
 			await api.esborrarCompte({ conservarDispositiu });
 			confirmar = false;
 			primerDesDe = null;
+			focusPrimerPendent = false;
 			primerFet = null;
 			toasts.show(m.cloud_deleted(), { tone: 'success', duration: 8000 });
 			// El botó que ha obert el full ja no hi és (la secció passa a anònim).
@@ -707,17 +729,28 @@
 			</section>
 		{/if}
 
-		{#if primerFet}
-			<p class="primer ok" role="status" tabindex="-1" bind:this={avisPrimer}>
-				{textPrimerFet(primerFet)}
-			</p>
-		{:else if primer === 'desant'}
-			<p class="primer mono" role="status" tabindex="-1" bind:this={avisPrimer}>
-				{m.cloud_first_saving()}
-			</p>
-		{:else if primer === 'error'}
-			<p class="primer error" role="status" tabindex="-1" bind:this={avisPrimer}>
-				{m.cloud_first_error()}
+		{#if avisPrimerVisible}
+			<!-- Un sol element estable: el text canvia (desant → fet) sense perdre el focus. -->
+			<p
+				class={[
+					'primer',
+					{
+						ok: !!primerFet,
+						mono: !primerFet && (primer === 'desant' || primer === 'fet'),
+						error: !primerFet && primer === 'error'
+					}
+				]}
+				role="status"
+				tabindex="-1"
+				bind:this={avisPrimer}
+			>
+				{#if primerFet}
+					{textPrimerFet(primerFet)}
+				{:else if primer === 'error'}
+					{m.cloud_first_error()}
+				{:else}
+					{m.cloud_first_saving()}
+				{/if}
 			</p>
 		{/if}
 

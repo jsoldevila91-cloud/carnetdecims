@@ -374,10 +374,7 @@ test.describe('Entrar amb contrasenya', () => {
 		expect(tot).not.toContain(PWD);
 	});
 
-	// BUG (a11y): `entratAmbContrasenya` (CompteNuvol.svelte) fa `avisPrimer?.focus()` després d'un
-	// `tick()`, però la sessió es publica en un `setTimeout` (compte.ts, `onAuthStateChange`): en
-	// aquell moment l'avís encara no existeix, el formulari desapareix i el focus cau a <body>.
-	test.fixme('després d’entrar, el focus va a l’avís del primer accés (no a <body>)', async ({
+	test('després d’entrar, el focus va a l’avís del primer accés (no a <body>)', async ({
 		page,
 		supa
 	}) => {
