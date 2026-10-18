@@ -11,7 +11,7 @@ PWA de seguimiento personal del reto 100 Cims de la FEEC. Web **no oficial**. "1
    - `docs/03-modelo-datos.md`: datos y reglas del reto.
    - `docs/05-frontend-arquitectura.md`: frontend.
    - `docs/06-estrategia-qa.md`: tests.
-3. Al terminar el bloque: commit + push y actualizar `docs/ESTADO.md`.
+3. Al terminar el bloque: commit + push y actualizar `docs/ESTADO.md`. Si el bloque trae algo que el usuario ve, añadirlo también a `docs/11-funcionalitats.md` (en lenguaje de usuario, con la pantalla que hay que grabar). Ese documento servirá para el vídeo promocional y las publicaciones del lanzamiento, así que se mantiene hasta que JSR diga que la app ha salido.
 
 ## Stack
 
