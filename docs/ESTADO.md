@@ -243,7 +243,7 @@ Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.
 
 - **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 y la comparativa con Fes Cims hechos; fotos y panel de administrador en la fase 5+.
 
-- **Comparativa con Fes Cims (`docs/10`, §5):** 10 recomendaciones para antes del lanzamiento. Las de prioridad alta: indexar un primer lote de fichas populares, decidir la comarca de 5 cimas limítrofes (Mola d'Estat, que el ICGC pone en Prades, Baix Camp; Cap del Verd, Monturull, Tuc de Ratera y Castell de Milany), explicar en metodologia por qué la altitud difiere de otras apps, y tomar una línea base en Google.es y Search Console.
+- **Comparativa con Fes Cims (`docs/10`, §5):** 10 recomendaciones para antes del lanzamiento. Las de prioridad alta: indexar un primer lote de fichas populares, decidir la comarca de 5 cimas limítrofes (Mola d'Estat, que el ICGC pone en Prades, Baix Camp; Cap del Verd, Monturull, Tuc de Ratera y Castell de Milany), explicar en metodologia por qué la altitud difiere de otras apps, y tomar una línea base en Google.es y Search Console. Lo que falta para superarles está en docs/08, puntos 9–14 (fichas indexadas y las 522, primero).
 
 - **Notificaciones push (R6, pendiente de implementar; apunte del usuario del 2026-10-18):** Web Push para Android/escritorio e iPhone con la PWA instalada. Plan en `docs/04-plan-fases.md` (bloque R6) y en docs/08, punto 8.
 
