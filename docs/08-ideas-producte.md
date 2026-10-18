@@ -151,3 +151,10 @@ Revisados contra el código: ya hechos la visión "carnet de muntanya" y los ret
 
 6. **Fotos por cima:** campo `fotos` en la ascensión y almacenamiento (Supabase Storage, UE); quitar EXIF/GPS antes de subir; permiso explícito y revocable por foto para publicarla en el Instagram de Carnet de Cims etiquetando al usuario; moderación (ver §5).
 7. **Panel de administrador:** ver la actividad de cada usuario y sus cims, y corregirlos. Requiere rol de administrador en Supabase, registro de cada acción y actualizar la política de privacidad.
+
+## Apunt del usuario (2026-10-18): notificaciones push
+
+8. **Notificaciones push (bloque R6, pendiente):** avisos al móvil de quien tiene la app/web. Detalle técnico en `docs/04-plan-fases.md` (bloque R6).
+   - **Plataformas:** Android y escritorio, siempre que el usuario acepte el permiso. iPhone/iPad (iOS ≥ 16.4) **solo con la PWA añadida a la pantalla de inicio**. Con Capacitor (futuro), push nativo APNs/FCM.
+   - **Usos propuestos:** restricción nueva o mal tiempo en una cima pendiente o planificada, recordatorio de una salida y hitos del reto ("et queden 5 cims"). El usuario elige qué tipos recibe.
+   - **RGPD:** consentimiento explícito y revocable; la suscripción (endpoint) es un dato personal; actualizar privacitat y exportar/borrar la cuenta.

@@ -235,13 +235,15 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. En una **sesión nueva**: comparativa con Fes Cims (doc 08, punto 5), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1, R2, R3 y R5 publicados. En una **sesión nueva**: comparativa con Fes Cims (doc 08, punto 5), resto de la fase 5 (Google, deduplicación, `www`, avisos) fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
 ## Pendiente o decisiones abiertas
 
 - **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 hecho; queda la comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
+
+- **Notificaciones push (R6, pendiente de implementar; apunte del usuario del 2026-10-18):** Web Push para Android/escritorio e iPhone con la PWA instalada. Plan en `docs/04-plan-fases.md` (bloque R6) y en docs/08, punto 8.
 
 - **Fase 5, después de la beta:** Google OAuth (credenciales en Google Cloud Console, las crea el usuario), deduplicación entre dispositivos, `www` → apex.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.

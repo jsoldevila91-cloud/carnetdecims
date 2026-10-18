@@ -42,27 +42,38 @@ Cada fase se divide en **bloques de una sesión**. Cada bloque tiene un entregab
 4. La suite E2E completa (3 dispositivos) se ejecuta al cerrar cada fase.
 5. Si la sesión se corta, `docs/ESTADO.md` indica exactamente por dónde seguir.
 
-| Bloque    | Contenido                                                                                                                                                           | Entregable                                                |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| **2b**    | Prioridad ICGC (comarca + cota oficial), Tossal de la Creu → Solsonès, integrar la revisión SEO/QA del catálogo                                                     | Catálogo cerrado, fase 2 aprobada                         |
-| **3a**    | Ficha de cim: plantilla, prerender de 150 × 2 idiomas, JSON-LD Mountain + Breadcrumb, mapa estático, cims cercanas                                                  | `/ca/cims/{slug}` y `/es/cimas/{slug}`                    |
-| **3b**    | Páginas de comarca, listados (cims, esenciales, tresmils…), sitemap con fichas                                                                                      | `/ca/comarques/{slug}` y listados                         |
-| **3c**    | Hub del reto (normativa explicada), portada definitiva, páginas legales y metodología                                                                               | Web pública completa                                      |
-| **3d**    | **Exprés** (decisión del usuario): arreglar los 5 pendientes anotados + batería E2E completa de la fase 3, sin auditoría nueva (SEO y QA ya pasaron en cada bloque) | Fase 3 aprobada                                           |
-| **4a**    | Capa de datos local (Dexie), registrar ascensión, historial                                                                                                         | Registro offline funcionando                              |
-| **4b**    | Carnet: progreso con sellos I–V, esenciales pendientes, progreso por comarca                                                                                        | Pantalla "El meu carnet" real                             |
-| **4c**    | Mapa MapLibre + ICGC, filtros, "Cims a prop"                                                                                                                        | Mapa interactivo                                          |
-| **4d**    | PWA (manifest, service worker, offline, instalación) + pasada completa QA/SEO                                                                                       | Fase 4 aprobada                                           |
-| **5a**    | Proyecto Supabase (UE), auth con email y Google (el usuario crea las cuentas)                                                                                       | Login funcionando                                         |
-| **5b**    | Sincronización y migración local → nube, RGPD (exportar/borrar), QA                                                                                                 | Fase 5 aprobada                                           |
-| **6a**    | Plantilla de contenido, meteo (Open-Meteo), textos de 50 esenciales, 2–3 rutas de Wikiloc recomendadas por ficha (widget oficial, elegidas a mano)                  | 50 fichas completas                                       |
-| **6b**    | Textos de 50 esenciales más + rutas de acceso + MIDE                                                                                                                | 100 fichas                                                |
-| **6c**    | Últimas 50 + revisión de calidad + pasada SEO                                                                                                                       | Fase 6 aprobada                                           |
-| **R1–R4** | Ideas de producto del usuario (docs/08): estadísticas, retos y medallas, compartir y validar, "proper cim"                                                          | Carnet de montaña "amplio" (100 Cims como reto destacado) |
-| **7a**    | Despliegue en Cloudflare, dominio, Search Console, analítica                                                                                                        | Web en producción                                         |
-| **7b**    | QA/SEO final en producción, arreglos, lanzamiento                                                                                                                   | 🚀                                                        |
+| Bloque    | Contenido                                                                                                                                                                  | Entregable                                                |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **2b**    | Prioridad ICGC (comarca + cota oficial), Tossal de la Creu → Solsonès, integrar la revisión SEO/QA del catálogo                                                            | Catálogo cerrado, fase 2 aprobada                         |
+| **3a**    | Ficha de cim: plantilla, prerender de 150 × 2 idiomas, JSON-LD Mountain + Breadcrumb, mapa estático, cims cercanas                                                         | `/ca/cims/{slug}` y `/es/cimas/{slug}`                    |
+| **3b**    | Páginas de comarca, listados (cims, esenciales, tresmils…), sitemap con fichas                                                                                             | `/ca/comarques/{slug}` y listados                         |
+| **3c**    | Hub del reto (normativa explicada), portada definitiva, páginas legales y metodología                                                                                      | Web pública completa                                      |
+| **3d**    | **Exprés** (decisión del usuario): arreglar los 5 pendientes anotados + batería E2E completa de la fase 3, sin auditoría nueva (SEO y QA ya pasaron en cada bloque)        | Fase 3 aprobada                                           |
+| **4a**    | Capa de datos local (Dexie), registrar ascensión, historial                                                                                                                | Registro offline funcionando                              |
+| **4b**    | Carnet: progreso con sellos I–V, esenciales pendientes, progreso por comarca                                                                                               | Pantalla "El meu carnet" real                             |
+| **4c**    | Mapa MapLibre + ICGC, filtros, "Cims a prop"                                                                                                                               | Mapa interactivo                                          |
+| **4d**    | PWA (manifest, service worker, offline, instalación) + pasada completa QA/SEO                                                                                              | Fase 4 aprobada                                           |
+| **5a**    | Proyecto Supabase (UE), auth con email y Google (el usuario crea las cuentas)                                                                                              | Login funcionando                                         |
+| **5b**    | Sincronización y migración local → nube, RGPD (exportar/borrar), QA                                                                                                        | Fase 5 aprobada                                           |
+| **6a**    | Plantilla de contenido, meteo (Open-Meteo), textos de 50 esenciales, 2–3 rutas de Wikiloc recomendadas por ficha (widget oficial, elegidas a mano)                         | 50 fichas completas                                       |
+| **6b**    | Textos de 50 esenciales más + rutas de acceso + MIDE                                                                                                                       | 100 fichas                                                |
+| **6c**    | Últimas 50 + revisión de calidad + pasada SEO                                                                                                                              | Fase 6 aprobada                                           |
+| **R1–R4** | Ideas de producto del usuario (docs/08): estadísticas, retos y medallas, compartir y validar, "proper cim"                                                                 | Carnet de montaña "amplio" (100 Cims como reto destacado) |
+| **R6**    | **Notificaciones push** (apunte del usuario, 2026-10-18; pendiente): Web Push con VAPID, suscripciones en Supabase, envío desde el Worker, permiso y preferencias por tipo | Avisos al móvil funcionando                               |
+| **7a**    | Despliegue en Cloudflare, dominio, Search Console, analítica                                                                                                               | Web en producción                                         |
+| **7b**    | QA/SEO final en producción, arreglos, lanzamiento                                                                                                                          | 🚀                                                        |
 
 Son unas **16 sesiones** en total. Es una estimación: algunos bloques pueden sobrar y otros alargarse.
+
+### Bloque R6 · Notificaciones push (pendiente)
+
+Apunte del usuario del 2026-10-18 (docs/08, punto 8). Se puede hacer ya: hay cuentas en Supabase.
+
+- **Backend:** tabla `push_subscripcions` (endpoint, claves `p256dh`/`auth`, idioma, tipos aceptados) con RLS `user_id = auth.uid()`. Claves VAPID (la privada como _secret_ del Worker). Envío desde el Worker con una librería basada en WebCrypto (la `web-push` clásica necesita Node) o con `nodejs_compat`. Avisos programados con un _Cron Trigger_. Borrar las suscripciones que devuelven 404/410. Incluir las suscripciones en exportar/borrar cuenta.
+- **Frontend:** eventos `push` y `notificationclick` en el service worker (abre la ficha o la pantalla relacionada). Botón "Avisa'm" para pedir el permiso **solo tras un gesto del usuario**, nunca al cargar. Preferencias por tipo en el compte. En iPhone sin instalar, explicar cómo añadir la app a la pantalla de inicio.
+- **Tipos iniciales:** restricción nueva o mal tiempo en cimas pendientes o planificadas, recordatorio de salida e hitos del reto. Pocos avisos y útiles, sin marketing.
+- **SEO/legal:** privacitat (finalidad, base legal = consentimiento, encargado del envío: el servicio push del navegador), textos ca/es y novetat.
+- **QA:** permiso concedido o denegado, suscribir y darse de baja, clic en la notificación, preferencias, borrado de la cuenta. Prueba real en Android y en un iPhone con la PWA instalada.
 
 ## Fases
 
