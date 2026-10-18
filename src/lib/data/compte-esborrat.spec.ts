@@ -138,6 +138,7 @@ vi.mock('$lib/platform/supabase', () => ({
 	CLAU_SESSIO: 'carnetdecims-auth',
 	supabaseConfigurat: () => true,
 	googleAuthActiu: false,
+	contrasenyaAuthActiu: false,
 	obtenirSupabase: () => fals.client,
 	sessioDesada: () => null
 }));

@@ -16,8 +16,9 @@ export const VARS_SUPABASE = ['PUBLIC_SUPABASE_URL', 'PUBLIC_SUPABASE_PUBLISHABL
  * Altres variables públiques del compte que es resolen igual (entorn/`.env` > `wrangler.jsonc` >
  * buit). `PUBLIC_GOOGLE_AUTH`: entrada amb Google (`"true"` per activar-la; buit o qualsevol altre
  * valor = desactivada). El secret del client de Google només va al panell de Supabase.
+ * `PUBLIC_PASSWORD_AUTH`: entrada amb correu i contrasenya (mateix criteri, desactivada per defecte).
  */
-export const VARS_COMPTE = ['PUBLIC_GOOGLE_AUTH'] as const;
+export const VARS_COMPTE = ['PUBLIC_GOOGLE_AUTH', 'PUBLIC_PASSWORD_AUTH'] as const;
 
 /** Valor string d'una clau de primer nivell dins de `vars` (sense parsejar el JSONC sencer). */
 export function valorVarWrangler(jsonc: string, nom: string): string | undefined {

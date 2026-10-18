@@ -17,6 +17,7 @@ vi.mock('$lib/platform/supabase', () => ({
 	get googleAuthActiu() {
 		return sim.google;
 	},
+	contrasenyaAuthActiu: false,
 	sessioDesada: () => null,
 	obtenirSupabase: () => ({
 		auth: {

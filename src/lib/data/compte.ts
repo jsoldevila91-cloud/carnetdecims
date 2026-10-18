@@ -16,6 +16,22 @@
  * crida igualment `completarEntradaDesDeUrl()`. El secret del client de Google només és al panell
  * de Supabase (`docs/12-google-oauth.md`).
  *
+ * Entrada amb correu i contrasenya (desactivada per defecte: `PUBLIC_PASSWORD_AUTH`):
+ * - `crearCompteAmbContrasenya` (Supabase `signUp`): amb "Confirm email" actiu no hi ha sessió
+ *   fins que es confirma el correu (`'confirmar-correu'`). Si el correu ja té compte, Supabase no
+ *   ho diu (usuari ofuscat sense identitats) i tampoc no envia correu: també
+ *   `'confirmar-correu'`, per no revelar quins correus tenen compte;
+ * - `entrarAmbContrasenya`, `reenviarConfirmacio`;
+ * - restabliment: `demanarRestabliment` envia el correu; l'enllaç (plantilla "Reset password" amb
+ *   `?token_hash=…&type=recovery`) torna a `redirectTo` i `completarEntradaDesDeUrl()` retorna
+ *   `'recuperacio'`: hi ha sessió i la UI ha de demanar la contrasenya nova (`canviarContrasenya`).
+ *   Amb la plantilla per defecte (PKCE `?code=`, mateix navegador) supabase-js emet
+ *   `PASSWORD_RECOVERY`, que activa `modeRecuperacio` i també dona `'recuperacio'`;
+ * - `canviarContrasenya`: crea o canvia la contrasenya de qualsevol sessió (també de qui va
+ *   entrar amb l'enllaç o amb Google). No hi ha cap manera fiable de saber des del client si
+ *   l'usuari ja en té (Supabase no ho exposa), així que la UI ofereix "crea o canvia".
+ * Les regles de la contrasenya són a `domain/contrasenya.ts`.
+ *
  * La sessió es desa al dispositiu (`platform/supabase.ts`) i la sync (`sync.ts`) s'activa sola
  * mentre hi ha sessió. Aquest mòdul és de navegador: importa'l de manera diferida.
  */
@@ -37,7 +53,9 @@ import {
 	remotSupabase,
 	sincronitzarAra
 } from './sync';
+import { validarContrasenya } from '$lib/domain/contrasenya';
 import {
+	contrasenyaAuthActiu,
 	googleAuthActiu,
 	obtenirSupabase,
 	sessioDesada,
@@ -68,6 +86,18 @@ export type CodiErrorCompte =
 	| 'sessio' // cal tornar a entrar
 	| 'no-configurat' // falten PUBLIC_SUPABASE_* (o Google no està activat en aquest build)
 	| 'cancelat' // l'usuari ha cancel·lat l'entrada amb Google (`?error=access_denied`)
+	// Correu i contrasenya:
+	| 'credencials' // correu o contrasenya incorrectes (no es diu quin dels dos)
+	| 'correu-no-confirmat' // el compte existeix però encara no s'ha confirmat el correu
+	| 'contrasenya:buida'
+	| 'contrasenya:curta' // menys de CONTRASENYA_MIN caràcters (client o servidor)
+	| 'contrasenya:llarga' // més de 72 bytes UTF-8 (límit de bcrypt)
+	| 'contrasenya:igual-correu' // la contrasenya és el mateix correu
+	| 'contrasenya:feble' // el servidor la rebutja per una altra regla del panell de Supabase
+	| 'contrasenya:filtrada' // surt en filtracions conegudes (protecció de Supabase, pla Pro)
+	| 'contrasenya:igual' // la nova és igual que l'actual
+	| 'reautenticacio' // cal tornar a entrar (o verificar-se) abans de canviar la contrasenya
+	| 'no-disponible' // el registre o el proveïdor de correu estan desactivats a Supabase
 	| 'servidor';
 
 /** Error d'una operació del compte. `codi` estable per traduir amb `messages/`. */
@@ -89,6 +119,12 @@ export const compteDisponible = supabaseConfigurat;
  * `PUBLIC_GOOGLE_AUTH`)? Si no, la UI no l'ofereix.
  */
 export const googleDisponible: boolean = supabaseConfigurat() && googleAuthActiu;
+
+/**
+ * L'entrada amb correu i contrasenya està activada en aquest build (`compteDisponible()` i
+ * `PUBLIC_PASSWORD_AUTH`)? Si no, la UI no l'ofereix.
+ */
+export const contrasenyaDisponible: boolean = supabaseConfigurat() && contrasenyaAuthActiu;
 
 // ---------------------------------------------------------------------------
 // Sessió observable
@@ -123,6 +159,38 @@ export const sessio: StoreLectura<Sessio> = {
 	}
 };
 
+// Mode recuperació: s'ha entrat amb l'enllaç de restabliment i cal demanar la contrasenya nova.
+let recuperacioActual = false;
+const subscriptorsRecuperacio = new Set<(actiu: boolean) => void>();
+
+function posarModeRecuperacio(actiu: boolean): void {
+	if (recuperacioActual === actiu) return;
+	recuperacioActual = actiu;
+	for (const run of subscriptorsRecuperacio) run(actiu);
+}
+
+/**
+ * `true` mentre la sessió ve d'un enllaç de restabliment de contrasenya (`type=recovery` o
+ * l'esdeveniment `PASSWORD_RECOVERY` de supabase-js) i encara no s'ha desat la contrasenya nova.
+ * La UI hi mostra el formulari "contrasenya nova". Torna a `false` amb `canviarContrasenya`,
+ * `sortirModeRecuperacio` o en tancar la sessió. No es desa: si es recarrega la pàgina es perd,
+ * però la sessió continua i la contrasenya es pot canviar des del compte.
+ */
+export const modeRecuperacio: StoreLectura<boolean> = {
+	subscribe(run) {
+		run(recuperacioActual);
+		subscriptorsRecuperacio.add(run);
+		return () => {
+			subscriptorsRecuperacio.delete(run);
+		};
+	}
+};
+
+/** La UI descarta el formulari de contrasenya nova (la sessió continua). */
+export function sortirModeRecuperacio(): void {
+	posarModeRecuperacio(false);
+}
+
 let iniciat = false;
 
 function usuariDe(
@@ -154,6 +222,9 @@ export function iniciarCompte(): void {
 	}
 	const client = obtenirSupabase();
 	client.auth.onAuthStateChange((event, session) => {
+		// Síncron i sense cridar supabase-js: `completarEntradaDesDeUrl` el consulta en acabar.
+		if (event === 'PASSWORD_RECOVERY') posarModeRecuperacio(true);
+		else if (event === 'SIGNED_OUT') posarModeRecuperacio(false);
 		// No es criden altres mètodes de supabase-js dins del callback (bloqueig intern):
 		// la sync s'activa al torn següent.
 		setTimeout(() => {
@@ -178,7 +249,14 @@ const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * ("Email address … is invalid") és `email:invalid`, no `codi:invalid`. Exportat per als tests.
  */
 export function errorAuth(
-	error: { message?: string; status?: number; code?: string } | null
+	error: {
+		message?: string;
+		status?: number;
+		code?: string;
+		name?: string;
+		/** `AuthWeakPasswordError.reasons`: `length`, `characters`, `pwned`. */
+		reasons?: readonly string[];
+	} | null
 ): ErrorCompte {
 	const codi = error?.code ?? '';
 	const status = error?.status ?? 0;
@@ -186,6 +264,42 @@ export function errorAuth(
 	const es4xx = status >= 400 && status < 500;
 	if (status === 429 || /rate_limit|over_.*limit/.test(codi))
 		return new ErrorCompte('limit', missatge);
+	// Contrasenya i sessió (abans de `validation_failed`, que també pot parlar de la contrasenya).
+	switch (codi) {
+		case 'invalid_credentials':
+			return new ErrorCompte('credencials', missatge);
+		case 'email_not_confirmed':
+			return new ErrorCompte('correu-no-confirmat', missatge);
+		case 'weak_password': {
+			const motius = error?.reasons ?? [];
+			if (motius.includes('pwned')) return new ErrorCompte('contrasenya:filtrada', missatge);
+			if (motius.length === 1 && motius[0] === 'length') {
+				return new ErrorCompte('contrasenya:curta', missatge);
+			}
+			return new ErrorCompte('contrasenya:feble', missatge);
+		}
+		case 'same_password':
+			return new ErrorCompte('contrasenya:igual', missatge);
+		case 'reauthentication_needed':
+		case 'reauthentication_not_valid':
+			return new ErrorCompte('reautenticacio', missatge);
+		case 'signup_disabled':
+		case 'email_provider_disabled':
+			return new ErrorCompte('no-disponible', missatge);
+		case 'session_not_found':
+		case 'session_expired':
+		case 'refresh_token_not_found':
+		case 'refresh_token_already_used':
+			return new ErrorCompte('sessio', missatge);
+	}
+	// `updateUser` sense sessió: supabase-js llança `AuthSessionMissingError` (400, sense codi).
+	if (error?.name === 'AuthSessionMissingError') return new ErrorCompte('sessio', missatge);
+	// GoTrue respon `validation_failed` tant per al correu com per a la contrasenya (p. ex.
+	// "Password cannot be longer than 72 characters", "Signup requires a valid password").
+	if (codi === 'validation_failed' && /password/i.test(missatge)) {
+		if (/longer|too long/i.test(missatge)) return new ErrorCompte('contrasenya:llarga', missatge);
+		return new ErrorCompte('contrasenya:feble', missatge);
+	}
 	if (codi === 'email_address_invalid' || codi === 'validation_failed') {
 		return new ErrorCompte('email:invalid', missatge);
 	}
@@ -193,6 +307,12 @@ export function errorAuth(
 		if (es4xx) return new ErrorCompte('codi:invalid', missatge);
 	}
 	// Sense `error_code` conegut (versions antigues de GoTrue): pel text del missatge.
+	if (es4xx && /invalid login credentials/i.test(missatge)) {
+		return new ErrorCompte('credencials', missatge);
+	}
+	if (es4xx && /email not confirmed/i.test(missatge)) {
+		return new ErrorCompte('correu-no-confirmat', missatge);
+	}
 	if (es4xx && /\bemail\b.*\binvalid\b/i.test(missatge)) {
 		return new ErrorCompte('email:invalid', missatge);
 	}
@@ -254,6 +374,144 @@ export async function entrarAmbGoogle(opcions: { redirectTo: string }): Promise<
 	if (res.error) throw errorAuth(res.error);
 }
 
+// ---------------------------------------------------------------------------
+// Correu i contrasenya
+// ---------------------------------------------------------------------------
+
+/** Client per a les operacions amb contrasenya: només si `contrasenyaDisponible`. */
+function clientContrasenya(): ClientSupabase {
+	if (!contrasenyaDisponible) throw new ErrorCompte('no-configurat', 'Contrasenya no activada');
+	return client();
+}
+
+/** Correu normalitzat i validat (igual que `entrarAmbEmail`). */
+function correuValid(email: string): string {
+	const net = email.trim().toLowerCase();
+	if (!RE_EMAIL.test(net) || net.length > 254) throw new ErrorCompte('email:invalid');
+	return net;
+}
+
+/** Llança `contrasenya:<motiu>` si la contrasenya nova no compleix `validarContrasenya`. */
+function exigirContrasenyaValida(contrasenya: string, email?: string | null): void {
+	const v = validarContrasenya(contrasenya, email);
+	if (!v.ok) throw new ErrorCompte(`contrasenya:${v.motiu}`);
+}
+
+/** Executa una crida a Supabase Auth: excepció → `xarxa`; `error` de la resposta → `errorAuth`. */
+async function cridaAuth<T extends { error: Parameters<typeof errorAuth>[0] }>(
+	crida: () => Promise<T>
+): Promise<T> {
+	let res: T;
+	try {
+		res = await crida();
+	} catch (e) {
+		if (e instanceof ErrorCompte) throw e;
+		throw new ErrorCompte('xarxa', String(e));
+	}
+	if (res.error) throw errorAuth(res.error);
+	return res;
+}
+
+/**
+ * Crea un compte amb correu i contrasenya (Supabase `signUp`). Retorna:
+ * - `'confirmar-correu'`: cal obrir l'enllaç del correu de confirmació (torna a `redirectTo`, on
+ *   `completarEntradaDesDeUrl()` dona `'entrat'`). També quan el correu **ja té compte**: Supabase
+ *   no envia cap correu ni ho diu, i aquí tampoc (la UI diu "si ja tens compte, entra o
+ *   restableix la contrasenya");
+ * - `'entrat'`: la confirmació del correu està desactivada al panell i ja hi ha sessió.
+ * Valida el correu i la contrasenya (`validarContrasenya`, també que no sigui el correu) abans
+ * de cridar Supabase.
+ * @throws ErrorCompte (`no-configurat`, `email:invalid`, `contrasenya:*`, `no-disponible`, `limit`,
+ *   `xarxa`, `servidor`)
+ */
+export async function crearCompteAmbContrasenya(
+	email: string,
+	contrasenya: string,
+	opcions: { redirectTo: string }
+): Promise<'entrat' | 'confirmar-correu'> {
+	const c = clientContrasenya();
+	const net = correuValid(email);
+	exigirContrasenyaValida(contrasenya, net);
+	const res = await cridaAuth(() =>
+		c.auth.signUp({
+			email: net,
+			password: contrasenya,
+			options: { emailRedirectTo: opcions.redirectTo }
+		})
+	);
+	// Correu ja registrat: `user` ofuscat amb `identities: []` i sense sessió (no es distingeix).
+	return res.data.session ? 'entrat' : 'confirmar-correu';
+}
+
+/**
+ * Entra amb correu i contrasenya. No s'hi aplica la llargada mínima (només que no sigui buida):
+ * el servidor és qui decideix si és correcta.
+ * @throws ErrorCompte (`no-configurat`, `email:invalid`, `contrasenya:buida`, `credencials`,
+ *   `correu-no-confirmat`, `limit`, `xarxa`, `servidor`)
+ */
+export async function entrarAmbContrasenya(
+	email: string,
+	contrasenya: string
+): Promise<UsuariSessio> {
+	const c = clientContrasenya();
+	const net = correuValid(email);
+	if (contrasenya.length === 0) throw new ErrorCompte('contrasenya:buida');
+	const res = await cridaAuth(() =>
+		c.auth.signInWithPassword({ email: net, password: contrasenya })
+	);
+	const usuari = usuariDe(res.data.user);
+	if (!usuari) throw new ErrorCompte('servidor', 'sense usuari');
+	return usuari;
+}
+
+/**
+ * Torna a enviar el correu de confirmació del registre (si el compte existeix i no està
+ * confirmat; si no, Supabase no envia res i tampoc no ho diu).
+ * @throws ErrorCompte (`no-configurat`, `email:invalid`, `limit`, `xarxa`, `servidor`)
+ */
+export async function reenviarConfirmacio(
+	email: string,
+	opcions: { redirectTo: string }
+): Promise<void> {
+	const c = clientContrasenya();
+	const net = correuValid(email);
+	await cridaAuth(() =>
+		c.auth.resend({ type: 'signup', email: net, options: { emailRedirectTo: opcions.redirectTo } })
+	);
+}
+
+/**
+ * Envia el correu per restablir la contrasenya. L'enllaç torna a `redirectTo` (URL absoluta de la
+ * llista permesa) i `completarEntradaDesDeUrl()` retorna `'recuperacio'`. Si el correu no té
+ * compte, Supabase respon igual (no es revela).
+ * @throws ErrorCompte (`no-configurat`, `email:invalid`, `limit`, `xarxa`, `servidor`)
+ */
+export async function demanarRestabliment(
+	email: string,
+	opcions: { redirectTo: string }
+): Promise<void> {
+	const c = clientContrasenya();
+	const net = correuValid(email);
+	await cridaAuth(() => c.auth.resetPasswordForEmail(net, { redirectTo: opcions.redirectTo }));
+}
+
+/**
+ * Crea o canvia la contrasenya de la sessió actual (també després de l'enllaç de restabliment, o
+ * per a qui va entrar amb l'enllaç del correu o amb Google). Surt del mode recuperació.
+ * @throws ErrorCompte (`no-configurat`, `sessio`, `contrasenya:*`, `reautenticacio`, `limit`,
+ *   `xarxa`, `servidor`)
+ */
+export async function canviarContrasenya(nova: string): Promise<void> {
+	const c = clientContrasenya();
+	// La sessió real del client (la publicada a `sessio` va un torn per darrere després d'entrar).
+	const actual = await cridaAuth(() => c.auth.getSession());
+	const usuari = actual.data.session?.user;
+	if (!usuari) throw new ErrorCompte('sessio');
+	exigirContrasenyaValida(nova, usuari.email);
+	await cridaAuth(() => c.auth.updateUser({ password: nova }));
+	posarModeRecuperacio(false);
+}
+
 /**
  * Error d'autenticació que torna a la URL (`?error=…&error_code=…&error_description=…`, a la query
  * amb PKCE o al fragment amb el flux implícit). `null` si la URL no en porta cap.
@@ -311,21 +569,37 @@ export async function verificarCodi(email: string, codi: string): Promise<Usuari
 
 const PARAMS_AUTH = ['token_hash', 'type', 'code', 'error', 'error_code', 'error_description'];
 
+/** Tipus de `verifyOtp` per a un `?token_hash=` segons el `type` de la URL. */
+function tipusTokenHash(type: string | null): 'email' | 'magiclink' | 'signup' | 'recovery' {
+	return type === 'magiclink' || type === 'signup' || type === 'recovery' ? type : 'email';
+}
+
+/** Deixa córrer els temporitzadors pendents (supabase-js emet els esdeveniments amb `setTimeout`). */
+function tornSeguent(): Promise<void> {
+	return new Promise((r) => setTimeout(r, 0));
+}
+
 /**
  * Crida-la en carregar `/app/compte`: si la URL ve de l'enllaç del correu, completa la sessió i
  * neteja els paràmetres de la URL (`history.replaceState`). Retorna:
  * - `'cap'` si la URL no porta res d'autenticació;
- * - `'entrat'` si s'ha iniciat la sessió;
+ * - `'entrat'` si s'ha iniciat la sessió (enllaç d'accés, confirmació del registre o Google);
+ * - `'recuperacio'` si s'ha iniciat la sessió amb l'enllaç de restabliment de contrasenya
+ *   (`?token_hash=…&type=recovery`, o `?code=` amb l'esdeveniment `PASSWORD_RECOVERY`) i la
+ *   contrasenya està activada en aquest build: la UI ha de demanar la contrasenya nova
+ *   (`modeRecuperacio` també és `true`). Amb la contrasenya desactivada retorna `'entrat'`;
  * - un `ErrorCompte` (no el llança) si l'enllaç és invàlid, caducat o ja s'ha fet servir.
  */
 export async function completarEntradaDesDeUrl(
 	url: URL = new URL(window.location.href)
-): Promise<'cap' | 'entrat' | ErrorCompte> {
+): Promise<'cap' | 'entrat' | 'recuperacio' | ErrorCompte> {
 	const q = url.searchParams;
 	const hash = new URLSearchParams(url.hash.replace(/^#/, ''));
 	const hiHaAuth = PARAMS_AUTH.some((p) => q.has(p) || hash.has(p)) || hash.has('access_token');
 	if (!hiHaAuth) return 'cap';
-	let resultat: 'entrat' | ErrorCompte;
+	let resultat: 'entrat' | 'recuperacio' | ErrorCompte;
+	const entrat = (): 'entrat' | 'recuperacio' =>
+		recuperacioActual && contrasenyaDisponible ? 'recuperacio' : 'entrat';
 	try {
 		const c = client();
 		const errorUrl = errorEntradaUrl(
@@ -337,20 +611,30 @@ export async function completarEntradaDesDeUrl(
 		if (errorUrl) {
 			resultat = errorUrl;
 		} else if (tokenHash) {
-			const tipus = q.get('type') === 'magiclink' ? 'magiclink' : 'email';
+			const tipus = tipusTokenHash(q.get('type'));
 			const { data, error } = await c.auth.verifyOtp({ token_hash: tokenHash, type: tipus });
-			resultat = error ? errorAuth(error) : data.session ? 'entrat' : new ErrorCompte('servidor');
+			if (error) resultat = errorAuth(error);
+			else if (!data.session) resultat = new ErrorCompte('servidor');
+			else {
+				// Recuperació sí o no segons l'enllaç (supabase-js també emet `PASSWORD_RECOVERY`).
+				posarModeRecuperacio(tipus === 'recovery');
+				resultat = entrat();
+			}
 		} else {
 			// `?code=` (PKCE: enllaç del correu amb la plantilla per defecte o retorn de Google) o
 			// `#access_token` (implícit): supabase-js ja els processa en inicialitzar-se
 			// (`detectSessionInUrl`); aquí només s'espera el resultat. Si el verificador PKCE no és en
 			// aquest navegador (p. ex. s'ha obert en un altre), no hi ha sessió: `codi:invalid`.
+			// Amb l'enllaç de restabliment (verificador PKCE marcat com a recuperació), supabase-js
+			// emet `PASSWORD_RECOVERY` en un `setTimeout` després de desar la sessió: s'espera un torn
+			// perquè `modeRecuperacio` ja estigui al dia.
 			const { data, error } = await c.auth.getSession();
-			resultat = error
-				? errorAuth(error)
-				: data.session
-					? 'entrat'
-					: new ErrorCompte('codi:invalid');
+			if (error) resultat = errorAuth(error);
+			else if (!data.session) resultat = new ErrorCompte('codi:invalid');
+			else {
+				await tornSeguent();
+				resultat = entrat();
+			}
 		}
 	} catch (e) {
 		resultat = e instanceof ErrorCompte ? e : new ErrorCompte('xarxa', String(e));
@@ -380,6 +664,7 @@ export async function sortir(opcions: { esborrarDades?: boolean } = {}): Promise
 			.catch(() => {});
 	}
 	if (opcions.esborrarDades) await esborrarTot();
+	posarModeRecuperacio(false);
 	publicar({ estat: 'anonim' });
 }
 
@@ -415,6 +700,7 @@ export async function esborrarCompte(
 	await c.auth.signOut({ scope: 'local' }).catch(() => {});
 	if (opcions.conservarDispositiu) await alliberarDadesLocals();
 	else await esborrarTot();
+	posarModeRecuperacio(false);
 	publicar({ estat: 'anonim' });
 }
 

@@ -2,7 +2,7 @@
  * Flags públics del build, sense dependències (ni supabase-js): es poden importar des de les
  * pàgines públiques sense afegir el client del compte al paquet. `supabase.ts` els reexporta.
  */
-import { PUBLIC_GOOGLE_AUTH } from '$env/static/public';
+import { PUBLIC_GOOGLE_AUTH, PUBLIC_PASSWORD_AUTH } from '$env/static/public';
 
 /**
  * Valor d'un flag públic del build: només `true`, `1`, `yes` i `on` l'activen; buit, absent o
@@ -19,3 +19,10 @@ export function flagActiu(valor: string | undefined | null): boolean {
  * També decideix la variant de la política de privadesa (`content/privacitat.ts`).
  */
 export const googleAuthActiu: boolean = flagActiu(PUBLIC_GOOGLE_AUTH);
+
+/**
+ * Entrada amb correu i contrasenya activada en aquest build (`PUBLIC_PASSWORD_AUTH`, per defecte
+ * desactivada). Només diu que el build l'ofereix; cal també el proveïdor "Email" amb contrasenya
+ * al panell de Supabase (llargada mínima i plantilles de confirmació i de restabliment).
+ */
+export const contrasenyaAuthActiu: boolean = flagActiu(PUBLIC_PASSWORD_AUTH);

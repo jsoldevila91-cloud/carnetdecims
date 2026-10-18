@@ -16,3 +16,4 @@ export * from './proper-cim';
 export * from './validacio';
 export * from './carnet-compartit';
 export * from './temps';
+export * from './contrasenya';

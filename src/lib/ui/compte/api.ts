@@ -24,7 +24,28 @@ export interface ApiCompte {
 	/** Redirigeix a Google; en tornar, l'entrada es completa com la de l'enllaç del correu. */
 	entrarAmbGoogle(opcions: { redirectTo: string }): Promise<void>;
 	verificarCodi(email: string, codi: string): Promise<unknown>;
-	completarEntradaDesDeUrl(): Promise<'cap' | 'entrat' | ErrorAmbCodi>;
+	/** Entrar amb correu i contrasenya està activat en aquest build (`PUBLIC_PASSWORD_AUTH`)? */
+	contrasenyaDisponible(): boolean;
+	/**
+	 * Registre amb contrasenya. `'confirmar-correu'` també si el correu ja té compte (no es
+	 * revela): la UI diu "si ja tens compte, entra o restableix la contrasenya".
+	 */
+	crearCompteAmbContrasenya(
+		email: string,
+		contrasenya: string,
+		opcions: { redirectTo: string }
+	): Promise<'entrat' | 'confirmar-correu'>;
+	entrarAmbContrasenya(email: string, contrasenya: string): Promise<unknown>;
+	reenviarConfirmacio(email: string, opcions: { redirectTo: string }): Promise<void>;
+	/** Correu per restablir la contrasenya; en tornar, `completarEntradaDesDeUrl` dona `'recuperacio'`. */
+	demanarRestabliment(email: string, opcions: { redirectTo: string }): Promise<void>;
+	/** Crea o canvia la contrasenya de la sessió actual (surt del mode recuperació). */
+	canviarContrasenya(nova: string): Promise<void>;
+	/** `true` després d'entrar amb l'enllaç de restabliment: cal demanar la contrasenya nova. */
+	modeRecuperacio: StoreUi<boolean>;
+	/** Descarta el formulari de contrasenya nova (la sessió continua). */
+	sortirModeRecuperacio(): void;
+	completarEntradaDesDeUrl(): Promise<'cap' | 'entrat' | 'recuperacio' | ErrorAmbCodi>;
 	sortir(): Promise<void>;
 	esborrarCompte(opcions: { conservarDispositiu?: boolean }): Promise<void>;
 	exportarDadesCompte(): Promise<string>;

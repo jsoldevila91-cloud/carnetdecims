@@ -4,15 +4,23 @@
  */
 import { exportarDades } from '$lib/data/ascensions';
 import {
+	canviarContrasenya,
 	compteDisponible,
 	completarEntradaDesDeUrl,
+	contrasenyaDisponible,
+	crearCompteAmbContrasenya,
+	demanarRestabliment,
+	entrarAmbContrasenya,
 	entrarAmbEmail,
 	entrarAmbGoogle,
 	esborrarCompte,
 	exportarDadesCompte,
 	googleDisponible,
+	modeRecuperacio,
+	reenviarConfirmacio,
 	sessio,
 	sortir,
+	sortirModeRecuperacio,
 	verificarCodi
 } from '$lib/data/compte';
 import { estatSync, resoldreConflicteCompte, sincronitzarAra } from '$lib/data/sync';
@@ -26,6 +34,14 @@ export const apiReal: ApiCompte = {
 	googleDisponible: () => googleDisponible,
 	entrarAmbGoogle,
 	verificarCodi,
+	contrasenyaDisponible: () => contrasenyaDisponible,
+	crearCompteAmbContrasenya,
+	entrarAmbContrasenya,
+	reenviarConfirmacio,
+	demanarRestabliment,
+	canviarContrasenya,
+	modeRecuperacio,
+	sortirModeRecuperacio,
 	completarEntradaDesDeUrl: () => completarEntradaDesDeUrl(),
 	sortir: () => sortir(),
 	esborrarCompte,

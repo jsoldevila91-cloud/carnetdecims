@@ -24,7 +24,7 @@ export function supabaseConfigurat(): boolean {
 	return Boolean(PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 }
 
-export { flagActiu, googleAuthActiu } from './flags';
+export { contrasenyaAuthActiu, flagActiu, googleAuthActiu } from './flags';
 
 /** `localStorage` si es pot fer servir (Safari privat, cookies bloquejades…); si no, memòria. */
 function emmagatzematge(): Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> {
