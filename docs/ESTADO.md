@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-> Se actualiza al final de cada bloque. Última actualización: 2026-10-17.
+> Se actualiza al final de cada bloque. Última actualización: 2026-10-18.
 
 ## Hecho
 
@@ -220,15 +220,28 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 - **Sin probar:** `navigator.share` y portapapeles en móviles reales; impresión real a papel/PDF; offline en WebKit.
 - **Bajos pendientes:** el cambio de idioma en `/carnet` probablemente pierde el fragmento; `platform/fitxers.ts` no tiene `descarregarBlob` (helper inline en la página); `municipis/carrega.spec.ts` intermitente bajo carga.
 
+## Bloque R5 · Detalls útils (terminado y publicado, 2026-10-18; Worker `17f3906d`; verificado: 200 en `/ca`, `/ca/cims`, fichas, `/ca/mapa?cim=`, `/ca/app/essencials`, `/ca/app/historial`; `/api/meteo/ara` con las 150 cims; `noindex, nofollow`)
+
+- **Compartir una ascensión (`0bdaa68`):** `CompartirAscensio.svelte` en historial (`FilaAscensio`) y en `DetallSegell`. Imagen 1080×1350 (`ui/compartir/imatge-ascensio.ts`; código común en `imatge-comu.ts` y `compartir-fitxer.ts`, también usados por el carnet de R3) con cim, altitud, comarca, día y "carnetdecims.cat"; sigue el tema del dispositivo; nunca nota, compañeros ni método.
+- **Tiempo actual y restricciones en las listas** (`/cims`, `/app/essencials`): `GET /api/meteo/ara` (una foto de las 150 cims por hora y centro de datos, en `caches.default`; llamada multipunto a Open-Meteo en trozos de 100; STALE hasta 3 h). En producción la primera llamada en frío superaba los 8 s y siempre daba 502: corregido en `ac9777f` (timeout propio de 25 s, foto en segundo plano con `waitUntil`, espera máxima de 6 s, 503 `meteo_en_preparacio` con `retry-after`, pausa de 60 s tras error). Cliente `obtenirMeteoAra()` (nunca lanza; sin red, sin iconos). Restricciones con `restriccionsVigents()` en el cliente; Sant Salvador de les Espases como "Possible restricció… comprova-ho", nunca "tancat". En móvil la info va en una segunda línea de altura fija (sin CLS). Reglas en docs/03 §3.8.
+- **Mapa interactivo desde la ficha:** la imagen estática enlaza (`nofollow`) a `/{ca|es}/mapa?cim={slug}`, que ya centraba y abría la cima.
+- **Wikiloc:** `/openMap?sw=..&ne=..` en lugar de `/wikiloc/map.do` (que no está en el `apple-app-site-association`); sin la app redirige al mismo mapa web.
+- **SEO (`2ab70e7`):** apostrofación de fechas ("del dia {date}"), privacitat (la petición del tiempo pide siempre todo el catálogo), metodologia (nueva sección y atribución Open-Meteo CC BY 4.0), full de ruta. Novetat `2026-10-18-detalls-utils`.
+- **QA (`72e46b0`, `c84272e`):** `e2e/r5.e2e.ts` (113 por proyecto). Desktop-chrome (r5, fitxa-cim, pwa, historial, r3, carnet): 300 pasados, 0 fallidos. Mobile-chrome + mobile-safari (r5, fitxa-cim, pwa): 468 pasados, 1 fallo de entorno WebKit ya tolerado. 1637 unitarios. Bugs corregidos: desborde a 320 px en essencials por proximidad, nombre estrecho en móvil, solape de 2 px en WebKit, restricción incierta solo con "?".
+- **Entorno:** un `wrangler dev` huérfano en :4173 (reutilizado por Playwright con `reuseExistingServer`) colgaba los E2E; si pasa, matar el árbol entero de `wrangler dev`, no solo `workerd`.
+- **Open-Meteo:** cuenta cada punto como una llamada (límite 600/min y 10.000/día); hoy ~3.600/día por centro de datos más `/api/meteo/{slug}`. Con el catálogo de 522 hará falta alargar la frescura o reducir puntos.
+- **Sin probar:** Wikiloc `/openMap` en Android e iPhone con la app (y desde la PWA instalada); "enrere" desde `/mapa?cim=` en iPhone real; `navigator.share` de la imagen en móviles reales.
+- **Bajos pendientes:** `restriction_from`/`restriction_until` de la ficha ("Des del 1…", "Fins al 11…") con el mismo fallo de apostrofación; la imagen del carnet de R3 siempre en claro.
+
 ## Siguiente
 
-R1 y R2 publicados el 2026-10-17 (Workers `38c59e45` y `8c5e4228`). R3: ver arriba. En una **sesión nueva**: R5 · Detalls útils (doc 08, "Apunts nous"), comparativa con Fes Cims, resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
+R1, R2, R3 y R5 publicados. En una **sesión nueva**: comparativa con Fes Cims (doc 08, punto 5), resto de la fase 5 (Google, deduplicación, `www`, avisos) y fase 7 (lanzamiento).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
 ## Pendiente o decisiones abiertas
 
-- **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): bloque R5 · Detalls útils (compartir ascensión, tiempo y cierre en la lista, mapa interactivo en la ficha, Wikiloc que abra la app) y comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
+- **Apuntes del usuario del 2026-10-17:** en `docs/08-ideas-producte.md` ("Apunts nous"): R5 hecho; queda la comparativa con Fes Cims antes del lanzamiento; fotos y panel de administrador en la fase 5+.
 
 - **Fase 5, después de la beta:** Google OAuth (credenciales en Google Cloud Console, las crea el usuario), deduplicación entre dispositivos, `www` → apex.
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
