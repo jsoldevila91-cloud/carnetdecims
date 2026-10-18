@@ -1,6 +1,6 @@
 # 12 · Entrar con Google (Supabase Auth)
 
-> Fase 5. El código está listo y **desactivado**: el botón "Continua amb Google" solo aparece si
+> Fase 5. **Activado el 2026-10-18** (app de Google en modo «Testing»: solo usuarios de prueba). El código estaba listo y desactivado: el botón "Continua amb Google" solo aparece si
 > el build tiene `PUBLIC_GOOGLE_AUTH=true` (`wrangler.jsonc` → `vars`, o `.env` en local).
 > Las credenciales las crea el usuario. **Nunca** se escribe el _client secret_ en el repo ni en el
 > chat: solo va en el panel de Supabase.
@@ -19,12 +19,16 @@ Datos fijos:
 2. **APIs y servicios → Pantalla de consentimiento de OAuth** (en la consola nueva: _Google Auth
    Platform → Branding / Audience / Data access_):
    - Tipo de usuario: **Externo**.
-   - Nombre de la app: `Carnet de Cims`. Correo de asistencia: `hola@carnetdecims.cat`.
+   - Nombre de la app: `Carnet de Cims`. Correo de asistencia: Google solo deja elegir cuentas de
+     Google propietarias del proyecto. Para usar `hola@carnetdecims.cat`, crear una cuenta de Google
+     con ese correo («usar mi dirección actual») y darle el rol Propietario en IAM. **Antes de
+     publicar la app** no debe quedar el Gmail personal (Google lo muestra en la pantalla de acceso).
    - Logo: opcional (si se sube, Google pide verificar la marca; sin logo no hace falta revisión).
    - Página principal: `https://carnetdecims.cat/ca`.
    - Política de privacidad: `https://carnetdecims.cat/ca/privacitat`.
    - Condiciones del servicio: `https://carnetdecims.cat/ca/avis-legal`.
-   - Dominios autorizados: `carnetdecims.cat` y `supabase.co`.
+   - Dominios autorizados: `carnetdecims.cat` (`supabase.co` no se acepta: es un sufijo público;
+     tampoco hace falta para el callback).
    - Contacto del desarrollador: `hola@carnetdecims.cat`.
    - **Permisos (scopes):** solo `openid`, `.../auth/userinfo.email` y `.../auth/userinfo.profile`
      (no sensibles: no requieren verificación de Google).

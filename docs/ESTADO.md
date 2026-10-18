@@ -233,7 +233,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 - **Deduplicación** (`dc55958`; regla en docs/03): dos ascensiones **vivas** con el mismo `cimId`, `data` y `metode` son la misma. Ganadora determinista (`createdAt` más antiguo, luego id menor); notas unidas (si pasan de 500, la más reciente) y companys unidos (≤ 10); `updatedAt` = máximo del grupo + 1 ms, así dos dispositivos convergen sin bucles. Se aplica tras el pull (`resoldreDuplicats`, perdedoras a lápida vacía) y en `importarDades` (ambos modos; reimportar el JSON de otra cuenta = 0 añadidas). Dexie **v4** `redireccions` (idVell → idNou, por `id en ús` o duplicado): editar, Desfés y borrar siguen la redirección. **Sin migración de Supabase.**
   - Riesgo aceptado (a confirmar por el usuario): dos registros intencionados del mismo cim, día y método se fusionan.
-- **Google OAuth, desactivado** (flag de build `PUBLIC_GOOGLE_AUTH`, `"false"` en `wrangler.jsonc`; `platform/flags.ts`): `entrarAmbGoogle`, `BotoGoogle.svelte` (directrices de Google, claro/oscuro), error `cancelat`, `cloud_intro_how_google`, privacitat con variante Google (`privacitatAmbGoogle`, elegida en build). Pasos para el usuario: **`docs/12-google-oauth.md`**. Al activarlo: cambiar `actualitzat` de privacitat.
+- **Google OAuth, desactivado** (flag de build `PUBLIC_GOOGLE_AUTH`, `"false"` en `wrangler.jsonc`; `platform/flags.ts`): `entrarAmbGoogle`, `BotoGoogle.svelte` (directrices de Google, claro/oscuro), error `cancelat`, `cloud_intro_how_google`, privacitat con variante Google (`privacitatAmbGoogle`, elegida en build). Pasos para el usuario: **`docs/12-google-oauth.md`**. **Activado el 2026-10-18** (`PUBLIC_GOOGLE_AUTH: "true"`; probado en local por el usuario con su cuenta). La app de Google sigue en «Testing» (solo usuarios de prueba); antes de «Publicar app», cambiar el correo de asistencia a `hola@carnetdecims.cat`. Al activarlo: cambiar `actualitzat` de privacitat.
 - **Sync bloqueada:** `EstatSync.bloquejades` con texto propio y "Descarrega una còpia"; el toast de la sync manual se sustituye en lugar de apilarse.
 - **SEO:** textos ca/es revisados, privacitat (deduplicación), novetat `2026-10-18-sense-duplicats`.
 - **QA:** `e2e/duplicats.e2e.ts` (12 por proyecto) y `e2e/google-actiu.google.ts` con config propia (`npx playwright test -c e2e/playwright.google.config.ts`, `vite dev` en :5192 con el flag activo). `supabase-fals.ts` con `rebutjarIds`. 1689 unitarios.
@@ -242,7 +242,7 @@ Objetivo del usuario: que Inesa pueda **crear su perfil el viernes 2026-10-10** 
 
 ## Siguiente
 
-R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 publicado (Worker `f6595d7d`); pendiente del usuario: credenciales de Google (`docs/12-google-oauth.md`); `www` → apex ya activo. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
+R1, R2, R3 y R5 publicados. Comparativa con Fes Cims hecha (`docs/10-comparativa-fes-cims.md`, 2026-10-18). Cierre de la fase 5 publicado (Worker `f6595d7d`); Google activado (app de Google en «Testing»); `www` → apex activo. Después: fase 7 (lanzamiento) y **R6 · notificaciones push** (pendiente; cuándo hacerlo lo decide el usuario).
 
 Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.md`.
 
@@ -254,7 +254,7 @@ Histórico de la fase 6 (6a, 6a-bis): en `git log` y en `docs/07-guia-contingut.
 
 - **Notificaciones push (R6, pendiente de implementar; apunte del usuario del 2026-10-18):** Web Push para Android/escritorio e iPhone con la PWA instalada. Plan en `docs/04-plan-fases.md` (bloque R6) y en docs/08, punto 8.
 
-- **Fase 5:** solo falta lo del usuario: credenciales de Google (`docs/12-google-oauth.md`) y activar `PUBLIC_GOOGLE_AUTH`.
+- **Fase 5:** para abrir Google a todos: correo de asistencia `hola@carnetdecims.cat` en Google Cloud y «Publicar app» (`docs/12`).
 - **Probar en dispositivos reales:** instalación en Android e iPhone; offline en iPhone (WebKit de Playwright no lo permite); tiempo de importación en iPhone.
 - **Rendimiento pendiente:** LCP de la ficha ~2,7–2,9 s (objetivo < 2,5 s): subsetear la woff2 de Archivo (90 kB); `/mapa` Perf 59 (TBT de MapLibre); `og:image` de las fichas (prevista).
 
